@@ -21,7 +21,6 @@ function babelOpts({
     }
 
     var opts = {
-        cacheDirectory: true,
         babelrc: false,
         presets: [
             [require.resolve('@babel/preset-env'), Object.assign({

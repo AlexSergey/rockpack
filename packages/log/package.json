@@ -1,0 +1,41 @@
+{
+  "name": "@rock/log",
+  "version": "0.9.0",
+  "description": "This module can help you build error tracking & crash reporting system.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/logrock.git"
+  },
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/logrock)",
+  "license": "MIT",
+  "homepage": "http://www.natrube.net/logrock/index.html",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/logrock/issues"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "logs",
+    "react",
+    "react-log",
+    "error-tracking",
+    "crash-reporting",
+    "react",
+    "react-component"
+  ],
+  "dependencies": {
+    "valid-types": "1.0.2",
+    "limited-array": "1.0.0"
+  },
+  "devDependencies": {
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "prop-types": "15.7.2",
+    "rocket-starter": "1.7.0"
+  }
+}
