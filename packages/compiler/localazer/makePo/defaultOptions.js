@@ -1,5 +1,7 @@
 const { babelOpts } = require('../../modules/makeModules');
-let { presets, plugins } = babelOpts({});
+let { presets, plugins } = babelOpts({
+    framework: 'react'
+});
 
 let defaultOptions = {
     src: ['src'],

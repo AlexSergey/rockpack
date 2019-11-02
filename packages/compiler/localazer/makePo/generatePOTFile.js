@@ -3,6 +3,7 @@ const mergePOFiles = require('./mergePOFiles');
 const { exec } = require('child_process');
 const tempy = require('tempy');
 const { normalize } = require('path');
+const { mkdirpSync } = require('fs-extra');
 
 function generatePOTFile(results, options) {
     return new Promise((resolve, reject) => {
@@ -11,6 +12,8 @@ function generatePOTFile(results, options) {
             let list = tempy.file();
             writeFileSync(dict, results);
             writeFileSync(list, dict);
+
+            mkdirpSync(options.dist);
 
             exec(
                 'xgettext' +
