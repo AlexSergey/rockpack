@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "next/*",
     "packages/*"
   ],
   "scripts": {

@@ -1,6 +1,7 @@
 {
   "npmClient": "yarn",
   "packages": [
+    "next/*",
     "packages/*"
   ],
   "version": "1.0.0",

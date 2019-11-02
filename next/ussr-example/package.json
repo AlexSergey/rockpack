@@ -1,0 +1,39 @@
+{
+  "name": "@rock/ussr-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
+    "react-router-dom": "5.1.2",
+    "react-meta-tags": "0.7.4",
+    "redux": "4.0.4",
+    "redux-logger": "3.0.6",
+    "react-redux": "7.1.1",
+    "immutable": "4.0.0-rc.12",
+    "prop-types": "15.7.2",
+    "redux-saga": "1.1.1",
+    "connected-react-router": "6.5.2",
+    "react-router": "5.1.2",
+    "history": "4.10.1",
+    "isomorphic-fetch": "2.2.1",
+    "valid-types": "1.0.2",
+    "koa": "2.11.0",
+    "koa-static": "5.0.0",
+    "koa-logger": "3.2.1",
+    "koa-router": "7.4.0",
+    "@rock/ussr": "0.9.0",
+    "@rock/less": "0.9.0"
+  },
+  "devDependencies": {
+    "@rock/compiler": "0.9.0"
+  }
+}
