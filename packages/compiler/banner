@@ -1,0 +1,5 @@
+banner:
+${name}: ${version}
+${author}
+${description}
+${license}

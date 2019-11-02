@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
+    "outDir": "./dist/",
+    "module": "es2015",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  },
+  "exclude":  [
+    "./node_modules/**/*"
+  ],
+  "include": [
+    "./src/**/*"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "es2015",
+    "declaration": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "typeRoots": ["./typings"]
+  },
+  "exclude":  [
+    "./node_modules/**/*"
+  ],
+  "include": [
+    "./src/**/*"
+  ]
+}

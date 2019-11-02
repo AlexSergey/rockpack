@@ -1,0 +1,19 @@
+{
+  "name": "angular-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "@angular/common": "8.2.4",
+    "@angular/core": "8.2.4",
+    "@angular/compiler": "8.2.4",
+    "@angular/platform-browser": "8.2.4",
+    "@angular/platform-browser-dynamic": "8.2.4",
+    "rxjs": "6.5.3",
+    "core-js": "3.2.1",
+    "zone.js": "0.10.2"
+  }
+}

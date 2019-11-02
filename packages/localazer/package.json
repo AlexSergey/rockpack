@@ -1,0 +1,36 @@
+{
+  "name": "@rock/localazer",
+  "version": "0.9.0",
+  "description": "This module can help you organize localization in your application",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/localazer.git"
+  },
+  "keywords": [
+    "i18n",
+    "localization",
+    "react",
+    "react-component"
+  ],
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/localazer)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/localazer/issues"
+  },
+  "homepage": "https://github.com/AlexSergey/localazer",
+  "dependencies": {
+    "jed": "1.1.1",
+    "valid-types": "1.0.2"
+  },
+  "devDependencies": {
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "prop-types": "15.7.2",
+    "@rock/compiler": "0.9.0"
+  }
+}

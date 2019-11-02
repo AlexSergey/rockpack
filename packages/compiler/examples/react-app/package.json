@@ -1,0 +1,13 @@
+{
+  "name": "react-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "core-js": "^3.2.1"
+  }
+}

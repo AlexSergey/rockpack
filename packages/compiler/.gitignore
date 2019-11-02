@@ -1,0 +1,16 @@
+.idea
+node_modules
+.DS_STORE
+static
+
+.module-cache
+*.log
+*.map
+
+*.orig
+.DS_Store
+Thumbs.db
+logs
+reports
+dist
+NO_COMMIT

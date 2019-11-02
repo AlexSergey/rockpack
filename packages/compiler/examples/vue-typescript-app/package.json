@@ -1,0 +1,13 @@
+{
+  "name": "vue-typescript-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "vue": "2.6.10",
+    "vue-class-component": "7.1.0",
+    "vue-property-decorator": "8.2.2"
+  }
+}
