@@ -1,0 +1,30 @@
+{
+  "name": "@rock/less",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build",
+    "lib:cjs": "tsc -p tsconfig.cjs.json",
+    "lib:esm": "tsc -p tsconfig.esm.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "valid-types": "1.0.2",
+    "@redux-dynostore/core": "3.0.1",
+    "@redux-dynostore/redux-saga": "3.0.1",
+    "object-path": "0.11.4"
+  },
+  "devDependencies": {
+    "@types/react": "16.9.11",
+    "react": "16.11.0",
+    "react-redux": "7.1.1",
+    "redux": "4.0.4",
+    "redux-saga": "1.1.1",
+    "react-dom": "16.11.0",
+    "rocket-starter": "1.11.10"
+  }
+}
