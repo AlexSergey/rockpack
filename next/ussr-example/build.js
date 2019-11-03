@@ -14,7 +14,8 @@ isomorphicCompiler([
         compiler: backendCompiler,
         config: {
             src: 'src/server.jsx',
-            dist: 'dist'
+            dist: 'dist',
+            debug: true
         },
         callback: config => {
             Object.assign(config.resolve, alias);
@@ -46,6 +47,7 @@ isomorphicCompiler([
             ],*/
             dist: 'public',
             styles: 'styles.css',
+            debug: true,
             copy: [
                 { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
             ]

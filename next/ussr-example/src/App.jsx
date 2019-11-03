@@ -7,4 +7,4 @@ function App() {
     return <Router />
 }
 
-export default withStyles(styles, process.env.NODE_ENV === 'production')(App);
+export default withStyles(styles)(App);

@@ -6,8 +6,8 @@ const insertCss = (...styles) => {
     return () => removeCss.forEach(dispose => dispose());
 };
 
-export default function ClientStyles({ children, isProduction = false }) {
-    return isProduction ? children : <StyleContext.Provider value={{ insertCss }}>
+export default function ClientStyles({ children }) {
+    return !!global.USSR_IN_PRODUCTION ? children : <StyleContext.Provider value={{ insertCss }}>
         {children}
     </StyleContext.Provider>;
 }

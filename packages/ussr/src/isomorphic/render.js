@@ -1,11 +1,12 @@
 import serialize from 'serialize-javascript';
 
-export const renderHeader = (meta) => `
+export const renderHeader = ({ meta, isProduction }) => `
     <!DOCTYPE html>
     <html lang="en">
         <head>
             ${meta}
-            <script>window.ISOMORPHIC_APP_IS_MOUNTING = true;</script>
+            <script>window.ISOMORPHIC_APP_IS_MOUNTING = true;
+            ${isProduction ? 'window.USSR_IN_PRODUCTION = true;' : ''}</script>
         </head>
         <body>
             <div id="root">`;

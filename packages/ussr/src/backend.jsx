@@ -9,14 +9,20 @@ import isBackend from './utils/isBackend';
 import createJSX from './isomorphic/createJSX';
 
 async function useUssr(ctx, options = {}) {
-    if (options.liveReloadPort && typeof options.liveReloadPort === 'string') {
-        options.liveReloadPort = parseInt(options.liveReloadPort);
-    }
-    options = Object.assign({
+    options = Object.assign({}, {
         hasVendor: false,
         isProduction: false,
         liveReloadPort: false
     }, options);
+    if (options.liveReloadPort && typeof options.liveReloadPort === 'string') {
+        options.liveReloadPort = parseInt(options.liveReloadPort);
+    }
+
+    const App = options.App;
+    const isProduction = options.isProduction;
+    const webExtractor = options.webExtractor;
+    const createStore = options.createStore;
+    const liveReloadPort = options.liveReloadPort;
 
     const stream = new Readable();
     const metaTagsInstance = MetaTagsServer();
@@ -25,10 +31,9 @@ async function useUssr(ctx, options = {}) {
         ctx,
         context: {},
         metaTagsInstance,
-        webExtractor: options.webExtractor,
-        createStore: options.createStore,
-        App: options.App,
-        isProduction: options.isProduction
+        webExtractor,
+        createStore,
+        App
     });
 
     renderToString(jsx);
@@ -43,16 +48,15 @@ async function useUssr(ctx, options = {}) {
 
     stream.push(renderHeader(meta));
     ctx.status = 200;
-    ctx.res.write(renderHeader(meta));
+    ctx.res.write(renderHeader({ meta, isProduction }));
 
     jsx = createJSX({
         ctx,
         context: {},
         metaTagsInstance,
-        webExtractor: options.webExtractor,
-        createStore: options.createStore,
-        App: options.App,
-        isProduction: options.isProduction
+        webExtractor,
+        createStore,
+        App
     }).jsx;
 
     const htmlSteam = renderToNodeStream(jsx);
@@ -65,19 +69,20 @@ async function useUssr(ctx, options = {}) {
         scripts += '<script  src="/vendor.js" type="text/javascript"></script>\n';
     }
 
-    scripts += options.webExtractor.getScriptTags();
+    scripts += webExtractor.getScriptTags();
 
     ctx.res.write(
         renderFooter({
             reduxState,
-            css: options.isProduction ?
+            css: isProduction ?
                 `<link rel="stylesheet" type="text/css" href="/styles.css" />` :
                 `<style type="text/css">${[...css].join('')}</style>`,
             scripts,
-            liveReloadPort: options.liveReloadPort,
-            isProduction: options.isProduction
+            liveReloadPort,
+            isProduction
         })
     );
+
     ctx.res.end();
 }
 
