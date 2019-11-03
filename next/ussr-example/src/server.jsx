@@ -31,11 +31,13 @@ const webExtractor = makeLoadableExtractor({
 });
 
 router.get('/*', async ctx => {
-    console.log(ctx.request.url);
+    console.log('process.env.NODE_ENV', process.env.NODE_ENV === 'production');
     return await useUssr(ctx, {
         webExtractor,
         createStore,
-        App
+        App,
+        isProduction: process.env.NODE_ENV === 'production',
+        liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false
     })
 });
 

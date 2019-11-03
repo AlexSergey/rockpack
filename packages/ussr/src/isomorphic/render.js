@@ -10,18 +10,20 @@ export const renderHeader = (meta) => `
         <body>
             <div id="root">`;
 
-export const renderFooter = (reduxState, css, scripts) => `</div>
+export const renderFooter = ({ reduxState, css, scripts, liveReloadPort, isProduction }) => {
+    console.log(!isProduction, typeof liveReloadPort === 'number');
+    return `</div>
         <script>
             window.REDUX_DATA = ${ serialize( reduxState, { isJSON: true } ) }
         </script>
         ${css}
         ${scripts}
-        ${process.env.NODE_ENV === 'development' && process.env.__LIVE_RELOAD__ ?
-            `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` :
-            ''
-        }
+        ${!isProduction && typeof liveReloadPort === 'number' ?
+        `<script src="http://localhost:${liveReloadPort}/livereload.js"></script>` :
+        ''
+    }
         <script>
-            window.addEventListener("load", () => {
+            window.addEventListener('load', () => {
                 window.ISOMORPHIC_APP_IS_MOUNTING = false;
             });
             window.onhashchange = function() { 
@@ -30,4 +32,5 @@ export const renderFooter = (reduxState, css, scripts) => `</div>
         </script>
     </body>
 </html>
-`;
+`
+};

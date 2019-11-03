@@ -1,6 +1,6 @@
 import dynostore, { dynamicReducers }  from '@redux-dynostore/core';
 import { dynamicSagas } from '@redux-dynostore/redux-saga';
-import { isObject, isFunction, isPromise } from 'valid-types';
+import { isObject, isFunction } from 'valid-types';
 import { END } from 'redux-saga';
 
 const idGenerator = () => {
@@ -26,7 +26,7 @@ export const connectSagasToStore = (sagaMiddleware, store) => {
 
     store.getSagas = () => sagas;
 
-    store.waitSagas = () => {
+    store.playSagas = () => {
         let res = Object.keys(sagas)
             .map(sagaName => isObject(sagas[sagaName]) && isFunction(sagas[sagaName].toPromise) ?
                 sagas[sagaName].toPromise() :

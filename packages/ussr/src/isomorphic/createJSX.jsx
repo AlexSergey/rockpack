@@ -11,14 +11,21 @@ export default function createJSX({
     metaTagsInstance,
     webExtractor,
     createStore,
-    App
+    App,
+    isProduction
 }) {
     const history = createMemoryHistory();
     const store = createStore(history);
     const css = new Set();
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
 
-    const jsx = webExtractor.collectChunks(<StyleContext.Provider value={{ insertCss }}>
+    const jsx = isProduction ? webExtractor.collectChunks(<ReduxProvider store={store}>
+            <MetaTagsContext extract = {metaTagsInstance.extract}>
+                <StaticRouter context={context} location={ctx.request.url}>
+                    <App />
+                </StaticRouter>
+            </MetaTagsContext>
+        </ReduxProvider>) : webExtractor.collectChunks(<StyleContext.Provider value={{ insertCss }}>
         <ReduxProvider store={store}>
             <MetaTagsContext extract = {metaTagsInstance.extract}>
                 <StaticRouter context={context} location={ctx.request.url}>

@@ -112,7 +112,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         const liveReloadPort = await fpPromise(isNumber(conf.liveReload) ? conf.liveReload : 35729);
         conf._liveReloadPort = liveReloadPort;
         process.env.__LIVE_RELOAD__ = liveReloadPort;
-        plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort });
+        plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300 });
 
         const errors = ['unhandledRejection', 'uncaughtException'];
 

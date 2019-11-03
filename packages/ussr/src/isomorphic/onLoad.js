@@ -6,10 +6,10 @@ export default function onLoad(cb) {
         cb();
     }
     else {
-        if (!window.ISOMORPHIC_APP_IS_MOUNTING) {
-            useEffect(() => {
+        useEffect(() => {
+            if (!window.ISOMORPHIC_APP_IS_MOUNTING) {
                 cb();
-            }, []);
-        }
+            }
+        }, []);
     }
 }

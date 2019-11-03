@@ -12,4 +12,4 @@ function PostList(props) {
     </div>
 }
 
-export default withStyles(styles)(PostList)
+export default withStyles(styles, process.env.NODE_ENV !== 'production')(PostList)

@@ -6,7 +6,6 @@ import createStore from './store';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import { ClientStyles, loadableReady } from '@rock/ussr/client';
-
 const history = createBrowserHistory();
 const store = createStore(history);
 

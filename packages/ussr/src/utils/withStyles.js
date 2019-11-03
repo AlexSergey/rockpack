@@ -1,8 +1,7 @@
 import _withStyles from 'isomorphic-style-loader/withStyles';
-import isNotProduction from './isNotProduction';
 
-const withStyles = (styles) => Component => isNotProduction() ?
-    _withStyles(styles)(Component) :
-    Component;
+const withStyles = (styles, isProduction = false) => Component => {
+    return isProduction ? Component : _withStyles(styles)(Component);
+};
 
 export default withStyles;

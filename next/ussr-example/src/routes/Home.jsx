@@ -7,6 +7,7 @@ function HomePage() {
     let [state, setState] = useState(true);
 
     return <>
+        <h1>Test 3</h1>
         {state && <Less
             reducerName="counter1"
             initialState={{ count: getSafetyData('REDUX_DATA.counter1.count', 0) }}
@@ -16,7 +17,7 @@ function HomePage() {
             sagaWatchers={{
                 INCREMENT_WITH_DELAY_100: (sagaName, saga) => {
                     return function* sagaWatcher() {
-                        console.log('FIIIIIIIIIIIIIIIIIIIIIII')
+                        console.log(sagaName, saga);
                         yield takeLatest(sagaName, saga);
                     }
                 }
@@ -50,18 +51,24 @@ function HomePage() {
                     return <div>Render Error!</div>;
                 }
                 onLoad(() => dispatch(sagaActions.INCREMENT_WITH_DELAY_1000(++count)));
+
                 return <div >
-                    <button onClick={() => dispatch(sagaActions.INCREMENT_WITH_DELAY_1000(++count))}>
+                    <button onClick={() => {
+                        console.log('click');
+                        dispatch(sagaActions.INCREMENT_WITH_DELAY_1000(++count))
+                    }}>
                         increment 1000
                     </button>
-                    <button onClick={() => dispatch(sagaActions.INCREMENT_WITH_DELAY_100(++count))}>
+                    <button onClick={() => {
+                        dispatch(sagaActions.INCREMENT_WITH_DELAY_100(++count))
+                    }}>
                         increment 100
                     </button>
                     <h2>{count}</h2>
                 </div>
             }}
         </Less>}
-        <Less
+        {/*<Less
             reducerName="counter2"
             initialState={{ count: 0 }}
             reducer={{
@@ -84,7 +91,7 @@ function HomePage() {
         <button onClick={() => {
             setState(!state);
 
-        }}>{state ? 'Unmount' : 'Mount'}</button>
+        }}>{state ? 'Unmount' : 'Mount'}</button>*/}
     </>
 }
 

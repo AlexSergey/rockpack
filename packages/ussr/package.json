@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "isomorphic-style-loader": "5.1.0",
     "@loadable/server": "5.10.3",
     "@loadable/component": "5.10.3",
     "serialize-javascript": "2.1.0"
@@ -22,6 +21,7 @@
     "react-router-dom": "5.1.2",
     "react-meta-tags": "0.7.4",
     "react-redux": "7.1.1",
-    "history": "4.10.1"
+    "history": "4.10.1",
+    "isomorphic-style-loader": "5.1.0"
   }
 }

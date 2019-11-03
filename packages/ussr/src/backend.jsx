@@ -9,28 +9,33 @@ import isBackend from './utils/isBackend';
 import createJSX from './isomorphic/createJSX';
 
 async function useUssr(ctx, options = {}) {
-    let jsx, store, css, appCurrent;
+    if (options.liveReloadPort && typeof options.liveReloadPort === 'string') {
+        options.liveReloadPort = parseInt(options.liveReloadPort);
+    }
+    options = Object.assign({
+        hasVendor: false,
+        isProduction: false,
+        liveReloadPort: false
+    }, options);
+
     const stream = new Readable();
     const metaTagsInstance = MetaTagsServer();
-    const context = {};
 
-    appCurrent = createJSX({
+    let { jsx, store, css } = createJSX({
         ctx,
-        context,
+        context: {},
         metaTagsInstance,
         webExtractor: options.webExtractor,
         createStore: options.createStore,
-        App: options.App
+        App: options.App,
+        isProduction: options.isProduction
     });
 
-    jsx = appCurrent.jsx;
-    store = appCurrent.store;
-    css = appCurrent.css;
     renderToString(jsx);
 
     const meta = metaTagsInstance.renderToString();
 
-    const sagasInProgress = store.waitSagas();
+    const sagasInProgress = store.playSagas();
 
     await Promise.all(sagasInProgress);
 
@@ -39,15 +44,16 @@ async function useUssr(ctx, options = {}) {
     stream.push(renderHeader(meta));
     ctx.status = 200;
     ctx.res.write(renderHeader(meta));
-    appCurrent = createJSX({
+
+    jsx = createJSX({
         ctx,
-        context,
+        context: {},
         metaTagsInstance,
         webExtractor: options.webExtractor,
         createStore: options.createStore,
-        App: options.App
-    });
-    jsx = appCurrent.jsx;
+        App: options.App,
+        isProduction: options.isProduction
+    }).jsx;
 
     const htmlSteam = renderToNodeStream(jsx);
     htmlSteam.pipe(ctx.res, { end: false });
@@ -55,20 +61,22 @@ async function useUssr(ctx, options = {}) {
 
     let scripts = '';
 
-    if (!!process.env.FRONTEND_HAS_VENDOR) {
+    if (!!options.hasVendor) {
         scripts += '<script  src="/vendor.js" type="text/javascript"></script>\n';
     }
 
     scripts += options.webExtractor.getScriptTags();
 
     ctx.res.write(
-        renderFooter(
+        renderFooter({
             reduxState,
-            process.env.NODE_ENV === 'development' ?
-                `<style type="text/css">${[...css].join('')}</style>` :
-                `<link rel="stylesheet" type="text/css" href="/styles.css" />`,
-            scripts
-        )
+            css: options.isProduction ?
+                `<link rel="stylesheet" type="text/css" href="/styles.css" />` :
+                `<style type="text/css">${[...css].join('')}</style>`,
+            scripts,
+            liveReloadPort: options.liveReloadPort,
+            isProduction: options.isProduction
+        })
     );
     ctx.res.end();
 }
