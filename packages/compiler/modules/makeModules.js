@@ -311,6 +311,12 @@ function getModules(conf = {}, mode, root) {
             ]
         },
 
+        mjs: {
+            test: /\.mjs$/,
+            include: /node_modules/,
+            type: 'javascript/auto'
+        },
+
         graphql: {
             test: /\.graphql?$/,
             use: [

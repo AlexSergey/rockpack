@@ -1,7 +1,29 @@
-import React, { useEffect, useRef, createElement, memo } from 'react';
+import React, { useEffect, useRef, createElement } from 'react';
 import { takeEvery } from 'redux-saga/effects';
 import { useStore, connect } from 'react-redux';
 import { isFunction, isString, isObject, isUndefined } from 'valid-types';
+
+interface Action {
+    type: string
+    payload?: object | undefined
+    service?: object | undefined
+    metadata?: object | undefined
+}
+interface SagaAction {
+    type: string
+    payload?: object | undefined
+    service?: object | undefined
+    metadata?: object | undefined
+    actions: Action[]
+}
+
+interface ActionsToReducer {
+    [actionName: string]: object
+}
+
+interface ActionsToSagas {
+    [sagaName: string]: object
+}
 
 let uniqID = 0;
 
@@ -14,8 +36,8 @@ interface sharedStateInnerInterface {
     sagas: any
 }
 
-function createAction(actionName) {
-    return function(...args) {
+function createAction(actionName: string): () => Action {
+    return function(...args: [object?, object?, object?]): Action {
         let [payload, service, metadata] = args;
         return {
             type: actionName,
@@ -25,18 +47,19 @@ function createAction(actionName) {
         }
     }
 }
-function mapActionsToReducers(reducer) {
+
+function mapActionsToReducers(reducer: object) {
     return Object.keys(reducer)
-        .reduce((inner, actionName) => {
+        .reduce((inner: ActionsToReducer, actionName: string) => {
             inner[actionName] = createAction(actionName);
             return inner;
         }, {})
 }
 
-function createSagaAction(sagaName, actions) {
-    return function(...args: any[]) {
+function createSagaAction(sagaName: string, actions: SagaAction[]): () => SagaAction {
+    return function(...args: [object?, object?, object?]): SagaAction {
         let [payload, service, metadata] = args;
-        console.log(payload);
+
         return {
             type: sagaName,
             payload,
@@ -47,15 +70,15 @@ function createSagaAction(sagaName, actions) {
     };
 }
 
-function mapActionsToSagas(sagas, actions) {
+function mapActionsToSagas(sagas: object, actions: SagaAction[]) {
     return Object.keys(sagas)
-        .reduce((inner, sagaName) => {
+        .reduce((inner: ActionsToSagas, sagaName: string) => {
             inner[sagaName] = createSagaAction(sagaName, actions);
             return inner;
         }, {});
 }
 
-function makeSagasWatchers(uniqID, sagaWatchers, sagas) {
+function makeSagasWatchers(uniqID: number, sagaWatchers, sagas) {
     return Object.keys(sagas).reduce((inner: any, sagaName) => {
         const sagaWatcherName = `${uniqID}saga_${sagaName}Watcher`;
 
@@ -64,7 +87,7 @@ function makeSagasWatchers(uniqID, sagaWatchers, sagas) {
             sagaWatchers[sagaName](sagaName, saga) :
             function* sagaWatcher() {
                 yield takeEvery(sagaName, saga);
-            }
+            };
 
         return inner;
     }, {});
@@ -80,14 +103,13 @@ function createReducer(reducer, initialState) {
 
     return finalReducer;
 }
-
 /**
  * - Add detach = false
  * - get default reducer if it set
  * - remove uniqID
  * - reducer name is required
  * */
-const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState, children, reduxMergeProps = null, reduxRef = {} }) => {
+const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState, children, shouldDetach = false, reduxMergeProps = null, reduxRef = {} }) => {
     const sharedState = useRef<sharedStateInnerInterface>({
         init: true,
         actions: null,
@@ -119,10 +141,12 @@ const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState
         if (process.env.NODE_ENV !== 'production') {
             console.log(`LESS|component ID ${uniqID} reported: I am unmounted. Good night!`);
         }
-        //sharedState.current.detach();
+        if (shouldDetach) {
+            sharedState.current.detach();
+        }
         sharedState.current.detach = null;
         sharedState.current.actions = null;
-        delete sharedState.current;
+        sharedState.current = null;
     }, []);
 
     if (sharedState.current.init) {
@@ -135,16 +159,16 @@ const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState
         sharedState.current.detach = null;
 
         let store = useStore();
-        let actions, sagasAction, sagasWatchers;
+
+        let actions, sagasWatchers;
 
         actions = mapActionsToReducers(reducer);
         sharedState.current.actions = actions;
 
         if (isObject(sagas)) {
-            sagasAction = mapActionsToSagas(sagas, actions);
+            sharedState.current.sagaActions = mapActionsToSagas(sagas, actions);
             sagasWatchers = makeSagasWatchers(uniqID, sagaWatchers, sagas);
         }
-        sharedState.current.sagaActions = sagasAction;
 
         if (!store.getState()[reducerName]) {
             store.attachReducers({[reducerName]: createReducer(reducer, initialState)});
@@ -160,59 +184,9 @@ const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState
             }
         }
 
-        /*
-
-        if (isObject(sagas)) {
-            sharedState.current.sagaActions = makeSagaActions(sagas, actions);
-            sharedState.current.sagas = Object.keys(sagas)
-                .reduce((inner, sagaName) => {
-                    sharedState.current.sagaActions[sagaName] =
-                    inner[sagaName] = {
-                        saga: sagas[sagaName],
-                        sagaWatcherName: `${uniqID}saga_${sagaName}Watcher`
-                    };
-                    return inner;
-                }, {});
-
-            Object.keys(sharedState.current.sagas).forEach(sagaName => {
-                const { sagaWatcherName, saga } = sharedState.current.sagas[sagaName];
-
-                sagaWrapper[sagaWatcherName] = isObject(sagaWatchers) && isFunction(sagaWatchers[sagaName]) ?
-                    sagaWatchers[sagaName](sagaName, saga) :
-                    function* sagaWatcher() {
-                        yield takeEvery(sagaName, saga);
-                    }
-            });
-        }
-        console.log(store.getState()[reducerName], reducerName, sagaWrapper)
-        if (!store.getState()[reducerName]) {
-            const finalReducer = (state = initialState, action) => {
-                if (isFunction(reducer[action.type])) {
-                    return reducer[action.type](state, action.payload);
-                }
-                return state;
-            };
-            store.attachReducers({ [reducerName]: finalReducer });
-
-            if (isObject(sagas) && Object.keys(sagaWrapper).length > 0) {
-                Object.keys(sagaWrapper).forEach(sagaWatcherName => {
-                    store.runSagas({[sagaWatcherName]: sagaWrapper[sagaWatcherName]});
-
-                    if (process.env.NODE_ENV !== 'production') {
-                        console.log(`LESS|component ID ${uniqID} reported: saga ${sagaWatcherName} is listening`);
-                    }
-                });
-            }
-        }
-
-        if (process.env.NODE_ENV !== 'production') {
-            console.log(`LESS|component ID ${uniqID} reported: reducer ${reducerName} attached`);
-        }
-
         sharedState.current.detach = () => {
-            if (isObject(sharedState.current.sagas)) {
-                Object.keys(sharedState.current.sagas).forEach(sagaName => {
-                    let { sagaWatcherName } = sharedState.current.sagas[sagaName];
+            if (isObject(sagas)) {
+                Object.keys(sagasWatchers).forEach(sagaWatcherName => {
                     store.cancelSagas([sagaWatcherName]);
 
                     if (process.env.NODE_ENV !== 'production') {
@@ -226,7 +200,7 @@ const Less = ({ reducerName, reducer, getData, sagas, sagaWatchers, initialState
             if (process.env.NODE_ENV !== 'production') {
                 console.log(`LESS|component ID ${uniqID} reported: reducer ${reducerName} detached`);
             }
-        }*/
+        }
     }
 
     return createElement(connect(state => {

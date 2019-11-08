@@ -68,7 +68,7 @@ function HomePage() {
                 </div>
             }}
         </Less>}
-        {/*<Less
+        <Less
             reducerName="counter2"
             initialState={{ count: 0 }}
             reducer={{
@@ -91,7 +91,7 @@ function HomePage() {
         <button onClick={() => {
             setState(!state);
 
-        }}>{state ? 'Unmount' : 'Mount'}</button>*/}
+        }}>{state ? 'Unmount' : 'Mount'}</button>
     </>
 }
 

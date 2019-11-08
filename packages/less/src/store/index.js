@@ -17,9 +17,11 @@ export const connectSagasToStore = (sagaMiddleware, store) => {
         let sagaWasRunning = run.apply(this, args);
         let cancel = sagaWasRunning.cancel;
         sagaWasRunning.cancel = function(...args) {
+            console.log(id, sagas);
             delete sagas[id];
             return cancel.apply(this, args);
         };
+        console.log(sagaWasRunning.cancel);
         sagas[id] = sagaWasRunning;
         return sagaWasRunning;
     };
