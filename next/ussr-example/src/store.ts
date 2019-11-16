@@ -1,4 +1,4 @@
-import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
+import {combineReducers, createStore, compose, applyMiddleware, Store} from 'redux';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import { middleware as emptyMiddleware } from './utils/empty.middleware';
@@ -7,6 +7,13 @@ import { isBackend } from '@rock/ussr/client';
 import createSagaMiddleware from 'redux-saga';
 import { lessMiddleware, connectSagasToStore } from '@rock/less';
 
+interface StoreLess extends Store {
+    detachReducers():any
+
+}
+interface ApplicationState {
+    router: any;
+}
 export default (history) => {
     const createStaticReducers = (history) => combineReducers({
         router: connectRouter(history)
@@ -16,7 +23,7 @@ export default (history) => {
 
     const sagaMiddleware = createSagaMiddleware();
 
-    let store = createStore(
+    let store = createStore<StoreLess<ApplicationState>>(
         staticReducers,
         compose(
             applyMiddleware(

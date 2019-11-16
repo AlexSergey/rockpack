@@ -482,7 +482,8 @@ function getModules(conf = {}, mode, root) {
                         isNodejs: !!conf.nodejs
                     })
                 }
-            ]
+            ],
+            sideEffects: false
         },
 
         vue: {

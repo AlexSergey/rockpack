@@ -19,6 +19,7 @@
     "object-path": "0.11.4"
   },
   "devDependencies": {
+    "@types/react-redux": "7.1.5",
     "@types/react": "16.9.11",
     "react": "16.11.0",
     "react-redux": "7.1.1",

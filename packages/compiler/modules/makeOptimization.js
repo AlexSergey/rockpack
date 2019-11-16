@@ -1,5 +1,3 @@
-let { isArray } = require('valid-types');
-
 const makeOptimization = conf => {
     let optimization = {};
     if (conf.vendor) {

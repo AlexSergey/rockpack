@@ -4,8 +4,14 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
   },
+  "typeRoots" : [
+    "./node_modules/@types",
+    "../node_modules/@types",
+    "./typings"
+  ],
   "exclude":  [
     "./node_modules/**/*"
   ],
