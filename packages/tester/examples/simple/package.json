@@ -1,0 +1,13 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node script.test.run.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  }
+}

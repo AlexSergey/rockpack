@@ -1,7 +1,4 @@
 import React from 'react';
-import { enzyme, enzymeToJson } from '../../../helpers';
-const { shallow } = enzyme;
-const { shallowToJson } = enzymeToJson;
 
 import Link from './Link';
 

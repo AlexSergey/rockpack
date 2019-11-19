@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "node script.test.run.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
     "prop-types": "^15.6.2",
     "react-dom": "^16.7.0",
     "react": "^16.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "9.3.2"
   }
 }

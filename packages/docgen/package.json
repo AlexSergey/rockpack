@@ -1,0 +1,7 @@
+{
+  "name": "@rock/docgen",
+  "version": "1.0.0",
+  "dependencies": {
+    "apidoc": "0.18.0"
+  }
+}

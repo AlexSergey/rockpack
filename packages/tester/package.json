@@ -7,20 +7,20 @@
   "license": "ISC",
   "dependencies":  {
     "@babel/core": "7.6.4",
-    "@babel/plugin-transform-modules-commonjs": "7.6.0",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/plugin-proposal-decorators": "7.6.0",
     "@babel/plugin-proposal-object-rest-spread": "7.6.2",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/plugin-transform-flow-comments": "7.6.3",
+    "@babel/plugin-transform-modules-commonjs": "7.6.0",
     "@babel/plugin-transform-react-constant-elements": "7.6.3",
     "@babel/plugin-transform-react-inline-elements": "7.2.0",
-    "@loadable/babel-plugin": "5.10.3",
+    "@babel/polyfill": "7.7.0",
     "@babel/preset-env": "7.6.3",
     "@babel/preset-react": "7.6.3",
     "@testing-library/jest-dom": "4.2.0",
-    "@testing-library/react": "9.3.0",
     "@types/jest": "24.0.20",
+    "@loadable/babel-plugin": "5.10.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "24.9.0",
     "deep-extend": "0.6.0",
@@ -29,6 +29,7 @@
     "enzyme-to-json": "3.4.3",
     "expect-more-jest": "2.4.2",
     "identity-obj-proxy": "3.0.0",
+    "isomorphic-fetch": "2.2.1",
     "jest": "24.9.0",
     "jest-chain": "1.1.2",
     "jest-extended": "0.11.2",
@@ -36,10 +37,8 @@
     "jest-html-reporters": "1.2.0",
     "react": "16.11.0",
     "react-dom": "16.11.0",
-    "regenerator-runtime": "0.13.3",
     "ts-jest": "24.1.0",
     "typescript": "3.6.4",
-    "valid-types": "1.0.2",
-    "rocket-starter": "1.12.2"
+    "valid-types": "1.0.2"
   }
 }
