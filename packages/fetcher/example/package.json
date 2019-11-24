@@ -1,0 +1,11 @@
+{
+  "name": "fetcher-example",
+  "version": "0.9.0",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "react": "16.12.0"
+  }
+}
