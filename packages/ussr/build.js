@@ -3,11 +3,6 @@ const { multiCompiler, libraryCompiler } = require('../compiler');
 const externals = [
     'react',
     'react-dom/server',
-    'react-meta-tags',
-    'react-meta-tags/server',
-    'react-router-dom',
-    'react-redux',
-    'history',
     'isomorphic-style-loader',
     'isomorphic-style-loader/StyleContext',
     'isomorphic-style-loader/withStyles'
@@ -18,15 +13,17 @@ multiCompiler([
         compiler: libraryCompiler,
         libraryName: 'ussr-backend',
         config: {
-            src: './src/backend.jsx',
+            src: './src/backend.js',
             debug: true
         },
         callback: config => {
             config.node = {
+                net: 'empty',
                 fs: 'empty',
                 path: true,
                 stream: true
             };
+            config.target = 'node';
             config.externals = externals;
         }
     },
@@ -35,7 +32,7 @@ multiCompiler([
         libraryName: 'ussr-client',
         config: {
             dist: './client',
-            src: './src/client.jsx',
+            src: './src/client.js',
             debug: true
         },
         callback: config => {

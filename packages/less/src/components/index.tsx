@@ -5,7 +5,7 @@ import {AnyAction, Store} from 'redux';
 import { isFunction, isObject, isUndefined } from 'valid-types';
 import { Action, ActionsToReducer, ActionsToSagas } from '../types/Action';
 import { SagaAction, SagaWatcherWrapper, SagaWrapper } from '../types/Saga';
-import { ChildrenType, InnerProps, Less, sharedStateInnerInterface } from '../types/Main';
+import { ChildrenType, InnerProps, LessProp, sharedStateInnerInterface } from '../types/Main';
 
 let uniqID = 0;
 
@@ -71,7 +71,9 @@ function makeSagasWatchers(uniqID: number, sagaWatchers: () => {}, sagas: SagaAc
 
 function createReducer(reducer: object, initialState: any) {
     const finalReducer = (state: any = initialState, action: Action) => {
+        //@ts-ignore
         if (isFunction(reducer[action.type])) {
+            //@ts-ignore
             return reducer[action.type](state, action.payload);
         }
         return state;
@@ -98,7 +100,7 @@ const Less = ({
         initialState,
         children,
         shouldDetach = false
-    }: Less) => {
+    }: LessProp) => {
     const sharedState = useRef<sharedStateInnerInterface>({
         initComponent: true,
         init: true,
@@ -154,24 +156,28 @@ const Less = ({
         sharedState.current.sagas = null;
         sharedState.current.reducerName = reducerName;
         sharedState.current.detach = null;
-
+//@ts-ignore
         let store = useStore<StoreLess<any, AnyAction>>();
-
+//@ts-ignore
         let actions, sagasWatchers;
 
         actions = mapActionsToReducers(reducer);
         sharedState.current.actions = actions;
 
         if (isObject(sagas)) {
+            //@ts-ignore
             sharedState.current.sagaActions = mapActionsToSagas(sagas, actions);
+            //@ts-ignore
             sagasWatchers = makeSagasWatchers(uniqID, sagaWatchers, sagas);
         }
 
         if (!store.getState()[reducerName]) {
+            //@ts-ignore
             store.attachReducers({[reducerName]: createReducer(reducer, initialState)});
 
             if (isObject(sagasWatchers)) {
                 Object.keys(sagasWatchers).forEach(sagaWatcherName => {
+                    //@ts-ignore
                     store.runSagas({[sagaWatcherName]: sagasWatchers[sagaWatcherName]});
 
                     if (process.env.NODE_ENV !== 'production') {
@@ -183,7 +189,9 @@ const Less = ({
 
         sharedState.current.detach = () => {
             if (isObject(sagas)) {
+                //@ts-ignore
                 Object.keys(sagasWatchers).forEach(sagaWatcherName => {
+                    //@ts-ignore
                     store.cancelSagas([sagaWatcherName]);
 
                     if (process.env.NODE_ENV !== 'production') {
@@ -191,7 +199,7 @@ const Less = ({
                     }
                 })
             }
-
+//@ts-ignore
             store.detachReducers([reducerName]);
 
             if (process.env.NODE_ENV !== 'production') {
@@ -212,7 +220,9 @@ const Less = ({
         if (isFunction(getData)) {
             return getData(state, sharedState.current.reducerName);
         }
+        //@ts-ignore
         return state[sharedState.current.reducerName];
+        //@ts-ignore
     })((props: object = {}): ReactNode => {
         return children({...props, ...innerProps});
     }));

@@ -1,5 +1,7 @@
+//@ts-ignore
 import serialize from 'serialize-javascript';
 
+//@ts-ignore
 export const renderHeader = ({ meta, isProduction }) => `
     <!DOCTYPE html>
     <html lang="en">
@@ -11,6 +13,7 @@ export const renderHeader = ({ meta, isProduction }) => `
         <body>
             <div id="root">`;
 
+//@ts-ignore
 export const renderFooter = ({ reduxState, css, scripts, liveReloadPort, isProduction }) => {
     console.log(!isProduction, typeof liveReloadPort === 'number');
     return `</div>

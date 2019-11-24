@@ -1,56 +1,37 @@
 import React from 'react';
+import createUssr from '@rock/ussr';
 import { readFileSync } from 'fs';
-import App from './App';
-import { useUssr, makeLoadableExtractor, ignoreFiles } from '@rock/ussr';
-import Koa from 'koa';
-import serve from 'koa-static';
+import { renderApp } from './App';
 import logger from 'koa-logger';
-import Router from 'koa-router';
 import path from 'path';
 import createStore from './store';
+import sourceMapSupport from 'source-map-support';
 
-const app = new Koa();
-
-app.use(logger());
-app.use(serve(path.resolve( __dirname, '../public' )));
-app.use(ignoreFiles(['ico']));
-
-const router = new Router();
-
+const port = 5000;
 const currentFolder = path.basename(process.cwd());
 
 const stats = JSON.parse(
     readFileSync(currentFolder === 'dist' ?
         path.resolve('./stats.json') :
         path.resolve('./dist/stats.json'),
-        'utf8')
+    'utf8')
 );
 
-const webExtractor = makeLoadableExtractor({
-    stats
+const app = createUssr({
+    stats,
+    createStore,
+    render: renderApp,
+    publicFolder: path.resolve( __dirname, '../public' ),
+    isProduction: process.env.NODE_ENV === 'production',
+    liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false
 });
+app.use(logger());
 
-router.get('/*', async ctx => {
-    console.log('process.env.NODE_ENV', process.env.NODE_ENV === 'production');
-    return await useUssr(ctx, {
-        webExtractor,
-        createStore,
-        App,
-        isProduction: process.env.NODE_ENV === 'production',
-        liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false
-    })
-});
-
-app
-    .use(router.routes())
-    .use(router.allowedMethods());
-
-const server = app.listen(5000, () => {
-    /*if (process.env.NODE_ENV === 'development') {
+const server = app.listen(port, () => {
+    if (process.env.NODE_ENV === 'development') {
         console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
     }
-    console.log(`http://localhost:${process.env.ISOMORPHIC_SERVER_PORT}/`);
-    console.log(`Server connected to ${process.env.ISOMORPHIC_SERVER_PORT} port`);*/
+    console.log(`Server is listening ${port} port`);
 });
 
 function handleError(err, ctx) {
@@ -73,7 +54,8 @@ server.on('error', handleError);
 ['SIGTERM', 'SIGINT', 'SIGUSR2'].map(signal => {
     process.once(signal, () => terminate(signal));
 });
-
-/*if (process.env.NODE_ENV === 'development') {
-    sourceMapSupport.install();
-}*/
+if (process.env.NODE_ENV !== 'production') {
+    sourceMapSupport.install({
+        environment: 'node'
+    });
+}

@@ -1,4 +1,5 @@
-export default function ignoreFiles(extensions = []) {
+export default function ignoreFiles(extensions) {
+    //@ts-ignore
     return async (ctx, next) => {
         let isFile = false;
         let pth = ctx.request.originalUrl.replace(/^\/+/, '');

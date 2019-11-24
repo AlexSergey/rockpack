@@ -23,6 +23,7 @@ export default (history) => {
 
     const sagaMiddleware = createSagaMiddleware();
 
+    //@ts-ignore
     let store = createStore<StoreLess<ApplicationState>>(
         staticReducers,
         compose(

@@ -1,13 +1,12 @@
 import React from 'react';
-import MetaTags from 'react-meta-tags';
 import { Link } from "react-router-dom";
-import { loadableComponent } from '@rock/ussr/client';
+import { Tags, loadableComponent } from '@rock/ussr/client';
 
 const OtherComponent = loadableComponent(() => import('./OtherComponent'));
 
 function HomePage(props) {
     return <>
-        <MetaTags key="metatags">
+        <Tags.MetaTags key="metatags">
             <title>Home page</title>
             <meta charSet="utf-8" />
             <meta name="theme-color" content="#fff" />
@@ -21,7 +20,7 @@ function HomePage(props) {
             <meta name="keywords" content="your mega keywords" />
             <meta name="description" content="your mega description" />
             <link rel="canonical" href="https://blabla.com" />
-        </MetaTags>
+        </Tags.MetaTags>
         <div>I am home page</div>
         <h1>I am application</h1>
         <div>

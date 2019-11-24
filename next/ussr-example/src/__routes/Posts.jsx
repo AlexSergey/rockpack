@@ -1,5 +1,5 @@
 import React from 'react';
-import MetaTags from 'react-meta-tags';
+import { MetaTags } from '@rock/ussr/client';
 import { Link } from "react-router-dom";
 import PostsContainer from '../features/Posts/Posts.Container';
 import PostList from '../components/PostList';

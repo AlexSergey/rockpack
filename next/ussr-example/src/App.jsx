@@ -1,10 +1,28 @@
 import React from 'react';
-import Router from './router';
+import Routing from './router';
 import styles from './assets/reset.css';
-import { withStyles } from '@rock/ussr/client';
+import { withStyles, isBackend } from '@rock/ussr/client';
+import { ConnectedRouter } from "connected-react-router";
+import { Provider as ReduxProvider } from 'react-redux';
+import { StaticRouter } from 'react-router';
 
-function App() {
-    return <Router />
-}
+const Router = isBackend() ? StaticRouter : ConnectedRouter;
 
-export default withStyles(styles)(App);
+export const renderApp = ({
+    url,
+    store,
+    history,
+    routerContext
+}) => {
+    const routerParams = isBackend() ? {
+        url,
+        context: routerContext
+    } : {
+        history
+    };
+    return <ReduxProvider store={store}>
+        <Router {...routerParams}>
+            {withStyles(styles)(Routing)}
+        </Router>
+    </ReduxProvider>
+};

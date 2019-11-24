@@ -1,3 +1,4 @@
+//@ts-ignore
 const readHTMLStream = stream => {
     return new Promise((resolve, reject) => {
         stream.on('end', resolve);

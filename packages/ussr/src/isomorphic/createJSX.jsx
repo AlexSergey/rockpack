@@ -1,9 +1,8 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
+//@ts-ignore
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import { Provider as ReduxProvider } from 'react-redux';
 import { MetaTagsContext } from 'react-meta-tags';
-import { StaticRouter } from 'react-router-dom';
 
 export default function createJSX({
     ctx,
@@ -11,21 +10,24 @@ export default function createJSX({
     metaTagsInstance,
     webExtractor,
     createStore,
-    App
+    render
 }) {
     const history = createMemoryHistory();
     const store = createStore(history);
     const css = new Set();
+    //@ts-ignore
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
 
     const jsx = webExtractor.collectChunks(<StyleContext.Provider value={{ insertCss }}>
-        <ReduxProvider store={store}>
-            <MetaTagsContext extract = {metaTagsInstance.extract}>
-                <StaticRouter context={context} location={ctx.request.url}>
-                    <App />
-                </StaticRouter>
-            </MetaTagsContext>
-        </ReduxProvider>
+        <MetaTagsContext extract = {metaTagsInstance.extract}>
+            {render({
+                url: ctx.request.url,
+                routerContext: context,
+                metaTagsExtract: metaTagsInstance.extract,
+                history,
+                store
+            })}
+        </MetaTagsContext>
     </StyleContext.Provider>);
 
     return { jsx, store, css };

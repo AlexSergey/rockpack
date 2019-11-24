@@ -14,7 +14,7 @@ export interface InnerProps {
 
 export type ChildrenType = (props: InnerProps) => ReactNode;
 
-export interface Less {
+export interface LessProp {
     reducerName: string
     reducer: Reducer
     getData?: (store: any, payload: any) => string;
