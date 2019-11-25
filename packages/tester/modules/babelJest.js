@@ -39,7 +39,9 @@ function babelOpts({
                 useBuiltIns: 'usage'
             } : {})]
         ],
-        plugins: [],
+        plugins: [
+            require.resolve('@babel/plugin-transform-modules-commonjs')
+        ],
         env: {
             production: {}
         }
@@ -83,21 +85,5 @@ let opts = babelOpts({
     loadable: true,
     framework: 'react'
 });
-
-if (!opts.env) {
-    opts.env = {};
-}
-
-if (!opts.env.test) {
-    opts.env.test = {};
-}
-
-if (!opts.env.test.plugins) {
-    opts.env.test.plugins = [];
-}
-
-opts.env.test.plugins.push(
-    require.resolve('@babel/plugin-transform-modules-commonjs')
-);
 
 module.exports = babelJest.createTransformer(Object.assign({}, opts));

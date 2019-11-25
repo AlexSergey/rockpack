@@ -33,6 +33,8 @@ module.exports = function argsCompilers(opts = {}, mode) {
 
     if (mode === 'watch') {
         argv += ' --watchAll';
+        argv += ' --runInBand';
+        argv += ' --no-cache';
     }
 
     return argv;

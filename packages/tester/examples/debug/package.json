@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --inspect node script.test.run.js"
+    "test": "node --inspect script.test.run.js"
   },
   "author": "",
   "license": "ISC",

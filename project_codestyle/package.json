@@ -1,11 +1,43 @@
 {
-  "name": "codestyle",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "husky": "^3.1.0",
-    "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1"
-  }
+    "name": "codestyle",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "typing": "tsc --noEmit",
+        "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet",
+        "fix": "pretty-quick",
+        "lint:fix": "pretty-quick && eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
+    },
+    "dependencies": {
+        "react": "16.12.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run typing && npm run lint:fix && git add ."
+        }
+    },
+    "devDependencies": {
+        "@types/react": "16.9.13",
+        "husky": "3.1.0",
+        "prettier": "1.19.1",
+        "pretty-quick": "2.0.1",
+        "eslint-config-prettier": "6.7.0",
+        "eslint-plugin-prettier": "3.1.1",
+        "eslint-plugin-jest": "23.0.4",
+        "typescript": "3.7.2",
+        "@typescript-eslint/eslint-plugin": "2.8.0",
+        "@typescript-eslint/parser": "2.8.0",
+        "babel-eslint": "10.0.3",
+        "eslint": "6.7.1",
+        "eslint-config-airbnb": "18.0.1",
+        "eslint-config-react-app": "5.0.2",
+        "eslint-loader": "3.0.2",
+        "eslint-plugin-babel": "5.3.0",
+        "eslint-plugin-flowtype": "4.5.2",
+        "eslint-plugin-import": "2.18.2",
+        "eslint-plugin-jsx-a11y": "6.2.3",
+        "eslint-plugin-promise": "4.2.1",
+        "eslint-plugin-react": "7.16.0"
+    }
 }
