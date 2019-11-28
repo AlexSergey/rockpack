@@ -90,3 +90,7 @@ Thumbs.db
 
 # Test reports
 test-reports
+
+# Custom config for prettier and eslint
+.eslintrc.custom.js
+.prettierrc.custom.js

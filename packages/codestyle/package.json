@@ -1,0 +1,19 @@
+{
+  "name": "cli-installing-module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install" : "node scripts/install.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pkg-dir": "4.2.0",
+    "package-merge": "0.1.2",
+    "fs-extra": "8.1.0",
+    "sort-package-json": "1.24.0",
+    "deep-extend": "0.6.0"
+  }
+}
