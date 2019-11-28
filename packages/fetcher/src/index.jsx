@@ -6,20 +6,15 @@ const AxiosContext = createContext(false);
 const AxiosHeadersContext = createContext(false);
 
 const AxiosHeaders = ({ children, headers = {} }) => {
-    let instance = useRef();
     return <AxiosHeadersContext.Provider value={{
         register: axios => {
-            if (!instance.current) {
-                instance.current = axios;
-
-                instance.current.interceptors.request.use(
-                    request => {
-                        const _headers = request.headers;
-                        request.headers = Object.assign({}, _headers, headers);
-                        return request;
-                    }
-                )
-            }
+            axios.interceptors.request.use(
+                request => {
+                    const _headers = request.headers;
+                    request.headers = Object.assign({}, _headers, headers);
+                    return request;
+                }
+            )
         }
     }}>
         {children}
@@ -27,27 +22,38 @@ const AxiosHeaders = ({ children, headers = {} }) => {
 };
 
 const Axios = ({ children, props }) => {
-    const mergedProps = Object.assign({}, {
-        timeout: 1000
-    }, props);
-    const instance = axios.create(mergedProps);
-    const cloneHeaders = useContext(AxiosHeadersContext);
-    if (cloneHeaders) {
-        if (typeof cloneHeaders.register) {
-            cloneHeaders.register(instance);
+    let ref = useRef(false);
+
+    if (!ref.current) {
+        const mergedProps = Object.assign({}, {
+            timeout: 1000
+        }, props);
+        const instance = axios.create(mergedProps);
+        ref.current = instance;
+        const cloneHeaders = useContext(AxiosHeadersContext);
+
+        if (cloneHeaders) {
+            if (typeof cloneHeaders.register) {
+                cloneHeaders.register(instance);
+            }
         }
     }
 
-    return <AxiosContext.Provider value={instance}>
+    return <AxiosContext.Provider value={ref.current}>
         {children}
     </AxiosContext.Provider>
 };
 
 const MockAxios = ({ children, mock }) => {
-    let axios = useAxios();
-    let mocker = new MockAdapter(axios);
-    if (typeof mock === 'function') {
-        mock(mocker);
+    let ref = useRef(false);
+
+    if (!ref.current) {
+        if (typeof mock === 'function') {
+            let axios = useAxios();
+            let mocker = new MockAdapter(axios);
+            mock(mocker);
+            ref.current = true;
+        }
     }
     return children;
 };

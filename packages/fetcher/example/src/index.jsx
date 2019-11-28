@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useAxios, AxiosHeaders, Axios, MockAxios } from '../../dist';
+import { useAxios, AxiosHeaders, Axios, MockAxios } from '../../src';
 
 function InnerApp() {
     let axios = useAxios();
 
     return <div>
-        <button onClick={() => axios.post('http://localhost:4000/getCookies')}>Test request</button>
+        <button onClick={() => axios.post('/getCookies')}>Test request</button>
     </div>
 }
 
@@ -19,7 +19,7 @@ function App(props) {
                 <MockAxios
                     mock={mocker => {
                         mocker.onPost('/getCookies').reply(function(config) {
-                            console.log('get cookies', config);
+                            console.log('get cookies 4000', config);
 
                             return [200, {
                                 users: [
@@ -32,6 +32,26 @@ function App(props) {
                     <InnerApp />
                 </MockAxios>
             </Axios>
+        <Axios props={{
+            baseURL: 'http://localhost:5000/',
+            withCredentials: true
+        }}>
+            <MockAxios
+                mock={mocker => {
+                    mocker.onPost('/getCookies').reply(function(config) {
+                        console.log('get cookies 5000', config);
+
+                        return [200, {
+                            users: [
+                                { id: 1, name: 'John Smith' }
+                            ]
+                        }];
+                    });
+                }}
+            >
+                <InnerApp />
+            </MockAxios>
+        </Axios>
     </AxiosHeaders>
 }
 
