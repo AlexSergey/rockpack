@@ -1,0 +1,22 @@
+{
+  "name": "isomorphic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "2.9.7",
+    "body-parser": "1.19.0",
+    "cors": "2.8.5",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "graphql": "14.5.8",
+    "graphql-tools": "4.0.5",
+    "graphql-tag": "2.10.1"
+  }
+}
