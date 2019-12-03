@@ -510,7 +510,7 @@ function getModules(conf = {}, mode, root) {
             ]
         },
 
-        images: conf.base64 ? {
+        images: conf.inline ? {
             test: /\.(jpe?g|png|gif)$/i,
             use: [
                 {
@@ -533,7 +533,7 @@ function getModules(conf = {}, mode, root) {
             ]
         },
 
-        fonts: conf.base64 ? {
+        fonts: conf.inline ? {
             test: /\.(eot|ttf|woff|woff2)$/,
             use: [
                 {
@@ -576,11 +576,24 @@ function getModules(conf = {}, mode, root) {
             ]
         },
 
-        svg: {
+        svg: conf.inline ? {
             test: /\.svg$/,
             use: [
                 {
                     loader: require.resolve('svg-inline-loader')
+                },
+                {
+                    loader: require.resolve('svgo-loader'),
+                    options: {
+                        plugins: [{ removeTitle: true }, { convertColors: { shorthex: false } }, { convertPathData: false }]
+                    }
+                }
+            ]
+        } : {
+            test: /\.svg$/,
+            use: [
+                {
+                    loader: require.resolve('file-loader')
                 },
                 {
                     loader: require.resolve('svgo-loader'),

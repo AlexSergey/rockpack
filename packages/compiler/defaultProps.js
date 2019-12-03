@@ -5,7 +5,7 @@ const defaultProps = {
     debug: false,
     stats: false,
     write: false,
-    base64: true,
+    inline: true,
     html: true,
     analyzerPort: false, //port number, for example: 8888
     server: {

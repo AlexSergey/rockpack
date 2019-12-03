@@ -169,7 +169,7 @@ isomorphicCompiler([
     debug: false, // Activate debug mode in all plugins or loaders
     stats: false, // Generate stats webpack file
     write: false, // Write files to HDD after changes (watch mode)
-    base64: true, // Convert images to base64 in your CSS
+    inline: true, // Convert images, fonts, svg to base64
     analyzerPort: false, //port number, for example: 8888
     server: {
         browserSyncPort: false, // run with browser-sync
@@ -189,7 +189,7 @@ isomorphicCompiler([
     debug: false, // Activate debug mode in all plugins or loaders
     stats: false, // Generate stats webpack file
     write: false, // Write files to HDD after changes (watch mode)
-    base64: true, // Convert images to base64 in your CSS
+    inline: true, // Convert images, fonts, svg to base64
     analyzerPort: false, //port number, for example: 8888
     vendor: ['react', 'react-dom'],
     server: {
