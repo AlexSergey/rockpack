@@ -41,7 +41,9 @@ function babelOpts({
                 useBuiltIns: 'usage'
             } : {})]
         ],
-        plugins: [],
+        plugins: [
+            require.resolve('@babel/plugin-proposal-optional-chaining')
+        ],
         env: {
             production: {}
         }

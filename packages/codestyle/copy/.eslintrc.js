@@ -82,6 +82,8 @@ module.exports = extend(
             '@typescript-eslint/no-use-before-define': 1,
             '@typescript-eslint/no-var-requires': 1,
             '@typescript-eslint/type-annotation-spacing': 1,
+            'react-hooks/rules-of-hooks': 2,
+            'react-hooks/exhaustive-deps': 1
         },
     },
     custom
