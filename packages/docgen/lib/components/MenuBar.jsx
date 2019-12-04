@@ -23,7 +23,13 @@ const MenuBar = props => {
             keepMounted: true
           }}
         >
-          <div className={classes.sidebarWrapper}>
+          <div className={classes.sidebarWrapper} style={{
+            background: '#bababa',
+            padding: '20px',
+            lineHeight: '2.5',
+            width: '220px',
+            height: 'calc(100vh - 40px)'
+          }}>
             {props.children}
           </div>
         </Drawer>
@@ -36,7 +42,13 @@ const MenuBar = props => {
             paper: classes.drawerPaper
           }}
         >
-          <div className={classes.sidebarWrapper}>
+          <div className={classes.sidebarWrapper} style={{
+            background: '#bababa',
+            padding: '20px',
+            lineHeight: '2.5',
+            width: '220px',
+            height: 'calc(100vh - 40px)'
+          }}>
             {props.children}
           </div>
         </Drawer>

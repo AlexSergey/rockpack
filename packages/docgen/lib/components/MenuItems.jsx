@@ -18,6 +18,18 @@ const useStylesTreeView = makeStyles({
 const MenuItems = withRouter(props => {
   const classesTreeView = useStylesTreeView();
 
+  const goTo = (url, name) => {
+    props.history.push(url);
+    setTimeout(() => {
+      if (global.document && name) {
+        global.document.location.hash = name;
+      }
+    });
+    if (typeof props.handleDrawerToggle === 'function') {
+      props.handleDrawerToggle();
+    }
+  };
+
   return (
     <TreeView
       className={classesTreeView.root}
@@ -36,22 +48,14 @@ const MenuItems = withRouter(props => {
               {route.content.component.map((c, index) => {
                 let nodeId = c.nodeId;
                 return <TreeItem nodeId={nodeId} key={index} label={<span onClick={() => {
-                  props.history.push(route.url);
-                  setTimeout(() => {
-                    if (global.document) {
-                      global.document.location.hash = c.name;
-                    }
-                  });
-                  if (typeof props.handleDrawerToggle === 'function') {
-                    props.handleDrawerToggle();
-                  }
+                  goTo(route.url, c.name);
                 }}>
                   {c.title}
                 </span>} />;
               })}
             </TreeItem>
           }
-          return <TreeItem nodeId={nodeId} key={index} label={<Link to={route.url}>{route.title}</Link>} />
+          return <TreeItem nodeId={nodeId} key={index} onClick={() => goTo(route.url)} label={<Link to={route.url}>{route.title}</Link>} />
         }) : <TreeItem nodeId={nodeId} key={index} label={section.title} />;
 
         return section.title ? <TreeItem nodeId={nodeId} key={index} label={section.title}>

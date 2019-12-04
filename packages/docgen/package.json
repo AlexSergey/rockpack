@@ -21,7 +21,11 @@
     "react-dom": "16.9.0",
     "react-router-dom": "5.0.1",
     "scroll-to-element": "2.0.3",
-    "react-flag-icon-css": "1.0.25"
+    "react-flag-icon-css": "1.0.25",
+    "unified-ui": "0.0.3",
+    "@mdx-js/react": "1.5.1",
+    "prism-react-renderer": "1.0.2",
+    "react-live": "2.2.2"
   },
   "devDependencies": {
     "rocket-starter": "1.15.1"

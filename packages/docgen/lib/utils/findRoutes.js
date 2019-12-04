@@ -6,9 +6,9 @@ const findRoutes = (current, sections) => {
     section.routes.forEach((route, index) => {
       if (route.url === current) {
         let prevIndex = index - 1;
-        let prevSectionIndex = index - 1;
+        let prevSectionIndex = sectionIndex - 1;
         let nextIndex = index + 1;
-        let nextSectionIndex = index + 1;
+        let nextSectionIndex = sectionIndex + 1;
         // Prev
         if (section.routes[prevIndex]) {
           prev = {
@@ -21,8 +21,8 @@ const findRoutes = (current, sections) => {
             sections[prevSectionIndex].routes) {
             if (Array.isArray(sections[prevSectionIndex].routes)) {
               prev = {
-                url: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length].url,
-                title: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length].title
+                url: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length - 1].url,
+                title: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length - 1].title
               };
             }
             else if (typeof sections[prevSectionIndex].routes.url === 'string') {
@@ -33,6 +33,7 @@ const findRoutes = (current, sections) => {
             }
           }
         }
+
         // NEXT
         if (section.routes[nextIndex]) {
           next = {

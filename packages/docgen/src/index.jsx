@@ -1,6 +1,7 @@
 import React from 'react';
 import createDocumentation from '../lib';
 import image from './T1H4XT8DV-UQ1GA2RSQ-bac8dd448345-512.jpeg';
+import ComponentReadme from './readme.mdx';
 
 const routes = [
   {
@@ -24,196 +25,6 @@ const routes = [
           title: 'About 3',
           name: 'about3',
           component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
-        },
-        {
-          title: 'About 3',
-          name: 'about3',
-          component: <div>About 3</div>
         }
       ]
     }
@@ -225,9 +36,7 @@ const routes = [
       {
         title: 'Button component',
         name: 'button',
-        component: () => {
-          return <div>I am button</div>
-        }
+        component: ComponentReadme
       }
     ]
   }

@@ -13,6 +13,13 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+.MuiTypography-root {
+  line-height: 2.5 !important;
+}
+.MuiTreeItem-root a {
+  display: block;
+  height: 100%;
+}
 .ct-grid {
   stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 1px;
@@ -133,13 +140,13 @@ h6 {
 }
 
 a {
-  color: #9c27b0;
+  color: #b05f0d;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #89229b;
+  color: #80420a;
   text-decoration: none;
 }
 
