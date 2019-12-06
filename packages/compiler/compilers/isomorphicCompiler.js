@@ -3,8 +3,10 @@ const multiCompiler = require('./multiCompiler');
 const { isDefined, isUndefined, isArray } = require('valid-types');
 const errors = require('../errors/isomorphicCompiler');
 const makeMode = require('../modules/makeMode');
+const errorHandler = require('../errorHandler');
 
 async function isomorphicCompiler(props = []) {
+    errorHandler();
     commonMultiValidators(props);
     let mode = makeMode();
 

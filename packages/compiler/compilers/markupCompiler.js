@@ -3,6 +3,7 @@ const { isDefined, isUndefined, isArray } = require('valid-types');
 const _compile = require('../core/_compile');
 const glob = require('glob');
 const errors = require('../errors/markupCompiler');
+const errorHandler = require('../errorHandler');
 
 function _getOptions(pth, options) {
     return new Promise((resolve, reject) => {
@@ -29,6 +30,7 @@ function _getOptions(pth, options) {
 }
 
 async function markupCompiler(pth, options = {}, cb, configOnly = false) {
+    errorHandler();
     if (!pth) {
         console.error(errors.PATH_CANT_BE_EMPTY);
         return process.exit(1);

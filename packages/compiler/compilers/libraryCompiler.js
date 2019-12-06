@@ -4,8 +4,10 @@ const { isString } = require('valid-types');
 const makeMode = require('../modules/makeMode');
 const deepExtend = require('deep-extend');
 const errors = require('../errors/libraryCompiler');
+const errorHandler = require('../errorHandler');
 
 async function libraryCompiler(libraryName, options = {}, cb, configOnly = false) {
+    errorHandler();
     if (!isString(libraryName)) {
         console.error(errors.MUST_BE_STRING);
         return process.exit(1);

@@ -6,9 +6,10 @@ const run = require('../modules/run');
 const getRandom = require('../utils/getRandom');
 const makeMode = require('../modules/makeMode');
 const commonMultiValidator = require('../utils/commonMultiValidators');
-
+const errorHandler = require('../errorHandler');
 
 async function multiCompiler(props = []) {
+    errorHandler();
     let mode = makeMode();
     commonMultiValidator(props);
 

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import Examples from './Examples';
 import './assets/example.css';

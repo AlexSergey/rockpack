@@ -9,6 +9,7 @@
     "async": "2.6.2",
     "@babel/core": "7.6.3",
     "@babel/parser": "7.4.3",
+    "@babel/generator": "7.7.4",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/plugin-proposal-decorators": "7.6.0",
     "@babel/plugin-proposal-object-rest-spread": "7.6.2",

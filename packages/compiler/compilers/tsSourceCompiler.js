@@ -9,8 +9,10 @@ const prepareToCopyFiles = require('../utils/prepareToCopyFiles');
 const { copySync, readFileSync } = require('fs-extra');
 const { isArray } = require('valid-types');
 const defaultProps = require('../defaultProps');
+const errorHandler = require('../errorHandler');
 
 async function tsSourceCompiler(options, cb, configOnly = false) {
+    errorHandler();
     let compilerOptions;
     const root = path.dirname(require.main.filename);
     const mode = makeMode();

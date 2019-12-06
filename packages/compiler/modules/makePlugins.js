@@ -1,7 +1,7 @@
 const { existsSync } = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Collection = require('../utils/Collection');
-const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
+const { isString, isBoolean, isArray, isObject, isNumber, isFunction, isUndefined } = require('valid-types');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const makeBanner = require('./makeBanner');
@@ -28,6 +28,7 @@ const fpPromise = require('../utils/findFreePort');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
 
 function getTitle(packageJson) {
     return `${packageJson.name.split('_').join(' ')}`;
@@ -35,6 +36,13 @@ function getTitle(packageJson) {
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     let plugins = {};
+
+    if (conf.makePO) {
+        plugins.LocalizationWebpackPlugin = new MakePoPlugin(conf.localization);
+
+        return plugins;
+    }
+
     /**
      * COMMON
      * */

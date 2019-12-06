@@ -2,8 +2,10 @@ const defaultOptions = require('./defaultOptions');
 const { prepareOptions } = require('../utils');
 const make = require('./make');
 const colors = require('colors/safe');
+const errorHandler = require('../../errorHandler');
 
 module.exports = async function(opts = {}) {
+    errorHandler();
     try {
         let options = await prepareOptions(defaultOptions, opts);
         await make(options);

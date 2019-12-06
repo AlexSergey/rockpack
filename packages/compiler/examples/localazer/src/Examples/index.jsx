@@ -61,7 +61,7 @@ export default class LocalizationExamples extends Component {
                 }} className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/react-custom-scroll" role="button">Change localization</a></p>
                 <h2>Simple text example:</h2>
                 <div>
-                    <Localization>{l('Hello')}</Localization>
+                    <Localization>{l(`Hello`)}</Localization>
                 </div>
 
                 <br/>
