@@ -25,8 +25,6 @@ async function useUssr(ctx, options = {}) {
     //@ts-ignore
     const webExtractor = options.webExtractor;
     //@ts-ignore
-    const createStore = options.createStore;
-    //@ts-ignore
     const liveReloadPort = options.liveReloadPort;
 
     const stream = new Readable();
@@ -34,35 +32,46 @@ async function useUssr(ctx, options = {}) {
 
     let { jsx, store, css } = createJSX({
         ctx,
-        context: {},
         metaTagsInstance,
         webExtractor,
-        createStore,
+        reduxState: {},
         render
     });
-
+    if (!store) {
+        console.warn('Store is not defined. Please use "ussrStore" method in your renderApp');
+    }
     renderToString(jsx);
 
     const meta = metaTagsInstance.renderToString();
 
-    if (typeof store.effects === 'function') {
-        const effectsInProgress = store.effects();
+    if (store) {
+        if (typeof store.effects === 'function') {
+            const effectsInProgress = store.effects();
 
-        await Promise.all(effectsInProgress);
+            if (effectsInProgress) {
+                const isPromises = Array.isArray(effectsInProgress) ?
+                    (effectsInProgress.map(p => typeof p.then === 'function').length === effectsInProgress.length) :
+                    typeof effectsInProgress.then === 'function';
+
+                if (isPromises) {
+                    Array.isArray(effectsInProgress) ?
+                        await Promise.all(effectsInProgress) :
+                        await effectsInProgress;
+                }
+            }
+        }
     }
 
-    const reduxState = store.getState();
-
+    const reduxState = store && typeof store.getState === 'function' ? store.getState() : {};
     stream.push(renderHeader(meta));
     ctx.status = 200;
     ctx.res.write(renderHeader({ meta, isProduction }));
 
     jsx = createJSX({
         ctx,
-        context: {},
         metaTagsInstance,
         webExtractor,
-        createStore,
+        reduxState,
         render
     }).jsx;
 

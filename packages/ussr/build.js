@@ -5,7 +5,8 @@ const externals = [
     'react-dom/server',
     'isomorphic-style-loader',
     'isomorphic-style-loader/StyleContext',
-    'isomorphic-style-loader/withStyles'
+    'isomorphic-style-loader/withStyles',
+    'redux-saga'
 ];
 
 multiCompiler([
