@@ -24,8 +24,7 @@
     "history": "4.10.1",
     "isomorphic-fetch": "2.2.1",
     "valid-types": "1.0.2",
-    "@rock/ussr": "0.9.0",
-    "@rock/less": "0.9.0"
+    "@rock/ussr": "0.9.0"
   },
   "devDependencies": {
     "prop-types": "15.7.2",

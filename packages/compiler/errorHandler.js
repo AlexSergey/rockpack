@@ -12,8 +12,4 @@ module.exports = function() {
   process.on('warning', error => {
     console.error(error, 'Warning detected');
   });
-
-  process.on('exit', code => {
-    console.info(`Stopped with code: ${code}`);
-  });
 };
