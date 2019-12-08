@@ -13,34 +13,34 @@ import styles from "../assets/jss/material-dashboard-react/layouts/adminStyle.js
 const useStyles = makeStyles(styles);
 
 const Layout = (props) => {
-  const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    const classes = useStyles();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (document.location.hash.indexOf('#') === 0) {
-        scrollToElement(document.location.hash);
-      }
-    });
-  }, []);
-  return (
-    <div className={classes.wrapper}>
-      <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
-        <MenuItems {...props} handleDrawerToggle={handleDrawerToggle} />
-      </MenuBar>
-      <div className={classes.mainPanel}>
-        <Header {...props} color="black" handleDrawerToggle={handleDrawerToggle} />
-        <Content>
-          <Route {...props}>
-            {(content, sections) => Page(content, sections)}
-          </Route>
-        </Content>
-      </div>
-    </div>
-  )
+    useEffect(() => {
+        setTimeout(() => {
+            if (document.location.hash.indexOf('#') === 0) {
+                scrollToElement(document.location.hash);
+            }
+        }, 300);
+    }, []);
+    return (
+        <div className={classes.wrapper}>
+            <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
+                <MenuItems {...props} handleDrawerToggle={handleDrawerToggle} />
+            </MenuBar>
+            <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
+                <Header {...props} color="black" handleDrawerToggle={handleDrawerToggle} />
+                <Content>
+                    <Route {...props}>
+                        {(content, sections) => Page(content, sections)}
+                    </Route>
+                </Content>
+            </div>
+        </div>
+    )
 };
 
 export default Layout;

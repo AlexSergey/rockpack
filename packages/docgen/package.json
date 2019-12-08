@@ -26,8 +26,5 @@
     "@mdx-js/react": "1.5.1",
     "prism-react-renderer": "1.0.2",
     "react-live": "2.2.2"
-  },
-  "devDependencies": {
-    "rocket-starter": "1.15.1"
   }
 }

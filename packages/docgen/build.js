@@ -1,7 +1,9 @@
-const { frontendCompiler } = require('rocket-starter');
+const { frontendCompiler } = require('../compiler');
 const { resolve } = require('path');
 
-frontendCompiler({}, config => {
+frontendCompiler({
+    inline: false
+}, config => {
   Object.assign(config.resolve, {
     alias: {
       assets: resolve(__dirname, './lib/assets')

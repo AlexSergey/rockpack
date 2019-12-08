@@ -20,7 +20,7 @@ function renderInside(content, index) {
     if (typeof index === 'number') {
         opt.key = index;
     }
-    if (typeof component.name === 'string') {
+    if (typeof name === 'string') {
         opt.id = name;
     }
     let block = (
@@ -34,15 +34,13 @@ function renderInside(content, index) {
                     component() :
                     component
     );
-    return component.name ? <div {...Object.assign({}, opt)}>
-        <>
+
+    return (
+        <div {...Object.assign({}, opt)}>
             {title && <h2>{title}</h2>}
             {block}
-        </>
-    </div> : <>
-        {title && <h2>{title}</h2>}
-        {block}
-    </>;
+        </div>
+    );
 }
 
 const InnerPage = withRouter(props => {
@@ -53,8 +51,16 @@ const InnerPage = withRouter(props => {
         <div>
             <div>
                 {props.content && Array.isArray(props.content) ?
-                    props.content.map((c, index) => renderInside(c, index)) :
-                    renderInside(props.content)
+                    props.content.map((c, index) => {
+                        if (Array.isArray(c.component)) {
+                            return c.component.map((c, index) => renderInside(c, index))
+                        }
+                        return renderInside(c, index);
+                    }) :
+                    (Array.isArray(props.content.component) ?
+                        props.content.component.map((c, index) => renderInside(c, index)) :
+                        renderInside(props.content)
+                    )
                 }
             </div>
             <Toolbar className={classesPage.container} style={{justifyContent: 'space-between'}}>
@@ -80,7 +86,6 @@ const InnerPage = withRouter(props => {
 });
 
 const Page = (content, sections) => {
-    console.log(content, sections);
     return <InnerPage content={content} sections={sections} />
 };
 
