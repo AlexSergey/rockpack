@@ -4,7 +4,7 @@ import { fetchDog } from './action';
 import { onLoad } from '@rock/ussr/client';
 
 const Dogs = props => {
-    onLoad(() => props.dispatch(fetchDog('test')));
+    onLoad(() => props.dispatch(fetchDog()));
 
     return (
         <div>
@@ -17,4 +17,4 @@ const Dogs = props => {
     )
 };
 
-export default connect(state => state.dogsReducer)(Dogs);
+export default connect(state => state.dogReducer)(Dogs);

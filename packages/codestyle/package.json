@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "install" : "node scripts/install.js"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

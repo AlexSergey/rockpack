@@ -1,5 +1,5 @@
 import React from 'react';
-import Dogs from '../../containers/Dogs';
+import Dogs from '../../containers/Dog';
 import { MetaTags, withStyles } from '@rock/ussr/client';
 import style from './style.modules.scss';
 

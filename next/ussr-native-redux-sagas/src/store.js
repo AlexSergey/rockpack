@@ -1,13 +1,13 @@
 import {combineReducers, createStore, compose, applyMiddleware, Store} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import dogsReducer from './containers/Dogs/reducer';
+import dogReducer from './containers/Dog/reducer';
 import { ussrSagaRun } from '@rock/ussr/client';
-import watchFetchDog from './containers/Dogs/saga'
+import watchFetchDog from './containers/Dog/saga'
 
 export default ({ reduxState = {}, rest } = {}) => {
     const sagaMiddleware = createSagaMiddleware()
     let store = createStore(combineReducers({
-        dogsReducer
+        dogReducer
     }), reduxState, compose(
         applyMiddleware(
             sagaMiddleware,
