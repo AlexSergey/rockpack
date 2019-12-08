@@ -4,7 +4,7 @@ import dogsReducer from './containers/Dogs/reducer';
 import { ussrSagaRun } from '@rock/ussr/client';
 import watchFetchDog from './containers/Dogs/saga'
 
-export default ({ history, reduxState = {} } = {}) => {
+export default ({ reduxState = {}, rest } = {}) => {
     const sagaMiddleware = createSagaMiddleware()
     let store = createStore(combineReducers({
         dogsReducer
@@ -15,7 +15,7 @@ export default ({ history, reduxState = {} } = {}) => {
     ));
     ussrSagaRun([{
         saga: watchFetchDog,
-        args: 'something'
+        args: rest
     }], sagaMiddleware, store);
 
     return store;

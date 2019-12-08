@@ -1,10 +1,14 @@
 import React from 'react';
 import createUssr from '@rock/ussr';
 import { readFileSync } from 'fs';
-import renderApp from './renderApp';
+import App from './App';
 import logger from 'koa-logger';
 import path from 'path';
 import sourceMapSupport from 'source-map-support';
+import { StaticRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import createStore from './store';
+import axios from 'axios';
 
 const port = 5000;
 const currentFolder = path.basename(process.cwd());
@@ -18,7 +22,41 @@ const stats = JSON.parse(
 
 const app = createUssr({
     stats,
-    render: renderApp,
+    render: ({
+        request,
+        reduxState
+    }, installStore) => {
+        const routerParams = {
+            url: request.url,
+            context: {}
+        };
+        const instance = axios.create({
+            url: 'http://localhost:6000',
+            timeout: 1000
+        });
+
+        instance.interceptors.request.use(
+            request => {
+                request.headers = Object.assign({}, request.headers);
+                return request;
+            }
+        );
+
+        let store = createStore({
+            reduxState,
+            rest: instance
+        });
+
+        installStore(store);
+
+        return (
+            <Provider store={store}>
+                <StaticRouter {...routerParams}>
+                    <App />
+                </StaticRouter>
+            </Provider>
+        );
+    },
     publicFolder: path.resolve( __dirname, '../public' ),
     isProduction: process.env.NODE_ENV === 'production',
     liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false
@@ -53,6 +91,7 @@ server.on('error', handleError);
 ['SIGTERM', 'SIGINT', 'SIGUSR2'].map(signal => {
     process.once(signal, () => terminate(signal));
 });
+
 if (process.env.NODE_ENV !== 'production') {
     sourceMapSupport.install({
         environment: 'node'

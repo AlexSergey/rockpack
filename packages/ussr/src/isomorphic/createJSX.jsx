@@ -14,18 +14,19 @@ export default function createJSX({
     //@ts-ignore
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
     let store;
-    const ussrStore = s => {
+    const installStore = s => {
         store = s;
     };
-    const jsx = webExtractor.collectChunks(<StyleContext.Provider value={{ insertCss }}>
-        <MetaTagsContext extract={metaTagsInstance.extract}>
-            {render({
-                url: ctx.request.url,
-                ussrStore,
-                reduxState
-            })}
-        </MetaTagsContext>
-    </StyleContext.Provider>);
+    const jsx = webExtractor.collectChunks(
+            <StyleContext.Provider value={{ insertCss }}>
+                <MetaTagsContext extract={metaTagsInstance.extract}>
+                    {render({
+                        request: ctx.request,
+                        reduxState
+                    }, installStore)}
+                </MetaTagsContext>
+            </StyleContext.Provider>
+    );
 
     return { jsx, store, css };
 }

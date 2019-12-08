@@ -9,7 +9,8 @@ const ussrSagaRun = (sagas, sagaMiddleware, store) => {
 
             if (s.saga && s.args) {
                 let args = Array.isArray(s.args) ? s.args : [s.args];
-                promise = sagaMiddleware.run(s.saga, args).toPromise();
+                args.unshift(s.saga);
+                promise = sagaMiddleware.run.apply(s.saga, args).toPromise();
             }
             else {
                 promise = sagaMiddleware.run(s).toPromise();
