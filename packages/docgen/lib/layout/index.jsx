@@ -28,17 +28,17 @@ const Layout = (props) => {
     }, []);
     return (
         <div className={classes.wrapper}>
-            <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
-                <MenuItems {...props} handleDrawerToggle={handleDrawerToggle} />
+           <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
+                {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
             </MenuBar>
-            <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
-                <Header {...props} color="black" handleDrawerToggle={handleDrawerToggle} />
+            {/* <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
+                <Header {...props} handleDrawerToggle={handleDrawerToggle} />
                 <Content>
                     <Route {...props}>
-                        {(content, sections) => Page(content, sections)}
+                        {(content, sections) => Page(content, sections, props)}
                     </Route>
                 </Content>
-            </div>
+            </div>*/}
         </div>
     )
 };

@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import classNames from 'classnames';
 import FlagIcon from '../utils/FlagIcon';
-import Avatar from '@material-ui/core/Avatar';
 
 const useStylesHeader = makeStyles(stylesHeader);
 
@@ -19,13 +18,13 @@ const Header = (props) => {
   const appBarClasses = classNames({
     [" " + classesHeader[props.color]]: props.color
   });
-  let defaultLang = localStorage.getItem('lang') || 'en';
+  let defaultLang = localStorage.getItem('lang') || 'ru';
   return (
     <AppBar className={classesHeader.appBar + appBarClasses} style={{height: '75px'}}>
-      <Toolbar className={classesHeader.container}>
-        {props.logo && <Hidden smDown implementation="css">
-          <div style={{padding: '0 20px 0'}}>
-            <Avatar alt={typeof props.logoAlt || ''} src={props.logo} />
+      <Toolbar className={classesHeader.container} style={{height: '100%'}}>
+        {props.logo && <Hidden smDown implementation="css" className="wrapper-logo">
+          <div style={{height: '100%', padding: '0 20px 0'}}>
+              {typeof props.logo === 'string' && <img src={props.logo} alt={typeof props.logoAlt || ''} style={{height: '100%', width: 'auto', maxWidth: '100px'}}/>}
           </div>
         </Hidden>}
         <div className={classesHeader.flex}>
@@ -39,7 +38,7 @@ const Header = (props) => {
             onChange={props.changeLocal}
           >
             {Object.keys(props.localization).map(code => {
-              return <MenuItem value={'en'} key={code}>
+              return <MenuItem value={code} key={code}>
                 <FlagIcon code={code} />
               </MenuItem>;
             })}

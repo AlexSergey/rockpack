@@ -24,13 +24,11 @@ const MenuBar = props => {
           }}
         >
           <div className={classes.sidebarWrapper} style={{
-            background: '#bababa',
-            padding: '20px',
-            lineHeight: '2.5',
-            width: '220px',
-            height: 'calc(100vh - 40px)'
+            background: 'linear-gradient(180deg, #5c6bc0 0%, #3949ab 100%)',
+            color: '#fff',
+              padding: '20px'
           }}>
-            {props.children}
+            {props.children(true)}
           </div>
         </Drawer>
       </Hidden>
@@ -43,13 +41,11 @@ const MenuBar = props => {
           }}
         >
           <div className={classes.sidebarWrapper} style={{
-            background: '#bababa',
-            padding: '20px',
-            lineHeight: '2.5',
-            width: '220px',
-            height: 'calc(100vh - 40px)'
+              background: 'linear-gradient(180deg, #5c6bc0 0%, #3949ab 100%)',
+              color: '#fff',
+              padding: '20px'
           }}>
-            {props.children}
+            {props.children(false)}
           </div>
         </Drawer>
       </Hidden>

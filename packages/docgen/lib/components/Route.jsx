@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 const _Route = props => {
-  console.log(props.sections);
   return (
     <Switch>
       {props.sections.reduce((prev, curr) => {

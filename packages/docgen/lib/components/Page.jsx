@@ -1,6 +1,7 @@
 import React, { isValidElement, createElement } from 'react';
 import findRoutes from '../utils/findRoutes';
 import { Link } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 import { withRouter } from 'react-router-dom';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import { makeStyles } from '@material-ui/core';
@@ -48,7 +49,7 @@ const InnerPage = withRouter(props => {
     let { prev, next } = findRoutes(props.match.path, props.sections);
 
     return (
-        <div>
+        <Paper style={{padding: '20px'}}>
             <div>
                 {props.content && Array.isArray(props.content) ?
                     props.content.map((c, index) => {
@@ -63,16 +64,22 @@ const InnerPage = withRouter(props => {
                     )
                 }
             </div>
-            <Toolbar className={classesPage.container} style={{justifyContent: 'space-between'}}>
+            <Toolbar className={classesPage.container} style={{justifyContent: 'space-between', marginTop: '20px'}}>
                 {!prev && <span />}
-                {prev && <Link to={prev.url}>
+                {prev && <Link to={prev.url} onClick={() => {
+                    console.log(prev);
+                    props.toggleOpenId(null, prev.nodeId);
+                }}>
                     <Tooltip placement="top-start" title={prev.title ? prev.title : 'Previous page'}>
                         <Button variant="outlined" color="primary">
                             <ArrowBackIosIcon style={{margin: '0 -4px 0 4px'}} />
                         </Button>
                     </Tooltip>
                 </Link>}
-                {next && <Link to={next.url}>
+                {next && <Link to={next.url} onClick={() => {
+                    console.log(next);
+                    props.toggleOpenId(null, next.nodeId);
+                }}>
                     <Tooltip placement="top-end" title={next.title ? next.title : 'Next page'}>
                         <Button variant="outlined" color="primary">
                             <ArrowForwardIosIcon />
@@ -81,12 +88,12 @@ const InnerPage = withRouter(props => {
                 </Link>}
                 {!next && <span />}
             </Toolbar>
-        </div>
+        </Paper>
     );
 });
 
-const Page = (content, sections) => {
-    return <InnerPage content={content} sections={sections} />
+const Page = (content, sections, props) => {
+    return <InnerPage content={content} sections={sections} toggleOpenId={props.toggleOpenId} />
 };
 
 export default Page;

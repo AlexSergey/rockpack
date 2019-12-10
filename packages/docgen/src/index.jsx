@@ -41,8 +41,19 @@ const routes = [
     ]
   }
 ];
-
 createDocumentation({
+    sections: [{
+        name: 'test',
+        children: {
+            name: 'te2st 2',
+            children: [
+                {name: 'test3'},
+                {name: 'test4'}
+            ]
+        }
+    }]
+});
+/*createDocumentation({
   title: 'Super doca',
   sections: [
     {
@@ -68,3 +79,4 @@ createDocumentation({
   logo: image,
   logoAlt: "Sergey"
 });
+*/

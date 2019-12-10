@@ -13,11 +13,44 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-.MuiTypography-root {
-  line-height: 2.5 !important;
+* {
+  box-sizing: border-box;
 }
-.MuiTreeItem-root a {
-  display: block;
+.MuiTreeView-root {
+  padding: 20px;
+  line-height: 2.5;
+}
+.MuiTreeItem-content {
+  cursor: default !important;
+  margin: 0 0 20px;
+}
+.MuiTreeItem-root:focus > .MuiTreeItem-content {
+  background: transparent !important;
+}
+.MuiTreeItem-content:hover {
+  background: transparent !important;
+  color: #eee;
+  /*background: rgba(0, 0, 0, 0.08);*/
+}
+.selected {
+  text-decoration: underline;
+}
+.selected:hover {
+  text-decoration: underline;
+}
+.MuiTypography-root {
+  cursor: pointer;
+}
+.MuiTreeItem-content span,
+.MuiTreeItem-content a {
+  cursor: pointer !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  display: inline-block;
+}
+.wrapper-logo {
   height: 100%;
 }
 .ct-grid {
