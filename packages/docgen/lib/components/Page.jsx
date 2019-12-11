@@ -14,7 +14,21 @@ import MDXLayout from './MDXLayout';
 const useStylesPage = makeStyles(stylesHeader);
 
 function renderInside(content, index) {
-    let component = content.component;
+    if (!content) {
+        return null;
+    }
+    let component = null;
+    if (isValidElement(content)) {
+        component = content;
+    } else if (typeof component === 'function') {
+        component = content;
+    }
+    else if (content.isMDXComponent) {
+        component = content;
+    }
+    else if (content.component) {
+        component = content.component;
+    }
     let name = content.name;
     let title = content.title;
     let opt = {};
@@ -25,7 +39,7 @@ function renderInside(content, index) {
         opt.id = name;
     }
     let block = (
-        component.isMDXComponent ?
+            component && component.isMDXComponent ?
             <MDXLayout key={index}>
                 {createElement(component)}
             </MDXLayout> :
@@ -46,29 +60,19 @@ function renderInside(content, index) {
 
 const InnerPage = withRouter(props => {
     const classesPage = useStylesPage();
-    let { prev, next } = findRoutes(props.match.path, props.sections);
+    const { prev, next } = findRoutes(props.match.path, props.sections);
 
     return (
         <Paper style={{padding: '20px'}}>
             <div>
-                {props.content && Array.isArray(props.content) ?
-                    props.content.map((c, index) => {
-                        if (Array.isArray(c.component)) {
-                            return c.component.map((c, index) => renderInside(c, index))
-                        }
-                        return renderInside(c, index);
-                    }) :
-                    (Array.isArray(props.content.component) ?
-                        props.content.component.map((c, index) => renderInside(c, index)) :
-                        renderInside(props.content)
-                    )
-                }
+                {props.content && Array.isArray(props.content) ? props.content.map((c, index) => {
+                    return renderInside(c, index);
+                }) : renderInside(props.content)}
             </div>
             <Toolbar className={classesPage.container} style={{justifyContent: 'space-between', marginTop: '20px'}}>
                 {!prev && <span />}
                 {prev && <Link to={prev.url} onClick={() => {
-                    console.log(prev);
-                    props.toggleOpenId(null, prev.nodeId);
+                    props.toggleOpenId(prev);
                 }}>
                     <Tooltip placement="top-start" title={prev.title ? prev.title : 'Previous page'}>
                         <Button variant="outlined" color="primary">
@@ -77,8 +81,7 @@ const InnerPage = withRouter(props => {
                     </Tooltip>
                 </Link>}
                 {next && <Link to={next.url} onClick={() => {
-                    console.log(next);
-                    props.toggleOpenId(null, next.nodeId);
+                    props.toggleOpenId(next);
                 }}>
                     <Tooltip placement="top-end" title={next.title ? next.title : 'Next page'}>
                         <Button variant="outlined" color="primary">
@@ -89,11 +92,11 @@ const InnerPage = withRouter(props => {
                 {!next && <span />}
             </Toolbar>
         </Paper>
-    );
+    )
 });
 
-const Page = (content, sections, props) => {
-    return <InnerPage content={content} sections={sections} toggleOpenId={props.toggleOpenId} />
+const Page = (content, props) => {
+    return <InnerPage content={content} {...props} />
 };
 
 export default Page;

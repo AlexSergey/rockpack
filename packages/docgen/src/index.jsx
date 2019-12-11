@@ -43,12 +43,18 @@ const routes = [
 ];
 createDocumentation({
     sections: [{
+        title: 'Test 1',
         name: 'test',
+        url: 'test',
+        component: <div>Test 1</div>,
         children: {
+            title: 'Test 2',
             name: 'te2st 2',
+            url: 'test2',
+            component: ComponentReadme,
             children: [
-                {name: 'test3'},
-                {name: 'test4'}
+                {name: 'test3', title: 'Test 3'},
+                {name: 'test4', title: 'Test 4'}
             ]
         }
     }]

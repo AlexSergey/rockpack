@@ -26,19 +26,22 @@ const Layout = (props) => {
             }
         }, 300);
     }, []);
+
     return (
         <div className={classes.wrapper}>
            <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
                 {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
             </MenuBar>
-            {/* <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
+            <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
                 <Header {...props} handleDrawerToggle={handleDrawerToggle} />
                 <Content>
                     <Route {...props}>
-                        {(content, sections) => Page(content, sections, props)}
+                        {routes => {
+                            return Page(routes, props);
+                        }}
                     </Route>
                 </Content>
-            </div>*/}
+            </div>
         </div>
     )
 };

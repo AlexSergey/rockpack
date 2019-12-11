@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import findPathToActiveRoute from './utils/findPathToActiveRoute';
 import { render } from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router } from "react-router-dom";
@@ -6,42 +7,73 @@ import 'normalize.css';
 import Layout from './layout';
 import "./assets/css/material-dashboard-react.css?v=1.8.0";
 import openIdGenerate from './utils/openIdGenerate';
-import createSections from './utils/createSections';
+import mergeUrls from './utils/mergeUrls';
 
 const hist = createBrowserHistory();
 
-const isOpened = () => typeof localStorage.getItem('opened') === 'string' && localStorage.getItem('opened') !== 'undefined' ;
-
 /**
- * - Localization
- * - Language icons
- * - Prev Next buttons
+ * - Localization, localization in the route
+ * - validation, errors
+ * - styles
+ * - customization
  * */
 const Localization = ({ children }) => children;
 const Wrapper = ({ children }) => children;
 
+const OpenIds = ({ children, openIds }) => {
+    let [openIdsState, setOpenIds] = useState(openIds);
+
+    return children(openIdsState, setOpenIds);
+};
+
 const createDocumentation = (props) => {
-    //let openIds = openIdGenerate(props);
-    //const sections = createSections(props);
+    mergeUrls(props.sections);
+    let allOpened = openIdGenerate(props.sections, 0, []);
     const _Wrapper = typeof props.localization === 'object' ? Localization : Wrapper;
 
-    /*openIds = isOpened() ?
-            JSON.parse(localStorage.getItem('opened')) :
-            openIds;*/
+    let openIds = [];
+    openIds = allOpened;
+    let found = false;
+
+    props.sections.forEach(section => {
+        let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
+
+        if (pathToRoute.length > 0) {
+            if (!found) {
+                openIds = pathToRoute;
+                found = true;
+            }
+        }
+    });
 
     render((
             <_Wrapper>
                 <Router history={hist}>
-                    <Layout {...Object.assign({}, props, {
-                        //sections,
-                        //openIds,
-                        changeLocal: (e) => {
-                            console.log(e.target.value)
-                        },
-                        toggleOpenId: (e, nodeIds) => {
-                            localStorage.setItem('opened', JSON.stringify(nodeIds));
-                        }
-                    })} />
+                    <OpenIds {...props} openIds={openIds}>
+                        {(openIds, setOpenIds) => (
+                            <Layout {...Object.assign({}, props, {
+                                openIds: openIds,
+                                changeLocal: (e) => {
+                                    console.log(e.target.value)
+                                },
+                                toggleOpenId: (node) => {
+                                    setTimeout(() => {
+                                        let found = false;
+                                        props.sections.forEach(section => {
+                                            let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
+
+                                            if (pathToRoute.length > 0) {
+                                                if (!found) {
+                                                    setOpenIds(pathToRoute);
+                                                    found = true;
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
+                            })} />
+                        )}
+                    </OpenIds>
                 </Router>
             </_Wrapper>
     ), document.getElementById('root'));

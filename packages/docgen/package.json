@@ -26,6 +26,7 @@
     "@mdx-js/react": "1.5.1",
     "prism-react-renderer": "1.0.2",
     "react-live": "2.2.2",
-    "normalize.css": "8.0.1"
+    "normalize.css": "8.0.1",
+    "url-join": "4.0.1"
   }
 }

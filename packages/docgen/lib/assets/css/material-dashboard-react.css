@@ -32,10 +32,10 @@
   color: #eee;
   /*background: rgba(0, 0, 0, 0.08);*/
 }
-.selected {
+.active > li > .MuiTreeItem-content {
   text-decoration: underline;
 }
-.selected:hover {
+.active > li > .MuiTreeItem-content:hover {
   text-decoration: underline;
 }
 .MuiTypography-root {

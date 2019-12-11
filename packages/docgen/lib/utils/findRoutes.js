@@ -1,73 +1,51 @@
-const findRoutes = (current, sections) => {
-    let prev;
-    let next;
+import { matchPath } from 'react-router';
 
-    sections.forEach((section, sectionIndex) => {
-        section.routes.forEach((route, index) => {
-            if (route.url === current) {
-                let prevIndex = index - 1;
-                let prevSectionIndex = sectionIndex - 1;
-                let nextIndex = index + 1;
-                let nextSectionIndex = sectionIndex + 1;
-                // Prev
-                if (section.routes[prevIndex]) {
-                    prev = {
-                        url: section.routes[prevIndex].url,
-                        title: section.routes[prevIndex].title,
-                        nodeId: section.routes[prevIndex].nodeId
-                    };
-                }
-                else {
-                    if (sections[prevSectionIndex] &&
-                        sections[prevSectionIndex].routes) {
-                        if (Array.isArray(sections[prevSectionIndex].routes)) {
-                            prev = {
-                                url: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length - 1].url,
-                                title: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length - 1].title,
-                                nodeId: sections[prevSectionIndex].routes[sections[prevSectionIndex].routes.length - 1].nodeId
-                            };
-                        }
-                        else if (typeof sections[prevSectionIndex].routes.url === 'string') {
-                            prev = {
-                                url: sections[prevSectionIndex].routes.url,
-                                title: sections[prevSectionIndex].routes.title,
-                                nodeId: sections[prevSectionIndex].routes.nodeId
-                            };
-                        }
-                    }
-                }
+const getRoutes = (route, allRoutes) => {
+    if (!route) {
+        return allRoutes;
+    }
+    if (Array.isArray(route)) {
+        route.forEach(r => {
+            getRoutes(r, allRoutes);
+        });
+        return allRoutes;
+    }
+    if (route.url) {
+        allRoutes.push({
+            url: route.url,
+            title: route.title,
+            nodeId: route.nodeId
+        });
+    }
+    if (route.children) {
+        (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
+            getRoutes(r, allRoutes);
+        });
+    }
+    return allRoutes;
+};
 
-                // NEXT
-                if (section.routes[nextIndex]) {
-                    next = {
-                        url: section.routes[nextIndex].url,
-                        title: section.routes[nextIndex].title,
-                        nodeId: section.routes[nextIndex].nodeId
-                    };
-                }
-                else {
-                    if (sections[nextSectionIndex] &&
-                        sections[nextSectionIndex].routes) {
-                        if (Array.isArray(sections[nextSectionIndex].routes)) {
-                            next = {
-                                url: sections[nextSectionIndex].routes[0].url,
-                                title: sections[nextSectionIndex].routes[0].title,
-                                nodeId: sections[nextSectionIndex].routes[0].nodeId
-                            };
-                        }
-                        else if (typeof sections[nextSectionIndex].routes.url === 'string') {
-                            next = {
-                                url: sections[nextSectionIndex].routes.url,
-                                title: sections[nextSectionIndex].routes.title,
-                                nodeId: sections[nextSectionIndex].routes.nodeId
-                            };
-                        }
-                    }
-                }
-            }
+const findRoutes = (current, route) => {
+    const allRoutes = getRoutes(route, []);
+    const currentIndex = allRoutes.findIndex(route => {
+        return matchPath(current, {
+            path: route.url,
+            exact: true,
+            strict: false
         });
     });
-    return { prev, next };
+    const prev = allRoutes[currentIndex - 1] ? {
+        url: allRoutes[currentIndex - 1].url,
+        title: allRoutes[currentIndex - 1].title,
+        nodeId: allRoutes[currentIndex - 1].nodeId
+    } : null;
+    const next = allRoutes[currentIndex + 1] ? {
+        url: allRoutes[currentIndex + 1].url,
+        title: allRoutes[currentIndex + 1].title,
+        nodeId: allRoutes[currentIndex + 1].nodeId
+    } : null;
+
+    return { prev, next }
 };
 
 export default findRoutes;

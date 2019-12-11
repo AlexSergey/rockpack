@@ -1,29 +1,25 @@
-const openIdGenerate = (props) => {
-  let s = 0;
-  let openedId = [];
-
-  props.sections.forEach(section => {
-    let nodeId = String(s += 1);
-    section.nodeId = nodeId;
-    openedId.push(nodeId);
-
-    if (Array.isArray(section.routes)) {
-      section.routes.forEach(route => {
-        let nodeId = String(s += 1);
-        route.nodeId = nodeId;
-        openedId.push(nodeId);
-
-        if (Array.isArray(route.content.component)) {
-          route.content.component.forEach(c => {
-            let nodeId = String(s += 1);
-            c.nodeId = nodeId;
-          })
-        }
-      });
+let uniq = 0;
+const openIdGenerate = (route, s, openedIds) => {
+    uniq++;
+  if (!route) {
+      return openedIds;
+  }
+    if (Array.isArray(route)) {
+        route.forEach(route => openIdGenerate(route, s, openedIds));
+        return openedIds;
     }
-  });
-
-  return openedId;
+    route.uniqId = uniq;
+    if (route.url) {
+        let nodeId = String(s += 1);
+        openedIds.push(nodeId);
+        route.nodeId = nodeId;
+    }
+    if (route.children) {
+        (Array.isArray(route.children) ? route.children : [route.children]).forEach(route => {
+            openIdGenerate(route, s, openedIds);
+        });
+    }
+    return openedIds;
 };
 
 export default openIdGenerate;
