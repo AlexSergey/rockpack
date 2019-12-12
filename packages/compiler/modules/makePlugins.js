@@ -31,6 +31,12 @@ const LoadablePlugin = require('@loadable/webpack-plugin');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
 
 function getTitle(packageJson) {
+    if (!packageJson) {
+        return false;
+    }
+    if (!packageJson.name) {
+        return false;
+    }
     return `${packageJson.name.split('_').join(' ')}`;
 }
 
@@ -158,7 +164,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         else {
             pages = [
                 Object.assign({
-                    title: (conf.html && conf.html.title) || getTitle(packageJson),
+                    title: (conf.html && conf.html.title) || (getTitle(packageJson) ? getTitle(packageJson) : ''),
                     code: (conf.html && conf.html.code) ? conf.html.code : null,
                     favicon: (conf.html && conf.html.favicon) ? conf.html.favicon : null,
                     template: (conf.html && conf.html.template) || path.resolve(__dirname, '..', './index.ejs')

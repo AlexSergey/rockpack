@@ -3,6 +3,7 @@ import scrollToElement from 'scroll-to-element';
 import { makeStyles } from "@material-ui/core/styles";
 import Header from './Header';
 import Content from './Content';
+import Footer from './Footer';
 import MenuItems from '../components/MenuItems';
 import MenuBar from '../components/MenuBar';
 import Route from '../components/Route';
@@ -41,6 +42,7 @@ const Layout = (props) => {
                         }}
                     </Route>
                 </Content>
+                <Footer {...props} />
             </div>
         </div>
     )

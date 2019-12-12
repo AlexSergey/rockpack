@@ -13,7 +13,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import MDXLayout from './MDXLayout';
 const useStylesPage = makeStyles(stylesHeader);
 
-function renderInside(content, index) {
+function renderInside(content, index, props) {
     if (!content) {
         return null;
     }
@@ -40,7 +40,7 @@ function renderInside(content, index) {
     }
     let block = (
             component && component.isMDXComponent ?
-            <MDXLayout key={index}>
+            <MDXLayout key={index} {...props}>
                 {createElement(component)}
             </MDXLayout> :
             isValidElement(component) ?
@@ -66,8 +66,8 @@ const InnerPage = withRouter(props => {
         <Paper style={{padding: '20px'}}>
             <div>
                 {props.content && Array.isArray(props.content) ? props.content.map((c, index) => {
-                    return renderInside(c, index);
-                }) : renderInside(props.content)}
+                    return renderInside(c, index, props);
+                }) : renderInside(props.content, props)}
             </div>
             <Toolbar className={classesPage.container} style={{justifyContent: 'space-between', marginTop: '20px'}}>
                 {!prev && <span />}

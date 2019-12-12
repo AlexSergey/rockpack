@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development node build.js"
+    "start": "NODE_ENV=development node example/build.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "prism-react-renderer": "1.0.2",
     "react-live": "2.2.2",
     "normalize.css": "8.0.1",
-    "url-join": "4.0.1"
+    "url-join": "4.0.1",
+    "@rock/localazer": "0.9.0"
   }
 }

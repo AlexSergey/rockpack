@@ -4,6 +4,7 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Menu from "@material-ui/icons/Menu";
+import GitHub from '@material-ui/icons/GitHub';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core';
@@ -18,7 +19,6 @@ const Header = (props) => {
   const appBarClasses = classNames({
     [" " + classesHeader[props.color]]: props.color
   });
-  let defaultLang = localStorage.getItem('lang') || 'ru';
   return (
     <AppBar className={classesHeader.appBar + appBarClasses} style={{height: '75px'}}>
       <Toolbar className={classesHeader.container} style={{height: '100%'}}>
@@ -30,12 +30,12 @@ const Header = (props) => {
         <div className={classesHeader.flex}>
           {props.title || 'Documentation'}
         </div>
-        {typeof props.localization === 'object' ? <div style={{padding: '0 20px 0'}}>
+        {props.isLocalized ? <div style={{padding: '0 20px 0'}}>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={defaultLang}
-            onChange={props.changeLocal}
+            value={props.activeLang}
+            onChange={(e) => props.changeLocal(e.target.value)}
           >
             {Object.keys(props.localization).map(code => {
               return <MenuItem value={code} key={code}>
@@ -44,6 +44,11 @@ const Header = (props) => {
             })}
           </Select>
         </div> : null}
+          {props.github ? <div style={{padding: '0 20px 0 0'}}>
+              <a href={props.github} target="_blank">
+                  <GitHub />
+              </a>
+          </div> : null}
         <Hidden mdUp implementation="css">
           <IconButton
             color="inherit"

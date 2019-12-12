@@ -6,7 +6,7 @@ const useStylesContent = makeStyles(stylesContent);
 const Content = ({ children }) => {
   const classesContent = useStylesContent();
   return (
-    <div className={classesContent.content} style={{minHeight: 'auto'}}>
+    <div className={classesContent.content} style={{minHeight: 'auto', float: 'left', width: '100%'}}>
       <div className={classesContent.container}>
         {children}
       </div>

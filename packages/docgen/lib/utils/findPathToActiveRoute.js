@@ -2,10 +2,10 @@ import { matchPath } from 'react-router';
 
 const findPathToActiveRoute = (currentUrl, route, pathToRoute, isFound = false) => {
     if (!route) {
-        return pathToRoute;
+        return isFound ? pathToRoute : [];
     }
     if (!route.url) {
-        return pathToRoute;
+        return isFound ? pathToRoute : [];
     }
 
     if (!isFound) {
@@ -31,7 +31,7 @@ const findPathToActiveRoute = (currentUrl, route, pathToRoute, isFound = false) 
         });
     }
 
-    return pathToRoute;
+    return isFound ? pathToRoute : [];
 };
 
 export default findPathToActiveRoute;

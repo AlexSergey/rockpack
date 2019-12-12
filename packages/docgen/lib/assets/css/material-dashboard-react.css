@@ -32,11 +32,26 @@
   color: #eee;
   /*background: rgba(0, 0, 0, 0.08);*/
 }
-.active > li > .MuiTreeItem-content {
+.tree-hash-item {
+  display: block;
+}
+.tree-hash-item:last-child {
+  margin: 0 0 10px;
+}
+.MuiTreeView-root .MuiTreeItem-content > .MuiTreeItem-label > span {
+  display: inline;
+}
+.active > li > .MuiTreeItem-content > .MuiTreeItem-label,
+.active > li > .MuiTreeItem-content > .MuiTreeItem-label > span,
+.active.tree-hash-item {
   text-decoration: underline;
 }
-.active > li > .MuiTreeItem-content:hover {
-  text-decoration: underline;
+.active > li > .MuiTreeItem-content:hover > .MuiTreeItem-label,
+.active > li > .MuiTreeItem-content:hover > .MuiTreeItem-label > span {
+  text-decoration: none;
+}
+.active.tree-hash-item:hover {
+  text-decoration: none;
 }
 .MuiTypography-root {
   cursor: pointer;

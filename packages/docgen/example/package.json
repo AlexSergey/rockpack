@@ -1,0 +1,10 @@
+{
+  "name": "example-localization",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "NODE_ENV=development node build",
+    "build": "NODE_ENV=production node build",
+    "makePo": "node makePo",
+    "po2json": "node po2json"
+  }
+}

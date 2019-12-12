@@ -8,7 +8,7 @@ export default ({children, className, live, render}) => {
 
     if (live) {
         return (
-            <div style={{marginTop: '40px', backgroundColor: 'black', caretColor: 'white'}}>
+            <div style={{backgroundColor: 'rgb(42, 39, 52)', caretColor: 'white'}}>
                 <LiveProvider
                     code={children.trim()}
                     transformCode={code => '/** @jsx mdx */' + code}
@@ -16,7 +16,9 @@ export default ({children, className, live, render}) => {
                 >
                     <LivePreview />
                     <LiveEditor />
-                    <LiveError />
+                    <div style={{color: 'white'}}>
+                        <LiveError />
+                    </div>
                 </LiveProvider>
             </div>
         )
@@ -24,7 +26,7 @@ export default ({children, className, live, render}) => {
 
     if (render) {
         return (
-            <div style={{marginTop: '40px'}}>
+            <div>
                 <LiveProvider code={children}>
                     <LivePreview />
                 </LiveProvider>
@@ -35,7 +37,7 @@ export default ({children, className, live, render}) => {
     return (
         <Highlight {...defaultProps} code={children.trim()} language={language}>
             {({className, style, tokens, getLineProps, getTokenProps}) => (
-                <pre className={className} style={{...style, padding: '20px'}}>
+                <pre className={className} style={{...style, padding: '20px', overflow: 'auto'}}>
                   {tokens.map((line, i) => (
                       <div key={i} {...getLineProps({line, key: i})}>
                           {line.map((token, key) => (

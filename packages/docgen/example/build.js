@@ -1,4 +1,4 @@
-const { frontendCompiler } = require('../compiler');
+const { frontendCompiler } = require('../../compiler');
 const { resolve } = require('path');
 
 frontendCompiler({
@@ -6,7 +6,7 @@ frontendCompiler({
 }, config => {
   Object.assign(config.resolve, {
     alias: {
-      assets: resolve(__dirname, './lib/assets')
+      assets: resolve(__dirname, '../lib/assets')
     }
   });
 });

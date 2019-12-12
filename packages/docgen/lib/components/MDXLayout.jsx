@@ -13,13 +13,11 @@ const Style = ({children}) => (
 );
 
 const components = {
-    h1: props => <h1 style={{color: 'tomato'}} {...props} />,
-    pre: props => <div {...props} />,
     code: CodeBlock
 };
 
 const MDXLayout = props => (
-    <MDXProvider components={components} className="mdx-provider">
+    <MDXProvider components={Object.assign({}, components, props.components)} className="mdx-provider">
         <>
             <Style>{baseStyles}</Style>
             <Container {...props} />

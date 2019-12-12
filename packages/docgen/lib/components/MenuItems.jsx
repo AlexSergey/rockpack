@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { matchPath } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import TreeView from '@material-ui/lab/TreeView';
@@ -16,6 +16,7 @@ const useStylesTreeView = makeStyles({
 });
 
 const setActive = (currentUrl, pth) => {
+    console.log(currentUrl, pth);
     return matchPath(currentUrl, {
         path: pth,
         exact: true,
@@ -47,26 +48,43 @@ const MenuItems = withRouter(props => {
         if (Array.isArray(data)) {
             return data.map(s => TreeRender(s));
         }
+        if (!data.title) {
+            return null;
+        }
 
-        let W = data.url ? (Inner) => <span
-                className={setActive(global.document.location.pathname, data.url)}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    goTo(data.url, null);
-                }}
-                key={data.name}>{Inner}</span> : (Inner) => <span
-                className={setActive(global.document.location.pathname, data.url)}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    goTo(null, data.name);
-                }} key={data.name}>{Inner}</span>;
+        let W = data.url ? (Inner, url) => (
+                <span
+                        {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
+                        className={setActive(global.document.location.pathname, url)}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            goTo(url, null);
+                        }}
+                        key={data.uniqId}>{Inner}</span>
+            ) : (Inner, hash, extraClassName) => (
+                    <span
+                        {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
+                        className={`#${hash}` === global.document.location.hash ? `active ${extraClassName}` : extraClassName}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            goTo(null, data.name);
+                        }} key={data.uniqId}>{Inner}</span>
+                )
 
         return (
-            data.children ? W(<TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.name}>{
-                (Array.isArray(data.children) ? data.children : [data.children]).map((node, idx) => TreeRender(node))}
-            </TreeItem>) : W(<TreeItem key={data.uniqId} nodeId={data.name} label={data.name} />)
+            data.children ? W(
+            <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title}>{
+                (Array.isArray(data.children) ? data.children : [data.children]).map(node => TreeRender(node))}
+            </TreeItem>, data.url) : (
+                data.url ?
+                        W(<TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title} />, data.url) :
+                        (typeof data.name === 'string' ?
+                                W(<div style={{padding: '0 0 0 10px'}}><span style={{cursor: 'pointer'}}>{data.title}</span></div>, data.name, 'tree-hash-item') :
+                                <div key={data.uniqId} style={{padding: '0 0 0 10px'}}><span style={{cursor: 'pointer'}}>{data.title}</span></div>
+                        )
+            )
         );
     };
 

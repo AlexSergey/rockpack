@@ -34,11 +34,13 @@ const findRoutes = (current, route) => {
             strict: false
         });
     });
+
     const prev = allRoutes[currentIndex - 1] ? {
         url: allRoutes[currentIndex - 1].url,
         title: allRoutes[currentIndex - 1].title,
         nodeId: allRoutes[currentIndex - 1].nodeId
     } : null;
+    
     const next = allRoutes[currentIndex + 1] ? {
         url: allRoutes[currentIndex + 1].url,
         title: allRoutes[currentIndex + 1].title,
