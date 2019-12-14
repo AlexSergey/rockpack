@@ -8,7 +8,7 @@ This config-generator include modules and features:
 - TypeScript support
 - Babel 7, Babel-preset-env (> 5%)
 - Support build nodejs scripts with nodemon and livereload
-- Dotenv support
+- Dotenv support and Dotenv safe support
 - React optimizations
 - Flow
 - Write file webpack plugin (in dev mode)
@@ -199,7 +199,6 @@ isomorphicCompiler([
     },
     // secondary properties
     nodemon: path to nodemon run file (only for backendCompiler)
-    dotenv: 'path_to_dotend or put .env file to your project',
     version: false, // You can add version to script's filenames
     styles: String, // You can extract CSS styles from scripts, or disable it - set false
     html: { // CopyWebpackPlugin. You can also add array for multi-pages support

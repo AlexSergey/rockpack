@@ -5,7 +5,7 @@ import withStyles from './styles/withStyles';
 import ClientStyles from './styles/ClientStyles';
 import isBackend from './utils/isBackend';
 import MetaTags from 'react-meta-tags';
-import ussrSagaRun from './client/ussrSagaRun';
+import ussrSagas from './client/ussrSagas';
 
 export {
     ClientStyles,
@@ -15,5 +15,5 @@ export {
     isBackend,
     onLoad,
     MetaTags,
-    ussrSagaRun
+    ussrSagas
 }

@@ -1,7 +1,7 @@
 const { existsSync } = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Collection = require('../utils/Collection');
-const { isString, isBoolean, isArray, isObject, isNumber, isFunction, isUndefined } = require('valid-types');
+const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const makeBanner = require('./makeBanner');
@@ -29,6 +29,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
+const docgenParse = require('../documentation/docgenParse');
+const mergeUrls = require('../documentation/mergeUrls');
+const pickUrls = require('../documentation/pickUrls');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 function getTitle(packageJson) {
     if (!packageJson) {
@@ -71,15 +75,18 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
 
     plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
 
-    if (existsSync(path.resolve(root, '.env'))) {
+    if (existsSync(path.resolve(root, '.env.example'))) {
         plugins.Dotenv = new Dotenv({
-            path: path.resolve(root, '.env')
+            path: path.resolve(root, '.env'),
+            safe: true
         });
     }
-    else if (isString(conf.dotenv)) {
-        plugins.Dotenv = new Dotenv({
-            path: conf.dotenv
-        });
+    else {
+        if (existsSync(path.resolve(root, '.env'))) {
+            plugins.Dotenv = new Dotenv({
+                path: path.resolve(root, '.env')
+            });
+        }
     }
 
     if (conf.write && mode !== 'production') {
@@ -110,7 +117,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     if (mode === 'development') {
         if (conf.nodejs) {
             let opts = {
-                watch: path.resolve(conf.dist),
+                watch: path.resolve(root, conf.dist),
                 verbose: true,
                 ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
                 script: './dist/index.js'
@@ -381,6 +388,26 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
             },
             canPrint: true
         });
+
+        if (conf.__isDocumentation) {
+            let docgen = docgenParse(conf);
+
+            if (docgen.length > 0) {
+                try {
+                    mergeUrls(docgen);
+                    const routes = pickUrls(docgen, []);
+                    if (routes.length > 0) {
+                        plugins.PrerenderSPAPlugin = new PrerenderSPAPlugin({
+                            staticDir: path.resolve(root, conf.dist),
+                            routes: routes,
+                        });
+                    }
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            }
+        }
     }
 
     if (isNumber(conf.analyzerPort)) {

@@ -38,7 +38,7 @@ async function useUssr(ctx, options = {}) {
         render
     });
     if (!store) {
-        console.warn('Store is not defined. Please use "ussrStore" method in your renderApp');
+        console.warn('Store is not defined. Please use "installStore" method in your renderApp');
     }
     renderToString(jsx);
 

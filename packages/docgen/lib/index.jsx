@@ -59,14 +59,14 @@ const createDocumentation = (props) => {
     if (!isValid) {
         return false;
     }
-    mergeUrls(props.sections);
-    let allOpened = openIdGenerate(props.sections, []);
+    mergeUrls(props.docgen);
+    let allOpened = openIdGenerate(props.docgen, []);
 
     let openIds = [];
     openIds = allOpened;
     let found = false;
 
-    props.sections.forEach(section => {
+    props.docgen.forEach(section => {
         let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
 
         if (pathToRoute.length > 0) {
@@ -83,6 +83,12 @@ const createDocumentation = (props) => {
         }
     });
 
+    let languages = false;
+
+    if (typeof props.localization === 'object') {
+        languages = Object.keys(props.localization);
+    }
+
     render((
         <LangWrapper {...props}>
             {(isLocalized, activeLang, changeLocal) => (
@@ -94,10 +100,11 @@ const createDocumentation = (props) => {
                                 isLocalized,
                                 activeLang,
                                 changeLocal,
+                                languages,
                                 toggleOpenId: (node) => {
                                     setTimeout(() => {
                                         let found = false;
-                                        props.sections.forEach(section => {
+                                        props.docgen.forEach(section => {
                                             let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
 
                                             if (pathToRoute.length > 0) {

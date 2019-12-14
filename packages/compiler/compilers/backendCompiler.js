@@ -3,7 +3,7 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 const makeMode = require('../modules/makeMode');
 
-async function backendCompiler(options, cb, configOnly = false) {
+async function backendCompiler(options = {}, cb, configOnly = false) {
     errorHandler();
     let mode = makeMode();
     options = deepExtend({}, options, {

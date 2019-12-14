@@ -96,7 +96,7 @@ const MenuItems = withRouter(props => {
                 defaultExpandIcon={<ChevronRightIcon />}
                 onNodeToggle={(e, nodeIds) => props.toggleOpenId(nodeIds)}
         >
-            {TreeRender(props.sections)}
+            {TreeRender(props.docgen)}
         </TreeView>
     );
 });

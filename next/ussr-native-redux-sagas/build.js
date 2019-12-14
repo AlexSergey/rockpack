@@ -8,12 +8,7 @@ const alias = {
         'react-dom/server': path.resolve(__dirname, '../../node_modules/react-dom/server')
     }
 };
-frontendCompiler({
-    src: 'src/client.jsx',
-}, config => {
-    Object.assign(config.resolve, alias);
-});
-/*
+
 isomorphicCompiler([
     {
         compiler: backendCompiler,
@@ -48,4 +43,4 @@ isomorphicCompiler([
         }
     }
 ]);
-*/
+

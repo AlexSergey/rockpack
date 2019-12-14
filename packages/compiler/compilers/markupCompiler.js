@@ -5,7 +5,7 @@ const glob = require('glob');
 const errors = require('../errors/markupCompiler');
 const errorHandler = require('../errorHandler');
 
-function _getOptions(pth, options) {
+function _getOptions(pth, options = {}) {
     return new Promise((resolve, reject) => {
         glob(pth, {absolute: true}, async function (err, files) {
             if (err) {

@@ -1,7 +1,7 @@
 import {combineReducers, createStore, compose, applyMiddleware, Store} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import dogReducer from './containers/Dog/reducer';
-import { ussrSagaRun } from '@rock/ussr/client';
+import { ussrSagas } from '@rock/ussr/client';
 import watchFetchDog from './containers/Dog/saga'
 
 export default ({ reduxState = {}, rest } = {}) => {
@@ -13,10 +13,10 @@ export default ({ reduxState = {}, rest } = {}) => {
             sagaMiddleware,
         ),
     ));
-    ussrSagaRun([{
-        saga: watchFetchDog,
-        args: rest
-    }], sagaMiddleware, store);
+
+    ussrSagas(store, [
+        sagaMiddleware.run(watchFetchDog, rest).toPromise()
+    ]);
 
     return store;
 }

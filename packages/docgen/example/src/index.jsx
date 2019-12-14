@@ -5,10 +5,10 @@ import ComponentReadme from './readme.mdx';
 import Localization, { l } from '@rock/localazer';
 
 createDocumentation({
-    sections: [
+    docgen: [
         {
             title: <Localization>{l('Hello')}</Localization>,
-            url: '/',
+            url: `/`,
         },
         {
             title: 'About',
@@ -106,7 +106,7 @@ createDocumentation({
 });
 /*createDocumentation({
   title: 'Super doca',
-  sections: [
+  docgen: [
     {
       routes: [
         {

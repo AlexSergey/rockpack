@@ -14,6 +14,7 @@ export default function createJSX({
     //@ts-ignore
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
     let store;
+
     const installStore = s => {
         store = s;
     };

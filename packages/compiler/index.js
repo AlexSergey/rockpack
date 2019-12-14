@@ -5,6 +5,7 @@ const makeWebpackConfig = require('./compilers/makeWebpackConfig');
 const markupCompiler = require('./compilers/markupCompiler');
 const libraryCompiler = require('./compilers/libraryCompiler');
 const frontendCompiler = require('./compilers/frontendCompiler');
+const documentationCompiler = require('./compilers/documentationCompiler');
 const backendCompiler = require('./compilers/backendCompiler');
 const analyzerCompiler = require('./compilers/analyzerCompiler');
 const multiCompiler = require('./compilers/multiCompiler');
@@ -30,6 +31,7 @@ module.exports = {
     markupCompiler,
     libraryCompiler,
     frontendCompiler,
+    documentationCompiler,
     backendCompiler,
     analyzerCompiler,
     tsSourceCompiler,

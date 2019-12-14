@@ -1,5 +1,5 @@
 const { existsSync } = require('fs');
-const { isString, isObject } = require('valid-types');
+const { isString, isObject, isBoolean } = require('valid-types');
 const Collection = require('../utils/Collection');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -92,7 +92,16 @@ const getPostcssConfig = (root) => {
 };
 
 function getModules(conf = {}, mode, root) {
-    let extractStyles = conf.styles && mode === 'production';
+    let extractStyles = false;
+
+    if (mode === 'production') {
+        if (isBoolean(conf.styles) && conf.styles === false) {
+            extractStyles = false;
+        }
+        else {
+            extractStyles = true;
+        }
+    }
 
     let debug = false;
 
@@ -507,7 +516,10 @@ function getModules(conf = {}, mode, root) {
             test: /\.(mp4|webm|ogg|mp3)$/,
             use: [
                 {
-                    loader: require.resolve('file-loader')
+                    loader: require.resolve('file-loader'),
+                    query: {
+                        name: 'media/[name][hash].[ext]'
+                    }
                 }
             ]
         },
@@ -595,7 +607,10 @@ function getModules(conf = {}, mode, root) {
             test: /\.svg$/,
             use: [
                 {
-                    loader: require.resolve('file-loader')
+                    loader: require.resolve('file-loader'),
+                    options: {
+                        name: 'svg/[path][name].[ext]',
+                    }
                 },
                 {
                     loader: require.resolve('svgo-loader'),

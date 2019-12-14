@@ -1,9 +1,7 @@
-const { frontendCompiler } = require('../../compiler');
+const { documentationCompiler } = require('../../compiler');
 const { resolve } = require('path');
 
-frontendCompiler({
-    inline: false
-}, config => {
+documentationCompiler(null, config => {
   Object.assign(config.resolve, {
     alias: {
       assets: resolve(__dirname, '../lib/assets')

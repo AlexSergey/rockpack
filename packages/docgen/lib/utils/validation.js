@@ -11,7 +11,7 @@ const message = (field, type, required, message) => {
 };
 
 const FIELDS = [
-    { field: 'sections', type: 'object', required: true },
+    { field: 'docgen', type: 'object', required: true },
     { field: 'localization', type: 'object', required: false },
     { field: 'logo', type: 'string', required: false },
     { field: 'logoAlt', type: 'string', required: false },

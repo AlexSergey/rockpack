@@ -41,7 +41,7 @@ const _Route = props => {
     };
   return (
     <Switch>
-        {TreeRouteRender(props.sections, []).map((route, index) => {
+        {TreeRouteRender(props.docgen, []).map((route, index) => {
             return isValidElement(route) && cloneElement(route, { key: index });
         })}
       <Redirect from="/" to="/" />

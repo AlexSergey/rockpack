@@ -60,7 +60,7 @@ function renderInside(content, index, props) {
 
 const InnerPage = withRouter(props => {
     const classesPage = useStylesPage();
-    const { prev, next } = findRoutes(props.match.path, props.sections);
+    const { prev, next } = findRoutes(props.match.path, props.docgen);
 
     return (
         <Paper style={{padding: '20px'}}>

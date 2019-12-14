@@ -18,6 +18,7 @@
     "@babel/plugin-transform-react-constant-elements": "7.6.3",
     "@babel/plugin-transform-react-inline-elements": "7.2.0",
     "@babel/plugin-proposal-optional-chaining": "7.7.4",
+    "@babel/plugin-transform-modules-commonjs": "7.7.5",
     "@loadable/babel-plugin": "5.10.3",
     "@babel/preset-env": "7.6.3",
     "@babel/preset-react": "7.6.3",
@@ -90,6 +91,7 @@
     "postcss-loader": "3.0.0",
     "pug": "2.0.4",
     "pug-loader": "2.4.0",
+    "prerender-spa-plugin": "3.4.0",
     "rucksack-css": "1.0.2",
     "sass-loader": "7.3.1",
     "script-loader": "0.7.2",
@@ -105,6 +107,7 @@
     "@teamsupercell/typings-for-css-modules-loader": "2.0.0",
     "uglifyjs-webpack-plugin": "2.2.0",
     "url-loader": "1.1.2",
+    "url-join": "4.0.1",
     "valid-types": "1.0.2",
     "vue-loader": "15.7.1",
     "vue-template-compiler": "2.6.10",
@@ -116,6 +119,7 @@
     "webpack-stats-plugin": "0.3.0",
     "webpackbar": "4.0.0",
     "write-file-webpack-plugin": "4.5.1",
-    "yargs": "14.2.0"
+    "yargs": "14.2.0",
+    "strip-comments": "2.0.1"
   }
 }

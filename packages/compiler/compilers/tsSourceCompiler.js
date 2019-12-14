@@ -11,7 +11,7 @@ const { isArray } = require('valid-types');
 const defaultProps = require('../defaultProps');
 const errorHandler = require('../errorHandler');
 
-async function tsSourceCompiler(options, cb, configOnly = false) {
+async function tsSourceCompiler(options = {}) {
     errorHandler();
     let compilerOptions;
     const root = path.dirname(require.main.filename);
