@@ -1,3 +1,6 @@
+import urlParse from 'url-parse';
+import { isArray, isObject } from 'valid-types';
+
 const getDefault = (defaultLang = 'en') => {
     return {
         locale_data: {
@@ -18,25 +21,24 @@ const detectLanguage = () => {
         : (global.navigator.language || global.navigator.userLanguage)
 };
 
-const getLanguage = (languages) => {
-    let currentLanguage = detectLanguage();
-    if (currentLanguage) {
-        currentLanguage = currentLanguage.indexOf('-') > 0 ? currentLanguage.split('-') : [currentLanguage];
-        currentLanguage = currentLanguage.map(l => l.toLowerCase());
+const parseLanguageFromUrl = (url, languages) => {
+    const { pathname } = urlParse(url);
 
-        if (typeof languages === 'object') {
-            let activeLang = false;
-            Object.keys(languages).forEach(l => {
-                if (typeof activeLang !== 'string') {
-                    if (currentLanguage.indexOf(l) >= 0) {
-                        activeLang = l;
-                    }
-                }
-            });
-            return activeLang;
+    if (pathname.indexOf('/') === 0) {
+        let l = pathname.substr(1);
+
+        if (l.indexOf('/') > 0) {
+            l = l.split('/')[0];
+        }
+        if (isArray(languages) && languages.indexOf(l) >= 0) {
+            return l;
+        }
+        if (isObject(languages)) {
+            return Object.keys(languages).indexOf(l) >= 0 ? l : false;
         }
     }
+
     return false;
 };
 
-export { getDefault, detectLanguage, getLanguage };
+export { getDefault, detectLanguage, parseLanguageFromUrl };

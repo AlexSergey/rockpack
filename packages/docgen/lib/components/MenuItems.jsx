@@ -15,10 +15,9 @@ const useStylesTreeView = makeStyles({
     },
 });
 
-const setActive = (currentUrl, pth) => {
-    console.log(currentUrl, pth);
+const setActive = (currentUrl, pth, activeLang) => {
     return matchPath(currentUrl, {
-        path: pth,
+        path: typeof activeLang === 'string' ? `/${activeLang}${pth}` : pth,
         exact: true,
         strict: false
     }) ? 'active' : '';
@@ -29,7 +28,7 @@ const MenuItems = withRouter(props => {
 
     const goTo = (url, name) => {
         if (url) {
-            props.history.push(url);
+            props.history.push(typeof props.activeLang === 'string' ? `/${props.activeLang}${url}` : url);
         }
         setTimeout(() => {
             if (global.document && name) {
@@ -55,7 +54,7 @@ const MenuItems = withRouter(props => {
         let W = data.url ? (Inner, url) => (
                 <span
                         {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
-                        className={setActive(global.document.location.pathname, url)}
+                        className={setActive(global.document.location.pathname, url, props.activeLang)}
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();

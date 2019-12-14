@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { LocalizationObserver, getLanguage } from '@rock/localazer';
+import { LocalizationObserver, parseLanguageFromUrl } from '@rock/localazer';
 import findPathToActiveRoute from './utils/findPathToActiveRoute';
 import { render } from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router } from "react-router-dom";
+import { Router, withRouter } from "react-router-dom";
 import 'normalize.css';
 import Layout from './layout';
 import "./assets/css/material-dashboard-react.css?v=1.8.0";
@@ -21,10 +21,15 @@ const OpenIds = ({ children, openIds }) => {
     return children(openIdsState, setOpenIds);
 };
 
-const LangWrapper = (props) => {
+const LangWrapper = withRouter((props) => {
     const isLocalized = typeof props.localization === 'object';
     const _Wrapper = isLocalized ? LocalizationObserver : Wrapper;
-    let activeLanguage = typeof localStorage.getItem('lang') === 'string' ? localStorage.getItem('lang') : getLanguage(props.localization);
+
+    let activeLanguage = false;
+
+    if (isLocalized) {
+        activeLanguage = parseLanguageFromUrl(global.document.location.pathname, props.languages) || 'us';
+    }
 
     if (typeof activeLanguage !== 'string') {
         return (
@@ -42,9 +47,14 @@ const LangWrapper = (props) => {
             active: activeLanguage
         } : {})}>
             {props.children(isLocalized, languageState, (lang) => {
+                console.log(lang);
+                let newUrl = typeof activeLanguage === 'string' ? global.document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`) : false;
+                console.log(newUrl);
+                if (newUrl) {
+                    props.history.push(newUrl);
+                }
                 if (props.localization[lang]) {
                     localization(lang);
-                    localStorage.setItem('lang', lang);
                 }
                 else {
                     console.warn(`Can't set language ${lang}. This language not available in localization config`);
@@ -52,13 +62,15 @@ const LangWrapper = (props) => {
             })}
         </_Wrapper>
     )
-};
+});
 
 const createDocumentation = (props) => {
     let isValid = validation(props);
     if (!isValid) {
         return false;
     }
+    const isLocalized = typeof props.localization === 'object';
+
     mergeUrls(props.docgen);
     let allOpened = openIdGenerate(props.docgen, []);
 
@@ -90,9 +102,9 @@ const createDocumentation = (props) => {
     }
 
     render((
-        <LangWrapper {...props}>
-            {(isLocalized, activeLang, changeLocal) => (
-                <Router history={hist}>
+        <Router history={hist}>
+            <LangWrapper {...props}>
+                {(isLocalized, activeLang, changeLocal) => (
                     <OpenIds {...props} openIds={openIds}>
                         {(openIds, setOpenIds) => (
                             <Layout {...Object.assign({}, props, {
@@ -125,9 +137,9 @@ const createDocumentation = (props) => {
                             })} />
                         )}
                     </OpenIds>
-                </Router>
-            )}
-        </LangWrapper>
+                )}
+            </LangWrapper>
+        </Router>
     ), document.getElementById('root'));
 };
 

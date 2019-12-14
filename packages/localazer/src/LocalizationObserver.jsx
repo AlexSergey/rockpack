@@ -6,11 +6,8 @@ import { active, defaultLang, languages } from './constants';
 import jed from './i18n';
 
 class LocalizationObserver extends Component {
-    constructor(props) {
-        super(props);
-        LocalizationObserver.components = {};
-        LocalizationObserver.uid = 0;
-    }
+    static components = {};
+    static uid = 0;
 
     changeLocalization(locale) {
         locale = this.props.languages[locale] ? locale : this.props.defaultLang;

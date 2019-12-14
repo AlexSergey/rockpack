@@ -2,12 +2,12 @@ import React, { cloneElement, isValidElement } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 const _Route = props => {
-    const TreeRouteRender = (route, output) => {
+    const TreeRouteRender = (route, output, prefix) => {
         if (!route) {
             return output;
         }
         if (Array.isArray(route)) {
-            route.map(s => TreeRouteRender(s, output));
+            route.map(s => TreeRouteRender(s, output, prefix));
             return output;
         }
         if (!route.url) {
@@ -29,22 +29,30 @@ const _Route = props => {
             });
         }
 
-        output.push(<Route exact path={route.url} component={() => props.children(renderInside)}/>);
+        output.push(<Route exact path={typeof prefix === 'string' ? '/' + prefix + route.url : route.url} component={() => props.children(renderInside)}/>);
 
         if (renderInAnotherRoute.length > 0) {
             renderInAnotherRoute.map(r => {
-                TreeRouteRender(r, output);
+                TreeRouteRender(r, output, prefix);
             })
         }
 
         return output;
     };
+
   return (
     <Switch>
-        {TreeRouteRender(props.docgen, []).map((route, index) => {
-            return isValidElement(route) && cloneElement(route, { key: index });
-        })}
-      <Redirect from="/" to="/" />
+        {props.isLocalized && Array.isArray(props.languages) ? props.languages.map(lang => (
+            TreeRouteRender(props.docgen, [], lang, true).map((route, index) => {
+                return isValidElement(route) && cloneElement(route, { key: index });
+            })
+        )) : (
+            TreeRouteRender(props.docgen, []).map((route, index) => {
+                return isValidElement(route) && cloneElement(route, { key: index });
+            })
+        )}
+        {props.isLocalized && Array.isArray(props.languages) ? <Redirect from="/" to={`/${props.activeLang}`} /> : <Redirect from="/" to="/" />}
+
     </Switch>
   )
 };

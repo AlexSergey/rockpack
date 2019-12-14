@@ -60,7 +60,8 @@ function renderInside(content, index, props) {
 
 const InnerPage = withRouter(props => {
     const classesPage = useStylesPage();
-    const { prev, next } = findRoutes(props.match.path, props.docgen);
+    const current = typeof props.activeLang === 'string' ? props.match.path.replace(`/${props.activeLang}`, '') : props.match.path;
+    const { prev, next } = findRoutes(current, props.docgen);
 
     return (
         <Paper style={{padding: '20px'}}>
@@ -71,7 +72,7 @@ const InnerPage = withRouter(props => {
             </div>
             <Toolbar className={classesPage.container} style={{justifyContent: 'space-between', marginTop: '20px'}}>
                 {!prev && <span />}
-                {prev && <Link to={prev.url} onClick={() => {
+                {prev && <Link to={typeof props.activeLang === 'string' ? `/${props.activeLang}${prev.url}` : prev.url} onClick={() => {
                     props.toggleOpenId(prev);
                 }}>
                     <Tooltip placement="top-start" title={prev.title ? prev.title : 'Previous page'}>
@@ -80,7 +81,7 @@ const InnerPage = withRouter(props => {
                         </Button>
                     </Tooltip>
                 </Link>}
-                {next && <Link to={next.url} onClick={() => {
+                {next && <Link to={typeof props.activeLang === 'string' ? `/${props.activeLang}${next.url}` : next.url} onClick={() => {
                     props.toggleOpenId(next);
                 }}>
                     <Tooltip placement="top-end" title={next.title ? next.title : 'Next page'}>
