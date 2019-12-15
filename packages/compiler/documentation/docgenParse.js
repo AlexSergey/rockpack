@@ -11,7 +11,8 @@ const generator = require('@babel/generator');
 const { extensions } = makeResolve();
 
 const docgenParse = (conf) => {
-    let foundSections = [];
+    let sections = [];
+    let languages = [];
 
     if (isString(conf.src.index)) {
         let found = false;
@@ -95,16 +96,23 @@ const docgenParse = (conf) => {
                         traverse.default(ast, {
                             ObjectProperty: (path) => {
                                 if (path.node.key.name === 'docgen') {
-                                    if (foundSections.length === 0) {
+                                    if (sections.length === 0) {
                                         let { code } = generator.default(path.node.value);
+                                        let hasLocalization = false;
                                         if (code.indexOf('url') >= 0) {
                                             if (Array.isArray(path.container)) {
                                                 path.container.forEach(siblings => {
-                                                    console.log(siblings.key.name)
+                                                    if (siblings.key.name === 'localization') {
+                                                        hasLocalization = true;
+                                                        if (Array.isArray(siblings.value.properties)) {
+                                                            siblings.value.properties.forEach(l => {
+                                                                languages.push(l.key.name);
+                                                            });
+                                                        }
+                                                    }
                                                 })
                                             }
-                                            foundSections = buildUrls(path.node.value.elements, []);
-                                            process.exit(0)
+                                            sections = buildUrls(path.node.value.elements, []);
                                         }
                                     }
                                 }
@@ -118,7 +126,8 @@ const docgenParse = (conf) => {
             console.error(e);
         }
     }
-    return foundSections;
+
+    return { sections, languages };
 };
 
 module.exports = docgenParse;

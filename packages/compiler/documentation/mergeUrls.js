@@ -5,7 +5,7 @@ const mergeUrls = (route, parent) => {
         return false;
     }
     if (Array.isArray(route)) {
-        route.forEach(r => mergeUrls(r, route));
+        route.forEach(r => mergeUrls(r, parent || {}));
         return false;
     }
 

@@ -1,7 +1,7 @@
 import LocalizationObserver from './LocalizationObserver';
 import Localization from './Localization';
 import { l, nl, sprintf } from './jed';
-import { detectLanguage, parseLanguageFromUrl } from './utils';
+import { detectLanguage } from './utils';
 import jed from './i18n';
 
 export {
@@ -10,8 +10,7 @@ export {
     nl,
     sprintf,
     jed,
-    detectLanguage,
-    parseLanguageFromUrl
+    detectLanguage
 }
 
 export default Localization;

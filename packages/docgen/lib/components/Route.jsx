@@ -39,7 +39,6 @@ const _Route = props => {
 
         return output;
     };
-
   return (
     <Switch>
         {props.isLocalized && Array.isArray(props.languages) ? props.languages.map(lang => (

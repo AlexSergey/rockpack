@@ -29,10 +29,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
-const docgenParse = require('../documentation/docgenParse');
-const mergeUrls = require('../documentation/mergeUrls');
-const pickUrls = require('../documentation/pickUrls');
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const prerenderDocgen = require('../documentation/index');
 
 function getTitle(packageJson) {
     if (!packageJson) {
@@ -390,23 +387,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         });
 
         if (conf.__isDocumentation) {
-            let docgen = docgenParse(conf);
-
-            if (docgen.length > 0) {
-                try {
-                    mergeUrls(docgen);
-                    const routes = pickUrls(docgen, []);
-                    if (routes.length > 0) {
-                        plugins.PrerenderSPAPlugin = new PrerenderSPAPlugin({
-                            staticDir: path.resolve(root, conf.dist),
-                            routes: routes,
-                        });
-                    }
-                }
-                catch (e) {
-                    console.error(e);
-                }
-            }
+            prerenderDocgen(plugins, conf, root);
         }
     }
 

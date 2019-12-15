@@ -5,11 +5,11 @@ const mergeUrls = (route, parent) => {
         return false;
     }
     if (Array.isArray(route)) {
-        route.forEach(r => mergeUrls(r, route));
+        route.forEach(r => mergeUrls(r, parent || {}));
         return false;
     }
 
-    if (route.url && parent.url) {
+    if (route.url && parent && parent.url) {
         route.url = ulrJoin('/', parent.url, route.url);
     }
     else if (route.url && !parent.url) {

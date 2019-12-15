@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { LocalizationObserver, parseLanguageFromUrl } from '@rock/localazer';
+import { isObject, isString, isArray } from 'valid-types';
+import { LocalizationObserver, detectLanguage } from '@rock/localazer';
 import findPathToActiveRoute from './utils/findPathToActiveRoute';
 import { render } from "react-dom";
 import { createBrowserHistory } from "history";
@@ -10,7 +11,7 @@ import "./assets/css/material-dashboard-react.css?v=1.8.0";
 import openIdGenerate from './utils/openIdGenerate';
 import mergeUrls from './utils/mergeUrls';
 import validation from './utils/validation';
-
+import parseLanguageFromUrl from './utils/parseLanguageFromUrl';
 const hist = createBrowserHistory();
 
 const Wrapper = ({ children }) => children;
@@ -22,16 +23,29 @@ const OpenIds = ({ children, openIds }) => {
 };
 
 const LangWrapper = withRouter((props) => {
-    const isLocalized = typeof props.localization === 'object';
+    const isLocalized = isObject(props.localization);
     const _Wrapper = isLocalized ? LocalizationObserver : Wrapper;
 
     let activeLanguage = false;
 
     if (isLocalized) {
-        activeLanguage = parseLanguageFromUrl(global.document.location.pathname, props.languages) || 'us';
+        activeLanguage = parseLanguageFromUrl(global.document.location.pathname, Object.keys(props.localization));
+
+        if (!activeLanguage && Object.keys(props.localization).length > 0) {
+            let lang = detectLanguage();
+            lang = isArray(lang) ? lang : [lang];
+            let defaultLang = lang.map(e => e.indexOf('-') ? e.split('-')[0] : e)[0];
+
+            if (props.localization[defaultLang]) {
+                activeLanguage = defaultLang;
+            }
+            else {
+                activeLanguage = Object.keys(props.localization)[0];
+            }
+        }
     }
 
-    if (typeof activeLanguage !== 'string') {
+    if (!isString(activeLanguage)) {
         return (
             <Wrapper>
                 {props.children()}
@@ -41,15 +55,20 @@ const LangWrapper = withRouter((props) => {
 
     let [languageState, localization] = useState(activeLanguage);
 
+    let languages = Object.keys(props.localization)
+            .reduce((a, b) => {
+                a[b] = props.localization[b].language ? props.localization[b].language : props.localization[b];
+                return a;
+            }, {});
+
     return (
         <_Wrapper {...Object.assign({}, isLocalized ? {
-            languages: props.localization,
+            languages: languages,
             active: activeLanguage
         } : {})}>
             {props.children(isLocalized, languageState, (lang) => {
-                console.log(lang);
-                let newUrl = typeof activeLanguage === 'string' ? global.document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`) : false;
-                console.log(newUrl);
+                let newUrl = isString(activeLanguage) ? global.document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`) : false;
+
                 if (newUrl) {
                     props.history.push(newUrl);
                 }
@@ -69,7 +88,6 @@ const createDocumentation = (props) => {
     if (!isValid) {
         return false;
     }
-    const isLocalized = typeof props.localization === 'object';
 
     mergeUrls(props.docgen);
     let allOpened = openIdGenerate(props.docgen, []);

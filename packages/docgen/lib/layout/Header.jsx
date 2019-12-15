@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -38,9 +38,18 @@ const Header = (props) => {
             onChange={(e) => props.changeLocal(e.target.value)}
           >
             {Object.keys(props.localization).map(code => {
-              return <MenuItem value={code} key={code}>
-                <FlagIcon code={code} />
-              </MenuItem>;
+                if (typeof props.localization[code] && isValidElement(props.localization[code].component)) {
+                    return (
+                        <MenuItem value={code} key={code}>
+                            {props.localization[code].component}
+                        </MenuItem>
+                    );
+                }
+                return (
+                    <MenuItem value={code} key={code}>
+                        {code}
+                    </MenuItem>
+                );
             })}
           </Select>
         </div> : null}

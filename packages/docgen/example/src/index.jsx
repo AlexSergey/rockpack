@@ -3,6 +3,9 @@ import createDocumentation from '../../lib';
 import image from './T1H4XT8DV-UQ1GA2RSQ-bac8dd448345-512.jpeg';
 import ComponentReadme from './readme.mdx';
 import Localization, { l } from '@rock/localazer';
+import FlagIconFactory from 'react-flag-icon-css';
+
+const FlagIcon = FlagIconFactory(React, { useCssModules: false });
 
 createDocumentation({
     docgen: [
@@ -62,36 +65,42 @@ createDocumentation({
     ],
     localization: {
         ru: {
-            locale_data: {
-                messages: {
-                    '': {
-                        domain: 'messages',
-                        lang: 'ru',
-                        plural_forms: 'nplurals=2; plural=(n != 1);'
-                    },
-                    Hello: [
-                        'Это тест'
-                    ],
-                    Hello2: [
-                        'Это супер тест'
-                    ]
+            component: <FlagIcon code="ru" />,
+            language: {
+                locale_data: {
+                    messages: {
+                        '': {
+                            domain: 'messages',
+                            lang: 'ru',
+                            plural_forms: 'nplurals=2; plural=(n != 1);'
+                        },
+                        Hello: [
+                            'Это тест'
+                        ],
+                        Hello2: [
+                            'Это супер тест'
+                        ]
+                    }
                 }
             }
         },
-        us: {
-            locale_data: {
-                messages: {
-                    '': {
-                        domain: 'messages',
-                        lang: 'us',
-                        plural_forms: 'nplurals=2; plural=(n != 1);'
-                    },
-                    Hello: [
-                        'This is test'
-                    ],
-                    Hello2: [
-                        'This is super test'
-                    ]
+        en: {
+            component: <FlagIcon code="us" />,
+            language: {
+                locale_data: {
+                    messages: {
+                        '': {
+                            domain: 'messages',
+                            lang: 'us',
+                            plural_forms: 'nplurals=2; plural=(n != 1);'
+                        },
+                        Hello: [
+                            'This is test'
+                        ],
+                        Hello2: [
+                            'This is super test'
+                        ]
+                    }
                 }
             }
         }
@@ -104,30 +113,3 @@ createDocumentation({
     },
     footer: <div>License MIT, 2019</div>
 });
-/*createDocumentation({
-  title: 'Super doca',
-  docgen: [
-    {
-      routes: [
-        {
-          title: 'main',
-          url: '/',
-          content: {
-            component: <div>Hello world!</div>
-          }
-        }
-      ]
-    },
-    {
-      title: 'Frontend',
-      routes
-    }
-  ],
-  localization: {
-    ru: '...',
-    us: '...'
-  },
-  logo: image,
-  logoAlt: "Sergey"
-});
-*/
