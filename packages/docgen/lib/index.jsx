@@ -22,6 +22,10 @@ const OpenIds = ({ children, openIds }) => {
     return children(openIdsState, setOpenIds);
 };
 
+/**
+ * хедеры локализации
+ * попробовать сделать ссылки в webpack plugin parser и локалайзере
+ * */
 const LangWrapper = withRouter((props) => {
     const isLocalized = isObject(props.localization);
     const _Wrapper = isLocalized ? LocalizationObserver : Wrapper;

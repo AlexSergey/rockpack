@@ -68,6 +68,8 @@ module.exports = extend(
             'import/no-unresolved': 0,
             'no-shadow': 0,
             'no-unused-vars': 0,
+            'no-plusplus': 0,
+            'no-param-reassign': 0,
             '@typescript-eslint/array-type': 1,
             '@typescript-eslint/explicit-function-return-type': [
                 1,
