@@ -1,27 +1,42 @@
 import React from 'react';
-import createUssr from '@rock/ussr';
 import { readFileSync } from 'fs';
 import App from './App';
+import Koa from 'koa';
+import serve from 'koa-static';
+import Router from 'koa-router';
 import logger from 'koa-logger';
+import favicon from 'koa-favicon';
 import path from 'path';
 import sourceMapSupport from 'source-map-support';
 import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import createStore from './store';
 import axios from 'axios';
+import createUssr from '@rock/ussr';
 
 const port = 5000;
 const currentFolder = path.basename(process.cwd());
+const app = new Koa();
+const router = new Router();
+
+app.use(logger());
+app.use(serve(path.resolve( __dirname, '../public' )));
+app.use(favicon());
 
 const stats = JSON.parse(
     readFileSync(currentFolder === 'dist' ?
         path.resolve('./stats.json') :
         path.resolve('./dist/stats.json'),
-    'utf8')
+        'utf8')
 );
 
-const app = createUssr({
-    stats,
+const ussr = createUssr({
+    stats
+});
+
+router.get('/*', ussr({
+    isProduction: process.env.NODE_ENV === 'production',
+    liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false,
     render: ({
         request,
         reduxState
@@ -56,13 +71,12 @@ const app = createUssr({
                 </StaticRouter>
             </Provider>
         );
-    },
-    publicFolder: path.resolve( __dirname, '../public' ),
-    isProduction: process.env.NODE_ENV === 'production',
-    liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false
-});
+    }
+}));
 
-app.use(logger());
+app
+    .use(router.routes())
+    .use(router.allowedMethods());
 
 const server = app.listen(port, () => {
     if (process.env.NODE_ENV === 'development') {

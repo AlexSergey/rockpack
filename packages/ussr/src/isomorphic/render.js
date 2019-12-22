@@ -15,7 +15,6 @@ export const renderHeader = ({ meta, isProduction }) => `
 
 //@ts-ignore
 export const renderFooter = ({ reduxState, css, scripts, liveReloadPort, isProduction }) => {
-    console.log(!isProduction, typeof liveReloadPort === 'number');
     return `</div>
         <script>
             window.REDUX_DATA = ${ serialize( reduxState, { isJSON: true } ) }
