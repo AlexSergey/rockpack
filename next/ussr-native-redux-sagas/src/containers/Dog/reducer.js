@@ -1,24 +1,24 @@
-import { createReducer } from 'redux-act';
+import { createReducer } from '@reduxjs/toolkit';
 import { requestDog, requestDogSuccess, requestDogError } from './action';
 
 export default createReducer({
-    [requestDog]: () => ({
+    url: '',
+    loading: false,
+    error: false,
+}, {
+    [requestDog.type]: () => ({
         url: '',
         loading: true,
         error: false,
     }),
-    [requestDogSuccess]: (state, payload) => ({
+    [requestDogSuccess.type]: (state, { payload }) => ({
         url: payload.url,
         loading: false,
         error: false,
     }),
-    [requestDogError]: () => ({
+    [requestDogError.type]: () => ({
         url: '',
         loading: false,
         error: true,
     })
-}, {
-    url: '',
-    loading: false,
-    error: false,
 });

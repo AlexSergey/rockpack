@@ -17,4 +17,7 @@ const Dogs = props => {
     )
 };
 
-export default connect(state => state.dogReducer)(Dogs);
+export default connect(state => {
+    console.log(state);
+    return state.dogReducer;
+})(Dogs);

@@ -1,4 +1,4 @@
-import { createAction } from 'redux-act';
+import { createAction } from '@reduxjs/toolkit';
 
 export const fetchDog = createAction('The dog will fetch');
 

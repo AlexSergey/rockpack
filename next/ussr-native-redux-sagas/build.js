@@ -9,6 +9,24 @@ const alias = {
     }
 };
 
+/*frontendCompiler({
+    src: 'src/client.jsx',
+    dist: 'public',
+    styles: 'styles.css',
+    debug: true,
+    copy: [
+        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+    ],
+    vendor: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        'redux'
+    ]
+}, config => {
+    Object.assign(config.resolve, alias);
+})*/
+
 isomorphicCompiler([
     {
         compiler: backendCompiler,
@@ -43,4 +61,3 @@ isomorphicCompiler([
         }
     }
 ]);
-
