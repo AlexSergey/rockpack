@@ -1,23 +1,23 @@
 import React from "react";
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchDog } from './action';
 import { onLoad } from '@rock/ussr/client';
 
-const Dogs = props => {
-    onLoad(() => props.dispatch(fetchDog()));
+const Dogs = () => {
+    const dispatch = useDispatch();
+    const dog = useSelector(state => state.dogReducer);
+
+    onLoad(() => dispatch(fetchDog()));
 
     return (
         <div>
-            {props.loading
+            {dog.loading
                 ? <p>Loading...</p>
-                : props.error
+                : dog.error
                     ? <p>Error, try again</p>
-                    : <p><img src={props.url}/></p>}
+                    : <p><img src={dog.url}/></p>}
         </div>
     )
 };
 
-export default connect(state => {
-    console.log(state);
-    return state.dogReducer;
-})(Dogs);
+export default Dogs;
