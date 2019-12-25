@@ -12,7 +12,7 @@ import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import createStore from './store';
 import axios from 'axios';
-import createUssr from '@rock/ussr';
+import { createMiddleware } from '@rock/ussr';
 
 const port = 5000;
 const currentFolder = path.basename(process.cwd());
@@ -30,7 +30,7 @@ const stats = JSON.parse(
         'utf8')
 );
 
-const ussr = createUssr({
+const ussr = createMiddleware({
     stats
 });
 

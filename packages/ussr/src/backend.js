@@ -1,7 +1,7 @@
 import useUssr from './isomorphic/useUssr';
 import loadableExtractor from './utils/loadableExtractor';
 
-const createUssr = ({
+const createMiddleware = ({
     stats
 }) => {
     const webExtractor = loadableExtractor({
@@ -26,4 +26,6 @@ const createUssr = ({
     }
 }
 
-export default createUssr;
+export {
+    createMiddleware
+};
