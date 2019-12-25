@@ -11,7 +11,7 @@ class LocalizationObserver extends Component {
 
     changeLocalization(locale) {
         locale = this.props.languages[locale] ? locale : this.props.defaultLang;
-        let localeData = this.props.languages[locale] ? this.props.languages[locale] : getDefault(this.props.defaultLang);
+        let localeData = this.props.languages[locale] ? this.props.languages[locale] : getDefault(this.props.defaultLang, this.props.defaultLocaleData);
 
         this.updateComponents(localeData, this.props.languages, locale);
     }
@@ -52,7 +52,8 @@ class LocalizationObserver extends Component {
 LocalizationObserver.defaultProps = {
     active: active,
     defaultLang: defaultLang,
-    languages: languages
+    languages: languages,
+    defaultLocaleData: null
 };
 
 LocalizationObserver.propTypes = {

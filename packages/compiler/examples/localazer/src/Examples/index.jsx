@@ -2,23 +2,6 @@ import React, { Component } from 'react';
 import Localization, { LocalizationObserver, jed, l, nl, sprintf } from '../../../../../localazer/src';
 import ru from '../../json/ru.json';
 
-const LANGUAGES = {
-    ru: {
-        locale_data: {
-            messages: {
-                '': {
-                    domain: 'messages',
-                    lang: 'ru',
-                    plural_forms: 'nplurals=2; plural=(n != 1);'
-                },
-                Hello: [
-                    'Это тест'
-                ]
-            }
-        }
-    },
-};
-
 export default class LocalizationExamples extends Component {
     constructor(props) {
         super(props);
@@ -39,15 +22,6 @@ export default class LocalizationExamples extends Component {
         }, () => {
             console.log(jed.getJed());
         })
-    };
-
-    asyncChange = () => {
-        setTimeout(() => {
-            this.setState({
-                languages: LANGUAGES,
-                active: 'ru'
-            })
-        }, 500);
     };
 
     render() {

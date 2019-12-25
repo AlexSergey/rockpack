@@ -1,4 +1,10 @@
-const getDefault = (defaultLang = 'en') => {
+const getDefault = (defaultLang = 'en', defaultLocaleData) => {
+    if (defaultLocaleData &&
+        defaultLocaleData.locale_data &&
+        defaultLocaleData &&
+        defaultLocaleData.locale_data.messages) {
+        return defaultLocaleData;
+    }
     return {
         locale_data: {
             messages: {
