@@ -1,6 +1,7 @@
 {
   "npmClient": "yarn",
   "packages": [
+    "book",
     "next/*",
     "packages/*"
   ],

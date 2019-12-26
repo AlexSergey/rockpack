@@ -1,13 +1,23 @@
 {
-  "name": "example-localization",
+  "name": "@rock/book",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development node build",
     "build": "NODE_ENV=production node build",
     "makePo": "node makePo",
     "po2json": "node po2json"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "@rock/dockgen": "0.9.0",
+    "@rock/localazer": "0.9.0",
     "react-flag-icon-css": "1.0.25"
+  },
+  "devDependencies": {
+    "@rock/compiler": "0.9.0"
   }
 }

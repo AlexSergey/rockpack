@@ -91,3 +91,5 @@ Thumbs.db
 # Test reports
 coverage
 test-reports
+
+.env

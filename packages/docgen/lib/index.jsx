@@ -1,3 +1,4 @@
+import 'normalize.css';
 import React, { useState } from "react";
 import { isObject, isString, isArray } from 'valid-types';
 import { LocalizationObserver, detectLanguage } from '@rock/localazer';
@@ -5,9 +6,8 @@ import findPathToActiveRoute from './utils/findPathToActiveRoute';
 import { render } from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, withRouter } from "react-router-dom";
-import 'normalize.css';
 import Layout from './layout';
-import "./assets/css/material-dashboard-react.css?v=1.8.0";
+import "./assets/css/material-dashboard-react.css";
 import openIdGenerate from './utils/openIdGenerate';
 import mergeUrls from './utils/mergeUrls';
 import validation from './utils/validation';
@@ -80,16 +80,22 @@ const LangWrapper = withRouter((props) => {
                     localization(lang);
                 }
                 else {
-                    console.warn(`Can't set language ${lang}. This language not available in localization config`);
+                    global['console'].warn(`Can't set language ${lang}. This language not available in localization config`);
                 }
             })}
         </_Wrapper>
     )
 });
 
-const createDocumentation = (props) => {
+const createDocumentation = (props, el) => {
+    if (!(el instanceof HTMLElement)) {
+        global['console'].error('DOM element is invalid');
+        return false;
+    }
     let isValid = validation(props);
+
     if (!isValid) {
+        global['console'].error('props is invalid');
         return false;
     }
 
@@ -162,7 +168,7 @@ const createDocumentation = (props) => {
                 )}
             </LangWrapper>
         </Router>
-    ), document.getElementById('root'));
+    ), el);
 };
 
 export default createDocumentation;

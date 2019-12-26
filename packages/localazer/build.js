@@ -8,5 +8,5 @@ libraryCompiler('localazer', {}, config => {
             commonjs: 'react',
             amd: 'react'
         }
-    }]
+    }];
 });

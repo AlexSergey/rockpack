@@ -1,3 +1,3 @@
 const { localazer } = require('../../compiler');
 
-localazer.makePo();
+localazer.po2json();

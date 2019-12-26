@@ -10,7 +10,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import classNames from 'classnames';
-import FlagIcon from '../utils/FlagIcon';
 
 const useStylesHeader = makeStyles(stylesHeader);
 

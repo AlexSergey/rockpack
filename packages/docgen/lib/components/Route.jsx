@@ -1,5 +1,6 @@
 import React, { cloneElement, isValidElement } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import MetaTags from 'react-meta-tags';
 
 const _Route = props => {
     const TreeRouteRender = (route, output, prefix) => {
@@ -29,7 +30,18 @@ const _Route = props => {
             });
         }
 
-        output.push(<Route exact path={typeof prefix === 'string' ? '/' + prefix + route.url : route.url} component={() => props.children(renderInside)}/>);
+        output.push(<Route exact path={typeof prefix === 'string' ? '/' + prefix + route.url : route.url} component={() => (
+            <>
+                {route.meta &&
+                    <MetaTags>
+                        {isValidElement(route.meta) ? route.meta : (Array.isArray(route.meta) ? route.meta.map((m, index) => {
+                            return isValidElement(m) ? cloneElement(m, { key: index }) : null;
+                        }) : null)}
+                    </MetaTags>
+                }
+                {props.children(renderInside)}
+            </>
+        )}/>);
 
         if (renderInAnotherRoute.length > 0) {
             renderInAnotherRoute.map(r => {

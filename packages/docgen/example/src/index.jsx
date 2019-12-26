@@ -112,4 +112,4 @@ createDocumentation({
         h1: props => <h1 style={{color: 'blue'}} {...props} />
     },
     footer: <div>License MIT, 2019</div>
-});
+}, document.getElementById('root'));

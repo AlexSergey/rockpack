@@ -30,14 +30,14 @@ const validate = (props) => {
         if (f.required) {
             if (!props[f.field]) {
                 isValid = false;
-                console.error(message(f.field, f.type, f.required, f.message));
+                global['console'].error(message(f.field, f.type, f.required, f.message));
                 return false;
             }
         }
         if (f.type !== 'any') {
             if (typeof props[f.field] !== 'undefined' && typeof props[f.field] !== f.type) {
                 isValid = false;
-                console.error(message(f.field, f.type, f.required, f.message));
+                global['console'].error(message(f.field, f.type, f.required, f.message));
                 return false;
             }
         }
@@ -51,7 +51,7 @@ const validate = (props) => {
                     });
                     if (keys.length !== validComponents.length) {
                         isValid = false;
-                        console.error(message(f.field, f.type, f.required, f.message));
+                        global['console'].error(message(f.field, f.type, f.required, f.message));
                         return false;
                     }
                 }

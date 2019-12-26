@@ -1,11 +1,10 @@
 {
-  "name": "my",
-  "version": "1.0.0",
+  "name": "@rock/dockgen",
+  "version": "0.9.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "NODE_ENV=development node example/build.js",
-    "build": "NODE_ENV=production node example/build.js"
+    "build": "NODE_ENV=production node build.js"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +21,6 @@
     "react-dom": "16.9.0",
     "react-router-dom": "5.0.1",
     "scroll-to-element": "2.0.3",
-    "react-flag-icon-css": "1.0.25",
     "unified-ui": "0.0.3",
     "@mdx-js/react": "1.5.1",
     "prism-react-renderer": "1.0.2",
@@ -31,6 +29,7 @@
     "url-join": "4.0.1",
     "@rock/localazer": "0.9.0",
     "url-parse": "1.4.7",
-    "valid-types": "1.0.2"
+    "valid-types": "1.0.2",
+    "react-meta-tags": "0.7.4"
   }
 }
