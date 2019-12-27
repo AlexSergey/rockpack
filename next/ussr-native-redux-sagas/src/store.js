@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import dogReducer from './containers/Dog/reducer';
 import { ussrSagas } from '@rock/ussr/client';
@@ -6,6 +6,12 @@ import watchFetchDog from './containers/Dog/saga';
 import logger from 'redux-logger';
 
 import { isProduction, isNotProduction } from './utils/mode';
+
+const middleware = getDefaultMiddleware({
+    immutableCheck: true,
+    serializableCheck: true,
+    thunk: false,
+});
 
 export default ({ reduxState = {}, rest } = {}) => {
     const sagaMiddleware = createSagaMiddleware()
@@ -15,13 +21,12 @@ export default ({ reduxState = {}, rest } = {}) => {
             dogReducer
         },
         devTools: isNotProduction,
-        middleware: isProduction ?
-            [
-                sagaMiddleware
-            ] : [
-                logger,
-                sagaMiddleware
-            ],
+        middleware: isProduction ? middleware.concat([
+            sagaMiddleware
+        ]) : middleware.concat([
+            logger,
+            sagaMiddleware
+        ]),
         preloadedState: reduxState
     });
 

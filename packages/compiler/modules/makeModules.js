@@ -148,6 +148,10 @@ function getModules(conf = {}, mode, root) {
     let scss;
     let less;
 
+    if (conf.makePO) {
+        extractStyles = false;
+    }
+
     if (conf.__isIsomorphicStyles) {
         css = [
             extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },

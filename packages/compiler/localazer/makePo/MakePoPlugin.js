@@ -8,6 +8,51 @@ const { normalize } = require('path');
 const mergePoFiles = require('./mergePoFiles');
 const mkdirp = require('mkdirp');
 
+const findValue = (ast, arg) => {
+    let excludeOther = {
+        value: false,
+        state: false
+    };
+
+    traverse.default(ast, {
+        VariableDeclarator: path => {
+            if (!excludeOther.state) {
+                if (path.node.id.name === arg.value.name) {
+                    if (path.node.init) {
+                        if (path.scope && path.scope.bindings && path.scope.bindings[arg.value.name]) {
+                            if (Array.isArray(path.scope.bindings[arg.value.name].referencePaths)) {
+                                path.scope.bindings[arg.value.name].referencePaths.forEach(ref => {
+                                    if (ref.node.start === arg.value.start && ref.node.end === arg.value.end) {
+                                        if (typeof path.node.init.value === 'string') {
+                                            excludeOther.state = true;
+                                            excludeOther.value = `"${path.node.init.value}"`;
+                                        }
+                                        else if (path.node.init && path.node.init.type === 'Identifier') {
+                                            excludeOther.value = findValue(ast, {
+                                                value: {
+                                                    start: path.node.init.start,
+                                                    end: path.node.init.end,
+                                                    name: path.node.init.name
+                                                }
+                                            });
+                                            excludeOther.state = true;
+                                        }
+                                        else {
+                                            excludeOther.state = true;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    return excludeOther.value;
+}
+
 class MakePoPlugin {
     constructor(options) {
         console.log('Making PO file is started...');
@@ -22,42 +67,92 @@ class MakePoPlugin {
                         const source = compilation.assets[filename].source();
                         const code = source.toString();
                         const ast = parse(code);
+                        const prepared = [];
                         const result = [];
 
                         traverse.default(ast, {
                             CallExpression: (path) => {
                                 let found = {
-                                    state: false
+                                    state: false,
+                                    arguments: []
                                 };
 
                                 if (Array.isArray(path.node.arguments)) {
                                     path.node.arguments.forEach(a => {
                                         if (a.property && a.property.value) {
                                             if (this.options.variables.indexOf(a.property.value) >= 0) {
-                                                found = {
-                                                    name: a.property.value,
-                                                    state: true
-                                                };
+                                                found.name = a.property.value;
+                                                found.state = true;
                                             }
                                         }
                                     });
                                 }
 
                                 if (found.state) {
-                                    let part = generate.default(path.parent);
+                                    // Check arguments
+                                    path.parent.arguments.forEach(argItem => {
+                                        switch (argItem.type) {
+                                            case 'Identifier':
+                                                let code;
+                                                try {
+                                                    code = generate.default(path.parent).code;
+                                                    let expression = code.replace(/Object\((.*?)\)/, '');
 
-                                    if (part && part.code) {
-                                        try {
-                                            let expression = part.code.replace(/Object\((.*?)\)/, '');
-                                            if (expression && expression.length > 0) {
-                                                console.log(found.name, ' -> ', expression);
-                                                result.push(`${found.name}${expression}`);
+                                                    if (expression && expression.length > 0) {
+                                                        code = `${found.name}${expression}`;
+                                                    }
+                                                } catch (e) {
+                                                    console.error(e);
+                                                }
+                                                found.arguments.push({
+                                                    type: 'variable',
+                                                    value: {
+                                                        code,
+                                                        name: argItem.name,
+                                                        start: argItem.start,
+                                                        end: argItem.end
+                                                    }
+                                                });
+                                                break;
+                                            case 'StringLiteral':
+                                                found.arguments.push({
+                                                    type: 'simple',
+                                                    value: argItem.value
+                                                });
+                                                break;
+                                        }
+                                    });
+                                    prepared.push(Object.assign({}, found));
+                                }
+                            }
+                        });
+
+                        prepared.forEach(item => {
+                            if (item && item.arguments && item.arguments.length > 0) {
+                                let stringArguments = '';
+                                item.arguments.forEach((arg, index) => {
+                                    switch (arg.type) {
+                                        case 'simple':
+                                            stringArguments += `"${arg.value}"`;
+                                            break;
+
+                                        case 'variable':
+                                            let value = findValue(ast, arg);
+                                            if (typeof value === 'string') {
+                                                stringArguments += value;
                                             }
-                                        }
-                                        catch (e) {
-                                            console.error(`Cant parse ${found.name}`, e);
-                                        }
+                                            break;
                                     }
+
+                                    if (item.arguments.length - 1 !== index) {
+                                        stringArguments += ', ';
+                                    }
+                                });
+
+                                if (stringArguments !== '') {
+                                    let fn = `${item.name}(${stringArguments})`;
+                                    console.log(fn);
+                                    result.push(fn);
                                 }
                             }
                         });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { hydrate } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import axios from 'axios';
 import App from './App';
 import { ClientStyles, loadableReady } from '@rock/ussr/client';
@@ -8,7 +8,10 @@ import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import createStore from './store';
 
-loadableReady(() => {
+const renderer = !!process.env.FRONT_ONLY ? render : hydrate;
+const loadable = !!process.env.FRONT_ONLY ? (fn) => fn() : loadableReady;
+
+loadable(() => {
     const instance = axios.create({
         url: 'http://localhost:6000',
         timeout: 1000
@@ -19,7 +22,7 @@ loadableReady(() => {
         rest: instance
     });
 
-    return hydrate(
+    return renderer(
         <ClientStyles>
             <Provider store={store}>
                 <Router history={createBrowserHistory()}>

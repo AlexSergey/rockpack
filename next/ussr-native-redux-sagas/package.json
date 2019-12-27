@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development node build",
+    "start:iso": "NODE_ENV=development node build --isomorphic",
     "build": "NODE_ENV=production node build"
   },
   "keywords": [],

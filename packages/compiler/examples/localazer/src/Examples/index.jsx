@@ -16,6 +16,14 @@ export default class LocalizationExamples extends Component {
         }
     }
 
+    notifier() {
+        const a = 'Alarm!';
+        const b = a;
+        const c = b;
+        const d = c;
+        alert(l(d));
+    }
+
     changeLocal = () => {
         this.setState({
             active: this.state.active === 'en' ? 'ru' : 'en'
@@ -27,6 +35,8 @@ export default class LocalizationExamples extends Component {
     render() {
         const { count, name, active, languages } = this.state;
 
+        const hello1 = `12Hello`;
+        const hello2 = hello1;
         return <LocalizationObserver active={active} languages={languages}>
             <div>
                 <p><a onClick={e => {
@@ -35,7 +45,7 @@ export default class LocalizationExamples extends Component {
                 }} className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/react-custom-scroll" role="button">Change localization</a></p>
                 <h2>Simple text example:</h2>
                 <div>
-                    <Localization>{l(`Hello`)}</Localization>
+                    <Localization>{l(hello2)}</Localization>
                 </div>
 
                 <br/>

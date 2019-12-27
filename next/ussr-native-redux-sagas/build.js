@@ -1,6 +1,8 @@
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rock/compiler');
 const path = require('path');
 
+const isIsomorphic = process.argv[process.argv.length - 1] === '--isomorphic';
+
 const alias = {
     alias: {
         'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
@@ -9,55 +11,61 @@ const alias = {
     }
 };
 
-/*frontendCompiler({
-    src: 'src/client.jsx',
-    dist: 'public',
-    styles: 'styles.css',
-    debug: true,
-    copy: [
-        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
-    ],
-    vendor: [
-        'react',
-        'react-dom',
-        'react-router-dom',
-        'redux'
-    ]
-}, config => {
-    Object.assign(config.resolve, alias);
-})*/
-
-isomorphicCompiler([
-    {
-        compiler: backendCompiler,
-        config: {
-            src: 'src/server.jsx',
-            dist: 'dist',
-            debug: true
+if (isIsomorphic) {
+    isomorphicCompiler([
+        {
+            compiler: backendCompiler,
+            config: {
+                src: 'src/server.jsx',
+                dist: 'dist',
+                debug: true
+            },
+            callback: config => {
+                Object.assign(config.resolve, alias);
+            }
         },
-        callback: config => {
-            Object.assign(config.resolve, alias);
+        {
+            compiler: frontendCompiler,
+            config: {
+                src: 'src/client.jsx',
+                dist: 'public',
+                styles: 'styles.css',
+                debug: true,
+                copy: [
+                    { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+                ],
+                vendor: [
+                    'react',
+                    'react-dom',
+                    'react-router-dom',
+                    'redux'
+                ]
+            },
+            callback: config => {
+                Object.assign(config.resolve, alias);
+            }
         }
-    },
-    {
-        compiler: frontendCompiler,
-        config: {
-            src: 'src/client.jsx',
-            dist: 'public',
-            styles: 'styles.css',
-            debug: true,
-            copy: [
-                { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
-            ],
-            vendor: [
-                'react',
-                'react-dom',
-                'react-router-dom',
-                'redux'
-            ]
+    ]);
+}
+else {
+    frontendCompiler({
+        src: 'src/client.jsx',
+        dist: 'public',
+        styles: 'styles.css',
+        debug: true,
+        global: {
+            FRONT_ONLY: true
         },
-        callback: config => {
-            Object.assign(config.resolve, alias);
-        }
-    }
-]);
+        copy: [
+            { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+        ],
+        vendor: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'redux'
+        ]
+    }, config => {
+        Object.assign(config.resolve, alias);
+    });
+}
