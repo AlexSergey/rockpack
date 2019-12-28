@@ -1,3 +1,5 @@
+import { isValidElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import Jed from 'jed';
 import { isFunction } from 'valid-types';
 import jed from './i18n';
@@ -14,7 +16,16 @@ const nl = (singular, plural, amount, context) => {
 };
 const sprintf = (...args) => {
     return function () {
-        return translateSprintf.apply(null, args.map(item => (isFunction(item) ? item() : item)));
+        return translateSprintf.apply(null, args.map(item => {
+            if (isValidElement(item)) {
+                return renderToStaticMarkup(item);
+            } else if (isFunction(item)) {
+                return item();
+            }
+            else {
+                return item;
+            }
+        }));
     };
 };
 

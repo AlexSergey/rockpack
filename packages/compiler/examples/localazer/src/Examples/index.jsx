@@ -16,7 +16,7 @@ export default class LocalizationExamples extends Component {
         }
     }
 
-    notifier() {
+    notifier = () => {
         const a = 'Alarm!';
         const b = a;
         const c = b;
@@ -35,10 +35,11 @@ export default class LocalizationExamples extends Component {
     render() {
         const { count, name, active, languages } = this.state;
 
-        const hello1 = `12Hello`;
+        const hello1 = `Hello world`;
         const hello2 = hello1;
         return <LocalizationObserver active={active} languages={languages}>
             <div>
+
                 <p><a onClick={e => {
                     e.preventDefault();
                     this.changeLocal();
@@ -47,7 +48,11 @@ export default class LocalizationExamples extends Component {
                 <div>
                     <Localization>{l(hello2)}</Localization>
                 </div>
-
+                <h2>Notification example</h2>
+                <p><a onClick={e => {
+                    e.preventDefault();
+                    this.notifier();
+                }}>Notification</a></p>
                 <br/>
 
                 <div>
@@ -57,8 +62,13 @@ export default class LocalizationExamples extends Component {
                         <Localization>
                             {
                                 sprintf(
-                                    l('Your name is %s', 'USER'),
-                                    name
+                                    l('Your name is %s and surname is %s', 'USER'),
+                                    <span style={{textDecoration: 'underline'}}>
+                                        <b>{name}</b>
+                                    </span>,
+                                        <span style={{textDecoration: 'underline'}}>
+                                        <b>Pupkin</b>
+                                    </span>
                                 )
                             }
                         </Localization>

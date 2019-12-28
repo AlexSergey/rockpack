@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-27 21:03+0200\n"
-"PO-Revision-Date: 2019-12-06 21:59+0200\n"
+"POT-Creation-Date: 2019-12-28 09:26+0200\n"
+"PO-Revision-Date: 2019-12-28 09:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -20,26 +20,25 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 msgid "Alarm!"
-msgstr ""
+msgstr "Ахтунг!"
 
-#, fuzzy
-msgid "12Hello"
-msgstr "Привет"
+msgid "Hello world"
+msgstr "Привет мир"
 
-#, fuzzy, javascript-format
+#, javascript-format
 msgctxt "USER"
-msgid "Your name is %s"
-msgstr "Ваше имя %s"
+msgid "Your name is %s and surname is %s"
+msgstr "Ваше имя %s ваша фамилия %s"
 
 #, javascript-format
 msgid "%d click"
 msgid_plural "%d clicks"
-msgstr[0] "%d Клик"
-msgstr[1] "%d Кликов"
-msgstr[2] "%d Кликов"
+msgstr[0] "%d клик"
+msgstr[1] "%d кликов"
+msgstr[2] "%d кликов"
 
 msgid "Sort By"
-msgstr "Сортировать"
+msgstr "Сортировать по"
 
 msgid "Latest"
 msgstr "По последнему"
