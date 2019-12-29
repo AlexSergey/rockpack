@@ -3,11 +3,11 @@ import Jed from 'jed';
 let instance = null;
 
 class I18N {
-    constructor(){
-        if(instance){
+    constructor() {
+        if (instance) {
             return instance;
         }
-        this.jed = new Jed({ domain : 'messages' });
+        this.jed = new Jed({ domain: 'messages' });
     }
 
     getJed() {

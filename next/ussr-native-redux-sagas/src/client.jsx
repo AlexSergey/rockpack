@@ -7,6 +7,7 @@ import { Router } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import createStore from './store';
+import watchFetchDog from './containers/Dog/saga';
 
 const renderer = !!process.env.FRONT_ONLY ? render : hydrate;
 const loadable = !!process.env.FRONT_ONLY ? (fn) => fn() : loadableReady;
@@ -18,9 +19,10 @@ loadable(() => {
     });
 
     let store = createStore({
-        reduxState: window.REDUX_DATA,
-        rest: instance
+        reduxState: window.REDUX_DATA
     });
+
+    store.runSaga(watchFetchDog, instance).toPromise();
 
     return renderer(
         <ClientStyles>

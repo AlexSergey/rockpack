@@ -30,7 +30,7 @@ async function useUssr(ctx, options = {}) {
     const stream = new Readable();
     const metaTagsInstance = MetaTagsServer();
 
-    let { jsx, store, css } = createJSX({
+    let { jsx, store, effects, css } = createJSX({
         ctx,
         metaTagsInstance,
         webExtractor,
@@ -44,21 +44,22 @@ async function useUssr(ctx, options = {}) {
 
     const meta = metaTagsInstance.renderToString();
 
-    if (store) {
-        if (typeof store.effects === 'function') {
-            const effectsInProgress = store.effects();
+    if (effects && Array.isArray(effects) && effects.length > 0) {
+        let effectsAsPromise = [];
 
-            if (effectsInProgress) {
-                const isPromises = Array.isArray(effectsInProgress) ?
-                    (effectsInProgress.map(p => typeof p.then === 'function').length === effectsInProgress.length) :
-                    typeof effectsInProgress.then === 'function';
+        effects.forEach(effect => {
+            if (typeof effect.then === 'function') {
+                effectsAsPromise.push(effect);
+            } else if (typeof effect === 'function') {
+                let res = effect();
 
-                if (isPromises) {
-                    Array.isArray(effectsInProgress) ?
-                        await Promise.all(effectsInProgress) :
-                        await effectsInProgress;
+                if (res && typeof res.then === 'function') {
+                    effectsAsPromise.push(res);
                 }
             }
+        });
+        if (effectsAsPromise.length > 0) {
+            await Promise.all(effectsAsPromise)
         }
     }
 

@@ -1,9 +1,5 @@
-let active = 'en';
-let defaultLang = 'en';
-let languages = {};
+const active = 'en';
+const defaultLang = 'en';
+const languages = {};
 
-export {
-    active,
-    defaultLang,
-    languages
-}
+export { active, defaultLang, languages };

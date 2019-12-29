@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import createStore from './store';
 import axios from 'axios';
 import { createMiddleware } from '@rock/ussr';
+import watchFetchDog from './containers/Dog/saga';
+import { END } from 'redux-saga';
 
 const port = 5000;
 const currentFolder = path.basename(process.cwd());
@@ -39,8 +41,10 @@ router.get('/*', ussr({
     liveReloadPort: process.env.NODE_ENV !== 'production' ? process.env.__LIVE_RELOAD__ : false,
     render: ({
         request,
-        reduxState
-    }, installStore) => {
+        reduxState,
+        setStore,
+        setEffect
+    }) => {
         const routerParams = {
             url: request.url,
             context: {}
@@ -58,11 +62,17 @@ router.get('/*', ussr({
         );
 
         let store = createStore({
-            reduxState,
-            rest: instance
+            reduxState
         });
 
-        installStore(store);
+        setStore(store);
+
+        setEffect(
+            store.runSaga(watchFetchDog, instance).toPromise(),
+            () => {
+                store.dispatch(END);
+            }
+        );
 
         return (
             <Provider store={store}>

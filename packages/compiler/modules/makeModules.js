@@ -132,6 +132,13 @@ function getModules(conf = {}, mode, root) {
         }
     }
 
+    if (existsSync(path.resolve(root, './tsconfig.development.js')) && mode === 'development') {
+        tsConfig = path.resolve(root, './tsconfig.development.js');
+    }
+    if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
+        tsConfig = path.resolve(root, './tsconfig.production.js');
+    }
+
     if (isString(conf.tsconfig)) {
         if (existsSync(path.resolve(root, conf.tsconfig))) {
             tsConfig = path.resolve(root, conf.tsconfig);
@@ -626,15 +633,29 @@ function getModules(conf = {}, mode, root) {
         }
     };
 
-    if (existsSync(path.resolve(root, 'eslintrc.js'))) {
+    let eslintRc = false;
+
+    if (existsSync(path.resolve(root, '.eslintrc.js'))) {
+        eslintRc = path.resolve(root, 'eslintrc.js')
+    }
+
+    if (existsSync(path.resolve(root, './.eslintrc.development.js')) && mode === 'development') {
+        eslintRc = path.resolve(root, './.eslintrc.development.js');
+    }
+
+    if (existsSync(path.resolve(root, './.eslintrc.production.js')) && mode === 'production') {
+        eslintRc = path.resolve(root, './.eslintrc.production.js');
+    }
+
+    if (isString(eslintRc)) {
         finalConf.jsPre = {
             enforce: 'pre',
-            test: /\.(js|jsx)$/,
+            test: /\.(js|jsx|ts|tsx)$/,
             exclude: /node_modules/,
             use: [{
                 loader: require.resolve('eslint-loader'),
                 options: {
-                    configFile: path.resolve(root, 'eslintrc.js'),
+                    configFile: eslintRc,
                     formatter: require.resolve('eslint-formatter-friendly')
                 }
             }]

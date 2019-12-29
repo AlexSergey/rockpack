@@ -1,5 +1,5 @@
 {
-  "name": "cli-installing-module",
+  "name": "@rock/codestyle",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,18 +7,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pkg-dir": "4.2.0",
-    "package-merge": "0.1.2",
-    "fs-extra": "8.1.0",
-    "sort-package-json": "1.24.0",
-    "deep-extend": "0.6.0",
+    "@typescript-eslint/parser": "2.13.0",
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-promise": "4.2.1",
+    "babel-eslint": "10.0.3",
     "@typescript-eslint/eslint-plugin": "2.10.0",
-    "eslint-plugin-prettier": "3.1.1",
     "eslint-config-airbnb": "18.0.1",
     "eslint-plugin-babel": "5.3.0",
     "eslint-plugin-jest": "23.1.1",
-    "eslint-plugin-react-hooks": "2.3.0"
+    "eslint-plugin-react-hooks": "2.3.0",
+    "eslint-plugin-import": "2.19.1"
   }
 }

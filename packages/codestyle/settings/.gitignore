@@ -94,3 +94,6 @@ test-reports
 # Custom config for prettier and eslint
 .eslintrc.custom.js
 .prettierrc.custom.js
+
+# dotenv file ought to ignore
+.env

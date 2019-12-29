@@ -8,12 +8,11 @@ module.exports = function getTypeScriptTreeFiles(srcFolder) {
             if (err) {
                 return reject(err);
             }
-            files = files
-                .filter(file => {
-                    let extL = file.lastIndexOf('.');
-                    let ext = file.slice(extL, file.length);
-                    return ['.ts', '.tsx'].indexOf(ext) >= 0;
-                });
+            files = files.filter(file => {
+                let extL = file.lastIndexOf('.');
+                let ext = file.slice(extL, file.length);
+                return ['.ts', '.tsx'].indexOf(ext) >= 0;
+            });
 
             return resolve(files);
         });
