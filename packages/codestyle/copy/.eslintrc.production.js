@@ -1,3 +1,3 @@
-const { production } = require('./.eslint.base');
+const { production } = require('./eslint.base');
 
 module.exports = production();

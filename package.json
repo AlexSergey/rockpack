@@ -1,15 +1,21 @@
 {
   "name": "rock",
   "version": "1.0.0",
-  "license": "MIT",
   "private": true,
+  "license": "MIT",
   "workspaces": [
     "book",
     "next/*",
     "packages/*"
   ],
   "scripts": {
-    "test": "lerna run test --stream"
+    "lint": "eslint --config .eslintrc.production.js '**/*.{js,ts,tsx}' --quiet",
+    "typing": "tsc --config tsconfig.production.json --noEmit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run typing && npm run lint"
+    }
   },
   "devDependencies": {
     "lerna": "3.18.3"

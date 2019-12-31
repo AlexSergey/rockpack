@@ -16,6 +16,7 @@ createDocumentation({
             ]
         }
     ],
+    ga: 'UA-155200418-1',
     github: 'https://github.com/AlexSergey/rock',
     footer: <div>License MIT, 2019</div>
 }, document.getElementById('root'));

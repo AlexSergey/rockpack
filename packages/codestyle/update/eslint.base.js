@@ -11,8 +11,7 @@ module.exports = {
     development: (customConfig = {}) => {
         return deepExtend({}, {
             extends: [
-                'eslint:recommended',
-                'plugin:react/recommended'
+                'eslint:recommended'
             ],
             parser,
             parserOptions: {
@@ -27,6 +26,7 @@ module.exports = {
             env: {
                 browser: true,
                 'jest/globals': true,
+                es6: true
             },
             plugins: [
                 'babel',
@@ -34,15 +34,30 @@ module.exports = {
                 'react',
                 'react-hooks'
             ],
+            globals: {
+                'global': true
+            },
             rules: {
-                'indent': [ 'error', 4 ],
-                'max-len': [ 'warn', 120, { ignoreComments: true } ],
-                'react/jsx-filename-extension': [
-                    'error', {
-                        extensions: [ '.jsx', '.tsx' ],
-                    },
-                ],
-                'react/jsx-indent': [ 'error', 4, { indentLogicalExpressions: true } ],
+                indent: ['error', 4],
+                quotes: ['error', 'single'],
+                'jsx-quotes': ['error', 'prefer-single'],
+                'no-undef': ['error', {
+                    typeof: true
+                }],
+                'max-len': ['warn', 120, {
+                    ignoreComments: true,
+                    ignoreStrings: true,
+                    ignoreUrls: true,
+                    ignoreTemplateLiterals: true,
+                    ignoreRegExpLiterals: true,
+                    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
+                }],
+                'react/jsx-filename-extension': ['error', {
+                    extensions: [ '.jsx', '.tsx' ]
+                }],
+                'react/jsx-indent': [ 'error', 4, {
+                    indentLogicalExpressions: true
+                }],
                 'react-hooks/rules-of-hooks': 'error',
                 'react-hooks/exhaustive-deps': 'warn'
             }
@@ -80,37 +95,38 @@ module.exports = {
 
             const rules = {
                 indent: ['error', 4],
-                'max-len': ['warn', 120, { ignoreComments: true }],
+                quotes: ['error', 'single'],
+                'jsx-quotes': ['error', 'prefer-single'],
+                'newline-per-chained-call': 'error',
+                'no-undef': ['error', {
+                    typeof: true
+                }],
+                'max-len': ['warn', 120, {
+                    ignoreComments: true,
+                    ignoreStrings: true,
+                    ignoreUrls: true,
+                    ignoreTemplateLiterals: true,
+                    ignoreRegExpLiterals: true,
+                    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
+                }],
                 'operator-linebreak': ['error', 'after'],
                 'no-nested-ternary': 'off',
                 'prefer-object-spread': 'off',
                 'consistent-return': 'off',
                 'arrow-parens': 'off',
-                'react/jsx-filename-extension': [
-                    'error',
-                    {
-                        extensions: ['.jsx', '.tsx']
-                    }
-                ],
-                'react/prop-types': 'warn',
-                'react/require-default-props': 'warn',
-                'react/no-unused-prop-types': [
-                    'warn',
-                    {
-                        skipShapeProps: true
-                    }
-                ],
-                'no-else-return': [
-                    'error',
-                    {
-                        allowElseIf: true
-                    }
-                ],
+                'react/jsx-filename-extension': ['error', {
+                    extensions: [ '.jsx', '.tsx' ]
+                }],
+                'no-else-return': ['error', {
+                    allowElseIf: true
+                }],
                 'no-console': 'error',
                 'react/no-danger': 'warn',
                 'react/prefer-stateless-function': 'warn',
-                'react/destructuring-assignment': 'off',
-                'react/jsx-indent': ['error', 4, {indentLogicalExpressions: true}],
+                'react/destructuring-assignment': 'warn',
+                'react/jsx-indent': ['error', 4, {
+                    indentLogicalExpressions: true
+                }],
                 'jsx-a11y/no-static-element-interactions': 'off',
                 'jsx-a11y/click-events-have-key-events': 'off',
                 'prefer-destructuring': 'off',
@@ -165,9 +181,13 @@ module.exports = {
                 },
                 env: {
                     browser: true,
-                    'jest/globals': true
+                    'jest/globals': true,
+                    es6: true
                 },
                 plugins,
+                globals: {
+                    global: true
+                },
                 rules
             }, customConfig);
         })();
