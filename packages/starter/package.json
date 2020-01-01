@@ -1,0 +1,16 @@
+{
+  "name": "@rock/starter",
+  "version": "0.9.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "rock": "./bin/starter.js"
+  },
+  "preferGlobal": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

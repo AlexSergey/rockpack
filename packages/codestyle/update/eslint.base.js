@@ -7,6 +7,32 @@ const isTypescript = fs.readdirSync(__dirname).filter(fn => {
 
 const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
 
+const commonRules = {
+    indent: ['error', 4],
+    quotes: ['error', 'single'],
+    'jsx-quotes': ['error', 'prefer-single'],
+    'no-undef': ['error', {
+        typeof: true
+    }],
+    'newline-per-chained-call': 'error',
+    'max-len': ['warn', 120, {
+        ignoreComments: true,
+        ignoreStrings: true,
+        ignoreUrls: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+        ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
+    }],
+    'react/jsx-filename-extension': ['error', {
+        extensions: [ '.jsx', '.tsx' ]
+    }],
+    'react/jsx-indent': [ 'error', 4, {
+        indentLogicalExpressions: true
+    }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
+};
+
 module.exports = {
     development: (customConfig = {}) => {
         return deepExtend({}, {
@@ -37,30 +63,7 @@ module.exports = {
             globals: {
                 'global': true
             },
-            rules: {
-                indent: ['error', 4],
-                quotes: ['error', 'single'],
-                'jsx-quotes': ['error', 'prefer-single'],
-                'no-undef': ['error', {
-                    typeof: true
-                }],
-                'max-len': ['warn', 120, {
-                    ignoreComments: true,
-                    ignoreStrings: true,
-                    ignoreUrls: true,
-                    ignoreTemplateLiterals: true,
-                    ignoreRegExpLiterals: true,
-                    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
-                }],
-                'react/jsx-filename-extension': ['error', {
-                    extensions: [ '.jsx', '.tsx' ]
-                }],
-                'react/jsx-indent': [ 'error', 4, {
-                    indentLogicalExpressions: true
-                }],
-                'react-hooks/rules-of-hooks': 'error',
-                'react-hooks/exhaustive-deps': 'warn'
-            }
+            rules: deepExtend({}, commonRules)
         }, customConfig);
     },
     production: (customConfig = {}) => {
@@ -75,6 +78,7 @@ module.exports = {
             ];
 
             if (isTypescript) {
+                extendsRules.push('airbnb-typescript');
                 extendsRules.push('plugin:@typescript-eslint/recommended');
             }
 
@@ -94,29 +98,11 @@ module.exports = {
             }
 
             const rules = {
-                indent: ['error', 4],
-                quotes: ['error', 'single'],
-                'jsx-quotes': ['error', 'prefer-single'],
-                'newline-per-chained-call': 'error',
-                'no-undef': ['error', {
-                    typeof: true
-                }],
-                'max-len': ['warn', 120, {
-                    ignoreComments: true,
-                    ignoreStrings: true,
-                    ignoreUrls: true,
-                    ignoreTemplateLiterals: true,
-                    ignoreRegExpLiterals: true,
-                    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
-                }],
                 'operator-linebreak': ['error', 'after'],
                 'no-nested-ternary': 'off',
                 'prefer-object-spread': 'off',
                 'consistent-return': 'off',
                 'arrow-parens': 'off',
-                'react/jsx-filename-extension': ['error', {
-                    extensions: [ '.jsx', '.tsx' ]
-                }],
                 'no-else-return': ['error', {
                     allowElseIf: true
                 }],
@@ -124,9 +110,6 @@ module.exports = {
                 'react/no-danger': 'warn',
                 'react/prefer-stateless-function': 'warn',
                 'react/destructuring-assignment': 'warn',
-                'react/jsx-indent': ['error', 4, {
-                    indentLogicalExpressions: true
-                }],
                 'jsx-a11y/no-static-element-interactions': 'off',
                 'jsx-a11y/click-events-have-key-events': 'off',
                 'prefer-destructuring': 'off',
@@ -138,34 +121,8 @@ module.exports = {
                 'no-shadow': 'warn',
                 'no-unused-vars': 'error',
                 'no-plusplus': 'off',
-                'no-param-reassign': 'off',
-                'react-hooks/rules-of-hooks': 'error',
-                'react-hooks/exhaustive-deps': 'warn'
+                'no-param-reassign': 'off'
             };
-
-            if (isTypescript) {
-                Object.assign(rules, {
-                    '@typescript-eslint/array-type': 'warn',
-                    '@typescript-eslint/explicit-function-return-type': [
-                        'warn',
-                        {
-                            allowExpressions: true,
-                            allowTypedFunctionExpressions: true
-                        }
-                    ],
-                    '@typescript-eslint/explicit-member-accessibility': [
-                        'warn',
-                        {
-                            accessibility: 'no-public'
-                        }
-                    ],
-                    '@typescript-eslint/member-delimiter-style': 'warn',
-                    '@typescript-eslint/no-non-null-assertion': 'warn',
-                    '@typescript-eslint/no-use-before-define': 'warn',
-                    '@typescript-eslint/no-var-requires': 'off',
-                    '@typescript-eslint/type-annotation-spacing': 'warn'
-                })
-            }
 
             return deepExtend({}, {
                 extends: extendsRules,
@@ -188,7 +145,7 @@ module.exports = {
                 globals: {
                     global: true
                 },
-                rules
+                rules: deepExtend({}, commonRules, rules)
             }, customConfig);
         })();
     }
