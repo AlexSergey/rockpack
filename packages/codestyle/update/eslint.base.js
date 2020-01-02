@@ -8,29 +8,17 @@ const isTypescript = fs.readdirSync(__dirname).filter(fn => {
 const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
 
 const commonRules = {
+    'arrow-parens': 'off',
+    'class-methods-use-this': 'off',
+    'comma-dangle': 'off',
+    'consistent-return': 'off',
     indent: ['error', 4],
-    quotes: ['error', 'single'],
-    'jsx-quotes': ['error', 'prefer-single'],
-    'no-undef': ['error', {
-        typeof: true
-    }],
-    'newline-per-chained-call': 'error',
-    'max-len': ['warn', 120, {
-        ignoreComments: true,
-        ignoreStrings: true,
-        ignoreUrls: true,
-        ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true,
-        ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
-    }],
-    'react/jsx-filename-extension': ['error', {
-        extensions: [ '.jsx', '.tsx' ]
-    }],
-    'react/jsx-indent': [ 'error', 4, {
-        indentLogicalExpressions: true
-    }],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'no-nested-ternary': 'off',
+    'no-param-reassign': 'off',
+    'no-plusplus': 'off',
+    'no-underscore-dangle': 'off',
+    'prefer-destructuring': 'off',
+    'prefer-object-spread': 'off'
 };
 
 module.exports = {
@@ -78,8 +66,8 @@ module.exports = {
             ];
 
             if (isTypescript) {
-                extendsRules.push('airbnb-typescript');
                 extendsRules.push('plugin:@typescript-eslint/recommended');
+                extendsRules.push('airbnb-typescript');
             }
 
             const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
@@ -98,30 +86,53 @@ module.exports = {
             }
 
             const rules = {
-                'operator-linebreak': ['error', 'after'],
-                'no-nested-ternary': 'off',
-                'prefer-object-spread': 'off',
-                'consistent-return': 'off',
-                'arrow-parens': 'off',
+                'import/no-extraneous-dependencies': 'off',
+                'import/no-unresolved': 'off',
+                'jsx-a11y/click-events-have-key-events': 'off',
+                'jsx-a11y/no-static-element-interactions': 'off',
+                'jsx-quotes': ['error', 'prefer-single'],
+                'max-len': ['warn', 120, {
+                    ignoreComments: true,
+                    ignoreStrings: true,
+                    ignoreUrls: true,
+                    ignoreTemplateLiterals: true,
+                    ignoreRegExpLiterals: true,
+                    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
+                }],
+                'newline-per-chained-call': 'error',
+                'no-console': 'error',
                 'no-else-return': ['error', {
                     allowElseIf: true
                 }],
-                'no-console': 'error',
-                'react/no-danger': 'warn',
-                'react/prefer-stateless-function': 'warn',
-                'react/destructuring-assignment': 'warn',
-                'jsx-a11y/no-static-element-interactions': 'off',
-                'jsx-a11y/click-events-have-key-events': 'off',
-                'prefer-destructuring': 'off',
-                'comma-dangle': 'off',
-                'no-underscore-dangle': 'off',
-                'class-methods-use-this': 'off',
-                'import/no-extraneous-dependencies': 'off',
-                'import/no-unresolved': 'off',
                 'no-shadow': 'warn',
+                'no-undef': ['error', {
+                    typeof: true
+                }],
                 'no-unused-vars': 'error',
-                'no-plusplus': 'off',
-                'no-param-reassign': 'off'
+                'no-use-before-define': ['error', {
+                    functions: true,
+                    classes: true
+                }],
+                'operator-linebreak': ['error', 'after'],
+                'promise/no-nesting': 'off',
+                'react-hooks/exhaustive-deps': 'warn',
+                'react-hooks/rules-of-hooks': 'error',
+                'react/destructuring-assignment': 'off',
+                'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
+                'react/jsx-filename-extension': ['error', {
+                    extensions: [ '.jsx', '.tsx' ]
+                }],
+                'react/jsx-indent': [ 'error', 4, {
+                    indentLogicalExpressions: true
+                }],
+                'react/jsx-one-expression-per-line': 'off',
+                'react/jsx-props-no-multi-spaces': 'off',
+                'react/no-array-index-key': 'warn',
+                'react/no-danger': 'off',
+                'react/no-unescaped-entities': 'off',
+                'react/prefer-stateless-function': 'off',
+                'react/require-default-props': 'off',
+                quotes: ['error', 'single'],
             };
 
             return deepExtend({}, {

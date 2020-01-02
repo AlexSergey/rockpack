@@ -1,15 +1,19 @@
 const { existsSync } = require('fs');
 const mergeConfWithDefault = require('../modules/mergeConfWithDefault');
 const makeMode = require('../modules/makeMode');
+const eslintFormatter = require('eslint-formatter-pretty');
 const ts = require('typescript');
 const path = require('path');
 const makeCompilerOptions = require('../utils/makeCompilerOptions');
 const getTypeScriptTreeFiles = require('../utils/getTypeScriptTreeFiles');
 const prepareToCopyFiles = require('../utils/prepareToCopyFiles');
-const { copySync, readFileSync } = require('fs-extra');
+const { copySync } = require('fs-extra');
 const { isArray } = require('valid-types');
 const defaultProps = require('../defaultProps');
 const errorHandler = require('../errorHandler');
+const { CLIEngine } = require('eslint');
+const pathToEslintrc = require('../utils/pathToEslintrc');
+const { isString } = require('valid-types');
 
 async function tsSourceCompiler(options = {}) {
     errorHandler();
@@ -29,9 +33,23 @@ async function tsSourceCompiler(options = {}) {
     const srcFolder = defaultProps.src === mergedConfig.src ?
         mergedConfig.src.slice(0, l) :
         mergedConfig.src;
+
     let entries, copyFiles;
+
     try {
         entries = await getTypeScriptTreeFiles(srcFolder);
+        let eslintrc = pathToEslintrc(root, mode);
+
+        if (isString(eslintrc)) {
+            let cli = new CLIEngine(require(eslintrc));
+            let report = cli.executeOnFiles(entries);
+            let errors = eslintFormatter(report.results);
+            if (errors) {
+                console.log(errors);
+                return process.exit(1);
+            }
+        }
+
         copyFiles = await prepareToCopyFiles(srcFolder, undefined, ['**/*.ts', '**/*.tsx']);
     } catch (err) {
         console.error(err);

@@ -30,6 +30,7 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
 const prerenderDocgen = require('../documentation/index');
+const pathToEslintrc = require('../utils/pathToEslintrc');
 
 function getTitle(packageJson) {
     if (!packageJson) {
@@ -214,12 +215,14 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         }
     }
 
-    if (existsSync(path.resolve(root, 'eslintrc.js'))) {
+    let eslintRc = pathToEslintrc(root, mode);
+
+    if (isString(eslintRc)) {
         plugins.LoadOptions = new webpack.LoaderOptionsPlugin({
-            test: /\.(js|jsx)$/,
+            test: /\.(js|jsx|ts|tsx)$/,
             options: {
                 eslint: {
-                    configFile: path.resolve(root, 'eslintrc.js'),
+                    configFile: eslintRc,
                     eslintPath: require.resolve('eslint'),
                     formatter: require(require.resolve('eslint-formatter-pretty')),
                     ignore: false,

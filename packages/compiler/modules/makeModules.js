@@ -4,6 +4,8 @@ const Collection = require('../utils/Collection');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const formatter = require("@becklyn/typescript-error-formatter");
+const pathToEslintrc = require('../utils/pathToEslintrc');
+const pathToTSConf = require('../utils/pathToTSConf');
 
 function babelOpts({
    isNodejs = false,
@@ -112,40 +114,9 @@ function getModules(conf = {}, mode, root) {
         debug = true;
     }
 
-    let tsConfig = false;
+    let tsConfig = pathToTSConf(root, mode, debug, conf);
 
-    if (existsSync(path.resolve(root, './tsconfig.js'))) {
-        tsConfig = path.resolve(root, './tsconfig.js');
-        if (debug) {
-            if (existsSync(path.resolve(root, './tsconfig.debug.js'))) {
-                tsConfig = path.resolve(root, './tsconfig.debug.js');
-            }
-        }
-    }
-
-    if (existsSync(path.resolve(root, './tsconfig.json'))) {
-        tsConfig = path.resolve(root, './tsconfig.json');
-        if (debug) {
-            if (existsSync(path.resolve(root, './tsconfig.debug.json'))) {
-                tsConfig = path.resolve(root, './tsconfig.debug.json');
-            }
-        }
-    }
-
-    if (existsSync(path.resolve(root, './tsconfig.development.js')) && mode === 'development') {
-        tsConfig = path.resolve(root, './tsconfig.development.js');
-    }
-    if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
-        tsConfig = path.resolve(root, './tsconfig.production.js');
-    }
-
-    if (isString(conf.tsconfig)) {
-        if (existsSync(path.resolve(root, conf.tsconfig))) {
-            tsConfig = path.resolve(root, conf.tsconfig);
-        }
-    }
-
-    let isTypeScriptStylesModules = !!tsConfig;
+    let isTypeScript = isString(tsConfig);
 
     let cssModules;
     let scssModules;
@@ -234,7 +205,7 @@ function getModules(conf = {}, mode, root) {
         ];
     }
 
-    if (isTypeScriptStylesModules) {
+    if (isTypeScript) {
         if (conf.__isIsomorphicStyles) {
             cssModules = [
                 extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
@@ -380,7 +351,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
-                        configFile: isString(tsConfig) ?
+                        configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
                         errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
@@ -391,7 +362,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
-                        configFile: isString(tsConfig) ?
+                        configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.json'),
                         errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
@@ -415,7 +386,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
-                        configFile: isString(tsConfig) ?
+                        configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
                         errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
@@ -426,7 +397,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
-                        configFile: isString(tsConfig) ?
+                        configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.json'),
                         errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
@@ -633,19 +604,7 @@ function getModules(conf = {}, mode, root) {
         }
     };
 
-    let eslintRc = false;
-
-    if (existsSync(path.resolve(root, '.eslintrc.js'))) {
-        eslintRc = path.resolve(root, 'eslintrc.js')
-    }
-
-    if (existsSync(path.resolve(root, './.eslintrc.development.js')) && mode === 'development') {
-        eslintRc = path.resolve(root, './.eslintrc.development.js');
-    }
-
-    if (existsSync(path.resolve(root, './.eslintrc.production.js')) && mode === 'production') {
-        eslintRc = path.resolve(root, './.eslintrc.production.js');
-    }
+    let eslintRc = pathToEslintrc(root, mode);
 
     if (isString(eslintRc)) {
         finalConf.jsPre = {
