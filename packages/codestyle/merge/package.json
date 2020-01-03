@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "lint": "eslint --config .eslintrc.production.js '**/*.{js,ts,tsx}' --quiet",
-    "typing": "tsc --config tsconfig.production.json --noEmit"
+    "lint": "eslint --config .eslintrc.js '**/*.{js,ts,tsx}' --quiet",
+    "typing": "tsc --config tsconfig.json --noEmit"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run typing && npm run lint"
     }
-  }
+  },
+  "codestyle": "init"
 }

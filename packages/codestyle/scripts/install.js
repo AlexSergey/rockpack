@@ -11,6 +11,8 @@ const projectFolder = pkgDir.sync(join(cliDir, '..'));
 const copyPath = join(cliDir, 'copy');
 const mergePath = join(cliDir, 'merge');
 const updatePath = join(cliDir, 'update');
+let packageJson = fs.readFileSync(join(projectFolder, 'package.json'), 'utf8');
+packageJson = JSON.parse(packageJson);
 
 // Update
 fsExtra.readdirSync(updatePath).forEach(file => {
@@ -20,11 +22,9 @@ fsExtra.readdirSync(updatePath).forEach(file => {
 // Merge
 if (fs.existsSync(join(projectFolder, './.git'))) {
     try {
-        let dst = fs.readFileSync(join(projectFolder, 'package.json'), 'utf8');
         let src = fs.readFileSync(join(mergePath, 'package.json'), 'utf8');
-        dst = JSON.parse(dst);
         src = JSON.parse(src);
-        let packageJSON = JSON.stringify(sortPackageJSON(merge({}, dst, src)), null, 2);
+        let packageJSON = JSON.stringify(sortPackageJSON(merge({}, packageJson, src)), null, 2);
         fs.writeFileSync(join(projectFolder, 'package.json'), packageJSON);
     } catch (e) {
         console.log(e);
@@ -36,7 +36,9 @@ if (fs.existsSync(join(projectFolder, './.git'))) {
 // Copy if file is not exists
 fs.readdirSync(copyPath).forEach(function(file) {
     if (!fs.existsSync(join(projectFolder, file))) {
-        fsExtra.copySync(join(copyPath, file), join(projectFolder, file));
+        if (!packageJson.codestyle) {
+            fsExtra.copySync(join(copyPath, file), join(projectFolder, file));
+        }
     }
     else {
         console.error(`File ${file} already exists`);

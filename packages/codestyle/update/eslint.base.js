@@ -14,7 +14,6 @@ const commonRules = {
     'consistent-return': 'off',
     indent: ['error', 4],
     'no-nested-ternary': 'off',
-    'no-param-reassign': 'off',
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
     'prefer-destructuring': 'off',
@@ -22,39 +21,7 @@ const commonRules = {
 };
 
 module.exports = {
-    development: (customConfig = {}) => {
-        return deepExtend({}, {
-            extends: [
-                'eslint:recommended'
-            ],
-            parser,
-            parserOptions: {
-                ecmaVersion: 2018,
-                sourceType: 'module',
-                ecmaFeatures: {
-                    modules: true,
-                    jsx: true,
-                    useJSXTextNode: true,
-                },
-            },
-            env: {
-                browser: true,
-                'jest/globals': true,
-                es6: true
-            },
-            plugins: [
-                'babel',
-                'jest',
-                'react',
-                'react-hooks'
-            ],
-            globals: {
-                'global': true
-            },
-            rules: deepExtend({}, commonRules)
-        }, customConfig);
-    },
-    production: (customConfig = {}) => {
+    makeConfig: (customConfig = {}) => {
         return (() => {
             const extendsRules = [
                 'eslint:recommended',
@@ -69,8 +36,6 @@ module.exports = {
                 extendsRules.push('plugin:@typescript-eslint/recommended');
                 extendsRules.push('airbnb-typescript');
             }
-
-            const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
 
             const plugins = [
                 'babel',

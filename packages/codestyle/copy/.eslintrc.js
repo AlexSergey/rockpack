@@ -1,3 +1,3 @@
-const { development } = require('./eslint.base');
+const { makeConfig } = require('./eslint.base');
 
-module.exports = development();
+module.exports = makeConfig();
