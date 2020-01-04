@@ -12,5 +12,9 @@
   "preferGlobal": true,
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "7.0.1",
+    "yargs": "15.1.0"
+  }
 }

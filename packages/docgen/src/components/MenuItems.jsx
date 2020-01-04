@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from 'react';
 import { matchPath } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import TreeView from '@material-ui/lab/TreeView';
@@ -15,20 +15,22 @@ const useStylesTreeView = makeStyles({
     },
 });
 
-const setActive = (currentUrl, pth, activeLang) => {
-    return matchPath(currentUrl, {
+const setActive = (currentUrl, pth, activeLang) => (
+    matchPath(currentUrl, {
         path: typeof activeLang === 'string' ? `/${activeLang}${pth}` : pth,
         exact: true,
         strict: false
-    }) ? 'active' : '';
-};
+    }) ? 'active' : ''
+);
 
 const MenuItems = withRouter(props => {
     const classesTreeView = useStylesTreeView();
 
     const goTo = (url, name) => {
         if (url) {
-            props.history.push(typeof props.activeLang === 'string' ? `/${props.activeLang}${url}` : url);
+            props.history.push(typeof props.activeLang === 'string' ?
+                `/${props.activeLang}${url}` :
+                url);
         }
         setTimeout(() => {
             if (global.document && name) {
@@ -52,25 +54,25 @@ const MenuItems = withRouter(props => {
         }
 
         let W = data.url ? (Inner, url) => (
-                <span
-                        {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
-                        className={setActive(global.document.location.pathname, url, props.activeLang)}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            goTo(url, null);
-                        }}
-                        key={data.uniqId}>{Inner}</span>
-            ) : (Inner, hash, extraClassName) => (
-                    <span
-                        {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
-                        className={`#${hash}` === global.document.location.hash ? `active ${extraClassName}` : extraClassName}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            goTo(null, data.name);
-                        }} key={data.uniqId}>{Inner}</span>
-                )
+            <span
+                {...Object.assign({}, data.nodeId ? {id: data.nodeId} : {})}
+                className={setActive(global.document.location.pathname, url, props.activeLang)}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    goTo(url, null);
+                }}
+                key={data.uniqId}>{Inner}</span>
+        ) : (Inner, hash, extraClassName) => (
+            <span
+                {...Object.assign({}, data.nodeId ? { id: data.nodeId } : {})}
+                className={`#${hash}` === global.document.location.hash ? `active ${extraClassName}` : extraClassName}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    goTo(null, data.name);
+                }} key={data.uniqId}>{Inner}</span>
+        )
 
         return (
             data.children ? W(

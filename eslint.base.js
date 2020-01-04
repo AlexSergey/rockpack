@@ -1,18 +1,107 @@
-const fs = require('fs');
 const deepExtend = require('deep-extend');
 
-const isTypescript = fs.readdirSync(__dirname).filter(fn => {
-    return fn.match(/tsconfig?(.)*(.js|.json)/ig);
-}).length > 0;
-
-const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
-
 module.exports = {
-    development: (customConfig = {}) => {
+    makeConfig: (customConfig = {}, opts = {}) => {
+        const isTypescript = !!opts.typescript;
+
+        const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
+
+        const commonRules = {
+            'arrow-parens': 'off',
+            'class-methods-use-this': 'off',
+            'comma-dangle': 'off',
+            'consistent-return': 'off',
+            indent: ['error', 4],
+            'no-nested-ternary': 'off',
+            'no-plusplus': 'off',
+            'no-underscore-dangle': 'off',
+            'prefer-destructuring': 'off',
+            'prefer-object-spread': 'off',
+            'no-trailing-spaces': 'off',
+            'object-curly-newline': 'off'
+        };
+
+        const extendsRules = [
+            'eslint:recommended',
+            'plugin:react/recommended',
+            'plugin:promise/recommended',
+            'plugin:import/errors',
+            'plugin:import/warnings',
+            'airbnb'
+        ];
+
+        if (isTypescript) {
+            extendsRules.push('plugin:@typescript-eslint/recommended');
+            extendsRules.push('airbnb-typescript');
+        }
+
+        const plugins = [
+            'babel',
+            'jest',
+            'react',
+            'promise',
+            '@typescript-eslint',
+            'react-hooks'
+        ];
+
+        if (isTypescript) {
+            plugins.push('@typescript-eslint');
+        }
+
+        const rules = {
+            'import/no-extraneous-dependencies': 'off',
+            'import/no-unresolved': 'off',
+            'jsx-a11y/click-events-have-key-events': 'off',
+            'jsx-a11y/no-static-element-interactions': 'off',
+            'jsx-quotes': ['error', 'prefer-double'],
+            'max-len': ['warn', 120, {
+                ignoreComments: true,
+                ignoreStrings: true,
+                ignoreUrls: true,
+                ignoreTemplateLiterals: true,
+                ignoreRegExpLiterals: true,
+                ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
+            }],
+            'newline-per-chained-call': 'error',
+            'no-console': 'error',
+            'no-else-return': ['error', {
+                allowElseIf: true
+            }],
+            'no-shadow': 'warn',
+            'no-undef': ['error', {
+                typeof: true
+            }],
+            'no-unused-vars': 'error',
+            'no-use-before-define': ['error', {
+                functions: true,
+                classes: true
+            }],
+            'operator-linebreak': ['error', 'after'],
+            'promise/no-nesting': 'off',
+            'react-hooks/exhaustive-deps': 'warn',
+            'react-hooks/rules-of-hooks': 'error',
+            'react/destructuring-assignment': 'off',
+            'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
+            'react/jsx-filename-extension': ['error', {
+                extensions: ['.jsx', '.tsx']
+            }],
+            'react/jsx-indent': ['error', 4, {
+                indentLogicalExpressions: true
+            }],
+            'react/jsx-indent-props': ['error', 4],
+            'react/jsx-one-expression-per-line': 'off',
+            'react/jsx-props-no-multi-spaces': 'off',
+            'react/jsx-props-no-spreading': 'off',
+            'react/no-array-index-key': 'warn',
+            'react/no-danger': 'off',
+            'react/no-unescaped-entities': 'off',
+            'react/prefer-stateless-function': 'off',
+            'react/require-default-props': 'off',
+            quotes: ['error', 'single'],
+        };
+
         return deepExtend({}, {
-            extends: [
-                'eslint:recommended'
-            ],
+            extends: extendsRules,
             parser,
             parserOptions: {
                 ecmaVersion: 2018,
@@ -20,172 +109,19 @@ module.exports = {
                 ecmaFeatures: {
                     modules: true,
                     jsx: true,
-                    useJSXTextNode: true,
-                },
+                    useJSXTextNode: true
+                }
             },
             env: {
                 browser: true,
                 'jest/globals': true,
                 es6: true
             },
-            plugins: [
-                'babel',
-                'jest',
-                'react',
-                'react-hooks'
-            ],
+            plugins,
             globals: {
-                'global': true
+                global: true
             },
-            rules: {
-                'indent': ['error', 4],
-                'no-undef': ['error', {
-                    typeof: true
-                }],
-                'max-len': ['warn', 120, {
-                    ignoreComments: true,
-                    ignoreStrings: true,
-                    ignoreUrls: true,
-                    ignoreTemplateLiterals: true,
-                    ignoreRegExpLiterals: true,
-                    ignorePattern: "^import\\s.+\\sfrom\\s.+;$"
-                }],
-                'react/jsx-filename-extension': ['error', {
-                    extensions: [ '.jsx', '.tsx' ]
-                }],
-                'react/jsx-indent': [ 'error', 4, {
-                    indentLogicalExpressions: true
-                }],
-                'react-hooks/rules-of-hooks': 'error',
-                'react-hooks/exhaustive-deps': 'warn'
-            }
+            rules: deepExtend({}, commonRules, rules)
         }, customConfig);
-    },
-    production: (customConfig = {}) => {
-        return (() => {
-            const extendsRules = [
-                'eslint:recommended',
-                'plugin:react/recommended',
-                'plugin:promise/recommended',
-                'plugin:import/errors',
-                'plugin:import/warnings',
-                'airbnb'
-            ];
-
-            if (isTypescript) {
-                extendsRules.push('plugin:@typescript-eslint/recommended');
-            }
-
-            const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
-
-            const plugins = [
-                'babel',
-                'jest',
-                'react',
-                'promise',
-                '@typescript-eslint',
-                'react-hooks'
-            ];
-
-            if (isTypescript) {
-                plugins.push('@typescript-eslint');
-            }
-
-            const rules = {
-                indent: ['error', 4],
-                'newline-per-chained-call': 'error',
-                'no-undef': ['error', {
-                    typeof: true
-                }],
-                'max-len': ['warn', 120, {
-                    ignoreComments: true,
-                    ignoreStrings: true,
-                    ignoreUrls: true,
-                    ignoreTemplateLiterals: true,
-                    ignoreRegExpLiterals: true,
-                    ignorePattern: "^import\\s.+\\sfrom\\s.+;$"
-                }],
-                'operator-linebreak': ['error', 'after'],
-                'no-nested-ternary': 'off',
-                'prefer-object-spread': 'off',
-                'consistent-return': 'off',
-                'arrow-parens': 'off',
-                'react/jsx-filename-extension': ['error', {
-                    extensions: [ '.jsx', '.tsx' ]
-                }],
-                'no-else-return': ['error', {
-                    allowElseIf: true
-                }],
-                'no-console': 'error',
-                'react/no-danger': 'warn',
-                'react/prefer-stateless-function': 'warn',
-                'react/destructuring-assignment': 'warn',
-                'react/jsx-indent': ['error', 4, {
-                    indentLogicalExpressions: true
-                }],
-                'jsx-a11y/no-static-element-interactions': 'off',
-                'jsx-a11y/click-events-have-key-events': 'off',
-                'prefer-destructuring': 'off',
-                'comma-dangle': 'off',
-                'no-underscore-dangle': 'off',
-                'class-methods-use-this': 'off',
-                'import/no-extraneous-dependencies': 'off',
-                'import/no-unresolved': 'off',
-                'no-shadow': 'warn',
-                'no-unused-vars': 'error',
-                'no-plusplus': 'off',
-                'no-param-reassign': 'off',
-                'react-hooks/rules-of-hooks': 'error',
-                'react-hooks/exhaustive-deps': 'warn'
-            };
-
-            if (isTypescript) {
-                Object.assign(rules, {
-                    '@typescript-eslint/array-type': 'warn',
-                    '@typescript-eslint/explicit-function-return-type': [
-                        'warn',
-                        {
-                            allowExpressions: true,
-                            allowTypedFunctionExpressions: true
-                        }
-                    ],
-                    '@typescript-eslint/explicit-member-accessibility': [
-                        'warn',
-                        {
-                            accessibility: 'no-public'
-                        }
-                    ],
-                    '@typescript-eslint/member-delimiter-style': 'warn',
-                    '@typescript-eslint/no-non-null-assertion': 'warn',
-                    '@typescript-eslint/no-use-before-define': 'warn',
-                    '@typescript-eslint/no-var-requires': 'off',
-                    '@typescript-eslint/type-annotation-spacing': 'warn'
-                })
-            }
-
-            return deepExtend({}, {
-                extends: extendsRules,
-                parser,
-                parserOptions: {
-                    ecmaVersion: 2018,
-                    sourceType: 'module',
-                    ecmaFeatures: {
-                        modules: true,
-                        jsx: true,
-                        useJSXTextNode: true
-                    }
-                },
-                env: {
-                    browser: true,
-                    'jest/globals': true,
-                    es6: true
-                },
-                plugins,
-                globals: {
-                    global: true
-                },
-                rules
-            }, customConfig);
-        })();
     }
 };
