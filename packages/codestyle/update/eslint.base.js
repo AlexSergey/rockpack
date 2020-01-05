@@ -11,14 +11,22 @@ module.exports = {
             'class-methods-use-this': 'off',
             'comma-dangle': 'off',
             'consistent-return': 'off',
-            indent: ['error', 4],
+            indent: ['error', 4, {
+                SwitchCase: 1
+            }],
             'no-nested-ternary': 'off',
             'no-plusplus': 'off',
             'no-underscore-dangle': 'off',
             'prefer-destructuring': 'off',
             'prefer-object-spread': 'off',
             'no-trailing-spaces': 'off',
-            'object-curly-newline': 'off'
+            'object-curly-newline': 'off',
+            'no-return-await': 'off',
+            'no-await-in-loop': 'off',
+            'no-continue': 'off',
+            'no-loop-func': 'off',
+            'spaced-comment': 'off',
+            'default-case': 'off'
         };
 
         const extendsRules = [
@@ -53,7 +61,6 @@ module.exports = {
             'class-methods-use-this': 'off',
             'comma-dangle': 'off',
             'consistent-return': 'off',
-            indent: ['error', 4],
             'no-nested-ternary': 'off',
             'no-plusplus': 'off',
             'no-underscore-dangle': 'off',
@@ -61,6 +68,7 @@ module.exports = {
             'prefer-object-spread': 'off',
             'import/no-extraneous-dependencies': 'off',
             'import/no-unresolved': 'off',
+            'import/no-dynamic-require': 'off',
             'jsx-a11y/click-events-have-key-events': 'off',
             'jsx-a11y/no-static-element-interactions': 'off',
             'jsx-quotes': ['error', 'prefer-double'],

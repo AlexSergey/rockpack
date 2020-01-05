@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import ColorComponent from '../lib/cjs/Color.Component';
+import ColorComponent from './Color.Component';
 
 ReactDOM.render(
     <div>

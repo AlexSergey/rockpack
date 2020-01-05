@@ -1,22 +1,31 @@
 const log = require('../utils/log');
-const { isNumber, isArray } = require('valid-types');
+const { isNumber, isArray, isDefined } = require('valid-types');
 const WebpackDevServer = require('webpack-dev-server');
+const sourceCompile = require('../utils/sourceCompile');
 
 const runAppStrategy = (compiler, webpack, webpackConfig, conf) => {
     return {
-        simple: () => {
-            return new Promise((resolve, reject) => {
-                compiler.run((err, stats) => {
+        simple: () => (
+            new Promise((resolve, reject) => {
+                compiler.run(async (err, stats) => {
                     log(err, stats);
                     if (err) {
                         return reject(err);
                     }
+                    if (isDefined(conf.esm) || isDefined(conf.cjs)) {
+                        // Transpile source
+                        try {
+                            await sourceCompile(conf);
+                        } catch (e) {
+                            console.error(e.message);
+                        }
+                    }
                     return resolve(stats);
                 });
-            });
-        },
+            })
+        ),
         'dev-server': () => {
-            let server = new WebpackDevServer(compiler, webpackConfig.devServer);
+            const server = new WebpackDevServer(compiler, webpackConfig.devServer);
 
             server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
                 if (isNumber(conf._liveReloadPort)) {
@@ -28,10 +37,10 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => {
                 }
             });
         },
-        'watch': () => {
+        watch: () => {
             compiler.watch({}, (err, stats) => {
                 console.log(stats.toString({
-                    "errors-only": true,
+                    'errors-only': true,
                     colors: true,
                     children: false
                 }));
@@ -43,44 +52,52 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => {
     };
 };
 
-const runNodeStrategy = (compiler) => {
+const runNodeStrategy = (compiler, webpack, webpackConfig, conf) => {
     return {
-        simple: () => {
-            return new Promise((resolve, reject) => {
-                compiler.run((err, stats) => {
+        simple: () => (
+            new Promise((resolve, reject) => {
+                compiler.run(async (err, stats) => {
                     log(err, stats);
                     if (err) {
                         return reject(err);
                     }
+                    if (isDefined(conf.esm) || isDefined(conf.cjs)) {
+                        // Transpile source
+                        try {
+                            await sourceCompile(conf);
+                        } catch (e) {
+                            console.error(e.message);
+                        }
+                    }
                     return resolve(stats);
                 });
-            });
-        },
+            })
+        ),
         'node-watch': () => {
             compiler.watch({}, (err, stats) => {
                 console.log(stats.toString({
-                    "errors-only": true,
+                    'errors-only': true,
                     colors: true,
                     children: false
                 }));
             });
         }
-    }
+    };
 };
 
 const getStrategy = (mode, conf) => {
     if (conf.onlyWatch) {
         return conf.nodejs ? 'node-watch' : 'watch';
     }
-    switch(mode) {
-        case 'development':
-            if (conf.nodejs) {
-                return 'node-watch';
-            }
-            return 'dev-server';
+    switch (mode) {
+    case 'development':
+        if (conf.nodejs) {
+            return 'node-watch';
+        }
+        return 'dev-server';
 
-        default:
-            return 'simple';
+    default:
+        return 'simple';
     }
 };
 
@@ -105,9 +122,10 @@ const run = async (webpackConfig, mode, webpack, configs) => {
         let runner = config.nodejs ? runNodeStrategy : runAppStrategy;
 
         try {
-            compileStrategy = runner(isMultiCompile ?
-                compiler.compilers[i] :
-                compiler,
+            compileStrategy = runner(
+                isMultiCompile ?
+                    compiler.compilers[i] :
+                    compiler,
                 webpack,
                 webpackConfig[i],
                 config

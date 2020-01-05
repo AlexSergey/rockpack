@@ -23,11 +23,8 @@ async function libraryCompiler(libraryName, options = {}, cb, configOnly = false
         if (mode === 'development') {
             options.onlyWatch = true;
         }
-    }
-    else {
-        if (mode === 'development') {
-            options._liveReload = true;
-        }
+    } else if (mode === 'development') {
+        options._liveReload = true;
     }
     if (options.nodejs) {
         return await backendCompiler(options, cb, configOnly);

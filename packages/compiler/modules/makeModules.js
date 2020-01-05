@@ -1,19 +1,22 @@
 const { existsSync } = require('fs');
 const { isString, isObject, isBoolean } = require('valid-types');
-const Collection = require('../utils/Collection');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const formatter = require("@becklyn/typescript-error-formatter");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const formatter = require('@becklyn/typescript-error-formatter');
+const Collection = require('../utils/Collection');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const pathToTSConf = require('../utils/pathToTSConf');
 
 function babelOpts({
-   isNodejs = false,
-   framework = false,
-   loadable = false
+    isNodejs = false,
+    framework = false,
+    loadable = false,
+    modules = false
 }) {
     const root = path.dirname(require.main.filename);
-    const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
+    const packageJsonPath = path.resolve(root, 'package.json');
+    // eslint-disable-next-line global-require
+    const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
     let corejs = false;
 
     if (packageJson && isObject(packageJson.dependencies)) {
@@ -22,20 +25,20 @@ function babelOpts({
         }
     }
 
-    var opts = {
+    const opts = {
         babelrc: false,
         presets: [
             [require.resolve('@babel/preset-env'), Object.assign({
-                modules: false,
+                modules,
                 loose: true,
             }, isNodejs ? {
                 targets: {
-                    node: "current"
+                    node: 'current'
                 }
             } : {
                 targets: {
                     browsers: [
-                        "> 5%"
+                        '> 5%'
                     ]
                 }
             }, isString(corejs) ? {
@@ -60,7 +63,10 @@ function babelOpts({
             opts.plugins = opts.plugins.concat([
                 require.resolve('@babel/plugin-syntax-dynamic-import'),
                 require.resolve('@babel/plugin-transform-flow-comments'),
-                [require.resolve('@babel/plugin-proposal-decorators'), { "legacy": true }],
+                [
+                    require.resolve('@babel/plugin-proposal-decorators'),
+                    { legacy: true }
+                ],
                 require.resolve('@babel/plugin-proposal-class-properties'),
                 require.resolve('@babel/plugin-proposal-object-rest-spread')
             ]);
@@ -90,19 +96,14 @@ const getPostcssConfig = (root) => {
 
     return {
         path: pth
-    }
+    };
 };
 
 function getModules(conf = {}, mode, root) {
     let extractStyles = false;
 
     if (mode === 'production') {
-        if (isBoolean(conf.styles) && conf.styles === false) {
-            extractStyles = false;
-        }
-        else {
-            extractStyles = true;
-        }
+        extractStyles = isBoolean(conf.styles) && conf.styles === false ? conf.styles : true;
     }
 
     let debug = false;
@@ -114,9 +115,9 @@ function getModules(conf = {}, mode, root) {
         debug = true;
     }
 
-    let tsConfig = pathToTSConf(root, mode, debug, conf);
+    const tsConfig = pathToTSConf(root, mode, debug, conf);
 
-    let isTypeScript = isString(tsConfig);
+    const isTypeScript = isString(tsConfig);
 
     let cssModules;
     let scssModules;
@@ -166,7 +167,6 @@ function getModules(conf = {}, mode, root) {
             { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
             { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
         ];
-
     } else {
         css = [
             extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader'), options: { sourceMap: debug } },
@@ -227,8 +227,7 @@ function getModules(conf = {}, mode, root) {
                 { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
                 { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
             ];
-        }
-        else {
+        } else {
             cssModules = [
                 extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader'), options: { sourceMap: debug } },
                 { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
@@ -252,7 +251,7 @@ function getModules(conf = {}, mode, root) {
         }
     }
 
-    let finalConf = {
+    const finalConf = {
         handlebars: {
             test: /\.(hbs|handlebars)$/,
             use: [
@@ -581,7 +580,15 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('svgo-loader'),
                     options: {
-                        plugins: [{ removeTitle: true }, { convertColors: { shorthex: false } }, { convertPathData: false }]
+                        plugins: [{
+                            removeTitle: true
+                        }, {
+                            convertColors: {
+                                shorthex: false
+                            }
+                        }, {
+                            convertPathData: false
+                        }]
                     }
                 }
             ]
@@ -597,14 +604,22 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('svgo-loader'),
                     options: {
-                        plugins: [{ removeTitle: true }, { convertColors: { shorthex: false } }, { convertPathData: false }]
+                        plugins: [{
+                            removeTitle: true
+                        }, {
+                            convertColors: {
+                                shorthex: false
+                            }
+                        }, {
+                            convertPathData: false
+                        }]
                     }
                 }
             ]
         }
     };
 
-    let eslintRc = pathToEslintrc(root, mode);
+    const eslintRc = pathToEslintrc(root, mode);
 
     if (isString(eslintRc)) {
         finalConf.jsPre = {
@@ -618,14 +633,15 @@ function getModules(conf = {}, mode, root) {
                     formatter: require.resolve('eslint-formatter-friendly')
                 }
             }]
-        }
+        };
     }
 
     return finalConf;
 }
 
-const _makeModules = (modules, conf = {}, excludeModules = []) => {
+const _makeModules = (modules, conf, excludeModules = []) => {
     excludeModules.forEach(propsToDelete => {
+        // eslint-disable-next-line no-param-reassign
         delete modules[propsToDelete];
     });
     return new Collection({
@@ -635,7 +651,7 @@ const _makeModules = (modules, conf = {}, excludeModules = []) => {
 };
 
 const makeModules = (conf, root, packageJson, mode, excludeModules) => {
-    let modules = getModules(conf, mode, root);
+    const modules = getModules(conf, mode, root);
 
     return _makeModules(modules, conf, excludeModules);
 };
