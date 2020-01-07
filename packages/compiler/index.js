@@ -10,7 +10,6 @@ const backendCompiler = require('./compilers/backendCompiler');
 const analyzerCompiler = require('./compilers/analyzerCompiler');
 const multiCompiler = require('./compilers/multiCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
-const tsSourceCompiler = require('./compilers/tsSourceCompiler');
 const localazer = require('./compilers/localazer');
 
 function getArgs() {
@@ -34,6 +33,5 @@ module.exports = {
     documentationCompiler,
     backendCompiler,
     analyzerCompiler,
-    tsSourceCompiler,
     localazer
 };

@@ -9,8 +9,8 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "eslint --config .eslintrc.production.js '**/*.{js,ts,tsx}' --quiet",
-    "typing": "tsc --config tsconfig.production.json --noEmit"
+    "lint": "eslint --config .eslintrc.js '**/*.{js,ts,tsx}' --quiet",
+    "typing": "tsc --config tsconfig.json --noEmit"
   },
   "husky": {
     "hooks": {
@@ -19,5 +19,6 @@
   },
   "devDependencies": {
     "lerna": "3.18.3"
-  }
+  },
+  "codestyle": "init"
 }

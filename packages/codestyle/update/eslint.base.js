@@ -3,6 +3,7 @@ const deepExtend = require('deep-extend');
 module.exports = {
     makeConfig: (customConfig = {}, opts = {}) => {
         const isTypescript = !!opts.typescript;
+        const isNodejs = !!opts.nodejs;
 
         const parser = isTypescript ? '@typescript-eslint/parser' : 'babel-eslint';
 
@@ -26,7 +27,10 @@ module.exports = {
             'no-continue': 'off',
             'no-loop-func': 'off',
             'spaced-comment': 'off',
-            'default-case': 'off'
+            'default-case': 'off',
+            'no-param-reassign': ['error', {
+                props: false
+            }]
         };
 
         const extendsRules = [
@@ -37,6 +41,10 @@ module.exports = {
             'plugin:import/warnings',
             'airbnb'
         ];
+
+        if (isNodejs) {
+            extendsRules.push('plugin:node/recommended');
+        }
 
         if (isTypescript) {
             extendsRules.push('plugin:@typescript-eslint/recommended');
@@ -57,6 +65,7 @@ module.exports = {
         }
 
         const rules = {
+            'no-implicit-coercion': 'error',
             'arrow-parens': 'off',
             'class-methods-use-this': 'off',
             'comma-dangle': 'off',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from '../assets/styles/logo.svg';
 import './App.css';
 
 const logoData = `data:image/svg+xml;base64,${window.btoa(logo)}`;

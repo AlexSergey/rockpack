@@ -1,5 +1,7 @@
+const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
+const mkdirp = require('mkdirp');
 
 function getFiles(srcFolder, query = '*', ignore = []) {
     return new Promise((resolve, reject) => {
@@ -12,7 +14,12 @@ function getFiles(srcFolder, query = '*', ignore = []) {
                 return reject(err);
             }
 
-            return resolve(files);
+            return resolve(
+                files
+                    .filter(file => {
+                        return !fs.lstatSync(file).isDirectory();
+                    })
+            );
         });
     });
 }
@@ -25,18 +32,28 @@ function getTypeScript(srcFolder) {
             if (err) {
                 return reject(err);
             }
-            const tsAndTsx = files.filter(file => {
-                const extL = file.lastIndexOf('.');
-                const ext = file.slice(extL, file.length);
-                return ['.ts', '.tsx'].indexOf(ext) >= 0;
-            });
+            const tsAndTsx = files
+                .filter(file => {
+                    return !fs.lstatSync(file).isDirectory();
+                })
+                .filter(file => {
+                    const extL = file.lastIndexOf('.');
+                    const ext = file.slice(extL, file.length);
+                    return ['.ts', '.tsx'].indexOf(ext) >= 0;
+                });
 
             return resolve(tsAndTsx);
         });
     });
 }
 
+function writeFile(pth, contents) {
+    mkdirp.sync(path.dirname(pth));
+    fs.writeFileSync(pth, contents);
+}
+
 module.exports = {
     getTypeScript,
-    getFiles
+    getFiles,
+    writeFile
 };

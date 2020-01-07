@@ -1,30 +1,22 @@
 const path = require('path');
-const { existsSync, writeFileSync } = require('fs');
+const { existsSync } = require('fs');
 const { isObject, isString, isUndefined, isArray } = require('valid-types');
 const rimraf = require('rimraf');
 const babel = require('@babel/core');
-const mkdirp = require('mkdirp');
 const ts = require('typescript');
 const { copySync } = require('fs-extra');
 const makeMode = require('../modules/makeMode');
-const { getFiles, getTypeScript } = require('../utils/getFiles');
+const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { babelOpts } = require('../modules/makeModules');
-
-function writeFile(pth, contents) {
-    mkdirp.sync(path.dirname(pth));
-    writeFileSync(pth, contents);
-}
-
-const capitalize = (s) => {
-    if (typeof s !== 'string') return '';
-    return s.charAt(0).toUpperCase() + s.slice(1);
-};
+const { capitalize } = require('../utils/other');
 
 module.exports = async function sourceCompile(conf) {
     const root = path.dirname(require.main.filename);
     const mode = makeMode();
+
+    console.log('=========Source compile is starting....=========');
 
     const formats = [
         'cjs',
@@ -72,8 +64,10 @@ module.exports = async function sourceCompile(conf) {
         if (isUndefined(opt)) {
             continue;
         }
+        
         const dist = path.join(root, opt.dist);
-        //console.log(conf, opt);
+        const src = path.join(root, opt.src);
+
         const tsAndTsx = await getTypeScript(opt.src);
         const copyFiles = await getFiles(opt.src, undefined, ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
         const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
@@ -82,11 +76,13 @@ module.exports = async function sourceCompile(conf) {
         const tsConfig = pathToTSConf(root, mode, debug, conf);
 
         rimraf.sync(dist);
+        console.log(`=========${format} format is starting=========`);
 
         if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
             if (existsSync(tsConfig)) {
                 compilerOptions = makeCompilerOptions(root, tsConfig, opt.dist, format);
                 const host = ts.createCompilerHost(compilerOptions.options);
+                console.log('TSC convert: ', tsAndTsx.join('\n'));
                 const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);
                 ts.createTypeChecker(program, true);
                 program.emit();
@@ -98,21 +94,26 @@ module.exports = async function sourceCompile(conf) {
                 isNodejs: !!conf.nodejs,
                 framework: 'react',
                 loadable: conf.__isIsomorphicLoader,
-                modules: format === 'esm' ? false : 'commonjs'
+                modules: format === 'esm' ?
+                    false :
+                    'commonjs'
             });
+            console.log('Babel convert: ', jsAndJsx.join('\n'));
             jsAndJsx.forEach(file => {
                 const { code } = babel.transformFileSync(file, babelOptions);
-                console.log(conf.src);
-                // fix path.relative
-                //writeFile(path.join(dist, path.relative(root, file)), code);
+                const relativePath = path.relative(src, file).replace('.jsx', '.js');
+                writeFile(path.join(dist, relativePath), code);
             });
         }
 
         if (isArray(copyFiles) && copyFiles.length > 0) {
+            console.log('Files will copy: ', copyFiles.join('\n'));
+
             copyFiles.forEach(file => {
                 const filePth = file.replace(path.join(root, opt.src), '');
                 copySync(path.join(root, opt.src, filePth), path.join(dist, filePth));
             });
         }
+        console.log(`=========${format} format finished=========`);
     }
 };

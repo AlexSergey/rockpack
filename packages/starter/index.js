@@ -14,11 +14,19 @@ const { argv } = require('yargs');
     });
     const n = await prompt({
         type: 'list',
-        name: 'test',
+        name: 'test2',
         message: 'message',
         choices: [
-
+            'abc', 'cbd'
         ]
     });
-    console.log(a, n, libraryName);
+    const m = await prompt({
+        type: 'checkbox',
+        name: 'test3',
+        message: 'message',
+        choices: [
+            'abc', 'cbd'
+        ]
+    });
+    console.log(a, n, m, libraryName);
 })();
