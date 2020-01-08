@@ -66,7 +66,7 @@ export default class LocalizationExamples extends Component {
                                     <span style={{textDecoration: 'underline'}}>
                                         <b>{name}</b>
                                     </span>,
-                                        <span style={{textDecoration: 'underline'}}>
+                                    <span style={{textDecoration: 'underline'}}>
                                         <b>Pupkin</b>
                                     </span>
                                 )

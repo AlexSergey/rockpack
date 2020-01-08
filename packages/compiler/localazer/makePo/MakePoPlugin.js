@@ -1,6 +1,5 @@
 const { parse } = require('@babel/parser');
 const traverse = require('@babel/traverse');
-const generate = require('@babel/generator');
 const { writeFileSync } = require('fs');
 const { execSync } = require('child_process');
 const tempy = require('tempy');
@@ -25,7 +24,7 @@ const findValue = (ast, arg) => {
                                     if (ref.node.start === arg.value.start && ref.node.end === arg.value.end) {
                                         if (typeof path.node.init.value === 'string') {
                                             excludeOther.state = true;
-                                            excludeOther.value = `"${path.node.init.value}"`;
+                                            excludeOther.value = path.node.init.value;
                                         }
                                         else if (path.node.init && path.node.init.type === 'Identifier') {
                                             excludeOther.value = findValue(ast, {
@@ -51,7 +50,7 @@ const findValue = (ast, arg) => {
     });
 
     return excludeOther.value;
-}
+};
 
 class MakePoPlugin {
     constructor(options) {
@@ -67,92 +66,69 @@ class MakePoPlugin {
                         const source = compilation.assets[filename].source();
                         const code = source.toString();
                         const ast = parse(code);
-                        const prepared = [];
                         const result = [];
 
                         traverse.default(ast, {
-                            CallExpression: (path) => {
+                            CallExpression: path => {
+                                let isParent = false;
+
                                 let found = {
                                     state: false,
                                     arguments: []
                                 };
 
-                                if (Array.isArray(path.node.arguments)) {
-                                    path.node.arguments.forEach(a => {
-                                        if (a.property && a.property.value) {
-                                            if (this.options.variables.indexOf(a.property.value) >= 0) {
-                                                found.name = a.property.value;
-                                                found.state = true;
-                                            }
-                                        }
-                                    });
+                                let name = path.node.callee.name;
+
+                                if (!name) {
+                                    if (path.node.callee.property) {
+                                        name = path.node.callee.property.name;
+                                    }
                                 }
 
-                                if (found.state) {
-                                    // Check arguments
-                                    path.parent.arguments.forEach(argItem => {
-                                        switch (argItem.type) {
-                                            case 'Identifier':
-                                                let code;
-                                                try {
-                                                    code = generate.default(path.parent).code;
-                                                    let expression = code.replace(/Object\((.*?)\)/, '');
-
-                                                    if (expression && expression.length > 0) {
-                                                        code = `${found.name}${expression}`;
-                                                    }
-                                                } catch (e) {
-                                                    console.error(e);
+                                if (this.options.variables.indexOf(name) < 0) {
+                                    if (Array.isArray(path.node.arguments)) {
+                                        path.node.arguments.forEach(a => {
+                                            if (a.property && a.property.value) {
+                                                if (this.options.variables.indexOf(a.property.value) >= 0) {
+                                                    name = a.property.value;
+                                                    isParent = true;
                                                 }
-                                                found.arguments.push({
-                                                    type: 'variable',
+                                            }
+                                        });
+                                    }
+                                }
+
+                                if (this.options.variables.indexOf(name) >= 0) {
+                                    found.name = name;
+                                    found.state = true;
+                                }
+                                if (found.state) {
+                                    const args = (isParent ? path.parent.arguments : path.node.arguments)
+                                        .map(argItem => {
+                                            if (argItem.type === 'StringLiteral') {
+                                                if (argItem.value) {
+                                                    return argItem.value;
+                                                }
+                                            }
+                                            if (argItem.type === 'Identifier') {
+                                                return findValue(ast, {
                                                     value: {
-                                                        code,
                                                         name: argItem.name,
                                                         start: argItem.start,
                                                         end: argItem.end
                                                     }
                                                 });
-                                                break;
-                                            case 'StringLiteral':
-                                                found.arguments.push({
-                                                    type: 'simple',
-                                                    value: argItem.value
-                                                });
-                                                break;
-                                        }
-                                    });
-                                    prepared.push(Object.assign({}, found));
-                                }
-                            }
-                        });
-
-                        prepared.forEach(item => {
-                            if (item && item.arguments && item.arguments.length > 0) {
-                                let stringArguments = '';
-                                item.arguments.forEach((arg, index) => {
-                                    switch (arg.type) {
-                                        case 'simple':
-                                            stringArguments += `"${arg.value}"`;
-                                            break;
-
-                                        case 'variable':
-                                            let value = findValue(ast, arg);
-                                            if (typeof value === 'string') {
-                                                stringArguments += value;
                                             }
-                                            break;
-                                    }
+                                            return false;
+                                        })
+                                        .filter(item => typeof item === 'string')
+                                        .map(item => `"${item}"`);
 
-                                    if (item.arguments.length - 1 !== index) {
-                                        stringArguments += ', ';
+                                    if (Array.isArray(args) && args.length > 0) {
+                                        const fn = `${name}(${args.join(', ')});`;
+                                        console.log(fn);
+                                        result.push(fn);
                                     }
-                                });
-
-                                if (stringArguments !== '') {
-                                    let fn = `${item.name}(${stringArguments})`;
-                                    console.log(fn);
-                                    result.push(fn);
                                 }
                             }
                         });
@@ -187,7 +163,7 @@ class MakePoPlugin {
 
                                 (async () => {
                                     console.log('if you have previous pot file it will be merged');
-                                    await mergePoFiles(this.options)
+                                    await mergePoFiles(this.options);
                                 })();
 
                             } catch (err) {
