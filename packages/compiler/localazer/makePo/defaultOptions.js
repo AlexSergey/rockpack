@@ -1,5 +1,8 @@
 module.exports = {
-  dist: './po',
-  variables: ['l', 'nl'],
-  defaultLanguage: 'en',
+    dist: './po',
+    variables: {
+        gettext: 'l',
+        ngettext: 'nl'
+    },
+    defaultLanguage: 'en',
 };
