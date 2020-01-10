@@ -1,32 +1,79 @@
 const inquirer = require('inquirer');
-const { argv } = require('yargs');
+
+const REPO = 'single';
+
+const SETTINGS = {
+    git: true,
+    typescript: true, // true|false
+    documentation: false, //true|false
+    localization: false, //
+    ssr: false,
+    logger: false,
+    testing: false
+};
+
+const MESSAGES = {
+    single: 'Single repository',
+    mono: 'Mono repository',
+    git: 'Git',
+    typescript: 'Typescript',
+    documentation: 'Documentation',
+    localization: 'Localization',
+    ssr: 'Server Side Rendering',
+    logger: 'Logger',
+    testing: 'Testing'
+};
 
 (async () => {
-    const libraryName = argv._[0];
+    const starter = {};
     const prompt = inquirer.createPromptModule();
-    const defaultProps = {
-        version: '1.0.0'
-    };
-    const a = await prompt({
-        type: 'input',
-        name: 'test',
-        message: 'message'
-    });
-    const n = await prompt({
+    const { repo } = await prompt({
         type: 'list',
-        name: 'test2',
-        message: 'message',
+        name: 'repo',
+        message: 'Type of repository',
         choices: [
-            'abc', 'cbd'
+            {name: MESSAGES.single, value: 'single'},
+            {name: MESSAGES.mono, value: 'mono'},
         ]
     });
-    const m = await prompt({
+
+    const { settings } = await prompt({
         type: 'checkbox',
-        name: 'test3',
-        message: 'message',
-        choices: [
-            'abc', 'cbd'
-        ]
+        name: 'settings',
+        message: 'What do you want?',
+        choices: Object.keys(SETTINGS).map(key => ({
+            name: MESSAGES[key],
+            value: key,
+            checked: SETTINGS[key]
+        }))
     });
-    console.log(a, n, m, libraryName);
+
+    Object.keys(starter).forEach(key => {
+        starter[key] = false;
+    });
+    starter.repo = repo;
+    settings.forEach(key => {
+        starter[key] = true;
+    });
+    console.log(starter);
+    const postfix = '\n';
+
+    const message = Object.keys(starter).reduce((str, key) => {
+        if (starter[key]) {
+            str += key === 'repo' ?
+                `${MESSAGES[starter[key]]}${postfix}` :
+                `${MESSAGES[key]}${postfix}`;
+        }
+        return str;
+    }, postfix);
+
+    const { confirm } = await prompt({
+        type: 'confirm',
+        name: 'confirm',
+        message: `Please, check your setup: ${message}`
+    });
+
+    if (confirm) {
+
+    }
 })();

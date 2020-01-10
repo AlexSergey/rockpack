@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "7.0.1",
-    "yargs": "15.1.0"
+    "inquirer": "7.0.1"
   }
 }
