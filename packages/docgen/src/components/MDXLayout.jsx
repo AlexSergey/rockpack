@@ -29,7 +29,14 @@ const MDXLayout = props => (
     </MDXProvider>
 );
 MDXLayout.propTypes = {
-    components: propTypes.objectOf(propTypes.object())
+    components: propTypes.shape({
+        h1: propTypes.element,
+        h2: propTypes.element,
+        h3: propTypes.element,
+        h4: propTypes.element,
+        h5: propTypes.element,
+        h6: propTypes.element
+    })
 };
 
 export default MDXLayout;

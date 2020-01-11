@@ -14,6 +14,7 @@ import styles from "../assets/jss/material-dashboard-react/layouts/adminStyle.js
 const useStyles = makeStyles(styles);
 
 const Layout = (props) => {
+    const { hasRoutes } = props;
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = useState(false);
     const handleDrawerToggle = () => {
@@ -29,18 +30,18 @@ const Layout = (props) => {
     }, []);
 
     return (
-        <div className={classes.wrapper}>
-           <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
+        <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'}`}>
+            {hasRoutes ? <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
                 {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
-            </MenuBar>
+            </MenuBar> : null}
             <div className={classes.mainPanel} style={{overflow: 'hidden', maxHeight: 'none'}}>
                 <Header {...props} handleDrawerToggle={handleDrawerToggle} />
                 <Content>
-                    <Route {...props}>
+                    {hasRoutes ? <Route {...props}>
                         {routes => {
                             return Page(routes, props);
                         }}
-                    </Route>
+                    </Route> : Page(props.docgen, props)}
                 </Content>
                 <Footer {...props} />
             </div>

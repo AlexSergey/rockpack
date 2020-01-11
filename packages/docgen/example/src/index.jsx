@@ -1,5 +1,5 @@
 import React from 'react';
-import createDocumentation from '../../lib';
+import createDocumentation from '../../src';
 import image from './T1H4XT8DV-UQ1GA2RSQ-bac8dd448345-512.jpeg';
 import ComponentReadme from './readme.mdx';
 import Localization, { l } from '@rock/localazer';
@@ -8,7 +8,19 @@ import FlagIconFactory from 'react-flag-icon-css';
 const FlagIcon = FlagIconFactory(React, { useCssModules: false });
 
 createDocumentation({
-    docgen: [
+    title: 'Abc',
+    docgen: {
+        title: 'TEst',
+        component: <div>Test</div>
+    },
+    logo: image,
+    logoAlt: "Sergey",
+    github: 'https://github.com/AlexSergey/rock',
+    components: {
+        h1: props => <h1 style={{color: 'blue'}} {...props} />
+    },
+    footer: <div>License MIT, 2019</div>
+    /*docgen: [
         {
             title: <Localization>{l('Hello')}</Localization>,
             url: `/`,
@@ -111,5 +123,5 @@ createDocumentation({
     components: {
         h1: props => <h1 style={{color: 'blue'}} {...props} />
     },
-    footer: <div>License MIT, 2019</div>
+    footer: <div>License MIT, 2019</div>*/
 }, document.getElementById('root'));

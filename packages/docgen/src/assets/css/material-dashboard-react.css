@@ -564,3 +564,11 @@ footer ul li a:hover {
 * {
   letter-spacing: normal !important;
 }
+@media (min-width: 960px) {
+  .without-routes .makeStyles-mainPanel-2 {
+    width: auto;
+    max-width: 1024px;
+    margin: 0 auto;
+    float: none;
+  }
+}

@@ -102,8 +102,12 @@ const createDocumentation = (props, el) => {
         return false;
     }
 
-    mergeUrls(props.docgen);
-    let allOpened = openIdGenerate(props.docgen, []);
+    const hasRoutes = Array.isArray(props.docgen);
+    console.log(hasRoutes);
+    if (hasRoutes) {
+        mergeUrls(props.docgen);
+    }
+    let allOpened = hasRoutes ? openIdGenerate(props.docgen, []) : [];
 
     let openIds = [];
     openIds = allOpened;
@@ -112,23 +116,24 @@ const createDocumentation = (props, el) => {
     if (isString(props.ga)) {
         GoogleAnalytics.initialize(props.ga);
     }
+    if (hasRoutes) {
+        props.docgen.forEach(section => {
+            let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
 
-    props.docgen.forEach(section => {
-        let pathToRoute = findPathToActiveRoute(global.document.location.pathname, section, []);
-
-        if (pathToRoute.length > 0) {
-            if (!found) {
-                openIds = pathToRoute;
-                found = true;
-            }
-            setTimeout(() => {
-                let el = document.getElementById(pathToRoute[pathToRoute.length - 1]);
-                if (el) {
-                    el.scrollIntoView();
+            if (pathToRoute.length > 0) {
+                if (!found) {
+                    openIds = pathToRoute;
+                    found = true;
                 }
-            }, 300);
-        }
-    });
+                setTimeout(() => {
+                    let el = document.getElementById(pathToRoute[pathToRoute.length - 1]);
+                    if (el) {
+                        el.scrollIntoView();
+                    }
+                }, 300);
+            }
+        });
+    }
 
     let languages = false;
 
@@ -144,6 +149,7 @@ const createDocumentation = (props, el) => {
                         {(openIds, setOpenIds) => (
                             <Layout {...Object.assign({}, props, {
                                 openIds: openIds,
+                                hasRoutes,
                                 isLocalized,
                                 activeLang,
                                 changeLocal,
