@@ -350,6 +350,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
+                        transpileOnly: true,
                         configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
@@ -361,6 +362,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
+                        transpileOnly: true,
                         configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.json'),
@@ -385,6 +387,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
+                        transpileOnly: true,
                         configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
@@ -396,6 +399,7 @@ function getModules(conf = {}, mode, root) {
                 {
                     loader: require.resolve('ts-loader'),
                     options: {
+                        transpileOnly: true,
                         configFile: isTypeScript ?
                             tsConfig :
                             path.resolve(__dirname, '../configs/tsconfig.json'),

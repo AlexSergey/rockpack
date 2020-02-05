@@ -1,5 +1,6 @@
-const makeOptimization = conf => {
-    let optimization = {};
+const makeOptimization = (mode, conf) => {
+    const optimization = {};
+
     if (conf.vendor) {
         Object.assign(optimization, {
             splitChunks: {
@@ -12,7 +13,14 @@ const makeOptimization = conf => {
                     },
                 }
             }
-        })
+        });
+    }
+    if (mode === 'production') {
+        Object.assign(optimization, {
+            usedExports: true,
+            sideEffects: true,
+            concatenateModules: true
+        });
     }
 
     return optimization;
