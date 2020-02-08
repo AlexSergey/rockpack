@@ -74,7 +74,7 @@
     "mkdirp": "0.5.1",
     "moment": "2.24.0",
     "node-loader": "0.6.0",
-    "node-sass": "4.13.0",
+    "node-sass": "4.13.1",
     "nodemon-webpack-plugin": "4.2.2",
     "nunjucks": "3.2.0",
     "nunjucks-isomorphic-loader": "2.0.2",

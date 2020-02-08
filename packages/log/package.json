@@ -35,7 +35,6 @@
   "devDependencies": {
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "prop-types": "15.7.2",
-    "rocket-starter": "1.7.0"
+    "prop-types": "15.7.2"
   }
 }
