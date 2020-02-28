@@ -190,7 +190,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
                 page.template = path.resolve(__dirname, '..', './index.ejs');
             }
             if (!page.filename) {
-                page.filename = page.template.slice(page.template.lastIndexOf('/') + 1, page.template.lastIndexOf('.'));
+                page.filename = page.template.slice(page.template.lastIndexOf(path.sep) + 1, page.template.lastIndexOf('.'));
                 page.filename += '.html';
             }
             page.inject = false;
