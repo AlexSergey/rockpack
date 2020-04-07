@@ -1,11 +1,16 @@
-const { libraryCompiler } = require('../compiler');
+const { libraryCompiler } = require('@rock/compiler');
 
-libraryCompiler('docgen', {
-    inline: true,
-    styles: false
-}, config => {
-    config.externals = [
-        'react',
-        '@rock/localazer'
-    ];
+libraryCompiler({
+  name: 'RockDocgen',
+  cjs: {
+    src: './src',
+    dist: './lib/cjs'
+  },
+  esm: {
+    src: './src',
+    dist: './lib/esm'
+  }
+}, {
+  inline: true,
+  styles: false
 });

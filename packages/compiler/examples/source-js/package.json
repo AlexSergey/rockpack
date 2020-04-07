@@ -1,11 +1,11 @@
 {
-  "name": "colorstring",
+  "name": "example-colorstring",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "NODE_ENV=development node build",
-    "build": "NODE_ENV=production node build",
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build",
     "lib:cjs": "node build.source.cjs",
     "lib:esm": "node build.source.esm"
   },
@@ -13,9 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "@types/react": "16.9.2",
-    "@types/react-dom": "16.9.0"
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   }
 }

@@ -24,16 +24,16 @@ export default function createJSX({
     };
 
     const jsx = webExtractor.collectChunks(
-            <StyleContext.Provider value={{ insertCss }}>
-                <MetaTagsContext extract={metaTagsInstance.extract}>
-                    {render({
-                        request: ctx.request,
-                        reduxState,
-                        setStore,
-                        setEffect
-                    })}
-                </MetaTagsContext>
-            </StyleContext.Provider>
+        <StyleContext.Provider value={{ insertCss }}>
+            <MetaTagsContext extract={metaTagsInstance.extract}>
+                {render({
+                    request: ctx.request,
+                    reduxState,
+                    setStore,
+                    setEffect
+                })}
+            </MetaTagsContext>
+        </StyleContext.Provider>
     );
 
     return { jsx, store, css, effects };

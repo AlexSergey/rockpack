@@ -1,15 +1,15 @@
 {
-  "name": "flowtype",
+  "name": "example-flowtype",
   "version": "1.0.0",
   "description": "",
   "main": "build.js",
   "scripts": {
-    "start": "NODE_ENV=development node build",
-    "build": "NODE_ENV=production node build"
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint-plugin-flowtype": "^2.46.1"
+    "eslint-plugin-flowtype": "2.50.3"
   }
 }

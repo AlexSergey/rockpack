@@ -1,3 +1,3 @@
-export default function renderText():string {
-    return 'Hello world';
+export default function renderText(): string {
+  return 'Hello world';
 }

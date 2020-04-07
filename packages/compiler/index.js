@@ -12,26 +12,22 @@ const multiCompiler = require('./compilers/multiCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
 const localazer = require('./compilers/localazer');
 
-function getArgs() {
-    return argv;
-}
+const getArgs = () => argv;
 
-function getWebpack() {
-    return webpack;
-}
+const getWebpack = () => webpack;
 
 module.exports = {
-    getWebpack,
-    getArgs,
-    makeWebpackConfig,
-    multiCompiler,
-    isomorphicCompiler,
-    babelOpts,
-    markupCompiler,
-    libraryCompiler,
-    frontendCompiler,
-    documentationCompiler,
-    backendCompiler,
-    analyzerCompiler,
-    localazer
+  getWebpack,
+  getArgs,
+  makeWebpackConfig,
+  multiCompiler,
+  isomorphicCompiler,
+  babelOpts,
+  markupCompiler,
+  libraryCompiler,
+  frontendCompiler,
+  documentationCompiler,
+  backendCompiler,
+  analyzerCompiler,
+  localazer
 };

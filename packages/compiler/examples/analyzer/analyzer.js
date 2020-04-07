@@ -1,5 +1,5 @@
-let { analyzerCompiler } = require('../../index');
+const { analyzerCompiler } = require('../../index');
 
 analyzerCompiler({
-    analyzerPort: 7000
+  analyzerPort: 7000
 });

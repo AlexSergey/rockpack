@@ -3,15 +3,15 @@ import renderText from './renderText';
 import css from './styles/index.modules.css';
 
 type ClockState = {
-    color: string
+  color: string
 }
 
 export function colorMiddleware(color: string): string {
-    return color;
+  return color;
 }
 
 export default class ColorString extends Component<ClockState> {
-    render() {
-        return <p style={{backgroundColor: colorMiddleware(this.props.color)}} className={css.block}>{renderText()}</p>
-    }
+  render() {
+    return <p style={{ backgroundColor: colorMiddleware(this.props.color) }} className={css.block}>{renderText()}</p>
+  }
 }

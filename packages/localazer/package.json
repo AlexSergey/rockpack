@@ -3,9 +3,10 @@
   "version": "0.9.0",
   "description": "This module can help you organize localization in your application",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "NODE_ENV=development node build",
-    "build": "NODE_ENV=production node build"
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
   },
   "repository": {
     "type": "git",
@@ -24,13 +25,15 @@
   },
   "homepage": "https://github.com/AlexSergey/localazer",
   "dependencies": {
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "jed": "1.1.1",
-    "valid-types": "1.0.2"
+    "valid-types": "2.0.3",
+    "@types/react": "16.9.32",
+    "@types/react-dom": "16.9.6"
   },
   "devDependencies": {
-    "prop-types": "15.7.2",
+    "@rock/codestyle": "0.9.0",
     "@rock/compiler": "0.9.0"
   }
 }

@@ -1,10 +1,10 @@
 //@ts-ignore
 import loadableComponent, { loadableReady } from '@loadable/component';
-import onLoad from './isomorphic/onLoad';
+import MetaTags from 'react-meta-tags';
+import useLoad from './isomorphic/useLoad';
 import withStyles from './styles/withStyles';
 import ClientStyles from './styles/ClientStyles';
 import isBackend from './utils/isBackend';
-import MetaTags from 'react-meta-tags';
 
 export {
     ClientStyles,
@@ -12,6 +12,6 @@ export {
     loadableReady,
     loadableComponent,
     isBackend,
-    onLoad,
+    useLoad,
     MetaTags
 }

@@ -1,3 +1,3 @@
-let { libraryCompiler } = require('../../index');
+const { libraryCompiler } = require('../../index');
 
 libraryCompiler('MyLib');

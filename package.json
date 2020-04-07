@@ -3,22 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "workspaces": [
-    "book",
-    "next/*",
-    "packages/*"
-  ],
   "scripts": {
-    "lint": "eslint --config .eslintrc.js '**/*.{js,ts,tsx}' --quiet",
-    "typing": "tsc --config tsconfig.json --noEmit"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run typing && npm run lint"
-    }
+    "bootstrap": "lerna bootstrap --hoist",
+    "postinstall": "npm run bootstrap",
+    "clean": "lerna run clean",
+    "build": "lerna run build",
+    "pub": "lerna publish"
   },
   "devDependencies": {
-    "lerna": "3.18.3"
-  },
-  "codestyle": "init"
+    "cross-env": "7.0.2",
+    "lerna": "3.20.2",
+    "typescript": "3.8.3"
+  }
 }

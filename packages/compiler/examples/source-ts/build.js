@@ -1,4 +1,4 @@
-const { libraryCompiler } = require('../../');
+const { libraryCompiler } = require('../../index');
 
 libraryCompiler({
     name: 'Color',

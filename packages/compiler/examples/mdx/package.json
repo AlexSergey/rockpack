@@ -1,17 +1,17 @@
 {
-  "name": "react-app",
-  "version": "0.0.1",
+  "name": "example-mdx",
+  "version": "1.0.0",
   "scripts": {
-    "start": "NODE_ENV=development node build",
-    "build": "NODE_ENV=production node build"
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
   },
   "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "core-js": "^3.2.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "core-js": "3.6.4",
     "prism-react-renderer": "1.0.2",
-    "react-live": "2.2.1",
-    "@mdx-js/react": "1.5.1",
+    "react-live": "2.2.2",
+    "@mdx-js/react": "1.5.8",
     "unified-ui": "0.0.3"
   }
 }

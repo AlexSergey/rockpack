@@ -1,6 +1,6 @@
-let { frontendCompiler } = require('../../index');
+const { frontendCompiler } = require('../../index');
 
 frontendCompiler({
-    banner: true,
-    styles: 'style.css'
+  banner: true,
+  styles: 'style.css'
 });

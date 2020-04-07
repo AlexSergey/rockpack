@@ -10,110 +10,111 @@ const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { babelOpts } = require('../modules/makeModules');
-const { capitalize } = require('../utils/other');
+const { capitalize } = require('./other');
 
 module.exports = async function sourceCompile(conf) {
-    const root = path.dirname(require.main.filename);
-    const mode = makeMode();
+  const root = path.dirname(require.main.filename);
+  const mode = makeMode();
 
-    console.log('=========Source compile is starting....=========');
+  console.log('=========Source compile is starting....=========');
 
-    const formats = [
-        'cjs',
-        'esm'
-    ];
+  const formats = [
+    'cjs',
+    'esm'
+  ];
 
-    const output = {};
+  const output = {};
 
-    formats.forEach(format => {
-        if (isObject(conf[format])) {
-            output[format] = {
-                src: false,
-                dist: false,
-            };
-            output[`has${capitalize(format)}`] = false;
+  formats.forEach(format => {
+    if (isObject(conf[format])) {
+      output[format] = {
+        src: false,
+        dist: false,
+      };
+      output[`has${capitalize(format)}`] = false;
 
-            if (isString(conf[format].src) && isString(conf[format].dist)) {
-                output[format].src = conf[format].src;
-                output[format].dist = conf[format].dist;
-                output[`has${capitalize(format)}`] = true;
-            }
-        }
-    });
+      if (isString(conf[format].src) && isString(conf[format].dist)) {
+        output[format].src = conf[format].src;
+        output[format].dist = conf[format].dist;
+        output[`has${capitalize(format)}`] = true;
+      }
+    }
+  });
 
-    const state = Object.keys(output)
-        .filter(key => key.indexOf('has') === 0)
-        .some(item => output[item]);
+  const state = Object.keys(output)
+    .filter(key => key.indexOf('has') === 0)
+    .some(item => output[item]);
 
-    if (!state) {
-        throw new Error(`${formats.join(', ')} fields are not object`);
+  if (!state) {
+    throw new Error(`${formats.join(', ')} fields are not object`);
+  }
+
+  let debug = false;
+
+  if (mode === 'development') {
+    debug = true;
+  }
+  if (conf.debug) {
+    debug = true;
+  }
+
+  for (let i = 0, l = formats.length; i < l; i++) {
+    const format = formats[i];
+    const opt = output[format];
+    if (isUndefined(opt)) {
+      continue;
     }
 
-    let debug = false;
+    const dist = path.join(root, opt.dist);
+    const src = path.join(root, opt.src);
 
-    if (mode === 'development') {
-        debug = true;
+    const tsAndTsx = await getTypeScript(opt.src);
+    const copyFiles = await getFiles(opt.src, undefined, ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
+    const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
+    let compilerOptions;
+
+    const tsConfig = pathToTSConf(root, mode, debug, conf);
+
+    rimraf.sync(dist);
+    console.log(`=========${format} format is starting=========`);
+
+    if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
+      if (existsSync(tsConfig)) {
+        compilerOptions = makeCompilerOptions(root, tsConfig, opt.dist, format);
+        const host = ts.createCompilerHost(compilerOptions.options);
+        console.log('TSC convert: ', tsAndTsx.join('\n'));
+        const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);
+        ts.createTypeChecker(program, true);
+        program.emit();
+      } else {
+        throw new Error('tsconfig: Must be correct path to tsconfig file');
+      }
+    } else if (isArray(jsAndJsx) && jsAndJsx.length > 0) {
+      const babelOptions = babelOpts({
+        isNodejs: !!conf.nodejs,
+        framework: 'react',
+        loadable: conf.__isIsomorphicLoader,
+        modules: format === 'esm' ?
+          false :
+          'commonjs'
+      });
+      console.log('Babel convert: ', jsAndJsx.join('\n'));
+      jsAndJsx.forEach(file => {
+        const { code } = babel.transformFileSync(file, babelOptions);
+        const relativePath = path.relative(src, file).replace('.jsx', '.js');
+        writeFile(path.join(dist, relativePath), code);
+      });
     }
-    if (conf.debug) {
-        debug = true;
+
+    if (isArray(copyFiles) && copyFiles.length > 0) {
+      console.log('Files will copy: ', copyFiles.join('\n'));
+
+      copyFiles.forEach(file => {
+        const filePth = path.relative(path.join(root, opt.src), file);
+        const fileDest = path.join(dist, filePth);
+        copySync(file, fileDest);
+      });
     }
-
-    for (let i = 0, l = formats.length; i < l; i++) {
-        const format = formats[i];
-        const opt = output[format];
-        if (isUndefined(opt)) {
-            continue;
-        }
-        
-        const dist = path.join(root, opt.dist);
-        const src = path.join(root, opt.src);
-
-        const tsAndTsx = await getTypeScript(opt.src);
-        const copyFiles = await getFiles(opt.src, undefined, ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
-        const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
-        let compilerOptions;
-
-        const tsConfig = pathToTSConf(root, mode, debug, conf);
-
-        rimraf.sync(dist);
-        console.log(`=========${format} format is starting=========`);
-
-        if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
-            if (existsSync(tsConfig)) {
-                compilerOptions = makeCompilerOptions(root, tsConfig, opt.dist, format);
-                const host = ts.createCompilerHost(compilerOptions.options);
-                console.log('TSC convert: ', tsAndTsx.join('\n'));
-                const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);
-                ts.createTypeChecker(program, true);
-                program.emit();
-            } else {
-                throw new Error('tsconfig: Must be correct path to tsconfig file');
-            }
-        } else if (isArray(jsAndJsx) && jsAndJsx.length > 0) {
-            const babelOptions = babelOpts({
-                isNodejs: !!conf.nodejs,
-                framework: 'react',
-                loadable: conf.__isIsomorphicLoader,
-                modules: format === 'esm' ?
-                    false :
-                    'commonjs'
-            });
-            console.log('Babel convert: ', jsAndJsx.join('\n'));
-            jsAndJsx.forEach(file => {
-                const { code } = babel.transformFileSync(file, babelOptions);
-                const relativePath = path.relative(src, file).replace('.jsx', '.js');
-                writeFile(path.join(dist, relativePath), code);
-            });
-        }
-
-        if (isArray(copyFiles) && copyFiles.length > 0) {
-            console.log('Files will copy: ', copyFiles.join('\n'));
-
-            copyFiles.forEach(file => {
-                const filePth = file.replace(path.join(root, opt.src), '');
-                copySync(path.join(root, opt.src, filePth), path.join(dist, filePth));
-            });
-        }
-        console.log(`=========${format} format finished=========`);
-    }
+    console.log(`=========${format} format finished=========`);
+  }
 };

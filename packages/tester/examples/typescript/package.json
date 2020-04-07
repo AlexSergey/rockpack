@@ -7,7 +7,5 @@
     "test": "node script.test.run.js"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-  }
+  "license": "ISC"
 }

@@ -10,23 +10,23 @@ import License from './sections/License';
 import Code from './components/Code';
 
 render(
-    <>
-        <div className="jumbotron">
-            <div className="container text-center">
-                <h1>localazer</h1>
-                <Description />
-                <Features />
-                <p><a className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/react-custom-scroll" role="button">Github</a></p>
-            </div>
-        </div>
-        <div id="wrapper">
-            <LoggerContainerProps />
-            <h1>Example:</h1>
-            <Examples />
-            <Code value={`<TextOverflow width={60}>Lorem i</TextOverflow>`} width="500px" height="250px" />
-            <br/>
-            <License />
-        </div>
-    </>,
-    document.getElementById('root')
+  <>
+    <div className="jumbotron">
+      <div className="container text-center">
+        <h1>localazer</h1>
+        <Description />
+        <Features />
+        <p><a className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/react-custom-scroll" role="button">Github</a></p>
+      </div>
+    </div>
+    <div id="wrapper">
+      <LoggerContainerProps />
+      <h1>Example:</h1>
+      <Examples />
+      <Code value={'<TextOverflow width={60}>Lorem i</TextOverflow>'} width="500px" height="250px" />
+      <br />
+      <License />
+    </div>
+  </>,
+  document.getElementById('root')
 );

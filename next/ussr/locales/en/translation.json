@@ -1,0 +1,5 @@
+{
+  "iam": "I am {{author.name}}",
+  "userMessagesUnread": "Hello <1>{{name}}</1>, you have {{count}} unread message. <5>Go to message</5>.",
+  "userMessagesUnread_plural": "Hello <1>{{name}}</1>, you have {{count}} unread messages.  <5>Go to messages</5>."
+}

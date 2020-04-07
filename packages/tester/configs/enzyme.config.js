@@ -3,7 +3,7 @@ const Adapter = require('enzyme-adapter-react-16');
 const enzymeToJson = require('enzyme-to-json');
 
 enzyme.configure({
-    adapter: new Adapter()
+  adapter: new Adapter()
 });
 
 global.shallow = enzyme.shallow;

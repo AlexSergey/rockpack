@@ -3,12 +3,14 @@
 </template>
 
 <script>
-    import { Vue, Component, Prop } from 'vue-property-decorator';
-
-    @Component
-    export default class HelloDecorator extends Vue {
-        @Prop() msg!: 'Hello world!';
-    }
+  import { Vue, Component, Prop } from 'vue-property-decorator';
+  
+  @Component
+  export default class HelloDecorator extends Vue {
+    @Prop() msg
+  !:
+    'Hello world!';
+  }
 </script>
 
 <style>

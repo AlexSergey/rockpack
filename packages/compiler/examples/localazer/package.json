@@ -1,22 +1,22 @@
 {
-  "name": "localazer-example",
+  "name": "example-localazer",
   "version": "1.0.0",
   "description": "Localazer example",
   "main": "dist/main.js",
   "scripts": {
-    "start": "NODE_ENV=development node build",
-    "build": "NODE_ENV=production node build",
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build",
     "makePo": "node makePo",
     "po2json": "node po2json"
   },
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/localazer)",
   "license": "MIT",
   "dependencies": {
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-ace": "6.5.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-ace": "6.6.0",
     "brace": "0.11.1",
     "react-json-view": "1.19.1",
-    "bootstrap": "4.3.1"
+    "bootstrap": "4.4.1"
   }
 }

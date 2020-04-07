@@ -12,7 +12,6 @@ static
 Thumbs.db
 logs
 reports
-documentation
-webpack.customConfig.js
-example
+dist
+NO_COMMIT
 examples

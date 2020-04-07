@@ -1,3 +1,3 @@
-let { frontendCompiler } = require('../../index');
+const { frontendCompiler } = require('../../index');
 
 frontendCompiler();

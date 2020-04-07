@@ -1,11 +1,11 @@
 class Service {
-    constructor(url) {
-        this.url = url;
-    }
+  constructor(url) {
+    this.url = url;
+  }
 
-    getData() {
-        return fetch(this.url);
-    }
+  getData() {
+    return fetch(this.url);
+  }
 }
 
 module.exports = Service;
