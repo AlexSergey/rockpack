@@ -1,95 +1,12 @@
 const { existsSync } = require('fs');
-const { isString, isObject, isBoolean } = require('valid-types');
+const { isString, isBoolean } = require('valid-types');
 const path = require('path');
+const createBabelPresets = require('@rock/babel');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const formatter = require('@becklyn/typescript-error-formatter');
 const Collection = require('../utils/Collection');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const pathToTSConf = require('../utils/pathToTSConf');
-
-function babelOpts({
-  isNodejs = false,
-  framework = false,
-  loadable = false,
-  modules = false
-}) {
-  const root = path.dirname(require.main.filename);
-  const packageJsonPath = path.resolve(root, 'package.json');
-  // eslint-disable-next-line global-require
-  const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
-  let corejs = false;
-  
-  if (packageJson && isObject(packageJson.dependencies)) {
-    if (isString(packageJson.dependencies['core-js'])) {
-      corejs = packageJson.dependencies['core-js'];
-    }
-  }
-  
-  const opts = {
-    babelrc: false,
-    presets: [
-      [require.resolve('@babel/preset-env'), Object.assign({
-        modules,
-        loose: true,
-      }, isNodejs ? {
-        targets: {
-          node: 'current'
-        }
-      } : {
-        targets: {
-          browsers: [
-            '> 5%'
-          ]
-        }
-      }, isString(corejs) ? {
-        corejs,
-        useBuiltIns: 'usage'
-      } : {})]
-    ],
-    plugins: [
-      require.resolve('@babel/plugin-proposal-optional-chaining')
-    ],
-    env: {
-      production: {}
-    }
-  };
-  
-  switch (framework) {
-    case 'react':
-      opts.presets.push(
-        require.resolve('@babel/preset-react')
-      );
-      
-      opts.plugins = opts.plugins.concat([
-        require.resolve('@babel/plugin-syntax-dynamic-import'),
-        require.resolve('@babel/plugin-transform-flow-comments'),
-        [
-          require.resolve('@babel/plugin-proposal-decorators'),
-          { legacy: true }
-        ],
-        require.resolve('@babel/plugin-proposal-class-properties'),
-        require.resolve('@babel/plugin-proposal-object-rest-spread')
-      ]);
-      
-      opts.env.production = Object.assign({}, opts.env.production, {
-        plugins: [
-          require.resolve('@babel/plugin-transform-react-constant-elements'),
-          require.resolve('@babel/plugin-transform-react-inline-elements'),
-          require.resolve('babel-plugin-transform-react-pure-class-to-function'),
-          require.resolve('babel-plugin-transform-react-remove-prop-types')
-        ]
-      });
-      break;
-  }
-  
-  if (loadable) {
-    opts.plugins.push(
-      require.resolve('@loadable/babel-plugin')
-    );
-  }
-  
-  return opts;
-}
 
 const getPostcssConfig = (root) => {
   const pth = existsSync(path.resolve(root, './postcss.config.js')) ? path.resolve(root, './postcss.config.js') :
@@ -101,15 +18,17 @@ const getPostcssConfig = (root) => {
 };
 
 function getModules(conf = {}, mode, root) {
+  const isProduction = mode === 'production';
+  
   let extractStyles = false;
   
-  if (mode === 'production') {
+  if (isProduction) {
     extractStyles = isBoolean(conf.styles) && conf.styles === false ? conf.styles : true;
   }
   
   let debug = false;
   
-  if (mode === 'development') {
+  if (!isProduction) {
     debug = true;
   }
   if (conf.debug) {
@@ -151,7 +70,7 @@ function getModules(conf = {}, mode, root) {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
     ];
     
     cssModules = [
@@ -172,7 +91,7 @@ function getModules(conf = {}, mode, root) {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
     ];
   } else {
     css = [
@@ -190,7 +109,7 @@ function getModules(conf = {}, mode, root) {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
     ];
     
     cssModules = [
@@ -208,7 +127,7 @@ function getModules(conf = {}, mode, root) {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
     ];
   }
   
@@ -235,7 +154,7 @@ function getModules(conf = {}, mode, root) {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+        { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
       ];
     } else {
       cssModules = [
@@ -256,7 +175,7 @@ function getModules(conf = {}, mode, root) {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'), options: { sourceMap: debug } }
+        { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
       ];
     }
   }
@@ -301,10 +220,11 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: babelOpts({
+          query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: conf.__isIsomorphicLoader
+            loadable: conf.__isIsomorphicLoader,
+            isProduction
           })
         },
         {
@@ -351,10 +271,11 @@ function getModules(conf = {}, mode, root) {
       use: conf.__isIsomorphicLoader ? [
         {
           loader: require.resolve('babel-loader'),
-          query: babelOpts({
+          query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: true
+            loadable: true,
+            isProduction
           })
         },
         {
@@ -386,10 +307,11 @@ function getModules(conf = {}, mode, root) {
       use: conf.__isIsomorphicLoader ? [
         {
           loader: require.resolve('babel-loader'),
-          query: babelOpts({
+          query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: false,
-            loadable: true
+            loadable: true,
+            isProduction
           })
         },
         {
@@ -465,10 +387,11 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: babelOpts({
+          query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: conf.__isIsomorphicLoader
+            loadable: conf.__isIsomorphicLoader,
+            isProduction
           })
         }
       ]
@@ -480,8 +403,9 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: babelOpts({
-            isNodejs: !!conf.nodejs
+          query: createBabelPresets({
+            isNodejs: !!conf.nodejs,
+            isProduction
           })
         }
       ],
@@ -580,13 +504,40 @@ function getModules(conf = {}, mode, root) {
         }
       ]
     },
-    
-    svg: conf.inline ? {
-      test: /\.svg$/,
+  
+    svgJSX: {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      issuer: {
+        test: /\.jsx?$/
+      },
+      use: [{
+        loader: require.resolve('babel-loader'),
+        query: createBabelPresets({
+          isNodejs: !!conf.nodejs,
+          framework: 'react',
+          loadable: conf.__isIsomorphicLoader,
+          isProduction
+        })
+      }, {
+        loader: require.resolve('@svgr/webpack')
+      }, {
+        loader: require.resolve('url-loader')
+      }]
+    },
+  
+    svg: {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [
-        {
-          loader: require.resolve('svg-inline-loader')
-        },
+        conf.inline ?
+          {
+            loader: require.resolve('url-loader')
+          } :
+          {
+            loader: require.resolve('file-loader'),
+            options: {
+              name: 'svg/[path][name].[ext]',
+            }
+          },
         {
           loader: require.resolve('svgo-loader'),
           options: {
@@ -602,31 +553,7 @@ function getModules(conf = {}, mode, root) {
           }
         }
       ]
-    } : {
-      test: /\.svg$/,
-      use: [
-        {
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'svg/[path][name].[ext]',
-          }
-        },
-        {
-          loader: require.resolve('svgo-loader'),
-          options: {
-            plugins: [{
-              removeTitle: true
-            }, {
-              convertColors: {
-                shorthex: false
-              }
-            }, {
-              convertPathData: false
-            }]
-          }
-        }
-      ]
-    }
+    },
   };
   
   const eslintRc = pathToEslintrc(root, mode);
@@ -666,4 +593,4 @@ const makeModules = (conf, root, packageJson, mode, excludeModules) => {
   return _makeModules(modules, conf, excludeModules);
 };
 
-module.exports = { makeModules, babelOpts };
+module.exports = { makeModules };

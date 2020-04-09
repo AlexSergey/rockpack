@@ -3,13 +3,13 @@ const { existsSync } = require('fs');
 const { isObject, isString, isUndefined, isArray } = require('valid-types');
 const rimraf = require('rimraf');
 const babel = require('@babel/core');
+const createBabelPresets = require('@rock/babel');
 const ts = require('typescript');
 const { copySync } = require('fs-extra');
 const makeMode = require('../modules/makeMode');
 const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
-const { babelOpts } = require('../modules/makeModules');
 const { capitalize } = require('./other');
 
 module.exports = async function sourceCompile(conf) {
@@ -90,7 +90,7 @@ module.exports = async function sourceCompile(conf) {
         throw new Error('tsconfig: Must be correct path to tsconfig file');
       }
     } else if (isArray(jsAndJsx) && jsAndJsx.length > 0) {
-      const babelOptions = babelOpts({
+      const babelOptions = createBabelPresets({
         isNodejs: !!conf.nodejs,
         framework: 'react',
         loadable: conf.__isIsomorphicLoader,

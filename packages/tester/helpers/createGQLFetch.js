@@ -1,23 +1,21 @@
 const fetch = require('isomorphic-fetch');
 
 const createGQLFetch = url => async query => {
-    try {
-        let response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(query)
-        });
-        if (!response.ok) {
-            throw Error(response.statusText);
-        }
-        let body = await response.json();
-        return body;
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(query)
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
-    catch (e) {
-        throw Error(e);
-    }
+    return await response.json();
+  } catch (e) {
+    throw new Error(e);
+  }
 };
 
 module.exports = createGQLFetch;

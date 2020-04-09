@@ -1,4 +1,5 @@
 const { existsSync } = require('fs');
+const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -72,6 +73,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
     exclude: /node_modules/,
   });
+  
+  plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   
   plugins.VueLoaderPlugin = new VueLoaderPlugin();
   

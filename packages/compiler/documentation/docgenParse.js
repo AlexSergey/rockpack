@@ -1,11 +1,11 @@
 const { existsSync, readFileSync, lstatSync } = require('fs');
 const { isString } = require('valid-types');
 const strip = require('strip-comments');
+const createBabelPresets = require('@rock/babel');
 const { transform } = require('@babel/core');
 const { parse } = require('@babel/parser');
 const traverse = require('@babel/traverse');
 const generator = require('@babel/generator');
-const { babelOpts } = require('../modules/makeModules');
 const makeResolve = require('../modules/makeResolve');
 
 const { extensions } = makeResolve();
@@ -35,7 +35,7 @@ const docgenParse = (conf) => {
           src = strip(src);
 
           if (isString(src)) {
-            const opts = babelOpts({
+            const opts = createBabelPresets({
               framework: 'react'
             });
             opts.plugins.push(require.resolve('@babel/plugin-transform-modules-commonjs'));

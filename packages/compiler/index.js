@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const { argv } = require('yargs');
-const { babelOpts } = require('./modules/makeModules');
 const makeWebpackConfig = require('./compilers/makeWebpackConfig');
 const markupCompiler = require('./compilers/markupCompiler');
 const libraryCompiler = require('./compilers/libraryCompiler');
@@ -22,7 +21,6 @@ module.exports = {
   makeWebpackConfig,
   multiCompiler,
   isomorphicCompiler,
-  babelOpts,
   markupCompiler,
   libraryCompiler,
   frontendCompiler,

@@ -20,7 +20,8 @@ This config-generator include modules and features:
 - CSS Modules support
 - Imagemin
 - File import support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
-- SVG + SVGO
+- SVG + SVGO, SVGR
+- Antd optimizations (momentjs to dayjs, import antd)
 - Uglifyjs (terser)
 - Hard Source Plugin (in production mode)
 - Generate stats.json (in production mode)
