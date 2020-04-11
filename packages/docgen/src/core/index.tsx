@@ -11,7 +11,6 @@ import mergeUrls from '../utils/mergeUrls';
 import validation from '../utils/validation';
 import { LangWrapper } from './LangWrapper';
 import { OpenIds } from './OpenIds';
-
 import { ExternalPropsInterface } from '../types';
 
 const history = createBrowserHistory();

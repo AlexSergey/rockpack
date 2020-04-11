@@ -1,5 +1,5 @@
 import React from 'react';
-import Highlight, { defaultProps } from 'prism-react-renderer';
+import Highlight, { defaultProps, Language } from 'prism-react-renderer';
 import {
   LiveProvider,
   LiveEditor,
@@ -16,9 +16,9 @@ interface CodeBlockInterface {
 }
 
 const CodeBlock = ({ children, className, live, render }: CodeBlockInterface) => {
-  const language = typeof className === 'string' && className.indexOf('language') > 0 ?
-    className.replace(/language-/, '') :
-    'js';
+  const language: Language = typeof className === 'string' && className.indexOf('language') > 0 ?
+    (className.replace(/language-/, '') as Language) :
+    'jsx';
   
   if (live) {
     return (

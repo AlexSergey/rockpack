@@ -11,6 +11,7 @@ libraryCompiler({
     dist: './lib/esm'
   }
 }, {
+  debug: true,
   inline: true,
   styles: false
 });

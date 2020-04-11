@@ -4,7 +4,7 @@ This is the simplest way to make webpack config with many default settings.
 This config-generator include modules and features:
 
 - Webpack 4+, Webpack-dev-server
-- Support React, Angular 2+, Vue 
+- Support React, Angular 2+, Vue
 - TypeScript support
 - Babel 7, Babel-preset-env (> 5%)
 - Support build nodejs scripts with nodemon and livereload
@@ -217,9 +217,9 @@ isomorphicCompiler([
 ```
 TypeScript activation:
 - make tsconfig.json
-- add config (Example: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html) 
+- add config (Example: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
 
-You can run it with NODE_ENV=production - it is active uglifier. 
+You can run it with NODE_ENV=production - it is active uglifier.
 
 If you want a styles extraction you need to set styles: 'mystyle.css'
 

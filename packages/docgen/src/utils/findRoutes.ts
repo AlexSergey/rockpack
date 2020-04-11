@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router';
 
-const getRoutes = (route, allRoutes) => {
+const getRoutes = (route, allRoutes): any => {
   if (!route) {
     return allRoutes;
   }
@@ -20,16 +20,15 @@ const getRoutes = (route, allRoutes) => {
   if (route.children) {
     (Array.isArray(route.children) ?
       route.children :
-      [route.children]).forEach(r => getRoutes(r, allRoutes)
-    );
+      [route.children]).forEach(r => getRoutes(r, allRoutes));
   }
   return allRoutes;
 };
 
 const findRoutes = (current, route) => {
   const allRoutes = getRoutes(route, []);
-  const currentIndex = allRoutes.findIndex(route => matchPath(current, {
-    path: route.url,
+  const currentIndex = allRoutes.findIndex(r => matchPath(current, {
+    path: r.url,
     exact: true,
     strict: false
   }));

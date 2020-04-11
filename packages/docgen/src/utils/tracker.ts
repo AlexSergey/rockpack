@@ -2,8 +2,8 @@ import { useEffect, createElement } from 'react';
 import ReactGA from 'react-ga';
 import { withRouter } from 'react-router';
 
-const withTracker = (WrappedComponent, options = {}) => {
-  const trackPage = page => {
+const withTracker = (WrappedComponent, options = {}): JSX.Element => {
+  const trackPage = (page): void => {
     ReactGA.set({
       page,
       ...options

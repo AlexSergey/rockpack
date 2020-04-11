@@ -3,9 +3,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { isString } from 'valid-types';
 import withTracker from '../utils/tracker';
+import { InnerInterface } from '../types';
 
-const _Route = props => {
-  const TreeRouteRender = (route, output, prefix) => {
+const _Route = (props: InnerInterface) => {
+  const TreeRouteRender = (route, output, prefix?) => {
     if (!route) {
       return output;
     }
@@ -22,7 +23,7 @@ const _Route = props => {
     renderInside.push(route);
     
     if (route.children) {
-      (Array.isArray(route.children) ? route.children : [route.children]).map(r => {
+      (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
         if (!r.url) {
           renderInside.push(r);
         } else {
@@ -57,25 +58,25 @@ const _Route = props => {
     );
     
     if (renderInAnotherRoute.length > 0) {
-      renderInAnotherRoute.map(r => {
-        TreeRouteRender(r, output, prefix);
-      });
+      renderInAnotherRoute.map(r => TreeRouteRender(r, output, prefix));
     }
     
     return output;
   };
   return (
     <Switch>
-      {props.isLocalized && Array.isArray(props.languages) ? props.languages.map(lang => (
-        TreeRouteRender(props.docgen, [], lang, true)
-          .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
-      )) : (
-        TreeRouteRender(props.docgen, [])
-          .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
-      )}
-      {props.isLocalized && Array.isArray(props.languages) ? <Redirect from="/" to={`/${props.activeLang}`} /> :
+      {props.isLocalized && Array.isArray(props.languages) ?
+        props.languages.map(lang => (
+          TreeRouteRender(props.docgen, [], lang)
+            .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
+        )) : (
+          TreeRouteRender(props.docgen, [])
+            .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
+        )}
+        
+      {props.isLocalized && Array.isArray(props.languages) ?
+        <Redirect from="/" to={`/${props.activeLang}`} /> :
         <Redirect from="/" to="/" />}
-    
     </Switch>
   );
 };

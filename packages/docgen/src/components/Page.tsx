@@ -1,7 +1,6 @@
 import React, { isValidElement, createElement } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
-
 import { makeStyles } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -11,10 +10,12 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import findRoutes from '../utils/findRoutes';
 import MDXLayout from './MDXLayout';
+import { DocgenRouteInterface } from '../types';
 
+// @ts-ignore
 const useStylesPage = makeStyles(stylesHeader);
 
-const renderInside = (content: any, index?: number, props) => {
+const renderInside = (content, index: number|null, props) => {
   if (!content) {
     return null;
   }
@@ -59,9 +60,16 @@ const renderInside = (content: any, index?: number, props) => {
       {block}
     </div>
   );
+};
+
+interface TempInterface extends RouteComponentProps {
+  toggleOpenId: () => void;
+  activeLang?: string;
+  content: any;
+  docgen: DocgenRouteInterface | DocgenRouteInterface[];
 }
 
-const InnerPage = withRouter(props => {
+const InnerPage = withRouter((props: TempInterface) => {
   const classesPage = useStylesPage();
   
   const current = typeof props.activeLang === 'string' ?
@@ -82,7 +90,7 @@ const InnerPage = withRouter(props => {
         {prev && (
           <Link
             to={typeof props.activeLang === 'string' ? `/${props.activeLang}${prev.url}` : prev.url}
-            onClick={() => props.toggleOpenId(prev)}
+            onClick={() => props.toggleOpenId()}
           >
             <Tooltip placement="top-start" title={prev.title ? prev.title : 'Previous page'}>
               <Button variant="outlined" color="primary">
@@ -94,7 +102,7 @@ const InnerPage = withRouter(props => {
         {next && (
           <Link
             to={typeof props.activeLang === 'string' ? `/${props.activeLang}${next.url}` : next.url}
-            onClick={() => props.toggleOpenId(next)}
+            onClick={() => props.toggleOpenId()}
           >
             <Tooltip placement="top-end" title={next.title ? next.title : 'Next page'}>
               <Button variant="outlined" color="primary">

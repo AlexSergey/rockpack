@@ -1,13 +1,13 @@
 import { LocaleData } from '@rock/localazer';
 
-interface Localization {
+export interface Localization {
   [key: string]: {
     component: JSX.Element;
     language: LocaleData;
   };
 }
 
-interface DocgenRouteInterface {
+export interface DocgenRouteInterface {
   nodeId?: string;
   url?: string;
   title?: string;
@@ -28,6 +28,36 @@ export interface ExternalPropsInterface {
   ga?: string;
 }
 
-interface OpenIdsInterface {
+export interface LangWrapperInterface {
+  localization?: Localization;
+  children: () => JSX.Element;
+}
 
+export interface InnerInterface extends ExternalPropsInterface {
+  openIds: string[];
+  hasRoutes: boolean;
+  isLocalized: boolean;
+  activeLang: string;
+  changeLocal: (lang: string) => void;
+  languages: string[] | boolean;
+  toggleOpenId: () => void;
+  children: (route?: any) => JSX.Element;
+}
+
+export interface LayoutInterface extends ExternalPropsInterface {
+  openIds: string[];
+  hasRoutes: boolean;
+  isLocalized: boolean;
+  activeLang: string;
+  changeLocal: (lang: string) => void;
+  languages: string[] | boolean;
+  toggleOpenId: () => void;
+}
+
+export interface HeaderInterface extends ExternalPropsInterface {
+  color?: string;
+  isLocalized: boolean;
+  activeLang: string;
+  changeLocal: (lang: string) => void;
+  handleDrawerToggle: () => void;
 }

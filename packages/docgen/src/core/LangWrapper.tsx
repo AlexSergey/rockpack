@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { detectLanguage, LocalizationObserver, LanguagesInterface } from '@rock/localazer';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { isObject, isString } from 'valid-types';
 import parseLanguageFromUrl from '../utils/parseLanguageFromUrl';
+import { Localization } from '../types';
 
 const Wrapper = ({
   children
@@ -12,7 +13,13 @@ const Wrapper = ({
   active?: string;
 }) => children;
 
-export const LangWrapper = withRouter((props) => {
+interface LangWrapperInterface extends RouteComponentProps {
+  activeLang?: string;
+  localization?: Localization;
+  children: (isLocalized?: boolean, languageState?: string, handler?: (lang: string) => void) => JSX.Element;
+}
+
+export const LangWrapper = withRouter((props: LangWrapperInterface) => {
   const isLocalized = isObject(props.localization);
   const LocalizationWrapper = isLocalized ? LocalizationObserver : Wrapper;
   
@@ -26,9 +33,9 @@ export const LangWrapper = withRouter((props) => {
       const langs = Array.isArray(lang) ? lang : [lang];
       const defaultLang = langs.map(e => (e.indexOf('-') ? e.split('-')[0] : e))[0];
       
-      if (props.localization[defaultLang]) {
+      if (props.localization && props.localization[defaultLang]) {
         activeLanguage = defaultLang;
-      } else {
+      } else if (props.localization) {
         activeLanguage = Object.keys(props.localization)[0];
       }
     }
@@ -61,7 +68,7 @@ export const LangWrapper = withRouter((props) => {
           document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`) :
           false;
         
-        if (newUrl) {
+        if (typeof newUrl === 'string') {
           props.history.push(newUrl);
         }
         

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import stylesContent from '../assets/jss/material-dashboard-react/layouts/adminStyle';
 
+// @ts-ignore
 const useStylesContent = makeStyles(stylesContent);
 
 interface ContentInterface {

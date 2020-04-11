@@ -142,6 +142,7 @@ module.exports = {
           ],
           rules: deepExtend({}, {
             '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/ban-ts-ignore': 'off',
             'react/prop-types': 'off'
           }, commonRules)
         }

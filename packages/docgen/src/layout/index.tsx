@@ -9,10 +9,12 @@ import MenuBar from '../components/MenuBar';
 import Route from '../components/Route';
 import Page from '../components/Page';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
+import { LayoutInterface } from '../types';
 
+// @ts-ignore
 const useStyles = makeStyles(styles);
 
-const Layout = (props) => {
+const Layout = (props: LayoutInterface) => {
   const { hasRoutes } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -30,22 +32,24 @@ const Layout = (props) => {
   
   return (
     <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'}`}>
-      {hasRoutes ? <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
-        {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
-      </MenuBar> : null}
+      {hasRoutes ? (
+        <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
+          {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
+        </MenuBar>
+      ) : null}
       <div className={classes.mainPanel} style={{ overflow: 'hidden', maxHeight: 'none' }}>
         <Header {...props} handleDrawerToggle={handleDrawerToggle} />
         <Content>
-          {hasRoutes ? <Route {...props}>
-            {routes => {
-              return Page(routes, props);
-            }}
-          </Route> : Page(props.docgen, props)}
+          {hasRoutes ? (
+            <Route {...props}>
+              {routes => Page(routes, props)}
+            </Route>
+          ) : Page(props.docgen, props)}
         </Content>
         <Footer {...props} />
       </div>
     </div>
-  )
+  );
 };
 
 export default Layout;

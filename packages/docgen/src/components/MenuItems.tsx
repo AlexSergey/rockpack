@@ -1,11 +1,22 @@
 import React from 'react';
 import { matchPath } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { makeStyles } from '@material-ui/core';
+import { Localization, DocgenRouteInterface } from '../types';
+
+interface MenuItemsInterface extends RouteComponentProps {
+  toggleOpenId: (openIds: string[]) => void;
+  openIds: string[];
+  activeLang?: string;
+  docgen: DocgenRouteInterface | DocgenRouteInterface[];
+  localization?: Localization;
+  handleDrawerToggle?: () => void;
+  children?: (isLocalized?: boolean, languageState?: string, handler?: (lang: string) => void) => JSX.Element;
+}
 
 const useStylesTreeView = makeStyles({
   root: {
@@ -23,7 +34,7 @@ const setActive = (currentUrl, pth, activeLang) => (
   }) ? 'active' : ''
 );
 
-const MenuItems = withRouter(props => {
+const MenuItems = withRouter((props: MenuItemsInterface) => {
   const classesTreeView = useStylesTreeView();
   
   const goTo = (url, name) => {
@@ -32,11 +43,13 @@ const MenuItems = withRouter(props => {
         `/${props.activeLang}${url}` :
         url);
     }
+    
     setTimeout(() => {
-      if (global.document && name) {
-        global.document.location.hash = name;
+      if (document && name) {
+        document.location.hash = name;
       }
     });
+    
     if (typeof props.handleDrawerToggle === 'function') {
       props.handleDrawerToggle();
     }
@@ -46,46 +59,68 @@ const MenuItems = withRouter(props => {
     if (!data) {
       return null;
     }
+    
     if (Array.isArray(data)) {
       return data.map(s => TreeRender(s));
     }
+    
     if (!data.title) {
       return null;
     }
     
-    let W = data.url ? (Inner, url) => (
+    const W = data.url ? (Inner: JSX.Element, url) => (
       <span
-        {...Object.assign({}, data.nodeId ? { id: data.nodeId } : {})}
-        className={setActive(global.document.location.pathname, url, props.activeLang)}
+        {...data.nodeId ? { id: data.nodeId } : {}}
+        className={setActive(document.location.pathname, url, props.activeLang)}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           goTo(url, null);
         }}
-        key={data.uniqId}>{Inner}</span>
-    ) : (Inner, hash, extraClassName) => (
+        key={data.uniqId}
+      >
+        {Inner}
+      </span>
+    ) : (Inner: JSX.Element, hash, extraClassName) => (
       <span
-        {...Object.assign({}, data.nodeId ? { id: data.nodeId } : {})}
-        className={`#${hash}` === global.document.location.hash ? `active ${extraClassName}` : extraClassName}
+        {...data.nodeId ? { id: data.nodeId } : {}}
+        className={`#${hash}` === document.location.hash ? `active ${extraClassName}` : extraClassName}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           goTo(null, data.name);
-        }} key={data.uniqId}>{Inner}</span>
-    )
+        }}
+        key={data.uniqId}
+      >
+        {Inner}
+      </span>
+    );
     
     return (
-      data.children ? W(
+      data.children ? W((
         <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title}>{
-          (Array.isArray(data.children) ? data.children : [data.children]).map(node => TreeRender(node))}
-        </TreeItem>, data.url) : (
+          (Array.isArray(data.children) ?
+            data.children :
+            [data.children]).map(node => TreeRender(node))
+        }
+        </TreeItem>
+      ), data.url, '') : (
         data.url ?
-          W(<TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title} />, data.url) :
+          W(
+            <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title} />,
+            data.url,
+            ''
+          ) :
           (typeof data.name === 'string' ?
-              W(<div style={{ padding: '0 0 0 10px' }}><span style={{ cursor: 'pointer' }}>{data.title}</span>
-              </div>, data.name, 'tree-hash-item') :
+            W((
+              <div style={{ padding: '0 0 0 10px' }}>
+                <span style={{ cursor: 'pointer' }}>{data.title}</span>
+              </div>
+            ), data.name, 'tree-hash-item') : (
               <div key={data.uniqId} style={{ padding: '0 0 0 10px' }}>
-                <span style={{ cursor: 'pointer' }}>{data.title}</span></div>
+                <span style={{ cursor: 'pointer' }}>{data.title}</span>
+              </div>
+            )
           )
       )
     );
