@@ -71,6 +71,7 @@ exports.LangWrapper = react_router_dom_1.withRouter(function (props) {
             localization(lang);
         }
         else {
+            // eslint-disable-next-line no-console
             console.warn("Can't set language " + lang + ". This language not available in localization config");
         }
     })));

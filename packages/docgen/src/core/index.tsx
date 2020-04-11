@@ -17,12 +17,14 @@ const history = createBrowserHistory();
 
 export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivElement) => {
   if (!(el instanceof HTMLElement)) {
+    // eslint-disable-next-line no-console
     console.error('DOM element is invalid');
     return false;
   }
   const isValid = validation(props);
   
   if (!isValid) {
+    // eslint-disable-next-line no-console
     console.error('props is invalid');
     return false;
   }

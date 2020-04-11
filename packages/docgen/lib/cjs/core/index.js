@@ -30,11 +30,13 @@ var OpenIds_1 = require("./OpenIds");
 var history = history_1.createBrowserHistory();
 exports.createDocumentation = function (props, el) {
     if (!(el instanceof HTMLElement)) {
+        // eslint-disable-next-line no-console
         console.error('DOM element is invalid');
         return false;
     }
     var isValid = validation_1["default"](props);
     if (!isValid) {
+        // eslint-disable-next-line no-console
         console.error('props is invalid');
         return false;
     }

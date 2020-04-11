@@ -17,8 +17,8 @@ module.exports = {
       'no-return-await': 'off',
       'no-await-in-loop': 'off',
       'no-continue': 'off',
-      'no-console': 'off',
-      'no-debugger': 'off',
+      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-loop-func': 'off',
       'spaced-comment': 'off',
       'default-case': 'off',
@@ -59,6 +59,8 @@ module.exports = {
         typeof: true
       }],
       'no-unused-vars': 'error',
+      'babel/no-unused-expressions': 'error',
+      'no-unused-expressions': 'off',
       'no-use-before-define': ['error', {
         functions: false,
         classes: true

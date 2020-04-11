@@ -31,6 +31,7 @@ const validate = (props) => {
         if (f.required) {
             if (!props[f.field]) {
                 isValid = false;
+                // eslint-disable-next-line no-console
                 console.error(showMessage(f.field, f.type, f.required, f.message));
                 return false;
             }
@@ -39,6 +40,7 @@ const validate = (props) => {
             const type = typeof props[f.field];
             if (type !== 'undefined' && type !== f.type) {
                 isValid = false;
+                // eslint-disable-next-line no-console
                 console.error(showMessage(f.field, f.type, f.required, f.message));
                 return false;
             }
@@ -52,6 +54,7 @@ const validate = (props) => {
                 });
                 if (keys.length !== validComponents.length) {
                     isValid = false;
+                    // eslint-disable-next-line no-console
                     console.error(showMessage(f.field, f.type, f.required, f.message));
                     return false;
                 }

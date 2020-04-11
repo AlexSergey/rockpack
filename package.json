@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
+  "workspaces": [
+    "book",
+    "next/*",
+    "packages/*"
+  ],
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
-    "postinstall": "npm run bootstrap",
-    "clean": "lerna run clean",
-    "build": "lerna run build",
-    "pub": "lerna publish"
+    "lint": "eslint --config .eslintrc.js '**/src/**/*.{js,ts,tsx}' --quiet"
   },
   "devDependencies": {
     "cross-env": "7.0.2",

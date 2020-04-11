@@ -33,6 +33,7 @@ var validate = function (props) {
         if (f.required) {
             if (!props[f.field]) {
                 isValid = false;
+                // eslint-disable-next-line no-console
                 console.error(showMessage(f.field, f.type, f.required, f.message));
                 return false;
             }
@@ -41,6 +42,7 @@ var validate = function (props) {
             var type = typeof props[f.field];
             if (type !== 'undefined' && type !== f.type) {
                 isValid = false;
+                // eslint-disable-next-line no-console
                 console.error(showMessage(f.field, f.type, f.required, f.message));
                 return false;
             }
@@ -54,6 +56,7 @@ var validate = function (props) {
                 });
                 if (keys.length !== validComponents.length) {
                     isValid = false;
+                    // eslint-disable-next-line no-console
                     console.error(showMessage(f.field, f.type, f.required, f.message));
                     return false;
                 }

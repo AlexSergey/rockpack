@@ -44,7 +44,16 @@ const createBabelPresets = ({
       } : {})]
     ],
     plugins: [
-      require.resolve('@babel/plugin-proposal-optional-chaining'),
+      [
+        require.resolve('@babel/plugin-proposal-pipeline-operator'),
+        { proposal: 'minimal' }
+      ],
+      require.resolve('@babel/plugin-proposal-do-expressions'),
+      require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
+      [
+        require.resolve('@babel/plugin-proposal-optional-chaining'),
+        { loose: false }
+      ],
       require.resolve('@babel/plugin-syntax-dynamic-import'),
       require.resolve('@babel/plugin-transform-flow-comments'),
       [
