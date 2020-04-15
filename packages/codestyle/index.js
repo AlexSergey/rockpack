@@ -41,6 +41,7 @@ module.exports = {
       'import/prefer-default-export': 'off',
       'jsx-a11y/click-events-have-key-events': 'off',
       'jsx-a11y/no-static-element-interactions': 'off',
+      'jsx-a11y/heading-has-content': 'off',
       'jsx-quotes': ['error', 'prefer-double'],
       'max-len': ['warn', 120, {
         ignoreComments: true,

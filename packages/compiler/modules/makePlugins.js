@@ -30,7 +30,6 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
-const prerenderDocgen = require('../documentation/index');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
@@ -388,10 +387,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       },
       canPrint: true
     });
-    
-    if (conf.__isDocumentation) {
-      prerenderDocgen(plugins, conf, root);
-    }
   }
   
   if (isNumber(conf.analyzerPort)) {

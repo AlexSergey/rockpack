@@ -1,3 +1,10 @@
-const { documentationCompiler } = require('@rock/compiler');
+const { frontendCompiler } = require('@rock/compiler');
+const prerenderDocgen = require('./postrender');
 
-documentationCompiler();
+frontendCompiler({
+  inline: false
+}, (finalConfig, modules, plugins) => {
+  if (process.env.NODE_ENV === 'production') {
+    prerenderDocgen(plugins, finalConfig);
+  }
+});

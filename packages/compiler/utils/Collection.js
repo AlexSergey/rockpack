@@ -10,7 +10,7 @@ class Collection {
     this.dict = Object.keys(this._data)
       .reduce((dict, plName) => {
         if (isFunction(this._data[plName])) {
-          let d = this._data[plName](this._props[plName]);
+          const d = this._data[plName](this._props[plName]);
           
           if (isArray(d)) {
             d.forEach((_d, index) => {
