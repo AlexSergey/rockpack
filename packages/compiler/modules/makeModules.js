@@ -438,6 +438,18 @@ function getModules(conf = {}, mode, root) {
         }
       ]
     },
+  
+    pdf: {
+      test: /\.pdf$/,
+      use: [
+        {
+          loader: require.resolve('file-loader'),
+          query: {
+            name: 'images/[name][hash].[ext]'
+          }
+        }
+      ]
+    },
     
     images: conf.inline ? {
       test: /\.(jpe?g|png|gif)$/i,
@@ -451,7 +463,7 @@ function getModules(conf = {}, mode, root) {
         }
       ]
     } : {
-      test: /\.(jpe?g|png|gif)$/i,
+      test: /\.(jpe?g|png|gif|pdf)$/i,
       use: [
         {
           loader: require.resolve('file-loader'),
