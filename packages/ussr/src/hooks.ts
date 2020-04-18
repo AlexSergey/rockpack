@@ -1,15 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
+import { isBackend } from './utils';
 import { UssrContext } from './Ussr';
 
-let first = true;
-
 export const useUssrEffect = (path, defaultValue) => {
-  const { initState, addEffect } = useContext(UssrContext);
-  if (has(initState, path)) {
-    console.warn(`${path} is already exist in InitialState`);
+  const initHook = useRef(true);
+  const { initState, addEffect, skipEffectsOnClient } = useContext(UssrContext);
+  
+  const isClient = !isBackend();
+  const immediatelyRunOnTheClient = skipEffectsOnClient;
+  const setOnTheClientAfterBackendRender = isClient && !skipEffectsOnClient && initHook.current;
+  
+  if (setOnTheClientAfterBackendRender) {
+    if (has(initState, path)) {
+      console.warn(`${path} is already exist in InitialState`);
+    }
   }
   const _state = get(initState, path, defaultValue);
   const [state, setState] = useState(_state);
@@ -26,15 +33,23 @@ export const useUssrEffect = (path, defaultValue) => {
     state,
     _setState,
     (cb) => {
-      if (first) {
-        //isBackend && typeof cb === 'function' && cb();
+      if (immediatelyRunOnTheClient) {
+        return false;
+      }
+      
+      if (isClient && initHook.current && typeof cb === 'function') {
+        cb();
+      }
+      
+      if (isBackend() && typeof cb === 'function') {
         const effect = cb();
-        first = false;
         const isEffect = typeof effect.then === 'function';
-        if (isEffect) {
+        if (isBackend() && isEffect) {
           addEffect(effect);
         }
       }
+      
+      initHook.current = false;
     }
-  ];
+  ]
 };

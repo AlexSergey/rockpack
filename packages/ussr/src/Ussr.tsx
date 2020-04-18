@@ -1,7 +1,17 @@
-import React, { createContext } from 'react';
-import { clone } from './utils';
+import React, { createContext, useState, useEffect } from 'react';
+import { clone, isBackend } from './utils';
 
 export const UssrContext = createContext<any>({});
+
+const OnComplete = ({ init, setSkipState }) => {
+  useEffect(() => {
+    if (!isBackend() && init) {
+      setSkipState(false);
+    }
+  }, []);
+  
+  return null;
+}
 
 const createUssr = (initState) => {
   const app = {
@@ -15,18 +25,26 @@ const createUssr = (initState) => {
   
   const runEffects = () => new Promise(resolve => (
     Promise.all(app.effects)
-      .then(() => resolve(clone(app.state)))
+      .then(() => {
+        resolve(clone(app.state))
+      })
   ));
   
-  return [runEffects, ({ children }) => (
-    <UssrContext.Provider value={{
-      initState,
-      addEffect
-    }}
-    >
-      {children}
-    </UssrContext.Provider>
-  )];
+  return [runEffects, ({ children }) => {
+    const [skipEffectsOnClient, setSkipState] = useState(!isBackend());
+    
+    return (
+      <UssrContext.Provider value={{
+        skipEffectsOnClient,
+        initState,
+        addEffect
+      }}
+      >
+        {children}
+        <OnComplete init={skipEffectsOnClient} setSkipState={setSkipState} />
+      </UssrContext.Provider>
+    )
+  }];
 };
 
 export default createUssr;

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { render } from 'react-dom';
-import createUssr, { useUssrEffect } from '../../../dist';
+import createUssr, { useUssrEffect } from '../../../src';
 
 const effect = () => new Promise((resolve) => setTimeout(() => resolve({ test: 'data'}), 1000));
 
