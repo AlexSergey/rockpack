@@ -73,7 +73,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     exclude: /node_modules/,
   });
   
-  plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
+  if (packageJson.dependencies && packageJson.dependencies.antd) {
+    plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
+  }
   
   plugins.VueLoaderPlugin = new VueLoaderPlugin();
   

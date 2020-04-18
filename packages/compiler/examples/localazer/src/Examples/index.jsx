@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Localization, { LocalizationObserver, jed, l, nl, sprintf } from '../../../../../localazer/src';
+import Localization, { LocalizationObserver, jed, l, nl, sprintf } from '../../../../../localazer/dist';
 import ru from '../../json/ru.json';
 
 export default class LocalizationExamples extends Component {
@@ -29,7 +29,7 @@ export default class LocalizationExamples extends Component {
       // eslint-disable-next-line react/no-access-state-in-setstate
       active: this.state.active === 'en' ? 'ru' : 'en'
     }, () => {
-      console.log(jed.getJed());
+      console.log(jed);
     });
   };
 
@@ -59,6 +59,7 @@ export default class LocalizationExamples extends Component {
           <div>
             <Localization>{l(hello2)}</Localization>
           </div>
+  
           <h2>Notification example</h2>
           <p>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -74,7 +75,7 @@ export default class LocalizationExamples extends Component {
             </a>
           </p>
           <br />
-
+  
           <div>
             <h2>Variable to translation</h2>
             <input type="text" placeholder="Put your name" onChange={e => this.setState({ name: e.target.value })} />
@@ -94,9 +95,28 @@ export default class LocalizationExamples extends Component {
               </Localization>
             </p>
           </div>
-
+          <div>
+            <h2>Variable to translation</h2>
+            <input type="text" placeholder="Put your name" onChange={e => this.setState({ name: e.target.value })} />
+            <p>
+              <Localization>
+                {
+                  sprintf(
+                    l('Your name is %s and surname is %s', 'USER'),
+                    <span style={{ textDecoration: 'underline' }}>
+                      <b>{name}</b>
+                    </span>,
+                    <span style={{ textDecoration: 'underline' }}>
+                      <b>Pupkin</b>
+                    </span>
+                  )
+                }
+              </Localization>
+            </p>
+          </div>
+  
           <h2>Counter example. Plural form + variable</h2>
-
+  
           <div>
             <button onClick={() => this.setState({ count: count + 1 })}>
               +1
@@ -116,7 +136,7 @@ export default class LocalizationExamples extends Component {
               </Localization>
             </p>
           </div>
-
+  
           <h4><Localization>{l('Sort By')}</Localization></h4>
           <p>
             <select>

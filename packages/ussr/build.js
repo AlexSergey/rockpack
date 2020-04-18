@@ -1,7 +1,7 @@
 const { libraryCompiler } = require('@rock/compiler');
 
 libraryCompiler({
-  name: 'USSRClient',
+  name: 'USSR',
   cjs: {
     src: './src',
     dist: './lib/cjs'
@@ -9,7 +9,8 @@ libraryCompiler({
   esm: {
     src: './src',
     dist: './lib/esm'
-  }
+  },
+  debug: true
 }, null, config => {
   config.externals = [
     'react',

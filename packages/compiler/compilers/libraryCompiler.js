@@ -15,9 +15,7 @@ async function libraryCompiler(libraryOpts, options, cb, configOnly = false) {
 
   if (isString(libraryOpts)) {
     libraryName = libraryOpts;
-  }
-
-  if (isObject(libraryOpts) && isString(libraryOpts.name)) {
+  } else if (isObject(libraryOpts) && isString(libraryOpts.name)) {
     libraryName = libraryOpts.name;
     if (isObject(libraryOpts.esm)) {
       deepExtend(options, {

@@ -8,4 +8,4 @@ class MyLib {
   }
 }
 
-module.exports = MyLib;
+export default MyLib;

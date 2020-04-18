@@ -1,0 +1,14 @@
+{
+  "name": "@rock/ussr",
+  "version": "0.9.0",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+  },
+  "devDependencies": {
+
+  }
+}

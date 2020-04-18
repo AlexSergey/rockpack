@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 var react_1 = require("react");
+var valid_types_1 = require("valid-types");
 var server_1 = require("react-dom/server");
 var i18n_1 = __importDefault(require("./i18n"));
 var translateSprintf = function () {
@@ -31,6 +32,9 @@ var sprintf = function () {
     return function () { return (translateSprintf.apply(void 0, args.map(function (item) {
         if (react_1.isValidElement(item)) {
             return server_1.renderToStaticMarkup(item);
+        }
+        else if (valid_types_1.isFunction(item)) {
+            return item();
         }
         return item;
     }))); };

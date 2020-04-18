@@ -1,4 +1,5 @@
 import { isValidElement, ReactElement } from 'react';
+import { isFunction } from 'valid-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import i18n from './i18n';
 
@@ -6,7 +7,8 @@ export type LInterfae = (text: string, context: string) => () => string;
 export type NLInterfae = (singular: string, plural: string, amount: number|string, context: string) => () => string;
 type JEDSprintFArguments = string | number | undefined;
 
-type SprintFArguments = string | number | undefined | ReactElement<any>;
+type SprintFArguments = (...args: any[]) => any | ReactElement<any> | string | number | undefined;
+
 export type SprintFInterface = (args: SprintFArguments) => () => string;
 
 const translateSprintf = (...args: JEDSprintFArguments[]): string => i18n.sprintf.apply(i18n, args);
@@ -29,9 +31,11 @@ const nl: NLInterfae = (singular, plural, amount, context) => () => translateNl(
 
 const sprintf: SprintFInterface = (...args) => () => (
   translateSprintf(
-    ...args.map((item) => {
+    ...args.map(item => {
       if (isValidElement(item)) {
         return renderToStaticMarkup(item);
+      } else if (isFunction(item)) {
+        return item();
       }
       return item;
     })

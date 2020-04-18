@@ -1,14 +1,37 @@
 {
-  "name": "@rock/ussr",
+  "name": "@rock/ussr-client",
   "version": "0.9.0",
-  "main": "dist/index",
-  "types": "dist/index",
-  "files": [
-    "dist"
-  ],
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/localazer.git"
+  },
+  "keywords": [
+  
+  ],
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/localazer)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/localazer/issues"
+  },
+  "homepage": "https://github.com/AlexSergey/localazer",
+  "dependencies": {
+    "core-js": "3.6.4",
+    "lodash": "4.17.15"
   },
   "devDependencies": {
-
+    "@rock/codestyle": "0.9.0",
+    "@rock/compiler": "0.9.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "@types/lodash": "4.14.149"
   }
 }
