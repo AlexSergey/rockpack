@@ -5,8 +5,6 @@ import createUssr from '../../../src';
 
 const [, Ussr] = createUssr(window.USSR_DATA);
 
-console.log('FIRE', window.USSR_DATA);
-
 hydrate(
   <Ussr>
     <App />

@@ -1,49 +1,64 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { clone, isBackend } from './utils';
 
-export const UssrContext = createContext<any>({});
+interface InitStateInterface {
+  [key: string]: unknown;
+}
 
-const OnComplete = ({ init, setSkipState }) => {
+interface StateInterface {
+  [key: string]: unknown;
+}
+
+interface UssrContextInterface {
+  loading: boolean;
+  initState: InitStateInterface;
+  addEffect: (effect: Promise<unknown>) => void;
+}
+
+type ReturnCreateUssr = [() => Promise<StateInterface>, ({ children }: { children: JSX.Element }) => JSX.Element];
+
+export const UssrContext = createContext<UssrContextInterface>({} as UssrContextInterface);
+
+const OnComplete = ({ loading, onLoad }): JSX.Element => {
   useEffect(() => {
-    if (!isBackend() && init) {
-      setSkipState(false);
+    if (!isBackend() && loading) {
+      onLoad(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   return null;
-}
+};
 
-const createUssr = (initState) => {
+const createUssr = (initState: InitStateInterface): ReturnCreateUssr => {
   const app = {
     effects: [],
     state: initState
   };
   
-  const addEffect = (effect) => {
+  const addEffect = (effect: Promise<unknown>): void => {
     app.effects.push(effect);
   };
   
-  const runEffects = () => new Promise(resolve => (
+  const runEffects = (): Promise<StateInterface> => new Promise(resolve => (
     Promise.all(app.effects)
-      .then(() => {
-        resolve(clone(app.state))
-      })
+      .then(() => resolve(clone(app.state)))
   ));
   
-  return [runEffects, ({ children }) => {
-    const [skipEffectsOnClient, setSkipState] = useState(!isBackend());
+  return [runEffects, ({ children }): JSX.Element => {
+    const [loading, onLoad] = useState(!isBackend());
     
     return (
       <UssrContext.Provider value={{
-        skipEffectsOnClient,
+        loading,
         initState,
         addEffect
       }}
       >
         {children}
-        <OnComplete init={skipEffectsOnClient} setSkipState={setSkipState} />
+        <OnComplete loading={loading} onLoad={onLoad} />
       </UssrContext.Provider>
-    )
+    );
   }];
 };
 

@@ -6,9 +6,9 @@ import createUssr, { useUssrEffect } from '../../../src';
 const effect = () => new Promise((resolve) => setTimeout(() => resolve({ test: 'data'}), 1000));
 
 const App = ({ children }) => {
-  const [state, setState, runEffect] = useUssrEffect('appState.test', { test: 'i am test '});
+  const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test '});
   
-  runEffect(() => effect().then(data => setState(data)));
+  willMount(() => effect().then(data => setState(data)));
   
   return (
     <div>
