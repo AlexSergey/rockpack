@@ -9,5 +9,5 @@ interface RenderUssrReturnInterface {
     html: string;
     state: StateInterface;
 }
-export declare const renderUssr: ({ render }: RenderUssrInterface) => Promise<RenderUssrReturnInterface>;
+export declare const serverRender: ({ render }: RenderUssrInterface) => Promise<RenderUssrReturnInterface>;
 export {};

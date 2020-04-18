@@ -14,6 +14,6 @@ libraryCompiler({
 }, null, config => {
   config.externals = [
     'react',
-    'react-dom'
+    'react-dom/server'
   ];
 });

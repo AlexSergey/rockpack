@@ -42,7 +42,7 @@ exports.__esModule = true;
 var react_1 = __importDefault(require("react"));
 var server_1 = require("react-dom/server");
 var Ussr_1 = __importDefault(require("./Ussr"));
-exports.renderUssr = function (_a) {
+exports.serverRender = function (_a) {
     var render = _a.render;
     return __awaiter(void 0, void 0, void 0, function () {
         var _b, runEffects, UssrRunEffects, state, _c, Ussr, html;
