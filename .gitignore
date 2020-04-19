@@ -97,3 +97,6 @@ test-reports
 
 # dotenv file ought to ignore
 .env
+
+# Custom rules
+packages/ussr/examples/**/public
