@@ -26,7 +26,7 @@ export const serverRender = async ({
     </UssrRunEffects>
   );
   const state = await runEffects();
-  const [, Ussr] = createUssr(state);
+  const [, Ussr] = createUssr(state, true);
   const html = renderToString(
     <Ussr>
       {render()}

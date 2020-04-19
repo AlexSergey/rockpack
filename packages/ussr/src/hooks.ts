@@ -9,7 +9,7 @@ type useUssrEffectInterface = [unknown, SetStateAction<unknown>, (cb: () => unkn
 
 export const useUssrEffect = (key: string, defaultValue: unknown): useUssrEffectInterface => {
   const initHook = useRef(true);
-  const { initState, addEffect, loading } = useContext(UssrContext);
+  const { initState, addEffect, loading, ignoreWillMount } = useContext(UssrContext);
   
   const loaded = !loading;
   const isClient = !isBackend();
@@ -34,6 +34,9 @@ export const useUssrEffect = (key: string, defaultValue: unknown): useUssrEffect
   };
   
   const willMount = (cb: () => Promise<unknown>): void => {
+    if (ignoreWillMount) {
+      return;
+    }
     const onLoadOnTheClient = isClient && initHook.current && typeof cb === 'function';
     const onLoadOnTheBackend = isBackend() && typeof cb === 'function';
   

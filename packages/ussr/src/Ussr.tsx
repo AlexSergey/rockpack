@@ -13,6 +13,7 @@ interface UssrContextInterface {
   loading: boolean;
   initState: InitStateInterface;
   addEffect: (effect: Promise<unknown>) => void;
+  ignoreWillMount?: boolean;
 }
 
 type ReturnCreateUssr = [() => Promise<StateInterface>, ({ children }: { children: JSX.Element }) => JSX.Element];
@@ -30,7 +31,7 @@ const OnComplete = ({ loading, onLoad }): JSX.Element => {
   return null;
 };
 
-const createUssr = (initState: InitStateInterface): ReturnCreateUssr => {
+const createUssr = (initState: InitStateInterface, ignoreWillMount?: boolean): ReturnCreateUssr => {
   const app = {
     effects: [],
     state: initState
@@ -42,7 +43,7 @@ const createUssr = (initState: InitStateInterface): ReturnCreateUssr => {
   
   const runEffects = (): Promise<StateInterface> => new Promise(resolve => (
     Promise.all(app.effects)
-      .then(() => resolve(clone(app.state)))
+      .finally(() => resolve(clone(app.state)))
   ));
   
   return [runEffects, ({ children }): JSX.Element => {
@@ -52,7 +53,8 @@ const createUssr = (initState: InitStateInterface): ReturnCreateUssr => {
       <UssrContext.Provider value={{
         loading,
         initState,
-        addEffect
+        addEffect,
+        ignoreWillMount
       }}
       >
         {children}
