@@ -16,6 +16,7 @@
     "react-meta-tags": "0.7.4",
     "history": "4.10.1",
     "serialize-javascript": "3.0.0",
-    "@loadable/server": "5.12.0"
+    "@loadable/server": "5.12.0",
+    "@loadable/component": "5.12.0"
   }
 }
