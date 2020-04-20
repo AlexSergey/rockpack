@@ -4,6 +4,8 @@ interface StateInterface {
 
 export const isBackend = (): boolean => typeof window === 'undefined';
 
+export const isClient = (): boolean => !isBackend();
+
 export const clone = (state: StateInterface): StateInterface => (
   JSON.parse(
     JSON.stringify(state)

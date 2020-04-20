@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, isValidElement } from 'react';
 import { clone, isBackend } from './utils';
 
 interface InitStateInterface {
@@ -20,6 +20,20 @@ type ReturnCreateUssr = [() => Promise<StateInterface>, ({ children }: { childre
 
 export const UssrContext = createContext<UssrContextInterface>({} as UssrContextInterface);
 
+type ExcludeFn = (...args: any[]) => JSX.Element;
+
+export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn }) => (
+  isBackend() ?
+    null :
+    (isValidElement(children) ?
+      children :
+      
+      (typeof children === 'function' ?
+        children() :
+        null)
+    )
+);
+
 const OnComplete = ({ loading, onLoad }): JSX.Element => {
   useEffect(() => {
     if (!isBackend() && loading) {
@@ -33,6 +47,7 @@ const OnComplete = ({ loading, onLoad }): JSX.Element => {
 
 const createUssr = (initState: InitStateInterface, ignoreWillMount?: boolean): ReturnCreateUssr => {
   const app = {
+    loading: !isBackend(),
     effects: [],
     state: initState
   };
@@ -46,19 +61,21 @@ const createUssr = (initState: InitStateInterface, ignoreWillMount?: boolean): R
       .finally(() => resolve(clone(app.state)))
   ));
   
+  const onLoad = (state) => {
+    app.loading = state;
+  }
+  
   return [runEffects, ({ children }): JSX.Element => {
-    const [loading, onLoad] = useState(!isBackend());
-    
     return (
       <UssrContext.Provider value={{
-        loading,
+        loading: app.loading,
         initState,
         addEffect,
         ignoreWillMount
       }}
       >
         {children}
-        <OnComplete loading={loading} onLoad={onLoad} />
+        <OnComplete loading={app.loading} onLoad={onLoad} />
       </UssrContext.Provider>
     );
   }];

@@ -31,13 +31,13 @@
   ],
   "dependencies": {
     "valid-types": "2.0.3",
-    "limited-array": "2.0.2"
-  },
-  "devDependencies": {
+    "limited-array": "2.0.2",
     "@types/react": "16.9.27",
     "@types/react-dom": "16.9.5",
     "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
     "@rock/codestyle": "0.9.0",
     "@rock/compiler": "0.9.0"
   }

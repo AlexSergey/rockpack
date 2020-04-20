@@ -1,0 +1,17 @@
+{
+  "name": "example-react-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "koa": "2.11.0",
+    "koa-static": "5.0.0",
+    "koa-router": "8.0.8",
+    "serialize-javascript": "3.0.0",
+    "react-customscroll": "4.5.0"
+  }
+}

@@ -2,8 +2,15 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { isArray, isObject, isFunction } from 'valid-types';
 import { isCritical, getCritical } from './errorHelpers';
+import { Stack } from './types';
 
-const BSOD = props => {
+interface BSODInterface {
+  count: number;
+  onClose: () => void;
+  stackData: Stack;
+}
+
+const BSOD = (props: BSODInterface): JSX.Element => {
   const actions = props.stackData.actions;
   const cError = actions[actions.length - 1][getCritical()];
 
@@ -135,7 +142,8 @@ const BSOD = props => {
                     .filter(Boolean)
                     .reverse();
 
-                  return listOfActions.map(({ actionMessage, type }, index) => (
+                  return listOfActions.map(({ actionMessage, type }:
+                  { actionMessage: string; type: string }, index) => (
                     <li key={index}>
                       <p><strong>{type}: {actionMessage}</strong></p>
                     </li>

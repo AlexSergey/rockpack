@@ -24,7 +24,7 @@ interface LoggerContainerProps {
   active: boolean;
   bsodActive: boolean;
   sessionID: boolean | string | number;
-  bsod?: ComponentType<BSODInterface>;
+  bsod: (props: BSODInterface) => JSX.Element;
   limit: number;
   getCurrentDate?: () => string;
   onError?: (stack: Stack) => void;
@@ -48,7 +48,6 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
   static defaultProps = {
     active: true,
     bsodActive: true,
-    bsod: BSOD,
     sessionID: false,
     limit: 25,
     getCurrentDate
