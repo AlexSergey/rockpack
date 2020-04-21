@@ -26,9 +26,29 @@ isomorphicCompiler([
     config: {
       src: 'src/client.jsx',
       dist: 'public',
+      debug: true,
+      copy: [
+        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+      ]
     },
     callback: config => {
       Object.assign(config.resolve, alias);
     }
   }
 ]);
+
+/*
+backendCompiler({
+  html: {
+    template: path.resolve(__dirname, './index.ejs')
+  }
+},
+props => {
+  Object.assign(props.resolve, {
+    alias: {
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+      react: path.resolve(__dirname, './node_modules/react')
+    }
+  });
+});
+*/

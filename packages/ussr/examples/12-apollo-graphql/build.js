@@ -8,6 +8,13 @@ const alias = {
     'react-dom/server': path.resolve(__dirname, './node_modules/react-dom/server')
   }
 };
+/*
+frontendCompiler({
+  src: 'src/client.jsx'
+}, config => {
+  Object.assign(config.resolve, alias);
+})
+*/
 
 isomorphicCompiler([
   {
@@ -26,9 +33,6 @@ isomorphicCompiler([
     config: {
       src: 'src/client.jsx',
       dist: 'public',
-      copy: [
-        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
-      ]
     },
     callback: config => {
       Object.assign(config.resolve, alias);

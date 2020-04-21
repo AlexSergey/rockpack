@@ -8,6 +8,8 @@ interface StateInterface {
 
 interface RenderUssrInterface {
   render: () => JSX.Element;
+  onBeforeEffects?: () => Promise<unknown>;
+  onAfterEffects?: (state: StateInterface) => Promise<unknown>;
 }
 
 interface RenderUssrReturnInterface {
@@ -16,17 +18,31 @@ interface RenderUssrReturnInterface {
 }
 
 export const serverRender = async ({
-  render
+  render,
+  onBeforeEffects,
+  onAfterEffects
 }: RenderUssrInterface): Promise<RenderUssrReturnInterface> => {
   const [runEffects, UssrRunEffects] = createUssr({});
-  
+
   renderToString(
     <UssrRunEffects>
       {render()}
     </UssrRunEffects>
   );
+  if (typeof onBeforeEffects === 'function') {
+    await onBeforeEffects();
+  }
+
   const state = await runEffects();
-  const [, Ussr] = createUssr(state, true);
+
+  if (typeof onAfterEffects === 'function') {
+    await onAfterEffects(state);
+  }
+
+  const [, Ussr] = createUssr(state, {
+    ignoreWillMount: true
+  });
+
   const html = renderToString(
     <Ussr>
       {render()}

@@ -48,13 +48,13 @@ function getTitle(packageJson) {
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   const plugins = {};
-  
+
   if (conf.makePO) {
     plugins.LocalizationWebpackPlugin = new MakePoPlugin(conf.localization);
-    
+
     return plugins;
   }
-  
+
   /**
    * COMMON
    * */
@@ -68,19 +68,19 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     profile: mode === 'production',
     stats: mode === 'production'
   });
-  
+
   plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
     exclude: /node_modules/,
   });
-  
+
   if (packageJson.dependencies && packageJson.dependencies.antd) {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
-  
+
   plugins.VueLoaderPlugin = new VueLoaderPlugin();
-  
+
   plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
-  
+
   if (existsSync(path.resolve(root, '.env.example'))) {
     plugins.Dotenv = new Dotenv({
       path: path.resolve(root, '.env'),
@@ -91,14 +91,14 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       path: path.resolve(root, '.env')
     });
   }
-  
+
   if (conf.write && mode !== 'production') {
     plugins.WriteFilePlugin = new WriteFilePlugin();
   }
-  
-  
+
+
   let banner = makeBanner(packageJson, root);
-  
+
   if (conf.banner) {
     if (isString(conf.banner)) {
       banner = conf.banner;
@@ -106,9 +106,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   } else if (isBoolean(conf.banner) && conf.banner === false) {
     banner = false;
   }
-  
+
   conf.banner = banner;
-  
+
   if (conf.banner) {
     plugins.BannerPlugin = new webpack.BannerPlugin({
       banner: !banner ? '' : banner,
@@ -129,15 +129,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       plugins.NodemonPlugin = new NodemonPlugin(opts);
     }
   }
-  
+
   if (conf._liveReload && mode === 'development') {
     const liveReloadPort = await fpPromise(isNumber(conf.liveReload) ? conf.liveReload : 35729);
     conf._liveReloadPort = liveReloadPort;
     process.env.__LIVE_RELOAD__ = liveReloadPort;
     plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300 });
-    
+
     const errors = ['unhandledRejection', 'uncaughtException'];
-    
+
     errors.forEach(error => {
       process.on(error, () => {
         if (plugins.liveReload && plugins.liveReload.server && isFunction(plugins.liveReload.server.close)) {
@@ -146,9 +146,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         process.exit(1);
       });
     });
-    
+
     const signals = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
-    
+
     signals.forEach(signal => {
       process.once(signal, () => {
         if (plugins.liveReload && plugins.liveReload.server && isFunction(plugins.liveReload.server.close)) {
@@ -158,10 +158,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       });
     });
   }
-  
+
   let pages = [];
   let HTMLProcessing = true;
-  
+
   if (typeof conf.html !== 'undefined' && isBoolean(conf.html) && conf.html === false) {
     HTMLProcessing = false;
   }
@@ -180,7 +180,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         } : {})
       ];
     }
-    
+
     pages = pages.map(page => {
       if (version) {
         page.version = version;
@@ -196,29 +196,29 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         page.filename += '.html';
       }
       page.inject = false;
-      
+
       page.minify = {
         collapseWhitespace: mode === 'production'
       };
-      
+
       return page;
     });
-    
+
     pages.forEach((page, index) => {
       const q = `HtmlWebpackPlugin${index}`;
-      
+
       plugins[q] = new HtmlWebpackPlugin(page);
     });
-    
+
     if (mode === 'development') {
       if (!isNumber(conf.server.browserSyncPort)) {
         plugins.ReloadHtmlWebpackPlugin = new ReloadHtmlWebpackPlugin();
       }
     }
   }
-  
+
   const eslintRc = pathToEslintrc(root, mode);
-  
+
   if (isString(eslintRc)) {
     plugins.LoadOptions = new webpack.LoaderOptionsPlugin({
       test: /\.(js|jsx|ts|tsx)$/,
@@ -234,7 +234,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       },
     });
   }
-  
+
   const env = conf.global || {};
   if (conf.__frontendHasVendor) {
     env.FRONTEND_HAS_VENDOR = true;
@@ -251,11 +251,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       }, {})
   );
   plugins.DefinePlugin = new webpack.DefinePlugin(definePluginOpts);
-  
+
   if (existsSync(path.resolve(root, '.flowconfig'))) {
     plugins.FlowBabelWebpackPlugin = new FlowBabelWebpackPlugin();
   }
-  
+
   if (conf.copy) {
     let _prop = null;
     let _opts = {};
@@ -279,7 +279,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   if (mode === 'development') {
     if (conf.server && isNumber(conf.server.browserSyncPort)) {
       conf.server.browserSyncPort = await fpPromise(conf.server.browserSyncPort);
-      
+
       plugins.BrowserSyncPlugin = new BrowserSyncPlugin(
         {
           port: conf.server.browserSyncPort,
@@ -288,12 +288,21 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         { reload: false }
       );
     }
-    
+
     plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
-    
+
     plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
-    
+
     plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
+
+    if (conf.__isIsomorphicStyles) {
+      plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
+        filename: 'css/styles.css',
+        insertAt: {
+          after: 'title'
+        }
+      });
+    }
   }
   /**
    * PRODUCTION
@@ -305,25 +314,25 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         stats: { chunkModules: true }
       });
     }
-    
+
     const addVersion = !!version;
     let styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ? conf.styles : 'css/styles.css';
     styleName = styleName.split('.');
-    
+
     if (styleName.length > 1 && addVersion && version) {
       const last = styleName.length - 1;
       const filename = last - 1;
       styleName[filename] = `${styleName[filename]}-${version}`;
     }
     styleName = styleName.join('.');
-    
+
     plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
       filename: styleName,
       insertAt: {
         after: 'title'
       }
     });
-    
+
     plugins.ImageminPlugin = new ImageminPlugin({
       disable: false,
       optipng: {
@@ -344,19 +353,19 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         })
       ]
     });
-    
+
     plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
-    
+
     plugins.OccurrenceOrderPlugin = new webpack.optimize.OccurrenceOrderPlugin();
-    
+
     plugins.FlagDependencyUsagePlugin = new FlagDependencyUsagePlugin();
-    
+
     plugins.FlagIncludedChunksPlugin = new FlagIncludedChunksPlugin();
-    
+
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
-    
+
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
-    
+
     plugins.UglifyJS = new UglifyJsPlugin({
       sourceMap: conf.debug,
       minify(file, sourceMap) {
@@ -370,17 +379,17 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
             drop_debugger: !conf.debug
           }
         };
-        
+
         if (sourceMap) {
           terserOptions.sourceMap = {
             content: sourceMap,
           };
         }
-        
+
         return terser.minify(file, terserOptions);
       }
     });
-    
+
     plugins.OptimizeCssAssetsPlugin = new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessor: cssNano,
@@ -390,10 +399,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       canPrint: true
     });
   }
-  
+
   if (isNumber(conf.analyzerPort)) {
     conf.analyzerPort = await fpPromise(8888);
-    
+
     plugins.BundleAnalyzerPlugin = new BundleAnalyzerPlugin(mode === 'development' ? {
       analyzerPort: conf.analyzerPort
     } : {
@@ -402,11 +411,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       openAnalyzer: false,
     });
   }
-  
+
   if (conf.nodejs && conf.__isIsomorphicLoader) {
     plugins.LoadablePlugin = new LoadablePlugin({ filename: 'stats.json', writeToDisk: true });
   }
-  
+
   return plugins;
 };
 
@@ -417,7 +426,7 @@ const _makePlugins = (plugins) => new Collection({
 
 const makePlugins = async (conf, root, packageJson, mode, webpack, version) => {
   const modules = await getPlugins(conf, mode, root, packageJson, webpack, version);
-  
+
   return _makePlugins(modules, conf);
 };
 

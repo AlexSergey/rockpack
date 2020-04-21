@@ -27,7 +27,7 @@ export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn })
     null :
     (isValidElement(children) ?
       children :
-      
+
       (typeof children === 'function' ?
         children() :
         null)
@@ -41,37 +41,48 @@ const OnComplete = ({ loading, onLoad }): JSX.Element => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return null;
 };
 
-const createUssr = (initState: InitStateInterface, ignoreWillMount?: boolean): ReturnCreateUssr => {
+interface OptionsInterface {
+  ignoreWillMount?: boolean;
+  onlyClient?: boolean;
+}
+
+const createUssr = (initState: InitStateInterface, options: OptionsInterface = {
+  ignoreWillMount: false
+}): ReturnCreateUssr => {
   const app = {
-    loading: !isBackend(),
+    loading: options.onlyClient ? false : !isBackend(),
     effects: [],
     state: initState
   };
-  
+
   const addEffect = (effect: Promise<unknown>): void => {
     app.effects.push(effect);
   };
-  
-  const runEffects = (): Promise<StateInterface> => new Promise(resolve => (
-    Promise.all(app.effects)
-      .finally(() => resolve(clone(app.state)))
-  ));
-  
+
+  const runEffects = (): Promise<StateInterface> => (
+    new Promise(resolve => (
+      Promise.all(app.effects)
+        .finally(() => (
+          resolve(clone(app.state))
+        ))
+    ))
+  );
+
   const onLoad = (state) => {
     app.loading = state;
   }
-  
+
   return [runEffects, ({ children }): JSX.Element => {
     return (
       <UssrContext.Provider value={{
         loading: app.loading,
         initState,
         addEffect,
-        ignoreWillMount
+        ignoreWillMount: options.ignoreWillMount || false
       }}
       >
         {children}

@@ -1,15 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDog } from './action';
-import { useUssrEffect } from '../../../../../src';
+import { useWillMount } from '../../../../../src';
 
 const Dogs = () => {
-  const [,, willMount] = useUssrEffect('dog', null);
   const dispatch = useDispatch();
   const dog = useSelector(state => state.dogReducer);
-  
-  willMount(() => dispatch(fetchDog()));
-  
+
+  useWillMount(() => dispatch(fetchDog()));
+
   return (
     <div>
       {dog.loading ?

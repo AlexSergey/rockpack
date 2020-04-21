@@ -38,6 +38,8 @@ async function isomorphicCompiler(props = []) {
     });
   });
 
+  backend.config.__isIsomorphicBackend = true;
+
   if (isArray(frontendCompiler.config.vendor)) {
     backend.config.__frontendHasVendor = true;
   }

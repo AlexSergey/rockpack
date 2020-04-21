@@ -4,6 +4,7 @@ import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import { useUssrEffect } from '../../../src';
 import styles from './styles.modules.scss';
+import './styles.css';
 
 const effect = () => {
   return new Promise((resolve) => setTimeout(() => resolve({ test: 'data' }), 1000));
@@ -12,10 +13,10 @@ const effect = () => {
 const Home = () => {
   useStyles(styles);
   const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test ' });
-  
+
   willMount(() => effect()
     .then(data => setState(data)));
-  
+
   return (
     <>
       <MetaTags>

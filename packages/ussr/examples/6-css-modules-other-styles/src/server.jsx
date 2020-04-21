@@ -28,7 +28,7 @@ router.get('/*', async (ctx) => {
     context: {}
   };
   const metaTagsInstance = MetaTagsServer();
-  
+
   const { html, state } = await serverRender({
     render: () => (
       <StyleContext.Provider value={{ insertCss }}>
@@ -41,15 +41,14 @@ router.get('/*', async (ctx) => {
     )
   });
   const meta = metaTagsInstance.renderToString();
-  
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
 <head>
     ${meta}
-    ${process.env.NODE_ENV === 'production' ?
-    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />' :
-    `<style>${[...css].join('')}</style>`}
+    ${process.env.NODE_ENV === 'development' ? `<style>${[...css].join('')}</style>` : ''}
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <script>
       window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
