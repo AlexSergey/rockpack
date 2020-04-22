@@ -29,6 +29,7 @@ export const serverRender = async ({
       {render()}
     </UssrRunEffects>
   );
+
   if (typeof onBeforeEffects === 'function') {
     await onBeforeEffects();
   }

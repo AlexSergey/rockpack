@@ -15,13 +15,13 @@ const createBabelPresets = ({
   // eslint-disable-next-line global-require
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
-  
+
   if (packageJson && isObject(packageJson.dependencies)) {
     if (isString(packageJson.dependencies['core-js'])) {
       corejs = packageJson.dependencies['core-js'];
     }
   }
-  
+
   const opts = {
     babelrc: false,
     presets: [
@@ -70,33 +70,35 @@ const createBabelPresets = ({
       production: {}
     }
   };
-  
+
   if (framework === 'react') {
     opts.presets.push(
       [require.resolve('@babel/preset-react'), { useBuiltIns: true }]
     );
-    opts.env.production = Object.assign({}, opts.env.production, {
-      plugins: [
-        require.resolve('@babel/plugin-transform-react-constant-elements'),
-        require.resolve('@babel/plugin-transform-react-inline-elements'),
-        require.resolve('babel-plugin-transform-react-pure-class-to-function'),
-        require.resolve('babel-plugin-transform-react-remove-prop-types')
-      ]
-    });
+    if (isProduction) {
+      opts.env.production = Object.assign({}, opts.env.production, {
+        plugins: [
+          require.resolve('@babel/plugin-transform-react-constant-elements'),
+          require.resolve('@babel/plugin-transform-react-inline-elements'),
+          require.resolve('babel-plugin-transform-react-pure-class-to-function'),
+          require.resolve('babel-plugin-transform-react-remove-prop-types')
+        ]
+      });
+    }
   }
-  
+
   if (loadable) {
     opts.plugins.push(
       require.resolve('@loadable/babel-plugin')
     );
   }
-  
+
   if (isTest) {
     opts.plugins.push(
       require.resolve('@babel/plugin-transform-modules-commonjs')
     );
   }
-  
+
   return opts;
 };
 

@@ -1,9 +1,17 @@
-export type LocaleData = {
-  domain: string;
-  locale_data: any;
+type ReturnLocaleData = {
+  locale_data: {
+    [key: string]: unknown;
+  };
 };
 
-const getDefault = (defaultLang = 'en', defaultLocaleData: LocaleData) => {
+export type LocaleData = {
+  domain: string;
+  locale_data: {
+    [key: string]: unknown;
+  };
+};
+
+const getDefault = (defaultLang = 'en', defaultLocaleData: LocaleData): ReturnLocaleData => {
   if (defaultLocaleData &&
     defaultLocaleData.locale_data &&
     defaultLocaleData &&

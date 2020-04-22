@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, isValidElement } from 'react';
+import React, { createContext, useEffect, isValidElement } from 'react';
 import { clone, isBackend } from './utils';
 
 interface InitStateInterface {
@@ -20,9 +20,9 @@ type ReturnCreateUssr = [() => Promise<StateInterface>, ({ children }: { childre
 
 export const UssrContext = createContext<UssrContextInterface>({} as UssrContextInterface);
 
-type ExcludeFn = (...args: any[]) => JSX.Element;
+type ExcludeFn = (...args: unknown[]) => JSX.Element;
 
-export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn }) => (
+export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn }): JSX.Element => (
   isBackend() ?
     null :
     (isValidElement(children) ?
@@ -72,24 +72,22 @@ const createUssr = (initState: InitStateInterface, options: OptionsInterface = {
     ))
   );
 
-  const onLoad = (state) => {
+  const onLoad = (state): void => {
     app.loading = state;
-  }
+  };
 
-  return [runEffects, ({ children }): JSX.Element => {
-    return (
-      <UssrContext.Provider value={{
-        loading: app.loading,
-        initState,
-        addEffect,
-        ignoreWillMount: options.ignoreWillMount || false
-      }}
-      >
-        {children}
-        <OnComplete loading={app.loading} onLoad={onLoad} />
-      </UssrContext.Provider>
-    );
-  }];
+  return [runEffects, ({ children }): JSX.Element => (
+    <UssrContext.Provider value={{
+      loading: app.loading,
+      initState,
+      addEffect,
+      ignoreWillMount: options.ignoreWillMount || false
+    }}
+    >
+      {children}
+      <OnComplete loading={app.loading} onLoad={onLoad} />
+    </UssrContext.Provider>
+  )];
 };
 
 export default createUssr;
