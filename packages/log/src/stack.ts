@@ -10,21 +10,21 @@ const getStackData = (stack: Stack, stackCollection: LimitedArray<Action>, props
     '';
   const href = globalThis.location && globalThis.location.href ? globalThis.location.href : '';
   const actions = stackCollection.getData();
-  
+
   stack.session.end = isFunction(props.getCurrentDate) ? props.getCurrentDate() : getCurrentDate();
   stack.actions = actions;
   stack.env.lang = lang;
   stack.env.href = href;
-  
+
   if (isFunction(props.onPrepareStack)) {
     props.onPrepareStack(stack);
   }
-  
+
   return clone(stack);
 };
 
 // eslint-disable-next-line max-len
-const onCriticalError = (stack: Stack, stackCollection: LimitedArray<any>, props: PropsUtils, trace, lineNumber): Stack => {
+const onCriticalError = (stack: Stack, stackCollection: LimitedArray<Action>, props: PropsUtils, trace: Error, lineNumber: number): Stack => {
   stackCollection.add(createCritical(trace, lineNumber));
   return getStackData(stack, stackCollection, props);
 };

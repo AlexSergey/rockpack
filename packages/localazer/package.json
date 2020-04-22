@@ -6,7 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development node build",
-    "build": "cross-env NODE_ENV=production node build"
+    "build": "cross-env NODE_ENV=production node build",
+    "typing": "tsc -p . --noEmit",
+    "lint": "eslint src/**"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,7 @@
     "react-dom": "16.13.1",
     "jed": "1.1.1",
     "valid-types": "2.0.3",
-    "@types/react": "16.9.32",
+    "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6"
   },
   "devDependencies": {

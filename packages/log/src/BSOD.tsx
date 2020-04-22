@@ -4,7 +4,7 @@ import { isArray, isObject, isFunction } from 'valid-types';
 import { isCritical, getCritical } from './errorHelpers';
 import { Stack } from './types';
 
-interface BSODInterface {
+export interface BSODInterface {
   count: number;
   onClose: () => void;
   stackData: Stack;
@@ -106,7 +106,7 @@ const BSOD = (props: BSODInterface): JSX.Element => {
                 }}
                 start={props.count || actions.length - 1}
               >
-                {(() => {
+                {((): JSX.Element[] => {
                   const listOfActions = actions
                     .filter(action => {
                       if (!isObject(action)) {
@@ -144,6 +144,7 @@ const BSOD = (props: BSODInterface): JSX.Element => {
 
                   return listOfActions.map(({ actionMessage, type }:
                   { actionMessage: string; type: string }, index) => (
+                    // eslint-disable-next-line react/no-array-index-key
                     <li key={index}>
                       <p><strong>{type}: {actionMessage}</strong></p>
                     </li>

@@ -6,14 +6,16 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development node build",
-    "build": "cross-env NODE_ENV=production node build"
+    "build": "cross-env NODE_ENV=production node build",
+    "typing": "tsc -p . --noEmit",
+    "lint": "eslint src/**"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlexSergey/localazer.git"
   },
   "keywords": [
-  
+
   ],
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/localazer)",
   "license": "MIT",

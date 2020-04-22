@@ -9,17 +9,17 @@ interface LocalizationInterface {
 
 class Localization extends Component<LocalizationInterface> {
   private id = ++LocalizationObserver.uid;
-  
+
   constructor(props) {
     super(props);
     LocalizationObserver.components[this.id] = this;
   }
-  
+
   componentWillUnmount(): void {
     delete LocalizationObserver.components[this.id];
   }
-  
-  render() {
+
+  render(): JSX.Element {
     return isFunction(this.props.children) ? (
       <span
         className={`localization-node ${isString(this.props.className) ? this.props.className : ''}`}

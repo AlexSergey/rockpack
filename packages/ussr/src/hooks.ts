@@ -29,7 +29,7 @@ export const useUssrState = (key: string, defaultValue: unknown): [unknown, SetS
     console.error(`The key "${key}" is already exist in InitialState`);
   }
 
-  const appStateFragment = useMemo(() => get(initState, key, defaultValue), []);
+  const appStateFragment = useMemo(() => get(initState, key, defaultValue), [initState, key, defaultValue]);
   const [state, setState] = useState(appStateFragment);
 
   if (!hook.current) {

@@ -100,3 +100,6 @@ test-reports
 
 # Custom rules
 packages/ussr/examples/**/public
+packages/localazer/lib
+packages/log/lib
+packages/ussr/lib

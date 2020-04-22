@@ -1,14 +1,15 @@
-export const mixParams = (props = {}, skipHref) => {
-  if (skipHref) {
-    return Object.assign({}, props);
-  }
+import { LoggerTypes, CriticalError } from './types';
+
+export const mixUrl = (props: CriticalError): CriticalError => {
   const href = globalThis && globalThis.location && globalThis.location.href ? globalThis.location.href : '';
 
   return Object.assign({}, href !== '' ? { url: href } : {}, props);
 };
 
-export const serializeError = (stack, lineNumber) => {
+export const serializeError = (stack: Error, lineNumber: number): CriticalError => {
   const alt = {
+    stack: [],
+    message: '',
     line: lineNumber
   };
 
@@ -29,8 +30,9 @@ export const isCritical = (type: string): boolean => CRITICAL === type;
 
 export const getCritical = (): string => CRITICAL;
 
-export const createCritical = (trace, lineNumber) => {
-  const critical = {};
-  critical[CRITICAL] = serializeError(trace, lineNumber);
-  return mixParams(critical, true);
+export const createCritical = (trace: Error, lineNumber: number): { [LoggerTypes.critical]: CriticalError } => {
+  const criticalError: CriticalError = serializeError(trace, lineNumber);
+  return {
+    [CRITICAL]: mixUrl(criticalError)
+  };
 };

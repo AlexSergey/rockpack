@@ -4,16 +4,16 @@ export interface LoggerProps {
 }
 
 export interface LoggerInterface {
-  log: (message: string, important?: boolean) => void;
-  info: (message: string, important?: boolean) => void;
-  debug: (message: string, important?: boolean) => void;
-  warn: (message: string, important?: boolean) => void;
-  error: (message: string, important?: boolean) => void;
-  getCounter: () => number;
-  setUp: (props: LoggerProps) => void;
+  log(message: string, important: boolean): void;
+  info(message: string, important: boolean): void;
+  debug(message: string, important: boolean): void;
+  warn(message: string, important: boolean): void;
+  error(message: string, important: boolean): void;
+  getCounter(): number;
+  setUp(props: LoggerProps): void;
 }
 
-enum LoggerTypes {
+export enum LoggerTypes {
   log = 'log',
   info = 'info',
   warn = 'warn',
@@ -22,14 +22,28 @@ enum LoggerTypes {
   critical = 'critical'
 }
 
+export type CriticalError = {
+  line: number;
+  stack: string[];
+  message: string;
+  url?: string;
+};
+
 export interface Action {
   [LoggerTypes.log]: string;
   [LoggerTypes.info]: string;
   [LoggerTypes.warn]: string;
   [LoggerTypes.error]: string;
   [LoggerTypes.debug]: string;
-  [LoggerTypes.critical]: string;
+  [LoggerTypes.critical]: CriticalError;
 }
+
+export type StackData = { [LoggerTypes.log]: string } |
+{ [LoggerTypes.info]: string } |
+{ [LoggerTypes.warn]: string } |
+{ [LoggerTypes.error]: string } |
+{ [LoggerTypes.debug]: string } |
+{ [LoggerTypes.critical]: CriticalError };
 
 export interface Stack {
   onPrepareStack?: (s: Stack) => Stack;
