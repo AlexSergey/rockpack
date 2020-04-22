@@ -1,37 +1,34 @@
 /* eslint-disable */
 import React from 'react';
 import { render } from 'react-dom';
-import createUssr, { useUssrEffect } from '../../../src';
+import createUssr, { useUssrState, useWillMount } from '../../../src';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ test: 'data'}), 1000));
+const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world'}), 1000));
 
 const App = ({ children }) => {
-  const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test '});
-  
-  willMount(() => effect().then(data => setState(data)));
-  
+  const [state, setState] = useUssrState('appState.text', { text: 'text here'});
+
+  useWillMount(() => effect()
+    .then(data => setState(data)));
+
   return (
     <div>
-      <h1>{state.test}</h1>
+      <h1>{state.text}</h1>
       {typeof children === 'function' ? children(setState) : children}
     </div>
   );
 };
 
 (async () => {
-  // @ts-ignore
-  const [runEffects, Ussr] = createUssr({});
-  
-  // @ts-ignore
+  const [runEffects, Ussr] = createUssr({}, { onlyClient: true });
+
   render(<Ussr>
     <App>
-      {setState => <button onClick={() => setState({ test: 'data 2' })}>Click</button>}
+      {setState => <button onClick={() => setState({ text: 'Hello world 2' })}>Click</button>}
     </App></Ussr>, document.getElementById('root'));
-  
-  // @ts-ignore
+
   const state = await runEffects();
-  const [, Ussr2] = createUssr(state);
-  // @ts-ignore
-  // @ts-ignore
+  const [, Ussr2] = createUssr(state, { onlyClient: true });
+
   render(<Ussr2><App /></Ussr2>, document.getElementById('root2'));
 })();

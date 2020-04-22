@@ -2,19 +2,17 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import { useUssrEffect } from '../../../src';
+import { useUssrState, useWillMount } from '../../../src';
 import styles from './styles.modules.scss';
 import './styles.css';
 
-const effect = () => {
-  return new Promise((resolve) => setTimeout(() => resolve({ test: 'data' }), 1000));
-};
+const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 const Home = () => {
   useStyles(styles);
-  const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test ' });
+  const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
 
-  willMount(() => effect()
+  useWillMount(() => effect()
     .then(data => setState(data)));
 
   return (
@@ -24,7 +22,7 @@ const Home = () => {
         <meta name="description" content="Home page" />
       </MetaTags>
       <div className={styles.block}>
-        <h1>{state.test}</h1>
+        <h1>{state.text}</h1>
         <Link to="/secondary">secondary</Link>
       </div>
     </>

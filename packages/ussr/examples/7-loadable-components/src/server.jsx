@@ -14,15 +14,13 @@ import { serverRender } from '../../../src';
 const app = new Koa();
 const router = new Router();
 
-const currentFolder = path.basename(process.cwd());
+const publicFolder = path.resolve(__dirname, '../public');
+
 const stats = JSON.parse(
-  readFileSync(currentFolder === 'dist' ?
-    path.resolve('./stats.json') :
-    path.resolve('./dist/stats.json'),
-  'utf8')
+  readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
 
-app.use(serve(path.resolve(__dirname, '../public')));
+app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
   const { url } = ctx.request;
@@ -34,7 +32,7 @@ router.get('/*', async (ctx) => {
     stats,
     entrypoints: ['index']
   });
-  
+
   const { html, state } = await serverRender({
     render: () => (
       extractor.collectChunks(
@@ -45,7 +43,7 @@ router.get('/*', async (ctx) => {
     )
   });
   const scriptTags = extractor.getScriptTags();
-  
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +55,6 @@ router.get('/*', async (ctx) => {
 <body>
     <div id="root">${html}</div>
     ${scriptTags}
-    <script src="/index.js"></script>
 </body>
 </html>
 `;

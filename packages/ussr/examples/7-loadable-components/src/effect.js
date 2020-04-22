@@ -1,3 +1,1 @@
-export const effect = () => {
-  return new Promise((resolve) => setTimeout(() => resolve({ test: 'data' }), 1000));
-};
+export const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));

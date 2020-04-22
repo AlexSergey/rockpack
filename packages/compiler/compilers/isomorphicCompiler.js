@@ -12,9 +12,9 @@ async function isomorphicCompiler(props = []) {
 
   const backend = props.find(p => p.compiler.name === 'backendCompiler');
 
-  const frontendCompiler = props.find(p => p.compiler.name === 'frontendCompiler');
+  const frontend = props.find(p => p.compiler.name === 'frontendCompiler');
 
-  if (!frontendCompiler) {
+  if (!frontend) {
     console.error(errors.SUPPORT);
     return process.exit(1);
   }
@@ -40,7 +40,7 @@ async function isomorphicCompiler(props = []) {
 
   backend.config.__isIsomorphicBackend = true;
 
-  if (isArray(frontendCompiler.config.vendor)) {
+  if (isArray(frontend.config.vendor)) {
     backend.config.__frontendHasVendor = true;
   }
 
@@ -56,12 +56,12 @@ async function isomorphicCompiler(props = []) {
     prop.config.__isIsomorphicLoader = true;
   });
 
-  frontendCompiler.config.write = isDefined(frontendCompiler.config.write) ? frontendCompiler.config.write : true;
-  frontendCompiler.config.html = isDefined(frontendCompiler.config.html) ? frontendCompiler.config.html : false;
+  frontend.config.write = isDefined(frontend.config.write) ? frontend.config.write : true;
+  frontend.config.html = isDefined(frontend.config.html) ? frontend.config.html : false;
 
   if (mode === 'development') {
-    frontendCompiler.config.onlyWatch = isDefined(frontendCompiler.config.onlyWatch) ?
-      frontendCompiler.config.onlyWatch :
+    frontend.config.onlyWatch = isDefined(frontend.config.onlyWatch) ?
+      frontend.config.onlyWatch :
       true;
   }
 

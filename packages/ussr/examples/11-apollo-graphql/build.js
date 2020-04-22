@@ -8,6 +8,14 @@ const alias = {
     'react-dom/server': path.resolve(__dirname, './node_modules/react-dom/server')
   }
 };
+/*
+frontendCompiler({
+  src: 'src/client.jsx',
+  dist: 'public',
+}, config => {
+  Object.assign(config.resolve, alias);
+});
+ */
 
 isomorphicCompiler([
   {
@@ -33,18 +41,3 @@ isomorphicCompiler([
   }
 ]);
 
-/*
-backendCompiler({
-  html: {
-    template: path.resolve(__dirname, './index.ejs')
-  }
-},
-props => {
-  Object.assign(props.resolve, {
-    alias: {
-      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-      react: path.resolve(__dirname, './node_modules/react')
-    }
-  });
-});
-*/

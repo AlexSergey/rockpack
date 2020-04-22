@@ -1,19 +1,17 @@
 import React from 'react';
-import { useUssrEffect } from '../../../src';
+import { useUssrState, useWillMount } from '../../../src';
 
-const effect = () => {
-  return new Promise((resolve) => setTimeout(() => resolve({ test: 'data' }), 1000));
-};
+const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
-  const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test ' });
+  const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
 
-  willMount(() => effect()
+  useWillMount(() => effect()
     .then(data => setState(data)));
 
   return (
     <div>
-      <h1>{state.test}</h1>
+      <h1>{state.text}</h1>
     </div>
   );
 };

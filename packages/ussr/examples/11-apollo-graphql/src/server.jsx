@@ -42,7 +42,7 @@ router.get('/*', async (ctx) => {
         /*If apollo state is empty will use simple client*/
         /*If apollo state is NOT empty will be created another client with state*/
         <ApolloProvider client={apolloStateIsEmpty ? client : getClient(apolloState)}>
-          <App />
+          <App apolloStateIsEmpty={apolloStateIsEmpty} />
         </ApolloProvider>
       );
     }

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
-import { useApolloClient, useQuery } from 'react-apollo';
-import { useWillMount } from '../../../src';
+import { useQuery } from 'react-apollo';
+import { useWillMount, isBackend } from '../../../src';
 
 const books = [
   {
@@ -49,15 +49,19 @@ const GET_BOOKS = gql`
   }
 `;
 
-export const App = () => {
-  const { data, refetch } = useQuery(GET_BOOKS);
+export const App = ({ apolloStateIsEmpty }) => {
+  const { data, refetch } = useQuery(GET_BOOKS, {
+    skip: apolloStateIsEmpty
+  });
 
-  useWillMount(() => refetch());
+  const loaded = data && data.books && Array.isArray(data.books);
+
+  useWillMount(() => isBackend() && refetch());
 
   return (
     <div>
       {!data && <h3>Loading...</h3>}
-      {data && data.books && Array.isArray(data.books) && data.books.map(book => (
+      {loaded && data.books.map(book => (
         <div key={book.id}>
           <h4>{book.title}</h4>
           <p>{book.author}</p>

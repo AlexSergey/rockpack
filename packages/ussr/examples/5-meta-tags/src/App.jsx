@@ -1,18 +1,16 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
-import { useUssrEffect } from '../../../src';
+import { useUssrState, useWillMount } from '../../../src';
 
-const effect = () => {
-  return new Promise((resolve) => setTimeout(() => resolve({ test: 'data' }), 1000));
-};
+const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 const Home = () => {
-  const [state, setState, willMount] = useUssrEffect('appState.test', { test: 'i am test ' });
-  
-  willMount(() => effect()
+  const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
+
+  useWillMount(() => effect()
     .then(data => setState(data)));
-  
+
   return (
     <>
       <MetaTags>
@@ -20,7 +18,7 @@ const Home = () => {
         <meta name="description" content="Home page" />
       </MetaTags>
       <div>
-        <h1>{state.test}</h1>
+        <h1>{state.text}</h1>
         <Link to="/secondary">secondary</Link>
       </div>
     </>

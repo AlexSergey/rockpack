@@ -10,7 +10,7 @@ interface StateInterface {
 }
 
 interface UssrContextInterface {
-  loading: boolean;
+  isLoading: () => boolean;
   initState: InitStateInterface;
   addEffect: (effect: Promise<unknown>) => void;
   ignoreWillMount?: boolean;
@@ -76,9 +76,11 @@ const createUssr = (initState: InitStateInterface, options: OptionsInterface = {
     app.loading = state;
   };
 
+  const isLoading = (): boolean => app.loading;
+
   return [runEffects, ({ children }): JSX.Element => (
     <UssrContext.Provider value={{
-      loading: app.loading,
+      isLoading,
       initState,
       addEffect,
       ignoreWillMount: options.ignoreWillMount || false

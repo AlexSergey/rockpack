@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, SetStateAction, useMemo } from 'react';
+import { useContext, useState, useRef, SetStateAction, useMemo, useEffect } from 'react';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
@@ -8,34 +8,37 @@ import { UssrContext } from './Ussr';
 type useUssrEffectInterface = [unknown, SetStateAction<unknown>, (cb: () => unknown) => void];
 
 interface UssrState {
-  state: unknown;
   setState: SetStateAction<unknown>;
 }
 
 export const useUssrState = (key: string, defaultValue: unknown): [unknown, SetStateAction<unknown>] => {
   const hook = useRef<false | UssrState>(false);
-  const { loading, initState } = useContext(UssrContext);
-
+  const { isLoading, initState } = useContext(UssrContext);
+  const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
   const hookIsNotReady = hook.current === false;
+  const setImmediately = isClient && loaded && hookIsNotReady;
 
-  const setOnTheClient = isClient && loaded && hookIsNotReady;
-
-  if (setOnTheClient && has(initState, key) && process.env.NODE_ENV !== 'production') {
-    /* eslint-disable no-console */
-    console.error('key should be unique!');
-    /* eslint-disable no-console */
-    console.error(`The key "${key}" is already exist in InitialState`);
+  if (setImmediately && has(initState, key) && process.env.NODE_ENV !== 'production') {
+    if (typeof get(initState, key) !== 'undefined') {
+      /* eslint-disable no-console */
+      console.warn(`Key should be unique! The key "${key}" is already exist in InitialState`);
+    }
   }
 
   const appStateFragment = useMemo(() => get(initState, key, defaultValue), [initState, key, defaultValue]);
   const [state, setState] = useState(appStateFragment);
 
+  useEffect(() => () => {
+    // Clear Global state when component was unmounted
+    set(initState, key, undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!hook.current) {
     hook.current = {
-      state,
-      setState: (componentState: unknown, skip: boolean): void => {
+      setState: (componentState: unknown, skip?: boolean): void => {
         const s = typeof componentState === 'function' ? componentState(state) : componentState;
         set(initState, key, s);
 
@@ -46,12 +49,13 @@ export const useUssrState = (key: string, defaultValue: unknown): [unknown, SetS
     };
   }
 
-  return [hook.current.state, hook.current.setState];
+  return [state, hook.current.setState];
 };
 
 export const useWillMount = (cb: () => Promise<unknown>): void => {
   const initHook = useRef(true);
-  const { addEffect, loading, ignoreWillMount } = useContext(UssrContext);
+  const { addEffect, isLoading, ignoreWillMount } = useContext(UssrContext);
+  const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
   const onLoadOnTheClient = isClient && loaded && initHook.current && typeof cb === 'function';
@@ -107,15 +111,15 @@ export const useApplyEffects = (cb: () => Promise<unknown> | Promise<unknown>[])
 
 export const useUssrEffect = (key: string, defaultValue: unknown): useUssrEffectInterface => {
   const initHook = useRef(true);
-  const { initState, addEffect, loading, ignoreWillMount } = useContext(UssrContext);
-
+  const { initState, addEffect, isLoading, ignoreWillMount } = useContext(UssrContext);
+  const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
   const setOnTheClient = isClient && loaded && initHook.current;
 
   if (setOnTheClient && has(initState, key) && process.env.NODE_ENV !== 'production') {
     /* eslint-disable no-console */
-    console.error('key should be unique!');
+    console.error('123key should be unique!');
     /* eslint-disable no-console */
     console.error(`The key "${key}" is already exist in InitialState`);
   }
