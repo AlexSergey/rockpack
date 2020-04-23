@@ -1,7 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
-import { useWillMount, isBackend } from '../../../src';
 
 const books = [
   {
@@ -49,14 +48,10 @@ const GET_BOOKS = gql`
   }
 `;
 
-export const App = ({ apolloStateIsEmpty }) => {
-  const { data, refetch } = useQuery(GET_BOOKS, {
-    skip: apolloStateIsEmpty
-  });
+export const App = () => {
+  const { data } = useQuery(GET_BOOKS);
 
   const loaded = data && data.books && Array.isArray(data.books);
-
-  useWillMount(() => isBackend() && refetch());
 
   return (
     <div>

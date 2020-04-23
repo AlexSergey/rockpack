@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, isValidElement } from 'react';
 import { clone, isBackend } from './utils';
 
-interface InitStateInterface {
+export interface InitStateInterface {
   [key: string]: unknown;
 }
 
@@ -11,7 +11,7 @@ interface StateInterface {
 
 interface UssrContextInterface {
   isLoading: () => boolean;
-  initState: InitStateInterface;
+  initState: InitStateInterface | {};
   addEffect: (effect: Promise<unknown>) => void;
   ignoreWillMount?: boolean;
 }
@@ -50,7 +50,7 @@ interface OptionsInterface {
   onlyClient?: boolean;
 }
 
-const createUssr = (initState: InitStateInterface, options: OptionsInterface = {
+const createUssr = (initState: InitStateInterface = {}, options: OptionsInterface = {
   ignoreWillMount: false
 }): ReturnCreateUssr => {
   const app = {

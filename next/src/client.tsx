@@ -1,27 +1,34 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
+import createUssr from '@rock/ussr';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { App } from './App';
-import createUssr from '../../../src';
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    USSR_DATA: any;
+  }
+}
 
 const [, Ussr] = createUssr(window.USSR_DATA);
 
-const insertCss = (...styles) => {
+const insertCss = (...styles): () => void => {
   const removeCss = process.env.NODE_ENV === 'production' ?
     [] :
     styles.map(style => style._insertCss());
-  return () => removeCss.forEach(dispose => dispose());
+  return (): void => removeCss.forEach(dispose => dispose());
 };
 
 hydrate(
-  <StyleContext.Provider value={{ insertCss }}>
-    <Ussr>
+  <Ussr>
+    <StyleContext.Provider value={{ insertCss }}>
       <Router history={createBrowserHistory()}>
         <App />
       </Router>
-    </Ussr>
-  </StyleContext.Provider>,
+    </StyleContext.Provider>
+  </Ussr>,
   document.getElementById('root')
 );

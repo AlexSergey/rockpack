@@ -1,0 +1,36 @@
+.storybook-responsiveTable {
+  line-height: 2;
+  text-align: center;
+  .props-name {
+    font-weight: bold;
+  }
+  td {
+    &:first-child {
+      text-align: left;
+      .tdBefore {
+        font-weight: bold;
+      }
+    }
+    .tdBefore {
+      font-weight: normal;
+      +.props-name {
+        font-weight: normal;
+      }
+    }
+  }
+  thead {
+    th {
+      background: #eee;
+      padding: 10px 0;
+    }
+  }
+  tbody {
+    tr {
+      border: 0;
+      border-top: 1px solid #eee;
+      &:first-child {
+        border: 0;
+      }
+    }
+  }
+}

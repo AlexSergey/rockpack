@@ -1,0 +1,247 @@
+{
+  "errors": [],
+  "warnings": [],
+  "version": "4.42.1",
+  "hash": "5b349219d22c33f9fa56",
+  "publicPath": "/",
+  "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+  "assetsByChunkName": {
+    "index": [
+      "css/styles.css",
+      "index.js"
+    ],
+    "Home": [
+      "css/1.styles.css",
+      "1.js"
+    ],
+    "vendors~Home~Secondary": "2.js",
+    "Secondary": "3.js"
+  },
+  "assets": [
+    {
+      "name": "1.js",
+      "size": 1591,
+      "chunks": [
+        1
+      ],
+      "chunkNames": [
+        "Home"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "2.js",
+      "size": 11949,
+      "chunks": [
+        2
+      ],
+      "chunkNames": [
+        "vendors~Home~Secondary"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "3.js",
+      "size": 492,
+      "chunks": [
+        3
+      ],
+      "chunkNames": [
+        "Secondary"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "css/1.styles.css",
+      "size": 259,
+      "chunks": [
+        1
+      ],
+      "chunkNames": [
+        "Home"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "css/styles.css",
+      "size": 33,
+      "chunks": [
+        0
+      ],
+      "chunkNames": [
+        "index"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "favicon.ico",
+      "size": 15406,
+      "chunks": [],
+      "chunkNames": [],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "index.js",
+      "size": 195456,
+      "chunks": [
+        0
+      ],
+      "chunkNames": [
+        "index"
+      ],
+      "info": {},
+      "emitted": false
+    }
+  ],
+  "filteredAssets": 0,
+  "entrypoints": {
+    "index": {
+      "chunks": [
+        0
+      ],
+      "assets": [
+        "css/styles.css",
+        "index.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "namedChunkGroups": {
+    "index": {
+      "chunks": [
+        0
+      ],
+      "assets": [
+        "css/styles.css",
+        "index.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "Home": {
+      "chunks": [
+        2,
+        1
+      ],
+      "assets": [
+        "2.js",
+        "css/1.styles.css",
+        "1.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "Secondary": {
+      "chunks": [
+        2,
+        3
+      ],
+      "assets": [
+        "2.js",
+        "3.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "logging": {
+    "webpack.buildChunkGraph.visitModules": {
+      "entries": [],
+      "filteredEntries": 5,
+      "debug": false
+    }
+  },
+  "children": [
+    {
+      "errors": [],
+      "warnings": [],
+      "publicPath": "/",
+      "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+      "assetsByChunkName": {},
+      "assets": [],
+      "filteredAssets": 0,
+      "entrypoints": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            0
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "namedChunkGroups": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            0
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "logging": {
+        "webpack.buildChunkGraph.visitModules": {
+          "entries": [],
+          "filteredEntries": 2,
+          "debug": false
+        }
+      },
+      "children": [],
+      "name": "mini-css-extract-plugin ../node_modules/@teamsupercell/typings-for-css-modules-loader/src/index.js!../node_modules/css-loader/dist/cjs.js??ref--11-2!../node_modules/postcss-loader/src/index.js??ref--11-3!../node_modules/sass-loader/dist/cjs.js??ref--11-4!src/styles.modules.scss"
+    },
+    {
+      "errors": [],
+      "warnings": [],
+      "publicPath": "/",
+      "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+      "assetsByChunkName": {},
+      "assets": [],
+      "filteredAssets": 0,
+      "entrypoints": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            0
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "namedChunkGroups": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            0
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "logging": {
+        "webpack.buildChunkGraph.visitModules": {
+          "entries": [],
+          "filteredEntries": 2,
+          "debug": false
+        }
+      },
+      "children": [],
+      "name": "mini-css-extract-plugin ../node_modules/css-loader/dist/cjs.js??ref--13-1!../node_modules/postcss-loader/src/index.js??ref--13-2!src/styles.css"
+    }
+  ]
+}

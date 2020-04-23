@@ -1,0 +1,11 @@
+dist/
+*.d.ts
+node_modules/**
+**/node_modules/**
+logs
+*.log
+lib-cov/
+coverage/
+NO_COMMIT/**
+**/NO_COMMIT/**
+test-reports/**

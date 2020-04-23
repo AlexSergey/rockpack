@@ -2,7 +2,7 @@
   "npmClient": "yarn",
   "packages": [
     "book",
-    "next/*",
+    "next",
     "packages/*"
   ],
   "version": "independent"

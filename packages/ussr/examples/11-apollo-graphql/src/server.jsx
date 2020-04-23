@@ -9,6 +9,7 @@ import { ApolloClient } from 'apollo-client';
 import fetch from 'node-fetch';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { getDataFromTree } from "@apollo/react-ssr";
 import { App, resolvers, typeDefs } from './App';
 import { serverRender } from '../../../src';
 
@@ -31,21 +32,20 @@ const getClient = (state) => (
 );
 
 router.get('/*', async (ctx) => {
-  const client = getClient({});
+  const pureClient = getClient({});
+  await getDataFromTree((
+    <ApolloProvider client={pureClient}>
+      <App />
+    </ApolloProvider>
+  ));
+  const client = getClient(pureClient.extract());
 
   const { html } = await serverRender({
-    render: () => {
-      const apolloState = client.extract();
-      const apolloStateIsEmpty = Object.keys(apolloState).length === 0;
-
-      return (
-        /*If apollo state is empty will use simple client*/
-        /*If apollo state is NOT empty will be created another client with state*/
-        <ApolloProvider client={apolloStateIsEmpty ? client : getClient(apolloState)}>
-          <App apolloStateIsEmpty={apolloStateIsEmpty} />
-        </ApolloProvider>
-      );
-    }
+    render: () => (
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    )
   });
 
   const apolloState = client.extract();

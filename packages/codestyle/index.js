@@ -17,6 +17,7 @@ module.exports = {
       'no-return-await': 'off',
       'no-await-in-loop': 'off',
       'no-continue': 'off',
+      'no-alert': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-loop-func': 'off',
@@ -138,16 +139,20 @@ module.exports = {
           parser: '@typescript-eslint/parser',
           extends: [
             'plugin:@typescript-eslint/recommended',
+            'plugin:@typescript-eslint/eslint-recommended',
             'airbnb-typescript'
           ],
           plugins: [
             '@typescript-eslint'
           ],
-          rules: deepExtend({}, {
+          rules: deepExtend({}, commonRules, {
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/ban-ts-ignore': 'off',
-            'react/prop-types': 'off'
-          }, commonRules)
+            'react/prop-types': 'off',
+            quotes: 'off',
+            'no-unused-vars': 'off',
+            semi: 'off'
+          })
         }
       ],
       plugins,

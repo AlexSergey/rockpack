@@ -31,10 +31,10 @@ const getDefault = (defaultLang = 'en', defaultLocaleData: LocaleData): ReturnLo
   };
 };
 
-const detectLanguage = (): string|string[] => (
+const detectBrowserLanguage = (): string|string[] => (
   window.navigator.languages ?
     window.navigator.languages[0] :
     window.navigator.language
 );
 
-export { getDefault, detectLanguage };
+export { getDefault, detectBrowserLanguage };
