@@ -1,9 +1,10 @@
 const path = require('path');
+const formatter = require('@becklyn/typescript-error-formatter');
 
 module.exports = {
   stories: [
     './pages/Welcome.js',
-    '../src/**/*.stories.js'
+    '../src/**/*.stories.(tsx|jsx)'
   ],
   addons: [
     '@storybook/addon-knobs/register',
@@ -21,7 +22,7 @@ module.exports = {
         { loader: require.resolve('sass-loader') },
       ]
     });
-    
+
     config.module.rules.push({
       test: /\.scss$/,
       use: [
@@ -31,42 +32,42 @@ module.exports = {
       ],
       exclude: /\.modules\.scss$/
     });
-    
+
     config.module.rules.push({
       test: /\.ts$/,
-      include: path.resolve(__dirname, "../src"),
+      include: path.resolve(__dirname, '../src'),
       use: [
         {
-          loader: require.resolve("ts-loader"), options: {
-            configFile: path.resolve(__dirname, "../tsconfig.json"),
-            // errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
+          loader: require.resolve('ts-loader'), options: {
+            configFile: path.resolve(__dirname, '../tsconfig.json'),
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
             onlyCompileBundledFiles: true
           }
         },
       ],
     });
-  
+
     config.module.rules.push({
       test: /\.tsx$/,
-      include: path.resolve(__dirname, "../src"),
+      include: path.resolve(__dirname, '../src'),
       use: [
-        { loader: require.resolve("ts-loader"), options: {
-            configFile: path.resolve(__dirname, "../tsconfig.json"),
-            // errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
+        { loader: require.resolve('ts-loader'), options: {
+            configFile: path.resolve(__dirname, '../tsconfig.json'),
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
             onlyCompileBundledFiles: true
           }
         },
         {
-          loader: require.resolve("react-docgen-typescript-loader"),
+          loader: require.resolve('react-docgen-typescript-loader'),
           options: {
-            tsconfigPath: path.resolve(__dirname, "../tsconfig.json"),
+            tsconfigPath: path.resolve(__dirname, '../tsconfig.json'),
           },
         },
       ],
     });
-    
+
     config.resolve.extensions.push('.ts', '.tsx', '.js', '.jsx');
-    
+
     return config;
   }
 }

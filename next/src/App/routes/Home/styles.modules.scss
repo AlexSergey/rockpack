@@ -1,22 +1,19 @@
-@import './variables';
+@import '../../../assets/styles/variables';
 
 .block {
-  background-color: $backgroundDesktopColor;
-
-  h1 {
-    font-weight: normal;
-  }
+  align-self: center;
+  background-color: red;
 }
 /* On screens that are 992px or less, set the background color to blue */
 @media screen and (max-width: 992px) {
   .block {
-    background-color: $backgroundTabletColor;
+    background-color: blue;
   }
 }
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 600px) {
   .block {
-    background-color: $backgroundPhoneColor;
+    background-color: green;
   }
 }

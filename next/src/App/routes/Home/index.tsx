@@ -25,7 +25,14 @@ const Home = (): JSX.Element => {
       </MetaTags>
       <div className={styles.block}>
         <h1>{state.text}</h1>
+        <h2>{state.text}</h2>
+        <h3>{state.text}</h3>
+        <h4>{state.text}</h4>
         <Link to="/secondary">secondary</Link>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, distinctio soluta? Beatae corporis dicta
+          ea, ex impedit in inventore laboriosam magnam minima nihil nostrum nulla reprehenderit rerum sint totam
+          ullam.
+        </p>
       </div>
     </>
   );

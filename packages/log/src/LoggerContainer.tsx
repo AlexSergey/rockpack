@@ -17,10 +17,18 @@ export const logger = new Logger({
 
 const isBackend = (): boolean => typeof window === 'undefined';
 
-export const useLogger = (): [Logger, () => Stack, (stack: Stack) => void] => {
+interface LoggerApiInterface {
+  getStackData: () => Stack;
+  triggerError: (stack: Stack) => void;
+}
+
+export const useLoggerApi = (): LoggerApiInterface => {
   const ctx = useContext(LoggerContext);
 
-  return [ctx.getLogger(), ctx.getStackData, ctx.onError];
+  return {
+    getStackData: ctx.getStackData,
+    triggerError: ctx.onError
+  };
 };
 
 interface LoggerContainerProps {

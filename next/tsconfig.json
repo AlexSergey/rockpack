@@ -6,7 +6,10 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "typeRoots": [
+      "./typings"
+    ]
   },
   "exclude":  [
     "./node_modules/**/*"

@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import platform from 'platform';
 import isMobile from 'is-mobile';
-import logger, { LoggerContainer, useLogger } from '../../../src';
+import logger, { LoggerContainer, useLoggerApi } from '../../../src';
 import 'react-toastify/dist/ReactToastify.css';
 
 const { name, os, version } = platform;
@@ -82,7 +82,7 @@ export default function () {
         }}
       >
         {createElement(() => {
-          const [,getStack, triggerError] = useLogger();
+          const { getStackData, triggerError } = useLoggerApi();
           return (
             <>
               <ToastContainer
@@ -151,7 +151,7 @@ export default function () {
                     </tr>
                   </tbody>
                 </table>
-                <button className="btn btn-primary mb-2" onClick={() => triggerError(getStack())}>
+                <button className="btn btn-primary mb-2" onClick={() => triggerError(getStackData())}>
                   Show logger stack
                 </button>
               </div>

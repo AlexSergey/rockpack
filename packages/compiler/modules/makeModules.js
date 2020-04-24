@@ -129,8 +129,7 @@ function getModules(conf = {}, mode, root) {
             configFile: isTypeScript ?
               tsConfig :
               path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
-            onlyCompileBundledFiles: true
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
           }
         }
       ] : [
@@ -140,8 +139,7 @@ function getModules(conf = {}, mode, root) {
             configFile: isTypeScript ?
               tsConfig :
               path.resolve(__dirname, '../configs/tsconfig.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
-            onlyCompileBundledFiles: true
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
           }
         }
       ]
@@ -165,8 +163,7 @@ function getModules(conf = {}, mode, root) {
             configFile: isTypeScript ?
               tsConfig :
               path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
-            onlyCompileBundledFiles: true
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
           }
         }
       ] : [
@@ -176,8 +173,7 @@ function getModules(conf = {}, mode, root) {
             configFile: isTypeScript ?
               tsConfig :
               path.resolve(__dirname, '../configs/tsconfig.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd()),
-            onlyCompileBundledFiles: true
+            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
           }
         }
       ]

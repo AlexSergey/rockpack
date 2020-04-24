@@ -2,75 +2,44 @@
   "errors": [],
   "warnings": [],
   "version": "4.42.1",
-  "hash": "5b349219d22c33f9fa56",
+  "hash": "e05ee072869daa5ef37f",
   "publicPath": "/",
   "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
   "assetsByChunkName": {
     "index": [
       "css/styles.css",
-      "index.js"
+      "index.js",
+      "css/styles.css.map",
+      "index.js.map"
     ],
-    "Home": [
-      "css/1.styles.css",
-      "1.js"
+    "routes-Home": [
+      "routes-Home.js",
+      "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
+      "routes-Home.js.map",
+      "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map"
     ],
-    "vendors~Home~Secondary": "2.js",
-    "Secondary": "3.js"
+    "vendors~routes-Home": [
+      "vendors~routes-Home.js",
+      "vendors~routes-Home.js.map"
+    ]
   },
   "assets": [
     {
-      "name": "1.js",
-      "size": 1591,
-      "chunks": [
-        1
-      ],
-      "chunkNames": [
-        "Home"
-      ],
-      "info": {},
-      "emitted": false
-    },
-    {
-      "name": "2.js",
-      "size": 11949,
-      "chunks": [
-        2
-      ],
-      "chunkNames": [
-        "vendors~Home~Secondary"
-      ],
-      "info": {},
-      "emitted": false
-    },
-    {
-      "name": "3.js",
-      "size": 492,
-      "chunks": [
-        3
-      ],
-      "chunkNames": [
-        "Secondary"
-      ],
-      "info": {},
-      "emitted": false
-    },
-    {
-      "name": "css/1.styles.css",
-      "size": 259,
-      "chunks": [
-        1
-      ],
-      "chunkNames": [
-        "Home"
-      ],
-      "info": {},
+      "name": "87a6c1cc46ff5f4dcb8c.hot-update.json",
+      "size": 53,
+      "chunks": [],
+      "chunkNames": [],
+      "info": {
+        "hotModuleReplacement": true,
+        "immutable": true
+      },
       "emitted": false
     },
     {
       "name": "css/styles.css",
-      "size": 33,
+      "size": 6820,
       "chunks": [
-        0
+        "index"
       ],
       "chunkNames": [
         "index"
@@ -79,23 +48,124 @@
       "emitted": false
     },
     {
-      "name": "favicon.ico",
-      "size": 15406,
-      "chunks": [],
-      "chunkNames": [],
-      "info": {},
+      "name": "css/styles.css.map",
+      "size": 9474,
+      "chunks": [
+        "index"
+      ],
+      "chunkNames": [
+        "index"
+      ],
+      "info": {
+        "development": true
+      },
       "emitted": false
     },
     {
       "name": "index.js",
-      "size": 195456,
+      "size": 1328034,
       "chunks": [
-        0
+        "index"
       ],
       "chunkNames": [
         "index"
       ],
       "info": {},
+      "emitted": false
+    },
+    {
+      "name": "index.js.map",
+      "size": 1557507,
+      "chunks": [
+        "index"
+      ],
+      "chunkNames": [
+        "index"
+      ],
+      "info": {
+        "development": true
+      },
+      "emitted": false
+    },
+    {
+      "name": "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
+      "size": 4613,
+      "chunks": [
+        "routes-Home"
+      ],
+      "chunkNames": [
+        "routes-Home"
+      ],
+      "info": {
+        "hotModuleReplacement": true,
+        "immutable": true
+      },
+      "emitted": false
+    },
+    {
+      "name": "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map",
+      "size": 4792,
+      "chunks": [
+        "routes-Home"
+      ],
+      "chunkNames": [
+        "routes-Home"
+      ],
+      "info": {
+        "development": true
+      },
+      "emitted": false
+    },
+    {
+      "name": "routes-Home.js",
+      "size": 8805,
+      "chunks": [
+        "routes-Home"
+      ],
+      "chunkNames": [
+        "routes-Home"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "routes-Home.js.map",
+      "size": 9522,
+      "chunks": [
+        "routes-Home"
+      ],
+      "chunkNames": [
+        "routes-Home"
+      ],
+      "info": {
+        "development": true
+      },
+      "emitted": false
+    },
+    {
+      "name": "vendors~routes-Home.js",
+      "size": 21438,
+      "chunks": [
+        "vendors~routes-Home"
+      ],
+      "chunkNames": [
+        "vendors~routes-Home"
+      ],
+      "info": {},
+      "emitted": false
+    },
+    {
+      "name": "vendors~routes-Home.js.map",
+      "size": 25611,
+      "chunks": [
+        "vendors~routes-Home"
+      ],
+      "chunkNames": [
+        "vendors~routes-Home"
+      ],
+      "info": {
+        "development": true
+      },
       "emitted": false
     }
   ],
@@ -103,11 +173,13 @@
   "entrypoints": {
     "index": {
       "chunks": [
-        0
+        "index"
       ],
       "assets": [
         "css/styles.css",
-        "index.js"
+        "index.js",
+        "css/styles.css.map",
+        "index.js.map"
       ],
       "children": {},
       "childAssets": {}
@@ -116,36 +188,29 @@
   "namedChunkGroups": {
     "index": {
       "chunks": [
-        0
+        "index"
       ],
       "assets": [
         "css/styles.css",
-        "index.js"
+        "index.js",
+        "css/styles.css.map",
+        "index.js.map"
       ],
       "children": {},
       "childAssets": {}
     },
-    "Home": {
+    "routes-Home": {
       "chunks": [
-        2,
-        1
+        "vendors~routes-Home",
+        "routes-Home"
       ],
       "assets": [
-        "2.js",
-        "css/1.styles.css",
-        "1.js"
-      ],
-      "children": {},
-      "childAssets": {}
-    },
-    "Secondary": {
-      "chunks": [
-        2,
-        3
-      ],
-      "assets": [
-        "2.js",
-        "3.js"
+        "vendors~routes-Home.js",
+        "vendors~routes-Home.js.map",
+        "routes-Home.js",
+        "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
+        "routes-Home.js.map",
+        "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map"
       ],
       "children": {},
       "childAssets": {}
@@ -170,7 +235,7 @@
       "entrypoints": {
         "mini-css-extract-plugin": {
           "chunks": [
-            0
+            "mini-css-extract-plugin"
           ],
           "assets": [
             "*"
@@ -182,7 +247,7 @@
       "namedChunkGroups": {
         "mini-css-extract-plugin": {
           "chunks": [
-            0
+            "mini-css-extract-plugin"
           ],
           "assets": [
             "*"
@@ -199,7 +264,7 @@
         }
       },
       "children": [],
-      "name": "mini-css-extract-plugin ../node_modules/@teamsupercell/typings-for-css-modules-loader/src/index.js!../node_modules/css-loader/dist/cjs.js??ref--11-2!../node_modules/postcss-loader/src/index.js??ref--11-3!../node_modules/sass-loader/dist/cjs.js??ref--11-4!src/styles.modules.scss"
+      "name": "mini-css-extract-plugin ../node_modules/css-loader/dist/cjs.js??ref--13-1!../node_modules/postcss-loader/src/index.js??ref--13-2!../node_modules/normalize.css/normalize.css"
     },
     {
       "errors": [],
@@ -212,7 +277,7 @@
       "entrypoints": {
         "mini-css-extract-plugin": {
           "chunks": [
-            0
+            "mini-css-extract-plugin"
           ],
           "assets": [
             "*"
@@ -224,7 +289,7 @@
       "namedChunkGroups": {
         "mini-css-extract-plugin": {
           "chunks": [
-            0
+            "mini-css-extract-plugin"
           ],
           "assets": [
             "*"
@@ -241,7 +306,7 @@
         }
       },
       "children": [],
-      "name": "mini-css-extract-plugin ../node_modules/css-loader/dist/cjs.js??ref--13-1!../node_modules/postcss-loader/src/index.js??ref--13-2!src/styles.css"
+      "name": "mini-css-extract-plugin ../node_modules/css-loader/dist/cjs.js??ref--14-1!../node_modules/postcss-loader/src/index.js??ref--14-2!../node_modules/sass-loader/dist/cjs.js??ref--14-3!src/assets/styles/global.scss"
     }
   ]
 }

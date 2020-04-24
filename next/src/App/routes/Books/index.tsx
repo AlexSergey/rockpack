@@ -9,7 +9,7 @@ const Secondary = (): JSX.Element => (
       <meta name="description" content="Secondary page" />
     </MetaTags>
     <div>
-      <h1>Secondary</h1>
+      <h1>GRAPHQL BOOKS</h1>
       <Link to="/">Home</Link>
     </div>
   </>

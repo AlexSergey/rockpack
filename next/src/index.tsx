@@ -1,1 +1,0 @@
-alert(process.env.API);

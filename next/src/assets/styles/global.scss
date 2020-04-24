@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+}
+html, body, #root {
+  height: 100%;
+  font-family: 'Roboto Mono', sans-serif;
+}
+h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  margin: 0 0 .67em;
+}
+
+h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  margin: 0 0 .83em;
+}
+
+h3 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  margin: 0 0 1.17em;
+}
+
+h4 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  margin: 0 0 1.33em;
+}
+
+pre {
+  font-family: 'Fira Code', monospace;
+}
+
+.signature {
+  font-family: 'Press Start 2P', cursive;
+}

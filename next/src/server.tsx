@@ -13,6 +13,7 @@ import { serverRender } from '@rock/ussr';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
+import { googleFontsInstall } from './assets/fonts';
 import { App } from './App';
 
 const app = new Koa();
@@ -59,29 +60,33 @@ router.get('/*', async (ctx) => {
       )
     )
   });
+
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
+
+  const styles = isProduction ? [
+    '<link rel="preload" as="style" href="/css/styles.css" />',
+    '<link rel="preload" as="style" href="/css/1.css" />',
+    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />',
+    '<link rel="stylesheet" type="text/css" href="/css/1.css" />'
+  ].join('') : [
+    `<style>${[...css].join('')}</style>`,
+    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />'
+  ].join('');
 
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
 <head>
     ${meta}
-    ${isProduction ? [
-    `<style>${[...css].join('')}</style>`,
-    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />'
-  ].join('') : [
-    '<link rel="preload" as="style" href="/css/styles.css" />',
-    '<link rel="preload" as="style" href="/css/1.css" />',
-    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />',
-    '<link rel="stylesheet" type="text/css" href="/css/1.css" />'
-  ].join('')}
-    <script>
-      window.USSR_DATA = ${serialize(state, { isJSON: true })}
-    </script>
+    ${googleFontsInstall()}
+    ${styles}
 </head>
 <body>
     <div id="root">${html}</div>
+    <script>
+      window.USSR_DATA = ${serialize(state, { isJSON: true })}
+    </script>
     ${scriptTags}
     ${!isProduction ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
 </body>
