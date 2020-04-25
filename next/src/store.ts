@@ -1,7 +1,7 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware, EnhancedStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import dogReducer from './containers/Dog/reducer';
+//import dogReducer from './containers/Dog/reducer';
 
 import { isProduction, isNotProduction } from './utils/mode';
 
@@ -16,7 +16,7 @@ export default ({ initState = {} } = {}) => {
 
   const store = configureStore({
     reducer: {
-      dogReducer
+      // dogReducer
     },
     devTools: isNotProduction(),
     middleware: isProduction() ? middleware.concat([

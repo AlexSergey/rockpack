@@ -1,3 +1,6 @@
 const { localazer } = require('@rock/compiler');
 
-localazer.po2json();
+localazer.po2json({
+  src: './locales',
+  dist: './src/locales'
+});

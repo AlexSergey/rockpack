@@ -1,3 +1,6 @@
 const { localazer } = require('@rock/compiler');
 
-localazer.makePo();
+localazer.makePo({
+  src: './src/client.tsx',
+  dist: './locales'
+});

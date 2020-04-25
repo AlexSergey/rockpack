@@ -12,7 +12,7 @@ const findValue = (ast, arg) => {
     value: false,
     state: false
   };
-  
+
   traverse.default(ast, {
     VariableDeclarator: path => {
       if (!excludeOther.state) {
@@ -46,7 +46,7 @@ const findValue = (ast, arg) => {
       }
     }
   });
-  
+
   return excludeOther.value;
 };
 
@@ -55,36 +55,37 @@ class MakePoPlugin {
     console.log('Making PO file is started...');
     this.options = options;
   }
-  
+
   apply(compiler) {
     compiler.hooks.compilation.tap('MakePoPlugin', compilation => {
       compilation.hooks.optimizeChunkAssets.tapAsync('MakePoPlugin', (chunks, callback) => {
+        const result = [];
+
         chunks.forEach(chunk => {
           chunk.files.forEach(filename => {
             const source = compilation.assets[filename].source();
             const code = source.toString();
             const ast = parse(code);
-            const result = [];
-            
+
             traverse.default(ast, {
               CallExpression: path => {
                 let isParent = false;
                 const variables = Object.keys(this.options.variables)
                   .map(key => this.options.variables[key]);
-                
+
                 const found = {
                   state: false,
                   arguments: []
                 };
-                
+
                 let name = path.node.callee.name;
-                
+
                 if (!name) {
                   if (path.node.callee.property) {
                     name = path.node.callee.property.name;
                   }
                 }
-                
+
                 if (variables.indexOf(name) < 0) {
                   if (Array.isArray(path.node.arguments)) {
                     path.node.arguments.forEach(a => {
@@ -97,12 +98,12 @@ class MakePoPlugin {
                     });
                   }
                 }
-                
+
                 if (variables.indexOf(name) >= 0) {
                   found.name = name;
                   found.state = true;
                 }
-                
+
                 if (found.state) {
                   const args = (isParent ? path.parent.arguments : path.node.arguments)
                     .map(argItem => {
@@ -124,7 +125,7 @@ class MakePoPlugin {
                     })
                     .filter(item => typeof item === 'string')
                     .map(item => `"${item}"`);
-                  
+
                   if (Array.isArray(args) && args.length > 0) {
                     const fn = `${name}(${args.join(', ')});`;
                     console.log(fn);
@@ -133,45 +134,45 @@ class MakePoPlugin {
                 }
               }
             });
-            
-            if (result.length > 0) {
-              try {
-                const dict = tempy.file();
-                const list = tempy.file();
-                
-                writeFileSync(dict, result);
-                writeFileSync(list, dict);
-                
-                mkdirp.sync(this.options.dist);
-                
-                execSync(
-                  [
-                    'xgettext',
-                    ` --keyword="${this.options.variables.gettext}:1"`,
-                    ` --keyword="${this.options.variables.gettext}:1,2c"`,
-                    ` --keyword="${this.options.variables.ngettext}:1,2"`,
-                    ` --keyword="${this.options.variables.ngettext}:1,2,4c"`,
-                    ` --files-from="${list}"`,
-                    ' --language=JavaScript',
-                    ' --no-location',
-                    ' --from-code=UTF-8',
-                    `  --output="${normalize(`${this.options.dist}/messages.pot`)}"`
-                  ].join('')
-                );
-                console.log('messages.pot created');
-                
-                (async () => {
-                  console.log('if you have previous pot file it will be merged');
-                  await mergePoFiles(this.options);
-                })();
-              } catch (err) {
-                throw new Error(err);
-              }
-            } else {
-              console.log('Nothing found for translation in your project');
-            }
           });
         });
+
+        if (result.length > 0) {
+          try {
+            const dict = tempy.file();
+            const list = tempy.file();
+
+            writeFileSync(dict, result);
+            writeFileSync(list, dict);
+
+            mkdirp.sync(this.options.dist);
+
+            execSync(
+              [
+                'xgettext',
+                ` --keyword="${this.options.variables.gettext}:1"`,
+                ` --keyword="${this.options.variables.gettext}:1,2c"`,
+                ` --keyword="${this.options.variables.ngettext}:1,2"`,
+                ` --keyword="${this.options.variables.ngettext}:1,2,4c"`,
+                ` --files-from="${list}"`,
+                ' --language=JavaScript',
+                ' --no-location',
+                ' --from-code=UTF-8',
+                `  --output="${normalize(`${this.options.dist}/messages.pot`)}"`
+              ].join('')
+            );
+            console.log('messages.pot created');
+
+            (async () => {
+              console.log('if you have previous pot file it will be merged');
+              await mergePoFiles(this.options);
+            })();
+          } catch (err) {
+            throw new Error(err);
+          }
+        } else {
+          console.log('Nothing found for translation in your project');
+        }
         callback();
       });
     });

@@ -2,9 +2,9 @@
   "errors": [],
   "warnings": [],
   "version": "4.42.1",
-  "hash": "e05ee072869daa5ef37f",
+  "hash": "ea95ac65b0a89af99908",
   "publicPath": "/",
-  "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+  "outputPath": "/mnt/9EE4986FE4984B81/projects/github/private/rock/next/public",
   "assetsByChunkName": {
     "index": [
       "css/styles.css",
@@ -14,9 +14,7 @@
     ],
     "routes-Home": [
       "routes-Home.js",
-      "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
-      "routes-Home.js.map",
-      "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map"
+      "routes-Home.js.map"
     ],
     "vendors~routes-Home": [
       "vendors~routes-Home.js",
@@ -24,17 +22,6 @@
     ]
   },
   "assets": [
-    {
-      "name": "87a6c1cc46ff5f4dcb8c.hot-update.json",
-      "size": 53,
-      "chunks": [],
-      "chunkNames": [],
-      "info": {
-        "hotModuleReplacement": true,
-        "immutable": true
-      },
-      "emitted": false
-    },
     {
       "name": "css/styles.css",
       "size": 6820,
@@ -62,8 +49,16 @@
       "emitted": false
     },
     {
+      "name": "favicon.ico",
+      "size": 15406,
+      "chunks": [],
+      "chunkNames": [],
+      "info": {},
+      "emitted": false
+    },
+    {
       "name": "index.js",
-      "size": 1328034,
+      "size": 1404096,
       "chunks": [
         "index"
       ],
@@ -75,41 +70,12 @@
     },
     {
       "name": "index.js.map",
-      "size": 1557507,
+      "size": 1713611,
       "chunks": [
         "index"
       ],
       "chunkNames": [
         "index"
-      ],
-      "info": {
-        "development": true
-      },
-      "emitted": false
-    },
-    {
-      "name": "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
-      "size": 4613,
-      "chunks": [
-        "routes-Home"
-      ],
-      "chunkNames": [
-        "routes-Home"
-      ],
-      "info": {
-        "hotModuleReplacement": true,
-        "immutable": true
-      },
-      "emitted": false
-    },
-    {
-      "name": "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map",
-      "size": 4792,
-      "chunks": [
-        "routes-Home"
-      ],
-      "chunkNames": [
-        "routes-Home"
       ],
       "info": {
         "development": true
@@ -118,7 +84,7 @@
     },
     {
       "name": "routes-Home.js",
-      "size": 8805,
+      "size": 9371,
       "chunks": [
         "routes-Home"
       ],
@@ -130,7 +96,7 @@
     },
     {
       "name": "routes-Home.js.map",
-      "size": 9522,
+      "size": 9768,
       "chunks": [
         "routes-Home"
       ],
@@ -208,9 +174,7 @@
         "vendors~routes-Home.js",
         "vendors~routes-Home.js.map",
         "routes-Home.js",
-        "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js",
-        "routes-Home.js.map",
-        "routes-Home.87a6c1cc46ff5f4dcb8c.hot-update.js.map"
+        "routes-Home.js.map"
       ],
       "children": {},
       "childAssets": {}
@@ -228,7 +192,7 @@
       "errors": [],
       "warnings": [],
       "publicPath": "/",
-      "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+      "outputPath": "/mnt/9EE4986FE4984B81/projects/github/private/rock/next/public",
       "assetsByChunkName": {},
       "assets": [],
       "filteredAssets": 0,
@@ -270,7 +234,7 @@
       "errors": [],
       "warnings": [],
       "publicPath": "/",
-      "outputPath": "F:\\projects\\github\\private\\rock\\next\\public",
+      "outputPath": "/mnt/9EE4986FE4984B81/projects/github/private/rock/next/public",
       "assetsByChunkName": {},
       "assets": [],
       "filteredAssets": 0,

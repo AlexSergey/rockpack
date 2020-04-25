@@ -9,9 +9,10 @@ import { ApolloClient } from 'apollo-client';
 import fetch from 'node-fetch';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { getDataFromTree } from "@apollo/react-ssr";
+import { getDataFromTree } from '@apollo/react-ssr';
 import { App, resolvers, typeDefs } from './App';
-import { serverRender } from '../../../src';
+import { renderToString } from 'react-dom/server';
+import createUssr from '../../../src';
 
 const app = new Koa();
 const router = new Router();
@@ -33,20 +34,30 @@ const getClient = (state) => (
 
 router.get('/*', async (ctx) => {
   const pureClient = getClient({});
+  const [runEffects, UssrRunEffects] = createUssr({});
+
   await getDataFromTree((
-    <ApolloProvider client={pureClient}>
-      <App />
-    </ApolloProvider>
+    <UssrRunEffects>
+      <ApolloProvider client={pureClient}>
+        <App />
+      </ApolloProvider>
+    </UssrRunEffects>
   ));
+
+  const state = await runEffects();
   const client = getClient(pureClient.extract());
 
-  const { html } = await serverRender({
-    render: () => (
+  const [, Ussr] = createUssr(state, {
+    ignoreWillMount: true
+  });
+
+  const html = renderToString(
+    <Ussr>
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
-    )
-  });
+    </Ussr>
+  );
 
   const apolloState = client.extract();
 

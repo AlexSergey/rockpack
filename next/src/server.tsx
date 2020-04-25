@@ -13,14 +13,17 @@ import { serverRender } from '@rock/ussr';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
+import { LocalizationObserver } from '@rock/localazer';
 import { googleFontsInstall } from './assets/fonts';
 import { App } from './App';
+import ru from './locales/ru.json';
 
 const app = new Koa();
 const router = new Router();
 const pe = new PrettyError();
 const isProduction = process.env.NODE_ENV === 'production';
 const publicFolder = path.resolve(__dirname, '../public');
+const languages = { ru };
 
 const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
@@ -29,6 +32,7 @@ const stats = JSON.parse(
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
+  console.log(languages.ru);
   const routerParams = {
     location: ctx.request.url,
     context: {}
@@ -53,7 +57,9 @@ router.get('/*', async (ctx) => {
         <StyleContext.Provider value={{ insertCss }}>
           <MetaTagsContext extract={metaTagsInstance.extract}>
             <StaticRouter {...routerParams}>
-              <App />
+              <LocalizationObserver languages={languages} active="ru">
+                <App />
+              </LocalizationObserver>
             </StaticRouter>
           </MetaTagsContext>
         </StyleContext.Provider>

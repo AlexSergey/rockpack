@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useUssrState, useWillMount } from '@rock/ussr';
 import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
+import Localization, { l } from '@rock/localazer';
 import { effect } from './effect';
 import styles from './styles.modules.scss';
 
@@ -28,6 +29,7 @@ const Home = (): JSX.Element => {
         <h2>{state.text}</h2>
         <h3>{state.text}</h3>
         <h4>{state.text}</h4>
+        <p><Localization>{l('Hello')}</Localization></p>
         <Link to="/secondary">secondary</Link>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, distinctio soluta? Beatae corporis dicta
           ea, ex impedit in inventore laboriosam magnam minima nihil nostrum nulla reprehenderit rerum sint totam

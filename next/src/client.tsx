@@ -4,6 +4,7 @@ import createUssr from '@rock/ussr';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
+import { LocalizationObserver } from '@rock/localazer';
 import { App } from './App';
 
 declare global {
@@ -26,7 +27,9 @@ hydrate(
   <Ussr>
     <StyleContext.Provider value={{ insertCss }}>
       <Router history={createBrowserHistory()}>
-        <App />
+        <LocalizationObserver>
+          <App />
+        </LocalizationObserver>
       </Router>
     </StyleContext.Provider>
   </Ussr>,
