@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware, EnhancedStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 //import dogReducer from './containers/Dog/reducer';
@@ -11,7 +11,7 @@ const middleware = getDefaultMiddleware({
   thunk: false,
 });
 
-export default ({ initState = {} } = {}) => {
+export default ({ initState = {} } = {}): unknown => {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({

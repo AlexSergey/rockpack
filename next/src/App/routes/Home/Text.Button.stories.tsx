@@ -29,7 +29,7 @@ export default {
   decorators: [withCssResources, withKnobs],
 };
 
-export const defaultView = () => (
+export const defaultView = (): JSX.Element => (
   <TextButton
     text={text('Label', 'Hello Storybook')}
     disabled={boolean('Disabled', false)}

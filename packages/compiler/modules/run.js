@@ -25,7 +25,7 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
   ),
   'dev-server': () => {
     const server = new WebpackDevServer(compiler, webpackConfig.devServer);
-      
+
     server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
       if (isNumber(conf._liveReloadPort)) {
         console.log(`LiveReload server on http://localhost:${conf._liveReloadPort}`);
@@ -97,23 +97,24 @@ const getStrategy = (mode, conf) => {
 const run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
-  
+
   const isMultiCompile = isArray(webpackConfig);
-  
+
   webpackConfig = isMultiCompile ? webpackConfig : [webpackConfig];
   configs = isMultiCompile ? configs : [configs];
-  
+
+  // eslint-disable-next-line no-shadow
   webpackConfig.forEach((webpackConfig, index) => {
     configs[index].strategy = getStrategy(mode, configs[index]);
   });
-  
+
   const compiler = isMultiCompile ? webpack(webpackConfig) : webpack(webpackConfig[0]);
-  
+
   for (let i = 0, l = configs.length; i < l; i++) {
     const config = configs[i];
     let compileStrategy;
     const runner = config.nodejs ? runNodeStrategy : runAppStrategy;
-    
+
     try {
       compileStrategy = runner(
         isMultiCompile ?
@@ -123,14 +124,14 @@ const run = async (webpackConfig, mode, webpack, configs) => {
         webpackConfig[i],
         config
       )[config.strategy];
-      
+
       await compileStrategy();
     } catch (e) {
       console.error(e);
       process.exit(1);
     }
   }
-  
+
   if (configs.length === configs.filter(c => c.strategy === 'simple').length) {
     process.exit(0);
   }

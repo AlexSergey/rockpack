@@ -9,3 +9,5 @@ coverage/
 NO_COMMIT/**
 **/NO_COMMIT/**
 test-reports/**
+
+examples

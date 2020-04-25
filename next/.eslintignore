@@ -22,3 +22,5 @@ test-reports/**
 *.webp
 *.woff
 *.woff2
+
+src/locales

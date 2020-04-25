@@ -1,7 +1,7 @@
 const MODE = {
-    development: 'development',
-    test: 'test',
-    production: 'production'
+  development: 'development',
+  test: 'test',
+  production: 'production'
 };
 const isProduction = () => process.env.NODE_ENV === 'production';
 

@@ -9,11 +9,11 @@ function make(options) {
   return new Promise((resolve, reject) => {
     const src = options.src[0];
     const translations = getPOFiles(src);
-    
+
     if (translations.length === 0) {
       return reject(new Error(`${src} - In current folder hasn't any PO files`));
     }
-    
+
     forEachLimit(
       translations,
       1,
@@ -28,19 +28,19 @@ function make(options) {
           format: 'jed1.x'
         });
         const filename = item.split('.')[0];
-        
+
         if (!filename) {
           return reject(new Error('PO filename is empty'));
         }
-        
+
         mkdirp(options.dist, err => {
           if (err) {
             return reject(err);
           }
           try {
             writeFileSync(join(options.dist, `${filename}.json`), JSON.stringify(jsonData));
-          } catch (err) {
-            return reject(err);
+          } catch (e) {
+            return reject(e);
           }
           next();
         });

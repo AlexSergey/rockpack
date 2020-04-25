@@ -13,18 +13,18 @@ function commonMultiValidator(props) {
     console.error('The config is empty');
     return process.exit(1);
   }
-  
-  props.forEach(props => {
-    if (isUndefined(props.compiler) || isUndefined(props.config) || isEmptyObject(props.config)) {
+
+  props.forEach(prop => {
+    if (isUndefined(prop.compiler) || isUndefined(prop.config) || isEmptyObject(prop.config)) {
       console.error('The config is invalid');
       return process.exit(1);
     }
   });
-  
-  props.forEach(props => {
-    props.compilerName = props.compiler.name;
-    
-    if (compilers.indexOf(props.compilerName) < 0) {
+
+  props.forEach(prop => {
+    prop.compilerName = prop.compiler.name;
+
+    if (compilers.indexOf(prop.compilerName) < 0) {
       console.error('The config is invalid');
       return process.exit(1);
     }

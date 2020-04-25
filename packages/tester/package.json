@@ -3,6 +3,9 @@
   "version": "0.9.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint '**/*.js'"
+  },
   "author": "",
   "license": "ISC",
   "dependencies":  {

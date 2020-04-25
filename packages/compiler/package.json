@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rocket-starter)",
   "license": "ISC",
+  "scripts": {
+    "lint": "eslint '**/*.js'"
+  },
   "dependencies": {
     "@becklyn/typescript-error-formatter": "1.0.4",
     "@loadable/webpack-plugin": "5.12.0",

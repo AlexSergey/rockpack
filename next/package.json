@@ -7,7 +7,7 @@
     "localization:makePo": "node scripts.makePo",
     "localization:po2json": "node scripts.po2json",
     "typing": "tsc -p . --noEmit",
-    "lint": "eslint src/**",
+    "lint": "eslint 'src/**'",
     "storybook": "start-storybook",
     "storybook:build": "build-storybook -c .storybook -o .out"
   },

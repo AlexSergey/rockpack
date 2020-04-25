@@ -8,18 +8,15 @@ const getOutput = (conf = {}, root, version = '') => {
   };
   if (conf.__frontendHasVendor) {
     outputProps.filename = version ? `[name]-${version}.js` : '[name].js';
+  } else if (isArray(conf.vendor)) {
+    outputProps.filename = version ? `[name]-${version}.js` : '[name].js';
   } else {
-    if (isArray(conf.vendor)) {
-      outputProps.filename = version ? `[name]-${version}.js` : '[name].js';
-    } else {
-      outputProps.filename = chunkData => {
-        return chunkData.chunk.name === 'main' ?
-          (version ? `index-${version}.js` : 'index.js') :
-          version ? `[name]-${version}.js` : '[name].js';
-      };
-    }
+    outputProps.filename = chunkData => (
+      chunkData.chunk.name === 'main' ?
+        (version ? `index-${version}.js` : 'index.js') :
+        version ? `[name]-${version}.js` : '[name].js');
   }
-  
+
   if (conf.library) {
     Object.assign(outputProps, {
       library: conf.library,
@@ -27,7 +24,7 @@ const getOutput = (conf = {}, root, version = '') => {
       globalObject: 'this'
     });
   }
-  
+
   return outputProps;
 };
 

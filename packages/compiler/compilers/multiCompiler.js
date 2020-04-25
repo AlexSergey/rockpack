@@ -83,6 +83,7 @@ async function multiCompiler(props = []) {
     }
   });
 
+  // eslint-disable-next-line no-shadow
   props.forEach(props => {
     argumentsCollection[props.config.id] = [];
 

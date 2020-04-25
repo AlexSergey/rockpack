@@ -6,12 +6,12 @@ class Collection {
     this._data = opt.data;
     this._props = opt.props;
     this.__tempData = {};
-    
+
     this.dict = Object.keys(this._data)
       .reduce((dict, plName) => {
         if (isFunction(this._data[plName])) {
           const d = this._data[plName](this._props[plName]);
-          
+
           if (isArray(d)) {
             d.forEach((_d, index) => {
               this.__tempData[`${plName}${index}`] = _d;
@@ -24,25 +24,25 @@ class Collection {
         }
         return dict;
       }, {});
-    
+
     Object.keys(this.__tempData).forEach(key => {
       this.dict[key] = this.__tempData[key];
     });
   }
-  
+
   get(name) {
     if (name) {
       return [this.dict[name]];
     }
-    
+
     return Object.keys(this.dict)
-      .map(name => this.dict[name]);
+      .map(n => this.dict[n]);
   }
-  
+
   set(name, data) {
     this.dict[name] = data;
   }
-  
+
   remove(name) {
     if (isArray(name)) {
       name.forEach(n => {
@@ -54,7 +54,7 @@ class Collection {
     this.dict[name] = null;
     delete this.dict[name];
   }
-  
+
   add(name, instance) {
     this.dict[name] = instance;
   }

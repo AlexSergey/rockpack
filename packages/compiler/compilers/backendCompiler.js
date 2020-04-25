@@ -5,7 +5,7 @@ const makeMode = require('../modules/makeMode');
 
 async function backendCompiler(options = {}, cb, configOnly = false) {
   errorHandler();
-  let mode = makeMode();
+  const mode = makeMode();
   options = deepExtend({}, options, {
     html: false,
     nodejs: true,
