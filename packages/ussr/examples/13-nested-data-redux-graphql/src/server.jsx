@@ -3,6 +3,7 @@ import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
 import Router from 'koa-router';
+import { Provider } from 'react-redux';
 import serialize from 'serialize-javascript';
 import { ApolloProvider, getApolloContext } from '@apollo/react-common';
 import { RenderPromises } from '@apollo/react-hooks';
@@ -10,8 +11,10 @@ import { ApolloClient } from 'apollo-client';
 import fetch from 'node-fetch';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { App, resolvers, typeDefs } from './App';
+import { App } from './App';
+import { resolvers, typeDefs } from './Apollo';
 import { serverRender } from '../../../src';
+import createStore from './store';
 
 const app = new Koa();
 const router = new Router();
@@ -29,13 +32,18 @@ router.get('/*', async (ctx) => {
     typeDefs,
     resolvers
   });
+  const store = createStore({
+    initState: {}
+  });
   const ApolloContext = getApolloContext();
   const renderPromises = new RenderPromises();
 
-  const { html } = await serverRender(() => (
+  const { html, state } = await serverRender(() => (
     <ApolloContext.Provider value={{ ...{}, renderPromises }}>
       <ApolloProvider client={client}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </ApolloProvider>
     </ApolloContext.Provider>
   ), (effects) => {
@@ -45,6 +53,7 @@ router.get('/*', async (ctx) => {
   });
 
   const apolloState = client.extract();
+  const reduxState = store && typeof store.getState === 'function' ? store.getState() : {};
 
   ctx.body = `
   <!DOCTYPE html>
@@ -54,6 +63,8 @@ router.get('/*', async (ctx) => {
     <title>Title</title>
     <script>
       window.APOLLO_DATA = ${serialize(apolloState, { isJSON: true })}
+      window.USSR_DATA = ${serialize(state, { isJSON: true })}
+      window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
     </script>
 </head>
 <body>

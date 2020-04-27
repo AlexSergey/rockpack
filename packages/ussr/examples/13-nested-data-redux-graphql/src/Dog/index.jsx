@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDog } from './action';
-import { useWillMount } from '../../../../../src';
+import { useWillMount } from '../../../../src';
 
 const Dogs = () => {
   const dispatch = useDispatch();

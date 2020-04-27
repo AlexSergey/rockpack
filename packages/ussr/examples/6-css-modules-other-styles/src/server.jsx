@@ -29,17 +29,15 @@ router.get('/*', async (ctx) => {
   };
   const metaTagsInstance = MetaTagsServer();
 
-  const { html, state } = await serverRender({
-    render: () => (
-      <StyleContext.Provider value={{ insertCss }}>
-        <MetaTagsContext extract={metaTagsInstance.extract}>
-          <StaticRouter {...routerParams}>
-            <App />
-          </StaticRouter>
-        </MetaTagsContext>
-      </StyleContext.Provider>
-    )
-  });
+  const { html, state } = await serverRender(() => (
+    <StyleContext.Provider value={{ insertCss }}>
+      <MetaTagsContext extract={metaTagsInstance.extract}>
+        <StaticRouter {...routerParams}>
+          <App />
+        </StaticRouter>
+      </MetaTagsContext>
+    </StyleContext.Provider>
+  ));
   const meta = metaTagsInstance.renderToString();
 
   ctx.body = `

@@ -9,9 +9,7 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('/*', async (req, res) => {
-  const { html, state } = await serverRender({
-    render: () => <App />
-  });
+  const { html, state } = await serverRender(() => <App />);
   res.send(`
   <!DOCTYPE html>
 <html lang="en">

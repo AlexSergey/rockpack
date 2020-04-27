@@ -51,21 +51,19 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index']
   });
 
-  const { html, state } = await serverRender({
-    render: () => (
-      extractor.collectChunks(
-        <StyleContext.Provider value={{ insertCss }}>
-          <MetaTagsContext extract={metaTagsInstance.extract}>
-            <StaticRouter {...routerParams}>
-              <LocalizationObserver languages={languages} active="ru">
-                <App />
-              </LocalizationObserver>
-            </StaticRouter>
-          </MetaTagsContext>
-        </StyleContext.Provider>
-      )
+  const { html, state } = await serverRender(() => (
+    extractor.collectChunks(
+      <StyleContext.Provider value={{ insertCss }}>
+        <MetaTagsContext extract={metaTagsInstance.extract}>
+          <StaticRouter {...routerParams}>
+            <LocalizationObserver languages={languages} active="ru">
+              <App />
+            </LocalizationObserver>
+          </StaticRouter>
+        </MetaTagsContext>
+      </StyleContext.Provider>
     )
-  });
+  ));
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();

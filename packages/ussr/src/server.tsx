@@ -6,51 +6,48 @@ interface StateInterface {
   [key: string]: unknown;
 }
 
-interface RenderUssrInterface {
-  render: () => JSX.Element;
-  onBeforeEffects?: () => Promise<unknown>;
-  onAfterEffects?: (state: StateInterface) => Promise<unknown>;
-}
+type Middleware = (callbacks: Promise<unknown>[]) => Promise<unknown>[] | undefined;
 
-interface RenderUssrReturnInterface {
+interface ServerRenderResult {
   html: string;
   state: StateInterface;
 }
 
-export const serverRender = async ({
-  render,
-  onBeforeEffects,
-  onAfterEffects
-}: RenderUssrInterface): Promise<RenderUssrReturnInterface> => {
-  const [runEffects, UssrRunEffects] = createUssr({});
+export const serverRender = async (
+  iteration: (count?: number) => JSX.Element,
+  middleware?: Middleware): Promise<ServerRenderResult> => {
+  let count = 0;
+  const [runEffects, Ussr, getEffects, getSate] = createUssr({ });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const renderNested = async (): Promise<string> => {
+    count++;
+    const App = await iteration(count);
+    const _html = renderToString((
+      <Ussr>
+        {App}
+      </Ussr>
+    ));
 
-  renderToString(
-    <UssrRunEffects>
-      {render()}
-    </UssrRunEffects>
-  );
+    const effects = getEffects();
 
-  if (typeof onBeforeEffects === 'function') {
-    await onBeforeEffects();
-  }
+    const waited = effects.filter(effect => effect.status === 'wait');
 
-  const state = await runEffects();
+    const callbacks = await (async (callbackFunctions): Promise<Promise<unknown>[]> => {
+      const finalCallbacks = typeof middleware === 'function' ? middleware(callbackFunctions) : callbackFunctions;
+      return Array.isArray(finalCallbacks) ? finalCallbacks : callbackFunctions;
+    })(waited.map(e => e.callback));
 
-  if (typeof onAfterEffects === 'function') {
-    await onAfterEffects(state);
-  }
+    if (callbacks.length > 0) {
+      await runEffects(callbacks, waited);
 
-  const [, Ussr] = createUssr(state, {
-    ignoreWillMount: true
-  });
+      return await renderNested();
+    }
+    return _html;
+  };
+  const html = await renderNested();
 
-  const html = renderToString(
-    <Ussr>
-      {render()}
-    </Ussr>
-  );
   return {
     html,
-    state
+    state: getSate()
   };
 };

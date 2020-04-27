@@ -53,59 +53,30 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-export const useWillMount = (cb: () => Promise<unknown>): void => {
+export const useWillMount = (cb: (resolver?: () => void) => Promise<unknown>): void => {
   const initHook = useRef(true);
-  const { addEffect, isLoading, ignoreWillMount } = useContext(UssrContext);
+  const { isLoading, createEffect, hasEffect } = useContext(UssrContext);
   const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
   const onLoadOnTheClient = isClient && loaded && initHook.current && typeof cb === 'function';
   const onLoadOnTheBackend = isBackend() && typeof cb === 'function';
 
-  if (ignoreWillMount) {
-    return;
-  }
-
   initHook.current = false;
 
   if (onLoadOnTheClient) {
     cb();
   } else if (onLoadOnTheBackend) {
-    const effect = cb();
-    const isEffect = typeof effect.then === 'function';
-    if (isBackend() && isEffect) {
-      addEffect(effect);
-    }
-  }
-};
+    const effectId = cb.toString();
 
-export const useApplyEffects = (cb: () => Promise<unknown> | Promise<unknown>[]): void => {
-  const initHook = useRef(true);
-  const { addEffect } = useContext(UssrContext);
-
-  if (!initHook.current) {
-    return;
-  }
-
-  const onLoadOnTheBackend = isBackend() && typeof cb === 'function';
-  if (onLoadOnTheBackend) {
-    const effect = cb();
-    if (Array.isArray(effect)) {
-      effect.forEach((e) => {
-        const isEffect = typeof e.then === 'function';
-
-        if (isEffect) {
-          addEffect(e);
-        }
-      });
-    } else {
-      const isEffect = typeof effect.then === 'function';
-
-      if (isEffect) {
-        addEffect(effect);
+    if (!hasEffect(effectId)) {
+      const resolver = createEffect(effectId);
+      const effect = cb(resolver);
+      const isEffect = effect && typeof effect.then === 'function';
+      if (isBackend() && isEffect) {
+        // eslint-disable-next-line promise/catch-or-return
+        effect.finally(resolver);
       }
     }
   }
-
-  initHook.current = false;
 };

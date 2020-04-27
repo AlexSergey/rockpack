@@ -1,13 +1,14 @@
 import path from 'path';
-import { createElement } from 'react';
+import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
 import Router from 'koa-router';
-import { END } from 'redux-saga';
+import { Provider } from 'react-redux';
 import serialize from 'serialize-javascript';
 import { App } from './App';
 import { serverRender } from '../../../src';
 import createStore from './store';
+import rest from './utils/rest';
 
 const app = new Koa();
 const router = new Router();
@@ -16,14 +17,14 @@ app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
   const store = createStore({
-    initState: { }
+    initState: { },
+    rest
   });
-  const { html } = await serverRender({
-    render: () => createElement(App({ store })),
-    onBeforeEffects: async () => {
-      store.dispatch(END);
-    }
-  });
+  const { html } = await serverRender(() => (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  ));
   const reduxState = store && typeof store.getState === 'function' ? store.getState() : {};
   ctx.body = `
   <!DOCTYPE html>

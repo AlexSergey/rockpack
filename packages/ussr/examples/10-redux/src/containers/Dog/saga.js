@@ -5,7 +5,7 @@ function* watchFetchDog(rest) {
   yield takeEvery(fetchDog, fetchDogAsync, rest);
 }
 
-function* fetchDogAsync(rest) {
+function* fetchDogAsync(rest, { payload: resolver }) {
   try {
     yield put(requestDog());
     const { data } = yield call(() => rest.get('https://dog.ceo/api/breeds/image/random'));
@@ -13,6 +13,7 @@ function* fetchDogAsync(rest) {
   } catch (error) {
     yield put(requestDogError());
   }
+  resolver();
 }
 
 export default watchFetchDog;

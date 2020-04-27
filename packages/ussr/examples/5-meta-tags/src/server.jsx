@@ -23,18 +23,16 @@ router.get('/*', async (ctx) => {
     context: {}
   };
   const metaTagsInstance = MetaTagsServer();
-  
-  const { html, state } = await serverRender({
-    render: () => (
-      <MetaTagsContext extract={metaTagsInstance.extract}>
-        <StaticRouter {...routerParams}>
-          <App />
-        </StaticRouter>
-      </MetaTagsContext>
-    )
-  });
+
+  const { html, state } = await serverRender(() => (
+    <MetaTagsContext extract={metaTagsInstance.extract}>
+      <StaticRouter {...routerParams}>
+        <App />
+      </StaticRouter>
+    </MetaTagsContext>
+  ));
   const meta = metaTagsInstance.renderToString();
-  
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">

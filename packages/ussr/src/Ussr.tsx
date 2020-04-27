@@ -5,6 +5,17 @@ export interface InitStateInterface {
   [key: string]: unknown;
 }
 
+enum Statuses {
+  wait = 'wait',
+  done = 'done',
+}
+
+interface Effect {
+  id: string;
+  status: Statuses;
+  callback: Promise<unknown>;
+}
+
 interface StateInterface {
   [key: string]: unknown;
 }
@@ -12,11 +23,13 @@ interface StateInterface {
 interface UssrContextInterface {
   isLoading: () => boolean;
   initState: InitStateInterface | {};
-  addEffect: (effect: Promise<unknown>) => void;
-  ignoreWillMount?: boolean;
+  addEffect: (effectId: string, effect: Promise<unknown>) => void;
+  createEffect: (effectId: string) => () => void;
+  hasEffect: (effectId: string) => boolean;
 }
 
-type ReturnCreateUssr = [() => Promise<StateInterface>, ({ children }: { children: JSX.Element }) => JSX.Element];
+type ReturnCreateUssr = [(callbacks: Promise<unknown>[], effects: Effect[]) => Promise<StateInterface>,
+  ({ children }: { children: JSX.Element }) => JSX.Element, () => Effect[], () => StateInterface];
 
 export const UssrContext = createContext<UssrContextInterface>({} as UssrContextInterface);
 
@@ -46,31 +59,69 @@ const OnComplete = ({ loading, onLoad }): JSX.Element => {
 };
 
 interface OptionsInterface {
-  ignoreWillMount?: boolean;
   onlyClient?: boolean;
 }
 
-const createUssr = (initState: InitStateInterface = {}, options: OptionsInterface = {
-  ignoreWillMount: false
-}): ReturnCreateUssr => {
+const createUssr = (initState: InitStateInterface = {}, options: OptionsInterface = {}): ReturnCreateUssr => {
   const app = {
     loading: options.onlyClient ? false : !isBackend(),
-    effects: [],
+    effects: new Map(),
     state: initState
   };
 
-  const addEffect = (effect: Promise<unknown>): void => {
-    app.effects.push(effect);
+  const hasEffect = (effectId: string): boolean => Boolean(app.effects.get(effectId));
+
+  const createEffect = (effectId: string): () => void => {
+    let r = (): void => {};
+
+    if (!hasEffect(effectId)) {
+      app.effects.set(effectId, {
+        id: effectId,
+        status: 'wait',
+        callback: ((): Promise<unknown> => new Promise(resolve => {
+          r = resolve;
+        }))()
+      });
+    }
+
+    return r;
   };
 
-  const runEffects = (): Promise<StateInterface> => (
-    new Promise(resolve => (
-      Promise.all(app.effects)
-        .finally(() => (
-          resolve(clone(app.state))
-        ))
-    ))
-  );
+  const getEffects = (): Effect[] => Array.from(app.effects.values());
+
+  const getState = (): StateInterface => clone(app.state);
+
+  const addEffect = (effectId: string, effect: Promise<unknown>): void => {
+    if (!hasEffect(effectId)) {
+      app.effects.set(effectId, {
+        id: effectId,
+        status: 'wait',
+        callback: effect
+      });
+    }
+  };
+
+  const runEffects = (callbacks: Promise<unknown>[], effects: Effect[]): Promise<StateInterface> => {
+    if (!Array.isArray(callbacks)) {
+      return;
+    }
+    return (
+      new Promise(resolve => {
+        // eslint-disable-next-line promise/catch-or-return
+        Promise.all(callbacks)
+          .finally(() => {
+            if (Array.isArray(effects)) {
+              effects.forEach(({ id }) => {
+                if (hasEffect(id)) {
+                  app.effects.set(id, { id, status: 'done' });
+                }
+              });
+            }
+            resolve(clone(app.state));
+          });
+      })
+    );
+  };
 
   const onLoad = (state): void => {
     app.loading = state;
@@ -83,13 +134,14 @@ const createUssr = (initState: InitStateInterface = {}, options: OptionsInterfac
       isLoading,
       initState,
       addEffect,
-      ignoreWillMount: options.ignoreWillMount || false
+      hasEffect,
+      createEffect
     }}
     >
       {children}
       <OnComplete loading={app.loading} onLoad={onLoad} />
     </UssrContext.Provider>
-  )];
+  ), getEffects, getState];
 };
 
 export default createUssr;

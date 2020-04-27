@@ -19,14 +19,12 @@ router.get('/*', async (ctx) => {
     location: url,
     context: {}
   };
-  
-  const { html, state } = await serverRender({
-    render: () => (
-      <StaticRouter {...routerParams}>
-        <App />
-      </StaticRouter>
-    )
-  });
+
+  const { html, state } = await serverRender(() => (
+    <StaticRouter {...routerParams}>
+      <App />
+    </StaticRouter>
+  ));
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">

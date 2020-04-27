@@ -13,9 +13,7 @@ const router = new Router();
 app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
-  const { html, state } = await serverRender({
-    render: () => <App />
-  });
+  const { html, state } = await serverRender(() => <App />);
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">

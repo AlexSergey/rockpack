@@ -1,9 +1,8 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import dogReducer from './containers/Dog/reducer';
-import watchFetchDog from './containers/Dog/saga';
-
+import dogReducer from './Dog/reducer';
+import watchFetchDog from './Dog/saga';
 import { isProduction, isNotProduction } from './utils/mode';
 
 const middleware = getDefaultMiddleware({

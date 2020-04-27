@@ -99,7 +99,7 @@ test-reports
 .env
 
 # Custom rules
-packages/next/**/public
+packages/next/public
 packages/ussr/examples/**/public
 packages/localazer/lib
 packages/log/lib

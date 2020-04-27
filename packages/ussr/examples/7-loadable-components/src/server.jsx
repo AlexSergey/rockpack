@@ -33,15 +33,13 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index']
   });
 
-  const { html, state } = await serverRender({
-    render: () => (
-      extractor.collectChunks(
-        <StaticRouter {...routerParams}>
-          <App />
-        </StaticRouter>
-      )
+  const { html, state } = await serverRender(() => (
+    extractor.collectChunks(
+      <StaticRouter {...routerParams}>
+        <App />
+      </StaticRouter>
     )
-  });
+  ));
   const scriptTags = extractor.getScriptTags();
 
   ctx.body = `
