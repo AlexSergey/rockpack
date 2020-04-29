@@ -1,9 +1,9 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
+import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-//import dogReducer from './containers/Dog/reducer';
-
-import { isProduction, isNotProduction } from './utils/mode';
+import { isNotProduction, isProduction } from './utils/mode';
+import localization, { LocalizationState } from './localization/reducer';
 
 const middleware = getDefaultMiddleware({
   immutableCheck: true,
@@ -11,12 +11,23 @@ const middleware = getDefaultMiddleware({
   thunk: false,
 });
 
-export default ({ initState = {} } = {}): unknown => {
-  const sagaMiddleware = createSagaMiddleware();
+interface StoreProps {
+  initState: {
+    [key: string]: unknown;
+  };
+  rest: AxiosInstance;
+}
 
-  const store = configureStore({
+export interface RootState {
+  localization: LocalizationState;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default ({ initState = {}, rest }: StoreProps): Store<RootState> => {
+  const sagaMiddleware = createSagaMiddleware();
+  return configureStore({
     reducer: {
-      // dogReducer
+      localization
     },
     devTools: isNotProduction(),
     middleware: isProduction() ? middleware.concat([
@@ -27,9 +38,4 @@ export default ({ initState = {} } = {}): unknown => {
     ]),
     preloadedState: initState
   });
-
-  return {
-    ...store,
-    runSaga: sagaMiddleware.run
-  };
 };

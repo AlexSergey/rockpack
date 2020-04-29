@@ -9,14 +9,20 @@ import PrettyError from 'pretty-error';
 import { StaticRouter } from 'react-router';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
+import { Provider } from 'react-redux';
 import { serverRender } from '@rock/ussr';
+import { ToastContainer } from 'react-toastify';
+import { LoggerContainer } from '@rock/log';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
-import { LocalizationObserver } from '@rock/localazer';
+import { Localization } from './localization';
 import { googleFontsInstall } from './assets/fonts';
 import { App } from './App';
-import ru from './locales/ru.json';
+import ru from './localization/locales/ru.json';
+import createStore from './store';
+import rest from './utils/rest';
+import { hasLanguage, getDefaultLanguage, getLanguages } from './localization/utils';
 
 const app = new Koa();
 const router = new Router();
@@ -24,15 +30,41 @@ const pe = new PrettyError();
 const isProduction = process.env.NODE_ENV === 'production';
 const publicFolder = path.resolve(__dirname, '../public');
 const languages = { ru };
-
+console.log('languages', languages);
 const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
 
 app.use(serve(publicFolder));
 
+const logger = (level, message): void => {
+  console.log(`LOG: ${level} | ${message}`);
+};
+
+const hasLanguageInUrl = (url): boolean => {
+  const l = url.split('/')[1];
+  return hasLanguage(typeof l === 'string' ? l : '');
+};
+const getLanguageFromUrl = (url): string => url.split('/')[1];
+
 router.get('/*', async (ctx) => {
-  console.log(languages.ru);
+  const { url } = ctx.request;
+
+  const lang = hasLanguageInUrl(url) ?
+    getLanguageFromUrl(url) :
+    ctx.acceptsLanguages(getLanguages());
+
+  const store = createStore({
+    initState: {
+      localization: {
+        currentLanguage: typeof lang === 'string' && hasLanguage(lang) ?
+          lang :
+          getDefaultLanguage()
+      }
+    },
+    rest
+  });
+
   const routerParams = {
     location: ctx.request.url,
     context: {}
@@ -53,15 +85,22 @@ router.get('/*', async (ctx) => {
 
   const { html, state } = await serverRender(() => (
     extractor.collectChunks(
-      <StyleContext.Provider value={{ insertCss }}>
-        <MetaTagsContext extract={metaTagsInstance.extract}>
-          <StaticRouter {...routerParams}>
-            <LocalizationObserver languages={languages} active="ru">
-              <App />
-            </LocalizationObserver>
-          </StaticRouter>
-        </MetaTagsContext>
-      </StyleContext.Provider>
+      <LoggerContainer stdout={logger}>
+        <>
+          <Provider store={store}>
+            <StyleContext.Provider value={{ insertCss }}>
+              <MetaTagsContext extract={metaTagsInstance.extract}>
+                <StaticRouter {...routerParams}>
+                  <Localization>
+                    {(props): JSX.Element => <App {...props} />}
+                  </Localization>
+                </StaticRouter>
+              </MetaTagsContext>
+            </StyleContext.Provider>
+          </Provider>
+          <ToastContainer />
+        </>
+      </LoggerContainer>
     )
   ));
 
@@ -78,6 +117,8 @@ router.get('/*', async (ctx) => {
     '<link rel="stylesheet" type="text/css" href="/css/styles.css" />'
   ].join('');
 
+  const reduxState = store.getState();
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -89,6 +130,7 @@ router.get('/*', async (ctx) => {
 <body>
     <div id="root">${html}</div>
     <script>
+      window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
       window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
     ${scriptTags}

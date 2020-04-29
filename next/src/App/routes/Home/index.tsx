@@ -17,7 +17,7 @@ const Home = (): JSX.Element => {
 
   useWillMount(() => effect()
     .then(data => setState(data)));
-
+  console.log('fire');
   return (
     <>
       <MetaTags>

@@ -26,7 +26,8 @@ isomorphicCompiler([
       src: 'src/client.tsx',
       dist: 'public',
       copy: [
-        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
+        { from: path.resolve(__dirname, './src/localization/locales'), to: './locales' }
       ]
     },
     callback: config => {

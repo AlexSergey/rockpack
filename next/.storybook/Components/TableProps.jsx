@@ -1,32 +1,32 @@
 import React from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
-import './styles.scss';
+import styles from './styles.modules.scss';
 
 export const TableComponent = ({ propDefinitions }) => (
-  <Table className="storybook-responsiveTable">
-    <Thead>
-      <Tr>
-        <Th>Property:</Th>
-        <Th>Type:</Th>
-        <Th>Default:</Th>
-        <Th>Description:</Th>
-      </Tr>
-    </Thead>
-    <Tbody>{
-      propDefinitions.map(
-        ({ property, propType, required, description, defaultValue }) => (
-          <Tr key={property}>
-            <Td>
-              <span className="props-name">{property}</span>
-              {required ? <span style={{ color: 'red' }}>*</span> : null}
-            </Td>
-            <Td>{propType.name}</Td>
-            <Td><span style={{fontStyle: 'italic'}}>{typeof defaultValue !== 'undefined' && defaultValue.toString()}</span></Td>
-            <Td>{description}</Td>
-          </Tr>
-        )
-      )
-    }</Tbody>
-  </Table>
+  <div className={styles['table-wrap']}>
+    <table>
+      <thead>
+      <tr>
+        <th>Property:</th>
+        <th>Type:</th>
+        <th>Default:</th>
+        <th>Description:</th>
+      </tr>
+      </thead>
+      <tbody>
+      {propDefinitions.map(({ property, propType, required, description, defaultValue }) => (
+        <tr key={property}>
+          <td data-label="Property:">
+            <span className="props-name">{property}</span>
+            {required ? <span style={{ color: 'red' }}>*</span> : null}
+          </td>
+          <td data-label="Type:">{propType.name}</td>
+          <td data-label="Default:">
+            <span style={{ fontStyle: 'italic' }}>{typeof defaultValue !== 'undefined' && defaultValue.toString()}</span>
+          </td>
+          <td data-label="Description:">{description}</td>
+        </tr>
+      ))}
+      </tbody>
+    </table>
+  </div>
 );

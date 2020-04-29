@@ -32,11 +32,11 @@ export const useLoggerApi = (): LoggerApiInterface => {
 };
 
 interface LoggerContainerProps {
-  active: boolean;
-  bsodActive: boolean;
-  sessionID: boolean | string | number;
-  bsod: ComponentType<BSODInterface>;
-  limit: number;
+  active?: boolean;
+  bsodActive?: boolean;
+  sessionID?: boolean | string | number;
+  bsod?: ComponentType<BSODInterface>;
+  limit?: number;
   getCurrentDate?: () => string;
   onError?: (stack: Stack) => void;
   onPrepareStack?: (stack: Stack) => Stack;
@@ -98,16 +98,12 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
     if (isString(this.props.sessionID) || isNumber(this.props.sessionID)) {
       this.stack.sessionId = this.props.sessionID;
     }
-
-    document.addEventListener('mousedown', this._onMouseDown);
-    document.addEventListener('mouseup', this._onMouseUp);
-    document.addEventListener('keydown', this._onKeyDown);
-    document.addEventListener('keyup', this._onKeyUp);
   }
 
   componentDidMount(): void {
     if (this.props.active) {
       if (!isBackend()) {
+        this.bindActions();
         window.onerror = this.handlerError;
       }
     }
@@ -173,6 +169,13 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
       bsod: false
     });
   };
+
+  bindActions(): void {
+    document.addEventListener('mousedown', this._onMouseDown);
+    document.addEventListener('mouseup', this._onMouseUp);
+    document.addEventListener('keydown', this._onKeyDown);
+    document.addEventListener('keyup', this._onKeyUp);
+  }
 
   unbindActions(): void {
     window.onerror = null;
