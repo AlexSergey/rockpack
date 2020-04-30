@@ -7,7 +7,11 @@
     "esModuleInterop": true,
     "downlevelIteration": true,
     "resolveJsonModule": true,
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom",
+      "ES2015.Iterable"
+    ],
     "typeRoots": [
       "./typings"
     ]

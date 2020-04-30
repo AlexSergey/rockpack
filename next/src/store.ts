@@ -1,21 +1,32 @@
 import { AxiosInstance } from 'axios';
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
+import { Logger } from '@rock/log';
+import { promiseMiddleware } from '@adobe/redux-saga-promise';
 import { isNotProduction, isProduction } from './utils/mode';
 import localization, { LocalizationState } from './localization/reducer';
 
+import watchFetchLocale from './localization/saga';
+
+const reduxLogger = createLogger({
+  collapsed: true
+});
+
 const middleware = getDefaultMiddleware({
   immutableCheck: true,
-  serializableCheck: true,
+  serializableCheck: false,
   thunk: false,
 });
+
+middleware.push(promiseMiddleware);
 
 interface StoreProps {
   initState: {
     [key: string]: unknown;
   };
   rest: AxiosInstance;
+  logger: Logger;
 }
 
 export interface RootState {
@@ -23,9 +34,9 @@ export interface RootState {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default ({ initState = {}, rest }: StoreProps): Store<RootState> => {
+export default ({ initState = {}, rest, logger }: StoreProps): Store<RootState> => {
   const sagaMiddleware = createSagaMiddleware();
-  return configureStore({
+  const store = configureStore({
     reducer: {
       localization
     },
@@ -33,9 +44,13 @@ export default ({ initState = {}, rest }: StoreProps): Store<RootState> => {
     middleware: isProduction() ? middleware.concat([
       sagaMiddleware
     ]) : middleware.concat([
-      logger,
+      reduxLogger,
       sagaMiddleware
     ]),
     preloadedState: initState
   });
+
+  sagaMiddleware.run(watchFetchLocale, rest, logger);
+
+  return store;
 };

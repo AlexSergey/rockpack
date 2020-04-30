@@ -1,4 +1,5 @@
 import 'source-map-support/register';
+import 'regenerator-runtime/runtime.js';
 import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
@@ -6,22 +7,22 @@ import Koa from 'koa';
 import serve from 'koa-static';
 import Router from 'koa-router';
 import PrettyError from 'pretty-error';
+import { getDefaultLocale } from '@rock/localazer';
 import { StaticRouter } from 'react-router';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
 import { Provider } from 'react-redux';
 import { serverRender } from '@rock/ussr';
-import { ToastContainer } from 'react-toastify';
-import { LoggerContainer } from '@rock/log';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
-import { Localization } from './localization';
 import { googleFontsInstall } from './assets/fonts';
+import LocalizationContainer from './localization';
 import { App } from './App';
 import ru from './localization/locales/ru.json';
 import createStore from './store';
 import rest from './utils/rest';
+import { logger } from './utils/logger';
 import { hasLanguage, getDefaultLanguage, getLanguages } from './localization/utils';
 
 const app = new Koa();
@@ -30,16 +31,12 @@ const pe = new PrettyError();
 const isProduction = process.env.NODE_ENV === 'production';
 const publicFolder = path.resolve(__dirname, '../public');
 const languages = { ru };
-console.log('languages', languages);
+
 const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
 
 app.use(serve(publicFolder));
-
-const logger = (level, message): void => {
-  console.log(`LOG: ${level} | ${message}`);
-};
 
 const hasLanguageInUrl = (url): boolean => {
   const l = url.split('/')[1];
@@ -50,19 +47,25 @@ const getLanguageFromUrl = (url): string => url.split('/')[1];
 router.get('/*', async (ctx) => {
   const { url } = ctx.request;
 
-  const lang = hasLanguageInUrl(url) ?
+  const _lang = hasLanguageInUrl(url) ?
     getLanguageFromUrl(url) :
     ctx.acceptsLanguages(getLanguages());
+
+  const lang = typeof _lang === 'string' && hasLanguage(_lang) ?
+    _lang :
+    getDefaultLanguage();
 
   const store = createStore({
     initState: {
       localization: {
-        currentLanguage: typeof lang === 'string' && hasLanguage(lang) ?
-          lang :
-          getDefaultLanguage()
+        currentLanguage: lang,
+        locale: typeof languages[lang] === 'object' ?
+          languages[lang] :
+          getDefaultLocale()
       }
     },
-    rest
+    rest,
+    logger
   });
 
   const routerParams = {
@@ -85,22 +88,17 @@ router.get('/*', async (ctx) => {
 
   const { html, state } = await serverRender(() => (
     extractor.collectChunks(
-      <LoggerContainer stdout={logger}>
-        <>
-          <Provider store={store}>
-            <StyleContext.Provider value={{ insertCss }}>
-              <MetaTagsContext extract={metaTagsInstance.extract}>
-                <StaticRouter {...routerParams}>
-                  <Localization>
-                    {(props): JSX.Element => <App {...props} />}
-                  </Localization>
-                </StaticRouter>
-              </MetaTagsContext>
-            </StyleContext.Provider>
-          </Provider>
-          <ToastContainer />
-        </>
-      </LoggerContainer>
+      <Provider store={store}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <MetaTagsContext extract={metaTagsInstance.extract}>
+            <StaticRouter {...routerParams}>
+              <LocalizationContainer>
+                <App />
+              </LocalizationContainer>
+            </StaticRouter>
+          </MetaTagsContext>
+        </StyleContext.Provider>
+      </Provider>
     )
   ));
 

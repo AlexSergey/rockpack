@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import { isFunction, isString } from 'valid-types';
-import LocalizationObserver from './LocalizationObserver';
+import { LocalizationObserverContext } from './LocalizationObserver';
+import { I18N } from './jed';
 
 interface LocalizationInterface {
   className?: string;
-  children: () => string;
+  children: (i18n: I18N) => string;
 }
 
 class Localization extends Component<LocalizationInterface> {
-  private id = ++LocalizationObserver.uid;
+  static contextType = LocalizationObserverContext;
 
-  constructor(props) {
-    super(props);
-    LocalizationObserver.components[this.id] = this;
+  private id: number;
+
+  componentDidMount(): void {
+    this.id = this.context.attachComponent(this);
   }
 
   componentWillUnmount(): void {
-    delete LocalizationObserver.components[this.id];
+    this.context.detachComponent(this.id);
   }
 
   render(): JSX.Element {
     return isFunction(this.props.children) ? (
       <span
         className={`localization-node ${isString(this.props.className) ? this.props.className : ''}`}
-        dangerouslySetInnerHTML={{ __html: this.props.children() }}
+        dangerouslySetInnerHTML={{ __html: this.props.children(this.context.getI18n()) }}
       />
     ) : null;
   }

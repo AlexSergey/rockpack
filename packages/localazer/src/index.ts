@@ -1,19 +1,20 @@
-import LocalizationObserver, { LanguagesInterface } from './LocalizationObserver';
+import LocalizationObserver, { LanguagesInterface, useI18n, LocalizationObserverContext } from './LocalizationObserver';
 import Localization from './Localization';
-import { l, nl, sprintf } from './jed';
+import { l, nl, sprintf, I18N } from './jed';
 import { detectBrowserLanguage, LocaleData, getDefault as getDefaultLocale } from './utils';
-import jed from './i18n';
 
 export {
   LocalizationObserver,
+  LocalizationObserverContext,
   l,
   nl,
   sprintf,
-  jed,
   detectBrowserLanguage,
   LocaleData,
   LanguagesInterface,
-  getDefaultLocale
+  getDefaultLocale,
+  useI18n,
+  I18N
 };
 
 export default Localization;

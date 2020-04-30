@@ -1,8 +1,18 @@
-import { Component } from 'react';
+import React, { Component, createContext, useContext } from 'react';
+import Jed from 'jed';
 import { isFunction, isDefined, isObject, isString } from 'valid-types';
 import { getDefault, LocaleData } from './utils';
-import { active, defaultLang, languages } from './constants';
-import i18n from './i18n';
+import { I18N } from './jed';
+
+export interface LocalizationObserverContextInterface {
+  attachComponent: (component: Component) => void;
+  detachComponent: (id: number) => void;
+  getI18n: () => I18N;
+}
+
+export const LocalizationObserverContext = createContext<LocalizationObserverContextInterface>(null);
+
+export const useI18n = (): I18N => useContext(LocalizationObserverContext).getI18n();
 
 export interface LanguagesInterface {
   [key: string]: LocaleData;
@@ -18,23 +28,23 @@ interface LocalizationObserverInterface {
 }
 
 export default class LocalizationObserver extends Component<LocalizationObserverInterface> {
-  static components = {};
+  private components = {};
 
-  static uid = 0;
+  private uid = 0;
+
+  private readonly i18n: I18N;
 
   static defaultProps = {
-    active,
-    defaultLang,
-    languages,
+    active: 'en',
+    defaultLang: 'en',
+    languages: {},
     defaultLocaleData: null
   };
 
   constructor(props) {
     super(props);
-
-    if (this.props.active !== this.props.defaultLang) {
-      this.changeLocalization(this.props.active);
-    }
+    this.i18n = new Jed({ domain: 'messages' });
+    this.changeLocalization(this.props.active);
   }
 
   componentDidUpdate(prevProps): void {
@@ -42,6 +52,20 @@ export default class LocalizationObserver extends Component<LocalizationObserver
       this.changeLocalization(this.props.active);
     }
   }
+
+  attachComponent = (component: Component): number => {
+    const id = this.getID();
+    this.components[id] = component;
+    return id;
+  };
+
+  detachComponent = (id: number): void => {
+    delete this.components[id];
+  };
+
+  getID = (): number => this.uid++;
+
+  getI18n = (): I18N => this.i18n;
 
   changeLocalization(locale: string): void {
     locale = this.props.languages[locale] ? locale : this.props.defaultLang;
@@ -57,18 +81,27 @@ export default class LocalizationObserver extends Component<LocalizationObserver
         this.props.onChange(locale);
       }
 
-      i18n.options = localeData;
+      this.i18n.options = localeData;
 
-      Object.keys(LocalizationObserver.components)
+      Object.keys(this.components)
         .forEach(uid => {
-          if (isDefined(LocalizationObserver.components[uid])) {
-            LocalizationObserver.components[uid].forceUpdate();
+          if (isDefined(this.components[uid])) {
+            this.components[uid].forceUpdate();
           }
         });
     }
   }
 
   render(): JSX.Element {
-    return this.props.children ? this.props.children : null;
+    return (
+      <LocalizationObserverContext.Provider value={{
+        attachComponent: this.attachComponent,
+        detachComponent: this.detachComponent,
+        getI18n: this.getI18n
+      }}
+      >
+        {this.props.children ? this.props.children : null}
+      </LocalizationObserverContext.Provider>
+    );
   }
 }

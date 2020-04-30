@@ -14,29 +14,31 @@ import Features from './sections/Features';
 import License from './sections/License';
 
 render(
-    <>
-        <div className="jumbotron">
-            <div className="container text-center">
-                <Title />
-                <Description />
-                <p><a className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/logrock" role="button" target="_blank">Github</a></p>
-            </div>
-        </div>
-        <div id="wrapper">
-            <WhatIsIt />
-            <hr/>
-            <Approach />
-            <hr/>
-            <Usage />
-            <hr/>
-            <Props />
-            <hr/>
-            <Examples />
-            <hr/>
-            <BrowserCompatibility />
-            <hr/>
-            <License />
-        </div>
-    </>,
-    document.getElementById('root')
+  <>
+    <div className="jumbotron">
+      <div className="container text-center">
+        <Title />
+        <Description />
+        <p>
+          <a className="btn btn-primary btn-lg" href="https://github.com/AlexSergey/logrock" role="button" target="_blank">Github</a>
+        </p>
+      </div>
+    </div>
+    <div id="wrapper">
+      <WhatIsIt />
+      <hr />
+      <Approach />
+      <hr />
+      <Usage />
+      <hr />
+      <Props />
+      <hr />
+      <Examples />
+      <hr />
+      <BrowserCompatibility />
+      <hr />
+      <License />
+    </div>
+  </>,
+  document.getElementById('root')
 );

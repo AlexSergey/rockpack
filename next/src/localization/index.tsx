@@ -1,25 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-// import { fetchLocale } from './action';
-import { LocalizationObserver } from '@rock/localazer';
-import { LocalizationState } from './reducer';
-import { RootState } from '../store';
+import { LocalizationContainer } from './Container';
 import { getLanguages } from './utils';
 
-interface LocalizationShared {
-  currentLanguage: string;
-  languages: string[];
-}
+export * from './hooks';
 
-export const Localization = ({ children }: { children: (props: LocalizationShared) => JSX.Element }): JSX.Element => {
-  const { currentLanguage } = useSelector<RootState, LocalizationState>((state) => state.localization);
+export { getLanguages };
 
-  return (
-    <LocalizationObserver>
-      {children({
-        currentLanguage,
-        languages: getLanguages()
-      })}
-    </LocalizationObserver>
-  );
-};
+export default LocalizationContainer;

@@ -7,17 +7,20 @@ import Localization, { l } from '@rock/localazer';
 import { effect } from './effect';
 import styles from './styles.modules.scss';
 
+import { useLocalizationAPI } from '../../../localization';
+
 interface StateInterface {
   text: string;
 }
 
 const Home = (): JSX.Element => {
+  const { changeLanguage } = useLocalizationAPI();
   useStyles(styles);
   const [state, setState] = useUssrState<StateInterface>('appState.text', { text: 'i am test ' });
 
   useWillMount(() => effect()
     .then(data => setState(data)));
-  console.log('fire');
+
   return (
     <>
       <MetaTags>
@@ -30,6 +33,7 @@ const Home = (): JSX.Element => {
         <h3>{state.text}</h3>
         <h4>{state.text}</h4>
         <p><Localization>{l('Hello')}</Localization></p>
+        <button type="button" onClick={(): void => changeLanguage('ru')}>Change</button>
         <Link to="/secondary">secondary</Link>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, distinctio soluta? Beatae corporis dicta
           ea, ex impedit in inventore laboriosam magnam minima nihil nostrum nulla reprehenderit rerum sint totam

@@ -1,11 +1,3 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createPromiseAction } from '@adobe/redux-saga-promise';
 
-export const changeLanguage = createAction('');
-
-export const fetchLocale = createAction('');
-
-export const requestLocale = createAction('');
-
-export const requestLocaleSuccess = createAction('');
-
-export const requestLocaleError = createAction('');
+export const fetchLocale = createPromiseAction('Fetch locale from the server');

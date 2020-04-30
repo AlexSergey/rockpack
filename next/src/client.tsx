@@ -1,17 +1,17 @@
-import React, { ReactText } from 'react';
+import 'regenerator-runtime/runtime.js';
+import React from 'react';
 import { hydrate } from 'react-dom';
 import createUssr from '@rock/ussr';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { LoggerContainer } from '@rock/log';
 import { Provider } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import { Localization } from './localization';
+import LocalizationContainer from './localization';
 import { App } from './App';
 import { isProduction } from './utils/mode';
 import createStore from './store';
 import rest from './utils/rest';
+import { logger } from './utils/logger';
 
 // Styles
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,6 +31,7 @@ const [, Ussr] = createUssr(window.USSR_DATA);
 
 const store = createStore({
   rest,
+  logger,
   initState: window.REDUX_DATA
 });
 
@@ -41,24 +42,17 @@ const insertCss = (...styles): () => void => {
   return (): void => removeCss.forEach(dispose => dispose());
 };
 
-const notify = (): ReactText => toast('Wow so easy !');
-
 hydrate(
-  <LoggerContainer stdout={notify}>
-    <>
-      <Ussr>
-        <Provider store={store}>
-          <StyleContext.Provider value={{ insertCss }}>
-            <Router history={createBrowserHistory()}>
-              <Localization>
-                {(props): JSX.Element => <App {...props} />}
-              </Localization>
-            </Router>
-          </StyleContext.Provider>
-        </Provider>
-      </Ussr>
-      <ToastContainer />
-    </>
-  </LoggerContainer>,
+  <Ussr>
+    <Provider store={store}>
+      <StyleContext.Provider value={{ insertCss }}>
+        <Router history={createBrowserHistory()}>
+          <LocalizationContainer>
+            <App />
+          </LocalizationContainer>
+        </Router>
+      </StyleContext.Provider>
+    </Provider>
+  </Ussr>,
   document.getElementById('root')
 );

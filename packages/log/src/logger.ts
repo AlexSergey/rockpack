@@ -1,5 +1,6 @@
 import { isFunction } from 'valid-types';
-import { StackData } from './types';
+import LimitedArray from 'limited-array';
+import { StackData, Action, LoggerInterface } from './types';
 
 /**
  * Types:
@@ -17,12 +18,14 @@ class Logger {
 
   private ignoreLogging = false;
 
-  private stackCollection;
+  private stackCollection: LimitedArray<Action>;
 
   private _count = 0;
 
-  constructor(props) {
-    this.stackCollection = props.stackCollection;
+  constructor(props?) {
+    if (props && typeof props.stackCollection === 'object' && typeof props.stackCollection.add === 'function') {
+      this.stackCollection = props.stackCollection;
+    }
   }
 
   log(message: string, important = false): void {
@@ -48,12 +51,16 @@ class Logger {
   setUp(props: {
     active?: boolean;
     stdout?: (level: string, message: string, important?: boolean) => void;
+    stackCollection?: LimitedArray<Action>;
   }): void {
     if (typeof props.active === 'boolean') {
       this.active = Boolean(props.active);
     }
     if (typeof props.stdout === 'function') {
       this.stdout = props.stdout;
+    }
+    if (typeof props.stackCollection === 'object' && typeof props.stackCollection.add === 'function') {
+      this.stackCollection = props.stackCollection;
     }
   }
 
@@ -84,5 +91,7 @@ class Logger {
 
   getCounter = (): number => this._count;
 }
+
+export const createLogger = (): LoggerInterface => new Logger();
 
 export { Logger };

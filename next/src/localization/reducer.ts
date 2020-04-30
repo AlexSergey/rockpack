@@ -1,7 +1,7 @@
 import produce, { Draft } from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 import { LocaleData, getDefaultLocale } from '@rock/localazer';
-import { changeLanguage, requestLocale, requestLocaleSuccess, requestLocaleError } from './action';
+import { fetchLocale } from './action';
 import { getDefaultLanguage } from './utils';
 
 export interface LocalizationState {
@@ -17,25 +17,20 @@ export default createReducer<LocalizationState>({
   locale: getDefaultLocale(),
   currentLanguage: getDefaultLanguage()
 }, {
-  [changeLanguage.type]: (state, { payload }) => (
-    produce<Draft<LocalizationState>>(state, draftState => {
-      draftState.currentLanguage = payload;
-    })
-  ),
-
-  [requestLocale.type]: (state) => (
+  [fetchLocale.trigger]: (state) => (
     produce<Draft<LocalizationState>>(state, draftState => {
       draftState.loading = true;
     })
   ),
 
-  [requestLocaleSuccess.type]: (state, { payload }) => (
+  [fetchLocale.resolved]: (state, { payload: { locale, language } }) => (
     produce<Draft<LocalizationState>>(state, draftState => {
-      draftState.locale = payload;
+      draftState.locale = locale;
+      draftState.currentLanguage = language;
     })
   ),
 
-  [requestLocaleError.type]: (state) => (
+  [fetchLocale.rejected]: (state) => (
     produce<Draft<LocalizationState>>(state, draftState => {
       draftState.loading = false;
       draftState.error = true;

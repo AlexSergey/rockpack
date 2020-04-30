@@ -1,6 +1,9 @@
+import LimitedArray from 'limited-array';
+
 export interface LoggerProps {
   active?: boolean;
   stdout?: Function|undefined;
+  stackCollection?: LimitedArray<Action>;
 }
 
 export interface LoggerInterface {

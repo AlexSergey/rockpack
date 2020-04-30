@@ -1,19 +1,40 @@
-/*import { call, put, takeEvery } from 'redux-saga/effects';
-import { fetchDog, requestDog, requestDogError, requestDogSuccess } from './action';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
+import { Logger } from '@rock/log';
+import { call, takeEvery } from 'redux-saga/effects';
+import { LocaleData } from '@rock/localazer';
+import { implementPromiseAction } from '@adobe/redux-saga-promise';
+import { fetchLocale } from './action';
+import { getDefaultLanguage } from './utils';
 
-function* watchFetchDog(rest) {
-  yield takeEvery(fetchDog, fetchDogAsync, rest);
+interface Locale {
+  data: LocaleData;
 }
 
-function* fetchDogAsync(rest, { payload: resolver }) {
-  try {
-    yield put(requestDog());
-    const { data } = yield call(() => rest.get('https://dog.ceo/api/breeds/image/random'));
-    yield put(requestDogSuccess({ url: data.message }));
-  } catch (error) {
-    yield put(requestDogError());
-  }
-  resolver();
+function* handleFetchLocale(
+  rest: AxiosInstance,
+  logger: Logger,
+  action: PayloadAction<string>
+): IterableIterator<unknown> {
+  yield call(implementPromiseAction, action, function* fetchLocaleSaga(): IterableIterator<unknown> {
+    const language = action.payload;
+    if (getDefaultLanguage() === language) {
+      return;
+    }
+    try {
+      const { data }: Locale = yield call(() => rest.get(`/locales/${language}.json`));
+      return ({
+        locale: data, language
+      });
+    } catch (error) {
+      logger.error('This is error', true);
+      throw error;
+    }
+  });
 }
 
-export default watchFetchDog;*/
+function* watchFetchLocale(rest, logger): IterableIterator<unknown> {
+  yield takeEvery(fetchLocale, handleFetchLocale, rest, logger);
+}
+
+export default watchFetchLocale;

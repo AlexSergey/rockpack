@@ -48,7 +48,9 @@
     "axios": "0.19.2",
     "immer": "6.0.3",
     "@types/react-redux": "7.1.7",
-    "react-flatten-children": "1.0.0"
+    "react-flatten-children": "1.0.0",
+    "@adobe/redux-saga-promise": "1.1.0",
+    "regenerator-runtime": "0.13.5"
   },
   "devDependencies": {
     "@rock/codestyle": "0.9.0",
