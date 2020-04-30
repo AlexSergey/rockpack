@@ -7,7 +7,13 @@ import { getCurrentDate } from './utils';
 import { createLogger } from './logger';
 import { Stack, Action, LoggerInterface } from './types';
 
-export const LoggerContext = createContext(null);
+interface LoggerContextInterface {
+  getStackData: () => Stack;
+  onError: (stack: Stack) => void;
+  getLogger: () => LoggerInterface;
+}
+
+export const LoggerContext = createContext<LoggerContextInterface>(null);
 
 export const useLogger = (): LoggerInterface => useContext(LoggerContext).getLogger();
 
