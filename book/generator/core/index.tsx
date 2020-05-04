@@ -22,32 +22,32 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
     return false;
   }
   const isValid = validation(props);
-  
+
   if (!isValid) {
     // eslint-disable-next-line no-console
     console.error('props is invalid');
     return false;
   }
-  
+
   const hasRoutes = Array.isArray(props.docgen);
-  
+
   if (hasRoutes) {
     mergeUrls(props.docgen);
   }
   const allOpened = hasRoutes ? openIdGenerate(props.docgen, []) : [];
-  
+
   let openIds = [];
   openIds = allOpened;
   let found = false;
-  
+
   if (isString(props.ga)) {
     GoogleAnalytics.initialize(props.ga);
   }
-  
+
   if (Array.isArray(props.docgen)) {
     props.docgen.forEach(section => {
       const pathToRoute = findPathToActiveRoute(document.location.pathname, section, []);
-      
+
       if (pathToRoute.length > 0) {
         if (!found) {
           openIds = pathToRoute;
@@ -55,7 +55,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
         }
         setTimeout(() => {
           const activeElement = document.getElementById(pathToRoute[pathToRoute.length - 1]);
-          
+
           if (activeElement) {
             activeElement.scrollIntoView();
           }
@@ -63,24 +63,24 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
       }
     });
   }
-  
+
   const languages = isObject(props.localization) ? Object.keys(props.localization) : false;
-  
+
   const handleOpen = (setOpenIds) => {
     setTimeout(() => {
       let found = false;
-      
+
       if (Array.isArray(props.docgen)) {
         props.docgen.forEach(section => {
           const pathToRoute = findPathToActiveRoute(document.location.pathname, section, []);
-    
+
           if (pathToRoute.length > 0) {
             if (!found) {
               setOpenIds(pathToRoute);
-        
+
               setTimeout(() => {
                 const activeElement = document.getElementById(pathToRoute[pathToRoute.length - 1]);
-          
+
                 if (activeElement) {
                   activeElement.scrollIntoView();
                 }
@@ -92,7 +92,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
       }
     });
   };
-  
+
   render((
     <Router history={history}>
       <LangWrapper {...props}>
@@ -107,7 +107,8 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
                 changeLocal,
                 languages,
                 toggleOpenId: () => {
-                  handleOpen(setOpenIds);
+                  console.log(setOpenIds);
+                  handleOpen(openIds);
                 }
               })}
               />

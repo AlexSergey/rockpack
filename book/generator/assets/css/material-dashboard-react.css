@@ -17,8 +17,11 @@
   box-sizing: border-box;
 }
 .MuiTreeView-root {
-  padding: 20px;
   line-height: 2.5;
+}
+.MuiTreeItem-group {
+  margin: 0 0 10px 35px !important;
+  font-size: 14px;
 }
 .MuiTreeItem-content {
   cursor: default !important;
@@ -34,6 +37,7 @@
 }
 .tree-hash-item {
   display: block;
+  margin: 0 0 20px;
 }
 .tree-hash-item:last-child {
   margin: 0 0 10px;

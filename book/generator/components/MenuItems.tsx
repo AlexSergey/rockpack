@@ -22,7 +22,7 @@ const useStylesTreeView = makeStyles({
   root: {
     height: 216,
     flexGrow: 1,
-    maxWidth: 400,
+    maxWidth: 400
   },
 });
 
@@ -36,38 +36,38 @@ const setActive = (currentUrl, pth, activeLang) => (
 
 const MenuItems = withRouter((props: MenuItemsInterface) => {
   const classesTreeView = useStylesTreeView();
-  
+
   const goTo = (url, name) => {
     if (url) {
       props.history.push(typeof props.activeLang === 'string' ?
         `/${props.activeLang}${url}` :
         url);
     }
-    
+
     setTimeout(() => {
       if (document && name) {
         document.location.hash = name;
       }
     });
-    
+
     if (typeof props.handleDrawerToggle === 'function') {
       props.handleDrawerToggle();
     }
   };
-  
+
   const TreeRender = data => {
     if (!data) {
       return null;
     }
-    
+
     if (Array.isArray(data)) {
       return data.map(s => TreeRender(s));
     }
-    
+
     if (!data.title) {
       return null;
     }
-    
+
     const W = data.url ? (Inner: JSX.Element, url) => (
       <span
         {...data.nodeId ? { id: data.nodeId } : {}}
@@ -95,7 +95,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
         {Inner}
       </span>
     );
-    
+
     return (
       data.children ? W((
         <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title}>{
@@ -125,7 +125,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       )
     );
   };
-  
+
   return (
     <TreeView
       expanded={props.openIds}

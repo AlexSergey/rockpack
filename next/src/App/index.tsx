@@ -18,29 +18,29 @@ const Books = loadable(() => import('./routes/Books'));
 /*
 const Posts = loadable(() => import('./routes/Posts'));*/
 
+const notify = (level, text, isImportant): void => {
+  if (isImportant) {
+    switch (level) {
+      case 'log':
+        toast.success(text);
+        break;
+      case 'info':
+        toast.info(text);
+        break;
+      case 'warn':
+        toast.warn(text);
+        break;
+      case 'error':
+        toast.error(text);
+        break;
+    }
+  }
+};
+
 export const App = (): JSX.Element => {
   const i18n = useI18n();
   const languages = getLanguages();
   const currentLanguage = useCurrentLanguage();
-
-  const notify = (level, text, isImportant): void => {
-    if (isImportant) {
-      switch (level) {
-        case 'log':
-          toast.success(text);
-          break;
-        case 'info':
-          toast.info(text);
-          break;
-        case 'warn':
-          toast.warn(text);
-          break;
-        case 'error':
-          toast.error(text);
-          break;
-      }
-    }
-  };
 
   setTimeout(() => {
     logger.log(l('Hello super test')(i18n), true);
