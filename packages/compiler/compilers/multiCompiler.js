@@ -32,15 +32,18 @@ async function multiCompiler(props = []) {
   for (let i = 0, l = props.length; i < l; i++) {
     const { config } = props[i];
 
-    if (config && config.server && isNumber(config.server.browserSyncPort)) {
-      if (!ports[config.id].browserSyncPort) {
-        let port = await fpPromise(config.server.browserSyncPort);
-        if (browserSyncPort.indexOf(port) >= 0) {
-          port = await fpPromise(config.server.browserSyncPort + getRandom(100));
-        }
-        browserSyncPort.push(port);
-        ports[config.id].browserSyncPort = port;
+    if (config &&
+      config.server &&
+      isNumber(config.server.browserSyncPort) &&
+      !ports[config.id].browserSyncPort) {
+      let port = await fpPromise(config.server.browserSyncPort);
+
+      if (browserSyncPort.indexOf(port) >= 0) {
+        port = await fpPromise(config.server.browserSyncPort + getRandom(100));
       }
+
+      browserSyncPort.push(port);
+      ports[config.id].browserSyncPort = port;
     }
 
     if (!ports[config.id].liveReload) {
@@ -88,16 +91,9 @@ async function multiCompiler(props = []) {
     argumentsCollection[props.config.id] = [];
 
     switch (props.compilerName) {
-      case 'frontendCompiler':
-        argumentsCollection[props.config.id].push(props.config);
-        if (isFunction(props.callback)) {
-          argumentsCollection[props.config.id].push(props.callback);
-        } else {
-          argumentsCollection[props.config.id].push(null);
-        }
-        argumentsCollection[props.config.id].push(true);
-        break;
       case 'analyzerCompiler':
+      case 'frontendCompiler':
+      case 'backendCompiler':
         argumentsCollection[props.config.id].push(props.config);
         if (isFunction(props.callback)) {
           argumentsCollection[props.config.id].push(props.callback);
@@ -122,15 +118,6 @@ async function multiCompiler(props = []) {
         if (isString(props.paths)) {
           argumentsCollection[props.config.id].push(props.paths);
         }
-        argumentsCollection[props.config.id].push(props.config);
-        if (isFunction(props.callback)) {
-          argumentsCollection[props.config.id].push(props.callback);
-        } else {
-          argumentsCollection[props.config.id].push(null);
-        }
-        argumentsCollection[props.config.id].push(true);
-        break;
-      case 'backendCompiler':
         argumentsCollection[props.config.id].push(props.config);
         if (isFunction(props.callback)) {
           argumentsCollection[props.config.id].push(props.callback);

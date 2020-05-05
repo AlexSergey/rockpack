@@ -110,11 +110,12 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
   }
 
   componentDidMount(): void {
-    if (this.props.active) {
-      if (!isBackend()) {
-        this.bindActions();
-        window.onerror = this.handlerError;
-      }
+    if (
+      this.props.active &&
+      !isBackend()
+    ) {
+      this.bindActions();
+      window.onerror = this.handlerError;
     }
   }
 

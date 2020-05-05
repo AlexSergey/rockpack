@@ -18,17 +18,19 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   const hookIsNotReady = hook.current === false;
   const setImmediately = isClient && loaded && hookIsNotReady;
 
-  if (setImmediately && has(initState, key) && process.env.NODE_ENV !== 'production') {
-    if (typeof get(initState, key) !== 'undefined') {
-      /* eslint-disable no-console */
-      console.warn(`Key should be unique! The key "${key}" is already exist in InitialState`);
-    }
+  if (
+    setImmediately &&
+    has(initState, key) &&
+    process.env.NODE_ENV !== 'production' &&
+    typeof get(initState, key) !== 'undefined'
+  ) {
+    console.warn(`Key should be unique! The key "${key}" is already exist in InitialState`);
   }
 
-  const appStateFragment: T = useMemo<T>(() => {
-    const res: T = get(initState, key, defaultValue);
-    return res;
-  }, [initState, key, defaultValue]);
+  const appStateFragment: T = useMemo<T>(
+    () => get(initState, key, defaultValue),
+    [initState, key, defaultValue]
+  );
   const [state, setState] = useState<T>(appStateFragment);
 
   useEffect(() => (): void => {

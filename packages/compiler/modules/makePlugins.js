@@ -115,19 +115,20 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       entryOnly: true
     });
   }
-  if (mode === 'development') {
-    if (conf.nodejs) {
-      const opts = {
-        watch: path.resolve(root, conf.dist),
-        verbose: true,
-        ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
-        script: './dist/index.js'
-      };
-      if (isString(conf.nodemon)) {
-        opts.script = conf.nodemon;
-      }
-      plugins.NodemonPlugin = new NodemonPlugin(opts);
+  if (
+    mode === 'development' &&
+    conf.nodejs
+  ) {
+    const opts = {
+      watch: path.resolve(root, conf.dist),
+      verbose: true,
+      ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
+      script: './dist/index.js'
+    };
+    if (isString(conf.nodemon)) {
+      opts.script = conf.nodemon;
     }
+    plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
 
   if (conf._liveReload && mode === 'development') {
@@ -210,10 +211,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       plugins[q] = new HtmlWebpackPlugin(page);
     });
 
-    if (mode === 'development') {
-      if (!isNumber(conf.server.browserSyncPort)) {
-        plugins.ReloadHtmlWebpackPlugin = new ReloadHtmlWebpackPlugin();
-      }
+    if (
+      mode === 'development' &&
+      !isNumber(conf.server.browserSyncPort)
+    ) {
+      plugins.ReloadHtmlWebpackPlugin = new ReloadHtmlWebpackPlugin();
     }
   }
 
@@ -419,15 +421,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   return plugins;
 };
 
-const _makePlugins = (plugins) => new Collection({
-  data: plugins,
-  props: {}
-});
-
 const makePlugins = async (conf, root, packageJson, mode, webpack, version) => {
-  const modules = await getPlugins(conf, mode, root, packageJson, webpack, version);
+  const plugins = await getPlugins(conf, mode, root, packageJson, webpack, version);
 
-  return _makePlugins(modules, conf);
+  return new Collection({
+    data: plugins,
+    props: {}
+  });
 };
 
 module.exports = makePlugins;

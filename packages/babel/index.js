@@ -16,10 +16,11 @@ const createBabelPresets = ({
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
 
-  if (packageJson && isObject(packageJson.dependencies)) {
-    if (isString(packageJson.dependencies['core-js'])) {
-      corejs = packageJson.dependencies['core-js'];
-    }
+  if (packageJson &&
+    isObject(packageJson.dependencies) &&
+    isString(packageJson.dependencies['core-js'])
+  ) {
+    corejs = packageJson.dependencies['core-js'];
   }
 
   const opts = {

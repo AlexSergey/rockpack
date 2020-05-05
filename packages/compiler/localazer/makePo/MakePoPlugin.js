@@ -15,34 +15,32 @@ const findValue = (ast, arg) => {
 
   traverse.default(ast, {
     VariableDeclarator: path => {
-      if (!excludeOther.state) {
-        if (path.node.id.name === arg.value.name) {
-          if (path.node.init) {
-            if (path.scope && path.scope.bindings && path.scope.bindings[arg.value.name]) {
-              if (Array.isArray(path.scope.bindings[arg.value.name].referencePaths)) {
-                path.scope.bindings[arg.value.name].referencePaths.forEach(ref => {
-                  if (ref.node.start === arg.value.start && ref.node.end === arg.value.end) {
-                    if (typeof path.node.init.value === 'string') {
-                      excludeOther.state = true;
-                      excludeOther.value = path.node.init.value;
-                    } else if (path.node.init && path.node.init.type === 'Identifier') {
-                      excludeOther.value = findValue(ast, {
-                        value: {
-                          start: path.node.init.start,
-                          end: path.node.init.end,
-                          name: path.node.init.name
-                        }
-                      });
-                      excludeOther.state = true;
-                    } else {
-                      excludeOther.state = true;
-                    }
-                  }
-                });
-              }
+      if (
+        !excludeOther.state &&
+        path.node.id.name === arg.value.name &&
+        path.node.init &&
+        (path.scope && path.scope.bindings && path.scope.bindings[arg.value.name]) &&
+        Array.isArray(path.scope.bindings[arg.value.name].referencePaths)
+      ) {
+        path.scope.bindings[arg.value.name].referencePaths.forEach(ref => {
+          if (ref.node.start === arg.value.start && ref.node.end === arg.value.end) {
+            if (typeof path.node.init.value === 'string') {
+              excludeOther.state = true;
+              excludeOther.value = path.node.init.value;
+            } else if (path.node.init && path.node.init.type === 'Identifier') {
+              excludeOther.value = findValue(ast, {
+                value: {
+                  start: path.node.init.start,
+                  end: path.node.init.end,
+                  name: path.node.init.name
+                }
+              });
+              excludeOther.state = true;
+            } else {
+              excludeOther.state = true;
             }
           }
-        }
+        });
       }
     }
   });
@@ -80,23 +78,26 @@ class MakePoPlugin {
 
                 let name = path.node.callee.name;
 
-                if (!name) {
-                  if (path.node.callee.property) {
-                    name = path.node.callee.property.name;
-                  }
+                if (
+                  !name &&
+                  path.node.callee.property
+                ) {
+                  name = path.node.callee.property.name;
                 }
 
-                if (variables.indexOf(name) < 0) {
-                  if (Array.isArray(path.node.arguments)) {
-                    path.node.arguments.forEach(a => {
-                      if (a.property && a.property.value) {
-                        if (variables.indexOf(a.property.value) >= 0) {
-                          name = a.property.value;
-                          isParent = true;
-                        }
-                      }
-                    });
-                  }
+                if (
+                  variables.indexOf(name) < 0 &&
+                  Array.isArray(path.node.arguments)
+                ) {
+                  path.node.arguments.forEach(a => {
+                    if (
+                      a.property &&
+                      a.property.value &&
+                      variables.indexOf(a.property.value) >= 0) {
+                      name = a.property.value;
+                      isParent = true;
+                    }
+                  });
                 }
 
                 if (variables.indexOf(name) >= 0) {
@@ -107,10 +108,8 @@ class MakePoPlugin {
                 if (found.state) {
                   const args = (isParent ? path.parent.arguments : path.node.arguments)
                     .map(argItem => {
-                      if (argItem.type === 'StringLiteral') {
-                        if (argItem.value) {
-                          return argItem.value;
-                        }
+                      if (argItem.type === 'StringLiteral' && argItem.value) {
+                        return argItem.value;
                       }
                       if (argItem.type === 'Identifier') {
                         return findValue(ast, {

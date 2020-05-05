@@ -52,23 +52,7 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
 
 const runNodeStrategy = (compiler, webpack, webpackConfig, conf) => ({
   simple: () => (
-    new Promise((resolve, reject) => {
-      compiler.run(async (err, stats) => {
-        log(err, stats);
-        if (err) {
-          return reject(err);
-        }
-        if (isDefined(conf.esm) || isDefined(conf.cjs)) {
-          // Transpile source
-          try {
-            await sourceCompile(conf);
-          } catch (e) {
-            console.error(e.message);
-          }
-        }
-        return resolve(stats);
-      });
-    })
+    runAppStrategy(compiler, webpack, webpackConfig, conf).simple()
   ),
   'node-watch': () => {
     compiler.watch({}, (err, stats) => {

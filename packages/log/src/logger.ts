@@ -65,27 +65,28 @@ class Logger {
   }
 
   _handler(message: string, level: string, important: boolean): void {
-    if (!this.ignoreLogging) {
-      if (this.active) {
-        if (isFunction(this.stdout)) {
-          this.stdout(level, message, important);
-        }
-
-        let stackData: StackData;
-
-        if (typeof message === 'string') {
-          const temp = {};
-          temp[level] = message;
-          stackData = temp as StackData;
-        } else if (typeof message === 'object') {
-          stackData = message;
-        }
-
-        if (stackData) {
-          this.stackCollection.add(Object.assign({}, stackData));
-        }
-        this._count += 1;
+    if (
+      !this.ignoreLogging &&
+      this.active
+    ) {
+      if (isFunction(this.stdout)) {
+        this.stdout(level, message, important);
       }
+
+      let stackData: StackData;
+
+      if (typeof message === 'string') {
+        const temp = {};
+        temp[level] = message;
+        stackData = temp as StackData;
+      } else if (typeof message === 'object') {
+        stackData = message;
+      }
+
+      if (stackData) {
+        this.stackCollection.add(Object.assign({}, stackData));
+      }
+      this._count += 1;
     }
   }
 

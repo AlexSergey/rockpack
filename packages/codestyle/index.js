@@ -92,10 +92,13 @@ module.exports = {
       'react/static-property-placement': 'off',
       'react/prefer-stateless-function': 'off',
       'react/require-default-props': 'off',
+      'sonarjs/cognitive-complexity': 'off',
+      'sonarjs/no-duplicate-string': 'off',
       quotes: ['error', 'single'],
     };
 
     const extendsRules = [
+      'plugin:sonarjs/recommended',
       'eslint:recommended',
       'plugin:react/recommended',
       'plugin:promise/recommended',

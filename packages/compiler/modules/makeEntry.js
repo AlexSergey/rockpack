@@ -33,23 +33,23 @@ const makeEntry = (conf, root, mode) => {
     conf.src.index = src;
   }
   const s = _getSrc(conf.src, root);
-  
-  if (!conf.onlyWatch) {
-    if (!conf.nodejs) {
-      if (mode === 'development') {
-        if (isArray(s)) {
-          return [`${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`, require.resolve('webpack/hot/dev-server')].concat(s);
-        } else if (isObject(s)) {
-          s['dev-server-client'] = `${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`;
-          s['dev-server-hot'] = require.resolve('webpack/hot/dev-server');
-          return s;
-        }
-        
-        return [`${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`, require.resolve('webpack/hot/dev-server'), s];
-      }
+
+  if (
+    !conf.onlyWatch &&
+    !conf.nodejs &&
+    mode === 'development'
+  ) {
+    if (isArray(s)) {
+      return [`${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`, require.resolve('webpack/hot/dev-server')].concat(s);
+    } else if (isObject(s)) {
+      s['dev-server-client'] = `${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`;
+      s['dev-server-hot'] = require.resolve('webpack/hot/dev-server');
+      return s;
     }
+
+    return [`${require.resolve('webpack-dev-server/client')}?http://${conf.server.host}:${conf.server.port}/`, require.resolve('webpack/hot/dev-server'), s];
   }
-  
+
   return s;
 };
 

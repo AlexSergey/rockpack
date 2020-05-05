@@ -39,7 +39,7 @@ async function markupCompiler(pth, options = {}, cb, configOnly = false) {
     options._liveReload = true;
   }
   try {
-    options = await _getOptions(pth, options, cb, configOnly);
+    options = await _getOptions(pth, options);
 
     return await _compile(options, cb, configOnly);
   } catch (err) {
