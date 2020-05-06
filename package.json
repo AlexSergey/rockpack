@@ -10,11 +10,12 @@
   ],
   "scripts": {
     "lint": "lerna run lint",
-    "typing": "lerna run typing"
+    "typing": "lerna run typing",
+    "test": "lerna run test"
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint && npm run typing"
+      "pre-push": "npm run lint && npm run typing && npm test"
     }
   },
   "devDependencies": {

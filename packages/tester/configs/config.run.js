@@ -41,7 +41,7 @@ module.exports = {
     'js', 'jsx', 'json', 'ts', 'tsx'
   ],
   testPathIgnorePatterns: [
-    '<rootDir>/(build|dist|temp|docs|documentation|node_modules)/'
+    '<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'
   ],
   setupFiles,
   setupFilesAfterEnv: [

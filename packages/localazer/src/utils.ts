@@ -26,9 +26,9 @@ const getDefault = (defaultLang = 'en', defaultLocaleData?: LocaleData): LocaleD
 };
 
 const detectBrowserLanguage = (): string|string[] => (
-  window.navigator.languages ?
-    window.navigator.languages[0] :
-    window.navigator.language
+  globalThis.navigator.languages ?
+    globalThis.navigator.languages[0] :
+    globalThis.navigator.language
 );
 
 export { getDefault, detectBrowserLanguage };
