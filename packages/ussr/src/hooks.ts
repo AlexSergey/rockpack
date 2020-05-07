@@ -24,6 +24,7 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
     process.env.NODE_ENV !== 'production' &&
     typeof get(initState, key) !== 'undefined'
   ) {
+    // eslint-disable-next-line no-console
     console.warn(`Key should be unique! The key "${key}" is already exist in InitialState`);
   }
 

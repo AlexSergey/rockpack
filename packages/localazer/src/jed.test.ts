@@ -1,6 +1,5 @@
 import Jed from 'jed';
-import { I18N, l } from './jed';
-import { nl, sprintf } from '../dist';
+import { I18N, l, nl, sprintf } from './jed';
 
 const localeData = {
   domain: 'messages',
@@ -24,7 +23,6 @@ const localeData = {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let i18n: I18N;
 
 beforeAll(() => {

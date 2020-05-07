@@ -1,3 +1,4 @@
+import Jed from 'jed';
 import LocalizationObserver, { LanguagesInterface, useI18n, LocalizationObserverContext } from './LocalizationObserver';
 import Localization from './Localization';
 import { l, nl, sprintf, I18N } from './jed';
@@ -14,6 +15,7 @@ export {
   LanguagesInterface,
   getDefaultLocale,
   useI18n,
+  Jed,
   I18N
 };
 
