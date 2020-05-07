@@ -6,7 +6,8 @@ interface StateInterface {
   [key: string]: unknown;
 }
 
-type Middleware = (callbacks: Promise<unknown>[]) => Promise<unknown>[] | undefined;
+type Middleware = (callbacks: Promise<unknown> | Promise<unknown>[] | []) =>
+Promise<unknown> | Promise<unknown>[] | undefined | [] | void;
 
 interface ServerRenderResult {
   html: string;

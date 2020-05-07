@@ -9,7 +9,7 @@ let message;
 let stack;
 
 beforeAll(() => {
-  const App = () => {
+  const App = (): JSX.Element => {
     loggerApi = useLoggerApi();
     logger = useLogger();
     return null;
@@ -17,10 +17,10 @@ beforeAll(() => {
 
   mount(
     <LoggerContainer
-      onError={(s) => {
+      onError={(s): void => {
         stack = s;
       }}
-      stdout={(l, m) => {
+      stdout={(l, m): void => {
         level = l;
         message = m;
       }}

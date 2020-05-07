@@ -34,20 +34,20 @@ const localeData = {
 };
 
 beforeAll(() => {
-  const Wrapper = ({ children }) => {
+  const Wrapper = ({ children }): JSX.Element => {
     const [name, setName] = useState('Ivan');
     const [activeLang, setActiveLang] = useState('en');
     const [count, setCount] = useState(0);
 
-    const increment = () => {
+    const increment = (): void => {
       setCount(count + 1);
     };
 
-    const resetCounter = () => {
+    const resetCounter = (): void => {
       setCount(0);
     };
 
-    const resetName = () => {
+    const resetName = (): void => {
       setName('Ivan');
     };
 
@@ -65,7 +65,7 @@ beforeAll(() => {
     );
   };
 
-  const App = ({ name, count }) => {
+  const App = ({ name, count }): JSX.Element => {
     ctx = useContext(WrapperContext);
     i18n = useI18n();
 
@@ -109,7 +109,7 @@ beforeAll(() => {
 
   wrapper = mount(
     <Wrapper>
-      {(activeLang, name, count) => (
+      {(activeLang, name, count): JSX.Element => (
         <LocalizationObserver active={activeLang} languages={{ ru: localeData }}>
           <App name={name} count={count} />
         </LocalizationObserver>

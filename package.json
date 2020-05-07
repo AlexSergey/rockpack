@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "lerna run lint",
     "typing": "lerna run typing",
-    "test": "lerna run test"
+    "test": "lerna run test --stream"
   },
   "husky": {
     "hooks": {

@@ -7,7 +7,7 @@ let i18n;
 let ctx;
 
 beforeAll(() => {
-  const App = () => {
+  const App = (): JSX.Element => {
     i18n = useI18n();
     ctx = useContext(LocalizationObserverContext);
 

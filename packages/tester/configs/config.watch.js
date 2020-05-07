@@ -16,12 +16,15 @@ if (existsSync(path.resolve(currentProjectFolder, './tsconfig.json'))) {
 }
 
 const setupFiles = [
-  `${rootFolder}/configs/enzyme.config.js`,
   `${rootFolder}/configs/jest.config.js`
 ];
 
 if (existsSync(path.resolve(currentProjectFolder, './jest.config.js'))) {
   setupFiles.push('<rootDir>/jest.config.js');
+}
+
+if (existsSync(path.resolve(currentProjectFolder, './enzyme.config.js'))) {
+  setupFiles.push('<rootDir>/enzyme.config.js');
 }
 
 module.exports = {
