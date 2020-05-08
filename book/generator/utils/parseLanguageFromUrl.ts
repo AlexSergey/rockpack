@@ -1,16 +1,16 @@
 import urlParse from 'url-parse';
 import { isArray, isObject } from 'valid-types';
 
-const parseLanguageFromUrl = (url, languages) => {
+const parseLanguageFromUrl = (url, languages): string | false => {
   const { pathname } = urlParse(url);
-  
+
   if (pathname.indexOf('/') === 0) {
     let l = pathname.substr(1);
-    
+
     if (l.indexOf('/') > 0) {
       l = l.split('/')[0];
     }
-    
+
     if (isArray(languages) && languages.indexOf(l) >= 0) {
       return l;
     }
@@ -19,7 +19,7 @@ const parseLanguageFromUrl = (url, languages) => {
         .indexOf(l) >= 0 ? l : false;
     }
   }
-  
+
   return false;
 };
 

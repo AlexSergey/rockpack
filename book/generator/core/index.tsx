@@ -15,18 +15,18 @@ import { ExternalPropsInterface } from '../types';
 
 const history = createBrowserHistory();
 
-export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivElement) => {
+export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivElement): JSX.Element => {
   if (!(el instanceof HTMLElement)) {
     // eslint-disable-next-line no-console
     console.error('DOM element is invalid');
-    return false;
+    return;
   }
   const isValid = validation(props);
 
   if (!isValid) {
     // eslint-disable-next-line no-console
     console.error('props is invalid');
-    return false;
+    return;
   }
 
   const hasRoutes = Array.isArray(props.docgen);
@@ -66,27 +66,27 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
 
   const languages = isObject(props.localization) ? Object.keys(props.localization) : false;
 
-  const handleOpen = (setOpenIds) => {
+  const handleOpen = (setOpenIds): void => {
     setTimeout(() => {
+      // eslint-disable-next-line no-shadow
       let found = false;
 
       if (Array.isArray(props.docgen)) {
         props.docgen.forEach(section => {
           const pathToRoute = findPathToActiveRoute(document.location.pathname, section, []);
 
-          if (pathToRoute.length > 0) {
-            if (!found) {
-              setOpenIds(pathToRoute);
+          if (pathToRoute.length > 0 && !found) {
+            setOpenIds(pathToRoute);
 
-              setTimeout(() => {
-                const activeElement = document.getElementById(pathToRoute[pathToRoute.length - 1]);
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            setTimeout(() => {
+              const activeElement = document.getElementById(pathToRoute[pathToRoute.length - 1]);
 
-                if (activeElement) {
-                  activeElement.scrollIntoView();
-                }
-              }, 300);
-              found = true;
-            }
+              if (activeElement) {
+                activeElement.scrollIntoView();
+              }
+            }, 300);
+            found = true;
           }
         });
       }
@@ -96,9 +96,10 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
   render((
     <Router history={history}>
       <LangWrapper {...props}>
-        {(isLocalized, activeLang, changeLocal) => (
+        {(isLocalized, activeLang, changeLocal): JSX.Element => (
           <OpenIds {...props} openIds={openIds}>
-            {(openIds, setOpenIds) => (
+            {/* eslint-disable-next-line no-shadow */}
+            {(openIds): JSX.Element => (
               <Layout {...Object.assign({}, props, {
                 openIds,
                 hasRoutes,
@@ -107,7 +108,6 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
                 changeLocal,
                 languages,
                 toggleOpenId: () => {
-                  console.log(setOpenIds);
                   handleOpen(openIds);
                 }
               })}

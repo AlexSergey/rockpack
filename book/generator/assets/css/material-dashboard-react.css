@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 /*!
 
  =========================================================
@@ -16,28 +18,90 @@
 * {
   box-sizing: border-box;
 }
+body {
+  padding-right: 0 !important
+}
+.app-header {
+  background: #009be5 !important;
+  border-radius: 0 !important;
+  color: #fff;
+}
+.app-header .MuiInput-underline:before,
+.app-header .MuiInput-underline.Mui-focused:after {
+  display: none;
+}
+.app-header .MuiSelect-select:focus {
+  background: none;
+}
+.language-select .MuiSelect-icon path,
+.app-header .github-holder path,
+.app-header .MuiIconButton-root path {
+  fill: #fff;
+}
+
+.app-title {
+  font: 700 22px/1.1 Oswald;
+  color: #fff;
+}
+.app-sidebar {
+  background: #18202c;
+  color: rgba(255, 255, 255, 0.7);
+}
+.app-sidebar .MuiTreeItem-root {
+  box-shadow: 0 -1px 0 #404854 inset;
+  background-color: #232f3e;
+}
+.app-sidebar .MuiTreeItem-iconContainer {
+  margin-left: 8px;
+}
+.app-sidebar .MuiTreeItem-root a {
+  text-decoration: none;
+}
+.app-sidebar .MuiTreeItem-content {
+  margin: 0;
+}
+
+.app-sidebar .active .Mui-expanded,
+.app-sidebar .Mui-selected {
+  background: #304054;
+}
+.app-sidebar .MuiTreeItem-label {
+  padding: 16px 5px;
+}
+
+.app-sidebar .active .MuiTreeItem-label,
+.app-sidebar .Mui-selected .MuiTreeItem-label {
+  text-decoration: none !important;
+  color: #fff;
+  background: none !important;
+}
+
+.app-sidebar .active .MuiTreeItem-label > span,
+.app-sidebar .Mui-selected .MuiTreeItem-label > span {
+  text-decoration: none !important;
+}
+
 .MuiTreeView-root {
   line-height: 2.5;
 }
 .MuiTreeItem-group {
-  margin: 0 0 10px 35px !important;
+  margin: 0 0 0 33px !important;
   font-size: 14px;
-}
-.MuiTreeItem-content {
-  cursor: default !important;
-  margin: 0 0 20px;
 }
 .MuiTreeItem-root:focus > .MuiTreeItem-content {
   background: transparent !important;
 }
 .MuiTreeItem-content:hover {
-  background: transparent !important;
   color: #eee;
-  /*background: rgba(0, 0, 0, 0.08);*/
+  background: transparent !important;
+}
+
+.MuiTreeItem-content:hover .MuiTreeItem-label {
+  background: transparent !important;
 }
 .tree-hash-item {
   display: block;
-  margin: 0 0 20px;
+  margin: 0 0 2px;
 }
 .tree-hash-item:last-child {
   margin: 0 0 10px;

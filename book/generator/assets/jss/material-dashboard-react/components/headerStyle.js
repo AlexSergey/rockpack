@@ -13,7 +13,6 @@ import {
 
 const headerStyle = () => ({
   appBar: {
-    backgroundColor: 'transparent',
     boxShadow: 'none',
     borderBottom: '0',
     marginBottom: '0',

@@ -39,10 +39,10 @@ const hexToRgb = input => {
   const second = input[2] + input[3];
   const last = input[4] + input[5];
   return (
-    `${parseInt(first, 16) 
-    }, ${ 
-      parseInt(second, 16) 
-    }, ${ 
+    `${parseInt(first, 16)
+    }, ${
+      parseInt(second, 16)
+    }, ${
       parseInt(last, 16)}`
   );
 };
@@ -95,61 +95,61 @@ const whiteColor = '#FFF';
 
 const boxShadow = {
   boxShadow:
-    `0 10px 30px -12px rgba(${ 
-      hexToRgb(blackColor) 
-    }, 0.42), 0 4px 25px 0px rgba(${ 
-      hexToRgb(blackColor) 
-    }, 0.12), 0 8px 10px -5px rgba(${ 
-      hexToRgb(blackColor) 
+    `0 10px 30px -12px rgba(${
+      hexToRgb(blackColor)
+    }, 0.42), 0 4px 25px 0px rgba(${
+      hexToRgb(blackColor)
+    }, 0.12), 0 8px 10px -5px rgba(${
+      hexToRgb(blackColor)
     }, 0.2)`
 };
 
 const primaryBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(primaryColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(primaryColor[0])
     },.4)`
 };
 const infoBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(infoColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(infoColor[0])
     },.4)`
 };
 const successBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(successColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(successColor[0])
     },.4)`
 };
 const warningBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(warningColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(warningColor[0])
     },.4)`
 };
 const dangerBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(dangerColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(dangerColor[0])
     },.4)`
 };
 const roseBoxShadow = {
   boxShadow:
-    `0 4px 20px 0 rgba(${ 
-      hexToRgb(blackColor) 
-    },.14), 0 7px 10px -5px rgba(${ 
-      hexToRgb(roseColor[0]) 
+    `0 4px 20px 0 rgba(${
+      hexToRgb(blackColor)
+    },.14), 0 7px 10px -5px rgba(${
+      hexToRgb(roseColor[0])
     },.4)`
 };
 
@@ -213,12 +213,12 @@ const defaultBoxShadow = {
   border: '0',
   borderRadius: '3px',
   boxShadow:
-    `0 10px 20px -12px rgba(${ 
-      hexToRgb(blackColor) 
-    }, 0.42), 0 3px 20px 0px rgba(${ 
-      hexToRgb(blackColor) 
-    }, 0.12), 0 8px 10px -5px rgba(${ 
-      hexToRgb(blackColor) 
+    `0 10px 20px -12px rgba(${
+      hexToRgb(blackColor)
+    }, 0.42), 0 3px 20px 0px rgba(${
+      hexToRgb(blackColor)
+    }, 0.12), 0 8px 10px -5px rgba(${
+      hexToRgb(blackColor)
     }, 0.2)`,
   padding: '10px 0',
   transition: 'all 150ms ease 0s'

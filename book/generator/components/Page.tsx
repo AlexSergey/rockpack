@@ -15,7 +15,7 @@ import { DocgenRouteInterface } from '../types';
 // @ts-ignore
 const useStylesPage = makeStyles(stylesHeader);
 
-const renderInside = (content, index: number|null, props) => {
+const renderInside = (content, index: number|null, props): JSX.Element => {
   if (!content) {
     return null;
   }
@@ -53,7 +53,7 @@ const renderInside = (content, index: number|null, props) => {
           component() :
           component
   );
-  
+
   return (
     <div {...Object.assign({}, opt)}>
       {title && <h2>{title}</h2>}
@@ -65,19 +65,19 @@ const renderInside = (content, index: number|null, props) => {
 interface TempInterface extends RouteComponentProps {
   toggleOpenId: () => void;
   activeLang?: string;
-  content: any;
+  content: unknown;
   docgen: DocgenRouteInterface | DocgenRouteInterface[];
 }
 
 const InnerPage = withRouter((props: TempInterface) => {
   const classesPage = useStylesPage();
-  
+
   const current = typeof props.activeLang === 'string' ?
     props.match.path.replace(`/${props.activeLang}`, '') :
     props.match.path;
-  
+
   const { prev, next } = findRoutes(current, props.docgen);
-  
+
   return (
     <Paper style={{ padding: '20px' }}>
       <div>
@@ -90,7 +90,7 @@ const InnerPage = withRouter((props: TempInterface) => {
         {prev && (
           <Link
             to={typeof props.activeLang === 'string' ? `/${props.activeLang}${prev.url}` : prev.url}
-            onClick={() => props.toggleOpenId()}
+            onClick={(): void => props.toggleOpenId()}
           >
             <Tooltip placement="top-start" title={prev.title ? prev.title : 'Previous page'}>
               <Button variant="outlined" color="primary">
@@ -102,7 +102,7 @@ const InnerPage = withRouter((props: TempInterface) => {
         {next && (
           <Link
             to={typeof props.activeLang === 'string' ? `/${props.activeLang}${next.url}` : next.url}
-            onClick={() => props.toggleOpenId()}
+            onClick={(): void => props.toggleOpenId()}
           >
             <Tooltip placement="top-end" title={next.title ? next.title : 'Next page'}>
               <Button variant="outlined" color="primary">
@@ -117,6 +117,6 @@ const InnerPage = withRouter((props: TempInterface) => {
   );
 });
 
-const Page = (content, props) => <InnerPage content={content} {...props} />;
+const Page = (content, props): JSX.Element => <InnerPage content={content} {...props} />;
 
 export default Page;

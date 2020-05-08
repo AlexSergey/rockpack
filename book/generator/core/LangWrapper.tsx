@@ -11,7 +11,7 @@ const Wrapper = ({
   children: JSX.Element;
   languages?: LanguagesInterface;
   active?: string;
-}) => children;
+}): JSX.Element => children;
 
 interface LangWrapperInterface extends RouteComponentProps {
   activeLang?: string;

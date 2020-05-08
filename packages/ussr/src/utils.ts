@@ -6,7 +6,7 @@ export const isBackend = (): boolean => typeof window === 'undefined';
 
 export const isClient = (): boolean => !isBackend();
 
-export const clone = (state: StateInterface): StateInterface => (
+export const clone = (state: StateInterface): Readonly<StateInterface> => (
   JSON.parse(
     JSON.stringify(state)
   )

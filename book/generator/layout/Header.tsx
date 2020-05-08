@@ -15,14 +15,14 @@ import { HeaderInterface } from '../types';
 // @ts-ignore
 const useStylesHeader = makeStyles(stylesHeader);
 
-const Header = (props: HeaderInterface) => {
+const Header = (props: HeaderInterface): JSX.Element => {
   const classesHeader = useStylesHeader();
   const appBarClasses = classNames({
     [`${classesHeader[props.color]}`]: props.color
   });
-  
+
   return (
-    <AppBar className={classesHeader.appBar + appBarClasses} style={{ height: '75px' }}>
+    <AppBar className={`app-header ${classesHeader.appBar + appBarClasses}`} style={{ height: '75px' }}>
       <Toolbar className={classesHeader.container} style={{ height: '100%' }}>
         {props.logo && (
           <Hidden
@@ -31,8 +31,8 @@ const Header = (props: HeaderInterface) => {
             // @ts-ignore
             className="wrapper-logo"
           >
-            <div style={{ height: '100%', padding: '0 20px 0' }}>
-              {typeof props.logo === 'string' && (
+            {typeof props.logo === 'string' && (
+              <div style={{ height: '100%', margin: '0 20px 0' }} className="logo-holder">
                 <img
                   src={props.logo}
                   alt={typeof props.logoAlt || ''}
@@ -42,11 +42,11 @@ const Header = (props: HeaderInterface) => {
                     maxWidth: '100px'
                   }}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </Hidden>
         )}
-        <div className={classesHeader.flex}>
+        <div className={`app-title ${classesHeader.flex}`}>
           {props.title || 'Documentation'}
         </div>
         {props.isLocalized ? (
@@ -54,8 +54,9 @@ const Header = (props: HeaderInterface) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              className="language-select"
               value={props.activeLang}
-              onChange={(e) => {
+              onChange={(e): void => {
                 if (typeof e.target.value === 'string') {
                   props.changeLocal(e.target.value);
                 }
@@ -80,7 +81,7 @@ const Header = (props: HeaderInterface) => {
           </div>
         ) : null}
         {props.github ? (
-          <div style={{ padding: '0 20px 0 0' }}>
+          <div style={{ padding: '0 20px 0 0' }} className="github-holder">
             <a href={props.github} target="_blank" rel="noopener noreferrer">
               <GitHub />
             </a>

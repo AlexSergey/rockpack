@@ -13,8 +13,8 @@ export interface DocgenRouteInterface {
   title?: string;
   name?: string;
   uniqId?: string;
-  children: JSX.Element | DocgenRouteInterface[];
-  component: JSX.Element;
+  children?: JSX.Element | DocgenRouteInterface[];
+  component?: JSX.Element;
 }
 
 export interface ExternalPropsInterface {

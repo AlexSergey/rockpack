@@ -27,18 +27,16 @@ const FIELDS = [
 
 const validate = (props): boolean => {
   let isValid = true;
-  
+
   FIELDS.forEach(f => {
     if (!isValid) {
       return false;
     }
-    if (f.required) {
-      if (!props[f.field]) {
-        isValid = false;
-        // eslint-disable-next-line no-console
-        console.error(showMessage(f.field, f.type, f.required, f.message));
-        return false;
-      }
+    if (f.required && !props[f.field]) {
+      isValid = false;
+      // eslint-disable-next-line no-console
+      console.error(showMessage(f.field, f.type, f.required, f.message));
+      return false;
     }
     if (f.type !== 'any') {
       const type = typeof props[f.field];
@@ -49,24 +47,22 @@ const validate = (props): boolean => {
         return false;
       }
     }
-    
-    if (f.field === 'components') {
-      if (props[f.field]) {
-        const keys = Object.keys(props[f.field]);
-        const validComponents = keys.map(c => {
-          const component = props[f.field][c];
-          return isValidElement(component);
-        });
-        if (keys.length !== validComponents.length) {
-          isValid = false;
-          // eslint-disable-next-line no-console
-          console.error(showMessage(f.field, f.type, f.required, f.message));
-          return false;
-        }
+
+    if (f.field === 'components' && props[f.field]) {
+      const keys = Object.keys(props[f.field]);
+      const validComponents = keys.map(c => {
+        const component = props[f.field][c];
+        return isValidElement(component);
+      });
+      if (keys.length !== validComponents.length) {
+        isValid = false;
+        // eslint-disable-next-line no-console
+        console.error(showMessage(f.field, f.type, f.required, f.message));
+        return false;
       }
     }
   });
-  
+
   return isValid;
 };
 

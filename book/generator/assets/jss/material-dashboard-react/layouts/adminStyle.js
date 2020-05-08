@@ -1,6 +1,5 @@
 import {
   drawerWidth,
-  transition,
   container
 } from '../../material-dashboard-react.js';
 
@@ -17,7 +16,6 @@ const appStyle = theme => ({
     overflow: 'auto',
     position: 'relative',
     float: 'right',
-    ...transition,
     maxHeight: '100%',
     width: '100%',
     overflowScrolling: 'touch'

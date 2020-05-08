@@ -5,8 +5,8 @@ import { isString } from 'valid-types';
 import withTracker from '../utils/tracker';
 import { InnerInterface } from '../types';
 
-const _Route = (props: InnerInterface) => {
-  const TreeRouteRender = (route, output, prefix?) => {
+const _Route = (props: InnerInterface): JSX.Element => {
+  const TreeRouteRender = (route, output, prefix?): JSX.Element[] => {
     if (!route) {
       return output;
     }
@@ -21,7 +21,7 @@ const _Route = (props: InnerInterface) => {
     const renderInAnotherRoute = [];
     const renderInside = [];
     renderInside.push(route);
-    
+
     if (route.children) {
       (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
         if (!r.url) {
@@ -31,12 +31,12 @@ const _Route = (props: InnerInterface) => {
         }
       });
     }
-    
+
     output.push(
       <Route
         exact
         path={typeof prefix === 'string' ? `/${prefix}${route.url}` : route.url}
-        component={() => (
+        component={(): JSX.Element => (
           <>
             {route.meta && (
               <MetaTags>
@@ -56,11 +56,11 @@ const _Route = (props: InnerInterface) => {
         )}
       />
     );
-    
+
     if (renderInAnotherRoute.length > 0) {
       renderInAnotherRoute.map(r => TreeRouteRender(r, output, prefix));
     }
-    
+
     return output;
   };
   return (
@@ -73,7 +73,7 @@ const _Route = (props: InnerInterface) => {
           TreeRouteRender(props.docgen, [])
             .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
         )}
-        
+
       {props.isLocalized && Array.isArray(props.languages) ?
         <Redirect from="/" to={`/${props.activeLang}`} /> :
         <Redirect from="/" to="/" />}

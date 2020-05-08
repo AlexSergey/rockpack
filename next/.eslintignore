@@ -23,6 +23,8 @@ test-reports/**
 *.woff
 *.woff2
 *.txt
+*.mdx
+*.md
 docs/
 public/
 locales/

@@ -14,14 +14,14 @@ import { LayoutInterface } from '../types';
 // @ts-ignore
 const useStyles = makeStyles(styles);
 
-const Layout = (props: LayoutInterface) => {
+const Layout = (props: LayoutInterface): JSX.Element => {
   const { hasRoutes } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const handleDrawerToggle = () => {
+  const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
-  
+
   useEffect(() => {
     setTimeout(() => {
       if (document.location.hash.indexOf('#') === 0) {
@@ -29,12 +29,14 @@ const Layout = (props: LayoutInterface) => {
       }
     }, 300);
   }, []);
-  
+
   return (
     <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'}`}>
       {hasRoutes ? (
         <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
-          {isMobile => <MenuItems {...props} handleDrawerToggle={() => isMobile && handleDrawerToggle()} />}
+          {(isMobile): JSX.Element => (
+            <MenuItems {...props} handleDrawerToggle={(): void => isMobile && handleDrawerToggle()} />
+          )}
         </MenuBar>
       ) : null}
       <div className={classes.mainPanel} style={{ overflow: 'hidden', maxHeight: 'none' }}>
@@ -42,7 +44,7 @@ const Layout = (props: LayoutInterface) => {
         <Content>
           {hasRoutes ? (
             <Route {...props}>
-              {routes => Page(routes, props)}
+              {(routes): JSX.Element => Page(routes, props)}
             </Route>
           ) : Page(props.docgen, props)}
         </Content>

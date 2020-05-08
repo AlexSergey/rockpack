@@ -26,7 +26,7 @@ const useStylesTreeView = makeStyles({
   },
 });
 
-const setActive = (currentUrl, pth, activeLang) => (
+const setActive = (currentUrl, pth, activeLang): string => (
   matchPath(currentUrl, {
     path: typeof activeLang === 'string' ? `/${activeLang}${pth}` : pth,
     exact: true,
@@ -37,7 +37,7 @@ const setActive = (currentUrl, pth, activeLang) => (
 const MenuItems = withRouter((props: MenuItemsInterface) => {
   const classesTreeView = useStylesTreeView();
 
-  const goTo = (url, name) => {
+  const goTo = (url, name): void => {
     if (url) {
       props.history.push(typeof props.activeLang === 'string' ?
         `/${props.activeLang}${url}` :
@@ -55,7 +55,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
     }
   };
 
-  const TreeRender = data => {
+  const TreeRender = (data: DocgenRouteInterface | DocgenRouteInterface[]): unknown => {
     if (!data) {
       return null;
     }
@@ -68,11 +68,11 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       return null;
     }
 
-    const W = data.url ? (Inner: JSX.Element, url) => (
+    const W = data.url ? (Inner: JSX.Element, url): JSX.Element => (
       <span
         {...data.nodeId ? { id: data.nodeId } : {}}
         className={setActive(document.location.pathname, url, props.activeLang)}
-        onClick={(e) => {
+        onClick={(e): void => {
           e.preventDefault();
           e.stopPropagation();
           goTo(url, null);
@@ -81,11 +81,11 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       >
         {Inner}
       </span>
-    ) : (Inner: JSX.Element, hash, extraClassName) => (
+    ) : (Inner: JSX.Element, hash, extraClassName): JSX.Element => (
       <span
         {...data.nodeId ? { id: data.nodeId } : {}}
         className={`#${hash}` === document.location.hash ? `active ${extraClassName}` : extraClassName}
-        onClick={(e) => {
+        onClick={(e): void => {
           e.preventDefault();
           e.stopPropagation();
           goTo(null, data.name);
@@ -99,9 +99,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
     return (
       data.children ? W((
         <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title}>{
-          (Array.isArray(data.children) ?
-            data.children :
-            [data.children]).map(node => TreeRender(node))
+          (Array.isArray(data.children) ? data.children.map(node => TreeRender(node)) : data.children)
         }
         </TreeItem>
       ), data.url, '') : (
@@ -132,7 +130,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       className={classesTreeView.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
-      onNodeToggle={(e, nodeIds) => props.toggleOpenId(nodeIds)}
+      onNodeToggle={(e, nodeIds): void => props.toggleOpenId(nodeIds)}
     >
       {TreeRender(props.docgen)}
     </TreeView>

@@ -9,9 +9,9 @@ interface ContentInterface {
   children: JSX.Element;
 }
 
-const Content = ({ children }: ContentInterface) => {
+const Content = ({ children }: ContentInterface): JSX.Element => {
   const classesContent = useStylesContent();
-  
+
   return (
     <div className={classesContent.content} style={{ minHeight: 'auto', float: 'left', width: '100%' }}>
       <div className={classesContent.container}>

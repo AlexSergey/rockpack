@@ -13,9 +13,9 @@ interface MenuBarInterface {
   handleDrawerToggle: () => void;
 }
 
-const MenuBar = (props: MenuBarInterface) => {
+const MenuBar = (props: MenuBarInterface): JSX.Element => {
   const classes = useStyles();
-  
+
   return (
     <>
       <Hidden mdUp implementation="css">
@@ -30,14 +30,7 @@ const MenuBar = (props: MenuBarInterface) => {
             keepMounted: true
           }}
         >
-          <div
-            className={classes.sidebarWrapper}
-            style={{
-              background: 'linear-gradient(180deg, #5c6bc0 0%, #3949ab 100%)',
-              color: '#fff',
-              padding: '20px'
-            }}
-          >
+          <div className={`app-sidebar ${classes.sidebarWrapper}`}>
             {props.children(true)}
           </div>
         </Drawer>
@@ -50,14 +43,7 @@ const MenuBar = (props: MenuBarInterface) => {
             paper: classes.drawerPaper
           }}
         >
-          <div
-            className={classes.sidebarWrapper}
-            style={{
-              background: 'linear-gradient(180deg, #5c6bc0 0%, #3949ab 100%)',
-              color: '#fff',
-              padding: '20px'
-            }}
-          >
+          <div className={`app-sidebar ${classes.sidebarWrapper}`}>
             {props.children(false)}
           </div>
         </Drawer>

@@ -1,14 +1,14 @@
 let uniq = 0;
-const openIdGenerate = (route, openedIds) => {
+const openIdGenerate = (route, openedIds): string[] => {
   uniq++;
   if (!route) {
     return openedIds;
   }
   if (Array.isArray(route)) {
-    route.forEach(route => openIdGenerate(route, openedIds));
+    route.forEach(r => openIdGenerate(r, openedIds));
     return openedIds;
   }
-  
+
   route.uniqId = uniq;
   if (route.url) {
     const nodeId = String(uniq);
@@ -16,9 +16,7 @@ const openIdGenerate = (route, openedIds) => {
     route.nodeId = nodeId;
   }
   if (route.children) {
-    (Array.isArray(route.children) ? route.children : [route.children]).forEach(route => {
-      openIdGenerate(route, openedIds);
-    });
+    (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => openIdGenerate(r, openedIds));
   }
   return openedIds;
 };

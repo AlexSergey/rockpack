@@ -8,7 +8,7 @@ interface StyleInterface {
   children: string;
 }
 
-const Style = ({ children }: StyleInterface) => (
+const Style = ({ children }: StyleInterface): JSX.Element => (
   <style
     dangerouslySetInnerHTML={{
       __html: children
@@ -31,7 +31,7 @@ interface MDXLayoutInterface {
   };
 }
 
-const MDXLayout = (props: MDXLayoutInterface) => (
+const MDXLayout = (props: MDXLayoutInterface): JSX.Element => (
   <MDXProvider components={Object.assign({}, defaultComponents, props.components)} className="mdx-provider">
     <>
       <Style>{baseStyles}</Style>

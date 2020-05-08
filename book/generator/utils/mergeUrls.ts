@@ -1,22 +1,21 @@
 import ulrJoin from 'url-join';
 
-const mergeUrls = (route, parent?) => {
+const mergeUrls = (route, parent?): void => {
   if (!route) {
-    return false;
+    return;
   }
+
   if (Array.isArray(route)) {
     route.forEach(r => mergeUrls(r, parent || {}));
-    return false;
+    return;
   }
-  
+
   if (route.url && parent && parent.url) {
     route.url = ulrJoin('/', parent.url, route.url);
-  } else if (route.url && !parent.url) {
-    if (route.url.indexOf('/') !== 0) {
-      route.url = `/${route.url}`;
-    }
+  } else if (route.url && !parent.url && route.url.indexOf('/') !== 0) {
+    route.url = `/${route.url}`;
   }
-  
+
   if (route.children) {
     (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
       mergeUrls(r, route);
