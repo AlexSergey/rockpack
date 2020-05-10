@@ -3,9 +3,9 @@ const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rock
 
 const alias = {
   alias: {
-    'react-dom': path.resolve(__dirname, '../node_modules/react-dom'),
-    react: path.resolve(__dirname, '../node_modules/react'),
-    'react-dom/server': path.resolve(__dirname, '../node_modules/react-dom/server')
+    'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
+    react: path.resolve(__dirname, '../../node_modules/react'),
+    'react-dom/server': path.resolve(__dirname, '../../node_modules/react-dom/server')
   }
 };
 

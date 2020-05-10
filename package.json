@@ -5,7 +5,7 @@
   "license": "MIT",
   "workspaces": [
     "book",
-    "next",
+    "next/*",
     "packages/*"
   ],
   "scripts": {
