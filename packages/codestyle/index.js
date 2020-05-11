@@ -1,4 +1,3 @@
-const path = require('path');
 const deepExtend = require('deep-extend');
 
 module.exports = {
