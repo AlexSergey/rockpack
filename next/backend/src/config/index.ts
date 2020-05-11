@@ -11,4 +11,4 @@ export default {
   http: {
     port: process.env.PORT
   }
-}
+};

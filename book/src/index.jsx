@@ -17,6 +17,9 @@ createDocumentation({
     {
       title: 'About',
       url: '/about',
+      meta: [
+        <meta name="description" content="Описание страницы сайта." />
+      ]
     },
     {
       title: 'First steps',

@@ -5,7 +5,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node scripts.build",
     "build": "cross-env NODE_ENV=production node scripts.build",
-    "prod:run": "node dist/index.js"
+    "prod:run": "node dist/index.js",
+    "typing": "tsc -p . --noEmit",
+    "lint": "eslint \"src/**\""
   },
   "keywords": [],
   "author": "",

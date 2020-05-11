@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const terser = require('terser');
 const cssNano = require('cssnano');
-const detectPort = require('detect-port');
+const getPort = require('get-port-sync');
 const WebpackBar = require('webpackbar');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
@@ -120,23 +120,21 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     mode === 'development' &&
     conf.nodejs
   ) {
+    const defaultInspectPort = 9224;
+    const freeInspectPort = await fpPromise(defaultInspectPort);
+
     const opts = {
       watch: path.resolve(root, conf.dist),
       verbose: true,
-      nodeArgs: conf.__isIsomorphicBackend ? [] : ['--inspect'],
+      nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
       ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
       script: './dist/index.js'
     };
-
-    const isAlreadyUsed = await detectPort(9229);
 
     if (isString(conf.nodemon)) {
       opts.script = conf.nodemon;
     }
 
-    if (isAlreadyUsed) {
-      opts.nodeArgs = [];
-    }
     plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
 

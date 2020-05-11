@@ -43,10 +43,13 @@ const _Route = (props: InnerInterface): JSX.Element => {
                 {isValidElement(route.meta) ?
                   route.meta :
                   (Array.isArray(route.meta) ?
-                    route.meta.map((m, index) => (isValidElement(m) ?
-                      cloneElement(m, { key: index }) :
-                      null)) :
-                    null)}
+                    route.meta.map((m, index) => (
+                      isValidElement(m) ?
+                        cloneElement(m, { key: index }) :
+                        null
+                    )) :
+                    null
+                  )}
               </MetaTags>
             )}
             {isString(props.ga) ?

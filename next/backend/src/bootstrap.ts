@@ -1,5 +1,3 @@
-import Signals = NodeJS.Signals;
-
 import config from './config';
 import logger from './logger';
 
@@ -21,9 +19,9 @@ process.on('exit', code => {
   logger.info(`Stopped with code: ${code}`);
 });
 
-async function bootstrap(start: () => Promise<void>, stop: () => Promise<void>) {
+async function bootstrap(start: () => Promise<void>, stop: () => Promise<void>): Promise<void> {
   let stopping = false;
-  const shutdown = async () => {
+  const shutdown = async (): Promise<void> => {
     if (stopping) return;
     stopping = true;
     logger.info('Stopping...');
@@ -39,19 +37,19 @@ async function bootstrap(start: () => Promise<void>, stop: () => Promise<void>) 
     }
     clearTimeout(shutdownTimeout);
   };
-  
+
   logger.info('Starting...');
-  const signals: Signals[] = ['SIGTERM', 'SIGINT', 'SIGHUP'];
+  const signals: NodeJS.Signals[] = ['SIGTERM', 'SIGINT', 'SIGHUP'];
   signals.forEach(sigEvent => process.on(sigEvent, shutdown));
-  
+
   try {
     await start();
   } catch (error) {
     logger.error(error, 'Error during bootstrap');
     process.exit(1);
   }
-  
+
   logger.info('Started');
 }
 
-export { bootstrap }
+export { bootstrap };

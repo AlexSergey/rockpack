@@ -1,3 +1,4 @@
+const path = require('path');
 const deepExtend = require('deep-extend');
 
 module.exports = {
@@ -5,6 +6,10 @@ module.exports = {
     if (!customConfig) {
       customConfig = {};
     }
+
+    const tsconfigPath = opts && typeof opts.tsconf === 'string' ?
+      opts.tsconf :
+      './tsconfig.json';
 
     const isNodejs = !!opts.nodejs;
 
@@ -121,7 +126,7 @@ module.exports = {
 
     return deepExtend({}, {
       extends: extendsRules,
-      parser: 'babel-eslint',
+      parser: require.resolve('babel-eslint'),
       parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
@@ -139,7 +144,10 @@ module.exports = {
       overrides: [
         {
           files: ['*.ts', '*.tsx'],
-          parser: '@typescript-eslint/parser',
+          parser: require.resolve('@typescript-eslint/parser'),
+          parserOptions: {
+            project: tsconfigPath
+          },
           extends: [
             'plugin:@typescript-eslint/recommended',
             'plugin:@typescript-eslint/eslint-recommended',

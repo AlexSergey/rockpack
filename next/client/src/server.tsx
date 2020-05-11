@@ -5,7 +5,7 @@ import path from 'path';
 import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
-import Router from 'koa-router';
+import Router from '@koa/router';
 import PrettyError from 'pretty-error';
 import { getDefaultLocale } from '@rock/localazer';
 import { StaticRouter } from 'react-router';

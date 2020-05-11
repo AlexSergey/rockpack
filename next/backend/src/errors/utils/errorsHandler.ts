@@ -1,12 +1,14 @@
-const debug = require('debug')('koa:error-handler');
+import { Context } from 'koa';
+import createDebugger from 'debug';
 
-const errorsHandler = () => {
+const debug = createDebugger('koa:error-handler');
+
+const errorsHandler = (): (ctx: Context, next: () => Promise<unknown>) => Promise<void> => {
   debug('Create a middleware');
-  
-  return async function handle(ctx, next) {
+
+  return async function handle(ctx, next): Promise<void> {
     try {
       await next();
-      
     } catch (err) {
       if (
         err.message &&
@@ -15,7 +17,7 @@ const errorsHandler = () => {
         err.status
       ) {
         ctx.status = err.statusCode;
-        
+
         ctx.body = {
           message: err.message,
           code: err.code,
