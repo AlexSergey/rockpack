@@ -119,7 +119,7 @@ router.get('/*', async (ctx) => {
 
   ctx.body = `
   <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang === 'ru' ? 'ru-RU' : 'en-US'}">
 <head>
     ${meta}
     ${googleFontsInstall()}
