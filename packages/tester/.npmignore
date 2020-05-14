@@ -15,3 +15,5 @@ reports
 dist
 NO_COMMIT
 examples
+test-reports
+coverage
