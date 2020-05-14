@@ -18,7 +18,7 @@
     "@loadable/server": "5.12.0",
     "@reduxjs/toolkit": "1.3.5",
     "@rockpack/localazer": "0.9.0",
-    "@rockpack/log": "0.9.0",
+    "@rockpack/logger": "0.9.0",
     "@rockpack/ussr": "0.9.0",
     "axios": "0.19.2",
     "history": "4.10.1",

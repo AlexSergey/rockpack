@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-import { Logger } from '@rockpack/log';
+import { Logger } from '@rockpack/logger';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';
 import { isNotProduction, isProduction } from './utils/mode';
 import localization, { LocalizationState } from './localization/reducer';

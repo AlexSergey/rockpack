@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { l, useI18n } from '@rockpack/localazer';
-import { LoggerContainer } from '@rockpack/log';
+import { LoggerContainer } from '@rockpack/logger';
 import { toast, ToastContainer } from 'react-toastify';
 import { Switch } from '../utils/RouteSwitch';
 import { Layout } from './_components/Layout';

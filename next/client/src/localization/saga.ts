@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Logger } from '@rockpack/log';
+import { Logger } from '@rockpack/logger';
 import { call, takeEvery } from 'redux-saga/effects';
 import { LocaleData } from '@rockpack/localazer';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';

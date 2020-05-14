@@ -1,5 +1,5 @@
 {
-  "name": "@rockpack/log",
+  "name": "@rockpack/logger",
   "version": "0.9.0",
   "description": "This module can help you build error tracking & crash reporting system for your React application.",
   "main": "dist/index.js",
@@ -28,6 +28,7 @@
     "logs",
     "react",
     "react-log",
+    "react-logger",
     "error-tracking",
     "crash-reporting",
     "react-component"

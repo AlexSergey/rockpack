@@ -1,7 +1,7 @@
 const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler({
-  name: 'RockLog',
+  name: 'RockLogger',
   cjs: {
     src: './src',
     dist: './lib/cjs'
