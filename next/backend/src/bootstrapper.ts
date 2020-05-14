@@ -19,8 +19,9 @@ process.on('exit', code => {
   logger.info(`Stopped with code: ${code}`);
 });
 
-async function bootstrap(start: () => Promise<void>, stop: () => Promise<void>): Promise<void> {
+export const bootstrapper = async (start: () => Promise<void>, stop: () => Promise<void>): Promise<void> => {
   let stopping = false;
+
   const shutdown = async (): Promise<void> => {
     if (stopping) return;
     stopping = true;
@@ -50,6 +51,4 @@ async function bootstrap(start: () => Promise<void>, stop: () => Promise<void>):
   }
 
   logger.info('Started');
-}
-
-export { bootstrap };
+};

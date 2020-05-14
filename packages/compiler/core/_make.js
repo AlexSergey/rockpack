@@ -12,6 +12,7 @@ const makeDevtool = require('../modules/makeDevtool');
 const { makeModules } = require('../modules/makeModules');
 const makePlugins = require('../modules/makePlugins');
 const makeResolve = require('../modules/makeResolve');
+const makeExternals = require('../modules/makeExternals');
 const makeDevServer = require('../modules/makeDevServer');
 const compileWebpackConfig = require('../modules/compileWebpackConfig');
 const makeOptimization = require('../modules/makeOptimization');
@@ -31,6 +32,7 @@ const _make = async (conf, post) => {
   const modules = makeModules(conf, root, packageJson, mode);
   const plugins = await makePlugins(conf, root, packageJson, mode, webpack, version);
   const resolve = makeResolve();
+  const externals = makeExternals(conf, root);
 
   const finalConfig = {
     entry,
@@ -38,7 +40,8 @@ const _make = async (conf, post) => {
     devtool,
     devServer,
     resolve,
-    optimization
+    optimization,
+    externals
   };
 
   if (conf.nodejs) {

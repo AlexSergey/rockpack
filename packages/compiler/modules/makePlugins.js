@@ -84,7 +84,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   if (existsSync(path.resolve(root, '.env.example'))) {
     plugins.Dotenv = new Dotenv({
       path: path.resolve(root, '.env'),
-      safe: true
+      safe: true,
+      allowEmptyValues: true
     });
   } else if (existsSync(path.resolve(root, '.env'))) {
     plugins.Dotenv = new Dotenv({
@@ -244,6 +245,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   }
 
   const env = conf.global || {};
+
+  if (conf.__isBackend) {
+    env.ROOT_DIRNAME = root;
+  }
+
   if (conf.__frontendHasVendor) {
     env.FRONTEND_HAS_VENDOR = true;
   }

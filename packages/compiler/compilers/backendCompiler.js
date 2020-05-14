@@ -10,6 +10,7 @@ async function backendCompiler(options = {}, cb, configOnly = false) {
     html: false,
     nodejs: true,
   });
+  options.__isBackend = true;
   if (mode === 'development') {
     options._liveReload = true;
   }

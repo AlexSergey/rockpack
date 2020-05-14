@@ -10,7 +10,7 @@ import { routes } from '../routes';
 
 import { errorsHandler } from '../errors';
 
-const publicFolder = path.resolve(__dirname, '../public');
+const publicFolder = path.resolve(process.env.ROOT_DIRNAME, '../public');
 
 const app = new Koa();
 

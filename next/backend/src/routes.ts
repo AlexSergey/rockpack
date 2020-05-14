@@ -1,12 +1,12 @@
 import Router from '@koa/router';
 import { BadRequest } from './errors';
 
+import { UserController } from './controllers/User';
+
 const router = new Router();
 
 export const routes = (app): void => {
-  router.get('/', async (ctx) => {
-    ctx.body = 'hello world';
-  });
+  router.get('/', UserController.createUser);
 
   router.get('/error', async () => {
     throw new BadRequest();

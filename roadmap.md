@@ -1,7 +1,8 @@
 ## Roadmap
 
-- Refactoring, TS, Monorepo
-- Global module
-- Templates
+- Next
+- CRUD
+- Readme
+- Logo
 - Book
 - Circle CI

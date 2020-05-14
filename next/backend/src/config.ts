@@ -2,7 +2,8 @@ import path from 'path';
 import dotenvSafe from 'dotenv-safe';
 
 dotenvSafe.config({
-  example: path.resolve(__dirname, '../.env.example')
+  example: path.resolve(process.env.ROOT_DIRNAME, './.env.example'),
+  allowEmptyValues: true
 });
 
 export default {

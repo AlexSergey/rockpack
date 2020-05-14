@@ -1,18 +1,32 @@
 {
   "name": "@rock/tester",
   "version": "0.9.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Small wrapper for Jest and testing best practice.",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint \"**/*.js\""
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies":  {
-    "@testing-library/jest-dom": "5.7.0",
-    "@types/jest": "25.2.1",
-    "@types/node": "13.13.5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/rock.git"
+  },
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
+  "license": "MIT",
+  "homepage": "https://www.rock-book.io/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rock/issues"
+  },
+  "keywords": [
+    "jest",
+    "enzyme",
+    "ts-jest",
+    "testing-library",
+    "react",
+    "react-testing"
+  ],
+  "dependencies": {
     "@rock/babel": "0.9.0",
+    "@testing-library/jest-dom": "5.7.0",
     "babel-jest": "26.0.1",
     "deep-extend": "0.6.0",
     "expect-more-jest": "3.0.0",
@@ -30,6 +44,8 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rock/codestyle": "0.9.0"
+    "@rock/codestyle": "0.9.0",
+    "@types/jest": "25.2.1",
+    "@types/node": "13.13.5"
   }
 }

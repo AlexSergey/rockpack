@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node scripts.build",
     "build": "cross-env NODE_ENV=production node scripts.build",
-    "prod:run": "node dist/index.js",
+    "start:prod": "node dist/index.js",
     "typing": "tsc -p . --noEmit",
     "lint": "eslint \"src/**\""
   },
@@ -25,7 +25,12 @@
     "pino-pretty": "4.0.0",
     "dotenv-safe": "^8.2.0",
     "reflect-metadata": "0.1.13",
-    "require-main-filename": "2.0.0"
+    "sequelize": "^5.21.8",
+    "mysql2": "^2.1.0",
+    "@types/validator": "13.0.0",
+    "sequelize-cli": "5.5.1",
+    "bcrypt": "4.0.1",
+    "jsonwebtoken": "8.5.1"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
@@ -35,7 +40,7 @@
     "@types/node": "^13.13.4",
     "@types/dotenv-safe": "^8.1.0",
     "@rock/codestyle": "0.9.0",
-    "@rock/compiler": "0.9.0",
-    "@rock/tester": "0.9.0"
+    "@rock/tester": "0.9.0",
+    "@rock/compiler": "0.9.0"
   }
 }

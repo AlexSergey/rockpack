@@ -1,7 +1,7 @@
 {
   "name": "@rock/localazer",
   "version": "0.9.0",
-  "description": "This module can help you organize localization in your application",
+  "description": "This module can help you organize localization in your React application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,35 +14,38 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexSergey/localazer.git"
+    "url": "git+https://github.com/AlexSergey/rock.git"
+  },
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
+  "license": "MIT",
+  "homepage": "https://www.rock-book.io/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rock/issues"
   },
   "keywords": [
-    "i18n",
+    "jed",
     "localization",
+    "internationalization",
+    "l10n",
+    "i18n",
     "react",
     "react-component"
   ],
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/localazer)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/AlexSergey/localazer/issues"
-  },
-  "homepage": "https://github.com/AlexSergey/localazer",
   "dependencies": {
+    "jed": "1.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "jed": "1.1.1",
-    "valid-types": "2.0.3",
-    "@types/react": "16.9.34",
-    "@types/react-dom": "16.9.6"
+    "valid-types": "2.0.3"
   },
   "devDependencies": {
     "@rock/codestyle": "0.9.0",
     "@rock/compiler": "0.9.0",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.2",
-    "@types/jest": "25.2.1",
     "@types/enzyme": "3.10.5",
-    "@types/enzyme-adapter-react-16": "1.0.6"
+    "@types/enzyme-adapter-react-16": "1.0.6",
+    "@types/jest": "25.2.1",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2"
   }
 }

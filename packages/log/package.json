@@ -1,7 +1,7 @@
 {
   "name": "@rock/log",
   "version": "0.9.0",
-  "description": "This module can help you build error tracking & crash reporting system.",
+  "description": "This module can help you build error tracking & crash reporting system for your React application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,13 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexSergey/logrock.git"
+    "url": "git+https://github.com/AlexSergey/rock.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/logrock)",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
   "license": "MIT",
-  "homepage": "http://www.natrube.net/logrock/index.html",
+  "homepage": "https://www.rock-book.io/",
   "bugs": {
-    "url": "https://github.com/AlexSergey/logrock/issues"
+    "url": "https://github.com/AlexSergey/rock/issues"
   },
   "keywords": [
     "logger",
@@ -30,24 +30,23 @@
     "react-log",
     "error-tracking",
     "crash-reporting",
-    "react",
     "react-component"
   ],
   "dependencies": {
-    "valid-types": "2.0.3",
     "limited-array": "2.0.2",
-    "@types/react": "16.9.34",
-    "@types/react-dom": "16.9.6",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "valid-types": "2.0.3"
   },
   "devDependencies": {
     "@rock/codestyle": "0.9.0",
     "@rock/compiler": "0.9.0",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.2",
-    "@types/jest": "25.2.1",
     "@types/enzyme": "3.10.5",
-    "@types/enzyme-adapter-react-16": "1.0.6"
+    "@types/enzyme-adapter-react-16": "1.0.6",
+    "@types/jest": "25.2.1",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2"
   }
 }

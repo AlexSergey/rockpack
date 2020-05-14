@@ -12,7 +12,6 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "2.31.0",
     "@typescript-eslint/parser": "2.31.0",
-    "@ls-lint/ls-lint": "1.8.1",
     "babel-eslint": "10.1.0",
     "deep-extend": "0.6.0",
     "eslint": "7.0.0",
