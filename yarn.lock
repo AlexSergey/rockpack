@@ -2400,11 +2400,6 @@
   dependencies:
     mkdirp "^0.5.1"
 
-"@ls-lint/ls-lint@1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@ls-lint/ls-lint/-/ls-lint-1.8.1.tgz#c156e6dd3f48501d234e0705f20073c701528929"
-  integrity sha512-4aF6H8J2yTKSVnU1Gz9Trx5kiyFpKrVOjWAQYsGNo6AaNWpPKTbKguvQrs+11yAUx5qvNKQgvQXSEIQx1HIGeA==
-
 "@material-ui/core@4.9.13":
   version "4.9.13"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.9.13.tgz#024962bcdda05139e1bad17a1815bf4088702b15"

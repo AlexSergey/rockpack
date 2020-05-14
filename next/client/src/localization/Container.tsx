@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import { withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { LocalizationObserver } from '@rock/localazer';
+import { LocalizationObserver } from '@rockpack/localazer';
 import { fetchLocale } from './action';
 import { LocalizationState } from './reducer';
 import { RootState } from '../store';

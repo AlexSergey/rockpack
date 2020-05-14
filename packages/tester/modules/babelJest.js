@@ -1,5 +1,5 @@
 const babelJest = require('babel-jest');
-const createBabelPresets = require('@rock/babel');
+const createBabelPresets = require('@rockpack/babel');
 
 const opts = createBabelPresets({
   loadable: true,

@@ -1,6 +1,6 @@
 const { isString } = require('valid-types');
 const path = require('path');
-const createBabelPresets = require('@rock/babel');
+const createBabelPresets = require('@rockpack/babel');
 const formatter = require('@becklyn/typescript-error-formatter');
 const Collection = require('../utils/Collection');
 const pathToEslintrc = require('../utils/pathToEslintrc');

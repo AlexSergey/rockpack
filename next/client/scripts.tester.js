@@ -1,3 +1,3 @@
-const { run } = require('@rock/tester');
+const { run } = require('@rockpack/tester');
 
 run();

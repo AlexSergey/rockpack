@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUssrState, useWillMount } from '@rock/ussr';
+import { useUssrState, useWillMount } from '@rockpack/ussr';
 import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import Localization, { l } from '@rock/localazer';
+import Localization, { l } from '@rockpack/localazer';
 import { effect } from './effect';
 import styles from './styles.modules.scss';
 

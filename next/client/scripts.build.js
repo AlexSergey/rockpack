@@ -1,5 +1,5 @@
 const path = require('path');
-const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rock/compiler');
+const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rockpack/compiler');
 
 const alias = {
   alias: {

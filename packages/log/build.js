@@ -1,4 +1,4 @@
-const { libraryCompiler } = require('@rock/compiler');
+const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler({
   name: 'RockLog',
@@ -16,4 +16,3 @@ libraryCompiler({
     'react-dom'
   ];
 });
-

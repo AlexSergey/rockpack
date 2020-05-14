@@ -1,5 +1,5 @@
 import React from 'react';
-import Localization, { l } from '@rock/localazer';
+import Localization, { l } from '@rockpack/localazer';
 import FlagIconFactory from 'react-flag-icon-css';
 import createDocumentation from '../generator';
 import ComponentReadme from './readme.mdx';

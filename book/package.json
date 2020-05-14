@@ -1,5 +1,5 @@
 {
-  "name": "@rock/book",
+  "name": "@rockpack/book",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.52",
     "@mdx-js/react": "1.5.8",
-    "@rock/localazer": "0.9.0",
+    "@rockpack/localazer": "0.9.0",
     "classnames": "2.2.6",
     "history": "4.10.1",
     "normalize.css": "8.0.1",
@@ -40,7 +40,7 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rock/compiler": "0.9.0",
+    "@rockpack/compiler": "0.9.0",
     "@types/history": "4.7.5",
     "@types/material-ui": "0.21.7",
     "@types/react": "16.9.34",

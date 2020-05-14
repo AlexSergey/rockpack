@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { detectBrowserLanguage, LocalizationObserver, LanguagesInterface } from '@rock/localazer';
+import { detectBrowserLanguage, LocalizationObserver, LanguagesInterface } from '@rockpack/localazer';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { isObject, isString } from 'valid-types';
 import parseLanguageFromUrl from '../utils/parseLanguageFromUrl';

@@ -1,7 +1,7 @@
 const { existsSync, readFileSync, lstatSync } = require('fs');
 const { isString } = require('valid-types');
 const strip = require('strip-comments');
-const createBabelPresets = require('@rock/babel');
+const createBabelPresets = require('@rockpack/babel');
 const { transform } = require('@babel/core');
 const { parse } = require('@babel/parser');
 const traverse = require('@babel/traverse');

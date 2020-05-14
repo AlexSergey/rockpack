@@ -1,4 +1,4 @@
-const { localazer } = require('@rock/compiler');
+const { localazer } = require('@rockpack/compiler');
 
 localazer.po2json({
   src: './locales',

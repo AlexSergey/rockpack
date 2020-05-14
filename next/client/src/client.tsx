@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import { hydrate } from 'react-dom';
-import createUssr from '@rock/ussr';
+import createUssr from '@rockpack/ussr';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';

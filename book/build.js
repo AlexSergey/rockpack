@@ -1,4 +1,4 @@
-const { frontendCompiler } = require('@rock/compiler');
+const { frontendCompiler } = require('@rockpack/compiler');
 const prerenderDocgen = require('./postrender');
 
 frontendCompiler({

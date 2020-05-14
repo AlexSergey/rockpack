@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Logger } from '@rock/log';
+import { Logger } from '@rockpack/log';
 import { call, takeEvery } from 'redux-saga/effects';
-import { LocaleData } from '@rock/localazer';
+import { LocaleData } from '@rockpack/localazer';
 import { implementPromiseAction } from '@adobe/redux-saga-promise';
 import { fetchLocale } from './action';
 import { getDefaultLanguage } from './utils';

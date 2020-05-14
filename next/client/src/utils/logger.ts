@@ -1,3 +1,3 @@
-import { createLogger } from '@rock/log';
+import { createLogger } from '@rockpack/log';
 
 export const logger = createLogger();

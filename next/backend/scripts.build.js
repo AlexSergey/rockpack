@@ -1,4 +1,4 @@
 const path = require('path');
-const { backendCompiler } = require('@rock/compiler');
+const { backendCompiler } = require('@rockpack/compiler');
 
 backendCompiler();

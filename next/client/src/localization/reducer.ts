@@ -1,6 +1,6 @@
 import produce, { Draft } from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
-import { LocaleData, getDefaultLocale } from '@rock/localazer';
+import { LocaleData, getDefaultLocale } from '@rockpack/localazer';
 import { fetchLocale } from './action';
 import { getDefaultLanguage } from './utils';
 

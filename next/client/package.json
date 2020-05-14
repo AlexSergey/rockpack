@@ -1,5 +1,5 @@
 {
-  "name": "next",
+  "name": "react-starter",
   "version": "1.0.0",
   "scripts": {
     "start": "cross-env NODE_ENV=development node scripts.build",
@@ -17,9 +17,9 @@
     "@loadable/component": "5.12.0",
     "@loadable/server": "5.12.0",
     "@reduxjs/toolkit": "1.3.5",
-    "@rock/localazer": "0.9.0",
-    "@rock/log": "0.9.0",
-    "@rock/ussr": "0.9.0",
+    "@rockpack/localazer": "0.9.0",
+    "@rockpack/log": "0.9.0",
+    "@rockpack/ussr": "0.9.0",
     "axios": "0.19.2",
     "history": "4.10.1",
     "immer": "6.0.3",
@@ -45,9 +45,9 @@
     "source-map-support": "0.5.16"
   },
   "devDependencies": {
-    "@rock/codestyle": "0.9.0",
-    "@rock/compiler": "0.9.0",
-    "@rock/tester": "0.9.0",
+    "@rockpack/codestyle": "0.9.0",
+    "@rockpack/compiler": "0.9.0",
+    "@rockpack/tester": "0.9.0",
     "@storybook/addon-actions": "5.3.18",
     "@storybook/addon-backgrounds": "5.3.18",
     "@storybook/addon-cssresources": "5.3.18",
