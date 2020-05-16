@@ -1,38 +1,78 @@
 import { userFactory } from '../models/User';
 import { sequelize } from '../boundaries/database';
+import { createToken } from '../utils/auth';
+import { UserAlreadyExists, UserNotFound, SequelizeValidationError, WrongPassword } from '../errors';
 
 export class UserController {
-  static createUser = async (ctx): Promise<void> => {
+  static signup = async (ctx): Promise<void> => {
+    const { email, password } = ctx.request.body;
+    const User = userFactory(sequelize);
+
+    const user = await User.findOne({
+      limit: 1,
+      where: {
+        email
+      } });
+    if (user) {
+      throw new UserAlreadyExists();
+    }
     try {
-      const User = userFactory(sequelize);
-
-      await User.findOne({
-        limit: 1,
-        where: {
-          username: 'dsfsdf2'
-        } });
-      //console.log(u);
-
-      /*const user = await User.create({
-        username: 'dsfsdf2',
-        password: '123'
+      const newUser = await User.create({
+        email,
+        password
       });
-      const isV = await user.isValidPassword(user.password, '123');
-      console.log(isV);*/
+      const token = createToken(email, process.env.JWT_SECRET, '1hr');
+
+      ctx.cookies.set('token', token);
+
+      ctx.body = {
+        id: newUser.get('id'),
+        message: 'User created!'
+      };
     } catch (e) {
-      //console.log(e);
+      throw new SequelizeValidationError(e);
     }
-    ctx.body = 'user created';
-    //await user.save();
-    /*const user = userModel(knex);
-    try {
-      console.log(await user);
-      /!*await user.save({
-        username: 'test'
-      });*!/
-    } catch (e) {
-      console.log(e);
+  };
+
+  static checkToken = async (ctx): Promise<void> => {
+    ctx.body = {
+      message: 'ok',
+      code: 200,
+      status: 200,
+      statusCode: 200
+    };
+  };
+
+  static signin = async (ctx): Promise<void> => {
+    const { email, password } = ctx.request.body;
+    const User = userFactory(sequelize);
+
+    const user = await User.findOne({
+      limit: 1,
+      where: {
+        email
+      }
+    });
+
+    if (!user) {
+      throw new UserNotFound();
     }
-    ctx.body = 'user created';*/
+
+    const isValid = await user.isValidPassword(user.password, password);
+
+    if (!isValid) {
+      throw new WrongPassword();
+    }
+
+    const token = createToken(email, process.env.JWT_SECRET, '1hr');
+
+    ctx.cookies.set('token', token);
+
+    ctx.body = {
+      message: 'ok',
+      code: 200,
+      status: 200,
+      statusCode: 200
+    };
   };
 }

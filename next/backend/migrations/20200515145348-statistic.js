@@ -1,4 +1,4 @@
-const tableName = 'users';
+const tableName = 'statistic';
 
 module.exports = {
   up: (queryInterface, Sequelize) => (
@@ -10,38 +10,28 @@ module.exports = {
         primaryKey: true
       },
 
-      email: {
-        type: Sequelize.STRING,
+      type_id: {
+        foreignKey: true,
         allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+
+      entity_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
 
       posts: {
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0,
         type: Sequelize.INTEGER,
       },
 
       comments: {
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0,
         type: Sequelize.INTEGER,
       },
-
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      },
-
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      },
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
-      }
     })
   ),
 

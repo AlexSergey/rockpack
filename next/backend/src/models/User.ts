@@ -5,6 +5,8 @@ export interface UserInterface {
   id: string;
   username: string;
   password: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -17,15 +19,31 @@ export const userFactory = (sequelize: Sequelize) => {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
-    username: {
+    email: {
       type: new DataTypes.STRING(128),
       allowNull: false,
+      validate: {
+        isEmail: true,
+        min: 5
+      },
+      unique: true
     },
     password: {
       type: new DataTypes.STRING(128),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: 5
+      },
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('NOW()')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('NOW()')
     }
   }, {
     tableName: 'users',
@@ -40,6 +58,8 @@ export const userFactory = (sequelize: Sequelize) => {
       }
     }
   });
+
+  User.sync();
 
   return User;
 };

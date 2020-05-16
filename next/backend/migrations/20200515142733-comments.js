@@ -1,4 +1,4 @@
-const tableName = 'users';
+const tableName = 'comments';
 
 module.exports = {
   up: (queryInterface, Sequelize) => (
@@ -10,21 +10,20 @@ module.exports = {
         primaryKey: true
       },
 
-      email: {
-        type: Sequelize.STRING,
+      user_id: {
         allowNull: false,
-      },
-
-      posts: {
-        allowNull: false,
-        defaultValue: 0,
         type: Sequelize.INTEGER,
       },
 
-      comments: {
+      post_id: {
+        foreignKey: true,
         allowNull: false,
-        defaultValue: 0,
         type: Sequelize.INTEGER,
+      },
+
+      text: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
 
       createdAt: {
@@ -37,10 +36,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('NOW()')
-      },
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
       }
     })
   ),

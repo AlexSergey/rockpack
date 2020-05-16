@@ -1,8 +1,12 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-export const createToken = (username, email, secret, expiresIn): string => (
-  jwt.sign({ username, email }, secret, { expiresIn })
+export const createToken = (email, secret, expiresIn): string => (
+  jwt.sign({ email }, secret, { expiresIn })
+);
+
+export const decodeToken = (token: string, secret: string): object | string => (
+  jwt.verify(token, secret)
 );
 
 export const isValidPassword = async (userPassword, password): Promise<boolean> => (

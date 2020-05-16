@@ -24,6 +24,24 @@ export const UNAUTHORIZED = {
   message: 'You are not authorized in the system.'
 };
 
+export const TOKEN_EXPIRED = {
+  statusCode: STATUSES.UNAUTHORIZED,
+  code: 'TOKEN_EXPIRED',
+  message: 'Session expired, please re-login'
+};
+
+export const USER_NOT_FOUND = {
+  statusCode: STATUSES.UNAUTHORIZED,
+  code: 'USER_NOT_FOUND',
+  message: 'User is not found, please re-login'
+};
+
+export const WRONG_PASSWORD = {
+  statusCode: STATUSES.UNAUTHORIZED,
+  code: 'PASSWORD_IS_NOT_VALID',
+  message: 'Wrong password'
+};
+
 export const UNKNOWN_RESOURCE = {
   statusCode: STATUSES.NOT_FOUND,
   code: 'UNKNOWN_RESOURCE',
@@ -42,10 +60,6 @@ export const INVALID_REQUEST = {
   message: 'The request has invalid parameters.'
 };
 
-
-/**
- * Server Errors
- */
 export const INTERNAL_ERROR = {
   statusCode: STATUSES.INTERNAL_SERVER_ERROR,
   code: 'INTERNAL_ERROR',
@@ -56,4 +70,10 @@ export const UNKNOWN_ERROR = {
   statusCode: STATUSES.INTERNAL_SERVER_ERROR,
   code: 'UNKNOWN_ERROR',
   message: 'The server encountered an unknown error.'
+};
+
+export const USER_ALREADY_EXISTS = {
+  statusCode: STATUSES.FORBIDDEN,
+  code: 'USER_ALREADY_EXISTS',
+  message: 'User already exists.'
 };
