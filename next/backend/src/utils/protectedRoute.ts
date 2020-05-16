@@ -32,4 +32,4 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
   }
 
   await next();
-}
+};
