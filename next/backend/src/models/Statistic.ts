@@ -44,6 +44,9 @@ export const statisticFactory = (sequelize: Sequelize) => {
       allowNull: true
     }
   }, {
+    defaultScope: {
+      attributes: { exclude: ['id', 'type_id', 'entity_id'] }
+    },
     tableName: 'statistic',
     sequelize
   });

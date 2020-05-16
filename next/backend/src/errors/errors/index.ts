@@ -6,3 +6,5 @@ export * from './ExpiredToken';
 export * from './UserNotFound';
 export * from './NotFound';
 export * from './WrongPassword';
+export * from './InternalError';
+export * from './PostNotFound';

@@ -7,7 +7,9 @@ dotenvSafe.config({
 });
 
 export default {
+  jwtExpiresIn: '7d',
   logLevel: 'info',
+  postsLimit: 20,
   shutdownTimeout: 1000,
   http: {
     port: process.env.PORT

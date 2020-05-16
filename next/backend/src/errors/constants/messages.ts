@@ -42,6 +42,12 @@ export const WRONG_PASSWORD = {
   message: 'Wrong password'
 };
 
+export const POST_NOT_FOUND = {
+  statusCode: STATUSES.BAD_REQUEST,
+  code: 'BAD_REQUEST',
+  message: 'Post not found'
+};
+
 export const UNKNOWN_RESOURCE = {
   statusCode: STATUSES.NOT_FOUND,
   code: 'UNKNOWN_RESOURCE',

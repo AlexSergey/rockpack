@@ -48,6 +48,9 @@ export const userFactory = (sequelize: Sequelize) => {
   }, {
     tableName: 'users',
     sequelize,
+    defaultScope: {
+      attributes: { exclude: ['password'] }
+    },
     hooks: {
       beforeCreate: async (user): Promise<void> => {
         const { cryptedPassword } = await cryptPassword(user.get('password'));

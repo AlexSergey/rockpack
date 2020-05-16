@@ -44,6 +44,9 @@ export const postFactory = (sequelize: Sequelize) => {
       defaultValue: Sequelize.literal('NOW()')
     }
   }, {
+    defaultScope: {
+      attributes: { exclude: ['user_id'] }
+    },
     tableName: 'posts',
     sequelize
   });
