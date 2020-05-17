@@ -1,6 +1,7 @@
 import { sequelize } from '../boundaries/database';
 import { userFactory } from '../models/User';
 import { postFactory } from '../models/Post';
+import { commentFactory } from '../models/Comment';
 import { statisticFactory } from '../models/Statistic';
 import { statisticTypeFactory } from '../models/StatisticType';
 import { SequelizeValidationError, InternalError, PostNotFound, BadRequest } from '../errors';
@@ -147,6 +148,7 @@ export class PostController {
     const { id } = ctx.params;
     const userId = ctx.user.get('id');
     const Post = postFactory(sequelize);
+    const Comment = commentFactory(sequelize);
     const Statistic = statisticFactory(sequelize);
     const StatisticType = statisticTypeFactory(sequelize);
 
@@ -187,8 +189,34 @@ export class PostController {
       throw new PostNotFound();
     }
 
+    const comments = await Comment.findAll({
+      where: {
+        post_id: id
+      }
+    });
+
+    try {
+      await Comment.destroy({
+        where: {
+          post_id: id
+        }
+      });
+    } catch (e) {
+      throw new SequelizeValidationError(e);
+    }
+
     try {
       const postsCount = userStats.get('posts');
+      const userComments = comments
+        .map(c => c.toJSON())
+        .reduce((dict, comment) => {
+          dict[comment.user_id] = typeof dict[comment.user_id] === 'number' ?
+            dict[comment.user_id] + 1 :
+            0;
+          return dict;
+        }, {});
+      // TODO: update stats for user's comments here!
+      console.log(userComments);
 
       await userStats.update({
         posts: (postsCount - 1)
