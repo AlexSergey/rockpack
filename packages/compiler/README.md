@@ -14,7 +14,7 @@ This config-generator include modules and features:
 - Write file webpack plugin (in dev mode)
 - Copy Webpack Plugin
 - ESLint
-- Templates: HTML/Jade/Handlebars,nunjucks
+- Templates: HTML/Jade/Handlebars
 - CSS: CSS/SASS/LESS + Postcss
 - Postcss: Autoprefixer, Mqpacker, Lost, Instagram filters, Rucksack
 - CSS Modules support
@@ -81,7 +81,7 @@ libraryCompiler('MyLib', options, webpackConfig => {
 });
 ```
 ### markupCompiler(paths[needed], options[optional], callback[optional]);
-can compile markup (HTML, handlebars, jade, nunjucks)
+can compile markup (HTML, handlebars, jade)
 ```jsx
 const { markupCompiler } = require('rocket-starter');
 

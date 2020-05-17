@@ -1,5 +1,6 @@
 const deepExtend = require('deep-extend');
 const { isDefined, isUndefined, isArray } = require('valid-types');
+const path = require('path');
 const glob = require('glob');
 const _compile = require('../core/_compile');
 const errors = require('../errors/markupCompiler');
@@ -20,7 +21,7 @@ function _getOptions(pth, options = {}) {
 
       options = deepExtend({}, options, {
         html: html.concat(files.map(file => ({
-          template: file
+          template: path.resolve(file)
         })))
       });
 

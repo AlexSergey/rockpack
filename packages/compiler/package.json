@@ -88,8 +88,6 @@
     "node-sass": "4.14.1",
     "nodemon-webpack-plugin": "4.3.1",
     "null-loader": "4.0.0",
-    "nunjucks": "3.2.1",
-    "nunjucks-isomorphic-loader": "2.0.2",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "po2json": "0.4.5",
     "postcss-instagram": "1.0.0",

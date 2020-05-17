@@ -13280,11 +13280,6 @@ koa-convert@^1.2.0:
     co "^4.6.0"
     koa-compose "^3.0.0"
 
-koa-cookies@2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/koa-cookies/-/koa-cookies-2.0.7.tgz#e61481a2d65d72218897aba3a154f13e4f4e2530"
-  integrity sha512-oDh1Ly1UF4uevo3A9Rk/Faic1Sf7hgPRPFB41IT5Dm2XNXk6nyjxlzHUqg5l1WKC8TsQtQqCTJtu8WNIrSRyxw==
-
 koa-logger@3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/koa-logger/-/koa-logger-3.2.1.tgz#ab9db879526db3837cc9ce4fd983c025b1689f22"
@@ -15226,18 +15221,10 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-nunjucks-isomorphic-loader@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/nunjucks-isomorphic-loader/-/nunjucks-isomorphic-loader-2.0.2.tgz#839f920d2102449a0f8286a57a16fd9f08c8bd10"
-  integrity sha1-g5+SDSECRJoPgoalehb9nwjIvRA=
-  dependencies:
-    loader-utils "^1.1.0"
-    nunjucks-loader "^2.4.5"
-
-nunjucks-loader@^2.4.5:
-  version "2.4.9"
-  resolved "https://registry.yarnpkg.com/nunjucks-loader/-/nunjucks-loader-2.4.9.tgz#76484b99112d8c0eea714bae8f5f7e8880422660"
-  integrity sha512-caJrRGE0H7ePL5fSwPuRVKOJ1cSqfn8tj7BBHEqHUgdbFss3vTkUm2EcUFAeEJS8MS8Y+epV5SuhhFe5YyAkQA==
+nunjucks-loader@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/nunjucks-loader/-/nunjucks-loader-3.0.0.tgz#54ea42a3a383e43da764954456f2053041fa4db6"
+  integrity sha512-ew4gf8FuBi9DbMyksKStFzN8CWRtHuHFITS4KOTO0PJmEo7753HXJP51R6cGyfAuAEG0t+Qbh6di8vFYbnnJYw==
   dependencies:
     loader-utils "^0.2.12"
     slash "~1.0.0"

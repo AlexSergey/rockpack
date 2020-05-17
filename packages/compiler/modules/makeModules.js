@@ -99,18 +99,6 @@ function getModules(conf = {}, mode, root) {
       ]
     },
 
-    nunjucks: {
-      test: /\.(njk|nunjucks)$/,
-      use: [
-        {
-          loader: require.resolve('nunjucks-isomorphic-loader'),
-          query: {
-            root: [root]
-          }
-        }
-      ]
-    },
-
     tsx: {
       test: /\.tsx$/,
       use: conf.__isIsomorphicLoader ? [
