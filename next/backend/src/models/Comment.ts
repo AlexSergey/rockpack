@@ -1,4 +1,6 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { statisticFactory } from './Statistic';
+import { statisticTypeFactory } from './StatisticType';
 
 export interface PostInterface {
   id: number;
@@ -10,7 +12,7 @@ export interface PostInterface {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const commentFactory = (sequelize: Sequelize) => {
+export const commentFactory = (sequelize) => {
   class Comment extends Model<PostInterface> {
   }
 
@@ -42,15 +44,98 @@ export const commentFactory = (sequelize: Sequelize) => {
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('NOW()')
+      defaultValue: sequelize.literal('NOW()')
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('NOW()')
+      defaultValue: sequelize.literal('NOW()')
     }
   }, {
     tableName: 'comments',
-    sequelize
+    sequelize,
+    hooks: {
+      afterCreate: async (comment) => {
+        const Statistic = statisticFactory(sequelize);
+        const StatisticType = statisticTypeFactory(sequelize);
+
+        const userType = await StatisticType.findOne({
+          where: {
+            type: 'user'
+          }
+        });
+
+        const postType = await StatisticType.findOne({
+          where: {
+            type: 'post'
+          }
+        });
+
+        await Statistic.update(
+          {
+            comments: sequelize.literal('comments + 1')
+          },
+          {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: comment.get('user_id')
+            }
+          }
+        );
+
+        await Statistic.update(
+          {
+            comments: sequelize.literal('comments + 1')
+          },
+          {
+            where: {
+              type_id: postType.get('id'),
+              entity_id: comment.get('post_id')
+            }
+          }
+        );
+      },
+
+      afterDestroy: async (comment) => {
+        const Statistic = statisticFactory(sequelize);
+        const StatisticType = statisticTypeFactory(sequelize);
+
+        const userType = await StatisticType.findOne({
+          where: {
+            type: 'user'
+          }
+        });
+
+        const postType = await StatisticType.findOne({
+          where: {
+            type: 'post'
+          }
+        });
+
+        await Statistic.update(
+          {
+            comments: sequelize.literal('comments - 1')
+          },
+          {
+            where: {
+              type_id: postType.get('id'),
+              entity_id: comment.get('post_id')
+            }
+          }
+        );
+
+        await Statistic.update(
+          {
+            comments: sequelize.literal('comments - 1')
+          },
+          {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: comment.get('user_id')
+            }
+          }
+        );
+      }
+    }
   });
 
   Comment.sync();
