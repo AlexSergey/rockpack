@@ -1,8 +1,9 @@
-import { USER_ALREADY_EXISTS } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { USER_ALREADY_EXISTS } from '../constants/messages';
 
-export class UserAlreadyExists extends Error implements ErrorInterface {
+export class UserAlreadyExists extends BaseError implements ErrorInterface {
   public code = USER_ALREADY_EXISTS.code;
 
   public statusCode = USER_ALREADY_EXISTS.statusCode;

@@ -1,8 +1,9 @@
-import { INTERNAL_ERROR } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { INTERNAL_ERROR } from '../constants/messages';
 
-export class InternalError extends Error implements ErrorInterface {
+export class InternalError extends BaseError implements ErrorInterface {
   public code = INTERNAL_ERROR.code;
 
   public statusCode = INTERNAL_ERROR.statusCode;

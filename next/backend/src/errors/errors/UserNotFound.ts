@@ -1,8 +1,9 @@
-import { USER_NOT_FOUND } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { USER_NOT_FOUND } from '../constants/messages';
 
-export class UserNotFound extends Error implements ErrorInterface {
+export class UserNotFound extends BaseError implements ErrorInterface {
   public code = USER_NOT_FOUND.code;
 
   public statusCode = USER_NOT_FOUND.statusCode;

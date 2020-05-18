@@ -1,8 +1,9 @@
-import { WRONG_PASSWORD } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { WRONG_PASSWORD } from '../constants/messages';
 
-export class WrongPassword extends Error implements ErrorInterface {
+export class WrongPassword extends BaseError implements ErrorInterface {
   public code = WRONG_PASSWORD.code;
 
   public statusCode = WRONG_PASSWORD.statusCode;

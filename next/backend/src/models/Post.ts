@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
 import { commentFactory } from './Comment';
+import { InternalError } from '../errors';
 
 export interface PostInterface {
   id: number;
@@ -50,6 +51,7 @@ export const postFactory = (sequelize) => {
     tableName: 'posts',
     sequelize,
     hooks: {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       afterCreate: async (post) => {
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
@@ -66,20 +68,24 @@ export const postFactory = (sequelize) => {
           }
         });
 
-        await Statistic.create({
-          type_id: postType.get('id'),
-          entity_id: post.get('id'),
-          comments: 0
-        });
+        try {
+          await Statistic.create({
+            type_id: postType.get('id'),
+            entity_id: post.get('id'),
+            comments: 0
+          });
 
-        await Statistic.update({
-          posts: sequelize.literal('posts + 1')
-        }, {
-          where: {
-            type_id: userType.get('id'),
-            entity_id: post.get('user_id'),
-          }
-        });
+          await Statistic.update({
+            posts: sequelize.literal('posts + 1')
+          }, {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: post.get('user_id'),
+            }
+          });
+        } catch (e) {
+          throw new InternalError();
+        }
       },
 
       afterDestroy: async (post) => {
@@ -108,34 +114,41 @@ export const postFactory = (sequelize) => {
             return dict;
           }, {});
 
-        await Comment.destroy({
-          where: {
-            post_id: post.get('id')
-          }
-        });
+        try {
+          await Comment.destroy({
+            where: {
+              post_id: post.get('id')
+            }
+          });
 
-        await Statistic.update({
-          posts: sequelize.literal('posts - 1')
-        }, {
-          where: {
-            type_id: userType.get('id'),
-            entity_id: post.get('user_id'),
-          }
-        });
+          await Statistic.update({
+            posts: sequelize.literal('posts - 1')
+          }, {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: post.get('user_id'),
+            }
+          });
+        } catch (e) {
+          throw new InternalError();
+        }
 
         const userIds = Object.keys(userComments);
 
         for (let i = 0, l = userIds.length; i < l; i++) {
           const userId = userIds[i];
-
-          await Statistic.update({
-            posts: sequelize.literal(`posts - ${userComments[userId]}`)
-          }, {
-            where: {
-              type_id: userType.get('id'),
-              entity_id: userId,
-            }
-          });
+          try {
+            await Statistic.update({
+              posts: sequelize.literal(`posts - ${userComments[userId]}`)
+            }, {
+              where: {
+                type_id: userType.get('id'),
+                entity_id: userId,
+              }
+            });
+          } catch (e) {
+            throw new InternalError();
+          }
         }
       }
     }

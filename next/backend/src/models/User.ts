@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { cryptPassword, isValidPassword } from '../utils/auth';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
+import { InternalError } from '../errors';
 
 export interface UserInterface {
   id: string;
@@ -72,12 +73,16 @@ export const userFactory = (sequelize) => {
           }
         });
 
-        await Statistic.create({
-          type_id: typeEntity.get('id'),
-          entity_id: user.get('id'),
-          posts: 0,
-          comment: 0
-        });
+        try {
+          await Statistic.create({
+            type_id: typeEntity.get('id'),
+            entity_id: user.get('id'),
+            posts: 0,
+            comment: 0
+          });
+        } catch (e) {
+          throw new InternalError();
+        }
       }
     }
   });

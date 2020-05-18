@@ -1,5 +1,5 @@
 import { sequelize } from '../boundaries/database';
-import { BadRequest, SequelizeValidationError } from '../errors/errors';
+import { BadRequest, SequelizeError } from '../errors/errors';
 import { commentFactory } from '../models/Comment';
 
 export class CommentController {
@@ -41,7 +41,7 @@ export class CommentController {
         message: 'Comment created'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 
@@ -64,7 +64,7 @@ export class CommentController {
         message: 'Comment deleted'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 
@@ -95,7 +95,7 @@ export class CommentController {
         message: 'Comment updated'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 }

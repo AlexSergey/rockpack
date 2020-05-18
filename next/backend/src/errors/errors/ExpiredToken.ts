@@ -1,8 +1,9 @@
-import { TOKEN_EXPIRED } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { TOKEN_EXPIRED } from '../constants/messages';
 
-export class ExpiredToken extends Error implements ErrorInterface {
+export class ExpiredToken extends BaseError implements ErrorInterface {
   public code = TOKEN_EXPIRED.code;
 
   public statusCode = TOKEN_EXPIRED.statusCode;

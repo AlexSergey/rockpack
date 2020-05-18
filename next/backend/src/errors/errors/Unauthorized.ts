@@ -1,8 +1,9 @@
-import { UNAUTHORIZED } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { UNAUTHORIZED } from '../constants/messages';
 
-export class Unauthorized extends Error implements ErrorInterface {
+export class Unauthorized extends BaseError implements ErrorInterface {
   public code = UNAUTHORIZED.code;
 
   public statusCode = UNAUTHORIZED.statusCode;

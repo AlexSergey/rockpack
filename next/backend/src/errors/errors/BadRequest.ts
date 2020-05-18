@@ -1,13 +1,14 @@
-import { BAD_REQUEST } from '../constants/messages';
+import { BaseError } from './_BaseError';
+import { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
-import { ErrorInterface } from './types';
+import { BAD_REQUEST } from '../constants/messages';
 
-export class BadRequest extends Error implements ErrorInterface {
+export class BadRequest extends BaseError implements ErrorInterface {
   public code = BAD_REQUEST.code;
-  
+
   public statusCode = BAD_REQUEST.statusCode;
-  
+
   public message = BAD_REQUEST.message;
-  
+
   public status = getStatus(BAD_REQUEST.statusCode);
 }

@@ -1,6 +1,6 @@
 export * from './BadRequest';
 export * from './UserAlreadyExists';
-export * from './SequelizeValidationError';
+export * from './SequelizeError';
 export * from './Unauthorized';
 export * from './ExpiredToken';
 export * from './UserNotFound';

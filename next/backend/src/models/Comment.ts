@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
+import { InternalError } from '../errors';
 
 export interface PostInterface {
   id: number;
@@ -70,29 +71,33 @@ export const commentFactory = (sequelize) => {
           }
         });
 
-        await Statistic.update(
-          {
-            comments: sequelize.literal('comments + 1')
-          },
-          {
-            where: {
-              type_id: userType.get('id'),
-              entity_id: comment.get('user_id')
+        try {
+          await Statistic.update(
+            {
+              comments: sequelize.literal('comments + 1')
+            },
+            {
+              where: {
+                type_id: userType.get('id'),
+                entity_id: comment.get('user_id')
+              }
             }
-          }
-        );
+          );
 
-        await Statistic.update(
-          {
-            comments: sequelize.literal('comments + 1')
-          },
-          {
-            where: {
-              type_id: postType.get('id'),
-              entity_id: comment.get('post_id')
+          await Statistic.update(
+            {
+              comments: sequelize.literal('comments + 1')
+            },
+            {
+              where: {
+                type_id: postType.get('id'),
+                entity_id: comment.get('post_id')
+              }
             }
-          }
-        );
+          );
+        } catch (e) {
+          throw new InternalError();
+        }
       },
 
       afterDestroy: async (comment) => {
@@ -111,29 +116,33 @@ export const commentFactory = (sequelize) => {
           }
         });
 
-        await Statistic.update(
-          {
-            comments: sequelize.literal('comments - 1')
-          },
-          {
-            where: {
-              type_id: postType.get('id'),
-              entity_id: comment.get('post_id')
+        try {
+          await Statistic.update(
+            {
+              comments: sequelize.literal('comments - 1')
+            },
+            {
+              where: {
+                type_id: postType.get('id'),
+                entity_id: comment.get('post_id')
+              }
             }
-          }
-        );
+          );
 
-        await Statistic.update(
-          {
-            comments: sequelize.literal('comments - 1')
-          },
-          {
-            where: {
-              type_id: userType.get('id'),
-              entity_id: comment.get('user_id')
+          await Statistic.update(
+            {
+              comments: sequelize.literal('comments - 1')
+            },
+            {
+              where: {
+                type_id: userType.get('id'),
+                entity_id: comment.get('user_id')
+              }
             }
-          }
-        );
+          );
+        } catch (e) {
+          throw new InternalError();
+        }
       }
     }
   });

@@ -1,4 +1,4 @@
-enum Statuses {
+export enum Statuses {
   fail = 'fail',
   error = 'error',
   success = 'success'

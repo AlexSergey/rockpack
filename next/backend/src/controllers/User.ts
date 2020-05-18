@@ -1,7 +1,7 @@
 import { userFactory } from '../models/User';
 import { sequelize } from '../boundaries/database';
 import { createToken } from '../utils/auth';
-import { UserAlreadyExists, UserNotFound, SequelizeValidationError, WrongPassword } from '../errors';
+import { UserAlreadyExists, UserNotFound, SequelizeError, WrongPassword } from '../errors';
 import config from '../config';
 
 export class UserController {
@@ -34,7 +34,7 @@ export class UserController {
         message: 'User created'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 

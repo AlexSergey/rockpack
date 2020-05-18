@@ -3,7 +3,7 @@ import { userFactory } from '../models/User';
 import { postFactory } from '../models/Post';
 import { statisticFactory } from '../models/Statistic';
 import { statisticTypeFactory } from '../models/StatisticType';
-import { SequelizeValidationError, InternalError, PostNotFound, BadRequest } from '../errors';
+import { SequelizeError, InternalError, PostNotFound, BadRequest } from '../errors';
 import config from '../config';
 
 export class PostController {
@@ -81,7 +81,7 @@ export class PostController {
         data: posts.map(p => p.toJSON())
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 
@@ -100,7 +100,7 @@ export class PostController {
         message: 'Post created'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 
@@ -164,7 +164,7 @@ export class PostController {
         message: 'Post updated'
       };
     } catch (e) {
-      throw new SequelizeValidationError(e);
+      throw new SequelizeError(e);
     }
   };
 }
