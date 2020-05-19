@@ -17,12 +17,12 @@ const resizeFile = (filePath: string, resize: number): Promise<Buffer> => (
   })
 );
 
-interface Resize {
+interface ResizeImage {
   name: string;
   resize?: number;
 }
 
-export const resize = (...fields: (string | Resize)[]) => (
+export const resizeImage = (...fields: (string | ResizeImage)[]) => (
   async (ctx, next) => {
     const files = ctx.files;
 

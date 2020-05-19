@@ -4,7 +4,7 @@ import config from './config';
 
 import { protectedRoute } from './middlewares/protectedRoute';
 import { upload } from './middlewares/upload';
-import { resize } from './middlewares/resize';
+import { resizeImage } from './middlewares/resizeImage';
 
 import { UserController } from './controllers/User';
 import { PostController } from './controllers/Post';
@@ -29,7 +29,7 @@ export const routes = (app): void => {
       name: 'photos',
       maxCount: config.files.photos
     }
-  ), resize({
+  ), resizeImage({
     name: 'preview',
     resize: config.files.thumbnail
   }), PostController.create);
