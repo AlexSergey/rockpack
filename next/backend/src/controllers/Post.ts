@@ -1,8 +1,10 @@
 import { sequelize } from '../boundaries/database';
 import { userFactory } from '../models/User';
 import { postFactory } from '../models/Post';
+import { imageFactory } from '../models/Image';
 import { statisticFactory } from '../models/Statistic';
 import { statisticTypeFactory } from '../models/StatisticType';
+import { imageTypeFactory } from '../models/ImageType';
 import { SequelizeError, InternalError, PostNotFound, BadRequest } from '../errors';
 import config from '../config';
 
@@ -18,6 +20,8 @@ export class PostController {
     const StatisticPost = statisticFactory(sequelize);
     const StatisticUser = statisticFactory(sequelize);
     const StatisticType = statisticTypeFactory(sequelize);
+    const Image = imageFactory(sequelize);
+    const ImageType = imageTypeFactory(sequelize);
 
     const postType = await StatisticType.findOne({
       where: {
@@ -35,7 +39,16 @@ export class PostController {
       }
     });
 
+    const previewType = await ImageType.findOne({
+      where: {
+        type: 'preview'
+      }
+    });
+
     if (!userType) {
+      throw new InternalError();
+    }
+    if (!previewType) {
       throw new InternalError();
     }
 
@@ -45,6 +58,8 @@ export class PostController {
     User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
     StatisticPost.hasMany(Post, { foreignKey: 'id' });
     Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
+    Image.hasMany(Post, { foreignKey: 'id' });
+    Post.hasOne(Image, { foreignKey: 'post_id' });
 
     try {
       const posts = await Post.findAll({
@@ -58,9 +73,13 @@ export class PostController {
                 model: StatisticUser,
                 where: {
                   type_id: userType.get('id')
-                }
+                },
+                required: false
               }
-            ]
+            ],
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt']
+            }
           },
           {
             model: StatisticPost,
@@ -68,13 +87,27 @@ export class PostController {
               type_id: postType.get('id')
             },
             attributes: {
-              exclude: ['id', 'type_id', 'entity_id', 'posts']
-            }
+              exclude: ['id', 'type_id', 'entity_id', 'posts', 'createdAt', 'updatedAt']
+            },
+            required: false
+          },
+          {
+            model: Image,
+            where: {
+              type_id: previewType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'post_id', 'type_id']
+            },
+            required: false
           }
         ],
         attributes: {
-          exclude: ['user_id']
-        }
+          exclude: ['user_id', 'text']
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ],
       });
 
       ctx.body = {
@@ -87,13 +120,49 @@ export class PostController {
 
   static create = async (ctx): Promise<void> => {
     const userId = ctx.user.get('id');
-    const { title, text } = ctx.request.body;
     const Post = postFactory(sequelize);
+    const Image = imageFactory(sequelize);
+    const ImageType = imageTypeFactory(sequelize);
+    const { title, text } = ctx.request.body;
 
     try {
       const post = await Post.create({
         user_id: userId, title, text
       });
+
+      if (ctx.files.preview && Array.isArray(ctx.files.preview)) {
+        const preview = ctx.files.preview[0];
+
+        const previewType = await ImageType.findOne({
+          where: {
+            type: 'preview'
+          }
+        });
+
+        await Image.create({
+          post_id: post.get('id'),
+          type_id: previewType.get('id'),
+          uri: preview.filename
+        });
+      }
+
+      if (ctx.files.photos && Array.isArray(ctx.files.photos)) {
+        const photosType = await ImageType.findOne({
+          where: {
+            type: 'photos'
+          }
+        });
+
+        for (let i = 0, l = ctx.files.photos.length; i < l; i++) {
+          const photo = ctx.files.photos[i];
+
+          await Image.create({
+            post_id: post.get('id'),
+            type_id: photosType.get('id'),
+            uri: photo.filename
+          });
+        }
+      }
 
       ctx.body = {
         id: post.get('id'),

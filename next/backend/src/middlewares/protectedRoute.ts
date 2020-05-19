@@ -1,6 +1,6 @@
 import { userFactory } from '../models/User';
 import { sequelize } from '../boundaries/database';
-import { decodeToken } from './auth';
+import { decodeToken } from '../utils/auth';
 import { Unauthorized, ExpiredToken, UserNotFound } from '../errors';
 
 export const protectedRoute = async (ctx, next): Promise<void> => {

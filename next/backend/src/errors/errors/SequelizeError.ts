@@ -1,14 +1,14 @@
 import { BaseError as SequelizeBaseError } from 'sequelize';
 import { BaseError } from './_BaseError';
 import { ErrorInterface } from './_types';
-import { BAD_REQUEST } from '../constants/messages';
+import { DATABASE_ERROR } from '../constants/messages';
 import { Statuses } from '../utils/getStatus';
 import { sequelizeMessage } from '../utils/sequelizeMessage';
 
 export class SequelizeError extends BaseError implements ErrorInterface {
-  public code = BAD_REQUEST.code;
+  public code = DATABASE_ERROR.code;
 
-  public statusCode = BAD_REQUEST.statusCode;
+  public statusCode = DATABASE_ERROR.statusCode;
 
   public status = Statuses.error;
 

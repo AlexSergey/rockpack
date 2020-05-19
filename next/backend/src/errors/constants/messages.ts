@@ -6,6 +6,18 @@ export const BAD_REQUEST = {
   message: 'Bad Request. Your browser sent a request that this server could not understand.'
 };
 
+export const DATABASE_ERROR = {
+  statusCode: STATUSES.BAD_REQUEST,
+  code: 'DATABASE_ERROR',
+  message: 'Bad Request. Your browser sent a request that this server could not understand.'
+};
+
+export const FILE_FORMAT_ERROR = {
+  statusCode: STATUSES.BAD_REQUEST,
+  code: 'FILE_FORMAT_ERROR',
+  message: 'Only .png, .jpg and .jpeg format allowed'
+};
+
 export const AUTH_REQUIRED = {
   statusCode: STATUSES.UNAUTHORIZED,
   code: 'AUTH_REQUIRED',

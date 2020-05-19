@@ -1,7 +1,10 @@
 import Router from '@koa/router';
 import { NotFound } from './errors';
+import config from './config';
 
-import { protectedRoute } from './utils/protectedRoute';
+import { protectedRoute } from './middlewares/protectedRoute';
+import { upload } from './middlewares/upload';
+import { resize } from './middlewares/resize';
 
 import { UserController } from './controllers/User';
 import { PostController } from './controllers/Post';
@@ -16,7 +19,20 @@ export const routes = (app): void => {
   router.get('/v1/users/check', protectedRoute, UserController.checkToken);
 
   router.get('/v1/posts', PostController.fetch);
-  router.post('/v1/posts', protectedRoute, PostController.create);
+  router.post('/v1/posts', protectedRoute, upload(
+    'title',
+    'text',
+    {
+      name: 'preview',
+      maxCount: config.files.preview
+    }, {
+      name: 'photos',
+      maxCount: config.files.photos
+    }
+  ), resize({
+    name: 'preview',
+    resize: config.files.thumbnail
+  }), PostController.create);
   router.delete('/v1/posts/:id', protectedRoute, PostController.delete);
   router.put('/v1/posts/:id', protectedRoute, PostController.update);
 
