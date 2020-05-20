@@ -55,7 +55,7 @@ export const commentFactory = (sequelize) => {
     tableName: 'comments',
     sequelize,
     hooks: {
-      afterCreate: async (comment) => {
+      afterCreate: async (comment): Promise<void> => {
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
 
@@ -100,7 +100,7 @@ export const commentFactory = (sequelize) => {
         }
       },
 
-      afterDestroy: async (comment) => {
+      afterDestroy: async (comment): Promise<void> => {
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
 

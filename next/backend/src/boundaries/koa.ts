@@ -7,6 +7,7 @@ import bodyParser from 'koa-bodyparser';
 
 import logger from '../logger';
 import { routes } from '../routes';
+import config from '../config';
 
 import { errorsHandler } from '../errors';
 
@@ -32,6 +33,8 @@ app.use(
 );
 
 app.use(serve(publicFolder));
+app.use(serve(config.storagePath));
+
 app.use(
   bodyParser({
     onerror: (error, ctx) => {

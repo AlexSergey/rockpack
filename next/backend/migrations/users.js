@@ -26,9 +26,16 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('NOW()')
       },
+
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+
+      role_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        defaultValue: 1
       }
     })
   ),

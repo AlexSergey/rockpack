@@ -36,7 +36,9 @@
     "@types/validator": "13.0.0",
     "sequelize-cli": "5.5.1",
     "bcrypt": "4.0.1",
-    "jsonwebtoken": "8.5.1"
+    "jsonwebtoken": "8.5.1",
+    "sanitize-html": "1.23.0",
+    "yargs": "15.3.1"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",

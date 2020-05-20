@@ -12,7 +12,7 @@ module.exports = {
 
       type: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('preview', 'photos'),
       }
     })
   ),

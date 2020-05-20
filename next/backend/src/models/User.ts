@@ -1,8 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { cryptPassword, isValidPassword } from '../utils/auth';
+import { postFactory } from './Post';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
-import { InternalError } from '../errors';
+import { InternalError, PostNotFound } from '../errors';
 
 export interface UserInterface {
   id: string;
@@ -24,6 +25,7 @@ export const userFactory = (sequelize) => {
       autoIncrement: true,
       primaryKey: true
     },
+
     email: {
       type: new DataTypes.STRING(128),
       allowNull: false,
@@ -33,6 +35,7 @@ export const userFactory = (sequelize) => {
       },
       unique: true
     },
+
     password: {
       type: new DataTypes.STRING(128),
       allowNull: false,
@@ -40,10 +43,21 @@ export const userFactory = (sequelize) => {
         min: 5
       },
     },
+
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'roles',
+        key: 'id',
+      }
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('NOW()')
     },
+
     updatedAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('NOW()')
@@ -63,7 +77,7 @@ export const userFactory = (sequelize) => {
         });
       },
 
-      afterCreate: async (user) => {
+      afterCreate: async (user): Promise<void> => {
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
 
@@ -82,6 +96,21 @@ export const userFactory = (sequelize) => {
           });
         } catch (e) {
           throw new InternalError();
+        }
+      },
+
+      beforeDestroy: async (user): Promise<void> => {
+        const Post = postFactory(sequelize);
+
+        try {
+          await Post.destroy({
+            where: {
+              user_id: user.get('id')
+            },
+            individualHooks: true
+          });
+        } catch (e) {
+          throw new PostNotFound();
         }
       }
     }

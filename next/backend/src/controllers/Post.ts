@@ -7,6 +7,8 @@ import { statisticTypeFactory } from '../models/StatisticType';
 import { imageTypeFactory } from '../models/ImageType';
 import { SequelizeError, InternalError, PostNotFound, BadRequest } from '../errors';
 import config from '../config';
+import { ok } from '../utils/response';
+import { roleFactory } from '../models/Role';
 
 export class PostController {
   static fetch = async (ctx): Promise<void> => {
@@ -17,6 +19,7 @@ export class PostController {
     const offset = page * config.postsLimit;
     const User = userFactory(sequelize);
     const Post = postFactory(sequelize);
+    const Role = roleFactory(sequelize);
     const StatisticPost = statisticFactory(sequelize);
     const StatisticUser = statisticFactory(sequelize);
     const StatisticType = statisticTypeFactory(sequelize);
@@ -52,16 +55,16 @@ export class PostController {
       throw new InternalError();
     }
 
-    User.hasMany(Post, { foreignKey: 'id' });
-    Post.belongsTo(User, { foreignKey: 'user_id' });
-    StatisticUser.hasMany(User, { foreignKey: 'id' });
-    User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
-    StatisticPost.hasMany(Post, { foreignKey: 'id' });
-    Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
-    Image.hasMany(Post, { foreignKey: 'id' });
-    Post.hasOne(Image, { foreignKey: 'post_id' });
-
     try {
+      Post.belongsTo(User, { foreignKey: 'user_id' });
+      User.hasMany(StatisticUser, { foreignKey: 'id' });
+      StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
+      User.belongsTo(Role, { foreignKey: 'role_id' });
+      StatisticPost.hasMany(Post, { foreignKey: 'id' });
+      Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
+      Image.hasMany(Post, { foreignKey: 'id' });
+      Post.hasOne(Image, { foreignKey: 'post_id' });
+
       const posts = await Post.findAll({
         offset,
         limit: config.postsLimit,
@@ -75,10 +78,17 @@ export class PostController {
                   type_id: userType.get('id')
                 },
                 required: false
+              },
+              {
+                model: Role,
+                attributes: {
+                  exclude: ['id']
+                },
+                required: false
               }
             ],
             attributes: {
-              exclude: ['password', 'createdAt', 'updatedAt']
+              exclude: ['password', 'role_id', 'createdAt', 'updatedAt']
             }
           },
           {
@@ -110,9 +120,119 @@ export class PostController {
         ],
       });
 
-      ctx.body = {
-        data: posts.map(p => p.toJSON())
-      };
+      ctx.body = ok('Posts fetched', {
+        posts: posts.map(p => p.toJSON())
+      });
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
+  };
+
+  static details = async (ctx): Promise<void> => {
+    const { id } = ctx.params;
+    const User = userFactory(sequelize);
+    const Post = postFactory(sequelize);
+    const Role = roleFactory(sequelize);
+    const StatisticPost = statisticFactory(sequelize);
+    const StatisticUser = statisticFactory(sequelize);
+    const StatisticType = statisticTypeFactory(sequelize);
+    const Image = imageFactory(sequelize);
+    const ImageType = imageTypeFactory(sequelize);
+
+    const postType = await StatisticType.findOne({
+      where: {
+        type: 'post'
+      }
+    });
+
+    if (!postType) {
+      throw new InternalError();
+    }
+
+    const userType = await StatisticType.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    const photosType = await ImageType.findOne({
+      where: {
+        type: 'photos'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
+    if (!photosType) {
+      throw new InternalError();
+    }
+
+    Post.belongsTo(User, { foreignKey: 'user_id' });
+    User.hasMany(StatisticUser, { foreignKey: 'id' });
+    StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
+    User.belongsTo(Role, { foreignKey: 'role_id' });
+    StatisticPost.hasMany(Post, { foreignKey: 'id' });
+    Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
+    Image.hasMany(Post, { foreignKey: 'id' });
+    Post.hasMany(Image, { foreignKey: 'post_id' });
+
+    try {
+      const post = await Post.findOne({
+        limit: 1,
+        where: {
+          id
+        },
+        include: [
+          {
+            model: User,
+            include: [
+              {
+                model: StatisticUser,
+                where: {
+                  type_id: userType.get('id')
+                },
+                required: false
+              },
+              {
+                model: Role,
+                attributes: {
+                  exclude: ['id']
+                },
+                required: false
+              }
+            ],
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt']
+            }
+          },
+          {
+            model: StatisticPost,
+            where: {
+              type_id: postType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'type_id', 'entity_id', 'posts', 'createdAt', 'updatedAt']
+            },
+            required: false
+          },
+          {
+            model: Image,
+            where: {
+              type_id: photosType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'post_id', 'type_id']
+            },
+            required: false
+          }
+        ],
+        attributes: {
+          exclude: ['user_id']
+        }
+      });
+
+      ctx.body = ok('Posts fetched', post.toJSON());
     } catch (e) {
       throw new SequelizeError(e);
     }
@@ -164,10 +284,9 @@ export class PostController {
         }
       }
 
-      ctx.body = {
-        id: post.get('id'),
-        message: 'Post created'
-      };
+      ctx.body = ok('Post created', {
+        id: post.get('id')
+      });
     } catch (e) {
       throw new SequelizeError(e);
     }
@@ -188,9 +307,7 @@ export class PostController {
       throw new PostNotFound();
     }
 
-    ctx.body = {
-      message: 'Post deleted'
-    };
+    ctx.body = ok('Post deleted');
   };
 
   static update = async (ctx): Promise<void> => {
@@ -229,9 +346,7 @@ export class PostController {
         }
       });
 
-      ctx.body = {
-        message: 'Post updated'
-      };
+      ctx.body = ok('Post updated');
     } catch (e) {
       throw new SequelizeError(e);
     }

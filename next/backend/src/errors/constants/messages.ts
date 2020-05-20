@@ -6,6 +6,12 @@ export const BAD_REQUEST = {
   message: 'Bad Request. Your browser sent a request that this server could not understand.'
 };
 
+export const INCORRECT_ACCESS = {
+  statusCode: STATUSES.NOT_ACCEPTABLE,
+  code: 'BAD_REQUEST',
+  message: 'Incorrect access.'
+};
+
 export const DATABASE_ERROR = {
   statusCode: STATUSES.BAD_REQUEST,
   code: 'DATABASE_ERROR',

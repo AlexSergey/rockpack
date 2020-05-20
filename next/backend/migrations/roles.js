@@ -1,4 +1,4 @@
-const tableName = 'statistic_type';
+const tableName = 'roles';
 
 module.exports = {
   up: (queryInterface, Sequelize) => (
@@ -10,9 +10,9 @@ module.exports = {
         primaryKey: true
       },
 
-      type: {
+      role: {
         allowNull: false,
-        type: Sequelize.ENUM('post', 'user'),
+        type: Sequelize.ENUM('user', 'admin'),
       }
     })
   ),

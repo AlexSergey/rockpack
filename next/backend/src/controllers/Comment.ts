@@ -1,6 +1,7 @@
 import { sequelize } from '../boundaries/database';
 import { BadRequest, SequelizeError } from '../errors/errors';
 import { commentFactory } from '../models/Comment';
+import { ok } from '../utils/response';
 
 export class CommentController {
   static fetch = async (ctx): Promise<void> => {
@@ -14,9 +15,9 @@ export class CommentController {
       }
     });
 
-    ctx.body = {
-      data: comments.map(c => c.toJSON())
-    };
+    ctx.body = ok('Comments fetched', {
+      comments: comments.map(c => c.toJSON())
+    });
   };
 
   static create = async (ctx): Promise<void> => {
@@ -36,10 +37,9 @@ export class CommentController {
         post_id: postId
       });
 
-      ctx.body = {
-        id: comment.get('id'),
-        message: 'Comment created'
-      };
+      ctx.body = ok('Comment created', {
+        id: comment.get('id')
+      });
     } catch (e) {
       throw new SequelizeError(e);
     }
@@ -59,10 +59,9 @@ export class CommentController {
         individualHooks: true
       });
 
-      ctx.body = {
-        id: comment.get('id'),
-        message: 'Comment deleted'
-      };
+      ctx.body = ok('Comment deleted', {
+        id: comment.get('id')
+      });
     } catch (e) {
       throw new SequelizeError(e);
     }
@@ -90,10 +89,9 @@ export class CommentController {
         }
       );
 
-      ctx.body = {
-        id: comment.get('id'),
-        message: 'Comment updated'
-      };
+      ctx.body = ok('Comment updated', {
+        id: comment.get('id')
+      });
     } catch (e) {
       throw new SequelizeError(e);
     }

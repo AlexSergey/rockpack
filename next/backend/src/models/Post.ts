@@ -1,8 +1,13 @@
+import sanitizeHtml from 'sanitize-html';
 import { Model, DataTypes } from 'sequelize';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
 import { commentFactory } from './Comment';
 import { InternalError } from '../errors';
+import { imageFactory } from './Image';
+import { removeImages } from '../utils/removeImages';
+
+import { ALLOWED_TEXT } from '../utils/allowedTags';
 
 export interface PostInterface {
   id: number;
@@ -51,10 +56,15 @@ export const postFactory = (sequelize) => {
     tableName: 'posts',
     sequelize,
     hooks: {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      afterCreate: async (post) => {
+      afterCreate: async (post): Promise<void> => {
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
+
+        post.setAttributes({
+          text: sanitizeHtml(post.get('text'), {
+            allowedTags: ALLOWED_TEXT
+          })
+        });
 
         const postType = await StatisticType.findOne({
           where: {
@@ -88,7 +98,8 @@ export const postFactory = (sequelize) => {
         }
       },
 
-      afterDestroy: async (post) => {
+      afterDestroy: async (post): Promise<void> => {
+        const Image = imageFactory(sequelize);
         const Comment = commentFactory(sequelize);
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
@@ -115,6 +126,18 @@ export const postFactory = (sequelize) => {
           }, {});
 
         try {
+          const images = await Image.findAll({
+            where: {
+              post_id: post.get('id')
+            }
+          });
+
+          await Image.destroy({
+            where: {
+              post_id: post.get('id')
+            }
+          });
+
           await Comment.destroy({
             where: {
               post_id: post.get('id')
@@ -129,6 +152,11 @@ export const postFactory = (sequelize) => {
               entity_id: post.get('user_id'),
             }
           });
+
+          if (images) {
+            const imageLinks = images.map(img => img.toJSON().uri);
+            removeImages(imageLinks);
+          }
         } catch (e) {
           throw new InternalError();
         }

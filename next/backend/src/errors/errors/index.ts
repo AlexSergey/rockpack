@@ -10,3 +10,4 @@ export * from './InternalError';
 export * from './PostNotFound';
 export * from './BadFileFormat';
 export * from './MulterError';
+export * from './IncorrectAccess';

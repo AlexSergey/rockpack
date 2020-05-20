@@ -23,7 +23,7 @@ interface ResizeImage {
 }
 
 export const resizeImage = (...fields: (string | ResizeImage)[]) => (
-  async (ctx, next) => {
+  async (ctx, next): Promise<void> => {
     const files = ctx.files;
 
     if (files) {
