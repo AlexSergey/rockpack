@@ -78,7 +78,14 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+      { loader: require.resolve('less-loader'),
+        options: {
+          sourceMap: debug,
+          lessOptions: {
+            javascriptEnabled: true
+          }
+        }
+      }
     ];
 
     if (!conf.__isIsomorphicBackend) {
@@ -103,7 +110,14 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+      { loader: require.resolve('less-loader'),
+        options: {
+          sourceMap: debug,
+          lessOptions: {
+            javascriptEnabled: true
+          }
+        }
+      }
     ];
   } else {
     css = [
@@ -121,7 +135,14 @@ const getStylesRules = (conf, mode, root) => {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+      { loader: require.resolve('less-loader'),
+        options: {
+          sourceMap: debug,
+          lessOptions: {
+            javascriptEnabled: true
+          }
+        }
+      }
     ];
 
     cssModules = [
@@ -139,7 +160,14 @@ const getStylesRules = (conf, mode, root) => {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+      { loader: require.resolve('less-loader'),
+        options: {
+          sourceMap: debug,
+          lessOptions: {
+            javascriptEnabled: true
+          }
+        }
+      }
     ];
   }
 
@@ -166,7 +194,14 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+        { loader: require.resolve('less-loader'),
+          options: {
+            sourceMap: debug,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
       ];
     } else {
       cssModules = [
@@ -187,7 +222,14 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'), options: { sourceMap: debug, javascriptEnabled: true } }
+        { loader: require.resolve('less-loader'),
+          options: {
+            sourceMap: debug,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
       ];
     }
   }

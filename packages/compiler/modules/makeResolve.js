@@ -4,8 +4,7 @@ const makeResolve = () => ({
     '.tsx',
     '.js',
     '.jsx',
-    '.mjs',
-    '.vue'
+    '.mjs'
   ]
 });
 

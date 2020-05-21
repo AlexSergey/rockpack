@@ -27,7 +27,7 @@
     "koa": "2.11.0",
     "@koa/router": "8.0.8",
     "koa-static": "5.0.0",
-    "normalize.css": "8.0.1",
+    "reset-css": "5.0.1",
     "pretty-error": "2.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -43,7 +43,9 @@
     "regenerator-runtime": "0.13.5",
     "serialize-javascript": "3.0.0",
     "source-map-support": "0.5.16",
-    "js-cookie": "2.2.1"
+    "js-cookie": "2.2.1",
+    "antd": "4.2.4",
+    "formik": "2.1.4"
   },
   "devDependencies": {
     "@rockpack/codestyle": "0.9.0",

@@ -3,8 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import Service from '../../library/src';
 
-const logoData = `data:image/svg+xml;base64,${window.btoa(logo)}`;
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +11,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    const service = new Service('http://localhost:3000');
+    const service = new Service('http://localhost:3005');
     service.getData()
       .then(data => data.json())
       .then(data => {
@@ -30,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logoData} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
 

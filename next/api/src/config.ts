@@ -25,7 +25,12 @@ export default {
     maxSize: 3 * 1024 * 1024,
     preview: 1,
     photos: 10,
-    thumbnail: 200,
+    thumbnail: {
+      preview: {
+        width: 700
+      },
+      photos: 200
+    },
     thumbnailPrefix: 'thumb',
     types: ['image/jpeg', 'image/jpg', 'image/png']
   },

@@ -7,7 +7,10 @@ import logger from '../logger';
 
 const writeFile = util.promisify(fs.writeFile);
 
-const resizeFile = (filePath: string, resize: number): Promise<Buffer> => (
+const resizeFile = (filePath: string, resize: number | {
+  width?: number;
+  height?: number;
+}): Promise<Buffer> => (
   new Promise((resolve, reject) => {
     sharp(filePath)
       .resize(resize)
@@ -19,7 +22,10 @@ const resizeFile = (filePath: string, resize: number): Promise<Buffer> => (
 
 interface ResizeImage {
   name: string;
-  resize?: number;
+  resize?: number | {
+    width?: number;
+    height?: number;
+  };
 }
 
 export const resizeImage = (...fields: (string | ResizeImage)[]) => (

@@ -2,7 +2,8 @@
 
 .block {
   align-self: center;
-  background-color: red;
+  margin: 0 auto;
+  max-width: 1280px;
 }
 /* On screens that are 992px or less, set the background color to blue */
 @media screen and (max-width: 992px) {

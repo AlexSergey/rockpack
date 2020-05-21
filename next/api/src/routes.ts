@@ -34,7 +34,10 @@ export const routes = (app): void => {
     }
   ), resizeImage({
     name: 'preview',
-    resize: config.files.thumbnail
+    resize: config.files.thumbnail.preview
+  }, {
+    name: 'photos',
+    resize: config.files.thumbnail.photos
   }), PostController.create);
   router.delete('/v1/posts/:id', protectedRoute, PostController.delete);
   router.put('/v1/posts/:id', protectedRoute, PostController.update);

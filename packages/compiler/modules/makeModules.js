@@ -241,16 +241,6 @@ function getModules(conf = {}, mode, root) {
       sideEffects: false
     },
 
-    vue: {
-      test: /\.vue$/,
-      exclude: /(node_modules|bower_components)/,
-      use: [
-        {
-          loader: require.resolve('vue-loader')
-        }
-      ]
-    },
-
     node: {
       test: /\.node$/,
       use: require.resolve('node-loader')
@@ -347,7 +337,7 @@ function getModules(conf = {}, mode, root) {
     },
 
     svgJSX: {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      test: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/,
       issuer: {
         test: /\.jsx?$/
       },
@@ -361,8 +351,6 @@ function getModules(conf = {}, mode, root) {
         })
       }, {
         loader: require.resolve('@svgr/webpack')
-      }, {
-        loader: require.resolve('url-loader')
       }]
     },
 
@@ -393,7 +381,8 @@ function getModules(conf = {}, mode, root) {
             }]
           }
         }
-      ]
+      ],
+      exclude: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/
     },
   };
 

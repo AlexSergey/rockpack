@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
-const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -25,7 +24,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
@@ -77,8 +75,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
 
-  plugins.VueLoaderPlugin = new VueLoaderPlugin();
-
   plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
 
   if (existsSync(path.resolve(root, '.env.example'))) {
@@ -128,7 +124,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       verbose: true,
       nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
       ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
-      script: './dist/index.js'
+      script: `./${conf.dist}/index.js`
     };
 
     if (isString(conf.nodemon)) {
@@ -265,10 +261,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       }, {})
   );
   plugins.DefinePlugin = new webpack.DefinePlugin(definePluginOpts);
-
-  if (existsSync(path.resolve(root, '.flowconfig'))) {
-    plugins.FlowBabelWebpackPlugin = new FlowBabelWebpackPlugin();
-  }
 
   if (conf.copy) {
     let _prop = null;

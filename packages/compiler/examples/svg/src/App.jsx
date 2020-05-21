@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import './kiwi.css';
-import starUrl, { ReactComponent as SvgLogo } from './logo.svg';
-
-console.log(SvgLogo);
+import SvgLogo from './logo.component.svg';
 
 class App extends Component {
   render() {

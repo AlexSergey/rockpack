@@ -1,3 +1,5 @@
+@import "antd.overload.scss";
+
 body {
   margin: 0;
 }
@@ -8,26 +10,46 @@ html, body, #root {
 h1 {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
+  font-size: 24px;
   margin: 0 0 .67em;
 }
 
 h2 {
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
+  font-size: 20px;
   margin: 0 0 .83em;
 }
 
 h3 {
   font-family: 'Oswald', sans-serif;
   font-weight: 400;
+  font-size: 18px;
   margin: 0 0 1.17em;
 }
 
 h4 {
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
+  font-size: 16px;
   margin: 0 0 1.33em;
 }
+
+
+h5 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  margin: 0 0 1.33em;
+}
+
+h6 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  margin: 0 0 1.33em;
+}
+
 
 pre {
   font-family: 'Fira Code', monospace;

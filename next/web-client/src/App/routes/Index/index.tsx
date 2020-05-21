@@ -13,7 +13,7 @@ interface StateInterface {
   text: string;
 }
 
-const Home = (): JSX.Element => {
+const Index = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();
   useStyles(styles);
   const [state, setState] = useUssrState<StateInterface>('appState.text', { text: 'i am test ' });
@@ -44,4 +44,4 @@ const Home = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default Index;

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const fetchDog = createAction('The dog will fetch');
+export const fetchDog = createAction('Posts will fetch');
 
 export const requestDog = createAction('The dog is fetching...');
 
