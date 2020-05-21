@@ -292,7 +292,7 @@ function getModules(conf = {}, mode, root) {
         }
       ]
     } : {
-      test: /\.(jpe?g|png|gif|pdf)$/i,
+      test: /\.(jpe?g|png|gif)$/i,
       use: [
         {
           loader: require.resolve('file-loader'),
