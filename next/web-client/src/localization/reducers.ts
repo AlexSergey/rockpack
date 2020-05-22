@@ -1,17 +1,11 @@
 import produce, { Draft } from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
-import { LocaleData, getDefaultLocale } from '@rockpack/localazer';
-import { fetchLocale } from './action';
+import { getDefaultLocale } from '@rockpack/localazer';
+import { fetchLocale } from './actions';
 import { getDefaultLanguage } from './utils';
+import { LocalizationState } from './types';
 
-export interface LocalizationState {
-  loading: boolean;
-  error: boolean;
-  locale: LocaleData;
-  currentLanguage: string;
-}
-
-export default createReducer<LocalizationState>({
+export const localizationReducer = createReducer<LocalizationState>({
   loading: false,
   error: false,
   locale: getDefaultLocale(),

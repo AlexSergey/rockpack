@@ -1,7 +1,10 @@
 const deepExtend = require('deep-extend');
 
 module.exports = {
-  makeConfig: (customConfig = {}, opts = {}) => {
+  makeConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
+    if (!overrideRules) {
+      overrideRules = {};
+    }
     if (!customConfig) {
       customConfig = {};
     }
@@ -162,7 +165,7 @@ module.exports = {
             quotes: 'off',
             'no-unused-vars': 'off',
             semi: 'off'
-          })
+          }, overrideRules)
         }
       ],
       plugins,
@@ -177,7 +180,7 @@ module.exports = {
         renderToJson: true,
         createSerializer: true
       },
-      rules: deepExtend({}, commonRules)
+      rules: deepExtend({}, commonRules, overrideRules)
     }, customConfig);
   }
 };

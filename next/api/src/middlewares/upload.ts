@@ -5,7 +5,7 @@ import { BadFileFormat, MulterError } from '../errors';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, config.storage);
+    cb(null, `./${config.storage}`);
   },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);

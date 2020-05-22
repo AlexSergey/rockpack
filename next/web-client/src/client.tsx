@@ -6,11 +6,10 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import LocalizationContainer from './localization';
+import { LocalizationContainer } from './localization';
 import { App } from './App';
 import { isProduction } from './utils/mode';
-import createStore from './store';
-import rest from './utils/rest';
+import { createStore } from './store';
 import { logger } from './utils/logger';
 
 // Styles
@@ -30,7 +29,6 @@ declare global {
 const [, Ussr] = createUssr(window.USSR_DATA);
 
 const store = createStore({
-  rest,
   logger,
   initState: window.REDUX_DATA
 });
@@ -38,7 +36,7 @@ const store = createStore({
 const insertCss = (...styles): () => void => {
   const removeCss = isProduction() ?
     [] :
-    styles.map(style => style._insertCss());
+    styles.map(style => style && typeof style._insertCss === 'function' && style._insertCss());
   return (): void => removeCss.forEach(dispose => dispose());
 };
 

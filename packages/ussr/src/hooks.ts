@@ -5,6 +5,8 @@ import has from 'lodash/has';
 import { isBackend } from './utils';
 import { UssrContext } from './Ussr';
 
+export type Resolver = () => void;
+
 interface UssrState<T> {
   setState(componentState: T, skip?: boolean): void;
 }
@@ -56,7 +58,8 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-export const useWillMount = (cb: (resolver?: () => void) => Promise<unknown>): void => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,max-len
+export const useWillMount = (cb: (resolver?: Resolver) => Promise<unknown> | { payload: any; type: string } | void): void => {
   const initHook = useRef(true);
   const { isLoading, createEffect, hasEffect } = useContext(UssrContext);
   const loading = isLoading();
@@ -68,17 +71,29 @@ export const useWillMount = (cb: (resolver?: () => void) => Promise<unknown>): v
   initHook.current = false;
 
   if (onLoadOnTheClient) {
-    cb();
+    cb(() => {});
   } else if (onLoadOnTheBackend) {
     const effectId = cb.toString();
 
     if (!hasEffect(effectId)) {
       const resolver = createEffect(effectId);
-      const effect = cb(resolver);
-      const isEffect = effect && typeof effect.then === 'function';
-      if (isBackend() && isEffect) {
+      let called = false;
+
+      const resolve = (...args: unknown[]): void => {
+        called = true;
+        resolver.apply(null, args);
+      };
+
+      const effect = cb(resolve);
+      // @ts-ignore
+      if (isBackend() && (effect && typeof effect.finally === 'function')) {
+        // @ts-ignore
         // eslint-disable-next-line promise/catch-or-return
-        effect.finally(resolver);
+        effect.finally(() => {
+          if (!called) {
+            resolve();
+          }
+        });
       }
     }
   }

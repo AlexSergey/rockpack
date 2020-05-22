@@ -1,25 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUssrState, useWillMount } from '@rockpack/ussr';
 import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
-import { effect } from './effect';
 import styles from './styles.modules.scss';
-
+import { usePosts } from './features/Posts';
 import { useLocalizationAPI } from '../../../localization';
-
-interface StateInterface {
-  text: string;
-}
 
 const Index = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();
   useStyles(styles);
-  const [state, setState] = useUssrState<StateInterface>('appState.text', { text: 'i am test ' });
 
-  useWillMount(() => effect()
-    .then(data => setState(data)));
+  const [, , data] = usePosts();
 
   return (
     <>
@@ -28,10 +20,6 @@ const Index = (): JSX.Element => {
         <meta name="description" content="Home page" />
       </MetaTags>
       <div className={styles.block}>
-        <h1>{state.text}</h1>
-        <h2>{state.text}</h2>
-        <h3>{state.text}</h3>
-        <h4>{state.text}</h4>
         <p><Localization>{l('Hello')}</Localization></p>
         <button type="button" onClick={(): void => changeLanguage('ru')}>Change</button>
         <Link to="/secondary">secondary</Link>
@@ -39,6 +27,12 @@ const Index = (): JSX.Element => {
           ea, ex impedit in inventore laboriosam magnam minima nihil nostrum nulla reprehenderit rerum sint totam
           ullam.
         </p>
+        {data.map(post => (
+          <div>
+            <h2>{post.title}</h2>
+            <img src={`http://localhost:9999/${post.Image.uri}`} alt="" />
+          </div>
+        ))}
       </div>
     </>
   );

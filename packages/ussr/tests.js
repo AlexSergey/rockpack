@@ -1,8 +1,3 @@
-const { argv } = require('yargs');
-const { run, watch } = require('../tester');
+const tester = require('../tester');
 
-if (argv.watch) {
-  watch();
-} else {
-  run();
-}
+tester();

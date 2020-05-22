@@ -1,3 +1,5 @@
 const tester = require('../tester');
 
-tester();
+tester({
+  src: './tests'
+});

@@ -6,7 +6,7 @@ import loadable from '@loadable/component';
 import { LoggerContainer } from '@rockpack/logger';
 import { ToastContainer } from 'react-toastify';
 import { Switch } from '../utils/RouteSwitch';
-import { Layout } from './_components/Layout';
+import { Layout } from './components/Layout';
 import { logger } from '../utils/logger';
 import { notify } from '../utils/notifier';
 

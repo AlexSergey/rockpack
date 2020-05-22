@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize';
 import { sequelize } from '../boundaries/database';
 import { userFactory } from '../models/User';
 import { postFactory } from '../models/Post';
@@ -57,10 +58,10 @@ export class PostController {
 
     try {
       Post.belongsTo(User, { foreignKey: 'user_id' });
-      User.hasMany(StatisticUser, { foreignKey: 'id' });
+      User.hasOne(StatisticUser, { foreignKey: 'id' });
       StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
       User.belongsTo(Role, { foreignKey: 'role_id' });
-      StatisticPost.hasMany(Post, { foreignKey: 'id' });
+      StatisticPost.hasOne(Post, { foreignKey: 'id' });
       Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
       Image.hasMany(Post, { foreignKey: 'id' });
       Post.hasOne(Image, { foreignKey: 'post_id' });
@@ -107,7 +108,10 @@ export class PostController {
               type_id: previewType.get('id')
             },
             attributes: {
-              exclude: ['id', 'post_id', 'type_id']
+              exclude: ['id', 'post_id', 'type_id'],
+              include: [
+                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri']
+              ]
             },
             required: false
           }
@@ -169,10 +173,10 @@ export class PostController {
     }
 
     Post.belongsTo(User, { foreignKey: 'user_id' });
-    User.hasMany(StatisticUser, { foreignKey: 'id' });
+    User.hasOne(StatisticUser, { foreignKey: 'id' });
     StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
     User.belongsTo(Role, { foreignKey: 'role_id' });
-    StatisticPost.hasMany(Post, { foreignKey: 'id' });
+    StatisticPost.hasOne(Post, { foreignKey: 'id' });
     Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
     Image.hasMany(Post, { foreignKey: 'id' });
     Post.hasMany(Image, { foreignKey: 'post_id' });
@@ -221,8 +225,10 @@ export class PostController {
             where: {
               type_id: photosType.get('id')
             },
+            as: 'image',
             attributes: {
-              exclude: ['id', 'post_id', 'type_id']
+              exclude: ['id', 'post_id', 'type_id'],
+              //include: [Sequelize.fn('concat', Sequelize.col('uri'))]
             },
             required: false
           }

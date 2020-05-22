@@ -19,8 +19,7 @@ export default {
   jwtExpiresIn: '7d',
   logLevel: 'info',
   postsLimit: 20,
-  storage: './storage',
-  storagePath: path.resolve(process.env.ROOT_DIRNAME, './storage'),
+  storage: 'storage',
   files: {
     maxSize: 3 * 1024 * 1024,
     preview: 1,
@@ -39,6 +38,7 @@ export default {
   },
   shutdownTimeout: 1000,
   http: {
+    host: process.env.HOST,
     port: process.env.PORT
   }
 };

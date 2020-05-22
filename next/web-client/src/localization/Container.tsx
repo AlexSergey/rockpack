@@ -1,24 +1,20 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { LocalizationObserver } from '@rockpack/localazer';
-import { fetchLocale } from './action';
-import { LocalizationState } from './reducer';
-import { RootState } from '../store';
+//import { useWillMount, isClient } from '@rockpack/ussr';
+import { fetchLocale } from './actions';
+import { LocalizationState } from './types';
+import { RootState } from '../types/store';
 import { getDefaultLanguage } from './utils';
-
-export interface LocalizationContextInterface {
-  currentLanguage: string;
-  changeLanguage: (lang: string) => void;
-}
-
-export const LocalizationContext = createContext<LocalizationContextInterface>(null);
+import { LocalizationContext } from './context';
 
 export const LocalizationContainer = withRouter(({ children, history }): JSX.Element => {
   const dispatcher = useDispatch();
   const { currentLanguage, locale, loading, error } = useSelector<RootState, LocalizationState>(
     (state) => state.localization
   );
+
   const languages = { [currentLanguage]: locale };
 
   const changeLanguage = (lang: string): void => {

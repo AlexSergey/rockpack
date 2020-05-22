@@ -43,9 +43,9 @@ export const routes = (app): void => {
   router.put('/v1/posts/:id', protectedRoute, PostController.update);
 
   router.get('/v1/comments/:postId', CommentController.fetch);
-  router.post('/v1/comments/:postId', protectedRoute, PostController.create);
-  router.delete('/v1/comments/:id', protectedRoute, PostController.delete);
-  router.put('/v1/comments/:id', protectedRoute, PostController.update);
+  router.post('/v1/comments/:postId', protectedRoute, CommentController.create);
+  router.delete('/v1/comments/:id', protectedRoute, CommentController.delete);
+  router.put('/v1/comments/:id', protectedRoute, CommentController.update);
 
   app.use(router.routes());
   app.use(router.allowedMethods());

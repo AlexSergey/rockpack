@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LocalizationContext } from './Container';
+import { LocalizationContext } from './context';
 
 export const useCurrentLanguage = (): string => useContext(LocalizationContext).currentLanguage;
 

@@ -2,6 +2,7 @@ import Koa from 'koa';
 import path from 'path';
 import cors from '@koa/cors';
 import serve from 'koa-static';
+import mount from 'koa-mount';
 import logHandler from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 
@@ -11,7 +12,8 @@ import config from '../config';
 
 import { errorsHandler } from '../errors';
 
-const publicFolder = path.resolve(process.env.ROOT_DIRNAME, '../public');
+const publicFolder = path.resolve(process.env.ROOT_DIRNAME, 'public');
+const storageFolder = path.resolve(process.env.ROOT_DIRNAME, config.storage);
 
 const app = new Koa();
 
@@ -32,8 +34,8 @@ app.use(
   })
 );
 
-app.use(serve(publicFolder));
-app.use(serve(config.storagePath));
+app.use(mount('/public', serve(publicFolder)));
+app.use(mount('/storage', serve(storageFolder)));
 
 app.use(
   bodyParser({

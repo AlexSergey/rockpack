@@ -17,13 +17,12 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
-import LocalizationContainer from './localization';
+import { LocalizationContainer } from './localization';
 import { App } from './App';
 import ru from './localization/locales/ru.json';
-import createStore from './store';
-import rest from './utils/rest';
+import { createStore } from './store';
 import { logger } from './utils/logger';
-import { hasLanguage, getDefaultLanguage, getLanguages } from './localization/utils';
+import { getCurrentLanguageFromURL } from './localization/utils';
 
 const app = new Koa();
 const router = new Router();
@@ -36,35 +35,25 @@ const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
 
+const styles = stats.assets
+  .filter(file => path.extname(file.name) === '.css')
+  .map(style => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
+
 app.use(serve(publicFolder));
 
-const hasLanguageInUrl = (url): boolean => {
-  const l = url.split('/')[1];
-  return hasLanguage(typeof l === 'string' ? l : '');
-};
-const getLanguageFromUrl = (url): string => url.split('/')[1];
-
 router.get('/*', async (ctx) => {
-  const { url } = ctx.request;
-
-  const _lang = hasLanguageInUrl(url) ?
-    getLanguageFromUrl(url) :
-    ctx.acceptsLanguages(getLanguages());
-
-  const lang = typeof _lang === 'string' && hasLanguage(_lang) ?
-    _lang :
-    getDefaultLanguage();
+  const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages);
+  const locale = typeof languages[currentLanguage] === 'object' ?
+    languages[currentLanguage] :
+    getDefaultLocale();
 
   const store = createStore({
     initState: {
       localization: {
-        currentLanguage: lang,
-        locale: typeof languages[lang] === 'object' ?
-          languages[lang] :
-          getDefaultLocale()
+        currentLanguage,
+        locale
       }
     },
-    rest,
     logger
   });
 
@@ -77,7 +66,7 @@ router.get('/*', async (ctx) => {
 
   const insertCss = isProduction ?
     (): void => {} :
-    (...styles): void => styles.forEach(style => css.add(style._getCss()));
+    (...moduleStyles): void => moduleStyles.forEach(style => css.add(style._getCss()));
 
   const metaTagsInstance = MetaTagsServer();
 
@@ -105,25 +94,19 @@ router.get('/*', async (ctx) => {
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
 
-  const styles = isProduction ? [
-    '<link rel="preload" as="style" href="/css/styles.css" />',
-    '<link rel="preload" as="style" href="/css/1.css" />',
-    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />',
-    '<link rel="stylesheet" type="text/css" href="/css/1.css" />'
-  ].join('') : [
-    `<style>${[...css].join('')}</style>`,
-    '<link rel="stylesheet" type="text/css" href="/css/styles.css" />'
-  ].join('');
+  if (!isProduction) {
+    styles.push(`<style>${[...css].join('')}</style>`);
+  }
 
   const reduxState = store.getState();
 
   ctx.body = `
   <!DOCTYPE html>
-<html lang="${lang === 'ru' ? 'ru-RU' : 'en-US'}">
+<html lang="${currentLanguage === 'ru' ? 'ru-RU' : 'en-US'}">
 <head>
     ${meta}
     ${googleFontsInstall()}
-    ${styles}
+    ${styles.join('')}
 </head>
 <body>
     <div id="root">${html}</div>
