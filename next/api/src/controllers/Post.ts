@@ -66,6 +66,8 @@ export class PostController {
       Image.hasMany(Post, { foreignKey: 'id' });
       Post.hasOne(Image, { foreignKey: 'post_id' });
 
+      // @ts-ignore
+      // @ts-ignore
       const posts = await Post.findAll({
         offset,
         limit: config.postsLimit,
@@ -110,8 +112,9 @@ export class PostController {
             attributes: {
               exclude: ['id', 'post_id', 'type_id'],
               include: [
-                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri']
-              ]
+                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri'],
+                [Sequelize.fn('CONCAT', config.storage, '/', config.files.thumbnailPrefix, '-', Sequelize.col('uri')), 'thumbnail']
+              ],
             },
             required: false
           }

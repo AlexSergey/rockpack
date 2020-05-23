@@ -5,10 +5,11 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import styles from './styles.modules.scss';
 import { usePosts } from './features/Posts';
-import { useLocalizationAPI } from '../../../localization';
+import { useLocalizationAPI, useCurrentLanguage } from '../../../localization';
 
 const Index = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();
+  const currentLanguage = useCurrentLanguage();
   useStyles(styles);
 
   const [, , data] = usePosts();
@@ -28,10 +29,10 @@ const Index = (): JSX.Element => {
           ullam.
         </p>
         {data.map(post => (
-          <div>
+          <Link to={`${currentLanguage}/posts/${post.id}`}>
             <h2>{post.title}</h2>
-            <img src={`http://localhost:9999/${post.Image.uri}`} alt="" />
-          </div>
+            <img src={`http://localhost:9999/${post.Image.thumbnail}`} alt="" />
+          </Link>
         ))}
       </div>
     </>

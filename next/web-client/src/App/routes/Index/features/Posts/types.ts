@@ -1,5 +1,6 @@
 export interface Preview {
   uri: string;
+  thumbnail: string;
 }
 
 export interface PostStatistic {
