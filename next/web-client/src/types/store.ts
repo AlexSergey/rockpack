@@ -1,6 +1,6 @@
 import { Logger } from '@rockpack/logger';
-import { LocalizationState } from '../localization/types';
-import { PostsState } from '../App/routes/Index/features/Posts/types';
+import { LocalizationState } from '../features/Localization/types';
+import { PostsState } from '../features/Posts/types';
 
 export interface StoreProps {
   initState: {

@@ -3,8 +3,8 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';
 import { isNotProduction, isProduction } from './utils/mode';
-import { watchFetchLocale, localizationReducer as localization } from './localization';
-import { watchPosts, postsReducer as posts } from './App/routes/Index/features/Posts';
+import { watchFetchLocale, localizationReducer as localization } from './features/Localization';
+import { watchPosts, postsReducer as posts } from './features/Posts';
 import { StoreProps, RootState } from './types/store';
 
 const reduxLogger = createLogger({

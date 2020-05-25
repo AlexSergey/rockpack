@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess } from './actions';
-import config from '../../../../../config';
+import config from '../../config';
 
 // eslint-disable-next-line require-yield
 function* fetchPostsSaga(logger, { payload }) {

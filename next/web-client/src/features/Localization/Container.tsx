@@ -5,7 +5,7 @@ import { LocalizationObserver } from '@rockpack/localazer';
 //import { useWillMount, isClient } from '@rockpack/ussr';
 import { fetchLocale } from './actions';
 import { LocalizationState } from './types';
-import { RootState } from '../types/store';
+import { RootState } from '../../types/store';
 import { getDefaultLanguage } from './utils';
 import { LocalizationContext } from './context';
 

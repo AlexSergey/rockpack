@@ -4,8 +4,8 @@ import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import styles from './styles.modules.scss';
-import { usePosts } from './features/Posts';
-import { useLocalizationAPI, useCurrentLanguage } from '../../../localization';
+import { usePosts } from '../../features/Posts';
+import { useLocalizationAPI, useCurrentLanguage } from '../../features/Localization';
 
 const Index = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();

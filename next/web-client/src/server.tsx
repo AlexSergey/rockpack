@@ -17,12 +17,11 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
-import { LocalizationContainer } from './localization';
-import { App } from './App';
-import ru from './localization/locales/ru.json';
+import { App } from './main';
 import { createStore } from './store';
 import { logger } from './utils/logger';
-import { getCurrentLanguageFromURL } from './localization/utils';
+import ru from './features/Localization/locales/ru.json';
+import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
 
 const app = new Koa();
 const router = new Router();

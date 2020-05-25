@@ -5,13 +5,14 @@ import { Route, Redirect } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { LoggerContainer } from '@rockpack/logger';
 import { ToastContainer } from 'react-toastify';
-import { Switch } from '../utils/RouteSwitch';
+import { Switch } from './utils/RouteSwitch';
 import { Layout } from './components/Layout';
-import { logger } from '../utils/logger';
-import { notify } from '../utils/notifier';
+import { logger } from './utils/logger';
+import { notify } from './utils/notifier';
 
-import '../assets/styles/global.scss';
-import { useCurrentLanguage, getLanguages } from '../localization';
+import { useCurrentLanguage, getLanguages } from './features/Localization';
+
+import './assets/styles/global.scss';
 
 const Index = loadable(() => import('./routes/Index'));
 const User = loadable(() => import('./routes/User'));
