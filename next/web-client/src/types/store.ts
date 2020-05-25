@@ -1,6 +1,8 @@
 import { Logger } from '@rockpack/logger';
-import { LocalizationState } from '../features/Localization/types';
-import { PostsState } from '../features/Posts/types';
+import { LocalizationState } from './Localization';
+import { PostsState } from './Posts';
+import { PostState } from './PostDetails';
+import { UserState } from './AuthManager';
 
 export interface StoreProps {
   initState: {
@@ -12,4 +14,6 @@ export interface StoreProps {
 export interface RootState {
   localization: LocalizationState;
   posts: PostsState;
+  post: PostState;
+  user: UserState;
 }

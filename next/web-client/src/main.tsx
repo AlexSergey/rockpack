@@ -1,22 +1,20 @@
 import 'reset-css';
 import 'antd/dist/antd.css';
+import './assets/styles/global.scss';
 import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { LoggerContainer } from '@rockpack/logger';
 import { ToastContainer } from 'react-toastify';
 import { Switch } from './utils/RouteSwitch';
-import { Layout } from './components/Layout';
 import { logger } from './utils/logger';
 import { notify } from './utils/notifier';
-
 import { useCurrentLanguage, getLanguages } from './features/Localization';
 
-import './assets/styles/global.scss';
+import { Index } from './routes/Index';
 
-const Index = loadable(() => import('./routes/Index'));
-const User = loadable(() => import('./routes/User'));
-const Post = loadable(() => import('./routes/Post'));
+const Posts = loadable(() => import('./routes/Posts'));
+const PostDetails = loadable(() => import('./routes/PostDetails'));
 
 export const App = (): JSX.Element => {
   const languages = getLanguages();
@@ -24,23 +22,22 @@ export const App = (): JSX.Element => {
 
   return (
     <LoggerContainer logger={logger} stdout={notify}>
-      <Layout>
+      <Index>
         <Switch>
           {languages.map((language) => {
             const prefix = `/${language}`;
 
             return (
               <Fragment key={prefix}>
-                <Route path={prefix} component={Index} exact />
-                <Route path={`${prefix}/posts/:postId`} component={Post} />
-                <Route path={`${prefix}/users/:userId`} component={User} />
+                <Route path={prefix} component={Posts} exact />
+                <Route path={`${prefix}/posts/:postId`} component={PostDetails} />
               </Fragment>
             );
           })}
           <Redirect to={`/${currentLanguage}`} />
         </Switch>
-        <ToastContainer />
-      </Layout>
+      </Index>
+      <ToastContainer />
     </LoggerContainer>
   );
 };

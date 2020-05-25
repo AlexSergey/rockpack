@@ -44,7 +44,7 @@ export class UserController {
       ctx.cookies.set('token', token);
 
       ctx.body = ok('User created', {
-        id: newUser.get('id'),
+        email: newUser.get('email'),
         role: userRole.get('role'),
       });
     } catch (e) {
@@ -52,7 +52,7 @@ export class UserController {
     }
   };
 
-  static checkToken = async (ctx): Promise<void> => {
+  static check = async (ctx): Promise<void> => {
     const Role = roleFactory(sequelize);
     const role = await Role.findOne({
       limit: 1,
@@ -61,6 +61,7 @@ export class UserController {
       }
     });
     ctx.body = ok('User is correct', {
+      email: ctx.user.get('email'),
       role: role.get('role')
     });
   };
@@ -102,18 +103,20 @@ export class UserController {
     }
 
     const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
-
+    console.log(token);
     ctx.cookies.set('token', token);
 
     const userData = user.toJSON();
 
     ctx.body = ok('User is logged in', {
+      email: user.get('email'),
       role: userData.Role.role
     });
   };
 
   static signout = async (ctx): Promise<void> => {
     ctx.cookies.set('token', '');
+    ctx.cookies.set('role', '');
 
     ctx.body = ok('User is logged out');
   };

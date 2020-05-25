@@ -66,8 +66,6 @@ export class PostController {
       Image.hasMany(Post, { foreignKey: 'id' });
       Post.hasOne(Image, { foreignKey: 'post_id' });
 
-      // @ts-ignore
-      // @ts-ignore
       const posts = await Post.findAll({
         offset,
         limit: config.postsLimit,
@@ -127,9 +125,7 @@ export class PostController {
         ],
       });
 
-      ctx.body = ok('Posts fetched', {
-        posts: posts.map(p => p.toJSON())
-      });
+      ctx.body = ok('Posts fetched', posts.map(p => p.toJSON()));
     } catch (e) {
       throw new SequelizeError(e);
     }
@@ -171,6 +167,7 @@ export class PostController {
     if (!userType) {
       throw new InternalError();
     }
+
     if (!photosType) {
       throw new InternalError();
     }
@@ -228,10 +225,12 @@ export class PostController {
             where: {
               type_id: photosType.get('id')
             },
-            as: 'image',
             attributes: {
               exclude: ['id', 'post_id', 'type_id'],
-              //include: [Sequelize.fn('concat', Sequelize.col('uri'))]
+              include: [
+                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri'],
+                [Sequelize.fn('CONCAT', config.storage, '/', config.files.thumbnailPrefix, '-', Sequelize.col('uri')), 'thumbnail']
+              ],
             },
             required: false
           }

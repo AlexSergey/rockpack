@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { requestPosts, requestPostsError, requestPostsSuccess } from './actions';
+import { PostsState } from '../../types/Posts';
 
-export const postsReducer = createReducer({
+export const postsReducer = createReducer<PostsState>({
   data: [],
   error: false,
   loading: false

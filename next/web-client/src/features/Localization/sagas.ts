@@ -11,20 +11,18 @@ interface Locale {
   data: LocaleData;
 }
 
-function* handleFetchLocale(
+function* getLocale(
   logger: Logger,
   action: PayloadAction<string>
 ): IterableIterator<unknown> {
-  // eslint-disable-next-line require-yield
   yield call(implementPromiseAction, action, function* fetchLocaleSaga(): IterableIterator<unknown> {
     const language = action.payload;
     if (getDefaultLanguage() === language) {
       return;
     }
     try {
-      console.log('fire');
       const locale: Locale = yield call(() => fetch(`/locales/${language}.json`).then(r => r.json()));
-      console.log(locale);
+
       return ({
         locale, language
       });
@@ -35,8 +33,8 @@ function* handleFetchLocale(
   });
 }
 
-function* watchFetchLocale(logger): IterableIterator<unknown> {
-  yield takeEvery(fetchLocale, handleFetchLocale, logger);
+function* localeSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(fetchLocale, getLocale, logger);
 }
 
-export { watchFetchLocale };
+export { localeSaga };

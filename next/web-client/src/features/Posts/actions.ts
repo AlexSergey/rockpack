@@ -1,6 +1,6 @@
 import { Resolver } from '@rockpack/ussr';
 import { createAction } from '@reduxjs/toolkit';
-import { Post } from './types';
+import { Post } from '../../types/Posts';
 
 export const fetchPosts = createAction<{ resolver: Resolver }>('Posts will fetch');
 

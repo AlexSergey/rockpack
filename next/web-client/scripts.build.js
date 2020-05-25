@@ -18,7 +18,7 @@ frontendCompiler({
   ]
 }, config => {
   Object.assign(config.resolve, alias);
-})
+});
 /*isomorphicCompiler([
   {
     compiler: backendCompiler,

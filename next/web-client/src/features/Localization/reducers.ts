@@ -3,7 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { getDefaultLocale } from '@rockpack/localazer';
 import { fetchLocale } from './actions';
 import { getDefaultLanguage } from './utils';
-import { LocalizationState } from './types';
+import { LocalizationState } from '../../types/Localization';
 
 export const localizationReducer = createReducer<LocalizationState>({
   loading: false,

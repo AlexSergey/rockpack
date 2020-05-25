@@ -1,7 +1,7 @@
 import { useWillMount } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts } from './actions';
-import { PostsState, Post } from './types';
+import { PostsState, Post } from '../../types/Posts';
 
 export const usePosts = (): [boolean, boolean, Post[]] => {
   const dispatch = useDispatch();

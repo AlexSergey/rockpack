@@ -27,6 +27,7 @@ app.use(logHandler({
 
 app.use(
   cors({
+    credentials: true,
     origins: '*',
     allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
     allowHeaders: ['Content-Type'],
