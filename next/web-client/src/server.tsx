@@ -6,6 +6,7 @@ import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
 import Router from '@koa/router';
+import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
 import { getDefaultLocale } from '@rockpack/localazer';
 import { StaticRouter } from 'react-router';
@@ -17,10 +18,12 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
+import { Roles } from './types/AuthManager';
 import { App } from './main';
 import { createStore } from './store';
 import { logger } from './utils/logger';
 import ru from './features/Localization/locales/ru.json';
+import config from './config';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
 
 const app = new Koa();
@@ -41,13 +44,31 @@ const styles = stats.assets
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages);
+  let role: Roles = Roles.unauthorized;
+  try {
+    const { data } = await fetch(`${config.api}/v1/users/check`, {
+      headers: {
+        cookie: `token=${ctx.cookies.get('token')}`
+      }
+    }).then(d => d.json());
+    if (data && data.role) {
+      role = data.role;
+    }
+  } catch (e) {
+    console.error(e.message);
+    console.log(e);
+  }
+
+  const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages.bind(ctx));
   const locale = typeof languages[currentLanguage] === 'object' ?
     languages[currentLanguage] :
     getDefaultLocale();
 
   const store = createStore({
     initState: {
+      auth: {
+        role
+      },
       localization: {
         currentLanguage,
         locale

@@ -1,17 +1,19 @@
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
+import { isBackend } from '@rockpack/ussr';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';
 import { isNotProduction, isProduction } from './utils/mode';
 import { localeSaga, localizationReducer as localization } from './features/Localization';
 import { watchPosts, postsReducer as posts } from './features/Posts';
 import { watchPost, postReducer as post } from './features/PostDetails';
 import { commentsSaga, commentsReducer as comments } from './features/Comments';
-import { signInSaga, signOutSaga, signUpSaga, userReducer as user } from './features/AuthManager';
+import { signInSaga, signOutSaga, signUpSaga, authReducer as auth } from './features/AuthManager';
 import { StoreProps, RootState } from './types/store';
 
 const reduxLogger = createLogger({
-  collapsed: true
+  collapsed: true,
+  predicate: () => !isBackend()
 });
 
 const middleware = getDefaultMiddleware({
@@ -30,14 +32,14 @@ export const createStore = ({ initState = {}, logger }: StoreProps): Store<RootS
       posts,
       post,
       comments,
-      user
+      auth
     },
     devTools: isNotProduction(),
     middleware: isProduction() ? middleware.concat([
-      sagaMiddleware
+      sagaMiddleware,
     ]) : middleware.concat([
+      sagaMiddleware,
       reduxLogger,
-      sagaMiddleware
     ]),
     preloadedState: initState
   });

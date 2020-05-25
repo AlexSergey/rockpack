@@ -2,10 +2,10 @@ import fetch from 'node-fetch';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { Action } from '@reduxjs/toolkit';
 import { signin, signup, signout, setUser, removeUser } from './actions';
-import { UserState } from '../../types/AuthManager';
+import { AuthState } from '../../types/AuthManager';
 import config from '../../config';
 
-type Answer = { data: UserState };
+type Answer = { data: AuthState };
 
 function* signIn(logger, { payload: { email, password } }: ReturnType<typeof signin>):
 Generator<Action, void, Answer> {

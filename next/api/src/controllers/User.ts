@@ -53,6 +53,7 @@ export class UserController {
   };
 
   static check = async (ctx): Promise<void> => {
+    console.log('check');
     const Role = roleFactory(sequelize);
     const role = await Role.findOne({
       limit: 1,

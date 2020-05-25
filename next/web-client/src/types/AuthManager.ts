@@ -15,7 +15,7 @@ export interface AuthInterface {
   signout: () => void;
 }
 
-export interface UserState {
+export interface AuthState {
   email: string;
   role: Roles;
 }

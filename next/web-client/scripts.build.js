@@ -8,18 +8,8 @@ const alias = {
     'react-dom/server': path.resolve(__dirname, '../../node_modules/react-dom/server')
   }
 };
-frontendCompiler({
-  src: 'src/client.tsx',
-  dist: 'public',
-  copy: [
-    { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
-    { from: path.resolve(__dirname, './src/assets/robots.txt'), to: './' },
-    { from: path.resolve(__dirname, './src/features/localization/locales'), to: './locales' }
-  ]
-}, config => {
-  Object.assign(config.resolve, alias);
-});
-/*isomorphicCompiler([
+
+isomorphicCompiler([
   {
     compiler: backendCompiler,
     config: {
@@ -46,4 +36,3 @@ frontendCompiler({
     }
   }
 ]);
-*/
