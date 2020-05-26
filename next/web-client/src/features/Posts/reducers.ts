@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { requestPosts, requestPostsError, requestPostsSuccess } from './actions';
+import { requestPosts, requestPostsError, requestPostsSuccess, postDeleted } from './actions';
 import { PostsState } from '../../types/Posts';
 
 export const postsReducer = createReducer<PostsState>({
@@ -13,11 +13,18 @@ export const postsReducer = createReducer<PostsState>({
     loading: true
   }),
 
+  [postDeleted.type]: (state, { payload }) => ({
+    data: state.data.filter(post => post.id !== payload),
+    error: false,
+    loading: false
+  }),
+
   [requestPostsSuccess.type]: (state, { payload }) => ({
     data: payload,
     error: false,
     loading: false
   }),
+
   [requestPostsError.type]: () => ({
     data: [],
     error: true,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
-import { AuthInterface, User } from '../../types/AuthManager';
+import { AuthInterface, User } from '../../../types/AuthManager';
 
 export const Signup = ({ signup }: Pick<AuthInterface, 'signup'>): JSX.Element => {
   const [signupState, signupModal] = useState(false);

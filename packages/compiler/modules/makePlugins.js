@@ -11,7 +11,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const terser = require('terser');
 const cssNano = require('cssnano');
-const WebpackBar = require('webpackbar');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
 const Dotenv = require('dotenv-webpack');
@@ -53,19 +52,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     return plugins;
   }
 
-  /**
-   * COMMON
-   * */
-  plugins.WebpackBar = new WebpackBar({
-    reporters: [
-      'basic',
-      'fancy',
-      'profile',
-      'stats'
-    ],
-    profile: mode === 'production',
-    stats: mode === 'production'
-  });
+  plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
 
   plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
     exclude: /node_modules/,
@@ -121,10 +108,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
 
     const opts = {
       watch: path.resolve(root, conf.dist),
-      verbose: true,
+      verbose: false,
       nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
-      ignore: ['*.map', '*.hot-update.json', '*.hot-update.js'],
-      script: `./${conf.dist}/index.js`
+      ignore: ['*.map', '*.hot-update.json', '*.hot-update.js', 'stats.json'],
+      script: `./${conf.dist}/index.js`,
+      ext: 'js'
     };
 
     if (isString(conf.nodemon)) {
@@ -359,8 +347,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         })
       ]
     });
-
-    plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
 
     plugins.OccurrenceOrderPlugin = new webpack.optimize.OccurrenceOrderPlugin();
 

@@ -247,11 +247,13 @@ export class PostController {
   };
 
   static create = async (ctx): Promise<void> => {
+    console.log('fire 4');
     const userId = ctx.user.get('id');
     const Post = postFactory(sequelize);
     const Image = imageFactory(sequelize);
     const ImageType = imageTypeFactory(sequelize);
     const { title, text } = ctx.request.body;
+    console.log(userId, title, text);
 
     try {
       const post = await Post.create({

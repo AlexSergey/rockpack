@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { Action } from '@reduxjs/toolkit';
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess } from './actions';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, createPost, deletePost, postDeleted } from './actions';
 import { Post } from '../../types/Posts';
 import config from '../../config';
 
@@ -9,7 +9,6 @@ type Answer = { data: Post[] };
 
 function* fetchPostsSaga(logger, { payload: { resolver } }: ReturnType<typeof fetchPosts>):
 Generator<Action, void, Answer> {
-  console.log(logger);
   try {
     yield put(requestPosts());
     const { data } = yield call(() => fetch(`${config.api}/v1/posts`)
@@ -22,8 +21,50 @@ Generator<Action, void, Answer> {
   resolver();
 }
 
-function* watchPosts(logger): IterableIterator<unknown> {
+function* postsSaga(logger): IterableIterator<unknown> {
   yield takeEvery(fetchPosts, fetchPostsSaga, logger);
 }
 
-export { watchPosts };
+function* createPostHandler(logger, { payload: formData }: ReturnType<typeof createPost>):
+Generator<Action, void, Answer> {
+  try {
+    yield call(() => fetch(`${config.api}/v1/posts`, {
+      method: 'POST',
+      // @ts-ignore
+      credentials: 'include',
+      body: formData
+    }));
+
+    const { data } = yield call(() => fetch(`${config.api}/v1/posts`)
+      .then(res => res.json()));
+
+    yield put(requestPostsSuccess(data));
+  } catch (error) {
+    yield put(requestPostsError());
+  }
+}
+
+function* createPostSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(createPost, createPostHandler, logger);
+}
+
+function* deletePostHandler(logger, { payload: id }: ReturnType<typeof deletePost>):
+Generator<Action, void, Answer> {
+  try {
+    yield call(() => fetch(`${config.api}/v1/posts/${id}`, {
+      method: 'DELETE',
+      // @ts-ignore
+      credentials: 'include'
+    }));
+
+    yield put(postDeleted(id));
+  } catch (error) {
+    yield put(requestPostsError());
+  }
+}
+
+function* deletePostSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(deletePost, deletePostHandler, logger);
+}
+
+export { postsSaga, createPostSaga, deletePostSaga };

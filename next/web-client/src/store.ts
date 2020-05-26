@@ -3,29 +3,33 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { isBackend } from '@rockpack/ussr';
 import { promiseMiddleware } from '@adobe/redux-saga-promise';
-import { isNotProduction, isProduction } from './utils/mode';
+import { isNotProduction } from './utils/mode';
 import { localeSaga, localizationReducer as localization } from './features/Localization';
-import { watchPosts, postsReducer as posts } from './features/Posts';
+import { postsSaga, createPostSaga, deletePostSaga, postsReducer as posts } from './features/Posts';
 import { watchPost, postReducer as post } from './features/PostDetails';
-import { commentsSaga, commentsReducer as comments } from './features/Comments';
+import { commentsSaga, createCommentSaga, commentsReducer as comments } from './features/Comments';
 import { signInSaga, signOutSaga, signUpSaga, authReducer as auth } from './features/AuthManager';
 import { StoreProps, RootState } from './types/store';
 
-const reduxLogger = createLogger({
-  collapsed: true,
-  predicate: () => !isBackend()
-});
-
-const middleware = getDefaultMiddleware({
-  immutableCheck: true,
-  serializableCheck: false,
-  thunk: false,
-});
-
-middleware.push(promiseMiddleware);
-
 export const createStore = ({ initState = {}, logger }: StoreProps): Store<RootState> => {
+  const reduxLogger = createLogger({
+    collapsed: true
+  });
   const sagaMiddleware = createSagaMiddleware();
+
+  const middleware = getDefaultMiddleware({
+    immutableCheck: true,
+    serializableCheck: false,
+    thunk: false,
+  });
+
+  middleware.push(promiseMiddleware);
+  middleware.push(sagaMiddleware);
+
+  if (isNotProduction() && !isBackend()) {
+    middleware.push(reduxLogger);
+  }
+
   const store = configureStore({
     reducer: {
       localization,
@@ -35,19 +39,17 @@ export const createStore = ({ initState = {}, logger }: StoreProps): Store<RootS
       auth
     },
     devTools: isNotProduction(),
-    middleware: isProduction() ? middleware.concat([
-      sagaMiddleware,
-    ]) : middleware.concat([
-      sagaMiddleware,
-      reduxLogger,
-    ]),
+    middleware,
     preloadedState: initState
   });
 
   sagaMiddleware.run(localeSaga, logger);
-  sagaMiddleware.run(watchPosts, logger);
+  sagaMiddleware.run(postsSaga, logger);
+  sagaMiddleware.run(createPostSaga, logger);
+  sagaMiddleware.run(deletePostSaga, logger);
   sagaMiddleware.run(watchPost, logger);
   sagaMiddleware.run(commentsSaga, logger);
+  sagaMiddleware.run(createCommentSaga, logger);
   sagaMiddleware.run(signInSaga, logger);
   sagaMiddleware.run(signOutSaga, logger);
   sagaMiddleware.run(signUpSaga, logger);

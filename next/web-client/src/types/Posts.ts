@@ -28,7 +28,7 @@ export interface Post {
   createdAt: Date;
   title: string;
   id: number;
-  Image: Preview;
+  Image?: Preview;
   Statistic: PostStatistic;
   User: User;
 }

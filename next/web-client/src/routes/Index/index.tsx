@@ -1,9 +1,9 @@
 import React from 'react';
 import MetaTags from 'react-meta-tags';
 import { Layout } from 'antd';
-import { Content } from '../../components/Content';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import { Content } from './Content';
+import { Header } from './Header';
+import { Footer } from './Footer';
 import { useAuth } from '../../features/AuthManager';
 
 export const Index = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {

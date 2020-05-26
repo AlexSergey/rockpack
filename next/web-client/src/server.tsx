@@ -45,14 +45,19 @@ app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
   let role: Roles = Roles.unauthorized;
+  let email: string;
   try {
     const { data } = await fetch(`${config.api}/v1/users/check`, {
       headers: {
         cookie: `token=${ctx.cookies.get('token')}`
       }
     }).then(d => d.json());
+
     if (data && data.role) {
       role = data.role;
+    }
+    if (data && data.email) {
+      email = data.email;
     }
   } catch (e) {
     console.error(e.message);
@@ -67,7 +72,8 @@ router.get('/*', async (ctx) => {
   const store = createStore({
     initState: {
       auth: {
-        role
+        role,
+        email
       },
       localization: {
         currentLanguage,

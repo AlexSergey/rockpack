@@ -56,15 +56,17 @@ export const postFactory = (sequelize) => {
     tableName: 'posts',
     sequelize,
     hooks: {
-      afterCreate: async (post): Promise<void> => {
-        const Statistic = statisticFactory(sequelize);
-        const StatisticType = statisticTypeFactory(sequelize);
-
+      beforeCreate: async (post): Promise < void > => {
         post.setAttributes({
           text: sanitizeHtml(post.get('text'), {
             allowedTags: ALLOWED_TEXT
           })
         });
+      },
+
+      afterCreate: async (post): Promise<void> => {
+        const Statistic = statisticFactory(sequelize);
+        const StatisticType = statisticTypeFactory(sequelize);
 
         const postType = await StatisticType.findOne({
           where: {

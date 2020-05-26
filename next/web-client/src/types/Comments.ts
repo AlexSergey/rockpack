@@ -8,15 +8,15 @@ export interface Role {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   email: string;
-  Statistic: UserStatistic;
+  Statistic?: UserStatistic;
   Role: Role;
 }
 
 export interface Comment {
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt?: Date;
+  createdAt?: Date;
   text: string;
   id: number;
   User: User;

@@ -31,7 +31,7 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
   if (!user) {
     throw new UserNotFound();
   }
-
+  
   ctx.user = user;
 
   await next();

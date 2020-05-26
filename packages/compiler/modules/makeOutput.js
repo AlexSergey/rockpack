@@ -3,6 +3,7 @@ const { isArray } = require('valid-types');
 
 const getOutput = (conf = {}, root, version = '') => {
   const outputProps = {
+    pathinfo: false,
     publicPath: conf.url,
     path: path.resolve(root, conf.dist)
   };

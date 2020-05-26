@@ -1,6 +1,6 @@
 import { useWillMount } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchComments } from './actions';
+import { fetchComments, createComment } from './actions';
 import { CommentsState, Comment } from '../../types/Comments';
 
 export const useComments = (postId: string): [boolean, boolean, Comment[]] => {
@@ -10,4 +10,15 @@ export const useComments = (postId: string): [boolean, boolean, Comment[]] => {
   useWillMount((resolver) => dispatch(fetchComments({ resolver, postId })));
 
   return [loading, error, data];
+};
+
+export const useCommentsApi = (postId: string): any => {
+  const dispatch = useDispatch();
+
+
+  return {
+    createComment: ({ text, user }) => {
+      dispatch(createComment({ postId, text, user }));
+    }
+  };
 };

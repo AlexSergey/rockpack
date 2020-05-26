@@ -1,7 +1,9 @@
 import fetch from 'node-fetch';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Action } from '@reduxjs/toolkit';
-import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments } from './actions';
+import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments, createComment, commentCreated } from './actions';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { increaseComment } from '../PostDetails/actions';
 import { Comment } from '../../types/Comments';
 import config from '../../config';
 
@@ -26,4 +28,43 @@ function* commentsSaga(logger): IterableIterator<unknown> {
   yield takeEvery(fetchComments.type, getComments, logger);
 }
 
-export { commentsSaga };
+type CreateCommentAnswer = { data: { id: number } };
+
+function* createCommentHandler(logger, { payload: { text, user, postId } }: ReturnType<typeof createComment>):
+Generator<Action, void, CreateCommentAnswer> {
+  try {
+    // @ts-ignore
+    const { data } = yield call(() => fetch(`${config.api}/v1/comments/${postId}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      // @ts-ignore
+      credentials: 'include',
+      body: JSON.stringify({ text })
+    }).then(res => res.json()));
+
+    const comment: Comment = {
+      text,
+      id: data.id,
+      User: {
+        email: user.email,
+        Role: {
+          role: user.role
+        }
+      }
+    };
+
+    yield put(increaseComment());
+    yield put(commentCreated(comment));
+  } catch (error) {
+    yield put(requestCommentsError());
+  }
+}
+
+function* createCommentSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(createComment.type, createCommentHandler, logger);
+}
+
+export { commentsSaga, createCommentSaga };

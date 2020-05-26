@@ -53,7 +53,6 @@ export class UserController {
   };
 
   static check = async (ctx): Promise<void> => {
-    console.log('check');
     const Role = roleFactory(sequelize);
     const role = await Role.findOne({
       limit: 1,
@@ -104,7 +103,7 @@ export class UserController {
     }
 
     const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
-    console.log(token);
+
     ctx.cookies.set('token', token);
 
     const userData = user.toJSON();

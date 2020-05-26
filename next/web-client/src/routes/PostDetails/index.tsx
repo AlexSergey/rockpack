@@ -2,16 +2,19 @@ import React from 'react';
 import MetaTags from 'react-meta-tags';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import { Comments } from './components/Comments';
+import { Comments } from './Comments';
+import { AddComment } from './AddComment';
 import { usePost } from '../../features/PostDetails';
+import { Access } from '../../features/AuthManager';
+import { Roles } from '../../types/AuthManager';
 
 type PathParamsType = {
   postId: string;
 };
 
-// Your component own properties
+
 type PropsType = RouteComponentProps<PathParamsType> & {
-  someString: string;
+  // Your component own properties
 };
 
 const PostDetails = ({
@@ -19,7 +22,6 @@ const PostDetails = ({
 }: PropsType): JSX.Element => {
   const { postId } = match.params;
   const [loading, error, data] = usePost(postId);
-
   return (
     <>
       <MetaTags>
@@ -31,7 +33,19 @@ const PostDetails = ({
       </div>
       {loading && <div>loading</div>}
       {error && <div>error</div>}
-      {data && data.Statistic && data && data.Statistic.comments > 0 && <Comments postId={postId} />}
+      {data && (
+        <>
+          {data.text && <div dangerouslySetInnerHTML={{ __html: data.text }} />}
+
+          {data.Statistic && data && data.Statistic.comments > 0 && (
+            <Comments commentsCount={data.Statistic.comments} postId={postId} />
+          )}
+
+          <Access forRoles={[Roles.user, Roles.admin]}>
+            <AddComment postId={postId} />
+          </Access>
+        </>
+      )}
     </>
   );
 };

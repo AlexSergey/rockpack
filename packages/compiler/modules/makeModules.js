@@ -388,7 +388,7 @@ function getModules(conf = {}, mode, root) {
 
   const eslintRc = pathToEslintrc(root, mode);
 
-  if (isString(eslintRc)) {
+  if (!conf.__isIsomorphicBackend && isString(eslintRc)) {
     finalConf.jsPre = {
       enforce: 'pre',
       test: /\.(js|jsx|ts|tsx)$/,
@@ -396,6 +396,7 @@ function getModules(conf = {}, mode, root) {
       use: [{
         loader: require.resolve('eslint-loader'),
         options: {
+          failOnError: true,
           configFile: eslintRc,
           formatter: require.resolve('eslint-formatter-friendly')
         }

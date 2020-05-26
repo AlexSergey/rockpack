@@ -1,6 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signin, signup, signout } from './actions';
-import { AuthInterface } from '../../types/AuthManager';
+import { AuthInterface, AuthState } from '../../types/AuthManager';
+import { RootState } from '../../types/store';
+
+export const useUser = (): AuthState => {
+  const { email, role } = useSelector<RootState, AuthState>(
+    (state) => state.auth
+  );
+
+  return { email, role };
+};
 
 export const useAuth = (): AuthInterface => {
   const dispatch = useDispatch();

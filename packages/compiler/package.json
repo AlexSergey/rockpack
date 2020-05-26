@@ -117,7 +117,6 @@
     "webpack-livereload-plugin": "2.3.0",
     "webpack-node-externals": "1.7.2",
     "webpack-stats-plugin": "0.3.1",
-    "webpackbar": "4.0.0",
     "write-file-webpack-plugin": "4.5.1",
     "yargs": "15.3.1"
   }

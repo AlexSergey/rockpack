@@ -29,7 +29,7 @@ export interface Post {
   title: string;
   text: string;
   id: number;
-  Images: Photo[];
+  Images?: Photo[];
   Statistic: PostStatistic;
   User: User;
 }

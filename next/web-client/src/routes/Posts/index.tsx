@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
+import { Button } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import styles from './styles.modules.scss';
-import { usePosts } from '../../features/Posts';
+import { usePosts, usePostsApi } from '../../features/Posts';
 import { useLocalizationAPI, useCurrentLanguage } from '../../features/Localization';
+import { Access } from '../../features/AuthManager';
+import { Roles } from '../../types/AuthManager';
 
 const Posts = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();
@@ -13,6 +16,7 @@ const Posts = (): JSX.Element => {
   useStyles(styles);
 
   const [, , data] = usePosts();
+  const { deletePost } = usePostsApi();
 
   return (
     <>
@@ -29,10 +33,15 @@ const Posts = (): JSX.Element => {
           ullam.
         </p>
         {data.map(post => (
-          <Link to={`${currentLanguage}/posts/${post.id}`} key={post.id}>
-            <h2>{post.title}</h2>
-            <img src={`http://localhost:9999/${post.Image.thumbnail}`} alt="" />
-          </Link>
+          <div key={post.id}>
+            <Link to={`${currentLanguage}/posts/${post.id}`}>
+              <h2>{post.title}</h2>
+            </Link>
+            <Access forRoles={[Roles.admin]}>
+              <Button onClick={() => deletePost(post.id)}>Delete post</Button>
+            </Access>
+            {post.Image && <img src={`http://localhost:9999/${post.Image.thumbnail}`} alt="" />}
+          </div>
         ))}
       </div>
     </>

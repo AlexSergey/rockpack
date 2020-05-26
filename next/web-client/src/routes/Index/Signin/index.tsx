@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
-import { AuthInterface, User } from '../../types/AuthManager';
+import { AuthInterface, User } from '../../../types/AuthManager';
 
 export const Signin = ({ signin }: Pick<AuthInterface, 'signin'>): JSX.Element => {
   const [signinState, signinModal] = useState(false);
@@ -19,7 +19,6 @@ export const Signin = ({ signin }: Pick<AuthInterface, 'signin'>): JSX.Element =
         <Form
           name="signin"
           onFinish={(store: User) => {
-            console.log(store);
             signin(store);
           }}
         >

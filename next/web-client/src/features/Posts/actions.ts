@@ -9,3 +9,9 @@ export const requestPosts = createAction('Posts are fetching...');
 export const requestPostsSuccess = createAction<Post[]>('Posts have already fetched');
 
 export const requestPostsError = createAction('Posts fetched with error');
+
+export const createPost = createAction<any>('Post is going to create');
+
+export const deletePost = createAction<any>('Post is going to delete');
+
+export const postDeleted = createAction<any>('Post deleted');
