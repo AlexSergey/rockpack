@@ -1,18 +1,25 @@
 const { isDefined, isUndefined, isArray } = require('valid-types');
-const commonMultiValidators = require('../utils/commonMultiValidators');
 const multiCompiler = require('./multiCompiler');
 const errors = require('../errors/isomorphicCompiler');
 const makeMode = require('../modules/makeMode');
 const errorHandler = require('../errorHandler');
 
-async function isomorphicCompiler(props = []) {
+async function isomorphicCompiler(...props) {
   errorHandler();
-  commonMultiValidators(props);
+  global.ISOMORPHIC = true;
+  global.CONFIG_ONLY = true;
+
+  for (let i = 0, l = props.length; i < l; i++) {
+    props[i] = await props[i];
+  }
+  props = props.map(c => c.conf);
+
+  props.compilerName = isomorphicCompiler.name;
   const mode = makeMode();
 
-  const backend = props.find(p => p.compiler.name === 'backendCompiler');
+  const backend = props.find(p => p.compilerName === 'backendCompiler');
 
-  const frontend = props.find(p => p.compiler.name === 'frontendCompiler');
+  const frontend = props.find(p => p.compilerName === 'frontendCompiler');
 
   if (!frontend) {
     console.error(errors.SUPPORT);
@@ -31,41 +38,42 @@ async function isomorphicCompiler(props = []) {
 
   props.forEach(prop => {
     ['dist', 'src'].forEach(option => {
-      if (isUndefined(prop.config[option])) {
-        console.error(errors.SHOULD_SET_OPTION(prop.compiler.name, option));
+      if (isUndefined(prop[option])) {
+        console.error(errors.SHOULD_SET_OPTION(prop.compilerName, option));
         return process.exit(1);
       }
     });
   });
 
-  backend.config.__isIsomorphicBackend = true;
+  backend.__isIsomorphicBackend = true;
+  frontend.__isIsomorphicFrontend = true;
 
-  if (isArray(frontend.config.vendor)) {
-    backend.config.__frontendHasVendor = true;
+  if (isArray(frontend.vendor)) {
+    backend.__frontendHasVendor = true;
   }
 
   if (mode === 'development') {
     props.forEach(prop => {
-      prop.config.__isIsomorphicStyles = true;
+      prop.__isIsomorphicStyles = true;
     });
   } else {
-    backend.config.__isIsomorphicStyles = true;
+    backend.__isIsomorphicStyles = true;
   }
 
   props.forEach(prop => {
-    prop.config.__isIsomorphicLoader = true;
+    prop.__isIsomorphicLoader = true;
   });
 
-  frontend.config.write = isDefined(frontend.config.write) ? frontend.config.write : true;
-  frontend.config.html = isDefined(frontend.config.html) ? frontend.config.html : false;
+  frontend.write = isDefined(frontend.write) ? frontend.write : true;
+  frontend.html = isDefined(frontend.html) ? frontend.html : false;
 
   if (mode === 'development') {
-    frontend.config.onlyWatch = isDefined(frontend.config.onlyWatch) ?
-      frontend.config.onlyWatch :
+    frontend.onlyWatch = isDefined(frontend.onlyWatch) ?
+      frontend.onlyWatch :
       true;
   }
 
-  return await multiCompiler(props);
+  return await multiCompiler.apply(null, props);
 }
 
 module.exports = isomorphicCompiler;

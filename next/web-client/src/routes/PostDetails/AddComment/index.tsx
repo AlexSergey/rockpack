@@ -5,7 +5,7 @@ import { useCommentsApi } from '../../../features/Comments';
 
 export const AddComment = ({
   postId
-}: { postId: string }): JSX.Element => {
+}: { postId: number }): JSX.Element => {
   const { email, role } = useUser();
   const { createComment } = useCommentsApi(postId);
 

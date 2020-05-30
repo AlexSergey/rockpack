@@ -99,10 +99,27 @@ export const userFactory = (sequelize) => {
         }
       },
 
-      beforeDestroy: async (user): Promise<void> => {
+      afterDestroy: async (user): Promise<void> => {
         const Post = postFactory(sequelize);
 
+        const Statistic = statisticFactory(sequelize);
+        const StatisticType = statisticTypeFactory(sequelize);
+
+        const userType = await StatisticType.findOne({
+          where: {
+            type: 'user'
+          }
+        });
+
         try {
+          await Statistic.destroy({
+            where: {
+              type_id: userType.get('id'),
+              entity_id: user.get('id'),
+            },
+            individualHooks: true
+          });
+
           await Post.destroy({
             where: {
               user_id: user.get('id')

@@ -1,13 +1,12 @@
 import 'source-map-support/register';
-import 'regenerator-runtime/runtime.js';
 import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
 import Router from '@koa/router';
-import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
+import { createMemoryHistory } from 'history';
 import { getDefaultLocale } from '@rockpack/localazer';
 import { StaticRouter } from 'react-router';
 import MetaTagsServer from 'react-meta-tags/server';
@@ -18,13 +17,12 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
-import { Roles } from './types/AuthManager';
 import { App } from './main';
 import { createStore } from './store';
 import { logger } from './utils/logger';
 import ru from './features/Localization/locales/ru.json';
-import config from './config';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
+import { CookiesContainer } from './features/IsomorphicCookies';
 
 const app = new Koa();
 const router = new Router();
@@ -44,26 +42,6 @@ const styles = stats.assets
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  let role: Roles = Roles.unauthorized;
-  let email: string;
-  try {
-    const { data } = await fetch(`${config.api}/v1/users/check`, {
-      headers: {
-        cookie: `token=${ctx.cookies.get('token')}`
-      }
-    }).then(d => d.json());
-
-    if (data && data.role) {
-      role = data.role;
-    }
-    if (data && data.email) {
-      email = data.email;
-    }
-  } catch (e) {
-    console.error(e.message);
-    console.log(e);
-  }
-
   const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages.bind(ctx));
   const locale = typeof languages[currentLanguage] === 'object' ?
     languages[currentLanguage] :
@@ -71,16 +49,13 @@ router.get('/*', async (ctx) => {
 
   const store = createStore({
     initState: {
-      auth: {
-        role,
-        email
-      },
       localization: {
         currentLanguage,
         locale
       }
     },
-    logger
+    logger,
+    history: createMemoryHistory()
   });
 
   const routerParams = {
@@ -103,17 +78,19 @@ router.get('/*', async (ctx) => {
 
   const { html, state } = await serverRender(() => (
     extractor.collectChunks(
-      <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <MetaTagsContext extract={metaTagsInstance.extract}>
-            <StaticRouter {...routerParams}>
-              <LocalizationContainer>
-                <App />
-              </LocalizationContainer>
-            </StaticRouter>
-          </MetaTagsContext>
-        </StyleContext.Provider>
-      </Provider>
+      <CookiesContainer getCookies={(field) => ctx.cookies.get(field)}>
+        <Provider store={store}>
+          <StyleContext.Provider value={{ insertCss }}>
+            <MetaTagsContext extract={metaTagsInstance.extract}>
+              <StaticRouter {...routerParams}>
+                <LocalizationContainer>
+                  <App />
+                </LocalizationContainer>
+              </StaticRouter>
+            </MetaTagsContext>
+          </StyleContext.Provider>
+        </Provider>
+      </CookiesContainer>
     )
   ));
 

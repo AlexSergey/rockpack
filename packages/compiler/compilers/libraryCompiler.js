@@ -6,9 +6,9 @@ const makeMode = require('../modules/makeMode');
 const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
 
-async function libraryCompiler(libraryOpts, options, cb, configOnly = false) {
-  if (!options) {
-    options = {};
+async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
+  if (!conf) {
+    conf = {};
   }
   errorHandler();
   let libraryName = false;
@@ -18,12 +18,12 @@ async function libraryCompiler(libraryOpts, options, cb, configOnly = false) {
   } else if (isObject(libraryOpts) && isString(libraryOpts.name)) {
     libraryName = libraryOpts.name;
     if (isObject(libraryOpts.esm)) {
-      deepExtend(options, {
+      deepExtend(conf, {
         esm: libraryOpts.esm
       });
     }
     if (isObject(libraryOpts.cjs)) {
-      deepExtend(options, {
+      deepExtend(conf, {
         cjs: libraryOpts.cjs
       });
     }
@@ -40,23 +40,26 @@ async function libraryCompiler(libraryOpts, options, cb, configOnly = false) {
 
   const mode = makeMode();
 
-  options = deepExtend({}, options, {
+  conf = deepExtend({}, conf, {
     library: libraryName
   }, {
-    html: !options.html ? false : options.html
+    html: !conf.html ? false : conf.html
   });
 
-  if (!options.html) {
+  if (!conf.html) {
     if (mode === 'development') {
-      options.onlyWatch = true;
+      conf.onlyWatch = true;
     }
   } else if (mode === 'development') {
-    options._liveReload = true;
+    conf._liveReload = true;
   }
-  if (options.nodejs) {
-    return await backendCompiler(options, cb, configOnly);
+
+  conf.compilerName = libraryCompiler.name;
+
+  if (conf.nodejs) {
+    return await backendCompiler(conf, cb, configOnly);
   }
-  return await frontendCompiler(options, cb, configOnly);
+  return await frontendCompiler(conf, cb, configOnly);
 }
 
 module.exports = libraryCompiler;

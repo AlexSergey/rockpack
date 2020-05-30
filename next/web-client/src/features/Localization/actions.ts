@@ -1,3 +1,7 @@
-import { createPromiseAction } from '@adobe/redux-saga-promise';
+import { createAction } from '@reduxjs/toolkit';
+import { LocaleData } from '@rockpack/localazer';
+import { Languages } from '../../types/Localization';
 
-export const fetchLocale = createPromiseAction('Fetch locale from the server');
+export const fetchLocale = createAction<Languages>('Fetching locale');
+
+export const setLocale = createAction<{ locale: LocaleData; language: Languages }>('Set locale');

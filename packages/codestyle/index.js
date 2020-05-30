@@ -67,7 +67,7 @@ module.exports = {
       'no-undef': ['error', {
         typeof: true
       }],
-      'no-unused-vars': 'error',
+      'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'babel/no-unused-expressions': 'error',
       'no-unused-expressions': 'off',
       'no-use-before-define': ['error', {
@@ -161,6 +161,7 @@ module.exports = {
           rules: deepExtend({}, commonRules, {
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/ban-ts-ignore': 'off',
+            '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
             'react/prop-types': 'off',
             quotes: 'off',
             'no-unused-vars': 'off',

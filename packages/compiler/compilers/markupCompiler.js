@@ -6,7 +6,7 @@ const _compile = require('../core/_compile');
 const errors = require('../errors/markupCompiler');
 const errorHandler = require('../errorHandler');
 
-function _getOptions(pth, options = {}) {
+function _getOptions(pth, conf = {}) {
   return new Promise((resolve, reject) => {
     glob(pth, { absolute: true }, async (err, files) => {
       if (err) {
@@ -16,33 +16,33 @@ function _getOptions(pth, options = {}) {
         console.error(errors.INVALID_PATH);
         return process.exit(1);
       }
-      let html = isUndefined(options.html) ? [] : options.html;
+      let html = isUndefined(conf.html) ? [] : conf.html;
       html = isDefined(html) ? (isArray(html) ? html : [html]) : [];
 
-      options = deepExtend({}, options, {
+      conf = deepExtend({}, conf, {
         html: html.concat(files.map(file => ({
           template: path.resolve(file)
         })))
       });
 
-      return resolve(options);
+      return resolve(conf);
     });
   });
 }
 
-async function markupCompiler(pth, options = {}, cb, configOnly = false) {
+async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
   errorHandler();
   if (!pth) {
     console.error(errors.PATH_CANT_BE_EMPTY);
     return process.exit(1);
   }
   if ((process.env.NODE_ENV || 'development') === 'development') {
-    options._liveReload = true;
+    conf._liveReload = true;
   }
   try {
-    options = await _getOptions(pth, options);
-
-    return await _compile(options, cb, configOnly);
+    conf = await _getOptions(pth, conf);
+    conf.compilerName = markupCompiler.name;
+    return await _compile(conf, cb, configOnly);
   } catch (err) {
     console.error(err);
     return process.exit(1);

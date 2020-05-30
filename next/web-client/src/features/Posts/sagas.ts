@@ -21,18 +21,15 @@ Generator<Action, void, Answer> {
   resolver();
 }
 
-function* postsSaga(logger): IterableIterator<unknown> {
-  yield takeEvery(fetchPosts, fetchPostsSaga, logger);
-}
-
-function* createPostHandler(logger, { payload: formData }: ReturnType<typeof createPost>):
+function* createPostHandler(logger, { payload: { postData, token } }: ReturnType<typeof createPost>):
 Generator<Action, void, Answer> {
   try {
     yield call(() => fetch(`${config.api}/v1/posts`, {
+      headers: {
+        Authorization: token
+      },
       method: 'POST',
-      // @ts-ignore
-      credentials: 'include',
-      body: formData
+      body: postData
     }));
 
     const { data } = yield call(() => fetch(`${config.api}/v1/posts`)
@@ -44,17 +41,14 @@ Generator<Action, void, Answer> {
   }
 }
 
-function* createPostSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(createPost, createPostHandler, logger);
-}
-
-function* deletePostHandler(logger, { payload: id }: ReturnType<typeof deletePost>):
+function* deletePostHandler(logger, { payload: { id, token } }: ReturnType<typeof deletePost>):
 Generator<Action, void, Answer> {
   try {
     yield call(() => fetch(`${config.api}/v1/posts/${id}`, {
-      method: 'DELETE',
-      // @ts-ignore
-      credentials: 'include'
+      headers: {
+        Authorization: token
+      },
+      method: 'DELETE'
     }));
 
     yield put(postDeleted(id));
@@ -63,8 +57,16 @@ Generator<Action, void, Answer> {
   }
 }
 
+function* postsSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(fetchPosts.type, fetchPostsSaga, logger);
+}
+
 function* deletePostSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(deletePost, deletePostHandler, logger);
+  yield takeLatest(deletePost.type, deletePostHandler, logger);
+}
+
+function* createPostSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(createPost.type, createPostHandler, logger);
 }
 
 export { postsSaga, createPostSaga, deletePostSaga };

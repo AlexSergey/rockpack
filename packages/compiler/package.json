@@ -4,7 +4,7 @@
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**/*.js\""
+    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -40,8 +40,6 @@
     "async": "3.2.0",
     "autoprefixer": "9.7.6",
     "babel-loader": "8.1.0",
-    "browser-sync": "2.26.7",
-    "browser-sync-webpack-plugin": "2.2.2",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "circular-dependency-plugin": "5.2.0",
     "clean-webpack-plugin": "2.0.2",
@@ -116,8 +114,9 @@
     "webpack-graphql-loader": "1.0.2",
     "webpack-livereload-plugin": "2.3.0",
     "webpack-node-externals": "1.7.2",
-    "webpack-stats-plugin": "0.3.1",
+    "webpackbar": "4.0.0",
     "write-file-webpack-plugin": "4.5.1",
-    "yargs": "15.3.1"
+    "yargs": "15.3.1",
+    "webpack-format-messages": "2.0.6"
   }
 }

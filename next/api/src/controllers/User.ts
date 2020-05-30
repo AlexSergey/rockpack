@@ -2,9 +2,11 @@ import { userFactory } from '../models/User';
 import { roleFactory } from '../models/Role';
 import { sequelize } from '../boundaries/database';
 import { createToken } from '../utils/auth';
-import { UserAlreadyExists, UserNotFound, SequelizeError, WrongPassword, BadRequest } from '../errors';
+import { UserAlreadyExists, UserNotFound, SequelizeError, WrongPassword, BadRequest, InternalError } from '../errors';
 import config from '../config';
 import { ok } from '../utils/response';
+import { statisticFactory } from '../models/Statistic';
+import { statisticTypeFactory } from '../models/StatisticType';
 
 export class UserController {
   static signup = async (ctx): Promise<void> => {
@@ -41,28 +43,112 @@ export class UserController {
 
       const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
-      ctx.cookies.set('token', token);
+      ctx.cookies.set('token', token, { httpOnly: false });
 
-      ctx.body = ok('User created', {
-        email: newUser.get('email'),
-        role: userRole.get('role'),
-      });
+      ctx.body = ok('User created', newUser.toJSON());
     } catch (e) {
       throw new SequelizeError(e);
     }
   };
 
-  static check = async (ctx): Promise<void> => {
+  static userList = async (ctx): Promise<void> => {
+    console.log('users enter');
+    const User = userFactory(sequelize);
     const Role = roleFactory(sequelize);
+    const StatisticType = statisticTypeFactory(sequelize);
+    const StatisticUser = statisticFactory(sequelize);
+
+    const userType = await StatisticType.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
+
+    const userRole = await Role.findOne({
+      where: {
+        role: 'user'
+      }
+    });
+
+    if (!userRole) {
+      throw new BadRequest();
+    }
+
+    try {
+      User.belongsTo(Role, { foreignKey: 'role_id' });
+      User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
+      StatisticUser.belongsTo(User, { foreignKey: 'id' });
+
+      const users = await User.findAll({
+        attributes: {
+          exclude: ['role_id']
+        },
+        include: [
+          {
+            model: StatisticUser,
+            where: {
+              type_id: userType.get('id')
+            },
+            required: false
+          },
+          {
+            model: Role,
+            attributes: {
+              exclude: ['id']
+            },
+            required: false
+          }
+        ],
+      });
+      console.log(users);
+      ctx.body = ok('Users list', { users: users.map(user => user.toJSON()) });
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
+  };
+
+  static authorization = async (ctx): Promise<void> => {
+    const Role = roleFactory(sequelize);
+    const StatisticUser = statisticFactory(sequelize);
+    const StatisticType = statisticTypeFactory(sequelize);
+
+    const userType = await StatisticType.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
+
     const role = await Role.findOne({
       limit: 1,
       where: {
         id: ctx.user.get('role_id')
       }
     });
+
+    const stats = await StatisticUser.findOne({
+      limit: 1,
+      where: {
+        type_id: userType.get('id'),
+        entity_id: ctx.user.get('id')
+      },
+    });
+
+    const s = stats.toJSON();
+
     ctx.body = ok('User is correct', {
       email: ctx.user.get('email'),
-      role: role.get('role')
+      Role: {
+        role: role.get('role')
+      },
+      Statistic: s
     });
   };
 
@@ -70,8 +156,22 @@ export class UserController {
     const { email, password } = ctx.request.body;
     const Role = roleFactory(sequelize);
     const User = userFactory(sequelize);
+    const StatisticUser = statisticFactory(sequelize);
+    const StatisticType = statisticTypeFactory(sequelize);
+
+    const userType = await StatisticType.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
 
     User.belongsTo(Role, { foreignKey: 'role_id' });
+    User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
+    StatisticUser.belongsTo(User, { foreignKey: 'id' });
 
     const user = await User.findOne({
       limit: 1,
@@ -79,6 +179,13 @@ export class UserController {
         email
       },
       include: [
+        {
+          model: StatisticUser,
+          where: {
+            type_id: userType.get('id')
+          },
+          required: false
+        },
         {
           model: Role,
           attributes: {
@@ -104,19 +211,13 @@ export class UserController {
 
     const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
-    ctx.cookies.set('token', token);
+    ctx.cookies.set('token', token, { httpOnly: false });
 
-    const userData = user.toJSON();
-
-    ctx.body = ok('User is logged in', {
-      email: user.get('email'),
-      role: userData.Role.role
-    });
+    ctx.body = ok('User is logged in', user.toJSON());
   };
 
   static signout = async (ctx): Promise<void> => {
     ctx.cookies.set('token', '');
-    ctx.cookies.set('role', '');
 
     ctx.body = ok('User is logged out');
   };

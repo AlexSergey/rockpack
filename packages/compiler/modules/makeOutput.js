@@ -4,7 +4,7 @@ const { isArray } = require('valid-types');
 const getOutput = (conf = {}, root, version = '') => {
   const outputProps = {
     pathinfo: false,
-    publicPath: conf.url,
+    publicPath: '/',
     path: path.resolve(root, conf.dist)
   };
   if (conf.__frontendHasVendor) {

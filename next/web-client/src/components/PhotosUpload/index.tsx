@@ -42,7 +42,6 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile<any>[]) => voi
         onPreview={handlePreview}
         onChange={handleChange}
         beforeUpload={(file) => {
-          console.log(file);
           const isSupported = config.fileFormats.includes(file.type);
           if (!isSupported) {
             message.error('You can only upload image file!');

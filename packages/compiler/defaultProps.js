@@ -1,18 +1,11 @@
 const defaultProps = {
   dist: 'dist',
   src: 'src/index',
-  url: '/',
   debug: false,
-  stats: false,
   write: false,
-  inline: true,
   html: true,
   analyzerPort: false, //port number, for example: 8888
-  server: {
-    browserSyncPort: false,
-    port: 3000,
-    host: 'localhost'
-  }
+  server: 3000
   /*
   Other Props:
   * tsconfig: path to tsconfig

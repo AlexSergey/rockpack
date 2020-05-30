@@ -1,12 +1,13 @@
-import 'regenerator-runtime/runtime.js';
 import React from 'react';
 import { hydrate } from 'react-dom';
+import Cookies from 'js-cookie';
 import createUssr from '@rockpack/ussr';
-import { Router } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { LocalizationContainer } from './features/Localization';
+import { CookiesContainer } from './features/IsomorphicCookies';
 import { App } from './main';
 import { isProduction } from './utils/mode';
 import { createStore } from './store';
@@ -26,11 +27,14 @@ declare global {
   }
 }
 
+const history = createBrowserHistory();
+
 const [, Ussr] = createUssr(window.USSR_DATA);
 
 const store = createStore({
   logger,
-  initState: window.REDUX_DATA
+  initState: window.REDUX_DATA,
+  history
 });
 
 const insertCss = (...styles): () => void => {
@@ -41,16 +45,18 @@ const insertCss = (...styles): () => void => {
 };
 
 hydrate(
-  <Ussr>
-    <Provider store={store}>
-      <StyleContext.Provider value={{ insertCss }}>
-        <Router history={createBrowserHistory()}>
-          <LocalizationContainer>
-            <App />
-          </LocalizationContainer>
-        </Router>
-      </StyleContext.Provider>
-    </Provider>
-  </Ussr>,
+  <CookiesContainer getCookies={(field) => Cookies.get(field)}>
+    <Ussr>
+      <Provider store={store}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <ConnectedRouter history={history}>
+            <LocalizationContainer>
+              <App />
+            </LocalizationContainer>
+          </ConnectedRouter>
+        </StyleContext.Provider>
+      </Provider>
+    </Ussr>
+  </CookiesContainer>,
   document.getElementById('root')
 );

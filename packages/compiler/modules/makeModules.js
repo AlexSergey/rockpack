@@ -270,46 +270,26 @@ function getModules(conf = {}, mode, root) {
       ]
     },
 
-    images: conf.inline ? {
+    images: {
       test: /\.(jpe?g|png|gif)$/i,
       use: [
         {
           loader: require.resolve('url-loader'),
           query: {
             limit: 10000,
-            name: 'images/[name][hash].[ext]'
-          }
-        }
-      ]
-    } : {
-      test: /\.(jpe?g|png|gif)$/i,
-      use: [
-        {
-          loader: require.resolve('file-loader'),
-          query: {
             name: 'images/[name][hash].[ext]'
           }
         }
       ]
     },
 
-    fonts: conf.inline ? {
+    fonts: {
       test: /\.(eot|ttf|woff|woff2)$/,
       use: [
         {
           loader: require.resolve('url-loader'),
           query: {
             limit: 10000,
-            name: 'fonts/[name][hash].[ext]'
-          }
-        }
-      ]
-    } : {
-      test: /\.(eot|ttf|woff|woff2)$/,
-      use: [
-        {
-          loader: require.resolve('file-loader'),
-          query: {
             name: 'fonts/[name][hash].[ext]'
           }
         }
@@ -357,16 +337,13 @@ function getModules(conf = {}, mode, root) {
     svg: {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [
-        conf.inline ?
-          {
-            loader: require.resolve('url-loader')
-          } :
-          {
-            loader: require.resolve('file-loader'),
-            options: {
-              name: 'svg/[path][name].[ext]',
-            }
-          },
+        {
+          loader: require.resolve('url-loader'),
+          query: {
+            limit: 10000,
+            name: 'svg/[path][name].[ext]',
+          }
+        },
         {
           loader: require.resolve('svgo-loader'),
           options: {
@@ -388,7 +365,7 @@ function getModules(conf = {}, mode, root) {
 
   const eslintRc = pathToEslintrc(root, mode);
 
-  if (!conf.__isIsomorphicBackend && isString(eslintRc)) {
+  if (isString(eslintRc)) {
     finalConf.jsPre = {
       enforce: 'pre',
       test: /\.(js|jsx|ts|tsx)$/,

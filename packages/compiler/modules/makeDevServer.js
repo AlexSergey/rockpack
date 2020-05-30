@@ -8,7 +8,7 @@ const makeDevServer = (conf, root) => ({
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
   },
   disableHostCheck: true,
-  port: conf.server.port || 3000,
+  port: conf.server || 3000,
   noInfo: true,
   quiet: false,
   lazy: false,
@@ -25,7 +25,7 @@ const makeDevServer = (conf, root) => ({
     ignored: /node_modules/
   },
   historyApiFallback: true,
-  host: conf.server.host || 'localhost'
+  host: 'localhost'
 });
 
 module.exports = makeDevServer;

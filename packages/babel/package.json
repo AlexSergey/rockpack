@@ -4,7 +4,7 @@
   "description": "Babel presets module for @rock",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**/*.js\""
+    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\""
   },
   "repository": {
     "type": "git",

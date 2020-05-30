@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { signin, signup, signout } from './actions';
+import { useWillMount } from '@rockpack/ussr';
+import { signin, signup, signout, authorization } from './actions';
 import { AuthInterface, AuthState } from '../../types/AuthManager';
 import { RootState } from '../../types/store';
 
@@ -9,6 +10,11 @@ export const useUser = (): AuthState => {
   );
 
   return { email, role };
+};
+
+export const useGuard = (token: string | undefined): void => {
+  const dispatch = useDispatch();
+  useWillMount((resolver) => dispatch(authorization({ token, resolver })));
 };
 
 export const useAuth = (): AuthInterface => {

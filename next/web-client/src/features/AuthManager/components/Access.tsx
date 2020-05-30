@@ -6,9 +6,10 @@ import { AuthState, Roles } from '../../../types/AuthManager';
 interface AccessInterface {
   children: JSX.Element|JSX.Element[];
   forRoles: Roles[];
+  fallback?: () => JSX.Element;
 }
 
-export const Access = ({ children, forRoles }: AccessInterface): JSX.Element => {
+export const Access = ({ children, forRoles, fallback }: AccessInterface): JSX.Element => {
   const { role } = useSelector<RootState, AuthState>(
     (state) => state.auth
   );
@@ -17,5 +18,5 @@ export const Access = ({ children, forRoles }: AccessInterface): JSX.Element => 
     <>
       {children}
     </>
-  ) : null;
+  ) : typeof fallback === 'function' ? fallback() : null;
 };

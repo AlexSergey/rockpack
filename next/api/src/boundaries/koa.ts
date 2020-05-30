@@ -30,7 +30,7 @@ app.use(
     credentials: true,
     origins: '*',
     allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-    allowHeaders: ['Content-Type'],
+    allowHeaders: ['Content-Type', 'Authorization'],
     exposeHeaders: ['Content-Length', 'Date', 'X-Request-Id']
   })
 );

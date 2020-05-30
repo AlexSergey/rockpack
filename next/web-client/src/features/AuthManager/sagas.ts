@@ -1,11 +1,12 @@
 import fetch from 'node-fetch';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { Action } from '@reduxjs/toolkit';
-import { signin, signup, signout, setUser, removeUser } from './actions';
-import { AuthState } from '../../types/AuthManager';
+import { signin, signup, signout, setUser, removeUser, authorization, authorize } from './actions';
+import { setUserStatistic } from '../_common/actions';
+import { UserFull } from '../../types/AuthManager';
 import config from '../../config';
 
-type Answer = { data: AuthState };
+type Answer = { data: UserFull };
 
 function* signIn(logger, { payload: { email, password } }: ReturnType<typeof signin>):
 Generator<Action, void, Answer> {
@@ -16,17 +17,50 @@ Generator<Action, void, Answer> {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        // @ts-ignore
-        credentials: 'include',
         method: 'POST',
         body: JSON.stringify({ email, password })
       })
         .then(res => res.json())
     ));
-    yield put(setUser(data));
+
+    yield put(setUserStatistic({
+      comments: data.Statistic.comments,
+      posts: data.Statistic.posts
+    }));
+    yield put(setUser({
+      email: data.email,
+      role: data.Role.role
+    }));
   } catch (error) {
     logger.error(error);
   }
+}
+
+function* authorizationHandler(logger, { payload: { token, resolver } }: ReturnType<typeof authorize>):
+Generator<Action, void, any> {
+  try {
+    const { data } = yield call(() => (
+      fetch(`${config.api}/v1/users/authorization`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(res => res.json())
+    ));
+
+    yield put(setUserStatistic({
+      comments: data.Statistic.comments,
+      posts: data.Statistic.posts
+    }));
+
+    yield put(setUser({
+      email: data.email,
+      role: data.Role.role
+    }));
+  } catch (error) {
+    logger.error(error);
+  }
+  resolver();
 }
 
 function* signUp(logger, { payload: { email, password } }: ReturnType<typeof signin>):
@@ -38,14 +72,19 @@ Generator<Action, void, Answer> {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        // @ts-ignore
-        credentials: 'include',
         method: 'POST',
         body: JSON.stringify({ email, password })
       })
         .then(res => res.json())
     ));
-    yield put(setUser(data));
+    yield put(setUserStatistic({
+      comments: 0,
+      posts: 0
+    }));
+    yield put(setUser({
+      email: data.email,
+      role: data.Role.role
+    }));
   } catch (error) {
     logger.error(error);
   }
@@ -55,10 +94,7 @@ function* signOut(logger):
 Generator<Action, void, Answer> {
   try {
     yield call(() => (
-      fetch(`${config.api}/v1/users/signout`, {
-        // @ts-ignore
-        credentials: 'include',
-      })
+      fetch(`${config.api}/v1/users/signout`)
         .then(res => res.json())
     ));
     yield put(removeUser());
@@ -68,19 +104,24 @@ Generator<Action, void, Answer> {
 }
 
 function* signInSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(signin.type, signIn, logger);
+  yield takeEvery(signin.type, signIn, logger);
 }
 
 function* signUpSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(signup.type, signUp, logger);
+  yield takeEvery(signup.type, signUp, logger);
 }
 
 function* signOutSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(signout.type, signOut, logger);
+  yield takeEvery(signout.type, signOut, logger);
+}
+
+function* authorizationSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(authorization.type, authorizationHandler, logger);
 }
 
 export {
   signInSaga,
   signUpSaga,
-  signOutSaga
+  signOutSaga,
+  authorizationSaga
 };

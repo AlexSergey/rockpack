@@ -5,10 +5,10 @@ const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const terser = require('terser');
 const cssNano = require('cssnano');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
@@ -23,7 +23,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
 const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
@@ -52,17 +51,26 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     return plugins;
   }
 
-  plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
+  plugins.WebpackBar = new WebpackBar({
+    reporters: [
+      'basic',
+      'fancy',
+      'profile',
+      'stats'
+    ],
+    profile: mode === 'production',
+    stats: mode === 'production'
+  });
 
   plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
     exclude: /node_modules/,
   });
 
+  plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
+
   if (packageJson.dependencies && packageJson.dependencies.antd) {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
-
-  plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
 
   if (existsSync(path.resolve(root, '.env.example'))) {
     plugins.Dotenv = new Dotenv({
@@ -79,7 +87,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   if (conf.write && mode !== 'production') {
     plugins.WriteFilePlugin = new WriteFilePlugin();
   }
-
 
   let banner = makeBanner(packageJson, root);
 
@@ -202,10 +209,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       plugins[q] = new HtmlWebpackPlugin(page);
     });
 
-    if (
-      mode === 'development' &&
-      !isNumber(conf.server.browserSyncPort)
-    ) {
+    if (mode === 'development') {
       plugins.ReloadHtmlWebpackPlugin = new ReloadHtmlWebpackPlugin();
     }
   }
@@ -271,18 +275,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
-    if (conf.server && isNumber(conf.server.browserSyncPort)) {
-      conf.server.browserSyncPort = await fpPromise(conf.server.browserSyncPort);
-
-      plugins.BrowserSyncPlugin = new BrowserSyncPlugin(
-        {
-          port: conf.server.browserSyncPort,
-          proxy: `http://${conf.server.host}:${conf.server.port}`
-        },
-        { reload: false }
-      );
-    }
-
     plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
 
     plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
@@ -302,12 +294,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * PRODUCTION
    * */
   if (mode === 'production') {
-    if (conf.stats) {
-      plugins.StatsWriterPlugin = new StatsWriterPlugin({
-        fields: null,
-        stats: { chunkModules: true }
-      });
-    }
+    plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
 
     const addVersion = !!version;
     let styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ? conf.styles : 'css/styles.css';
@@ -392,11 +379,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     });
   }
 
-  if (isNumber(conf.analyzerPort)) {
-    conf.analyzerPort = await fpPromise(8888);
+  if (conf.analyze) {
+    const analyzerPort = await fpPromise(8888);
 
     plugins.BundleAnalyzerPlugin = new BundleAnalyzerPlugin(mode === 'development' ? {
-      analyzerPort: conf.analyzerPort
+      analyzerPort
     } : {
       analyzerMode: 'static',
       reportFilename: 'webpack-report.html',

@@ -3,18 +3,19 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 const makeMode = require('../modules/makeMode');
 
-async function backendCompiler(options = {}, cb, configOnly = false) {
+async function backendCompiler(conf = {}, cb, configOnly = false) {
   errorHandler();
   const mode = makeMode();
-  options = deepExtend({}, options, {
+  conf = deepExtend({}, conf, {
     html: false,
     nodejs: true,
   });
-  options.__isBackend = true;
+  conf.__isBackend = true;
   if (mode === 'development') {
-    options._liveReload = true;
+    conf._liveReload = true;
   }
-  return await _compile(options, cb, configOnly);
+  conf.compilerName = backendCompiler.name;
+  return await _compile(conf, cb, configOnly);
 }
 
 module.exports = backendCompiler;

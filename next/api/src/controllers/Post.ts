@@ -58,10 +58,10 @@ export class PostController {
 
     try {
       Post.belongsTo(User, { foreignKey: 'user_id' });
-      User.hasOne(StatisticUser, { foreignKey: 'id' });
-      StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
+      User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
+      StatisticUser.belongsTo(User, { foreignKey: 'id' });
       User.belongsTo(Role, { foreignKey: 'role_id' });
-      StatisticPost.hasOne(Post, { foreignKey: 'id' });
+      StatisticPost.belongsTo(User, { foreignKey: 'id' });
       Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
       Image.hasMany(Post, { foreignKey: 'id' });
       Post.hasOne(Image, { foreignKey: 'post_id' });
@@ -173,10 +173,10 @@ export class PostController {
     }
 
     Post.belongsTo(User, { foreignKey: 'user_id' });
-    User.hasOne(StatisticUser, { foreignKey: 'id' });
-    StatisticUser.belongsTo(User, { foreignKey: 'entity_id' });
+    User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
+    StatisticUser.belongsTo(User, { foreignKey: 'id' });
     User.belongsTo(Role, { foreignKey: 'role_id' });
-    StatisticPost.hasOne(Post, { foreignKey: 'id' });
+    StatisticPost.belongsTo(User, { foreignKey: 'id' });
     Post.hasOne(StatisticPost, { foreignKey: 'entity_id' });
     Image.hasMany(Post, { foreignKey: 'id' });
     Post.hasMany(Image, { foreignKey: 'post_id' });
@@ -247,13 +247,11 @@ export class PostController {
   };
 
   static create = async (ctx): Promise<void> => {
-    console.log('fire 4');
     const userId = ctx.user.get('id');
     const Post = postFactory(sequelize);
     const Image = imageFactory(sequelize);
     const ImageType = imageTypeFactory(sequelize);
     const { title, text } = ctx.request.body;
-    console.log(userId, title, text);
 
     try {
       const post = await Post.create({

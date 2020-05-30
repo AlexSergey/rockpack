@@ -4,7 +4,7 @@ import { decodeToken } from '../utils/auth';
 import { Unauthorized, ExpiredToken, UserNotFound } from '../errors';
 
 export const protectedRoute = async (ctx, next): Promise<void> => {
-  const token = ctx.cookies.get('token');
+  const token = ctx.get('Authorization');
 
   if (!token) {
     throw new Unauthorized();
@@ -31,7 +31,7 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
   if (!user) {
     throw new UserNotFound();
   }
-  
+
   ctx.user = user;
 
   await next();

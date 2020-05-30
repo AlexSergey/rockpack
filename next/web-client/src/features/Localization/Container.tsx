@@ -2,29 +2,23 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { LocalizationObserver } from '@rockpack/localazer';
-//import { useWillMount, isClient } from '@rockpack/ussr';
 import { fetchLocale } from './actions';
-import { LocalizationState } from '../../types/Localization';
+import { LocalizationState, Languages } from '../../types/Localization';
 import { RootState } from '../../types/store';
 import { getDefaultLanguage } from './utils';
 import { LocalizationContext } from './context';
 
-export const LocalizationContainer = withRouter(({ children, history }): JSX.Element => {
+export const LocalizationContainer = withRouter(({ children }): JSX.Element => {
   const dispatcher = useDispatch();
-  const { currentLanguage, locale, loading, error } = useSelector<RootState, LocalizationState>(
+  const { currentLanguage, locale } = useSelector<RootState, LocalizationState>(
     (state) => state.localization
   );
 
   const languages = { [currentLanguage]: locale };
 
-  const changeLanguage = (lang: string): void => {
-    dispatcher(fetchLocale(lang))
-      .then(() => history.push(`/${lang}`))
-      .catch(() => console.log('well'));
+  const changeLanguage = (lang: Languages): void => {
+    dispatcher(fetchLocale(lang));
   };
-
-  console.log(loading && 'Loading...');
-  console.log(error && 'Error!!!');
 
   return (
     <LocalizationObserver defaultLang={getDefaultLanguage()} languages={languages} active={currentLanguage}>

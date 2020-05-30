@@ -9,7 +9,7 @@ const _compile = async (conf = {}, post, withoutRun = false) => {
   conf = await mergeConfWithDefault(conf, mode);
   conf.progress = true;
   const webpackConfig = await _make(conf, post);
-  if (withoutRun) {
+  if ((typeof global.CONFIG_ONLY === 'boolean' ? global.CONFIG_ONLY : withoutRun)) {
     return { webpackConfig, conf };
   }
   await run(webpackConfig, mode, webpack, conf);

@@ -1,12 +1,4 @@
-const { isUndefined, isEmptyObject } = require('valid-types');
-
-const compilers = [
-  'frontendCompiler',
-  'analyzerCompiler',
-  'backendCompiler',
-  'libraryCompiler',
-  'markupCompiler'
-];
+const { isUndefined } = require('valid-types');
 
 function commonMultiValidator(props) {
   if (props.length === 0) {
@@ -15,16 +7,7 @@ function commonMultiValidator(props) {
   }
 
   props.forEach(prop => {
-    if (isUndefined(prop.compiler) || isUndefined(prop.config) || isEmptyObject(prop.config)) {
-      console.error('The config is invalid');
-      return process.exit(1);
-    }
-  });
-
-  props.forEach(prop => {
-    prop.compilerName = prop.compiler.name;
-
-    if (compilers.indexOf(prop.compilerName) < 0) {
+    if (isUndefined(prop.compilerName)) {
       console.error('The config is invalid');
       return process.exit(1);
     }

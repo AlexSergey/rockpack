@@ -30,18 +30,16 @@ function* commentsSaga(logger): IterableIterator<unknown> {
 
 type CreateCommentAnswer = { data: { id: number } };
 
-function* createCommentHandler(logger, { payload: { text, user, postId } }: ReturnType<typeof createComment>):
+function* createCommentHandler(logger, { payload: { text, user, postId, token } }: ReturnType<typeof createComment>):
 Generator<Action, void, CreateCommentAnswer> {
   try {
-    // @ts-ignore
     const { data } = yield call(() => fetch(`${config.api}/v1/comments/${postId}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: token
       },
-      // @ts-ignore
-      credentials: 'include',
       body: JSON.stringify({ text })
     }).then(res => res.json()));
 

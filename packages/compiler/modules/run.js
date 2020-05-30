@@ -7,10 +7,10 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
   simple: () => (
     new Promise((resolve, reject) => {
       compiler.run(async (err, stats) => {
-        log(err, stats);
         if (err) {
           return reject(err);
         }
+        log(stats);
         if (isDefined(conf.esm) || isDefined(conf.cjs)) {
           // Transpile source
           try {
@@ -31,18 +31,11 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
         console.log(`LiveReload server on http://localhost:${conf._liveReloadPort}`);
       }
       console.log(`Starting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/`);
-      if (conf.analyzerPort) {
-        console.log(`Bundle analyzer ran http://localhot:${conf.analyzerPort}/`);
-      }
     });
   },
   watch: () => {
     compiler.watch({}, (err, stats) => {
-      console.log(stats.toString({
-        'errors-only': true,
-        colors: true,
-        children: false
-      }));
+      log(stats);
       if (isNumber(conf._liveReloadPort)) {
         console.log(`LiveReload server on http://localhost:${conf._liveReloadPort}`);
       }
@@ -56,11 +49,7 @@ const runNodeStrategy = (compiler, webpack, webpackConfig, conf) => ({
   ),
   'node-watch': () => {
     compiler.watch({}, (err, stats) => {
-      console.log(stats.toString({
-        'errors-only': true,
-        colors: true,
-        children: false
-      }));
+      log(stats);
     });
   }
 });
@@ -82,42 +71,70 @@ const run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
 
-  const isMultiCompile = isArray(webpackConfig);
+  console.log(configs.compilerName);
 
-  webpackConfig = isMultiCompile ? webpackConfig : [webpackConfig];
-  configs = isMultiCompile ? configs : [configs];
-
-  // eslint-disable-next-line no-shadow
-  webpackConfig.forEach((webpackConfig, index) => {
-    configs[index].strategy = getStrategy(mode, configs[index]);
-  });
-
-  const compiler = isMultiCompile ? webpack(webpackConfig) : webpack(webpackConfig[0]);
-
-  for (let i = 0, l = configs.length; i < l; i++) {
-    const config = configs[i];
-    let compileStrategy;
-    const runner = config.nodejs ? runNodeStrategy : runAppStrategy;
-
+  if (configs.isomorphicMode) {
+    const compiler = webpack(webpackConfig);
+    const strategy = getStrategy(mode, {
+      nodejs: true
+    });
+    const runner = runNodeStrategy;
     try {
-      compileStrategy = runner(
-        isMultiCompile ?
-          compiler.compilers[i] :
-          compiler,
+      const frontConf = configs.find(c => c.__isIsomorphicFrontend);
+      await runner(
+        compiler,
         webpack,
-        webpackConfig[i],
-        config
-      )[config.strategy];
-
-      await compileStrategy();
+        webpackConfig,
+        {
+          _liveReloadPort: frontConf._liveReloadPort
+        },
+      )[strategy]();
     } catch (e) {
       console.error(e);
       process.exit(1);
     }
-  }
 
-  if (configs.length === configs.filter(c => c.strategy === 'simple').length) {
-    process.exit(0);
+    if (strategy === 'simple') {
+      process.exit(0);
+    }
+  } else {
+    const isMultiCompile = isArray(webpackConfig);
+
+    webpackConfig = isMultiCompile ? webpackConfig : [webpackConfig];
+    configs = isMultiCompile ? configs : [configs];
+
+    // eslint-disable-next-line no-shadow
+    webpackConfig.forEach((webpackConfig, index) => {
+      configs[index].strategy = getStrategy(mode, configs[index]);
+    });
+
+    const compiler = isMultiCompile ? webpack(webpackConfig) : webpack(webpackConfig[0]);
+
+    for (let i = 0, l = configs.length; i < l; i++) {
+      const config = configs[i];
+      let compileStrategy;
+      const runner = config.nodejs ? runNodeStrategy : runAppStrategy;
+
+      try {
+        compileStrategy = runner(
+          isMultiCompile ?
+            compiler.compilers[i] :
+            compiler,
+          webpack,
+          webpackConfig[i],
+          config
+        )[config.strategy];
+
+        await compileStrategy();
+      } catch (e) {
+        console.error(e);
+        process.exit(1);
+      }
+    }
+
+    if (configs.length === configs.filter(c => c.strategy === 'simple').length) {
+      process.exit(0);
+    }
   }
 };
 

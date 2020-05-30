@@ -19,7 +19,6 @@ export const Signup = ({ signup }: Pick<AuthInterface, 'signup'>): JSX.Element =
         <Form
           name="signup"
           onFinish={(store: User) => {
-            console.log(store);
             signup(store);
           }}
         >

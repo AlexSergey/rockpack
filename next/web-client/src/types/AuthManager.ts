@@ -9,6 +9,17 @@ export interface User {
   password: string;
 }
 
+export interface UserFull {
+  email: string;
+  Role: {
+    role: Roles;
+  };
+  Statistic: {
+    posts: number;
+    comments: number;
+  };
+}
+
 export interface AuthInterface {
   signin: (props: User) => void;
   signup: (props: User) => void;

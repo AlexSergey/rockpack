@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
-import { requestPost, requestPostError, requestPostSuccess, increaseComment } from './actions';
+import { requestPost, requestPostError, requestPostSuccess, increaseComment, postUpdated } from './actions';
 import { PostState } from '../../types/PostDetails';
 
 export const postReducer = createReducer<PostState>({
@@ -24,6 +24,11 @@ export const postReducer = createReducer<PostState>({
     data: null,
     error: true,
     loading: false
+  }),
+
+  [postUpdated.type]: (state, { payload }) => produce(state, draftState => {
+    draftState.data.title = payload.title;
+    draftState.data.text = payload.text;
   }),
 
   [increaseComment.type]: (state) => produce(state, draftState => {

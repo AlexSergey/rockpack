@@ -5,10 +5,12 @@ import loadable from '@loadable/component';
 import PreviewUpload from '../../../components/PreviewUpload';
 import PhotosUpload from '../../../components/PhotosUpload';
 import { usePostsApi } from '../../../features/Posts';
+import { useCookie } from '../../../features/IsomorphicCookies';
 
 const Wysiwyg = loadable(() => import('../../../components/Wysiwyg'));
 
-export const PostCreate = (): JSX.Element => {
+export const CreatePost = (): JSX.Element => {
+  const token = useCookie('token');
   const { createPost } = usePostsApi();
   const [postCreate, postCreateModal] = useState(false);
   const [text, setText] = useState('');
@@ -63,7 +65,7 @@ export const PostCreate = (): JSX.Element => {
                 formData.current.append('title', store.title);
                 formData.current.append('text', text);
               }
-              createPost(formData.current);
+              createPost({ postData: formData.current, token });
               cleanState();
               postCreateModal(false);
             }}

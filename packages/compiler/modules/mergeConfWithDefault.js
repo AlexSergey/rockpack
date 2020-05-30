@@ -4,11 +4,11 @@ const fpPromise = require('../utils/findFreePort');
 
 const mergeConfWithDefault = async (conf, mode) => {
   const c = deepExtend({}, defaultProps, conf);
-  
+
   if (mode === 'development') {
-    c.server.port = await fpPromise(c.server.port);
+    c.server = await fpPromise(c.server);
   }
-  
+
   return c;
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Comment } from '../Comment';
 import { useComments } from '../../../features/Comments';
 
-export const Comments = ({ postId, commentsCount }: { postId: string; commentsCount: number }): JSX.Element => {
+export const Comments = ({ postId, commentsCount }: { postId: number; commentsCount: number }): JSX.Element => {
   const [loading, error, comments] = useComments(postId);
 
   return (

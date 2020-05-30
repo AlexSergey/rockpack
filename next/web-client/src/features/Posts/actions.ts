@@ -10,8 +10,8 @@ export const requestPostsSuccess = createAction<Post[]>('Posts have already fetc
 
 export const requestPostsError = createAction('Posts fetched with error');
 
-export const createPost = createAction<any>('Post is going to create');
+export const createPost = createAction<any>('Post is going to be created');
 
-export const deletePost = createAction<any>('Post is going to delete');
+export const deletePost = createAction<any>('Post is going to be deleted');
 
 export const postDeleted = createAction<any>('Post deleted');
