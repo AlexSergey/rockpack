@@ -13,3 +13,7 @@ export const requestCommentsError = createAction('Comments fetched with error');
 export const createComment = createAction<any>('Comments is going to create');
 
 export const commentCreated = createAction<Comment>('Comment created');
+
+export const deleteComment = createAction<any>('Comments is going to delete');
+
+export const commentDeleted = createAction<Comment>('Comment deleted');

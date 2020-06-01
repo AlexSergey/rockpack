@@ -12,9 +12,9 @@ export const useUser = (): AuthState => {
   return { email, role };
 };
 
-export const useGuard = (token: string | undefined): void => {
+export const useGuard = (): void => {
   const dispatch = useDispatch();
-  useWillMount((resolver) => dispatch(authorization({ token, resolver })));
+  useWillMount((resolver) => dispatch(authorization({ resolver })));
 };
 
 export const useAuth = (): AuthInterface => {

@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Action } from '@reduxjs/toolkit';
 import { signin, signup, signout, setUser, removeUser, authorization, authorize } from './actions';
@@ -8,19 +7,11 @@ import config from '../../config';
 
 type Answer = { data: UserFull };
 
-function* signIn(logger, { payload: { email, password } }: ReturnType<typeof signin>):
+function* signIn(logger, rest, { payload: { email, password } }: ReturnType<typeof signin>):
 Generator<Action, void, Answer> {
   try {
     const { data } = yield call(() => (
-      fetch(`${config.api}/v1/users/signin`, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ email, password })
-      })
-        .then(res => res.json())
+      rest.post(`${config.api}/v1/users/signin`, { email, password })
     ));
 
     yield put(setUserStatistic({
@@ -36,16 +27,11 @@ Generator<Action, void, Answer> {
   }
 }
 
-function* authorizationHandler(logger, { payload: { token, resolver } }: ReturnType<typeof authorize>):
+function* authorizationHandler(logger, rest, { payload: { resolver } }: ReturnType<typeof authorize>):
 Generator<Action, void, any> {
   try {
     const { data } = yield call(() => (
-      fetch(`${config.api}/v1/users/authorization`, {
-        headers: {
-          Authorization: token
-        }
-      })
-        .then(res => res.json())
+      rest.get(`${config.api}/v1/users/authorization`)
     ));
 
     yield put(setUserStatistic({
@@ -63,19 +49,11 @@ Generator<Action, void, any> {
   resolver();
 }
 
-function* signUp(logger, { payload: { email, password } }: ReturnType<typeof signin>):
+function* signUp(logger, rest, { payload: { email, password } }: ReturnType<typeof signin>):
 Generator<Action, void, Answer> {
   try {
     const { data } = yield call(() => (
-      fetch(`${config.api}/v1/users/signup`, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ email, password })
-      })
-        .then(res => res.json())
+      rest.post(`${config.api}/v1/users/signup`, { email, password })
     ));
     yield put(setUserStatistic({
       comments: 0,
@@ -90,33 +68,30 @@ Generator<Action, void, Answer> {
   }
 }
 
-function* signOut(logger):
+function* signOut(logger, rest):
 Generator<Action, void, Answer> {
   try {
-    yield call(() => (
-      fetch(`${config.api}/v1/users/signout`)
-        .then(res => res.json())
-    ));
+    yield call(() => rest.get(`${config.api}/v1/users/signout`));
     yield put(removeUser());
   } catch (error) {
     logger.error(error);
   }
 }
 
-function* signInSaga(logger): IterableIterator<unknown> {
-  yield takeEvery(signin.type, signIn, logger);
+function* signInSaga(logger, rest): IterableIterator<unknown> {
+  yield takeEvery(signin.type, signIn, logger, rest);
 }
 
-function* signUpSaga(logger): IterableIterator<unknown> {
-  yield takeEvery(signup.type, signUp, logger);
+function* signUpSaga(logger, rest): IterableIterator<unknown> {
+  yield takeEvery(signup.type, signUp, logger, rest);
 }
 
-function* signOutSaga(logger): IterableIterator<unknown> {
-  yield takeEvery(signout.type, signOut, logger);
+function* signOutSaga(logger, rest): IterableIterator<unknown> {
+  yield takeEvery(signout.type, signOut, logger, rest);
 }
 
-function* authorizationSaga(logger): IterableIterator<unknown> {
-  yield takeEvery(authorization.type, authorizationHandler, logger);
+function* authorizationSaga(logger, rest): IterableIterator<unknown> {
+  yield takeEvery(authorization.type, authorizationHandler, logger, rest);
 }
 
 export {

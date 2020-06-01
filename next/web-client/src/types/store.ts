@@ -13,6 +13,7 @@ export interface StoreProps {
   };
   logger: Logger;
   history: History;
+  getToken: () => string | undefined;
 }
 
 export interface RootState {

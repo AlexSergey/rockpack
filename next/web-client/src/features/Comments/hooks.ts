@@ -1,8 +1,7 @@
 import { useWillMount } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchComments, createComment } from './actions';
+import { fetchComments, createComment, deleteComment } from './actions';
 import { CommentsState, Comment } from '../../types/Comments';
-import { useCookie } from '../IsomorphicCookies';
 
 export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   const dispatch = useDispatch();
@@ -13,14 +12,17 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   return [loading, error, data];
 };
 
-export const useCommentsApi = (postId: number): any => {
-  const token = useCookie('token');
+export const useCommentsApi = (postId?: number): any => {
   const dispatch = useDispatch();
 
 
   return {
     createComment: ({ text, user }) => {
-      dispatch(createComment({ postId, text, user, token }));
+      dispatch(createComment({ postId, text, user }));
+    },
+
+    deleteComment: (id) => {
+      dispatch(deleteComment({ id }));
     }
   };
 };

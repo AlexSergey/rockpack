@@ -1,7 +1,7 @@
 //import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { requestComments, requestCommentsSuccess, requestCommentsError, commentCreated } from './actions';
+import { requestComments, requestCommentsSuccess, requestCommentsError, commentCreated, commentDeleted } from './actions';
 import { CommentsState } from '../../types/Comments';
 
 export const commentsReducer = createReducer<CommentsState>({
@@ -29,5 +29,11 @@ export const commentsReducer = createReducer<CommentsState>({
 
   [commentCreated.type]: (state, { payload }) => {
     state.data.push(payload);
-  }
+  },
+
+  [commentDeleted.type]: (state, { payload }) => ({
+    data: state.data.filter(s => s.id !== payload),
+    error: true,
+    loading: false
+  })
 });

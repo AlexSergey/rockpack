@@ -1,5 +1,5 @@
 import { sequelize } from '../boundaries/database';
-import { BadRequest, InternalError, SequelizeError } from '../errors/errors';
+import { BadRequest, InternalError, SequelizeError, CommentNotFound } from '../errors/errors';
 import { commentFactory } from '../models/Comment';
 import { ok } from '../utils/response';
 import { userFactory } from '../models/User';
@@ -54,7 +54,7 @@ export class CommentController {
             }
           ],
           attributes: {
-            exclude: ['role_id', 'password', 'createdAt', 'updatedAt']
+            exclude: ['role_id', 'password']
           }
         }
       ],
@@ -70,6 +70,7 @@ export class CommentController {
     const { postId } = ctx.params;
     const { text } = ctx.request.body;
     const userId = ctx.user.get('id');
+
     const Comment = commentFactory(sequelize);
 
     if (typeof text === 'undefined' || (text && text.length === 0)) {
@@ -92,25 +93,27 @@ export class CommentController {
   };
 
   static delete = async (ctx): Promise<void> => {
-    const { postId } = ctx.params;
-    const userId = ctx.user.get('id');
+    const { id } = ctx.params;
     const Comment = commentFactory(sequelize);
-
+    let status;
     try {
-      const comment = await Comment.destroy({
+      status = await Comment.destroy({
         where: {
-          user_id: userId,
-          post_id: postId
+          id
         },
         individualHooks: true
-      });
-
-      ctx.body = ok('Comment deleted', {
-        id: comment.get('id')
       });
     } catch (e) {
       throw new SequelizeError(e);
     }
+
+    if (!status) {
+      throw new CommentNotFound();
+    }
+
+    ctx.body = ok('Comment deleted', {
+      id
+    });
   };
 
   static update = async (ctx): Promise<void> => {

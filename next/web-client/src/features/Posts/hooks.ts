@@ -20,7 +20,7 @@ export const usePostsApi = (): any => {
       dispatch(createPost(data));
     },
     deletePost: (id: any) => {
-      dispatch(deletePost(id));
+      dispatch(deletePost({ id }));
     }
   };
 };

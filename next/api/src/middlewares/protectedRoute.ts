@@ -15,7 +15,7 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
   try {
     currentUser = decodeToken(token, process.env.JWT_SECRET);
   } catch (e) {
-    ctx.cookies.set('token', '');
+    ctx.cookies.set('token', '', { httpOnly: false });
     throw new ExpiredToken();
   }
 

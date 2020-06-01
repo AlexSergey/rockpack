@@ -25,6 +25,7 @@ const PostDetails = ({
   const postId = Number(match.params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);
+
   return (
     <>
       <MetaTags>

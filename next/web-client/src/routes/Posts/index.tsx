@@ -7,13 +7,11 @@ import Localization, { l } from '@rockpack/localazer';
 import styles from './styles.modules.scss';
 import { usePosts, usePostsApi } from '../../features/Posts';
 import { useLocalizationAPI, useCurrentLanguage } from '../../features/Localization';
-import { Access } from '../../features/AuthManager';
+import { Access, Owner } from '../../features/AuthManager';
 import { Roles } from '../../types/AuthManager';
 import { Languages } from '../../types/Localization';
-import { useCookie } from '../../features/IsomorphicCookies';
 
 const Posts = (): JSX.Element => {
-  const token = useCookie('token');
   const { changeLanguage } = useLocalizationAPI();
   const currentLanguage = useCurrentLanguage();
   useStyles(styles);
@@ -41,7 +39,13 @@ const Posts = (): JSX.Element => {
               <h2>{post.title}</h2>
             </Link>
             <Access forRoles={[Roles.admin]}>
-              <Button onClick={() => deletePost({ id: post.id, token })}>Delete post</Button>
+              {roleMatched => (roleMatched ? (
+                <Button onClick={() => deletePost(post.id)}>Delete post</Button>
+              ) : (
+                <Owner forUser={post.User.email}>
+                  <Button onClick={() => deletePost(post.id)}>Delete post</Button>
+                </Owner>
+              ))}
             </Access>
             {post.Image && <img src={`http://localhost:9999/${post.Image.thumbnail}`} alt="" />}
           </div>

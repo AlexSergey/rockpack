@@ -1,22 +1,33 @@
 import { Model, DataTypes } from 'sequelize';
 import { cryptPassword, isValidPassword } from '../utils/auth';
 import { postFactory } from './Post';
+import { commentFactory } from './Comment';
 import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
 import { InternalError, PostNotFound } from '../errors';
+
+const PROTECTED_ATTRIBUTES = ['password', 'token'];
 
 export interface UserInterface {
   id: string;
   username: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const userFactory = (sequelize) => {
   class User extends Model<UserInterface> {
     isValidPassword = async (userPassword, password): Promise<boolean> => await isValidPassword(userPassword, password);
+
+    toJSON() {
+      const attributes = Object.assign({}, this.get());
+
+      PROTECTED_ATTRIBUTES.forEach(key => {
+        delete attributes[key];
+      });
+
+      return attributes;
+    }
   }
 
   User.init({
@@ -51,16 +62,6 @@ export const userFactory = (sequelize) => {
         model: 'roles',
         key: 'id',
       }
-    },
-
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
-    },
-
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
     }
   }, {
     tableName: 'users',
@@ -104,6 +105,7 @@ export const userFactory = (sequelize) => {
 
         const Statistic = statisticFactory(sequelize);
         const StatisticType = statisticTypeFactory(sequelize);
+        const Comment = commentFactory(sequelize);
 
         const userType = await StatisticType.findOne({
           where: {
@@ -121,6 +123,13 @@ export const userFactory = (sequelize) => {
           });
 
           await Post.destroy({
+            where: {
+              user_id: user.get('id')
+            },
+            individualHooks: true
+          });
+
+          await Comment.destroy({
             where: {
               user_id: user.get('id')
             },

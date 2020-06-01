@@ -8,8 +8,8 @@
     "build": "cross-env NODE_ENV=production node build",
     "makePo": "node makePo",
     "po2json": "node po2json",
-    "typing": "tsc -p . --noEmit",
-    "lint": "eslint \"src/**\""
+    "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
+    "lint": "cross-env NODE_ENV=production eslint \"src/**\""
   },
   "keywords": [],
   "author": "",

@@ -52,7 +52,6 @@ export class UserController {
   };
 
   static userList = async (ctx): Promise<void> => {
-    console.log('users enter');
     const User = userFactory(sequelize);
     const Role = roleFactory(sequelize);
     const StatisticType = statisticTypeFactory(sequelize);
@@ -104,7 +103,7 @@ export class UserController {
           }
         ],
       });
-      console.log(users);
+
       ctx.body = ok('Users list', { users: users.map(user => user.toJSON()) });
     } catch (e) {
       throw new SequelizeError(e);
@@ -217,7 +216,7 @@ export class UserController {
   };
 
   static signout = async (ctx): Promise<void> => {
-    ctx.cookies.set('token', '');
+    ctx.cookies.set('token', '', { httpOnly: false });
 
     ctx.body = ok('User is logged out');
   };

@@ -7,14 +7,10 @@ import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { LocalizationContainer } from './features/Localization';
-import { CookiesContainer } from './features/IsomorphicCookies';
 import { App } from './main';
 import { isProduction } from './utils/mode';
 import { createStore } from './store';
 import { logger } from './utils/logger';
-
-// Styles
-import 'react-toastify/dist/ReactToastify.css';
 
 declare global {
   interface Window {
@@ -31,10 +27,13 @@ const history = createBrowserHistory();
 
 const [, Ussr] = createUssr(window.USSR_DATA);
 
+const getToken = (): string | undefined => Cookies.get('token');
+
 const store = createStore({
   logger,
   initState: window.REDUX_DATA,
-  history
+  history,
+  getToken
 });
 
 const insertCss = (...styles): () => void => {
@@ -45,18 +44,16 @@ const insertCss = (...styles): () => void => {
 };
 
 hydrate(
-  <CookiesContainer getCookies={(field) => Cookies.get(field)}>
-    <Ussr>
-      <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <ConnectedRouter history={history}>
-            <LocalizationContainer>
-              <App />
-            </LocalizationContainer>
-          </ConnectedRouter>
-        </StyleContext.Provider>
-      </Provider>
-    </Ussr>
-  </CookiesContainer>,
+  <Ussr>
+    <Provider store={store}>
+      <StyleContext.Provider value={{ insertCss }}>
+        <ConnectedRouter history={history}>
+          <LocalizationContainer>
+            <App />
+          </LocalizationContainer>
+        </ConnectedRouter>
+      </StyleContext.Provider>
+    </Provider>
+  </Ussr>,
   document.getElementById('root')
 );

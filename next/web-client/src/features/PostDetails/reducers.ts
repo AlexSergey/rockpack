@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
-import { requestPost, requestPostError, requestPostSuccess, increaseComment, postUpdated } from './actions';
+import { requestPost, requestPostError, requestPostSuccess, postUpdated } from './actions';
+import { increaseComment, decreaseComment } from '../_common/actions';
 import { PostState } from '../../types/PostDetails';
 
 export const postReducer = createReducer<PostState>({
@@ -33,5 +34,9 @@ export const postReducer = createReducer<PostState>({
 
   [increaseComment.type]: (state) => produce(state, draftState => {
     draftState.data.Statistic.comments += 1;
+  }),
+
+  [decreaseComment.type]: (state) => produce(state, draftState => {
+    draftState.data.Statistic.comments -= 1;
   })
 });

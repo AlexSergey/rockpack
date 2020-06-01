@@ -15,18 +15,6 @@ module.exports = {
         allowNull: false,
       },
 
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      },
-
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      },
-
       password: {
         allowNull: false,
         type: Sequelize.STRING

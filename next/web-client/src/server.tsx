@@ -22,7 +22,6 @@ import { createStore } from './store';
 import { logger } from './utils/logger';
 import ru from './features/Localization/locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
-import { CookiesContainer } from './features/IsomorphicCookies';
 
 const app = new Koa();
 const router = new Router();
@@ -42,6 +41,7 @@ const styles = stats.assets
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
+  const getToken = (): string | undefined => ctx.cookies.get('token');
   const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages.bind(ctx));
   const locale = typeof languages[currentLanguage] === 'object' ?
     languages[currentLanguage] :
@@ -55,7 +55,8 @@ router.get('/*', async (ctx) => {
       }
     },
     logger,
-    history: createMemoryHistory()
+    history: createMemoryHistory(),
+    getToken
   });
 
   const routerParams = {
@@ -78,19 +79,17 @@ router.get('/*', async (ctx) => {
 
   const { html, state } = await serverRender(() => (
     extractor.collectChunks(
-      <CookiesContainer getCookies={(field) => ctx.cookies.get(field)}>
-        <Provider store={store}>
-          <StyleContext.Provider value={{ insertCss }}>
-            <MetaTagsContext extract={metaTagsInstance.extract}>
-              <StaticRouter {...routerParams}>
-                <LocalizationContainer>
-                  <App />
-                </LocalizationContainer>
-              </StaticRouter>
-            </MetaTagsContext>
-          </StyleContext.Provider>
-        </Provider>
-      </CookiesContainer>
+      <Provider store={store}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <MetaTagsContext extract={metaTagsInstance.extract}>
+            <StaticRouter {...routerParams}>
+              <LocalizationContainer>
+                <App />
+              </LocalizationContainer>
+            </StaticRouter>
+          </MetaTagsContext>
+        </StyleContext.Provider>
+      </Provider>
     )
   ));
 
@@ -103,10 +102,14 @@ router.get('/*', async (ctx) => {
 
   const reduxState = store.getState();
 
+  ctx.type = 'html';
   ctx.body = `
   <!DOCTYPE html>
 <html lang="${currentLanguage === 'ru' ? 'ru-RU' : 'en-US'}">
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+    <meta name="viewport" content="width=device-width">
     ${meta}
     ${googleFontsInstall()}
     ${styles.join('')}

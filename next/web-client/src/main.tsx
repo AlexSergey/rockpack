@@ -5,12 +5,10 @@ import React, { Fragment } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { LoggerContainer } from '@rockpack/logger';
-import { ToastContainer } from 'react-toastify';
 import { Switch } from './utils/RouteSwitch';
 import { logger } from './utils/logger';
 import { notify } from './utils/notifier';
 import { getLanguages, useCurrentLanguage } from './features/Localization';
-import { useCookie } from './features/IsomorphicCookies';
 import { Access, useGuard } from './features/AuthManager';
 import { Roles } from './types/AuthManager';
 import { Index } from './routes/Index';
@@ -22,8 +20,7 @@ const Users = loadable(() => import('./routes/Users'));
 export const App = (): JSX.Element => {
   const languages = getLanguages();
   const currentLanguage = useCurrentLanguage();
-  const token = useCookie('token');
-  useGuard(token);
+  useGuard();
 
   return (
     <LoggerContainer logger={logger} stdout={notify}>
@@ -50,7 +47,6 @@ export const App = (): JSX.Element => {
           <Redirect to={`/${currentLanguage}`} />
         </Switch>
       </Index>
-      <ToastContainer />
     </LoggerContainer>
   );
 };

@@ -89,7 +89,7 @@ export class PostController {
               }
             ],
             attributes: {
-              exclude: ['password', 'role_id', 'createdAt', 'updatedAt']
+              exclude: ['password', 'role_id']
             }
           },
           {
@@ -98,7 +98,7 @@ export class PostController {
               type_id: postType.get('id')
             },
             attributes: {
-              exclude: ['id', 'type_id', 'entity_id', 'posts', 'createdAt', 'updatedAt']
+              exclude: ['id', 'type_id', 'entity_id', 'posts']
             },
             required: false
           },
@@ -207,7 +207,7 @@ export class PostController {
               }
             ],
             attributes: {
-              exclude: ['password', 'createdAt', 'updatedAt']
+              exclude: ['password']
             }
           },
           {
@@ -216,7 +216,7 @@ export class PostController {
               type_id: postType.get('id')
             },
             attributes: {
-              exclude: ['id', 'type_id', 'entity_id', 'posts', 'createdAt', 'updatedAt']
+              exclude: ['id', 'type_id', 'entity_id', 'posts']
             },
             required: false
           },

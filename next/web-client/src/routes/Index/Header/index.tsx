@@ -28,8 +28,9 @@ export const Header = ({ signup, signin, signout }: AuthInterface): JSX.Element 
         <Access forRoles={[Roles.user, Roles.admin]}>
           <UserStatistic />
         </Access>
+        <Link to={`/${currentLanguage}/`}>Posts</Link>
         <Access forRoles={[Roles.admin]}>
-          <Link to={`${currentLanguage}/users`}>Users</Link>
+          <Link to={`/${currentLanguage}/users`}>Users</Link>
         </Access>
       </div>
     </Layout.Header>

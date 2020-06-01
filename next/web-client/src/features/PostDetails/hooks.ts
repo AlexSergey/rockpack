@@ -15,8 +15,8 @@ export const usePost = (postId: number): [boolean, boolean, Post] => {
 export const usePostApi = () => {
   const dispatch = useDispatch();
   return {
-    updatePost: (data: any) => {
-      dispatch(updatePost(data));
+    updatePost: (post: any) => {
+      dispatch(updatePost({ post }));
     },
   };
 };

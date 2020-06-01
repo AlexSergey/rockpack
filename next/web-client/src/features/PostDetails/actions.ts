@@ -10,8 +10,6 @@ export const requestPostSuccess = createAction<Post>('Post has already fetched')
 
 export const requestPostError = createAction('Post fetched with error');
 
-export const increaseComment = createAction('Comment was added');
-
 export const updatePost = createAction<any>('Post is going to be updated');
 
 export const postUpdated = createAction<any>('Post updated');

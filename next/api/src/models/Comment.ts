@@ -3,18 +3,17 @@ import { statisticFactory } from './Statistic';
 import { statisticTypeFactory } from './StatisticType';
 import { InternalError } from '../errors';
 
-export interface PostInterface {
+export interface CommentInterface {
   id: number;
   user_id: number;
   post_id: number;
   text: string;
   createdAt: Date;
-  updatedAt: Date;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const commentFactory = (sequelize) => {
-  class Comment extends Model<PostInterface> {
+  class Comment extends Model<CommentInterface> {
   }
 
   Comment.init({
@@ -44,10 +43,6 @@ export const commentFactory = (sequelize) => {
       allowNull: false
     },
     createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
-    },
-    updatedAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('NOW()')
     }

@@ -14,6 +14,8 @@ export const Comments = ({ postId, commentsCount }: { postId: number; commentsCo
         {comments.map(comment => (
           <Comment
             key={comment.id}
+            id={comment.id}
+            user={comment.User}
             text={comment.text}
             createdAt={comment.createdAt}
           />

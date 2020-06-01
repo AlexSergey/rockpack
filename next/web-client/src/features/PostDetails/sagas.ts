@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { Action } from '@reduxjs/toolkit';
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { fetchPost, requestPost, requestPostError, requestPostSuccess, updatePost, postUpdated } from './actions';
@@ -7,11 +6,11 @@ import config from '../../config';
 
 type Answer = { data: Post };
 
-function* fetchPostSaga(logger, { payload: { resolver, postId } }: ReturnType<typeof fetchPost>):
+function* fetchPostSaga(logger, rest, { payload: { resolver, postId } }: ReturnType<typeof fetchPost>):
 Generator<Action, void, Answer> {
   try {
     yield put(requestPost());
-    const { data } = yield call(() => fetch(`${config.api}/v1/posts/${postId}`)
+    const { data } = yield call(() => rest.get(`${config.api}/v1/posts/${postId}`)
       .then(res => res.json()));
     yield put(requestPostSuccess(data));
   } catch (error) {
@@ -20,37 +19,29 @@ Generator<Action, void, Answer> {
   resolver();
 }
 
-function* updatePostHandler(logger, { payload: { postId, title, text, token } }: ReturnType<typeof updatePost>):
+function* updatePostHandler(logger, rest, { payload: { post } }: ReturnType<typeof updatePost>):
 Generator<Action, void, any> {
   try {
-    yield call(() => fetch(`${config.api}/v1/posts/${postId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: token
-      },
-      body: JSON.stringify({
-        title,
-        text
-      })
+    yield call(() => rest.put(`${config.api}/v1/posts/${post.id}`, {
+      title: post.title,
+      text: post.text
     }));
 
     yield put(postUpdated({
-      title,
-      text
+      title: post.title,
+      text: post.text
     }));
   } catch (error) {
     logger.error(error);
   }
 }
 
-function* updatePostSaga(logger): IterableIterator<unknown> {
-  yield takeLatest(updatePost.type, updatePostHandler, logger);
+function* updatePostSaga(logger, rest): IterableIterator<unknown> {
+  yield takeLatest(updatePost.type, updatePostHandler, logger, rest);
 }
 
-function* watchPost(logger): IterableIterator<unknown> {
-  yield takeEvery(fetchPost.type, fetchPostSaga, logger);
+function* watchPost(logger, rest): IterableIterator<unknown> {
+  yield takeEvery(fetchPost.type, fetchPostSaga, logger, rest);
 }
 
 export { watchPost, updatePostSaga };

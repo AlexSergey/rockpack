@@ -8,6 +8,7 @@ export * from './NotFound';
 export * from './WrongPassword';
 export * from './InternalError';
 export * from './PostNotFound';
+export * from './CommentNotFount';
 export * from './BadFileFormat';
 export * from './MulterError';
 export * from './IncorrectAccess';
