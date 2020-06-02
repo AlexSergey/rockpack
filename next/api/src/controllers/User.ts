@@ -140,14 +140,13 @@ export class UserController {
       },
     });
 
-    const s = stats.toJSON();
-
     ctx.body = ok('User is correct', {
+      id: ctx.user.get('id'),
       email: ctx.user.get('email'),
       Role: {
         role: role.get('role')
       },
-      Statistic: s
+      Statistic: stats.toJSON()
     });
   };
 

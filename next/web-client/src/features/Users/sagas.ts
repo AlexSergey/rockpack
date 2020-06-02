@@ -2,14 +2,10 @@ import { Action } from '@reduxjs/toolkit';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchUsers, setUsers, deleteUser, userDeleted } from './actions';
 import config from '../../config';
-import { User } from '../../types/Users';
+import { User } from '../../types/User';
 
-function* fetchUsersHandler(logger, rest, { payload }: ReturnType<typeof fetchUsers>):
-Generator<Action, void, {
-  data: {
-    users: User[];
-  };
-}> {
+function* fetchUsersHandler(logger, rest, { payload: { resolver } }: ReturnType<typeof fetchUsers>):
+Generator<Action, void, { data: { users: User[] } }> {
   try {
     const { data: { users } } = yield call(() => rest.get(`${config.api}/v1/users`));
 
@@ -19,7 +15,7 @@ Generator<Action, void, {
   } catch (error) {
     logger.error(error);
   }
-  payload.resolver();
+  resolver();
 }
 
 function* deleteUserHandler(logger, rest, { payload: { id } }: ReturnType<typeof userDeleted>):
@@ -27,7 +23,7 @@ Generator<Action, void, void> {
   try {
     yield call(() => rest.delete(`${config.api}/v1/users/${id}`));
 
-    yield put(userDeleted(id));
+    yield put(userDeleted({ id }));
   } catch (error) {
     logger.error(error);
   }

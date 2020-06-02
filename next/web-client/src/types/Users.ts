@@ -1,13 +1,3 @@
-import { Roles } from './AuthManager';
+import { User } from './User';
 
-export interface User {
-  id: number;
-  email: string;
-  Role: {
-    role: Roles;
-  };
-  Statistic: {
-    posts: number;
-    comments: number;
-  };
-}
+export type UsersState = User[];

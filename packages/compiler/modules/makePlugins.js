@@ -164,6 +164,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   if (typeof conf.html !== 'undefined' && isBoolean(conf.html) && conf.html === false) {
     HTMLProcessing = false;
   }
+
+  if (global.ISOMORPHIC) {
+    HTMLProcessing = false;
+  }
+
   if (HTMLProcessing) {
     if (conf.html && isArray(conf.html)) {
       pages = conf.html;

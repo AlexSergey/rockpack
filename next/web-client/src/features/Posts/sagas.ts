@@ -4,15 +4,11 @@ import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, creat
 import { Post } from '../../types/Posts';
 import config from '../../config';
 
-type Answer = { data: Post[] };
-
 function* fetchPostsSaga(logger, rest, { payload: { resolver } }: ReturnType<typeof fetchPosts>):
-Generator<Action, void, Answer> {
+Generator<Action, void, { data: Post[] }> {
   try {
     yield put(requestPosts());
-    const { data } = yield call(() => rest.get(`${config.api}/v1/posts`)
-      .then(res => res.json()));
-
+    const { data } = yield call(() => rest.get(`${config.api}/v1/posts`));
     yield put(requestPostsSuccess(data));
   } catch (error) {
     yield put(requestPostsError());
@@ -21,12 +17,11 @@ Generator<Action, void, Answer> {
 }
 
 function* createPostHandler(logger, rest, { payload: { postData } }: ReturnType<typeof createPost>):
-Generator<Action, void, Answer> {
+Generator<Action, void, { data: Post[] }> {
   try {
     yield call(() => rest.post(`${config.api}/v1/posts`, postData));
 
-    const { data } = yield call(() => rest.get(`${config.api}/v1/posts`)
-      .then(res => res.json()));
+    const { data } = yield call(() => rest.get(`${config.api}/v1/posts`));
 
     yield put(requestPostsSuccess(data));
   } catch (error) {
@@ -35,11 +30,11 @@ Generator<Action, void, Answer> {
 }
 
 function* deletePostHandler(logger, rest, { payload: { id } }: ReturnType<typeof deletePost>):
-Generator<Action, void, Answer> {
+Generator<Action, void, { data: Post[] }> {
   try {
     yield call(() => rest.delete(`${config.api}/v1/posts/${id}`));
 
-    yield put(postDeleted(id));
+    yield put(postDeleted({ id }));
   } catch (error) {
     yield put(requestPostsError());
   }

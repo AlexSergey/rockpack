@@ -2,22 +2,22 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { LocalizationObserver } from '@rockpack/localazer';
-import { fetchLocale } from './actions';
-import { LocalizationState, Languages } from '../../types/Localization';
+import { fetchLocalization } from './actions';
+import { Localization, Languages } from '../../types/Localization';
 import { RootState } from '../../types/store';
 import { getDefaultLanguage } from './utils';
 import { LocalizationContext } from './context';
 
 export const LocalizationContainer = withRouter(({ children }): JSX.Element => {
   const dispatcher = useDispatch();
-  const { currentLanguage, locale } = useSelector<RootState, LocalizationState>(
+  const { currentLanguage, locale } = useSelector<RootState, Localization>(
     (state) => state.localization
   );
 
   const languages = { [currentLanguage]: locale };
 
   const changeLanguage = (lang: Languages): void => {
-    dispatcher(fetchLocale(lang));
+    dispatcher(fetchLocalization(lang));
   };
 
   return (

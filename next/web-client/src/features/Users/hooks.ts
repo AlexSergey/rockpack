@@ -1,7 +1,7 @@
 import { useWillMount } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers, deleteUser } from './actions';
-import { User } from '../../types/Users';
+import { User } from '../../types/User';
 
 export const useUsers = (): User[] => {
   const dispatch = useDispatch();

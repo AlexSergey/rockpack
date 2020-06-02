@@ -1,3 +1,5 @@
+import { User } from './User';
+
 export interface Preview {
   uri: string;
   thumbnail: string;
@@ -5,22 +7,6 @@ export interface Preview {
 
 export interface PostStatistic {
   comments: number;
-}
-
-export interface UserStatistic {
-  comments: number;
-  posts: number;
-}
-
-export interface Role {
-  role: string;
-}
-
-export interface User {
-  id: number;
-  email: string;
-  Statistic: UserStatistic;
-  Role: Role;
 }
 
 export interface Post {

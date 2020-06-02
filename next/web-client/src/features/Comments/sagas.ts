@@ -1,14 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Action } from '@reduxjs/toolkit';
 import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments, createComment, commentCreated, deleteComment, commentDeleted } from './actions';
-import { increaseComment, decreaseComment } from '../_common/actions';
+import { increaseComment, decreaseComment } from '../User';
 import { Comment } from '../../types/Comments';
 import config from '../../config';
 
-type Answer = { data: Comment[] };
-
 function* getComments(logger, rest, { payload: { resolver, postId } }: ReturnType<typeof fetchComments>):
-Generator<Action, void, Answer> {
+Generator<Action, void, { data: Comment[] }> {
   try {
     yield put(requestComments());
     const { data } = yield call(() => (
@@ -16,15 +14,14 @@ Generator<Action, void, Answer> {
     ));
     yield put(requestCommentsSuccess(data));
   } catch (error) {
+    logger.error(error);
     yield put(requestCommentsError());
   }
   resolver();
 }
 
-type CreateCommentAnswer = { data: { id: number } };
-
 function* createCommentHandler(logger, rest, { payload: { text, user, postId } }: ReturnType<typeof createComment>):
-Generator<Action, void, CreateCommentAnswer> {
+Generator<Action, void, { data: { id: number } }> {
   try {
     const { data } = yield call(() => rest.post(`${config.api}/v1/comments/${postId}`, { text }));
 
@@ -36,7 +33,7 @@ Generator<Action, void, CreateCommentAnswer> {
         id: user.id,
         email: user.email,
         Role: {
-          role: user.role
+          role: user.Role.role
         },
         Statistic: Object.assign({}, user.Statistic)
       }
@@ -45,17 +42,17 @@ Generator<Action, void, CreateCommentAnswer> {
     yield put(increaseComment());
     yield put(commentCreated(comment));
   } catch (error) {
-    yield put(requestCommentsError());
+    logger.error(error);
   }
 }
 
 function* deleteCommentHandler(logger, rest, { payload: { id } }: ReturnType<typeof deleteComment>):
-Generator<Action, void, any> {
+Generator<Action, void, { data: { id: number } }> {
   try {
     yield call(() => rest.delete(`${config.api}/v1/comments/${id}`));
 
     yield put(decreaseComment());
-    yield put(commentDeleted(id));
+    yield put(commentDeleted({ id }));
   } catch (error) {
     logger.error(error);
   }

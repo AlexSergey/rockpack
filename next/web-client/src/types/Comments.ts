@@ -1,18 +1,4 @@
-export interface UserStatistic {
-  comments: number;
-  posts: number;
-}
-
-export interface Role {
-  role: string;
-}
-
-export interface User {
-  id: number;
-  email: string;
-  Statistic: UserStatistic;
-  Role: Role;
-}
+import { User } from './User';
 
 export interface Comment {
   createdAt: Date;

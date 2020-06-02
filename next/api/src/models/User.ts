@@ -9,7 +9,7 @@ import { InternalError, PostNotFound } from '../errors';
 const PROTECTED_ATTRIBUTES = ['password', 'token'];
 
 export interface UserInterface {
-  id: string;
+  id: number;
   username: string;
   password: string;
 }

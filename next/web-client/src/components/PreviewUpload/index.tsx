@@ -13,7 +13,7 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
   const [preview, setPreview] = useState('');
   const [fileList, setFileList] = useState([]);
 
-  const handlePreview = async file => {
+  const handlePreview = async (file): Promise<void> => {
     if (!file.url && !file.preview) {
       const img = await getBase64(file);
       file.preview = img;
@@ -26,7 +26,7 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
       <Upload
         fileList={fileList}
         showUploadList={false}
-        beforeUpload={(file) => {
+        beforeUpload={(file): false => {
           const isSupported = config.fileFormats.includes(file.type);
           if (!isSupported) {
             message.error('You can only upload image file!');
@@ -36,7 +36,7 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
           }
           return false;
         }}
-        onChange={async (info) => {
+        onChange={(info): void => {
           if (info.fileList.length === 0) {
             setPreview('');
             setFileList([]);

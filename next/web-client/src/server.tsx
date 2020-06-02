@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
 import Koa from 'koa';
+import noCache from 'koa-no-cache';
 import serve from 'koa-static';
 import Router from '@koa/router';
 import PrettyError from 'pretty-error';
@@ -38,6 +39,9 @@ const styles = stats.assets
   .filter(file => path.extname(file.name) === '.css')
   .map(style => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
 
+app.use(noCache({
+  global: true
+}));
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {

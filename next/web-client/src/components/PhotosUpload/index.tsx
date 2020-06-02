@@ -5,15 +5,15 @@ import { PlusOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils/file';
 import config from '../../config';
 
-const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile<any>[]) => void }) => {
+const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewTitle, setPreviewTitle] = useState('');
 
-  const handleCancel = () => setPreviewVisible(false);
+  const handleCancel = (): void => setPreviewVisible(false);
 
-  const handlePreview = async file => {
+  const handlePreview = async (file): Promise<void> => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -22,7 +22,8 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile<any>[]) => voi
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
 
-  const handleChange = ({ fileList }) => {
+  // eslint-disable-next-line no-shadow
+  const handleChange = ({ fileList }): void => {
     setFileList(fileList);
     onChange(fileList);
   };
@@ -41,7 +42,7 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile<any>[]) => voi
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        beforeUpload={(file) => {
+        beforeUpload={(file): false => {
           const isSupported = config.fileFormats.includes(file.type);
           if (!isSupported) {
             message.error('You can only upload image file!');

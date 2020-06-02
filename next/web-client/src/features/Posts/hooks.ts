@@ -12,14 +12,17 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
   return [loading, error, data];
 };
 
-export const usePostsApi = (): any => {
+export const usePostsApi = (): {
+  createPost: (data: { postData: FormData }) => void;
+  deletePost: (id: number) => void;
+} => {
   const dispatch = useDispatch();
 
   return {
-    createPost: (data: any) => {
+    createPost: (data: { postData: FormData }): void => {
       dispatch(createPost(data));
     },
-    deletePost: (id: any) => {
+    deletePost: (id: number): void => {
       dispatch(deletePost({ id }));
     }
   };

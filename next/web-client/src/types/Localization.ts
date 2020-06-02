@@ -5,7 +5,7 @@ export enum Languages {
   en = 'en'
 }
 
-export interface LocalizationState {
+export interface Localization {
   locale: LocaleData;
   currentLanguage: Languages;
 }
