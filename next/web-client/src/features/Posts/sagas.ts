@@ -1,6 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, createPost, deletePost, postDeleted } from './actions';
+import { increasePost, decreasePost, decreaseComment } from '../User';
 import { Post } from '../../types/Posts';
 import config from '../../config';
 
@@ -23,16 +24,28 @@ Generator<Action, void, { data: Post[] }> {
 
     const { data } = yield call(() => rest.get(`${config.api}/v1/posts`));
 
+    yield put(increasePost());
     yield put(requestPostsSuccess(data));
   } catch (error) {
     yield put(requestPostsError());
   }
 }
 
-function* deletePostHandler(logger, rest, { payload: { id } }: ReturnType<typeof deletePost>):
-Generator<Action, void, { data: Post[] }> {
+function* deletePostHandler(logger, rest, { payload: { id, owner } }: ReturnType<typeof deletePost>):
+Generator<Action, void, { data: { deleteComments: number[] } }> {
   try {
-    yield call(() => rest.delete(`${config.api}/v1/posts/${id}`));
+    const ownerState = Boolean(owner);
+    const { data: { deleteComments } } = yield call(() => rest.delete(`${config.api}/v1/posts/${id}`));
+
+    if (Array.isArray(deleteComments) && deleteComments.length > 0) {
+      for (let i = 0, l = deleteComments.length; i < l; i++) {
+        yield put(decreaseComment());
+      }
+    }
+
+    if (ownerState) {
+      yield put(decreasePost());
+    }
 
     yield put(postDeleted({ id }));
   } catch (error) {
@@ -49,7 +62,7 @@ function* deletePostSaga(logger, rest): IterableIterator<unknown> {
 }
 
 function* createPostSaga(logger, rest): IterableIterator<unknown> {
-  yield takeLatest(createPost.type, createPostHandler, logger, rest);
+  yield takeEvery(createPost.type, createPostHandler, logger, rest);
 }
 
 export { postsSaga, createPostSaga, deletePostSaga };

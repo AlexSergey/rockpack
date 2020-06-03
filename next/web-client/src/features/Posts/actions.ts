@@ -12,6 +12,6 @@ export const requestPostsError = createAction('Posts fetched with error');
 
 export const createPost = createAction<{ postData: FormData }>('Post is going to be created');
 
-export const deletePost = createAction<{ id: number }>('Post is going to be deleted');
+export const deletePost = createAction<{ id: number; owner: boolean }>('Post is going to be deleted');
 
 export const postDeleted = createAction<{ id: number }>('Post deleted');

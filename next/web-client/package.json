@@ -46,7 +46,8 @@
     "@ant-design/icons": "4.1.0",
     "connected-react-router": "6.8.0",
     "koa-no-cache": "2.0.0",
-    "react-flag-icon-css": "1.0.25"
+    "react-flag-icon-css": "1.0.25",
+    "dayjs": "1.8.28"
   },
   "devDependencies": {
     "@rockpack/codestyle": "0.9.0",

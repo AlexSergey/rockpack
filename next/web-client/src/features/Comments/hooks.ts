@@ -15,7 +15,7 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
 
 export const useCommentsApi = (): {
   createComment: (props: { postId: number; text: string; user: User }) => void;
-  deleteComment: (id: number) => void;
+  deleteComment: (id: number, owner?: boolean) => void;
 } => {
   const dispatch = useDispatch();
 
@@ -24,8 +24,8 @@ export const useCommentsApi = (): {
       dispatch(createComment({ postId, text, user }));
     },
 
-    deleteComment: (id): void => {
-      dispatch(deleteComment({ id }));
+    deleteComment: (id, owner?: boolean): void => {
+      dispatch(deleteComment({ id, owner }));
     }
   };
 };

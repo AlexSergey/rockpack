@@ -8,6 +8,7 @@ import { imageFactory } from './Image';
 import { removeImages } from '../utils/removeImages';
 
 import { ALLOWED_TEXT } from '../utils/allowedTags';
+import { imageTypeFactory } from './ImageType';
 
 export interface PostInterface {
   id: number;
@@ -20,7 +21,51 @@ export interface PostInterface {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const postFactory = (sequelize) => {
-  class Post extends Model<PostInterface> {}
+  class Post extends Model<PostInterface> {
+    savePreviewLink = async (ctx, postId): Promise<void> => {
+      const Image = imageFactory(sequelize);
+      const ImageType = imageTypeFactory(sequelize);
+
+      if (ctx.files.preview && Array.isArray(ctx.files.preview)) {
+        const preview = ctx.files.preview[0];
+
+        const previewType = await ImageType.findOne({
+          where: {
+            type: 'preview'
+          }
+        });
+
+        await Image.create({
+          post_id: postId,
+          type_id: previewType.get('id'),
+          uri: preview.filename
+        });
+      }
+    };
+
+    savePhotoLinks = async (ctx, postId): Promise<void> => {
+      const Image = imageFactory(sequelize);
+      const ImageType = imageTypeFactory(sequelize);
+
+      if (ctx.files.photos && Array.isArray(ctx.files.photos)) {
+        const photosType = await ImageType.findOne({
+          where: {
+            type: 'photos'
+          }
+        });
+
+        for (let i = 0, l = ctx.files.photos.length; i < l; i++) {
+          const photo = ctx.files.photos[i];
+
+          await Image.create({
+            post_id: postId,
+            type_id: photosType.get('id'),
+            uri: photo.filename
+          });
+        }
+      }
+    };
+  }
 
   Post.init({
     id: {
@@ -157,7 +202,10 @@ export const postFactory = (sequelize) => {
 
           if (images) {
             const imageLinks = images.map(img => img.toJSON().uri);
-            removeImages(imageLinks);
+
+            if (imageLinks.length > 0) {
+              removeImages(imageLinks);
+            }
           }
         } catch (e) {
           throw new InternalError();
@@ -169,7 +217,7 @@ export const postFactory = (sequelize) => {
           const userId = userIds[i];
           try {
             await Statistic.update({
-              posts: sequelize.literal(`posts - ${userComments[userId]}`)
+              posts: sequelize.literal(`comments - ${userComments[userId]}`)
             }, {
               where: {
                 type_id: userType.get('id'),

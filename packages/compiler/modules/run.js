@@ -71,8 +71,6 @@ const run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
 
-  console.log(configs.compilerName);
-
   if (configs.isomorphicMode) {
     const compiler = webpack(webpackConfig);
     const strategy = getStrategy(mode, {

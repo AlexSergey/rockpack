@@ -7,13 +7,15 @@ import Localization, { l } from '@rockpack/localazer';
 import styles from './styles.modules.scss';
 import { usePosts, usePostsApi } from '../../features/Posts';
 import { useLocalizationAPI, useCurrentLanguage } from '../../features/Localization';
-import { Access, Owner } from '../../features/User';
+import { Access, Owner, useUser } from '../../features/User';
 import { Roles } from '../../types/User';
 import { Languages } from '../../types/Localization';
 
 const Posts = (): JSX.Element => {
   const { changeLanguage } = useLocalizationAPI();
   const currentLanguage = useCurrentLanguage();
+  const currentUser = useUser();
+
   useStyles(styles);
 
   const [, , data] = usePosts();
@@ -35,10 +37,18 @@ const Posts = (): JSX.Element => {
             </Link>
             <Access forRoles={[Roles.admin]}>
               {(roleMatched): JSX.Element => (roleMatched ? (
-                <Button onClick={(): void => deletePost(post.id)}>Delete post</Button>
+                <Button
+                  onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
+                >
+                  Delete post
+                </Button>
               ) : (
                 <Owner forUser={post.User.email}>
-                  <Button onClick={(): void => deletePost(post.id)}>Delete post</Button>
+                  <Button
+                    onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
+                  >
+                    Delete post
+                  </Button>
                 </Owner>
               ))}
             </Access>

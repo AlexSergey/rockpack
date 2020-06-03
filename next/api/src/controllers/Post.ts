@@ -10,6 +10,7 @@ import { SequelizeError, InternalError, PostNotFound, BadRequest } from '../erro
 import config from '../config';
 import { ok } from '../utils/response';
 import { roleFactory } from '../models/Role';
+import { commentFactory } from '../models/Comment';
 
 export class PostController {
   static fetch = async (ctx): Promise<void> => {
@@ -249,48 +250,14 @@ export class PostController {
   static create = async (ctx): Promise<void> => {
     const userId = ctx.user.get('id');
     const Post = postFactory(sequelize);
-    const Image = imageFactory(sequelize);
-    const ImageType = imageTypeFactory(sequelize);
     const { title, text } = ctx.request.body;
 
     try {
       const post = await Post.create({
         user_id: userId, title, text
       });
-
-      if (ctx.files.preview && Array.isArray(ctx.files.preview)) {
-        const preview = ctx.files.preview[0];
-
-        const previewType = await ImageType.findOne({
-          where: {
-            type: 'preview'
-          }
-        });
-
-        await Image.create({
-          post_id: post.get('id'),
-          type_id: previewType.get('id'),
-          uri: preview.filename
-        });
-      }
-
-      if (ctx.files.photos && Array.isArray(ctx.files.photos)) {
-        const photosType = await ImageType.findOne({
-          where: {
-            type: 'photos'
-          }
-        });
-
-        for (let i = 0, l = ctx.files.photos.length; i < l; i++) {
-          const photo = ctx.files.photos[i];
-
-          await Image.create({
-            post_id: post.get('id'),
-            type_id: photosType.get('id'),
-            uri: photo.filename
-          });
-        }
-      }
+      await post.savePreviewLink(ctx, post.get('id'));
+      await post.savePhotoLinks(ctx, post.get('id'));
 
       ctx.body = ok('Post created', {
         id: post.get('id')
@@ -303,6 +270,21 @@ export class PostController {
   static delete = async (ctx): Promise<void> => {
     const { id } = ctx.params;
     const Post = postFactory(sequelize);
+    const Comment = commentFactory(sequelize);
+
+    let commentIds;
+
+    try {
+      const comments = await Comment.findAll({
+        where: {
+          post_id: id,
+          user_id: ctx.user.get('id')
+        },
+      });
+      commentIds = comments.map(comment => comment.get('id'));
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
 
     const post = await Post.destroy({
       where: {
@@ -315,7 +297,7 @@ export class PostController {
       throw new PostNotFound();
     }
 
-    ctx.body = ok('Post deleted');
+    ctx.body = ok('Post deleted', { deleteComments: commentIds });
   };
 
   static update = async (ctx): Promise<void> => {

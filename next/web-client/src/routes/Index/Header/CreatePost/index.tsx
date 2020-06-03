@@ -37,18 +37,19 @@ export const CreatePost = (): JSX.Element => {
   const photosChange = (files): void => {
     if (formData.current instanceof FormData) {
       formData.current.delete('photos');
+
+      files.forEach(file => {
+        if (formData.current instanceof FormData) {
+          formData.current.append('photos', file.originFileObj);
+        }
+      });
     }
-    files.forEach(file => {
-      if (formData.current instanceof FormData) {
-        formData.current.append('photos', file);
-      }
-    });
   };
 
   return (
     <>
       <Button type="primary" onClick={(): void => postCreateModal(true)}>
-        Create post
+        Create post 4
       </Button>
       <Modal
         title="Post Create"

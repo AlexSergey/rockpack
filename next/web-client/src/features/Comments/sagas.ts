@@ -46,13 +46,17 @@ Generator<Action, void, { data: { id: number } }> {
   }
 }
 
-function* deleteCommentHandler(logger, rest, { payload: { id } }: ReturnType<typeof deleteComment>):
+function* deleteCommentHandler(logger, rest, { payload: { id, owner } }: ReturnType<typeof deleteComment>):
 Generator<Action, void, { data: { id: number } }> {
   try {
+    const ownerState = Boolean(owner);
     yield call(() => rest.delete(`${config.api}/v1/comments/${id}`));
 
-    yield put(decreaseComment());
     yield put(commentDeleted({ id }));
+
+    if (ownerState) {
+      yield put(decreaseComment());
+    }
   } catch (error) {
     logger.error(error);
   }

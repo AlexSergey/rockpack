@@ -14,7 +14,7 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
 
 export const usePostsApi = (): {
   createPost: (data: { postData: FormData }) => void;
-  deletePost: (id: number) => void;
+  deletePost: (id: number, owner?: boolean) => void;
 } => {
   const dispatch = useDispatch();
 
@@ -22,8 +22,8 @@ export const usePostsApi = (): {
     createPost: (data: { postData: FormData }): void => {
       dispatch(createPost(data));
     },
-    deletePost: (id: number): void => {
-      dispatch(deletePost({ id }));
+    deletePost: (id: number, owner?: boolean): void => {
+      dispatch(deletePost({ id, owner }));
     }
   };
 };

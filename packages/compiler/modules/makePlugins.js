@@ -62,12 +62,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     stats: mode === 'production'
   });
 
-  plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
-    exclude: /node_modules/,
-  });
-
-  plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
-
   if (packageJson.dependencies && packageJson.dependencies.antd) {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
@@ -106,6 +100,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       entryOnly: true
     });
   }
+
   if (
     mode === 'development' &&
     conf.nodejs
@@ -280,11 +275,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
-    plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
-
-    plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
-
-    plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
+    if (!global.ISOMORPHIC) {
+      plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
+    }
 
     if (conf.__isIsomorphicStyles) {
       plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
@@ -299,6 +292,12 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * PRODUCTION
    * */
   if (mode === 'production') {
+    plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
+      exclude: /node_modules/,
+    });
+
+    plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
+
     plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
 
     const addVersion = !!version;

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button } from 'antd';
 import { Roles, User } from '../../../../types/User';
-import { Access, Owner } from '../../../../features/User';
+import { Access, Owner, useUser } from '../../../../features/User';
 import { useCommentsApi } from '../../../../features/Comments';
+import { dateFormatter } from '../../../../utils/dateFormat';
 
 interface CommentInterface {
   id: number;
@@ -13,21 +14,20 @@ interface CommentInterface {
 
 export const Comment = ({ id, text, createdAt, user }: CommentInterface): JSX.Element => {
   const commentsApi = useCommentsApi();
-  //eslint-disable-next-line
-  console.log(createdAt);
+  const currentUser = useUser();
   return (
     <div>
       <Access forRoles={[Roles.admin]}>
         {(roleMatched): JSX.Element => (roleMatched ? (
-          <Button onClick={(): void => commentsApi.deleteComment(id)}>Delete Comment</Button>
+          <Button onClick={(): void => commentsApi.deleteComment(id, currentUser.email === user.email)}>Delete Comment</Button>
         ) : (
           <Owner forUser={user.email}>
-            <Button onClick={(): void => commentsApi.deleteComment(id)}>Delete Comment</Button>
+            <Button onClick={(): void => commentsApi.deleteComment(id, currentUser.email === user.email)}>Delete Comment</Button>
           </Owner>
         ))}
       </Access>
       <p>{text}</p>
-      {/*<p><span>{createdAt}</span></p>*/}
+      <p><span>{dateFormatter(createdAt)}</span></p>
     </div>
   );
 };

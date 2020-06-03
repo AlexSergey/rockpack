@@ -15,6 +15,6 @@ export const createComment = createAction<{ text: string; user: User; postId: nu
 
 export const commentCreated = createAction<Comment>('Comment created');
 
-export const deleteComment = createAction<{ id: number }>('Comments is going to delete');
+export const deleteComment = createAction<{ id: number; owner?: boolean }>('Comments is going to delete');
 
 export const commentDeleted = createAction<{ id: number }>('Comment deleted');

@@ -8,7 +8,8 @@ const createBabelPresets = ({
   loadable = false,
   modules = false,
   isProduction = false,
-  isTest = false
+  isTest = false,
+  typescript = false
 }) => {
   const root = path.dirname(require.main.filename);
   const packageJsonPath = path.resolve(root, 'package.json');
@@ -23,7 +24,14 @@ const createBabelPresets = ({
     corejs = packageJson.dependencies['core-js'];
   }
 
-  const opts = {
+  const opts = typescript ? {
+    babelrc: false,
+    presets: [],
+    plugins: [],
+    env: {
+      production: {}
+    }
+  } : {
     babelrc: false,
     presets: [
       [require.resolve('@babel/preset-env'), Object.assign({
@@ -73,7 +81,7 @@ const createBabelPresets = ({
     }
   };
 
-  if (framework === 'react') {
+  if (!typescript && framework === 'react') {
     opts.presets.push(
       [require.resolve('@babel/preset-react'), { useBuiltIns: true }]
     );

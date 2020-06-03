@@ -9,8 +9,7 @@ const Wysiwyg = ({ value, onChange }: { value: string; onChange: (content: strin
     onChange={onChange}
     modules={{
       toolbar: [
-        [{ header: '3' }, { header: '4' }, { font: [] }],
-        [{ size: [] }],
+        [{ header: [3, 4, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         ['clean']
       ] }}

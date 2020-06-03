@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
-import { setUser, clearUserState, increaseComment, decreaseComment } from './actions';
+import { setUser, clearUserState, increaseComment, decreaseComment, increasePost, decreasePost } from './actions';
 import { User, Roles } from '../../types/User';
 
 export const userReducer = createReducer<User>({
@@ -31,6 +31,18 @@ export const userReducer = createReducer<User>({
   [decreaseComment.type]: (state) => (
     produce(state, draftState => {
       draftState.Statistic.comments -= 1;
+    })
+  ),
+
+  [increasePost.type]: (state) => (
+    produce(state, draftState => {
+      draftState.Statistic.posts += 1;
+    })
+  ),
+
+  [decreasePost.type]: (state) => (
+    produce(state, draftState => {
+      draftState.Statistic.posts -= 1;
     })
   )
 });

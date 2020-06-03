@@ -19,7 +19,7 @@ export const userFactory = (sequelize) => {
   class User extends Model<UserInterface> {
     isValidPassword = async (userPassword, password): Promise<boolean> => await isValidPassword(userPassword, password);
 
-    toJSON() {
+    toJSON(): { [key: string]: unknown } {
       const attributes = Object.assign({}, this.get());
 
       PROTECTED_ATTRIBUTES.forEach(key => {

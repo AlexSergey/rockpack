@@ -6,7 +6,7 @@ import { getBase64 } from '../../utils/file';
 import config from '../../config';
 
 const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
-  const [fileList, setFileList] = useState([]);
+  const [uploadList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewTitle, setPreviewTitle] = useState('');
@@ -22,7 +22,6 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }):
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
 
-  // eslint-disable-next-line no-shadow
   const handleChange = ({ fileList }): void => {
     setFileList(fileList);
     onChange(fileList);
@@ -39,7 +38,7 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }):
       <Upload
         listType="picture-card"
         multiple
-        fileList={fileList}
+        fileList={uploadList}
         onPreview={handlePreview}
         onChange={handleChange}
         beforeUpload={(file): false => {
@@ -52,7 +51,7 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }):
           return false;
         }}
       >
-        {fileList.length >= config.maxPhotos ? null : uploadButton}
+        {uploadList.length >= config.maxPhotos ? null : uploadButton}
       </Upload>
       <Modal
         visible={previewVisible}
