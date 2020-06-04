@@ -1,60 +1,81 @@
 import React from 'react';
+import { CloseOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { Button } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import Localization, { l } from '@rockpack/localazer';
-import styles from './styles.modules.scss';
+import Localization, { l, useI18n } from '@rockpack/localazer';
 import { usePosts, usePostsApi } from '../../features/Posts';
-import { useLocalizationAPI, useCurrentLanguage } from '../../features/Localization';
+import { useCurrentLanguage } from '../../features/Localization';
 import { Access, Owner, useUser } from '../../features/User';
 import { Roles } from '../../types/User';
-import { Languages } from '../../types/Localization';
+import { PostsPagination } from './PostsPagination';
+import { dateFormatter } from '../../utils/dateFormat';
+import { Error } from '../../components/Error';
+import { Loader } from '../../components/Loader';
+
+import styles from './style.modules.scss';
 
 const Posts = (): JSX.Element => {
-  const { changeLanguage } = useLocalizationAPI();
+  useStyles(styles);
+
+  const i18n = useI18n();
   const currentLanguage = useCurrentLanguage();
   const currentUser = useUser();
 
-  useStyles(styles);
-
-  const [, , data] = usePosts();
+  const [loading, error, data] = usePosts();
   const { deletePost } = usePostsApi();
 
   return (
     <>
       <MetaTags>
-        <title>Home</title>
-        <meta name="description" content="Home page" />
+        <title>{l('Posts')(i18n)}</title>
+        <meta name="description" content={l('Posts page')(i18n)} />
       </MetaTags>
-      <div className={styles.block}>
-        <p><Localization>{l('Hello')}</Localization></p>
-        <button type="button" onClick={(): void => changeLanguage(Languages.ru)}>Change</button>
+      <div className={styles.posts}>
+        {loading && <Loader />}
+        {error && <Error />}
         {data.map(post => (
-          <div key={post.id}>
-            <Link to={`${currentLanguage}/posts/${post.id}`}>
-              <h2>{post.title}</h2>
-            </Link>
+          <div key={post.id} className={styles.post}>
             <Access forRoles={[Roles.admin]}>
               {(roleMatched): JSX.Element => (roleMatched ? (
                 <Button
+                  danger
+                  className={styles.delete}
                   onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
                 >
-                  Delete post
+                  <CloseOutlined />
                 </Button>
               ) : (
                 <Owner forUser={post.User.email}>
                   <Button
+                    danger
+                    className={styles.delete}
                     onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
                   >
-                    Delete post
+                    <CloseOutlined />
                   </Button>
                 </Owner>
               ))}
             </Access>
-            {post.Image && <img src={`http://localhost:9999/${post.Image.thumbnail}`} alt="" />}
+            {post.Image && (
+              <div className={styles['preview-holder']}>
+                <img
+                  src={`http://localhost:9999/${post.Image.thumbnail}`}
+                  alt=""
+                />
+              </div>
+            )}
+            <Link to={`${currentLanguage}/posts/${post.id}`} className={styles.title}>
+              <h2>{post.title}</h2>
+            </Link>
+            <div className={styles.extra}>
+              <span className={styles.date}>{dateFormatter(post.createdAt)}</span>
+              <span className={styles.comments}><Localization>{l('Comments')}</Localization> {post.Statistic.comments}</span>
+            </div>
           </div>
         ))}
+        <PostsPagination />
       </div>
     </>
   );

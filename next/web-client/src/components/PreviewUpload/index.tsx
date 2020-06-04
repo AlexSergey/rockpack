@@ -5,7 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import { getBase64 } from '../../utils/file';
 import config from '../../config';
-import styles from './styles.modules.scss';
+import styles from './style.modules.scss';
 
 const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) => void}): JSX.Element => {
   useStyles(styles);
@@ -22,7 +22,7 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
   };
 
   return (
-    <>
+    <div className={`${styles.holder} ${preview.length === 0 ? styles['without-preview'] : ''}`}>
       <Upload
         fileList={fileList}
         showUploadList={false}
@@ -51,11 +51,11 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
         </Button>
       </Upload>
       {preview !== '' ? (
-        <div className={styles['preview-holder']}>
+        <div>
           <img className={styles.preview} src={preview} alt="preview" />
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 

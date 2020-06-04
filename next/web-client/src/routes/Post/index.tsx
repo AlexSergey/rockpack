@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
+import Localization, { l, sprintf, useI18n } from '@rockpack/localazer';
+import useStyles from 'isomorphic-style-loader/useStyles';
 import { Comments } from './Comments';
 import { UpdateMode } from './UpdateMode';
 import { AddComment } from './AddComment';
+import { Images } from './Images';
 import { usePost } from '../../features/Post';
 import { Access, Owner } from '../../features/User';
 import { Roles } from '../../types/User';
+import { Error } from '../../components/Error';
+import { Loader } from '../../components/Loader';
+
+import styles from './style.modules.scss';
 
 type PathParamsType = {
   postId: string;
@@ -22,6 +29,9 @@ type PropsType = RouteComponentProps<PathParamsType> & {
 const PostDetails = ({
   match
 }: PropsType): JSX.Element => {
+  useStyles(styles);
+
+  const i18n = useI18n();
   const postId = Number(match.params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);
@@ -29,26 +39,32 @@ const PostDetails = ({
   return (
     <>
       <MetaTags>
-        <title>Post</title>
-        <meta name="description" content="Secondary page" />
+        <title>{data && data.title}</title>
+        <meta name="description" content={data && data.text} />
       </MetaTags>
-      <div>
-        <h1>POST 8</h1>
-      </div>
-      {loading && <div>loading</div>}
-      {error && <div>error</div>}
+      {loading && <Loader />}
+      {error && <Error />}
       {data && (
-        <>
-          {data.User && (
-            <Owner forUser={data.User.email}>
-              <Button onClick={(): void => setUpdateMode(true)}>Update post</Button>
-            </Owner>
-          )}
-          {data.text && <div dangerouslySetInnerHTML={{ __html: data.text }} />}
+        <div className={styles['post-page']}>
+          <div className={styles.post}>
+            {data.User && (
+              <Owner forUser={data.User.email}>
+                <Button className={styles.update} onClick={(): void => setUpdateMode(true)}>
+                  <Localization>{l('Update post')}</Localization>
+                </Button>
+              </Owner>
+            )}
+            <h1>{data.title}</h1>
 
-          <div>
-            <h4>Statistic:</h4>
-            <p>Comments: {data.Statistic.comments}</p>
+            {data.text && <div dangerouslySetInnerHTML={{ __html: data.text }} />}
+
+            {Array.isArray(data.Images) && data.Images.length > 0 && (
+              <Images images={data.Images} />
+            )}
+
+            <div className={styles.comments}>
+              <p>Comments: {data.Statistic.comments}</p>
+            </div>
           </div>
 
           {data.Statistic && data && data.Statistic.comments > 0 && (
@@ -59,15 +75,25 @@ const PostDetails = ({
             <AddComment postId={postId} />
           </Access>
 
-          {updateMode && (
+          <Modal
+            title={
+              sprintf(
+                l('Update post %s', 'Post')(i18n),
+                data.title
+              )(i18n)
+            }
+            visible={updateMode}
+            onCancel={(): void => setUpdateMode(false)}
+            footer={null}
+          >
             <UpdateMode
               postId={data.id}
               text={data.text}
               title={data.title}
               onFinish={(): void => setUpdateMode(false)}
             />
-          )}
-        </>
+          </Modal>
+        </div>
       )}
     </>
   );

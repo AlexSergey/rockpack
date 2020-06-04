@@ -26,4 +26,8 @@ export interface RootState {
   comments: CommentsState;
   post: PostState;
   users: UsersState;
+  pagination: {
+    current: number;
+    count: number;
+  };
 }

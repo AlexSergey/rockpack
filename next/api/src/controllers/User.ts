@@ -13,6 +13,18 @@ export class UserController {
     const { email, password } = ctx.request.body;
     const User = userFactory(sequelize);
     const Role = roleFactory(sequelize);
+    const StatisticUser = statisticFactory(sequelize);
+    const StatisticType = statisticTypeFactory(sequelize);
+
+    const userType = await StatisticType.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
 
     const user = await User.findOne({
       where: {
@@ -41,11 +53,38 @@ export class UserController {
         role_id: userRole.get('id')
       });
 
+      User.belongsTo(Role, { foreignKey: 'role_id' });
+      User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
+      StatisticUser.belongsTo(User, { foreignKey: 'id' });
+
+      const createdUser = await User.findOne({
+        limit: 1,
+        where: {
+          id: newUser.get('id')
+        },
+        include: [
+          {
+            model: StatisticUser,
+            where: {
+              type_id: userType.get('id')
+            },
+            required: false
+          },
+          {
+            model: Role,
+            attributes: {
+              exclude: ['id']
+            },
+            required: false
+          }
+        ]
+      });
+
       const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
       ctx.cookies.set('token', token, { httpOnly: false });
 
-      ctx.body = ok('User created', newUser.toJSON());
+      ctx.body = ok('User created', createdUser.toJSON());
     } catch (e) {
       throw new SequelizeError(e);
     }

@@ -1,4 +1,5 @@
 @import "antd.overload.scss";
+@import "./variables.scss";
 
 body {
   margin: 0;
@@ -6,6 +7,7 @@ body {
 html, body, #root {
   height: 100%;
   font-family: 'Roboto Mono', sans-serif;
+  min-width: $pageMinWidth;
 }
 h1 {
   font-family: 'Oswald', sans-serif;

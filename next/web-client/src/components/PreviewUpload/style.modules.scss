@@ -1,0 +1,20 @@
+@import '../../assets/styles/variables';
+
+.preview {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.holder {
+  display: block;
+  text-align: center;
+
+  :global(.ant-upload) {
+    margin: 0 0 20px;
+  }
+  &.without-preview {
+    :global(.ant-upload) {
+      margin: 0;
+    }
+  }
+}

@@ -1,3 +1,19 @@
+@import '../../assets/styles/variables';
+
 .main-content-layout {
   min-height: 100%;
+}
+.ant-layout-content {
+  margin: 20px;
+  background: white;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 0 1px;
+  padding: 20px;
+}
+
+
+@media screen and (max-width: $smallDeviceWidth) {
+  .ant-layout-header {
+    padding: 0 10px;
+  }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
+import Localization, { l, useI18n } from '@rockpack/localazer';
 import { useUserApi } from '../../../../features/User';
 
 type Store = {
@@ -8,6 +9,7 @@ type Store = {
 };
 
 export const Signin = (): JSX.Element => {
+  const i18n = useI18n();
   const [signinState, signinModal] = useState(false);
   const { signin } = useUserApi();
 
@@ -18,9 +20,10 @@ export const Signin = (): JSX.Element => {
       </Button>
 
       <Modal
-        title="Sign In"
+        title={l('Sign In')(i18n)}
         visible={signinState}
         onCancel={(): void => signinModal(false)}
+        footer={null}
       >
         <Form
           name="signin"
@@ -29,12 +32,12 @@ export const Signin = (): JSX.Element => {
           }}
         >
           <Form.Item
-            label="E-mail"
+            label={l('E-mail')(i18n)}
             name="email"
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: l('Please input your username!')(i18n),
               },
             ]}
           >
@@ -42,21 +45,21 @@ export const Signin = (): JSX.Element => {
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={l('Password')(i18n)}
             name="password"
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: l('Please input your password!')(i18n),
               },
             ]}
           >
             <Input.Password />
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">
-              Sign In!
+              <Localization>{l('Sign In')}</Localization>
             </Button>
           </Form.Item>
         </Form>

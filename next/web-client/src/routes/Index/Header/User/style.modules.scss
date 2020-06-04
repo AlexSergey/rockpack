@@ -1,0 +1,27 @@
+@import '../../../../assets/styles/variables';
+
+.user {
+  position: relative;
+  .holder {
+    overflow: hidden;
+    .email {
+      display: inline-block;
+    }
+  }
+  .role {
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    font-size: 9px;
+  }
+}
+
+@media screen and (max-width: $smallDeviceWidth) {
+  .user {
+    .holder {
+      .email {
+        display: none;
+      }
+    }
+  }
+}

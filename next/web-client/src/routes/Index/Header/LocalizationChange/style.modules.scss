@@ -1,0 +1,13 @@
+.select {
+  :global(.ant-select-selector) {
+    background: none !important;
+    border: 0 !important;
+    border-bottom: 1px solid #d9d9d9 !important;
+    border-radius: 0 !important;
+  }
+  :global(.anticon) {
+    path {
+      fill: white !important;
+    }
+  }
+}

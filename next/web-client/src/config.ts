@@ -5,5 +5,6 @@ export default {
   languages: [Languages.ru, Languages.en],
   defaultLanguage: Languages.en,
   maxPhotos: 10,
+  postsLimit: 10,
   fileFormats: ['image/jpeg', 'image/png', 'image/jpg']
 };

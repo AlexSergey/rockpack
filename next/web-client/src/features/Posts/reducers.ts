@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { requestPosts, requestPostsError, requestPostsSuccess, postDeleted } from './actions';
+import { requestPosts, requestPostsError, requestPostsSuccess, postDeleted, paginationSetCount, paginationSetCurrent } from './actions';
 import { PostsState } from '../../types/Posts';
 
 export const postsReducer = createReducer<PostsState>({
@@ -29,5 +29,20 @@ export const postsReducer = createReducer<PostsState>({
     data: [],
     error: true,
     loading: false
+  })
+});
+
+export const paginationReducer = createReducer<{ current: number; count: number }>({
+  current: 1,
+  count: 10
+}, {
+  [paginationSetCurrent.type]: (state, { payload }) => ({
+    current: payload,
+    count: state.count
+  }),
+
+  [paginationSetCount.type]: (state, { payload }) => ({
+    current: state.current,
+    count: payload
   })
 });

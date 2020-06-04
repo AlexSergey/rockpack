@@ -1,10 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, Input, Form } from 'antd';
+import useStyles from 'isomorphic-style-loader/useStyles';
+import Localization, { l, useI18n } from '@rockpack/localazer';
 import { isBackend } from '@rockpack/ussr';
 import loadable from '@loadable/component';
 import PreviewUpload from '../../../../components/PreviewUpload';
 import PhotosUpload from '../../../../components/PhotosUpload';
 import { usePostsApi } from '../../../../features/Posts';
+
+import styles from './style.modules.scss';
 
 const Wysiwyg = loadable(() => import('../../../../components/Wysiwyg'));
 
@@ -13,6 +17,8 @@ type FormState = {
 };
 
 export const CreatePost = (): JSX.Element => {
+  const i18n = useI18n();
+  useStyles(styles);
   const { createPost } = usePostsApi();
   const [postCreate, postCreateModal] = useState(false);
   const [text, setText] = useState('');
@@ -49,10 +55,10 @@ export const CreatePost = (): JSX.Element => {
   return (
     <>
       <Button type="primary" onClick={(): void => postCreateModal(true)}>
-        Create post 4
+        <Localization>{l('Create post')}</Localization>
       </Button>
       <Modal
-        title="Post Create"
+        title={l('Post Create')(i18n)}
         footer={null}
         visible={postCreate}
         onCancel={(): void => {
@@ -74,7 +80,7 @@ export const CreatePost = (): JSX.Element => {
             }}
           >
             <Form.Item
-              label="title"
+              label={l('Title')(i18n)}
               name="title"
               rules={[
                 {
@@ -84,12 +90,20 @@ export const CreatePost = (): JSX.Element => {
             >
               <Input />
             </Form.Item>
-            <PreviewUpload onChange={previewChange} />
-            <Wysiwyg value={text} onChange={setText} />
-            <PhotosUpload onChange={photosChange} />
-            <Button type="primary" htmlType="submit">
-              Create
-            </Button>
+            <Form.Item>
+              <PreviewUpload onChange={previewChange} />
+            </Form.Item>
+            <Form.Item>
+              <Wysiwyg value={text} onChange={setText} />
+            </Form.Item>
+            <Form.Item>
+              <PhotosUpload onChange={photosChange} />
+            </Form.Item>
+            <Form.Item style={{ textAlign: 'center' }}>
+              <Button type="primary" htmlType="submit">
+                <Localization>{l('Create')}</Localization>
+              </Button>
+            </Form.Item>
           </Form>
         )}
       </Modal>

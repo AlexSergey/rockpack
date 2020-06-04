@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
+import Localization, { l } from '@rockpack/localazer';
 import loadable from '@loadable/component';
 import { usePostApi } from '../../../features/Post';
 
@@ -45,12 +46,14 @@ export const UpdateMode = ({ postId, title, text, onFinish }: UpdateModeInterfac
           >
             <Input />
           </Form.Item>
-
-          <Wysiwyg value={postText} onChange={setText} />
-
-          <Button type="primary" htmlType="submit">
-            Update
-          </Button>
+          <Form.Item>
+            <Wysiwyg value={postText} onChange={setText} />
+          </Form.Item>
+          <Form.Item style={{ textAlign: 'right' }}>
+            <Button type="primary" htmlType="submit">
+              <Localization>{l('Update post')}</Localization>
+            </Button>
+          </Form.Item>
         </Form>
       </div>
     </>

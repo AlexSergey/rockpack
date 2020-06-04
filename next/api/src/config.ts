@@ -18,7 +18,7 @@ export default {
   },
   jwtExpiresIn: '7d',
   logLevel: 'info',
-  postsLimit: 20,
+  postsLimit: 10,
   storage: 'storage',
   files: {
     maxSize: 3 * 1024 * 1024,

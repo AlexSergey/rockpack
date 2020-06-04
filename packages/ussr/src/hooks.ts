@@ -11,6 +11,12 @@ interface UssrState<T> {
   setState(componentState: T, skip?: boolean): void;
 }
 
+export const useIsFirstMounting = (): boolean => {
+  const { isLoading } = useContext(UssrContext);
+
+  return isLoading();
+};
+
 export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentState: T, skip?: boolean) => void] => {
   const hook = useRef<false | UssrState<T>>(false);
   const { isLoading, initState } = useContext(UssrContext);

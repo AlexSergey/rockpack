@@ -58,6 +58,8 @@ export class PostController {
     }
 
     try {
+      const { count } = await Post.findAndCountAll();
+
       Post.belongsTo(User, { foreignKey: 'user_id' });
       User.hasOne(StatisticUser, { foreignKey: 'entity_id' });
       StatisticUser.belongsTo(User, { foreignKey: 'id' });
@@ -126,7 +128,10 @@ export class PostController {
         ],
       });
 
-      ctx.body = ok('Posts fetched', posts.map(p => p.toJSON()));
+      ctx.body = ok('Posts fetched', {
+        posts: posts.map(p => p.toJSON()),
+        count
+      });
     } catch (e) {
       throw new SequelizeError(e);
     }

@@ -1,0 +1,30 @@
+.images {
+  width: 100%;
+  overflow: hidden;
+  img {
+    cursor: pointer;
+  }
+}
+.full {
+  img {
+    width: 100%;
+  }
+}
+
+.grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: -30px;
+  width: auto;
+}
+
+.grid-column {
+  padding-left: 30px;
+  background-clip: padding-box;
+}
+
+.grid-column > img {
+  display: block;
+  margin-bottom: 30px;
+}

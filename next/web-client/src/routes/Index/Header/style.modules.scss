@@ -1,0 +1,13 @@
+.nav-holder {
+  &:after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+}
+.nav-main {
+  float: left;
+}
+.nav-secondary {
+  float: right;
+}

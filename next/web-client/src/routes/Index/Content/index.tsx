@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import styles from './styles.modules.scss';
+import styles from './style.modules.scss';
 
 export const Content = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
   useStyles(styles);

@@ -26,7 +26,6 @@ export const App = (): JSX.Element => {
   return (
     <LoggerContainer logger={logger} stdout={notify}>
       <Index>
-        <div>Test</div>
         <Switch>
           {config.languages.map((language): JSX.Element => {
             const prefix = `/${language}`;

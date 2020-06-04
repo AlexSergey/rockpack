@@ -1,8 +1,9 @@
 import { Resolver } from '@rockpack/ussr';
 import { createAction } from '@reduxjs/toolkit';
 import { Post } from '../../types/Posts';
+import { Languages } from '../../types/Localization';
 
-export const fetchPosts = createAction<{ resolver: Resolver }>('Posts will fetch');
+export const fetchPosts = createAction<{ resolver?: Resolver; page: number }>('Posts will fetch');
 
 export const requestPosts = createAction('Posts are fetching...');
 
@@ -15,3 +16,9 @@ export const createPost = createAction<{ postData: FormData }>('Post is going to
 export const deletePost = createAction<{ id: number; owner: boolean }>('Post is going to be deleted');
 
 export const postDeleted = createAction<{ id: number }>('Post deleted');
+
+export const settingPage = createAction<{ currentLanguage: Languages; page: number }>('Setting page');
+
+export const paginationSetCurrent = createAction<number>('Set pagination current');
+
+export const paginationSetCount = createAction<number>('Set pagination count');

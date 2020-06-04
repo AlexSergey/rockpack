@@ -7,7 +7,7 @@ import { isNotProduction } from './utils/mode';
 import { createRestClient } from './utils/rest';
 import { localizationSaga, localizationReducer as localization } from './features/Localization';
 import { authorizationSaga, signInSaga, signUpSaga, signOutSaga, userReducer as user } from './features/User';
-import { postsSaga, createPostSaga, deletePostSaga, postsReducer as posts } from './features/Posts';
+import { postsSaga, createPostSaga, deletePostSaga, setPageSaga, postsReducer as posts, paginationReducer as pagination } from './features/Posts';
 import { commentsSaga, createCommentSaga, deleteCommentSaga, commentsReducer as comments } from './features/Comments';
 import { watchPost, updatePostSaga, postReducer as post } from './features/Post';
 import { usersSaga, deleteUserSaga, usersReducer as users } from './features/Users';
@@ -41,7 +41,8 @@ export const createStore = ({ initState = {}, logger, history, getToken }: Store
       posts,
       comments,
       post,
-      users
+      users,
+      pagination
     },
     devTools: isNotProduction(),
     middleware,
@@ -59,6 +60,7 @@ export const createStore = ({ initState = {}, logger, history, getToken }: Store
 
   // Posts Sagas
   sagaMiddleware.run(postsSaga, logger, rest);
+  sagaMiddleware.run(setPageSaga, logger, rest);
   sagaMiddleware.run(createPostSaga, logger, rest);
   sagaMiddleware.run(deletePostSaga, logger, rest);
 

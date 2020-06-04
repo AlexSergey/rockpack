@@ -275,9 +275,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
-    if (!global.ISOMORPHIC) {
-      plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
-    }
+    plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
 
     if (conf.__isIsomorphicStyles) {
       plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({

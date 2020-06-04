@@ -23,8 +23,9 @@ Generator<Action, void, { data: User }> {
     const { data } = yield call(() => (
       rest.get(`${config.api}/v1/users/authorization`)
     ));
-
-    yield put(setUser(data));
+    if (typeof data === 'object') {
+      yield put(setUser(data));
+    }
   } catch (error) {
     logger.error(error);
   }
