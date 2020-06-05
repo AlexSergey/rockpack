@@ -1,5 +1,6 @@
 import { Context } from 'koa';
 import createDebugger from 'debug';
+import { BadRequest } from '../errors/BadRequest';
 
 const debug = createDebugger('koa:error-handler');
 
@@ -23,6 +24,17 @@ const errorsHandler = (): (ctx: Context, next: () => Promise<unknown>) => Promis
           code: err.code,
           status: err.status,
           statusCode: err.statusCode
+        };
+      } else {
+        const badRequest = new BadRequest();
+
+        ctx.status = badRequest.statusCode;
+
+        ctx.body = {
+          message: badRequest.message,
+          code: badRequest.code,
+          status: badRequest.status,
+          statusCode: badRequest.statusCode
         };
       }
     }

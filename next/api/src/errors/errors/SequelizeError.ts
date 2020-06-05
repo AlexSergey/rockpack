@@ -10,6 +10,8 @@ export class SequelizeError extends BaseError implements ErrorInterface {
 
   public statusCode = DATABASE_ERROR.statusCode;
 
+  public message = DATABASE_ERROR.message;
+
   public status = Statuses.error;
 
   constructor(e: SequelizeBaseError | ErrorInterface) {

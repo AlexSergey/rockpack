@@ -12,3 +12,4 @@ export * from './CommentNotFount';
 export * from './BadFileFormat';
 export * from './MulterError';
 export * from './IncorrectAccess';
+export * from './ErrorProxy';

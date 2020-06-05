@@ -1,7 +1,6 @@
-import { userFactory } from '../models/User';
-import { sequelize } from '../boundaries/database';
+import { UserRepository } from '../repositories/User';
 import { decodeToken } from '../utils/auth';
-import { Unauthorized, ExpiredToken, UserNotFound } from '../errors';
+import { Unauthorized, ExpiredToken, UserNotFound, ErrorProxy } from '../errors';
 
 export const protectedRoute = async (ctx, next): Promise<void> => {
   const token = ctx.get('Authorization');
@@ -19,14 +18,13 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
     throw new ExpiredToken();
   }
 
-  const User = userFactory(sequelize);
+  let user;
 
-  const user = await User.findOne({
-    limit: 1,
-    where: {
-      email: currentUser.email
-    }
-  });
+  try {
+    user = await UserRepository.getUserByEmail(currentUser.email);
+  } catch (e) {
+    throw new ErrorProxy(e);
+  }
 
   if (!user) {
     throw new UserNotFound();

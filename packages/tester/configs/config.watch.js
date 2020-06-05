@@ -27,6 +27,14 @@ if (existsSync(path.resolve(currentProjectFolder, './enzyme.config.js'))) {
   setupFiles.push('<rootDir>/enzyme.config.js');
 }
 
+if (existsSync(path.resolve(currentProjectFolder, './jest.config.ts'))) {
+  setupFiles.push('<rootDir>/jest.config.ts');
+}
+
+if (existsSync(path.resolve(currentProjectFolder, './enzyme.config.ts'))) {
+  setupFiles.push('<rootDir>/enzyme.config.ts');
+}
+
 module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': require.resolve('ts-jest'),

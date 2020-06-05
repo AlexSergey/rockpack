@@ -1,4 +1,5 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
 
 export interface ImageTypeInterface {
   id: number;
@@ -8,28 +9,20 @@ export interface ImageTypeInterface {
   comments: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const imageTypeFactory = (sequelize: Sequelize) => {
-  class ImageType extends Model<ImageTypeInterface> {
+export class ImageTypeModel extends Model<ImageTypeInterface> { }
+
+ImageTypeModel.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
+
+  type: {
+    type: DataTypes.ENUM('preview', 'photos'),
+    allowNull: false,
   }
-
-  ImageType.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
-
-    type: {
-      type: DataTypes.ENUM('preview', 'photos'),
-      allowNull: false,
-    }
-  }, {
-    tableName: 'image_type',
-    sequelize
-  });
-
-  ImageType.sync();
-
-  return ImageType;
-};
+}, {
+  tableName: 'image_type',
+  sequelize
+});

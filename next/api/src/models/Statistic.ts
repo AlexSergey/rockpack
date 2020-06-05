@@ -1,4 +1,5 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
 
 export interface StatisticInterface {
   id: number;
@@ -8,50 +9,42 @@ export interface StatisticInterface {
   comments: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const statisticFactory = (sequelize: Sequelize) => {
-  class Statistic extends Model<StatisticInterface> {
-  }
+export class StatisticModel extends Model<StatisticInterface> { }
 
-  Statistic.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
+StatisticModel.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
 
-    type_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'statistic_type',
-        key: 'id',
-      }
-    },
-
-    entity_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-
-    posts: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-
-    comments: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+  type_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'statistic_type',
+      key: 'id',
     }
-  }, {
-    defaultScope: {
-      attributes: { exclude: ['id', 'type_id', 'entity_id'] }
-    },
-    tableName: 'statistic',
-    sequelize
-  });
+  },
 
-  Statistic.sync();
+  entity_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
 
-  return Statistic;
-};
+  posts: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+
+  comments: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  }
+}, {
+  defaultScope: {
+    attributes: { exclude: ['id', 'type_id', 'entity_id'] }
+  },
+  tableName: 'statistic',
+  sequelize
+});

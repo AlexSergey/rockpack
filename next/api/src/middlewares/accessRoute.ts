@@ -1,5 +1,3 @@
-import { roleFactory } from '../models/Role';
-import { sequelize } from '../boundaries/database';
 import { IncorrectAccess } from '../errors';
 import logger from '../logger';
 import { Roles } from '../config';
@@ -11,22 +9,13 @@ export const accessRoute = (accessLayer: Roles | Roles[]) => (
       throw new IncorrectAccess();
     }
 
-    const roleId = ctx.user.get('role_id');
+    const { role } = ctx.user.get('Role');
 
-    const Role = roleFactory(sequelize);
-
-    const role = await Role.findOne({
-      limit: 1,
-      where: {
-        id: roleId
-      },
-    });
-
-    if (Array.isArray(accessLayer) && !accessLayer.includes(role.get('role'))) {
+    if (Array.isArray(accessLayer) && !accessLayer.includes(role)) {
       throw new IncorrectAccess();
     }
 
-    if (!Array.isArray(accessLayer) && role.get('role') !== accessLayer) {
+    if (!Array.isArray(accessLayer) && role !== accessLayer) {
       throw new IncorrectAccess();
     }
 

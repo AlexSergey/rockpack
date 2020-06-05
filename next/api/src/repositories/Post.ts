@@ -1,0 +1,200 @@
+import Sequelize from 'sequelize';
+import { StatisticTypeModel } from '../models/StatisticType';
+import { InternalError, SequelizeError } from '../errors/errors';
+import { ImageTypeModel } from '../models/ImageType';
+import { PostModel } from '../models/Post';
+import { UserModel } from '../models/User';
+import { StatisticModel } from '../models/Statistic';
+import { RoleModel } from '../models/Role';
+import { ImageModel } from '../models/Image';
+import config from '../config';
+
+export class PostRepository {
+  static fetchPosts = async (offset, limit): Promise<{ count: number; rows: PostModel[] }> => {
+    const postType = await StatisticTypeModel.findOne({
+      where: {
+        type: 'post'
+      }
+    });
+
+    if (!postType) {
+      throw new InternalError();
+    }
+
+    const userType = await StatisticTypeModel.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    const previewType = await ImageTypeModel.findOne({
+      where: {
+        type: 'preview'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
+    if (!previewType) {
+      throw new InternalError();
+    }
+
+    try {
+      return await PostModel.findAndCountAll({
+        offset,
+        limit,
+        include: [
+          {
+            model: UserModel,
+            include: [
+              {
+                model: StatisticModel,
+                where: {
+                  type_id: userType.get('id')
+                },
+                required: false
+              },
+              {
+                model: RoleModel,
+                attributes: {
+                  exclude: ['id']
+                },
+                required: false
+              }
+            ],
+            attributes: {
+              exclude: ['password', 'role_id']
+            }
+          },
+          {
+            model: StatisticModel,
+            where: {
+              type_id: postType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'type_id', 'entity_id', 'posts']
+            },
+            required: false
+          },
+          {
+            model: ImageModel,
+            where: {
+              type_id: previewType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'post_id', 'type_id'],
+              include: [
+                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri'],
+                [Sequelize.fn('CONCAT', config.storage, '/', config.files.thumbnailPrefix, '-', Sequelize.col('uri')), 'thumbnail']
+              ],
+            },
+            required: false
+          }
+        ],
+        attributes: {
+          exclude: ['user_id', 'text']
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ],
+      });
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
+  };
+
+  static postDetails = async (id): Promise<PostModel> => {
+    const postType = await StatisticTypeModel.findOne({
+      where: {
+        type: 'post'
+      }
+    });
+
+    if (!postType) {
+      throw new InternalError();
+    }
+
+    const userType = await StatisticTypeModel.findOne({
+      where: {
+        type: 'user'
+      }
+    });
+
+    const photosType = await ImageTypeModel.findOne({
+      where: {
+        type: 'photos'
+      }
+    });
+
+    if (!userType) {
+      throw new InternalError();
+    }
+
+    if (!photosType) {
+      throw new InternalError();
+    }
+
+    try {
+      return await PostModel.findOne({
+        limit: 1,
+        where: {
+          id
+        },
+        include: [
+          {
+            model: UserModel,
+            include: [
+              {
+                model: StatisticModel,
+                where: {
+                  type_id: userType.get('id')
+                },
+                required: false
+              },
+              {
+                model: RoleModel,
+                attributes: {
+                  exclude: ['id']
+                },
+                required: false
+              }
+            ],
+            attributes: {
+              exclude: ['password']
+            }
+          },
+          {
+            model: StatisticModel,
+            where: {
+              type_id: postType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'type_id', 'entity_id', 'posts']
+            },
+            required: false
+          },
+          {
+            model: ImageModel,
+            where: {
+              type_id: photosType.get('id')
+            },
+            attributes: {
+              exclude: ['id', 'post_id', 'type_id'],
+              include: [
+                [Sequelize.fn('CONCAT', config.storage, '/', Sequelize.col('uri')), 'uri'],
+                [Sequelize.fn('CONCAT', config.storage, '/', config.files.thumbnailPrefix, '-', Sequelize.col('uri')), 'thumbnail']
+              ],
+            },
+            required: false
+          }
+        ],
+        attributes: {
+          exclude: ['user_id']
+        }
+      });
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
+  };
+}

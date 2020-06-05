@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
 export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  dialect: 'mysql',
+  dialect: process.env.DATABASE_DIALECT as ('mysql' | 'sqlite'),
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   logging: console.log,

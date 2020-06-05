@@ -1,5 +1,11 @@
+const path = require('path');
+const { argv } = require('yargs');
+
 require('dotenv-safe')
   .config({
+    path: argv.env === 'test' ?
+      path.resolve('./.env.test') :
+      path.resolve('./.env'),
     allowEmptyValues: true
   });
 
@@ -10,7 +16,7 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql'
+    dialect: process.env.DATABASE_DIALECT
   },
   test: {
     username: process.env.DB_USER,
@@ -18,10 +24,7 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql',
-    dialectOptions: {
-      bigNumberStrings: true
-    }
+    dialect: process.env.DATABASE_DIALECT
   },
   production: {
     username: process.env.DB_USER,
@@ -29,6 +32,6 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql'
+    dialect: process.env.DATABASE_DIALECT
   }
 };

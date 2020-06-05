@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node script.test.run.js"
+    "test": "node tests.js",
+    "test:watch": "node tests.js --watch"
   },
   "author": "",
   "license": "ISC"

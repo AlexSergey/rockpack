@@ -4,7 +4,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node build",
     "build": "cross-env NODE_ENV=production node build",
-    "test": "node tester.js"
+    "test": "node tests.js",
+    "test:watch": "node tests.js --watch"
   },
   "dependencies": {
     "react": "16.13.1",

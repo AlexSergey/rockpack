@@ -9,8 +9,14 @@
     "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
     "lint": "cross-env NODE_ENV=production eslint \"src/**\"",
     "migrate": "sequelize db:migrate",
+    "migrate:test": "sequelize db:migrate --env test",
+    "migrate:production": "sequelize db:migrate --env production",
     "migrate:undo": "sequelize db:migrate:undo",
-    "seed": "sequelize db:seed:all"
+    "seed": "sequelize db:seed:all",
+    "seed:test": "sequelize db:seed:all --env test",
+    "seed:production": "sequelize db:seed:all --env production",
+    "test": "node scripts.tests.js",
+    "test:watch": "node scripts.tests.js --watch"
   },
   "keywords": [],
   "author": "",

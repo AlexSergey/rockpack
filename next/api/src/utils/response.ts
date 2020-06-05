@@ -1,6 +1,4 @@
-interface Data {
-  [key: string]: unknown;
-}
+type Data = object | object[];
 
 interface Response {
   code: number;

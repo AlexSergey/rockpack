@@ -1,6 +1,7 @@
-import { Model, DataTypes } from 'sequelize';
-import { statisticFactory } from './Statistic';
-import { statisticTypeFactory } from './StatisticType';
+import { Sequelize, Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
+import { StatisticModel } from './Statistic';
+import { StatisticTypeModel } from './StatisticType';
 import { InternalError } from '../errors';
 
 export interface CommentInterface {
@@ -11,138 +12,124 @@ export interface CommentInterface {
   createdAt: Date;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const commentFactory = (sequelize) => {
-  class Comment extends Model<CommentInterface> {
+export class CommentModel extends Model<CommentInterface> {}
+
+CommentModel.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id',
+    }
+  },
+  post_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'posts',
+      key: 'id',
+    }
+  },
+  text: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.literal('NOW()')
   }
+}, {
+  tableName: 'comments',
+  sequelize,
+  hooks: {
+    afterCreate: async (comment): Promise<void> => {
+      const userType = await StatisticTypeModel.findOne({
+        where: {
+          type: 'user'
+        }
+      });
 
-  Comment.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id',
+      const postType = await StatisticTypeModel.findOne({
+        where: {
+          type: 'post'
+        }
+      });
+
+      try {
+        await StatisticModel.update(
+          {
+            comments: Sequelize.literal('comments + 1')
+          },
+          {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: comment.get('user_id')
+            }
+          }
+        );
+
+        await StatisticModel.update(
+          {
+            comments: Sequelize.literal('comments + 1')
+          },
+          {
+            where: {
+              type_id: postType.get('id'),
+              entity_id: comment.get('post_id')
+            }
+          }
+        );
+      } catch (e) {
+        throw new InternalError();
       }
     },
-    post_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'posts',
-        key: 'id',
-      }
-    },
-    text: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('NOW()')
-    }
-  }, {
-    tableName: 'comments',
-    sequelize,
-    hooks: {
-      afterCreate: async (comment): Promise<void> => {
-        const Statistic = statisticFactory(sequelize);
-        const StatisticType = statisticTypeFactory(sequelize);
 
-        const userType = await StatisticType.findOne({
-          where: {
-            type: 'user'
-          }
-        });
-
-        const postType = await StatisticType.findOne({
-          where: {
-            type: 'post'
-          }
-        });
-
-        try {
-          await Statistic.update(
-            {
-              comments: sequelize.literal('comments + 1')
-            },
-            {
-              where: {
-                type_id: userType.get('id'),
-                entity_id: comment.get('user_id')
-              }
-            }
-          );
-
-          await Statistic.update(
-            {
-              comments: sequelize.literal('comments + 1')
-            },
-            {
-              where: {
-                type_id: postType.get('id'),
-                entity_id: comment.get('post_id')
-              }
-            }
-          );
-        } catch (e) {
-          throw new InternalError();
+    afterDestroy: async (comment): Promise<void> => {
+      const userType = await StatisticTypeModel.findOne({
+        where: {
+          type: 'user'
         }
-      },
+      });
 
-      afterDestroy: async (comment): Promise<void> => {
-        const Statistic = statisticFactory(sequelize);
-        const StatisticType = statisticTypeFactory(sequelize);
-
-        const userType = await StatisticType.findOne({
-          where: {
-            type: 'user'
-          }
-        });
-
-        const postType = await StatisticType.findOne({
-          where: {
-            type: 'post'
-          }
-        });
-
-        try {
-          await Statistic.update(
-            {
-              comments: sequelize.literal('comments - 1')
-            },
-            {
-              where: {
-                type_id: postType.get('id'),
-                entity_id: comment.get('post_id')
-              }
-            }
-          );
-
-          await Statistic.update(
-            {
-              comments: sequelize.literal('comments - 1')
-            },
-            {
-              where: {
-                type_id: userType.get('id'),
-                entity_id: comment.get('user_id')
-              }
-            }
-          );
-        } catch (e) {
-          throw new InternalError();
+      const postType = await StatisticTypeModel.findOne({
+        where: {
+          type: 'post'
         }
+      });
+
+      try {
+        await StatisticModel.update(
+          {
+            comments: Sequelize.literal('comments - 1')
+          },
+          {
+            where: {
+              type_id: postType.get('id'),
+              entity_id: comment.get('post_id')
+            }
+          }
+        );
+
+        await StatisticModel.update(
+          {
+            comments: Sequelize.literal('comments - 1')
+          },
+          {
+            where: {
+              type_id: userType.get('id'),
+              entity_id: comment.get('user_id')
+            }
+          }
+        );
+      } catch (e) {
+        throw new InternalError();
       }
     }
-  });
-
-  Comment.sync();
-
-  return Comment;
-};
+  }
+});

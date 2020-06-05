@@ -1,32 +1,25 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
 
 export interface RoleInterface {
   id: number;
   role: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const roleFactory = (sequelize: Sequelize) => {
-  class Role extends Model<RoleInterface> {
+export class RoleModel extends Model<RoleInterface> { }
+
+RoleModel.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
+
+  role: {
+    type: DataTypes.ENUM('user', 'admin'),
+    allowNull: false,
   }
-
-  Role.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
-
-    role: {
-      type: DataTypes.ENUM('user', 'admin'),
-      allowNull: false,
-    }
-  }, {
-    tableName: 'roles',
-    sequelize
-  });
-
-  Role.sync();
-
-  return Role;
-};
+}, {
+  tableName: 'roles',
+  sequelize
+});

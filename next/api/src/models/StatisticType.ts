@@ -1,4 +1,5 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
 
 export interface StatisticTypeInterface {
   id: number;
@@ -8,28 +9,20 @@ export interface StatisticTypeInterface {
   comments: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const statisticTypeFactory = (sequelize: Sequelize) => {
-  class StatisticType extends Model<StatisticTypeInterface> {
+export class StatisticTypeModel extends Model<StatisticTypeInterface> { }
+
+StatisticTypeModel.init({
+  id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
+
+  type: {
+    type: DataTypes.ENUM('post', 'user'),
+    allowNull: false,
   }
-
-  StatisticType.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
-
-    type: {
-      type: DataTypes.ENUM('post', 'user'),
-      allowNull: false,
-    }
-  }, {
-    tableName: 'statistic_type',
-    sequelize
-  });
-
-  StatisticType.sync();
-
-  return StatisticType;
-};
+}, {
+  tableName: 'statistic_type',
+  sequelize
+});

@@ -1,4 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../boundaries/database';
 
 export interface ImageInterface {
   id: number;
@@ -7,44 +8,36 @@ export interface ImageInterface {
   uri: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const imageFactory = (sequelize) => {
-  class Image extends Model<ImageInterface> {
-  }
+export class ImageModel extends Model<ImageInterface> { }
 
-  Image.init({
-    id: {
-      allowNull: false,
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true
-    },
+ImageModel.init({
+  id: {
+    allowNull: false,
+    type: DataTypes.INTEGER.UNSIGNED,
+    autoIncrement: true,
+    primaryKey: true
+  },
 
-    post_id: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'posts',
-        key: 'id',
-      }
-    },
-
-    type_id: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-    },
-
-    uri: {
-      allowNull: false,
-      defaultValue: 0,
-      type: DataTypes.INTEGER,
+  post_id: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'posts',
+      key: 'id',
     }
-  }, {
-    tableName: 'images',
-    sequelize
-  });
+  },
 
-  Image.sync();
+  type_id: {
+    allowNull: false,
+    type: DataTypes.INTEGER,
+  },
 
-  return Image;
-};
+  uri: {
+    allowNull: false,
+    defaultValue: 0,
+    type: DataTypes.INTEGER,
+  }
+}, {
+  tableName: 'images',
+  sequelize
+});
