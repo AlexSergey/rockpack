@@ -8,6 +8,13 @@ import { StatisticModel } from '../models/Statistic';
 import { RoleModel } from '../models/Role';
 import { ImageModel } from '../models/Image';
 import config from '../config';
+import {
+  USER_MODEL_NAME,
+  ROLE_MODEL_NAME,
+  STATISTIC_MODEL_NAME,
+  PREVIEW_MODEL_NAME,
+  PHOTOS_MODEL_NAME
+} from '../constants/models';
 
 export class PostRepository {
   static fetchPosts = async (offset, limit): Promise<{ count: number; rows: PostModel[] }> => {
@@ -47,9 +54,11 @@ export class PostRepository {
         include: [
           {
             model: UserModel,
+            as: USER_MODEL_NAME,
             include: [
               {
                 model: StatisticModel,
+                as: STATISTIC_MODEL_NAME,
                 where: {
                   type_id: userType.get('id')
                 },
@@ -57,6 +66,7 @@ export class PostRepository {
               },
               {
                 model: RoleModel,
+                as: ROLE_MODEL_NAME,
                 attributes: {
                   exclude: ['id']
                 },
@@ -69,6 +79,7 @@ export class PostRepository {
           },
           {
             model: StatisticModel,
+            as: STATISTIC_MODEL_NAME,
             where: {
               type_id: postType.get('id')
             },
@@ -79,6 +90,7 @@ export class PostRepository {
           },
           {
             model: ImageModel,
+            as: PREVIEW_MODEL_NAME,
             where: {
               type_id: previewType.get('id')
             },
@@ -144,9 +156,11 @@ export class PostRepository {
         include: [
           {
             model: UserModel,
+            as: USER_MODEL_NAME,
             include: [
               {
                 model: StatisticModel,
+                as: STATISTIC_MODEL_NAME,
                 where: {
                   type_id: userType.get('id')
                 },
@@ -154,6 +168,7 @@ export class PostRepository {
               },
               {
                 model: RoleModel,
+                as: ROLE_MODEL_NAME,
                 attributes: {
                   exclude: ['id']
                 },
@@ -166,6 +181,7 @@ export class PostRepository {
           },
           {
             model: StatisticModel,
+            as: STATISTIC_MODEL_NAME,
             where: {
               type_id: postType.get('id')
             },
@@ -176,6 +192,7 @@ export class PostRepository {
           },
           {
             model: ImageModel,
+            as: PHOTOS_MODEL_NAME,
             where: {
               type_id: photosType.get('id')
             },

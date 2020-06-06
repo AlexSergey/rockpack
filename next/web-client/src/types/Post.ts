@@ -15,7 +15,7 @@ export interface Post {
   title: string;
   text: string;
   id: number;
-  Images?: Photo[];
+  Photos?: Photo[];
   Statistic: PostStatistic;
   User: User;
 }

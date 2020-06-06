@@ -30,7 +30,7 @@ const Posts = (): JSX.Element => {
     <>
       <MetaTags>
         <title>{l('Posts')(i18n)}</title>
-        <meta name="description" content={l('Posts page')(i18n)} />
+        <meta name="description" content={l('Posts page. Here you find the most popular posts on the Internet')(i18n)} />
       </MetaTags>
       <div className={styles.posts}>
         {loading && <Loader />}
@@ -58,10 +58,10 @@ const Posts = (): JSX.Element => {
                 </Owner>
               ))}
             </Access>
-            {post.Image && (
+            {post.Preview && (
               <div className={styles['preview-holder']}>
                 <img
-                  src={`http://localhost:9999/${post.Image.thumbnail}`}
+                  src={`http://localhost:9999/${post.Preview.thumbnail}`}
                   alt=""
                 />
               </div>

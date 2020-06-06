@@ -4,6 +4,11 @@ import { CommentModel } from '../models/Comment';
 import { UserModel } from '../models/User';
 import { StatisticModel } from '../models/Statistic';
 import { RoleModel } from '../models/Role';
+import {
+  USER_MODEL_NAME,
+  ROLE_MODEL_NAME,
+  STATISTIC_MODEL_NAME
+} from '../constants/models';
 
 export class CommentRepository {
   static fetchComments = async (postId: string): Promise<CommentModel[]> => {
@@ -24,9 +29,11 @@ export class CommentRepository {
         include: [
           {
             model: UserModel,
+            as: USER_MODEL_NAME,
             include: [
               {
                 model: StatisticModel,
+                as: STATISTIC_MODEL_NAME,
                 where: {
                   type_id: userType.get('id')
                 },
@@ -34,6 +41,7 @@ export class CommentRepository {
               },
               {
                 model: RoleModel,
+                as: ROLE_MODEL_NAME,
                 attributes: {
                   exclude: ['id']
                 },

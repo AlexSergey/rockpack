@@ -95,7 +95,10 @@ class MakePoPlugin {
                       a.property.value &&
                       variables.indexOf(a.property.value) >= 0) {
                       name = a.property.value;
-                      isParent = true;
+
+                      if (Array.isArray(path.parent.arguments)) {
+                        isParent = true;
+                      }
                     }
                   });
                 }

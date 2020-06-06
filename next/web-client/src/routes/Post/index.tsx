@@ -40,7 +40,7 @@ const PostDetails = ({
     <>
       <MetaTags>
         <title>{data && data.title}</title>
-        <meta name="description" content={data && data.text} />
+        <meta name="description" content={data && data.title} />
       </MetaTags>
       {loading && <Loader />}
       {error && <Error />}
@@ -58,8 +58,8 @@ const PostDetails = ({
 
             {data.text && <div dangerouslySetInnerHTML={{ __html: data.text }} />}
 
-            {Array.isArray(data.Images) && data.Images.length > 0 && (
-              <Images images={data.Images} />
+            {Array.isArray(data.Photos) && data.Photos.length > 0 && (
+              <Images images={data.Photos} />
             )}
 
             <div className={styles.comments}>

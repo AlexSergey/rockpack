@@ -3,6 +3,10 @@ import { StatisticModel } from '../models/Statistic';
 import { RoleModel } from '../models/Role';
 import { StatisticTypeModel } from '../models/StatisticType';
 import { BadRequest, InternalError, SequelizeError } from '../errors/errors';
+import {
+  ROLE_MODEL_NAME,
+  STATISTIC_MODEL_NAME
+} from '../constants/models';
 
 export class UserRepository {
   static getUserByEmail = async (email: string): Promise<UserModel> => {
@@ -25,6 +29,7 @@ export class UserRepository {
         include: [
           {
             model: StatisticModel,
+            as: STATISTIC_MODEL_NAME,
             where: {
               type_id: userType.get('id')
             },
@@ -32,6 +37,7 @@ export class UserRepository {
           },
           {
             model: RoleModel,
+            as: ROLE_MODEL_NAME,
             attributes: {
               exclude: ['id']
             },
@@ -64,6 +70,7 @@ export class UserRepository {
         include: [
           {
             model: StatisticModel,
+            as: STATISTIC_MODEL_NAME,
             where: {
               type_id: userType.get('id')
             },
@@ -71,6 +78,7 @@ export class UserRepository {
           },
           {
             model: RoleModel,
+            as: ROLE_MODEL_NAME,
             attributes: {
               exclude: ['id']
             },
@@ -112,6 +120,7 @@ export class UserRepository {
         include: [
           {
             model: StatisticModel,
+            as: STATISTIC_MODEL_NAME,
             where: {
               type_id: userType.get('id')
             },
@@ -119,6 +128,7 @@ export class UserRepository {
           },
           {
             model: RoleModel,
+            as: ROLE_MODEL_NAME,
             attributes: {
               exclude: ['id']
             },

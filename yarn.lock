@@ -3371,7 +3371,7 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
-"@types/dotenv-safe@^8.1.0":
+"@types/dotenv-safe@8.1.0":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@types/dotenv-safe/-/dotenv-safe-8.1.0.tgz#751ef7ed9875b0d2978ff0b176514cce550e08ed"
   integrity sha512-9jrQ3T4zlDWuP0kht7UgGA9M6D1/HS8feA0OMwzZtPEGrUPU333RWvIJ+DkbzrSazhnUQAjAi5PB69/JsMqShg==
@@ -3598,7 +3598,7 @@
     "@types/koa" "*"
     "@types/koa-send" "*"
 
-"@types/koa@*", "@types/koa@2.11.3", "@types/koa@^2.11.3":
+"@types/koa@*", "@types/koa@2.11.3":
   version "2.11.3"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.11.3.tgz#540ece376581b12beadf9a417dd1731bc31c16ce"
   integrity sha512-ABxVkrNWa4O/Jp24EYI/hRNqEVRlhB9g09p48neQp4m3xL1TJtdWk2NyNQSMCU45ejeELMQZBYyfstyVvO2H3Q==
@@ -8161,7 +8161,7 @@ dotenv-expand@^5.1.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
-dotenv-safe@^8.2.0:
+dotenv-safe@8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv-safe/-/dotenv-safe-8.2.0.tgz#8d548c7318a62c09a66c4dc8c31864cc007c78ba"
   integrity sha512-uWwWWdUQkSs5a3mySDB22UtNwyEYi0JtEQu+vDzIqr9OjbDdC2Ip13PnSpi/fctqlYmzkxCeabiyCAOROuAIaA==
@@ -13193,7 +13193,7 @@ koa-send@^5.0.0:
     mz "^2.7.0"
     resolve-path "^1.4.0"
 
-koa-static@5.0.0, koa-static@^5.0.0:
+koa-static@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/koa-static/-/koa-static-5.0.0.tgz#5e92fc96b537ad5219f425319c95b64772776943"
   integrity sha512-UqyYyH5YEXaJrf9S8E23GoJFQZXkBVJ9zYYMPGz919MSX1KuvAcycIuS0ci150HCoPf4XQVhQ84Qf8xRPWxFaQ==
@@ -13201,7 +13201,7 @@ koa-static@5.0.0, koa-static@^5.0.0:
     debug "^3.1.0"
     koa-send "^5.0.0"
 
-koa@2.11.0, koa@^2.11.0:
+koa@2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/koa/-/koa-2.11.0.tgz#fe5a51c46f566d27632dd5dc8fd5d7dd44f935a4"
   integrity sha512-EpR9dElBTDlaDgyhDMiLkXrPwp6ZqgAIBvhhmxQ9XN4TFgW+gEz6tkcsNI6BnUbUftrKDjVFj4lW2/J2aNBMMA==
@@ -14550,7 +14550,7 @@ mute-stream@0.0.8, mute-stream@~0.0.4:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-mysql2@^2.1.0:
+mysql2@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mysql2/-/mysql2-2.1.0.tgz#55ecfd4353114c148cc4c253192dbbfd000e6642"
   integrity sha512-9kGVyi930rG2KaHrz3sHwtc6K+GY9d8wWk1XRSYxQiunvGcn4DwuZxOwmK11ftuhhwrYDwGx9Ta4VBwznJn36A==
@@ -18808,10 +18808,10 @@ sequelize-pool@^2.3.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-2.3.0.tgz#64f1fe8744228172c474f530604b6133be64993d"
   integrity sha512-Ibz08vnXvkZ8LJTiUOxRcj1Ckdn7qafNZ2t59jYHMX1VIebTAOYefWdRYFt6z6+hy52WGthAHAoLc9hvk3onqA==
 
-sequelize@^5.21.8:
-  version "5.21.9"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.21.9.tgz#6f572d84c89d3819b942f68710142986e5cbc494"
-  integrity sha512-CCUgdaGm92ro9ULF3Pi4CLToAYajB3bCAw6mkruAtAsrb/PkK1sl83kLhBiTIxEzTcrtj5Tt/ZqJ8kKE1cRncA==
+sequelize@5.21.8:
+  version "5.21.8"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.21.8.tgz#3e3664dec6e66a63afe756384a40835406abb65d"
+  integrity sha512-UOxGMJ7eSnProTMWX9wRr0T9TcuW0YedFmU7s+YBZT9/RmfJeANYPdJXjXg4E+Yg+dJl4WWvBEu9r2oe+d/1/Q==
   dependencies:
     bluebird "^3.5.0"
     cls-bluebird "^2.1.0"

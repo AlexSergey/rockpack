@@ -33,17 +33,15 @@ function make(options) {
           return reject(new Error('PO filename is empty'));
         }
 
-        mkdirp(options.dist, err => {
-          if (err) {
-            return reject(err);
-          }
-          try {
-            writeFileSync(join(options.dist, `${filename}.json`), JSON.stringify(jsonData));
-          } catch (e) {
-            return reject(e);
-          }
-          next();
-        });
+        mkdirp.sync(options.dist);
+
+        try {
+          writeFileSync(join(options.dist, `${filename}.json`), JSON.stringify(jsonData));
+        } catch (e) {
+          return reject(e);
+        }
+
+        next();
       },
       resolve
     );

@@ -21,6 +21,7 @@ const Users = (): JSX.Element => {
     <>
       <MetaTags>
         <title>{l('Users')(i18n)}</title>
+        <meta name="description" content={l('Users list')(i18n)} />
       </MetaTags>
       <div className={styles.users}>
         {hasUsers && <h1><Localization>{l('Users')}</Localization></h1>}

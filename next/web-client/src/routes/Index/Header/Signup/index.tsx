@@ -37,7 +37,7 @@ export const Signup = (): JSX.Element => {
             rules={[
               {
                 required: true,
-                message: l('Please input your username!')(i18n),
+                message: l('Please input your e-mail!')(i18n),
               },
             ]}
           >

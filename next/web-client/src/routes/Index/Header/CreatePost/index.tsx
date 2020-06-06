@@ -58,7 +58,7 @@ export const CreatePost = (): JSX.Element => {
         <Localization>{l('Create post')}</Localization>
       </Button>
       <Modal
-        title={l('Post Create')(i18n)}
+        title={l('Create')(i18n)}
         footer={null}
         visible={postCreate}
         onCancel={(): void => {

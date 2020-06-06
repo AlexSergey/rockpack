@@ -24,7 +24,7 @@ export const AddComment = ({ postId }: AddCommentInterface): JSX.Element => {
 
   return (
     <div className={styles['add-comment']}>
-      <h4><Localization>{l('Create comment')}</Localization></h4>
+      <h4><Localization>{l('Add comment')}</Localization></h4>
       <Form
         form={form}
         name="comment"
