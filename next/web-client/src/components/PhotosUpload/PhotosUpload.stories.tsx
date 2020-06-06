@@ -1,6 +1,4 @@
 import React from 'react';
-import { withCssResources } from '@storybook/addon-cssresources';
-import { withKnobs } from '@storybook/addon-knobs';
 
 import PhotosUploadComponent from './index';
 
@@ -10,29 +8,23 @@ export default {
   parameters: {
     info: {
       text: `
-    # Button
-    description or documentation about my component, supports markdown
+    # PhotosUpload
+    Component provides upload logic with preview for single multifiles. onChange will return list of File instances
 
     ~~~jsx
-    <Button>Click Here</Button>
+    <PhotosUpload
+     onChange={(files) => console.log(files)}
+    />
     ~~~
   `,
     },
-    cssresources: [
-      {
-        id: 'bluetheme',
-        code: '<style> body button { font-family: Tahoma; } </style>',
-        picked: false,
-      },
-    ],
-  },
-  decorators: [withCssResources, withKnobs],
+  }
 };
 
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PhotosUpload = (): JSX.Element => (
   <PhotosUploadComponent
     //eslint-disable-next-line no-console
-    onChange={(file): void => console.log(file)}
+    onChange={(files): void => console.log(files)}
   />
 );

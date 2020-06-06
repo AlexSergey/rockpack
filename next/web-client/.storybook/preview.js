@@ -1,8 +1,11 @@
 import './globalStyles.scss';
-import { addDecorator } from '@storybook/react';
+import 'reset-css';
+import 'antd/dist/antd.css';
+import { addDecorator, addParameters } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import { addParameters } from '@storybook/react';
 import { TableComponent } from './Components/TableProps';
+import { StyleProvider } from './StyleProvider';
+import { LocalizationProvider } from './LocalizationProvider';
 
 addParameters({
   backgrounds: [
@@ -20,3 +23,6 @@ addDecorator(withInfo({
   header: false,
   inline: true
 }));
+
+addDecorator(StyleProvider);
+addDecorator(LocalizationProvider);

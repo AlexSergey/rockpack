@@ -1,7 +1,4 @@
 import React from 'react';
-import { withCssResources } from '@storybook/addon-cssresources';
-import { withKnobs } from '@storybook/addon-knobs';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 
 import PreviewUploadComponent from './index';
 
@@ -11,31 +8,23 @@ export default {
   parameters: {
     info: {
       text: `
-    # Button
-    description or documentation about my component, supports markdown
+    # PreviewUpload
+    Component provides upload logic with preview for single file. onChange will return File instance
 
     ~~~jsx
-    <Button>Click Here</Button>
+    <PreviewUpload
+     onChange={(file) => console.log(file)}
+    />
     ~~~
   `,
     },
-    cssresources: [
-      {
-        id: 'bluetheme',
-        code: '<style> body button { font-family: Tahoma; } </style>',
-        picked: false,
-      },
-    ],
   },
-  decorators: [withCssResources, withKnobs],
 };
 
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const PreviewUpload = (): JSX.Element => (
-  <StyleContext.Provider value={{ insertCss: (): void => {} }}>
-    <PreviewUploadComponent
-      //eslint-disable-next-line no-console
-      onChange={(file): void => console.log(file)}
-    />
-  </StyleContext.Provider>
+  <PreviewUploadComponent
+    //eslint-disable-next-line no-console
+    onChange={(file): void => console.log(file)}
+  />
 );
