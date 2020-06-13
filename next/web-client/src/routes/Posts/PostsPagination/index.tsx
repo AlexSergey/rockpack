@@ -16,15 +16,17 @@ export const PostsPagination = (): JSX.Element => {
 
   return (
     <div className={styles['posts-pagination']}>
-      <Pagination
-        simple
-        pageSize={config.postsLimit}
-        defaultCurrent={current}
-        total={count}
-        onChange={(val): void => {
-          setCurrent(currentLanguage, val);
-        }}
-      />
+      {count > config.postsLimit && (
+        <Pagination
+          simple
+          pageSize={config.postsLimit}
+          defaultCurrent={current}
+          total={count}
+          onChange={(val): void => {
+            setCurrent(currentLanguage, val);
+          }}
+        />
+      )}
     </div>
   );
 };

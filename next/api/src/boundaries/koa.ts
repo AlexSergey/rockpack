@@ -6,14 +6,13 @@ import mount from 'koa-mount';
 import logHandler from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 
-import logger from '../logger';
+import { logger } from '../logger';
 import { routes } from '../routes';
-import config from '../config';
+import { config } from '../config';
 
 import { errorsHandler } from '../errors';
 
-const publicFolder = path.resolve(process.env.ROOT_DIRNAME, 'public');
-const storageFolder = path.resolve(process.env.ROOT_DIRNAME, config.storage);
+const storageFolder = path.resolve(path.resolve('./'), config.storage);
 
 const app = new Koa();
 
@@ -35,7 +34,6 @@ app.use(
   })
 );
 
-app.use(mount('/public', serve(publicFolder)));
 app.use(mount('/storage', serve(storageFolder)));
 
 app.use(
@@ -49,4 +47,4 @@ app.use(
 
 routes(app);
 
-export default app;
+export { app };

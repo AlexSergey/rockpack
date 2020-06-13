@@ -5519,6 +5519,11 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
+bluebird@^2.4.2:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
+  integrity sha1-U0uQM8AiyVecVro7Plpcqvu2UOE=
+
 bluebird@^3.3.5, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.3, bluebird@^3.5.5, bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
@@ -10115,6 +10120,18 @@ glob@7.1.6, glob@^7.0.0, glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glo
     inflight "^1.0.4"
     inherits "2"
     minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@~7.0.5:
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.0.6.tgz#211bafaf49e525b8cd93260d14ab136152b3f57a"
+  integrity sha1-IRuvr0nlJbjNkyYNFKsTYVKz9Xo=
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.2"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
@@ -18802,6 +18819,16 @@ sequelize-cli@5.5.1:
     resolve "^1.5.0"
     umzug "^2.1.0"
     yargs "^13.1.0"
+
+sequelize-fixtures@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/sequelize-fixtures/-/sequelize-fixtures-1.1.1.tgz#287cdbdc73c27ab1ba5e3b41849dd71be800bdd1"
+  integrity sha512-/uLE5osIpMgGtPRB1G7qV1xn6TxXZahVkqeP8Q6b4uSDwhLJDLiSxopAwPso7oYVgS7nMQIvDBzM7eZyWeInPw==
+  dependencies:
+    bluebird "^2.4.2"
+    glob "~7.0.5"
+    js-yaml "^3.13.1"
+    object-assign "^4.0.1"
 
 sequelize-pool@^2.3.0:
   version "2.3.0"

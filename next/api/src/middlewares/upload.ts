@@ -1,6 +1,6 @@
 import path from 'path';
 import multer from '@koa/multer';
-import config from '../config';
+import { config } from '../config';
 import { BadFileFormat, MulterError } from '../errors';
 
 const storage = multer.diskStorage({

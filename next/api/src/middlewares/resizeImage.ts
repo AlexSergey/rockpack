@@ -2,8 +2,8 @@ import fs from 'fs';
 import util from 'util';
 import path from 'path';
 import sharp from 'sharp';
-import config from '../config';
-import logger from '../logger';
+import { config } from '../config';
+import { logger } from '../logger';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -46,13 +46,13 @@ export const resizeImage = (...fields: (string | ResizeImage)[]) => (
           ctx.thumbnails[field] = [];
           for (let j = 0, l2 = filesByField.length; j < l2; j++) {
             const file = filesByField[j];
-            const filePath = path.resolve(process.env.ROOT_DIRNAME, file.path);
+            const filePath = path.resolve(path.resolve('./'), file.path);
             try {
               const buffer = await resizeFile(filePath, resize);
 
               const thumbPrefix = config.files.thumbnailPrefix ? config.files.thumbnailPrefix : 'thumb';
               const thumbName = `${thumbPrefix}-${file.filename}`;
-              const thumbPath = path.resolve(process.env.ROOT_DIRNAME, config.storage, thumbName);
+              const thumbPath = path.resolve(path.resolve('./'), config.storage, thumbName);
               await writeFile(thumbPath, buffer);
 
               ctx.thumbnails[field].push({

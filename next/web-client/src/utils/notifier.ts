@@ -1,6 +1,11 @@
 import { message } from 'antd';
+import { isNotProduction } from './mode';
 
 export const notify = (level, text, isImportant): void => {
+  if (isNotProduction() && ['log', 'warn', 'info', 'error'].includes(level)) {
+    //eslint-disable-next-line
+    console[level](text);
+  }
   if (isImportant) {
     switch (level) {
       case 'log':

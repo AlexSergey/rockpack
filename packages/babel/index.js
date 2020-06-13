@@ -85,6 +85,7 @@ const createBabelPresets = ({
     opts.presets.push(
       [require.resolve('@babel/preset-react'), { useBuiltIns: true }]
     );
+
     if (isProduction) {
       opts.env.production = Object.assign({}, opts.env.production, {
         plugins: [

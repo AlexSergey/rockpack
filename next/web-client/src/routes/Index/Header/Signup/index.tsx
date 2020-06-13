@@ -16,7 +16,7 @@ export const Signup = (): JSX.Element => {
   return (
     <>
       <Button type="primary" onClick={(): void => signupModal(true)}>
-        Sign Up
+        <Localization>{l('Sign Up')}</Localization>
       </Button>
 
       <Modal

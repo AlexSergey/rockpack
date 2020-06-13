@@ -118,6 +118,8 @@ router.get('/*', async (ctx) => {
     <meta charset="utf-8" />
     <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width">
+    <link rel="alternate" hreflang="ru-Ru" href=${process.env.URL}/ru/ />
+    <link rel="alternate" hreflang="en-En" href=${process.env.URL}/en/ />
     ${meta}
     ${googleFontsInstall()}
     ${styles.join('')}

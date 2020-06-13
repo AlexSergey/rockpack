@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PreviewUploadComponent from './index';
+import { PreviewUpload as PreviewUploadComponent } from './index';
 
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default {

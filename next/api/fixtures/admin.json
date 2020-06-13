@@ -1,0 +1,10 @@
+[
+  {
+    "model": "User",
+    "data": {
+      "email": "second_admin@rock.com",
+      "password": "admin",
+      "role_id": 2
+    }
+  }
+]

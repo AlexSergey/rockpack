@@ -41,4 +41,4 @@ const errorsHandler = (): (ctx: Context, next: () => Promise<unknown>) => Promis
   };
 };
 
-export default errorsHandler;
+export { errorsHandler };

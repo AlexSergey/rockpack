@@ -1,5 +1,5 @@
 import { IncorrectAccess } from '../errors';
-import logger from '../logger';
+import { logger } from '../logger';
 import { Roles } from '../config';
 
 export const accessRoute = (accessLayer: Roles | Roles[]) => (

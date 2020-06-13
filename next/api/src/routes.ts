@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 import { NotFound } from './errors';
-import config from './config';
+import { config } from './config';
 
 import { protectedRoute } from './middlewares/protectedRoute';
 import { accessRoute } from './middlewares/accessRoute';

@@ -16,7 +16,9 @@ export interface UserInterface {
 }
 
 export class UserModel extends Model<UserInterface> {
-  isValidPassword = async (userPassword, password): Promise<boolean> => await isValidPassword(userPassword, password);
+  async isValidPassword(password: string): Promise<boolean> {
+    return await isValidPassword(this.get('password'), password);
+  }
 
   toJSON(): { [key: string]: unknown } {
     const attributes = Object.assign({}, this.get());
@@ -65,9 +67,6 @@ UserModel.init({
 }, {
   tableName: 'users',
   sequelize,
-  defaultScope: {
-    attributes: { exclude: ['password'] }
-  },
 
   hooks: {
     beforeCreate: async (user): Promise<void> => {

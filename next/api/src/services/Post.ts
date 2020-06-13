@@ -16,9 +16,15 @@ export class PostService {
     preview?: { filename: string };
     photos: { filename: string }[];
   }): Promise<PostModel> => {
-    const post = await PostModel.create({
-      user_id: userId, title, text
-    });
+    let post;
+
+    try {
+      post = await PostModel.create({
+        user_id: userId, title, text
+      });
+    } catch (e) {
+      throw new SequelizeError(e);
+    }
 
     if (preview) {
       const previewType = await ImageTypeModel.findOne({

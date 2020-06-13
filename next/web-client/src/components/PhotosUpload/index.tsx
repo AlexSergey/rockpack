@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { getBase64 } from '../../utils/file';
 import config from '../../config';
 
-const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
+export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
   const [uploadList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -64,5 +64,3 @@ const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }):
     </div>
   );
 };
-
-export default PhotosUpload;

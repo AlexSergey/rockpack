@@ -7,7 +7,7 @@ import { UserModel } from '../models/User';
 import { StatisticModel } from '../models/Statistic';
 import { RoleModel } from '../models/Role';
 import { ImageModel } from '../models/Image';
-import config from '../config';
+import { config } from '../config';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,

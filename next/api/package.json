@@ -16,7 +16,9 @@
     "seed:test": "sequelize db:seed:all --env test",
     "seed:production": "sequelize db:seed:all --env production",
     "test": "node scripts.tests.js",
-    "test:watch": "node scripts.tests.js --watch"
+    "test:watch": "node scripts.tests.js --watch",
+    "fixtures": "ts-node scripts.fixtures.ts",
+    "fixtures:test": "ts-node scripts.fixtures.ts"
   },
   "keywords": [],
   "author": "",
@@ -58,6 +60,8 @@
     "@types/koa-router": "7.4.0",
     "@types/koa-static": "4.0.1",
     "@types/node": "14.0.4",
-    "@types/validator": "13.0.0"
+    "@types/validator": "13.0.0",
+    "sequelize-fixtures": "1.1.1",
+    "@types/sequelize-fixtures": "0.6.2"
   }
 }

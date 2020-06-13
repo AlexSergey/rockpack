@@ -35,8 +35,8 @@ const Posts = (): JSX.Element => {
       <div className={styles.posts}>
         {loading && <Loader />}
         {error && <Error />}
-        {data.map(post => (
-          <div key={post.id} className={styles.post}>
+        {data.map((post, index) => (
+          <div key={post.id} className={`${styles.post} ${data.length - 1 === index && styles['post-last']}`}>
             <Access forRoles={[Roles.admin]}>
               {(roleMatched): JSX.Element => (roleMatched ? (
                 <Button

@@ -22,4 +22,4 @@ const STATUS_CODES = {
   GATEWAY_TIMEOUT: 504
 };
 
-export default STATUS_CODES;
+export { STATUS_CODES };

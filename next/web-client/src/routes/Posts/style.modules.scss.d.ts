@@ -5,6 +5,7 @@ declare namespace StyleModulesScssModule {
     delete: string;
     extra: string;
     post: string;
+    "post-last": string;
     posts: string;
     "preview-holder": string;
     title: string;

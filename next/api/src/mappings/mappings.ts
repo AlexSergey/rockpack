@@ -1,9 +1,9 @@
-import { RoleModel } from './Role';
-import { UserModel } from './User';
-import { StatisticModel } from './Statistic';
-import { PostModel } from './Post';
-import { ImageModel } from './Image';
-import { CommentModel } from './Comment';
+import { RoleModel } from '../models/Role';
+import { UserModel } from '../models/User';
+import { StatisticModel } from '../models/Statistic';
+import { PostModel } from '../models/Post';
+import { ImageModel } from '../models/Image';
+import { CommentModel } from '../models/Comment';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,

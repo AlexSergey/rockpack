@@ -1,7 +1,7 @@
 import { PostRepository } from '../repositories/Post';
 import { PostService } from '../services/Post';
 import { SequelizeError, ErrorProxy } from '../errors';
-import config from '../config';
+import { config } from '../config';
 import { ok } from '../utils/response';
 
 export class PostController {

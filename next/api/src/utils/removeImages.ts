@@ -1,9 +1,9 @@
 import path from 'path';
 import childProcess from 'child_process';
-import logger from '../logger';
-import config from '../config';
+import { logger } from '../logger';
+import { config } from '../config';
 
-const storageFolder = path.resolve(process.env.ROOT_DIRNAME, config.storage);
+const storageFolder = path.resolve(path.resolve('./'), config.storage);
 
 export const removeImages = (files: string[]): void => {
   const workerProcess = childProcess.exec(`node ${config.workers.removeImages} --storage=${storageFolder} --prefix=${config.files.thumbnailPrefix} --images=${files.join()}`, (error, stdout, stderr) => {

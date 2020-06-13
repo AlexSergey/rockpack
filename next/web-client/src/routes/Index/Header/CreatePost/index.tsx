@@ -4,8 +4,8 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l, useI18n } from '@rockpack/localazer';
 import { isBackend } from '@rockpack/ussr';
 import loadable from '@loadable/component';
-import PreviewUpload from '../../../../components/PreviewUpload';
-import PhotosUpload from '../../../../components/PhotosUpload';
+import { PreviewUpload } from '../../../../components/PreviewUpload';
+import { PhotosUpload } from '../../../../components/PhotosUpload';
 import { usePostsApi } from '../../../../features/Posts';
 
 import styles from './style.modules.scss';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PhotosUploadComponent from './index';
+import { PhotosUpload as PhotosUploadComponent } from './index';
 
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default {

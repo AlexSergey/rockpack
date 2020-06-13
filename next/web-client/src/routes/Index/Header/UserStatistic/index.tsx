@@ -12,7 +12,7 @@ export const UserStatistic = (): JSX.Element => {
   return (
     <span className={styles.statistic}>
       <span className={styles.item}><Localization>{l('Comments')}</Localization>: {comments}</span>
-      <span className={styles.item}><Localization>{l('Posts')}</Localization>:: {posts}</span>
+      <span className={styles.item}><Localization>{l('Posts')}</Localization>: {posts}</span>
     </span>
   );
 };

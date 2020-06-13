@@ -8,6 +8,9 @@
   margin: 0 0 20px;
   padding: 0 0 20px;
   border-bottom: 1px solid #d3d3d3;
+  &.post-last {
+    border: 0;
+  }
   .extra {
     overflow: hidden;
     font-size: 12px;
@@ -54,6 +57,9 @@
       float: none;
       margin: 0 0 20px;
     }
+    .title {
+      text-align: center;
+    }
   }
 }
 
@@ -65,6 +71,10 @@
       height: $postPreviewHeight / 2;
       float: none;
       margin: 0 0 10px;
+    }
+
+    .title {
+      text-align: center;
     }
   }
 }

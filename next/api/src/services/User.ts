@@ -3,7 +3,7 @@ import { UserModel } from '../models/User';
 import { RoleModel } from '../models/Role';
 import { UserRepository } from '../repositories/User';
 import { createToken } from '../utils/auth';
-import config from '../config';
+import { config } from '../config';
 
 export class UserService {
   static signup = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
@@ -51,7 +51,7 @@ export class UserService {
     try {
       user = await UserRepository.getUserByEmail(email);
 
-      isValid = await user.isValidPassword(user.get('password'), password);
+      isValid = await user.isValidPassword(password);
     } catch (e) {
       throw new SequelizeError(e);
     }

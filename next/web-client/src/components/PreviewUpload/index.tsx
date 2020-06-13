@@ -7,7 +7,7 @@ import { getBase64 } from '../../utils/file';
 import config from '../../config';
 import styles from './style.modules.scss';
 
-const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) => void}): JSX.Element => {
+export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) => void}): JSX.Element => {
   useStyles(styles);
 
   const [preview, setPreview] = useState('');
@@ -58,5 +58,3 @@ const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) =>
     </div>
   );
 };
-
-export default PreviewUpload;

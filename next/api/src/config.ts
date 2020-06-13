@@ -1,8 +1,12 @@
 import path from 'path';
 import dotenvSafe from 'dotenv-safe';
+import { argv } from 'yargs';
 
 dotenvSafe.config({
-  example: path.resolve(process.env.ROOT_DIRNAME, './.env.example'),
+  path: argv.env === 'test' ?
+    path.resolve('./.env.test') :
+    path.resolve('./.env'),
+  example: path.resolve(path.resolve('./'), './.env.example'),
   allowEmptyValues: true
 });
 
@@ -11,7 +15,7 @@ export enum Roles {
   admin = 'admin'
 }
 
-export default {
+export const config = {
   roles: {
     [Roles.user]: Roles.user,
     [Roles.admin]: Roles.admin,
@@ -34,7 +38,7 @@ export default {
     types: ['image/jpeg', 'image/jpg', 'image/png']
   },
   workers: {
-    removeImages: `${process.env.ROOT_DIRNAME}/workers/removeImages.js`
+    removeImages: `${path.resolve('./')}/workers/removeImages.js`
   },
   shutdownTimeout: 1000,
   http: {

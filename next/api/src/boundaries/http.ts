@@ -1,9 +1,9 @@
 import { createServer } from 'http';
 import { Socket } from 'net';
 
-import config from '../config';
-import logger from '../logger';
-import app from './koa';
+import { config } from '../config';
+import { logger } from '../logger';
+import { app } from './koa';
 
 const connectedSockets = new Set<Socket>();
 

@@ -1,5 +1,5 @@
-import config from './config';
-import logger from './logger';
+import { config } from './config';
+import { logger } from './logger';
 
 process.on('unhandledRejection', reason => {
   logger.fatal({ error: reason }, 'Unhandled Rejection');
