@@ -15,6 +15,7 @@ import {
   PREVIEW_MODEL_NAME,
   PHOTOS_MODEL_NAME
 } from '../constants/models';
+import { logger } from '../logger';
 
 export class PostRepository {
   static fetchPosts = async (offset, limit): Promise<{ count: number; rows: PostModel[] }> => {
@@ -112,6 +113,7 @@ export class PostRepository {
         ],
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
@@ -211,6 +213,7 @@ export class PostRepository {
         }
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };

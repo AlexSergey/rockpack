@@ -4,6 +4,7 @@ import { RoleModel } from '../models/Role';
 import { UserRepository } from '../repositories/User';
 import { createToken } from '../utils/auth';
 import { config } from '../config';
+import { logger } from '../logger';
 
 export class UserService {
   static signup = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
@@ -36,10 +37,11 @@ export class UserService {
 
       const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
-      const createdUser = await UserRepository.getUserById(newUser.get('id'));
+      const createdUser = await UserRepository.getUserById(String(newUser.get('id')));
 
       return { user: createdUser, token };
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
@@ -53,6 +55,7 @@ export class UserService {
 
       isValid = await user.isValidPassword(password);
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
 

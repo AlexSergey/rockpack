@@ -52,10 +52,10 @@ export class CommentController {
     const userId = ctx.user.get('id');
 
     try {
-      const comment = await CommentService.updateComment(userId, postId, text);
+      const [, comments] = await CommentService.updateComment(userId, postId, text);
 
       ctx.body = ok('Comment updated', {
-        id: comment.get('id')
+        id: comments[0].get('id')
       });
     } catch (e) {
       throw new ErrorProxy(e);

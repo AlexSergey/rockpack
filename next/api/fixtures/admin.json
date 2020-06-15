@@ -2,9 +2,10 @@
   {
     "model": "User",
     "data": {
+      "id": "2",
       "email": "second_admin@rock.com",
       "password": "admin",
-      "role_id": 2
+      "role_id": "2"
     }
   }
 ]

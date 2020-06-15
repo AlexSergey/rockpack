@@ -12,7 +12,7 @@ describe('This will test MyComponent', () => {
         lastName="Roman"
       />
     );
-    
+
     // as suggested by Giorgio Polvara a more idiomatic way:
     expect(getByText('Hi Alejandro Roman!'))
       .toBeInTheDocument();

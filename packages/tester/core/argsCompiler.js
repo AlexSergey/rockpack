@@ -9,29 +9,24 @@ module.exports = function argsCompilers(opts = {}, mode) {
   const options = deepExtend({}, defaultProps, opts);
   const rootFolder = path.resolve(__dirname, '..');
   const { rootProjectFolder, src } = createPaths(options);
-  
+
   let argv = ` --rootDir="${rootProjectFolder}"`;
-  
+
   if (isString(options.configPath)) {
     argv += ` --config="${options.configPath}"`;
   } else {
-    switch (mode) {
-      case 'run':
-        argv += ` --config="${rootFolder}/configs/config.run.js"`;
-        break;
-      case 'watch':
-        argv += ` --config="${rootFolder}/configs/config.watch.js"`;
-        break;
-    }
+    argv += ` --config="${rootFolder}/configs/jest.config.js"`;
   }
-  
+
   argv = compileSrc(argv, src, options);
-  
+
   if (mode === 'watch') {
     argv += ' --watchAll';
     argv += ' --runInBand';
     argv += ' --no-cache';
+  } else if (mode === 'run') {
+    argv += ' --forceExit';
   }
-  
+
   return argv;
 };

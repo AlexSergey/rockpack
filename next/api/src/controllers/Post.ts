@@ -3,6 +3,7 @@ import { PostService } from '../services/Post';
 import { SequelizeError, ErrorProxy } from '../errors';
 import { config } from '../config';
 import { ok } from '../utils/response';
+import { logger } from '../logger';
 
 export class PostController {
   static fetch = async (ctx): Promise<void> => {
@@ -80,6 +81,7 @@ export class PostController {
       });
       ctx.body = ok('Post updated');
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };

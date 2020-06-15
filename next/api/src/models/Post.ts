@@ -3,9 +3,9 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 import { sequelize } from '../boundaries/database';
 import { StatisticModel } from './Statistic';
 import { StatisticTypeModel } from './StatisticType';
-import { CommentModel } from './Comment';
+import { CommentModel, CommentInterface } from './Comment';
 import { InternalError } from '../errors';
-import { ImageModel } from './Image';
+import { ImageModel, ImageInterface } from './Image';
 
 import { removeImages } from '../utils/removeImages';
 
@@ -111,7 +111,7 @@ PostModel.init({
       });
 
       const userComments = comments
-        .map(c => c.toJSON())
+        .map(c => c.toJSON() as CommentInterface)
         .reduce((dict, comment) => {
           dict[comment.user_id] = typeof dict[comment.user_id] === 'number' ?
             dict[comment.user_id] + 1 :
@@ -148,7 +148,7 @@ PostModel.init({
         });
 
         if (images) {
-          const imageLinks = images.map(img => img.toJSON().uri);
+          const imageLinks = images.map(img => (img.toJSON() as ImageInterface).uri);
 
           if (imageLinks.length > 0) {
             removeImages(imageLinks);

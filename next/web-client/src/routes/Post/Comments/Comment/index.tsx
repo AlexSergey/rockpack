@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
+import { l, sprintf, useI18n } from '@rockpack/localazer';
 import { CloseOutlined } from '@ant-design/icons';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import { Roles, User } from '../../../../types/User';
@@ -18,6 +19,8 @@ interface CommentInterface {
 
 export const Comment = ({ id, text, createdAt, user }: CommentInterface): JSX.Element => {
   useStyles(styles);
+
+  const i18n = useI18n();
 
   const commentsApi = useCommentsApi();
   const currentUser = useUser();
@@ -45,7 +48,17 @@ export const Comment = ({ id, text, createdAt, user }: CommentInterface): JSX.El
         ))}
       </Access>
       <p>{text}</p>
-      <p className={styles.date}><span>{dateFormatter(createdAt)}</span></p>
+      <p className={styles.date}>
+        <Tooltip title={
+          sprintf(
+            l('The user has role "%s"', 'User role')(i18n),
+            user.Role.role
+          )(i18n)
+        }
+        >
+          <span>{user.email}</span>
+        </Tooltip> | <span>{dateFormatter(createdAt)}</span>
+      </p>
     </div>
   );
 };

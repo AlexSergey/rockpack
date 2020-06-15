@@ -1,3 +1,4 @@
+import { logger } from '../logger';
 import { StatisticTypeModel } from '../models/StatisticType';
 import { InternalError, SequelizeError } from '../errors/errors';
 import { CommentModel } from '../models/Comment';
@@ -36,8 +37,7 @@ export class CommentRepository {
                 as: STATISTIC_MODEL_NAME,
                 where: {
                   type_id: userType.get('id')
-                },
-                required: false
+                }
               },
               {
                 model: RoleModel,
@@ -58,6 +58,7 @@ export class CommentRepository {
         }
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };

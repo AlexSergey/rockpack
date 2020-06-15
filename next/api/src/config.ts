@@ -1,6 +1,8 @@
 import path from 'path';
 import dotenvSafe from 'dotenv-safe';
-import { argv } from 'yargs';
+import yargs from 'yargs';
+
+const { argv } = yargs(process.argv);
 
 dotenvSafe.config({
   path: argv.env === 'test' ?

@@ -7,6 +7,7 @@ import {
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME
 } from '../constants/models';
+import { logger } from '../logger';
 
 export class UserRepository {
   static getUserByEmail = async (email: string): Promise<UserModel> => {
@@ -46,11 +47,12 @@ export class UserRepository {
         ]
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
 
-  static getUserById = async (id: number): Promise<UserModel> => {
+  static getUserById = async (id: string): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'
@@ -87,6 +89,7 @@ export class UserRepository {
         ]
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
@@ -137,6 +140,7 @@ export class UserRepository {
         ],
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };

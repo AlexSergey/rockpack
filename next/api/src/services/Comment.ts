@@ -1,5 +1,6 @@
 import { BadRequest, CommentNotFound, SequelizeError } from '../errors/errors';
 import { CommentModel } from '../models/Comment';
+import { logger } from '../logger';
 
 export class CommentService {
   static createComment = async (userId: number, postId: number, text: string): Promise<CommentModel> => {
@@ -14,6 +15,7 @@ export class CommentService {
         post_id: postId
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
@@ -28,6 +30,7 @@ export class CommentService {
         individualHooks: true
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
 
@@ -36,13 +39,13 @@ export class CommentService {
     }
   };
 
-  static updateComment = async (userId: number, postId: number, text: string): Promise<CommentModel> => {
+  static updateComment = async (userId: number, postId: number, text: string): Promise<[number, CommentModel[]]> => {
     if (typeof text === 'undefined') {
       throw new BadRequest();
     }
 
     try {
-      return await CommentModel.update(
+      return await CommentModel.update<CommentModel>(
         {
           text
         }, {
@@ -53,6 +56,7 @@ export class CommentService {
         }
       );
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };

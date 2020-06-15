@@ -3,6 +3,7 @@ import { ImageTypeModel } from '../models/ImageType';
 import { ImageModel } from '../models/Image';
 import { CommentModel } from '../models/Comment';
 import { BadRequest, PostNotFound, SequelizeError } from '../errors/errors';
+import { logger } from '../logger';
 
 export class PostService {
   static createPost = async (userId: string, {
@@ -23,6 +24,7 @@ export class PostService {
         user_id: userId, title, text
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
 
@@ -71,6 +73,7 @@ export class PostService {
         },
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
 
@@ -119,6 +122,7 @@ export class PostService {
         }
       });
     } catch (e) {
+      logger.error(e.message);
       throw new SequelizeError(e);
     }
   };
