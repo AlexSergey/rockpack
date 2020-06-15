@@ -4,7 +4,8 @@
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
-    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\""
+    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\"",
+    "production": "npm run lint && npm publish"
   },
   "repository": {
     "type": "git",

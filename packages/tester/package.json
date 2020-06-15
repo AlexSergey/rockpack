@@ -4,7 +4,8 @@
   "description": "Small wrapper for Jest and testing best practice.",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\""
+    "lint": "cross-env NODE_ENV=production eslint \"**/*.js\"",
+    "production": "npm run lint && npm publish"
   },
   "repository": {
     "type": "git",
