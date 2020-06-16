@@ -18,7 +18,9 @@ import {
 import { logger } from '../logger';
 
 export class PostRepository {
-  static fetchPosts = async (offset, limit): Promise<{ count: number; rows: PostModel[] }> => {
+  static fetchPosts = async (page, limit): Promise<{ count: number; rows: PostModel[] }> => {
+    const offset = page * limit;
+
     const postType = await StatisticTypeModel.findOne({
       where: {
         type: 'post'

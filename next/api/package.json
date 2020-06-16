@@ -18,8 +18,8 @@
     "seed": "sequelize db:seed:all",
     "seed:test": "sequelize db:seed:all --env test",
     "seed:production": "sequelize db:seed:all --env production",
-    "test": "npm run db:test --env test && node scripts.tests.js --env test",
-    "test:watch": "npm run db:test --env test && node scripts.tests.js --watch --env test",
+    "test": "ts-node -P tsconfig.json scripts.dropdatabase.ts --env test && npm run db:test --env test && node scripts.tests.js --env test",
+    "test:watch": "ts-node -P tsconfig.json scripts.dropdatabase.ts --env test && npm run db:test --env test && node scripts.tests.js --watch --env test",
     "fixtures": "ts-node -P tsconfig.json scripts.fixtures.ts",
     "fixtures:test": "ts-node -P tsconfig.json scripts.fixtures.ts --env test"
   },

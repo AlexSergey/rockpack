@@ -10,11 +10,8 @@ export class PostController {
     const page = typeof ctx.request.query.page === 'undefined' ?
       0 :
       Number(ctx.request.query.page) - 1;
-
-    const offset = page * config.postsLimit;
-
     try {
-      const { count, rows } = await PostRepository.fetchPosts(offset, config.postsLimit);
+      const { count, rows } = await PostRepository.fetchPosts(page, config.postsLimit);
 
       ctx.body = ok('Posts fetched', {
         posts: rows.map(post => post.toJSON()),
