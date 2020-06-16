@@ -19,6 +19,7 @@ module.exports = function argsCompilers(opts = {}, mode) {
   }
 
   argv = compileSrc(argv, src, options);
+  argv += ' --runInBand';
 
   if (mode === 'watch') {
     argv += ' --watchAll';

@@ -52,7 +52,7 @@ export class UserRepository {
     }
   };
 
-  static getUserById = async (id: string): Promise<UserModel> => {
+  static getUserById = async (id: number): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'

@@ -1,6 +1,6 @@
 const { makeConfig } = require('../index');
 
-it('Codestyle basic config rules overriding', async () => {
+test('Codestyle basic config rules overriding', async () => {
   //process.env.NODE_ENV = 'production';
   const eslintConf = makeConfig({
     'no-console': 'error'
@@ -8,7 +8,7 @@ it('Codestyle basic config rules overriding', async () => {
   expect(eslintConf.rules['no-console']).toBe('error');
 });
 
-it('Codestyle basic config rules overriding for TS', async () => {
+test('Codestyle basic config rules overriding for TS', async () => {
   //process.env.NODE_ENV = 'production';
   const eslintConf = makeConfig({
     'no-console': 'error'
@@ -17,7 +17,7 @@ it('Codestyle basic config rules overriding for TS', async () => {
     .toBe('error');
 });
 
-it('Check NODE_ENV = production for some rules', async () => {
+test('Check NODE_ENV = production for some rules', async () => {
   process.env.NODE_ENV = 'production';
   const eslintConf = makeConfig();
 
@@ -29,7 +29,7 @@ it('Check NODE_ENV = production for some rules', async () => {
     .toBe('error');
 });
 
-it('Codestyle overriding with NODE_ENV = production for some rules', async () => {
+test('Codestyle overriding with NODE_ENV = production for some rules', async () => {
   process.env.NODE_ENV = 'production';
   const eslintConf = makeConfig({
     'no-console': 'off',
@@ -44,7 +44,7 @@ it('Codestyle overriding with NODE_ENV = production for some rules', async () =>
     .toBe('off');
 });
 
-it('Codestyle overriding by global config', async () => {
+test('Codestyle overriding by global config', async () => {
   process.env.NODE_ENV = 'production';
   const eslintConf = makeConfig(null, {
     rules: {

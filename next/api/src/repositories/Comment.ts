@@ -12,7 +12,7 @@ import {
 } from '../constants/models';
 
 export class CommentRepository {
-  static fetchComments = async (postId: string): Promise<CommentModel[]> => {
+  static fetchComments = async (postId: number): Promise<CommentModel[]> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'

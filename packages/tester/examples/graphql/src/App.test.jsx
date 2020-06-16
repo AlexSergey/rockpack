@@ -7,7 +7,7 @@ import { GET_BOOK, GET_BOOKS, BOOK_READ } from './query.gql';
 
 let container;
 
-beforeEach(async (next) => {
+beforeEach(async () => {
   container = document.createElement('div');
   document.body.appendChild(container);
   await act(async () => {
@@ -57,7 +57,6 @@ beforeEach(async (next) => {
       </Graphql>, container
     );
   });
-  next();
 });
 
 afterEach(() => {
@@ -70,25 +69,25 @@ describe('Test queries', () => {
     expect(document.getElementById('books').childNodes[0].innerHTML)
       .toBe('It');
   });
-  
-  test('BOOK_READ - set the book It as readed', async (next) => {
+
+  test('BOOK_READ - set the book It as readed', async () => {
     const it = document.getElementById('books').childNodes[0];
     await act(async () => {
       it.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
+
     expect(getComputedStyle(it, null)['text-decoration'])
       .toBe('line-through');
-    next();
   });
-  
-  test('GET_BOOK - get the favorite book Jurassic Park', async (next) => {
+
+  test('GET_BOOK - get the favorite book Jurassic Park', async () => {
     const button = document.getElementsByTagName('button')[0];
     await act(async () => {
       button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     const favorite = document.getElementsByTagName('h2')[0].nextSibling;
+
     expect(favorite.innerHTML)
       .toBe('Jurassic Park');
-    next();
   });
 });

@@ -4,17 +4,17 @@
 import { isBackend, isClient, clone } from './utils';
 
 describe('Utils tests', () => {
-  it('isBackend utils test', () => {
+  test('isBackend utils test', () => {
     expect(isBackend())
       .toBe(true);
   });
 
-  it('isClient utils test', () => {
+  test('isClient utils test', () => {
     expect(isClient())
       .toBe(false);
   });
 
-  it('clone utils test', () => {
+  test('clone utils test', () => {
     expect(clone({
       app: {
         foo: 'bar'

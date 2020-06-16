@@ -6,7 +6,7 @@ import { serverRender } from './server';
 import { useWillMount, useUssrState } from './hooks';
 
 describe('server render tests', () => {
-  it('pure state', async () => {
+  test('pure state', async () => {
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
       useWillMount(() => (
@@ -32,7 +32,7 @@ describe('server render tests', () => {
       .toStrictEqual({ app: { foo: 'test bar' } });
   });
 
-  it('pure state and external callback', async () => {
+  test('pure state and external callback', async () => {
     let called = false;
 
     const externalCallback = (callbackFunctions): void => {

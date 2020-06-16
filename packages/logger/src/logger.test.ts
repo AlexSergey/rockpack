@@ -16,7 +16,7 @@ beforeAll(() => {
 
 describe('Test active logger', () => {
   ['log', 'info', 'debug', 'warn', 'error'].forEach((logMethod, index) => {
-    it(`Logger test ${logMethod} method`, () => {
+    test(`Logger test ${logMethod} method`, () => {
       logger[logMethod](`test ${logMethod} method`);
       const logItem = stackCollection.getData()[index];
 
@@ -30,7 +30,7 @@ describe('Test active logger', () => {
 });
 
 describe('Test no-active logger', () => {
-  it('Logger test all methods', () => {
+  test('Logger test all methods', () => {
     logger.setUp({
       active: false
     });

@@ -1,7 +1,7 @@
 import { PostRepository } from './Post';
 
 describe('PostRepository tests', () => {
-  it('Fetching posts with offset 0 and limit 10', async () => {
+  test('Fetching posts with offset 0 and limit 10', async () => {
     const { count, rows } = await PostRepository.fetchPosts(0, 10);
 
     expect(rows.length)
@@ -10,7 +10,7 @@ describe('PostRepository tests', () => {
       .toBe(13);
   });
 
-  it('Fetching posts with offset 1 and limit 10', async () => {
+  test('Fetching posts with offset 1 and limit 10', async () => {
     const { count, rows } = await PostRepository.fetchPosts(1, 10);
 
     expect(rows.length)
@@ -19,7 +19,7 @@ describe('PostRepository tests', () => {
       .toBe(13);
   });
 
-  it('Fetching posts with offset 1 and limit 5', async () => {
+  test('Fetching posts with offset 1 and limit 5', async () => {
     const { count, rows } = await PostRepository.fetchPosts(1, 5);
 
     expect(rows.length)
@@ -28,7 +28,7 @@ describe('PostRepository tests', () => {
       .toBe(13);
   });
 
-  it('Fetching posts with offset 1 and limit 8', async () => {
+  test('Fetching posts with offset 1 and limit 8', async () => {
     const { count, rows } = await PostRepository.fetchPosts(1, 8);
 
     expect(rows.length)
@@ -37,8 +37,8 @@ describe('PostRepository tests', () => {
       .toBe(13);
   });
 
-  it('Check the last post', async () => {
-    const { count, rows } = await PostRepository.fetchPosts(1, 8);
+  test('Check the last post', async () => {
+    const { rows } = await PostRepository.fetchPosts(1, 8);
     const last = rows[rows.length - 1];
 
     expect(last.get('id'))

@@ -4,7 +4,7 @@ import { logger } from '../logger';
 
 export class CommentService {
   static createComment = async (userId: number, postId: number, text: string): Promise<CommentModel> => {
-    if (typeof text === 'undefined' || (text && text.length === 0)) {
+    if (typeof text === 'undefined' || (typeof text === 'string' && text === '')) {
       throw new BadRequest();
     }
 
@@ -39,7 +39,7 @@ export class CommentService {
     }
   };
 
-  static updateComment = async (userId: number, postId: number, text: string): Promise<[number, CommentModel[]]> => {
+  static updateComment = async (commentId: number, text: string): Promise<[number, CommentModel[]]> => {
     if (typeof text === 'undefined') {
       throw new BadRequest();
     }
@@ -50,8 +50,7 @@ export class CommentService {
           text
         }, {
           where: {
-            user_id: userId,
-            post_id: postId
+            id: commentId
           }
         }
       );

@@ -7,7 +7,7 @@ import { useUssrState, useWillMount } from './hooks';
 import createUssr from './Ussr';
 
 describe('hooks tests', () => {
-  it('useWillMount - Basic load on ready', async () => {
+  test('useWillMount - Basic load on ready', async () => {
     const [runEffects, Ussr, getEffects] = createUssr();
     let called = false;
 
@@ -40,7 +40,7 @@ describe('hooks tests', () => {
     expect(called).toBe(true);
   });
 
-  it('useUssrState - Load state by source', async () => {
+  test('useUssrState - Load state by source', async () => {
     const [, Ussr] = createUssr({
       app: {
         foo: 'bar'
@@ -67,7 +67,7 @@ describe('hooks tests', () => {
     expect(result).toBe('<div>bar</div>');
   });
 
-  it('useUssrState - use setState isomorphic', async () => {
+  test('useUssrState - use setState isomorphic', async () => {
     const [runEffects, Ussr, getEffects, getState] = createUssr();
 
     const App = (): JSX.Element => {

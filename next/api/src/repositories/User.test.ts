@@ -1,23 +1,23 @@
 import { UserRepository } from './User';
 
 describe('UserRepository tests', () => {
-  it('Test method getUserByEmail', async () => {
+  test('Test method getUserByEmail', async () => {
     const admin = await UserRepository.getUserByEmail('second_admin@rock.com');
 
     expect(admin.get('email'))
       .toBe('second_admin@rock.com');
   });
 
-  it('Test method getUserByEmail with userNotFound exception', async () => {
+  test('Test method getUserByEmail with userNotFound exception', async () => {
     const admin = await UserRepository.getUserByEmail('second_admin2@rock.com');
 
     expect(admin)
       .toBeNull();
   });
 
-  it('Test method getUserById', async () => {
-    const admin = await UserRepository.getUserById('2');
-    const user = await UserRepository.getUserById('3');
+  test('Test method getUserById', async () => {
+    const admin = await UserRepository.getUserById(2);
+    const user = await UserRepository.getUserById(3);
 
     expect(admin.get('email'))
       .toBe('second_admin@rock.com');
@@ -25,14 +25,14 @@ describe('UserRepository tests', () => {
       .toBe('simple_user@rock.com');
   });
 
-  it('Test method getUserById with userNotFound exception', async () => {
-    const user = await UserRepository.getUserById('4');
+  test('Test method getUserById with userNotFound exception', async () => {
+    const user = await UserRepository.getUserById(4);
 
     expect(user)
       .toBeNull();
   });
 
-  it('Test method getUsers', async () => {
+  test('Test method getUsers', async () => {
     const users = await UserRepository.getUsers();
 
     expect(users.length)

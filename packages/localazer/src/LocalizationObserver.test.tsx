@@ -22,29 +22,29 @@ beforeAll(() => {
 });
 
 describe('Check LocalizationObserver hook', () => {
-  it('useI18n should provide Jed instance', () => {
+  test('useI18n should provide Jed instance', () => {
     expect(i18n instanceof Jed)
       .toBe(true);
   });
 });
 
 describe('Check LocalizationObserver context provider', () => {
-  it('LocalizationObserver should provide 3 methods', () => {
+  test('LocalizationObserver should provide 3 methods', () => {
     expect(Object.keys(ctx))
       .toStrictEqual(['attachComponent', 'detachComponent', 'getI18n']);
   });
 
-  it('LocalizationObserver should provide attachComponent method', () => {
+  test('LocalizationObserver should provide attachComponent method', () => {
     expect(typeof ctx.attachComponent === 'function')
       .toBe(true);
   });
 
-  it('LocalizationObserver should provide detachComponent method', () => {
+  test('LocalizationObserver should provide detachComponent method', () => {
     expect(typeof ctx.detachComponent === 'function')
       .toBe(true);
   });
 
-  it('LocalizationObserver should provide getI18n method', () => {
+  test('LocalizationObserver should provide getI18n method', () => {
     expect(typeof ctx.getI18n === 'function')
       .toBe(true);
   });

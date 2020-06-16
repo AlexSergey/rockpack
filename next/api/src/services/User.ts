@@ -37,7 +37,7 @@ export class UserService {
 
       const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
-      const createdUser = await UserRepository.getUserById(String(newUser.get('id')));
+      const createdUser = await UserRepository.getUserById(Number(newUser.get('id')));
 
       return { user: createdUser, token };
     } catch (e) {

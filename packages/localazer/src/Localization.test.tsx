@@ -119,7 +119,7 @@ beforeAll(() => {
 });
 
 describe('Test default language (English)', () => {
-  it('Basic l - Hello world example', async () => {
+  test('Basic l - Hello world example', async () => {
     expect(
       wrapper.find('.test-case-1')
         .text()
@@ -127,7 +127,7 @@ describe('Test default language (English)', () => {
       .toBe('Hello world');
   });
 
-  it('nl singular test with zero count', async () => {
+  test('nl singular test with zero count', async () => {
     expect(
       wrapper.find('.test-case-2')
         .text()
@@ -135,7 +135,7 @@ describe('Test default language (English)', () => {
       .toBe('0 clicks');
   });
 
-  it('nl singular test with incremented count', async () => {
+  test('nl singular test with incremented count', async () => {
     await act(async () => {
       ctx.increment();
     });
@@ -146,7 +146,7 @@ describe('Test default language (English)', () => {
       .toBe('1 click');
   });
 
-  it('nl plural test with one more incrementation', async () => {
+  test('nl plural test with one more incrementation', async () => {
     await act(async () => {
       ctx.increment();
     });
@@ -157,7 +157,7 @@ describe('Test default language (English)', () => {
       .toBe('2 clicks');
   });
 
-  it('sprintf test with react components', async () => {
+  test('sprintf test with react components', async () => {
     expect(
       wrapper.find('.test-case-3')
         .find('.localization-node')
@@ -166,7 +166,7 @@ describe('Test default language (English)', () => {
       .toBe('<span class="localization-node ">Your name is <span style="text-decoration:underline"><b>Ivan</b></span> and surname is <span style="text-decoration:underline"><b>Pupkin</b></span></span>');
   });
 
-  it('sprintf change name in the sentence', async () => {
+  test('sprintf change name in the sentence', async () => {
     await act(async () => {
       ctx.setName('Sergey');
     });
@@ -181,7 +181,7 @@ describe('Test default language (English)', () => {
 });
 
 describe('Change language to Russian', () => {
-  it('JED is russian', async () => {
+  test('JED is russian', async () => {
     await act(async () => {
       ctx.setActiveLang('ru');
     });
@@ -191,8 +191,9 @@ describe('Change language to Russian', () => {
       .toBe('Привет мир');
   });
 });
+
 describe('Test Russian language', () => {
-  it('Basic l - Привет мир example', async () => {
+  test('Basic l - Привет мир example', async () => {
     expect(
       wrapper.find('.test-case-1')
         .text()
@@ -200,7 +201,7 @@ describe('Test Russian language', () => {
       .toBe('Привет мир');
   });
 
-  it('nl singular test with zero count', async () => {
+  test('nl singular test with zero count', async () => {
     await act(async () => {
       ctx.resetCounter();
     });
@@ -211,7 +212,7 @@ describe('Test Russian language', () => {
       .toBe('0 кликов');
   });
 
-  it('nl singular test with incremented count', async () => {
+  test('nl singular test with incremented count', async () => {
     await act(async () => {
       ctx.increment();
     });
@@ -222,7 +223,7 @@ describe('Test Russian language', () => {
       .toBe('1 клик');
   });
 
-  it('nl plural test with one more incrementation', async () => {
+  test('nl plural test with one more incrementation', async () => {
     await act(async () => {
       ctx.increment();
     });
@@ -233,7 +234,7 @@ describe('Test Russian language', () => {
       .toBe('2 кликов');
   });
 
-  it('sprintf test with react components', async () => {
+  test('sprintf test with react components', async () => {
     await act(async () => {
       ctx.resetName();
     });
@@ -245,7 +246,7 @@ describe('Test Russian language', () => {
       .toBe('<span class="localization-node ">Ваше имя <span style="text-decoration:underline"><b>Ivan</b></span> ваша фамилия <span style="text-decoration:underline"><b>Pupkin</b></span></span>');
   });
 
-  it('sprintf change name in the sentence', async () => {
+  test('sprintf change name in the sentence', async () => {
     await act(async () => {
       ctx.setName('Sergey');
     });

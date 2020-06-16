@@ -44,7 +44,7 @@ it('test useLogger hook', () => {
 });
 
 ['log', 'info', 'debug', 'warn', 'error'].forEach((logMethod) => {
-  it(`test logger ${logMethod} method`, () => {
+  test(`test logger ${logMethod} method`, () => {
     logger[logMethod](`test ${logMethod} message`);
 
     expect(level)
@@ -55,13 +55,13 @@ it('test useLogger hook', () => {
 });
 
 describe('test useLoggerApi', () => {
-  it('test getStackData()', async () => {
+  test('test getStackData()', async () => {
     const { actions } = loggerApi.getStackData();
 
     expect(actions.length).toBe(5);
   });
 
-  it('test onError callback', async () => {
+  test('test onError callback', async () => {
     loggerApi.triggerError(loggerApi.getStackData());
 
     expect(stack.actions.length)

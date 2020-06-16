@@ -6,10 +6,10 @@ import { Rest, MockRest } from './rest';
 
 let container;
 
-beforeEach(async (next) => {
+beforeEach(async () => {
   container = document.createElement('div');
   document.body.appendChild(container);
-  
+
   await act(async () => {
     ReactDOM.render(
       <Rest options={{
@@ -27,7 +27,6 @@ beforeEach(async (next) => {
       </Rest>, container
     );
   });
-  next();
 });
 
 afterEach(() => {
@@ -36,13 +35,13 @@ afterEach(() => {
 });
 
 describe('Test rest api', () => {
-  test('/getData - response should be { id: 1, name: \'John Smith\' }', async (next) => {
+  test('/getData - response should be { id: 1, name: \'John Smith\' }', async () => {
     const button = document.getElementsByTagName('button')[0];
     await act(async () => {
       button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
+
     expect(document.getElementById('data').innerHTML)
       .toBe('John Smith');
-    next();
   });
 });

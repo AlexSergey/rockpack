@@ -15,7 +15,7 @@ export class PostService {
     title: string;
     text: string;
     preview?: { filename: string };
-    photos: { filename: string }[];
+    photos?: { filename: string }[];
   }): Promise<PostModel> => {
     let post;
 

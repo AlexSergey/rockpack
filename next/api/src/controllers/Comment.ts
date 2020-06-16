@@ -8,7 +8,7 @@ export class CommentController {
     const { postId } = ctx.params;
 
     try {
-      const comments = await CommentRepository.fetchComments(postId);
+      const comments = await CommentRepository.fetchComments(Number(postId));
 
       ctx.body = ok('Comments fetched', comments.map(c => c.toJSON()));
     } catch (e) {
@@ -47,12 +47,11 @@ export class CommentController {
   };
 
   static update = async (ctx): Promise<void> => {
-    const { postId } = ctx.params;
+    const { id } = ctx.params;
     const { text } = ctx.request.body;
-    const userId = ctx.user.get('id');
 
     try {
-      const [, comments] = await CommentService.updateComment(userId, postId, text);
+      const [, comments] = await CommentService.updateComment(id, text);
 
       ctx.body = ok('Comment updated', {
         id: comments[0].get('id')

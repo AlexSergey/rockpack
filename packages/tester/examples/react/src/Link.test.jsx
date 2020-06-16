@@ -4,7 +4,7 @@ import { shallowToJson } from 'enzyme-to-json';
 import Link from './Link';
 
 describe('Link', () => {
-  it('should render correctly', () => {
+  test('should render correctly', () => {
     const output = shallow(
       <Link title="mockTitle" url="mockUrl" />
     );

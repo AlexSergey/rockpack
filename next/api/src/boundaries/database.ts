@@ -4,7 +4,7 @@ export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
   dialect: process.env.DATABASE_DIALECT as ('mysql' | 'sqlite'),
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
-  logging: console.log,
+  logging: process.env.DB_LOGGING === '1' ? console.log : false,
   define: {
     timestamps: false
   }
