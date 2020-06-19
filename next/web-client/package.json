@@ -10,7 +10,9 @@
     "lint": "cross-env NODE_ENV=production eslint \"src/**\"",
     "seo": "node scripts.seo.check.js",
     "storybook": "start-storybook",
-    "storybook:build": "build-storybook -c .storybook -o docs"
+    "storybook:build": "build-storybook -c .storybook -o docs",
+    "test": "node scripts.tests.js",
+    "test:watch": "node scripts.tests.js --watch"
   },
   "dependencies": {
     "@ant-design/icons": "4.1.0",
@@ -73,8 +75,12 @@
     "@types/react-router": "5.1.5",
     "@types/react-router-dom": "5.1.4",
     "lighthouse": "5.6.0",
-    "puppeteer": "^3.0.2",
+    "puppeteer": "3.0.2",
     "react-docgen-typescript-loader": "3.7.2",
-    "request": "^2.88.2"
+    "request": "2.88.2",
+    "@testing-library/react": "9.3.2",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2",
+    "enzyme-to-json": "3.4.4"
   }
 }

@@ -1,12 +1,11 @@
-import { Action } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { LocaleData, getDefaultLocale } from '@rockpack/localazer';
+import { call, getContext, put, takeEvery } from 'redux-saga/effects';
+import { getDefaultLocale, LocaleData } from '@rockpack/localazer';
 import { fetchLocalization, setLocale } from './actions';
+import { ServicesInterface } from '../../services';
 import { getDefaultLanguage } from './utils';
 
-function* fetchLocalizationHandler(logger, rest, { payload: language }: ReturnType<typeof fetchLocalization>):
-Generator<Action, void, LocaleData> {
+function* fetchLocalizationHandler(logger, { payload: language }: ReturnType<typeof fetchLocalization>) {
   try {
     if (getDefaultLanguage() === language) {
       yield put(setLocale({
@@ -16,7 +15,8 @@ Generator<Action, void, LocaleData> {
       yield put(push(`/${language}`));
       return;
     }
-    const locale = yield call(() => rest.get(`/locales/${language}.json`));
+    const services: ServicesInterface = yield getContext('services');
+    const locale: LocaleData = yield call(() => services.localization.fetchLocalization(language));
 
     yield put(setLocale({
       locale,
@@ -28,8 +28,8 @@ Generator<Action, void, LocaleData> {
   }
 }
 
-function* localizationSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(fetchLocalization, fetchLocalizationHandler, logger, rest);
+function* localizationSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(fetchLocalization, fetchLocalizationHandler, logger);
 }
 
 export { localizationSaga };

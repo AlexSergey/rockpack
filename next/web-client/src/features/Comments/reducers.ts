@@ -1,3 +1,4 @@
+import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 import { requestComments, requestCommentsSuccess, requestCommentsError, commentCreated, commentDeleted } from './actions';
 import { CommentsState } from '../../types/Comments';
@@ -25,9 +26,11 @@ export const commentsReducer = createReducer<CommentsState>({
     loading: false
   }),
 
-  [commentCreated.type]: (state, { payload }) => {
-    state.data.push(payload);
-  },
+  [commentCreated.type]: (state, { payload }) => (
+    produce(state, draftState => {
+      draftState.data.push(payload);
+    })
+  ),
 
   [commentDeleted.type]: (state, { payload: { id } }) => ({
     data: state.data.filter(s => s.id !== id),

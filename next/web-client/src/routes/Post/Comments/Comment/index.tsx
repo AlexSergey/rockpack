@@ -13,7 +13,7 @@ import styles from './style.modules.scss';
 interface CommentInterface {
   id: number;
   text: string;
-  createdAt: Date;
+  createdAt: string;
   user: User;
 }
 

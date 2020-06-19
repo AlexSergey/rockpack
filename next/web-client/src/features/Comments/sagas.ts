@@ -1,16 +1,16 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { Action } from '@reduxjs/toolkit';
+import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments, createComment, commentCreated, deleteComment, commentDeleted } from './actions';
 import { increaseComment, decreaseComment } from '../User';
 import { Comment } from '../../types/Comments';
-import config from '../../config';
+import { ServicesInterface } from '../../services';
+import { CommentsRes, CommentRes } from './service';
 
-function* getComments(logger, rest, { payload: { resolver, postId } }: ReturnType<typeof fetchComments>):
-Generator<Action, void, { data: Comment[] }> {
+function* getComments(logger, { payload: { resolver, postId } }: ReturnType<typeof fetchComments>) {
   try {
+    const services: ServicesInterface = yield getContext('services');
     yield put(requestComments());
-    const { data } = yield call(() => (
-      rest.get(`${config.api}/v1/comments/${postId}`)
+    const { data }: CommentsRes = yield call(() => (
+      services.comments.fetchComments(postId)
     ));
     yield put(requestCommentsSuccess(data));
   } catch (error) {
@@ -20,15 +20,15 @@ Generator<Action, void, { data: Comment[] }> {
   resolver();
 }
 
-function* createCommentHandler(logger, rest, { payload: { text, user, postId } }: ReturnType<typeof createComment>):
-Generator<Action, void, { data: { id: number } }> {
+function* createCommentHandler(logger, { payload: { text, user, postId } }: ReturnType<typeof createComment>) {
   try {
-    const { data } = yield call(() => rest.post(`${config.api}/v1/comments/${postId}`, { text }));
+    const services: ServicesInterface = yield getContext('services');
+    const { data }: CommentRes = yield call(() => services.comments.createComment(postId, text));
 
     const comment: Comment = {
       text,
       id: data.id,
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
       User: {
         id: user.id,
         email: user.email,
@@ -46,11 +46,11 @@ Generator<Action, void, { data: { id: number } }> {
   }
 }
 
-function* deleteCommentHandler(logger, rest, { payload: { id, owner } }: ReturnType<typeof deleteComment>):
-Generator<Action, void, { data: { id: number } }> {
+function* deleteCommentHandler(logger, { payload: { id, owner } }: ReturnType<typeof deleteComment>) {
   try {
+    const services: ServicesInterface = yield getContext('services');
     const ownerState = Boolean(owner);
-    yield call(() => rest.delete(`${config.api}/v1/comments/${id}`));
+    yield call(() => services.comments.deleteComment(id));
 
     yield put(commentDeleted({ id }));
 
@@ -62,16 +62,16 @@ Generator<Action, void, { data: { id: number } }> {
   }
 }
 
-function* createCommentSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(createComment.type, createCommentHandler, logger, rest);
+function* createCommentSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(createComment.type, createCommentHandler, logger);
 }
 
-function* deleteCommentSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(deleteComment.type, deleteCommentHandler, logger, rest);
+function* deleteCommentSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(deleteComment.type, deleteCommentHandler, logger);
 }
 
-function* commentsSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(fetchComments.type, getComments, logger, rest);
+function* commentsSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(fetchComments.type, getComments, logger);
 }
 
 export { commentsSaga, createCommentSaga, deleteCommentSaga };

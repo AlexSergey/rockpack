@@ -17,7 +17,7 @@ export const usePostApi = (): {
 } => {
   const dispatch = useDispatch();
   return {
-    updatePost: (post: { postId: number; title: string; text: string }): void => {
+    updatePost: (post) => {
       dispatch(updatePost({ post }));
     },
   };

@@ -161,6 +161,7 @@ module.exports = {
           rules: deepExtend({}, commonRules, {
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/ban-ts-ignore': 'off',
+            '@typescript-eslint/explicit-function-return-type': 'off',
             '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
             'react/prop-types': 'off',
             quotes: 'off',

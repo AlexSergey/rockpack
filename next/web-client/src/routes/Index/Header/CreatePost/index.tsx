@@ -6,7 +6,7 @@ import { isBackend } from '@rockpack/ussr';
 import loadable from '@loadable/component';
 import { PreviewUpload } from '../../../../components/PreviewUpload';
 import { PhotosUpload } from '../../../../components/PhotosUpload';
-import { usePostsApi } from '../../../../features/Posts';
+import { usePagination, usePostsApi } from '../../../../features/Posts';
 
 import styles from './style.modules.scss';
 
@@ -19,6 +19,7 @@ type FormState = {
 export const CreatePost = (): JSX.Element => {
   const i18n = useI18n();
   useStyles(styles);
+  const { current } = usePagination();
   const { createPost } = usePostsApi();
   const [postCreate, postCreateModal] = useState(false);
   const [text, setText] = useState('');
@@ -73,7 +74,7 @@ export const CreatePost = (): JSX.Element => {
               if (formData.current instanceof FormData) {
                 formData.current.append('title', store.title);
                 formData.current.append('text', text);
-                createPost({ postData: formData.current });
+                createPost({ postData: formData.current, page: current });
               }
               cleanState();
               postCreateModal(false);

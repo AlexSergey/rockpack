@@ -1,15 +1,10 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { Action } from '@reduxjs/toolkit';
+import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { signin, signup, signout, setUser, clearUserState, authorization } from './actions';
-import { User } from '../../types/User';
-import config from '../../config';
 
-function* signIn(logger, rest, { payload: { email, password } }: ReturnType<typeof signin>):
-Generator<Action, void, { data: User }> {
+function* signIn(logger, { payload: { email, password } }: ReturnType<typeof signin>) {
   try {
-    const { data } = yield call(() => (
-      rest.post(`${config.api}/v1/users/signin`, { email, password })
-    ));
+    const services = yield getContext('services');
+    const { data } = yield call(() => services.user.signIn({ email, password }));
 
     yield put(setUser(data));
   } catch (error) {
@@ -17,12 +12,10 @@ Generator<Action, void, { data: User }> {
   }
 }
 
-function* authorizationHandler(logger, rest, { payload: { resolver } }: ReturnType<typeof authorization>):
-Generator<Action, void, { data: User }> {
+function* authorizationHandler(logger, { payload: { resolver } }: ReturnType<typeof authorization>) {
   try {
-    const { data } = yield call(() => (
-      rest.get(`${config.api}/v1/users/authorization`)
-    ));
+    const services = yield getContext('services');
+    const { data } = yield call(services.user.authorization);
     if (typeof data === 'object') {
       yield put(setUser(data));
     }
@@ -32,42 +25,40 @@ Generator<Action, void, { data: User }> {
   resolver();
 }
 
-function* signUp(logger, rest, { payload: { email, password } }: ReturnType<typeof signin>):
-Generator<Action, void, { data: User }> {
+function* signUp(logger, { payload: { email, password } }: ReturnType<typeof signin>) {
   try {
-    const { data } = yield call(() => (
-      rest.post(`${config.api}/v1/users/signup`, { email, password })
-    ));
+    const services = yield getContext('services');
+    const { data } = yield call(() => services.user.signUp({ email, password }));
     yield put(setUser(data));
   } catch (error) {
     logger.error(error);
   }
 }
 
-function* signOut(logger, rest):
-Generator<Action, void, void> {
+function* signOut(logger) {
   try {
-    yield call(() => rest.get(`${config.api}/v1/users/signout`));
+    const services = yield getContext('services');
+    yield call(() => services.user.signOut());
     yield put(clearUserState());
   } catch (error) {
     logger.error(error);
   }
 }
 
-function* signInSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(signin.type, signIn, logger, rest);
+function* signInSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(signin.type, signIn, logger);
 }
 
-function* signUpSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(signup.type, signUp, logger, rest);
+function* signUpSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(signup.type, signUp, logger);
 }
 
-function* signOutSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(signout.type, signOut, logger, rest);
+function* signOutSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(signout.type, signOut, logger);
 }
 
-function* authorizationSaga(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(authorization.type, authorizationHandler, logger, rest);
+function* authorizationSaga(logger): IterableIterator<unknown> {
+  yield takeEvery(authorization.type, authorizationHandler, logger);
 }
 
 export {

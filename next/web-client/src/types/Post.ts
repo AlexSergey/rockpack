@@ -10,8 +10,8 @@ export interface PostStatistic {
 }
 
 export interface Post {
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: string;
+  createdAt: string;
   title: string;
   text: string;
   id: number;

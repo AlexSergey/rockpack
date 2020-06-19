@@ -4,7 +4,6 @@ import { createLogger } from 'redux-logger';
 import { isBackend } from '@rockpack/ussr';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { isNotProduction } from './utils/mode';
-import { createRestClient } from './utils/rest';
 import { localizationSaga, localizationReducer as localization } from './features/Localization';
 import { authorizationSaga, signInSaga, signUpSaga, signOutSaga, userReducer as user } from './features/User';
 import { postsSaga, createPostSaga, deletePostSaga, setPageSaga, postsReducer as posts, paginationReducer as pagination } from './features/Posts';
@@ -12,13 +11,18 @@ import { commentsSaga, createCommentSaga, deleteCommentSaga, commentsReducer as 
 import { watchPost, updatePostSaga, postReducer as post } from './features/Post';
 import { usersSaga, deleteUserSaga, usersReducer as users } from './features/Users';
 import { StoreProps, RootState } from './types/store';
+import { ServicesInterface } from './services';
 
-export const createStore = ({ initState = {}, logger, history, getToken }: StoreProps): Store<RootState> => {
-  const rest = createRestClient(getToken);
+export const createStore = ({ initState = {}, logger, history, services, testMode }: StoreProps): Store<RootState> => {
   const reduxLogger = createLogger({
     collapsed: true
   });
-  const sagaMiddleware = createSagaMiddleware();
+
+  const sagaMiddleware = createSagaMiddleware<{ services: ServicesInterface }>({
+    context: {
+      services
+    }
+  });
 
   const middleware = getDefaultMiddleware({
     immutableCheck: true,
@@ -29,7 +33,7 @@ export const createStore = ({ initState = {}, logger, history, getToken }: Store
   middleware.push(sagaMiddleware);
   middleware.push(routerMiddleware(history));
 
-  if (isNotProduction() && !isBackend()) {
+  if (isNotProduction() && !isBackend() && !testMode) {
     middleware.push(reduxLogger);
   }
 
@@ -50,32 +54,32 @@ export const createStore = ({ initState = {}, logger, history, getToken }: Store
   });
 
   // Localization Sagas
-  sagaMiddleware.run(localizationSaga, logger, rest);
+  sagaMiddleware.run(localizationSaga, logger);
 
   // User Sagas
-  sagaMiddleware.run(signInSaga, logger, rest);
-  sagaMiddleware.run(signOutSaga, logger, rest);
-  sagaMiddleware.run(signUpSaga, logger, rest);
-  sagaMiddleware.run(authorizationSaga, logger, rest);
+  sagaMiddleware.run(signInSaga, logger);
+  sagaMiddleware.run(signOutSaga, logger);
+  sagaMiddleware.run(signUpSaga, logger);
+  sagaMiddleware.run(authorizationSaga, logger);
 
   // Posts Sagas
-  sagaMiddleware.run(postsSaga, logger, rest);
-  sagaMiddleware.run(setPageSaga, logger, rest);
-  sagaMiddleware.run(createPostSaga, logger, rest);
-  sagaMiddleware.run(deletePostSaga, logger, rest);
+  sagaMiddleware.run(postsSaga, logger);
+  sagaMiddleware.run(setPageSaga, logger);
+  sagaMiddleware.run(createPostSaga, logger);
+  sagaMiddleware.run(deletePostSaga, logger);
 
   // Comments Sagas
-  sagaMiddleware.run(commentsSaga, logger, rest);
-  sagaMiddleware.run(createCommentSaga, logger, rest);
-  sagaMiddleware.run(deleteCommentSaga, logger, rest);
+  sagaMiddleware.run(commentsSaga, logger);
+  sagaMiddleware.run(createCommentSaga, logger);
+  sagaMiddleware.run(deleteCommentSaga, logger);
 
   // Post Sagas
-  sagaMiddleware.run(watchPost, logger, rest);
-  sagaMiddleware.run(updatePostSaga, logger, rest);
+  sagaMiddleware.run(watchPost, logger);
+  sagaMiddleware.run(updatePostSaga, logger);
 
   // Users Sagas
-  sagaMiddleware.run(usersSaga, logger, rest);
-  sagaMiddleware.run(deleteUserSaga, logger, rest);
+  sagaMiddleware.run(usersSaga, logger);
+  sagaMiddleware.run(deleteUserSaga, logger);
 
   return store;
 };

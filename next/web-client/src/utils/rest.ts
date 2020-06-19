@@ -22,7 +22,7 @@ const commonHeaders = (token: string): { Authorization: string } | {} => {
 
 export const createRestClient = (getToken): RestInterface => (
   {
-    get: (url): Promise<unknown> => (
+    get: (url) => (
       fetch(url, {
         headers: commonHeaders(getToken()),
         // @ts-ignore
@@ -36,7 +36,7 @@ export const createRestClient = (getToken): RestInterface => (
         ))
     ),
 
-    post: (url, body?, options?): Promise<unknown> => {
+    post: (url, body?, options?) => {
       const isFormData = body instanceof FormData;
 
       const headers = commonHeaders(getToken());
@@ -69,7 +69,7 @@ export const createRestClient = (getToken): RestInterface => (
         ));
     },
 
-    put: (url, body?, options?): Promise<unknown> => {
+    put: (url, body?, options?) => {
       const isFormData = body instanceof FormData;
 
       const headers = commonHeaders(getToken());
@@ -102,7 +102,7 @@ export const createRestClient = (getToken): RestInterface => (
         ));
     },
 
-    delete: (url, options?): Promise<unknown> => {
+    delete: (url, options?) => {
       const headers = commonHeaders(getToken());
 
       if (options && typeof options.headers === 'object') {

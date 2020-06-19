@@ -7,15 +7,16 @@ import { PostState } from './Post';
 import { User } from './User';
 import { UsersState } from './Users';
 import { CommentsState } from './Comments';
-
+import { ServicesInterface } from '../services';
 
 export interface StoreProps {
   initState: {
     [key: string]: unknown;
   };
   logger: Logger;
+  testMode?: boolean;
   history: History;
-  getToken: () => string | undefined;
+  services: ServicesInterface;
 }
 
 export interface RootState {

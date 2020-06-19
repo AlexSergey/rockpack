@@ -11,6 +11,8 @@ import { App } from './main';
 import { isProduction } from './utils/mode';
 import { createStore } from './store';
 import { logger } from './utils/logger';
+import { createRestClient } from './utils/rest';
+import { createServices } from './services';
 
 declare global {
   interface Window {
@@ -29,11 +31,13 @@ const [, Ussr] = createUssr(window.USSR_DATA);
 
 const getToken = (): string | undefined => Cookies.get('token');
 
+const rest = createRestClient(getToken);
+
 const store = createStore({
   logger,
   initState: window.REDUX_DATA,
   history,
-  getToken
+  services: createServices(rest)
 });
 
 const insertCss = (...styles): () => void => {

@@ -1,14 +1,13 @@
-import { Action } from '@reduxjs/toolkit';
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects';
 import { fetchPost, requestPost, requestPostError, requestPostSuccess, updatePost, postUpdated } from './actions';
-import { Post } from '../../types/Post';
-import config from '../../config';
+import { ServicesInterface } from '../../services';
+import { PostRes } from './service';
 
-function* fetchPostSaga(logger, rest, { payload: { resolver, postId } }: ReturnType<typeof fetchPost>):
-Generator<Action, void, { data: Post }> {
+function* fetchPostSaga(logger, { payload: { resolver, postId } }: ReturnType<typeof fetchPost>) {
   try {
+    const services: ServicesInterface = yield getContext('services');
     yield put(requestPost());
-    const { data } = yield call(() => rest.get(`${config.api}/v1/posts/${postId}`));
+    const { data }: PostRes = yield call(() => services.post.fetchPost(postId));
     yield put(requestPostSuccess(data));
   } catch (error) {
     yield put(requestPostError());
@@ -16,10 +15,10 @@ Generator<Action, void, { data: Post }> {
   resolver();
 }
 
-function* updatePostHandler(logger, rest, { payload: { post } }: ReturnType<typeof updatePost>):
-Generator<Action, void, void> {
+function* updatePostHandler(logger, { payload: { post } }: ReturnType<typeof updatePost>) {
   try {
-    yield call(() => rest.put(`${config.api}/v1/posts/${post.postId}`, {
+    const services: ServicesInterface = yield getContext('services');
+    yield call(() => services.post.updatePost(post.postId, {
       title: post.title,
       text: post.text
     }));
@@ -33,12 +32,12 @@ Generator<Action, void, void> {
   }
 }
 
-function* updatePostSaga(logger, rest): IterableIterator<unknown> {
-  yield takeLatest(updatePost.type, updatePostHandler, logger, rest);
+function* updatePostSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(updatePost.type, updatePostHandler, logger);
 }
 
-function* watchPost(logger, rest): IterableIterator<unknown> {
-  yield takeEvery(fetchPost.type, fetchPostSaga, logger, rest);
+function* watchPost(logger): IterableIterator<unknown> {
+  yield takeEvery(fetchPost.type, fetchPostSaga, logger);
 }
 
 export { watchPost, updatePostSaga };

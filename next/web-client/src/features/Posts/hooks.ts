@@ -39,23 +39,23 @@ export const usePaginationApi = (): {
   const dispatch = useDispatch();
 
   return {
-    setCurrent: (currentLanguage: Languages, page: number): void => {
+    setCurrent: (currentLanguage, page) => {
       dispatch(settingPage({ currentLanguage, page }));
     }
   };
 };
 
 export const usePostsApi = (): {
-  createPost: (data: { postData: FormData }) => void;
+  createPost: (data: { postData: FormData; page: number }) => void;
   deletePost: (id: number, owner?: boolean) => void;
 } => {
   const dispatch = useDispatch();
 
   return {
-    createPost: (data: { postData: FormData }): void => {
+    createPost: (data) => {
       dispatch(createPost(data));
     },
-    deletePost: (id: number, owner?: boolean): void => {
+    deletePost: (id, owner) => {
       dispatch(deletePost({ id, owner }));
     }
   };

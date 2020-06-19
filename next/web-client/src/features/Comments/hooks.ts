@@ -20,11 +20,11 @@ export const useCommentsApi = (): {
   const dispatch = useDispatch();
 
   return {
-    createComment: ({ postId, text, user }): void => {
+    createComment: ({ postId, text, user }) => {
       dispatch(createComment({ postId, text, user }));
     },
 
-    deleteComment: (id, owner?: boolean): void => {
+    deleteComment: (id, owner) => {
       dispatch(deleteComment({ id, owner }));
     }
   };

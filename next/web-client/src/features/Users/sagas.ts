@@ -1,13 +1,10 @@
-import { Action } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, getContext, put, takeLatest } from 'redux-saga/effects';
 import { fetchUsers, setUsers, deleteUser, userDeleted } from './actions';
-import config from '../../config';
-import { User } from '../../types/User';
 
-function* fetchUsersHandler(logger, rest, { payload: { resolver } }: ReturnType<typeof fetchUsers>):
-Generator<Action, void, { data: { users: User[] } }> {
+function* fetchUsersHandler(logger, { payload: { resolver } }: ReturnType<typeof fetchUsers>) {
   try {
-    const { data: { users } } = yield call(() => rest.get(`${config.api}/v1/users`));
+    const services = yield getContext('services');
+    const { data: { users } } = yield call(services.users.fetchUsers);
 
     yield put(setUsers({
       users
@@ -18,10 +15,10 @@ Generator<Action, void, { data: { users: User[] } }> {
   resolver();
 }
 
-function* deleteUserHandler(logger, rest, { payload: { id } }: ReturnType<typeof userDeleted>):
-Generator<Action, void, void> {
+function* deleteUserHandler(logger, { payload: { id } }: ReturnType<typeof userDeleted>) {
   try {
-    yield call(() => rest.delete(`${config.api}/v1/users/${id}`));
+    const services = yield getContext('services');
+    yield call(() => services.users.deleteUser(id));
 
     yield put(userDeleted({ id }));
   } catch (error) {
@@ -29,12 +26,12 @@ Generator<Action, void, void> {
   }
 }
 
-function* usersSaga(logger, rest): IterableIterator<unknown> {
-  yield takeLatest(fetchUsers.type, fetchUsersHandler, logger, rest);
+function* usersSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(fetchUsers.type, fetchUsersHandler, logger);
 }
 
-function* deleteUserSaga(logger, rest): IterableIterator<unknown> {
-  yield takeLatest(deleteUser.type, deleteUserHandler, logger, rest);
+function* deleteUserSaga(logger): IterableIterator<unknown> {
+  yield takeLatest(deleteUser.type, deleteUserHandler, logger);
 }
 
 export { usersSaga, deleteUserSaga };

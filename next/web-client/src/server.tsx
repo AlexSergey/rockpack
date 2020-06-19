@@ -23,6 +23,8 @@ import { createStore } from './store';
 import { logger } from './utils/logger';
 import ru from './features/Localization/locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
+import { createRestClient } from './utils/rest';
+import { createServices } from './services';
 
 const app = new Koa();
 const router = new Router();
@@ -52,6 +54,8 @@ router.get('/*', async (ctx) => {
     languages[currentLanguage] :
     getDefaultLocale();
 
+  const rest = createRestClient(getToken);
+
   const store = createStore({
     initState: {
       pagination: {
@@ -64,7 +68,7 @@ router.get('/*', async (ctx) => {
     },
     logger,
     history: createMemoryHistory(),
-    getToken
+    services: createServices(rest)
   });
 
   const routerParams = {
