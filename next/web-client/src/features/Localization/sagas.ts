@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { push } from 'connected-react-router';
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { getDefaultLocale, LocaleData } from '@rockpack/localazer';

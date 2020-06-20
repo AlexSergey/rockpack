@@ -1,5 +1,7 @@
-import { Provider } from 'react-redux';
 import React from 'react';
+import { Store } from '@reduxjs/toolkit';
+import { mount, ReactWrapper } from 'enzyme';
+import { Provider } from 'react-redux';
 import createUssr from '@rockpack/ussr';
 import { createBrowserHistory } from 'history';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
@@ -9,8 +11,12 @@ import { createStore } from '../store';
 import { logger } from '../utils/logger';
 import { isProduction } from '../utils/mode';
 import { createMockServices } from './mockServices';
+import { RootState } from '../types/store';
 
-export const createTestWrapper = (Component, initState = {}): () => JSX.Element => {
+export const createTestWrapper = async (Component, initState = {}): Promise<{
+  wrapper: ReactWrapper<{}, {}, {}>;
+  store: Store<RootState>;
+}> => {
   const history = createBrowserHistory();
 
   const [, Ussr] = createUssr({}, {
@@ -32,7 +38,7 @@ export const createTestWrapper = (Component, initState = {}): () => JSX.Element 
     return (): void => removeCss.forEach(dispose => dispose());
   };
 
-  return (): JSX.Element => (
+  const TestWrapper = (): JSX.Element => (
     <Ussr>
       <Provider store={store}>
         <StyleContext.Provider value={{ insertCss }}>
@@ -45,4 +51,11 @@ export const createTestWrapper = (Component, initState = {}): () => JSX.Element 
       </Provider>
     </Ussr>
   );
+
+  const wrapper = mount(<TestWrapper />);
+
+  return {
+    wrapper,
+    store
+  };
 };

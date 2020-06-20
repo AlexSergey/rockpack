@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments, createComment, commentCreated, deleteComment, commentDeleted } from './actions';
 import { increaseComment, decreaseComment } from '../User';

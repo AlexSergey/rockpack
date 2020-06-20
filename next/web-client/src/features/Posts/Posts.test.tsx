@@ -1,13 +1,10 @@
-import React from 'react';
-import { mount } from 'enzyme';
 import { usePosts } from './hooks';
 import { createTestWrapper } from '../../tests/TestWrapper';
-import { sleep } from '../../tests/utils';
 
 test('Render Posts from usePosts()', async () => {
   let posts;
 
-  const TestWrapper = createTestWrapper(() => {
+  await createTestWrapper(() => {
     const [, , data] = usePosts();
 
     if (Array.isArray(data) && data.length > 0) {
@@ -16,10 +13,6 @@ test('Render Posts from usePosts()', async () => {
 
     return null;
   }, {});
-
-  mount(<TestWrapper />);
-
-  await sleep(1000);
 
   expect(posts[0].id)
     .toEqual(13);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { push } from 'connected-react-router';
 import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects';
 import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, createPost, deletePost, postDeleted, paginationSetCount, paginationSetCurrent, settingPage } from './actions';

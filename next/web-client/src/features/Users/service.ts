@@ -9,7 +9,7 @@ export interface UsersServiceInterface {
   deleteUser: (id: number) => Promise<void>;
 }
 
-export const usersService = (rest) => ({
+export const usersService = (rest): UsersServiceInterface => ({
   fetchUsers: () => rest.get(`${config.api}/v1/users`),
 
   deleteUser: (id) => rest.delete(`${config.api}/v1/users/${id}`)

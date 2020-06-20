@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { call, getContext, put, takeLatest } from 'redux-saga/effects';
 import { fetchUsers, setUsers, deleteUser, userDeleted } from './actions';
 

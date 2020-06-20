@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { signin, signup, signout, setUser, clearUserState, authorization } from './actions';
 

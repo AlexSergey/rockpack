@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects';
 import { fetchPost, requestPost, requestPostError, requestPostSuccess, updatePost, postUpdated } from './actions';
 import { ServicesInterface } from '../../services';
