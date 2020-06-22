@@ -153,7 +153,7 @@ const server = app.listen(4000, () => {
 const handleError = (err, ctx): void => {
   if (ctx == null) {
     // eslint-disable-next-line no-console
-    console.error('Unhandled exception occurred');
+    console.error(pe.render(err));
   }
 };
 
@@ -167,7 +167,7 @@ server.once('error', handleError);
 ['unhandledRejection', 'uncaughtException'].forEach((error: NodeJS.Signals) => {
   process.on(error, (e) => {
     // eslint-disable-next-line no-console
-    console.log(pe.render(e));
+    console.error(pe.render(e));
   });
 });
 

@@ -324,9 +324,6 @@ function getModules(conf = {}, mode, root) {
 
     svgJSX: {
       test: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      issuer: {
-        test: /\.jsx?$/
-      },
       use: [{
         loader: require.resolve('babel-loader'),
         query: createBabelPresets({

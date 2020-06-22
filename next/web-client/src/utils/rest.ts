@@ -52,10 +52,10 @@ export const createRestClient = (getToken): RestInterface => (
         Object.assign(headers, options.headers);
       }
 
+      // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,
         method: 'POST',
-        // @ts-ignore
         credentials: 'include',
       }, typeof body === 'object' ? {
         body: isFormData ? body : JSON.stringify(body)
@@ -85,10 +85,10 @@ export const createRestClient = (getToken): RestInterface => (
         Object.assign(headers, options.headers);
       }
 
+      // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,
         method: 'PUT',
-        // @ts-ignore
         credentials: 'include',
       }, typeof body === 'object' ? {
         body: isFormData ? body : JSON.stringify(body)
@@ -108,10 +108,11 @@ export const createRestClient = (getToken): RestInterface => (
       if (options && typeof options.headers === 'object') {
         Object.assign(headers, options.headers);
       }
+
+      // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,
         method: 'DELETE',
-        // @ts-ignore
         credentials: 'include',
       }))
         .then(res => res.json())

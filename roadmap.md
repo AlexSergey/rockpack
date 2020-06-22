@@ -1,7 +1,5 @@
 ## Roadmap
 
-- Next
-- CRUD
 - Readme
 - Logo
 - Book

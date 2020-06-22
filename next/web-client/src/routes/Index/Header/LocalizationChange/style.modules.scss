@@ -10,4 +10,9 @@
       fill: white !important;
     }
   }
+  :global(.ant-select-selection-item) {
+    svg {
+      width: 15px;
+    }
+  }
 }

@@ -41,4 +41,4 @@ async function lighthouseFromPuppeteer(url, options, config = null) {
   });
 }
 
-lighthouseFromPuppeteer('https://gooddev.org', options);
+lighthouseFromPuppeteer('http://localhost:4000', options);

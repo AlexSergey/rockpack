@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { createElement } from 'react';
 import { Select } from 'antd';
-import FlagIconFactory from 'react-flag-icon-css';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import config from '../../../../config';
 import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/Localization';
-import { Languages } from '../../../../types/Localization';
+// @ts-ignore
+import Ru from './flags/ru.component.svg';
+// @ts-ignore
+import Eng from './flags/us.component.svg';
 
 import styles from './style.modules.scss';
 
 const { Option } = Select;
-const FlagIcon = FlagIconFactory(React, { useCssModules: false });
 
-const getCode = (code: Languages): string => {
-  if (code === 'en') {
-    return 'us';
-  }
-  return code;
+const Flags = {
+  en: Eng,
+  ru: Ru
 };
 
 export const LocalizationChange = (): JSX.Element => {
@@ -27,7 +26,7 @@ export const LocalizationChange = (): JSX.Element => {
     <Select className={styles.select} defaultValue={defaultValue} onChange={changeLanguage}>
       {config.languages.map(code => (
         <Option key={code} value={code}>
-          <FlagIcon code={getCode(code)} />
+          {createElement(Flags[code])}
         </Option>
       ))}
     </Select>

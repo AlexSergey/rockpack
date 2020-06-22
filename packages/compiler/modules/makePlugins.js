@@ -268,7 +268,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       _prop = conf.copy;
     }
     if (_prop) {
-      plugins.CopyWebpackPlugin = new CopyWebpackPlugin(_prop, _opts);
+      plugins.CopyWebpackPlugin = new CopyWebpackPlugin({ patterns: _prop, options: _opts });
     }
   }
   /**

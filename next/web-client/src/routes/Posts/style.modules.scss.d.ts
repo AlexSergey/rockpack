@@ -1,4 +1,4 @@
-declare namespace StyleModulesScssModule {
+declare namespace StyleModulesScssNamespace {
   export interface IStyleModulesScss {
     comments: string;
     date: string;
@@ -12,9 +12,9 @@ declare namespace StyleModulesScssModule {
   }
 }
 
-declare const StyleModulesScssModule: StyleModulesScssModule.IStyleModulesScss & {
+declare const StyleModulesScssModule: StyleModulesScssNamespace.IStyleModulesScss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: StyleModulesScssModule.IStyleModulesScss;
+  locals: StyleModulesScssNamespace.IStyleModulesScss;
 };
 
 export = StyleModulesScssModule;
