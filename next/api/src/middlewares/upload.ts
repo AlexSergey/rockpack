@@ -29,12 +29,12 @@ const uploader = multer({
   }
 });
 
-interface Upload {
+interface UploadInterface {
   name: string;
   maxCount?: number;
 }
 
-export const upload = (...fields: (string | Upload)[]) => (
+export const upload = (...fields: (string | UploadInterface)[]) => (
   async (ctx, next): Promise<void> => {
     try {
       await uploader.fields(fields)(ctx);

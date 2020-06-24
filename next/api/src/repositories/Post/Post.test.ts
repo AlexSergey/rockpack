@@ -1,8 +1,16 @@
-import { PostRepository } from './Post';
+import { PostRepositoryInterface } from './interface';
+import { PostRepositoryDIType } from './di.type';
+import { container } from '../../container';
+
+let postRepository;
+
+beforeAll(() => {
+  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
+});
 
 describe('PostRepository tests', () => {
   test('Fetching posts with offset 0 and limit 10', async () => {
-    const { count, rows } = await PostRepository.fetchPosts(0, 10);
+    const { count, rows } = await postRepository.fetchPosts(0, 10);
 
     expect(rows.length)
       .toBe(10);
@@ -11,7 +19,7 @@ describe('PostRepository tests', () => {
   });
 
   test('Fetching posts with offset 1 and limit 10', async () => {
-    const { count, rows } = await PostRepository.fetchPosts(1, 10);
+    const { count, rows } = await postRepository.fetchPosts(1, 10);
 
     expect(rows.length)
       .toBe(3);
@@ -20,7 +28,7 @@ describe('PostRepository tests', () => {
   });
 
   test('Fetching posts with offset 1 and limit 5', async () => {
-    const { count, rows } = await PostRepository.fetchPosts(1, 5);
+    const { count, rows } = await postRepository.fetchPosts(1, 5);
 
     expect(rows.length)
       .toBe(5);
@@ -29,7 +37,7 @@ describe('PostRepository tests', () => {
   });
 
   test('Fetching posts with offset 1 and limit 8', async () => {
-    const { count, rows } = await PostRepository.fetchPosts(1, 8);
+    const { count, rows } = await postRepository.fetchPosts(1, 8);
 
     expect(rows.length)
       .toBe(5);
@@ -38,7 +46,7 @@ describe('PostRepository tests', () => {
   });
 
   test('Check the last post', async () => {
-    const { rows } = await PostRepository.fetchPosts(1, 8);
+    const { rows } = await postRepository.fetchPosts(1, 8);
     const last = rows[rows.length - 1];
 
     expect(last.get('id'))

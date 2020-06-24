@@ -4,11 +4,11 @@ import { Languages } from '../../types/Localization';
 
 export const useCurrentLanguage = (): Languages => useContext(LocalizationContext).currentLanguage;
 
-interface LocalizationAPI {
+interface LocalizationAPIInterface {
   changeLanguage: (lang: Languages) => void;
 }
 
-export const useLocalizationAPI = (): LocalizationAPI => {
+export const useLocalizationAPI = (): LocalizationAPIInterface => {
   const ctx = useContext(LocalizationContext);
 
   return {

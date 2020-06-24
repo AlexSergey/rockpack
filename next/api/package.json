@@ -44,6 +44,7 @@
     "pino": "6.2.1",
     "pino-pretty": "4.0.0",
     "pretty-error": "2.1.1",
+    "inversify": "5.0.1",
     "reflect-metadata": "0.1.13",
     "sanitize-html": "1.23.0",
     "sequelize": "5.21.8",

@@ -1,16 +1,16 @@
-import { RoleModel } from '../models/Role';
-import { UserModel } from '../models/User';
-import { StatisticModel } from '../models/Statistic';
-import { PostModel } from '../models/Post';
-import { ImageModel } from '../models/Image';
-import { CommentModel } from '../models/Comment';
+import { RoleModel } from './models/Role';
+import { UserModel } from './models/User';
+import { StatisticModel } from './models/Statistic';
+import { PostModel } from './models/Post';
+import { ImageModel } from './models/Image';
+import { CommentModel } from './models/Comment';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME,
   PREVIEW_MODEL_NAME,
   PHOTOS_MODEL_NAME
-} from '../constants/models';
+} from './constants/models';
 
 export const installMappings = (): void => {
   UserModel.belongsTo(RoleModel, {

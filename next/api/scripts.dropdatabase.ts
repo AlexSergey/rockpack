@@ -1,6 +1,6 @@
 import './src/config';
 import * as database from './src/boundaries/database';
-import { installMappings } from './src/mappings/mappings';
+import { installMappings } from './src/mappings';
 import { UserModel } from './src/models/User';
 import { StatisticTypeModel } from './src/models/StatisticType';
 import { ImageTypeModel } from './src/models/ImageType';

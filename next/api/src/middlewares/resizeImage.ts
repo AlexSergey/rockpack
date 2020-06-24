@@ -20,7 +20,7 @@ const resizeFile = (filePath: string, resize: number | {
   })
 );
 
-interface ResizeImage {
+interface ResizeImageInterface {
   name: string;
   resize?: number | {
     width?: number;
@@ -28,7 +28,7 @@ interface ResizeImage {
   };
 }
 
-export const resizeImage = (...fields: (string | ResizeImage)[]) => (
+export const resizeImage = (...fields: (string | ResizeImageInterface)[]) => (
   async (ctx, next): Promise<void> => {
     const files = ctx.files;
 

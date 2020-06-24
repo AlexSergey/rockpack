@@ -1,18 +1,21 @@
-import { logger } from '../logger';
-import { StatisticTypeModel } from '../models/StatisticType';
-import { InternalError, SequelizeError } from '../errors/errors';
-import { CommentModel } from '../models/Comment';
-import { UserModel } from '../models/User';
-import { StatisticModel } from '../models/Statistic';
-import { RoleModel } from '../models/Role';
+import { injectable } from 'inversify';
+import { logger } from '../../logger';
+import { StatisticTypeModel } from '../../models/StatisticType';
+import { InternalError, SequelizeError } from '../../errors/errors';
+import { CommentModel } from '../../models/Comment';
+import { UserModel } from '../../models/User';
+import { StatisticModel } from '../../models/Statistic';
+import { RoleModel } from '../../models/Role';
+import { CommentRepositoryInterface } from './interface';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME
-} from '../constants/models';
+} from '../../constants/models';
 
-export class CommentRepository {
-  static fetchComments = async (postId: number): Promise<CommentModel[]> => {
+@injectable()
+export class CommentRepository implements CommentRepositoryInterface {
+  fetchComments = async (postId: number): Promise<CommentModel[]> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'

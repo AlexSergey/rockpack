@@ -1,8 +1,10 @@
-import { UserRepository } from '../repositories/User';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../repositories/User';
 import { decodeToken } from '../utils/auth';
 import { Unauthorized, ExpiredToken, UserNotFound, ErrorProxy } from '../errors';
+import { container } from '../container';
 
 export const protectedRoute = async (ctx, next): Promise<void> => {
+  const userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
   const token = ctx.get('Authorization');
 
   if (!token) {
@@ -21,7 +23,7 @@ export const protectedRoute = async (ctx, next): Promise<void> => {
   let user;
 
   try {
-    user = await UserRepository.getUserByEmail(currentUser.email);
+    user = await userRepository.getUserByEmail(currentUser.email);
   } catch (e) {
     throw new ErrorProxy(e);
   }

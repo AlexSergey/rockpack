@@ -1,24 +1,27 @@
+import { injectable } from 'inversify';
 import Sequelize from 'sequelize';
-import { StatisticTypeModel } from '../models/StatisticType';
-import { InternalError, SequelizeError } from '../errors/errors';
-import { ImageTypeModel } from '../models/ImageType';
-import { PostModel } from '../models/Post';
-import { UserModel } from '../models/User';
-import { StatisticModel } from '../models/Statistic';
-import { RoleModel } from '../models/Role';
-import { ImageModel } from '../models/Image';
-import { config } from '../config';
+import { StatisticTypeModel } from '../../models/StatisticType';
+import { InternalError, SequelizeError } from '../../errors';
+import { ImageTypeModel } from '../../models/ImageType';
+import { PostModel } from '../../models/Post';
+import { UserModel } from '../../models/User';
+import { StatisticModel } from '../../models/Statistic';
+import { RoleModel } from '../../models/Role';
+import { ImageModel } from '../../models/Image';
+import { config } from '../../config';
+import { PostRepositoryInterface } from './interface';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME,
   PREVIEW_MODEL_NAME,
   PHOTOS_MODEL_NAME
-} from '../constants/models';
-import { logger } from '../logger';
+} from '../../constants/models';
+import { logger } from '../../logger';
 
-export class PostRepository {
-  static fetchPosts = async (page, limit): Promise<{ count: number; rows: PostModel[] }> => {
+@injectable()
+export class PostRepository implements PostRepositoryInterface {
+  fetchPosts = async (page: number, limit: number): Promise<{ count: number; rows: PostModel[] }> => {
     const offset = page * limit;
 
     const postType = await StatisticTypeModel.findOne({
@@ -120,7 +123,7 @@ export class PostRepository {
     }
   };
 
-  static postDetails = async (id): Promise<PostModel> => {
+  postDetails = async (id: number): Promise<PostModel> => {
     const postType = await StatisticTypeModel.findOne({
       where: {
         type: 'post'

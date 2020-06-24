@@ -1,19 +1,34 @@
-import { UserRepository } from '../repositories/User';
-import { CommentRepository } from '../repositories/Comment';
-import { PostRepository } from '../repositories/Post';
-import { CommentService } from './Comment';
-import { UserService } from './User';
-import { PostService } from './Post';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { CommentRepositoryDIType, CommentRepositoryInterface } from '../../repositories/Comment';
+import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/Post';
+import { CommentServiceDIType } from './di.type';
+import { CommentServiceInterface } from './interface';
+import { UserServiceDIType, UserServiceInterface } from '../User';
+import { PostServiceDIType, PostServiceInterface } from '../Post';
+import { container } from '../../container';
 
 let newuser;
 let post;
+let userRepository;
+let postRepository;
+let commentRepository;
+let userService;
+let postService;
+let commentService;
 
 beforeAll(async () => {
-  const data = await UserService.signup('test_user_for_comments@text.mail', '123456');
+  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
+  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
+  commentRepository = container.get<CommentRepositoryInterface>(CommentRepositoryDIType);
+  userService = container.get<UserServiceInterface>(UserServiceDIType);
+  postService = container.get<PostServiceInterface>(PostServiceDIType);
+  commentService = container.get<CommentServiceInterface>(CommentServiceDIType);
+
+  const data = await userService.signup('test_user_for_comments@text.mail', '123456');
   if (data && data.user) {
     newuser = data.user;
   }
-  post = await PostService.createPost(newuser.get('id'), {
+  post = await postService.createPost(newuser.get('id'), {
     title: 'test title',
     text: 'test text'
   });
@@ -27,11 +42,11 @@ afterAll(async () => {
 
 describe('CommentService tests', () => {
   test('createComment to one of the post', async () => {
-    let user = await UserRepository.getUserById(newuser.get('id'));
+    let user = await userRepository.getUserById(newuser.get('id'));
     let { comments } = (user.toJSON() as { Statistic: { comments: number }}).Statistic;
     const oldComments = comments;
-    await CommentService.createComment(newuser.get('id'), post.get('id'), 'test comment');
-    user = await UserRepository.getUserById(newuser.get('id'));
+    await commentService.createComment(newuser.get('id'), post.get('id'), 'test comment');
+    user = await userRepository.getUserById(newuser.get('id'));
     comments = (user.toJSON() as { Statistic: { comments: number } }).Statistic.comments;
     const newComments = comments;
 
@@ -43,7 +58,7 @@ describe('CommentService tests', () => {
 
   test('Create incorrect comment', async () => {
     try {
-      await CommentService.createComment(newuser.get('id'), post.get('id'), '');
+      await commentService.createComment(newuser.get('id'), post.get('id'), '');
     } catch (e) {
       expect(e.message)
         .toBe('Bad Request. Your browser sent a request that this server could not understand.');
@@ -56,7 +71,7 @@ describe('CommentService tests', () => {
 
   test('Check first comment for the new user', async () => {
     const postId = post.get('id');
-    const comments = await CommentRepository.fetchComments(postId);
+    const comments = await commentRepository.fetchComments(postId);
     const comment = comments[0].toJSON() as { text: string; User: { id: number } };
 
     expect(comment.User.id)
@@ -67,11 +82,11 @@ describe('CommentService tests', () => {
 
   test('Update first comment for the new user', async () => {
     const postId = post.get('id');
-    let comments = await CommentRepository.fetchComments(postId);
+    let comments = await commentRepository.fetchComments(postId);
     const comment = comments[0];
     const commentId = comment.get('id') as number;
-    await CommentService.updateComment(commentId, 'this is new text');
-    comments = await CommentRepository.fetchComments(postId);
+    await commentService.updateComment(commentId, 'this is new text');
+    comments = await commentRepository.fetchComments(postId);
     const text = comments[0].get('text');
 
     expect(text)
@@ -80,11 +95,11 @@ describe('CommentService tests', () => {
 
   test('Delete created comment', async () => {
     const postId = post.get('id');
-    let comments = await CommentRepository.fetchComments(postId);
+    let comments = await commentRepository.fetchComments(postId);
     const comment = comments[0];
     const commentId = comment.get('id') as number;
-    await CommentService.deleteComment(commentId);
-    comments = await CommentRepository.fetchComments(postId);
+    await commentService.deleteComment(commentId);
+    comments = await commentRepository.fetchComments(postId);
     const commentsCount = comments.length;
 
     expect(commentsCount)
@@ -92,7 +107,7 @@ describe('CommentService tests', () => {
   });
 
   test('Check post statistic after comment was deleted', async () => {
-    const details = await PostRepository.postDetails(post.get('id'));
+    const details = await postRepository.postDetails(post.get('id'));
     const { comments } = (details.toJSON() as { Statistic: { comments: number } }).Statistic;
 
     expect(comments)
@@ -100,7 +115,7 @@ describe('CommentService tests', () => {
   });
 
   test('Check user statistic after comment was deleted', async () => {
-    const user = await UserRepository.getUserById(newuser.get('id'));
+    const user = await userRepository.getUserById(newuser.get('id'));
     const { comments } = (user.toJSON() as { Statistic: { comments: number } }).Statistic;
 
     expect(comments)

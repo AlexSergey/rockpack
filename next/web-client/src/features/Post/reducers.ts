@@ -1,4 +1,3 @@
-import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 import { requestPost, requestPostError, requestPostSuccess, postUpdated } from './actions';
 import { commentCreated, commentDeleted } from '../Comments';
@@ -9,40 +8,34 @@ export const postReducer = createReducer<PostState>({
   error: false,
   loading: false
 }, {
-  [requestPost.type]: () => ({
-    data: null,
-    error: false,
-    loading: true
-  }),
+  [requestPost.type]: (state) => {
+    state.data = null;
+    state.error = false;
+    state.loading = true;
+  },
 
-  [requestPostSuccess.type]: (state, { payload }) => ({
-    data: payload,
-    error: false,
-    loading: false
-  }),
+  [requestPostSuccess.type]: (state, { payload }) => {
+    state.data = payload;
+    state.error = false;
+    state.loading = false;
+  },
 
-  [requestPostError.type]: () => ({
-    data: null,
-    error: true,
-    loading: false
-  }),
+  [requestPostError.type]: (state) => {
+    state.data = null;
+    state.error = true;
+    state.loading = false;
+  },
 
-  [postUpdated.type]: (state, { payload }) => (
-    produce(state, draftState => {
-      draftState.data.title = payload.title;
-      draftState.data.text = payload.text;
-    })
-  ),
+  [postUpdated.type]: (state, { payload }) => {
+    state.data.title = payload.title;
+    state.data.text = payload.text;
+  },
 
-  [commentCreated.type]: (state) => (
-    produce(state, draftState => {
-      draftState.data.Statistic.comments += 1;
-    })
-  ),
+  [commentCreated.type]: (state) => {
+    state.data.Statistic.comments += 1;
+  },
 
-  [commentDeleted.type]: (state) => (
-    produce(state, draftState => {
-      draftState.data.Statistic.comments -= 1;
-    })
-  )
+  [commentDeleted.type]: (state) => {
+    state.data.Statistic.comments -= 1;
+  },
 });

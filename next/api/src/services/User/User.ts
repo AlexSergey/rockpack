@@ -1,13 +1,21 @@
-import { BadRequest, SequelizeError, UserAlreadyExists, UserNotFound, WrongPassword } from '../errors/errors';
-import { UserModel } from '../models/User';
-import { RoleModel } from '../models/Role';
-import { UserRepository } from '../repositories/User';
-import { createToken } from '../utils/auth';
-import { config } from '../config';
-import { logger } from '../logger';
+import { injectable, inject } from 'inversify';
+import { BadRequest, SequelizeError, UserAlreadyExists, UserNotFound, WrongPassword } from '../../errors';
+import { UserModel } from '../../models/User';
+import { RoleModel } from '../../models/Role';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { createToken } from '../../utils/auth';
+import { config } from '../../config';
+import { logger } from '../../logger';
+import { UserServiceInterface } from './interface';
 
-export class UserService {
-  static signup = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
+@injectable()
+export class UserService implements UserServiceInterface {
+  constructor(
+    @inject(UserRepositoryDIType) private repository: UserRepositoryInterface,
+  ) {
+  }
+
+  signup = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
     const user = await UserModel.findOne({
       where: {
         email
@@ -37,7 +45,7 @@ export class UserService {
 
       const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
 
-      const createdUser = await UserRepository.getUserById(Number(newUser.get('id')));
+      const createdUser = await this.repository.getUserById(Number(newUser.get('id')));
 
       return { user: createdUser, token };
     } catch (e) {
@@ -46,12 +54,12 @@ export class UserService {
     }
   };
 
-  static signin = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
+  signin = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
     let isValid;
     let user;
 
     try {
-      user = await UserRepository.getUserByEmail(email);
+      user = await this.repository.getUserByEmail(email);
 
       isValid = await user.isValidPassword(password);
     } catch (e) {
@@ -68,7 +76,7 @@ export class UserService {
     return { user, token };
   };
 
-  static deleteUser = async (id: number): Promise<void> => {
+  deleteUser = async (id: number): Promise<void> => {
     const user = await UserModel.destroy({
       where: {
         id

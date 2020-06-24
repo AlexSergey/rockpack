@@ -1,22 +1,20 @@
-import { PostModel } from '../models/Post';
-import { ImageTypeModel } from '../models/ImageType';
-import { ImageModel } from '../models/Image';
-import { CommentModel } from '../models/Comment';
-import { BadRequest, PostNotFound, SequelizeError } from '../errors/errors';
-import { logger } from '../logger';
+import { injectable } from 'inversify';
+import { PostModel } from '../../models/Post';
+import { ImageTypeModel } from '../../models/ImageType';
+import { ImageModel } from '../../models/Image';
+import { CommentModel } from '../../models/Comment';
+import { BadRequest, PostNotFound, SequelizeError } from '../../errors';
+import { logger } from '../../logger';
+import { PostData, PostServiceInterface } from './interface';
 
-export class PostService {
-  static createPost = async (userId: string, {
+@injectable()
+export class PostService implements PostServiceInterface {
+  createPost = async (userId: number, {
     title,
     text,
     preview,
     photos
-  }: {
-    title: string;
-    text: string;
-    preview?: { filename: string };
-    photos?: { filename: string }[];
-  }): Promise<PostModel> => {
+  }: PostData): Promise<PostModel> => {
     let post;
 
     try {
@@ -63,7 +61,7 @@ export class PostService {
     return post;
   };
 
-  static deletePost = async (postId: string, userId: string): Promise<CommentModel[]> => {
+  deletePost = async (postId: number, userId: number): Promise<CommentModel[]> => {
     let comments;
     try {
       comments = await CommentModel.findAll({
@@ -91,7 +89,7 @@ export class PostService {
     return comments;
   };
 
-  static updatePost = async (postId: string, { title, text }: { title? : string; text?: string }): Promise<void> => {
+  updatePost = async (postId: number, { title, text }: { title? : string; text?: string }): Promise<void> => {
     if (typeof title === 'undefined' && typeof text === 'undefined') {
       throw new BadRequest();
     }

@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { loadFile } from 'sequelize-fixtures';
 import { config } from './src/config';
 import * as database from './src/boundaries/database';
-import { installMappings } from './src/mappings/mappings';
+import { installMappings } from './src/mappings';
 import { UserModel } from './src/models/User';
 import { PostModel } from './src/models/Post';
 import { ImageModel } from './src/models/Image';

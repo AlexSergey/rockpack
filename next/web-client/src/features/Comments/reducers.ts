@@ -1,4 +1,3 @@
-import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 import { requestComments, requestCommentsSuccess, requestCommentsError, commentCreated, commentDeleted } from './actions';
 import { CommentsState } from '../../types/Comments';
@@ -8,33 +7,31 @@ export const commentsReducer = createReducer<CommentsState>({
   error: false,
   loading: false
 }, {
-  [requestComments.type]: () => ({
-    data: [],
-    error: false,
-    loading: true
-  }),
+  [requestComments.type]: (state) => {
+    state.data = [];
+    state.error = false;
+    state.loading = true;
+  },
 
-  [requestCommentsSuccess.type]: (state, { payload }) => ({
-    data: payload,
-    error: false,
-    loading: false
-  }),
+  [requestCommentsSuccess.type]: (state, { payload }) => {
+    state.data = payload;
+    state.error = false;
+    state.loading = false;
+  },
 
-  [requestCommentsError.type]: () => ({
-    data: [],
-    error: true,
-    loading: false
-  }),
+  [requestCommentsError.type]: (state) => {
+    state.data = [];
+    state.error = true;
+    state.loading = false;
+  },
 
-  [commentCreated.type]: (state, { payload }) => (
-    produce(state, draftState => {
-      draftState.data.push(payload);
-    })
-  ),
+  [commentCreated.type]: (state, { payload }) => {
+    state.data.push(payload);
+  },
 
-  [commentDeleted.type]: (state, { payload: { id } }) => ({
-    data: state.data.filter(s => s.id !== id),
-    error: true,
-    loading: false
-  })
+  [commentDeleted.type]: (state, { payload: { id } }) => {
+    state.data = state.data.filter(s => s.id !== id);
+    state.error = false;
+    state.loading = false;
+  }
 });

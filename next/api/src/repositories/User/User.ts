@@ -1,16 +1,19 @@
-import { UserModel } from '../models/User';
-import { StatisticModel } from '../models/Statistic';
-import { RoleModel } from '../models/Role';
-import { StatisticTypeModel } from '../models/StatisticType';
-import { BadRequest, InternalError, SequelizeError } from '../errors/errors';
+import { injectable } from 'inversify';
+import { UserModel } from '../../models/User';
+import { StatisticModel } from '../../models/Statistic';
+import { RoleModel } from '../../models/Role';
+import { StatisticTypeModel } from '../../models/StatisticType';
+import { BadRequest, InternalError, SequelizeError } from '../../errors';
+import { UserRepositoryInterface } from './interface';
 import {
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME
-} from '../constants/models';
-import { logger } from '../logger';
+} from '../../constants/models';
+import { logger } from '../../logger';
 
-export class UserRepository {
-  static getUserByEmail = async (email: string): Promise<UserModel> => {
+@injectable()
+export class UserRepository implements UserRepositoryInterface {
+  getUserByEmail = async (email: string): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'
@@ -52,7 +55,7 @@ export class UserRepository {
     }
   };
 
-  static getUserById = async (id: number): Promise<UserModel> => {
+  getUserById = async (id: number): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'
@@ -94,7 +97,7 @@ export class UserRepository {
     }
   };
 
-  static getUsers = async (): Promise<UserModel[]> => {
+  getUsers = async (): Promise<UserModel[]> => {
     const userType = await StatisticTypeModel.findOne({
       where: {
         type: 'user'

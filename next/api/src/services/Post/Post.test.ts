@@ -1,11 +1,13 @@
-import { UserRepository } from '../repositories/User';
-import { PostRepository } from '../repositories/Post';
-import { CommentService } from './Comment';
-import { UserService } from './User';
-import { PostService } from './Post';
-import { PostInterface } from '../models/Post';
-import { UserInterface } from '../models/User';
-import { config } from '../config';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/Post';
+import { CommentServiceDIType, CommentServiceInterface } from '../Comment';
+import { PostServiceDIType } from './di.type';
+import { PostServiceInterface } from './interface';
+import { UserServiceDIType, UserServiceInterface } from '../User';
+import { container } from '../../container';
+import { PostInterface } from '../../models/Post';
+import { UserInterface } from '../../models/User';
+import { config } from '../../config';
 
 interface UserFull extends UserInterface {
   Statistic: {
@@ -25,9 +27,20 @@ interface PostDetails extends PostInterface {
 }
 
 let newuser;
+let userRepository;
+let postRepository;
+let userService;
+let postService;
+let commentService;
 
 beforeAll(async () => {
-  const data = await UserService.signup('test_user_for_posts@text.mail', '123456');
+  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
+  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
+  userService = container.get<UserServiceInterface>(UserServiceDIType);
+  postService = container.get<PostServiceInterface>(PostServiceDIType);
+  commentService = container.get<CommentServiceInterface>(CommentServiceDIType);
+
+  const data = await userService.signup('test_user_for_posts@text.mail', '123456');
   if (data && data.user) {
     newuser = data.user;
   }
@@ -41,14 +54,14 @@ afterAll(async () => {
 
 describe('PostService tests', () => {
   test('createPost', async () => {
-    const post = await PostService.createPost(newuser.get('id'), {
+    const post = await postService.createPost(newuser.get('id'), {
       title: 'test title',
       text: 'test text'
     });
 
-    const postDetails = await PostRepository.postDetails(post.get('id'));
+    const postDetails = await postRepository.postDetails(post.get('id'));
     const details = postDetails.toJSON() as PostDetails;
-    const u = await UserRepository.getUserById(newuser.get('id'));
+    const u = await userRepository.getUserById(newuser.get('id'));
 
     expect(details)
       .toEqual({
@@ -72,7 +85,7 @@ describe('PostService tests', () => {
   });
 
   test('createPost with photos', async () => {
-    const post = await PostService.createPost(newuser.get('id'), {
+    const post = await postService.createPost(newuser.get('id'), {
       title: 'test title',
       text: 'test text',
       photos: [
@@ -81,7 +94,7 @@ describe('PostService tests', () => {
         { filename: 'img3.png' },
       ]
     });
-    const postDetails = await PostRepository.postDetails(post.get('id'));
+    const postDetails = await postRepository.postDetails(post.get('id'));
 
     // @ts-ignore
     expect(postDetails.toJSON().Photos)
@@ -93,12 +106,12 @@ describe('PostService tests', () => {
   });
 
   test('createPost with preview', async () => {
-    const p = await PostService.createPost(newuser.get('id'), {
+    const p = await postService.createPost(newuser.get('id'), {
       title: 'test title 2',
       text: 'test text 2',
       preview: { filename: 'img1.png' }
     });
-    const { rows } = await PostRepository.fetchPosts(0, 100);
+    const { rows } = await postRepository.fetchPosts(0, 100);
     const post = rows.find(r => r.get('id') === p.get('id'));
     const postData = post.toJSON();
 
@@ -111,15 +124,15 @@ describe('PostService tests', () => {
   });
 
   test('createComment in the post', async () => {
-    const post = await PostService.createPost(newuser.get('id'), {
+    const post = await postService.createPost(newuser.get('id'), {
       title: 'with comment',
       text: 'test text'
     });
-    let postDetails = await PostRepository.postDetails(post.get('id'));
+    let postDetails = await postRepository.postDetails(post.get('id'));
     let details = postDetails.toJSON() as PostDetails;
     const oldComments = details.Statistic.comments;
-    await CommentService.createComment(newuser.get('id'), details.id, 'test comment');
-    postDetails = await PostRepository.postDetails(post.get('id'));
+    await commentService.createComment(newuser.get('id'), details.id, 'test comment');
+    postDetails = await postRepository.postDetails(post.get('id'));
     details = postDetails.toJSON() as PostDetails;
     const newComments = details.Statistic.comments;
 
@@ -130,12 +143,12 @@ describe('PostService tests', () => {
   });
 
   test('deletePost in the post', async () => {
-    const post = await PostService.createPost(newuser.get('id'), {
+    const post = await postService.createPost(newuser.get('id'), {
       title: 'post for deleting',
       text: 'test text'
     });
     const id = post.get('id');
-    const p = await PostRepository.postDetails(post.get('id'));
+    const p = await postRepository.postDetails(post.get('id'));
 
     expect(id)
       .toBe(p.get('id'));

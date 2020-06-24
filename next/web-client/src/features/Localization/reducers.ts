@@ -1,4 +1,3 @@
-import produce from 'immer';
 import { createReducer } from '@reduxjs/toolkit';
 import { getDefaultLocale } from '@rockpack/localazer';
 import { setLocale } from './actions';
@@ -9,10 +8,8 @@ export const localizationReducer = createReducer<Localization>({
   locale: getDefaultLocale(),
   currentLanguage: getDefaultLanguage()
 }, {
-  [setLocale.type]: (state, { payload: { locale, language } }) => (
-    produce(state, draftState => {
-      draftState.locale = locale;
-      draftState.currentLanguage = language;
-    })
-  )
+  [setLocale.type]: (state, { payload: { locale, language } }) => {
+    state.locale = locale;
+    state.currentLanguage = language;
+  }
 });
