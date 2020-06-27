@@ -1,4 +1,4 @@
-const makeMode = () => {
+const getMode = () => {
   let mode = process.env.NODE_ENV || 'development';
 
   mode = ['development', 'production'].indexOf(mode) >= 0 ? mode : 'development';
@@ -6,4 +6,4 @@ const makeMode = () => {
   return mode;
 };
 
-module.exports = makeMode;
+module.exports = getMode;

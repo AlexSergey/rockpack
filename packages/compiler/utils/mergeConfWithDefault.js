@@ -1,6 +1,6 @@
 const deepExtend = require('deep-extend');
 const defaultProps = require('../defaultProps');
-const fpPromise = require('../utils/findFreePort');
+const fpPromise = require('./findFreePort');
 
 const mergeConfWithDefault = async (conf, mode) => {
   const c = deepExtend({}, defaultProps, conf);

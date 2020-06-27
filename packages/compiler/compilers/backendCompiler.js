@@ -1,11 +1,11 @@
 const deepExtend = require('deep-extend');
 const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
-const makeMode = require('../modules/makeMode');
+const getMode = require('../utils/getMode');
 
 async function backendCompiler(conf = {}, cb, configOnly = false) {
   errorHandler();
-  const mode = makeMode();
+  const mode = getMode();
   conf = deepExtend({}, conf, {
     html: false,
     nodejs: true,

@@ -67,7 +67,7 @@ const getStrategy = (mode, conf) => {
   return 'simple';
 };
 
-const run = async (webpackConfig, mode, webpack, configs) => {
+const _run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
 
@@ -136,4 +136,4 @@ const run = async (webpackConfig, mode, webpack, configs) => {
   }
 };
 
-module.exports = run;
+module.exports = _run;

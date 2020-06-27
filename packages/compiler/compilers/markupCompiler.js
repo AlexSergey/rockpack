@@ -1,34 +1,8 @@
 const deepExtend = require('deep-extend');
-const { isDefined, isUndefined, isArray } = require('valid-types');
-const path = require('path');
-const glob = require('glob');
 const _compile = require('../core/_compile');
 const errors = require('../errors/markupCompiler');
 const errorHandler = require('../errorHandler');
-
-function _getOptions(pth, conf = {}) {
-  return new Promise((resolve, reject) => {
-    glob(pth, { absolute: true }, async (err, files) => {
-      if (err) {
-        return reject(err);
-      }
-      if (files.length === 0) {
-        console.error(errors.INVALID_PATH);
-        return process.exit(1);
-      }
-      let html = isUndefined(conf.html) ? [] : conf.html;
-      html = isDefined(html) ? (isArray(html) ? html : [html]) : [];
-
-      conf = deepExtend({}, conf, {
-        html: html.concat(files.map(file => ({
-          template: path.resolve(file)
-        })))
-      });
-
-      return resolve(conf);
-    });
-  });
-}
+const findHTML = require('../utils/findHTML');
 
 async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
   errorHandler();
@@ -40,7 +14,10 @@ async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
     conf._liveReload = true;
   }
   try {
-    conf = await _getOptions(pth, conf);
+    const html = await findHTML(pth, conf.html);
+    conf = deepExtend({}, conf, {
+      html
+    });
     conf.compilerName = markupCompiler.name;
     return await _compile(conf, cb, configOnly);
   } catch (err) {

@@ -3,15 +3,15 @@ const { isNumber } = require('valid-types');
 const fpPromise = require('../utils/findFreePort');
 const _compile = require('../core/_compile');
 const defaultProps = require('../defaultProps');
-const run = require('../modules/run');
+const _run = require('../core/_run');
 const getRandom = require('../utils/getRandom');
-const makeMode = require('../modules/makeMode');
+const getMode = require('../utils/getMode');
 const commonMultiValidator = require('../utils/commonMultiValidators');
 const errorHandler = require('../errorHandler');
 
 async function multiCompiler(...props) {
   errorHandler();
-  const mode = makeMode();
+  const mode = getMode();
   const isIsomorphic = Boolean(global.ISOMORPHIC);
 
   if (isIsomorphic) {
@@ -86,7 +86,7 @@ async function multiCompiler(...props) {
     webpackConfigs.push(webpackConfig);
   }
 
-  return await run(webpackConfigs, mode, webpack, props);
+  return await _run(webpackConfigs, mode, webpack, props);
 }
 
 module.exports = multiCompiler;

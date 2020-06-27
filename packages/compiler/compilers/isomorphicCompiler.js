@@ -1,7 +1,7 @@
 const { isDefined, isUndefined, isArray } = require('valid-types');
 const multiCompiler = require('./multiCompiler');
 const errors = require('../errors/isomorphicCompiler');
-const makeMode = require('../modules/makeMode');
+const getMode = require('../utils/getMode');
 const errorHandler = require('../errorHandler');
 
 async function isomorphicCompiler(...props) {
@@ -15,7 +15,7 @@ async function isomorphicCompiler(...props) {
   props = props.map(c => c.conf);
 
   props.compilerName = isomorphicCompiler.name;
-  const mode = makeMode();
+  const mode = getMode();
 
   const backend = props.find(p => p.compilerName === 'backendCompiler');
 

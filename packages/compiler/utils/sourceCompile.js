@@ -6,7 +6,7 @@ const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
 const ts = require('typescript');
 const { copySync } = require('fs-extra');
-const makeMode = require('../modules/makeMode');
+const getMode = require('./getMode');
 const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
@@ -14,7 +14,7 @@ const { capitalize } = require('./other');
 
 module.exports = async function sourceCompile(conf) {
   const root = path.dirname(require.main.filename);
-  const mode = makeMode();
+  const mode = getMode();
 
   console.log('=========Source compile is starting....=========');
 

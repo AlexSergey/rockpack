@@ -275,6 +275,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
+    plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
+    plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
+
+    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin([
+      /css\.d\.ts$/
+    ]);
+
     plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
 
     if (conf.__isIsomorphicStyles) {
@@ -297,6 +304,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
 
     plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
+
+    plugins.ModuleConcatenationPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 
     const addVersion = !!version;
     let styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ? conf.styles : 'css/styles.css';
