@@ -10,7 +10,7 @@ const makeDevServer = (conf, root) => ({
   disableHostCheck: true,
   port: conf.server || 3000,
   noInfo: true,
-  quiet: false,
+  quiet: true,
   lazy: false,
   hot: true,
   inline: true,

@@ -8,6 +8,7 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "importsNotUsedAsValues": "preserve",
     "types": [
       "jest",
       "node"

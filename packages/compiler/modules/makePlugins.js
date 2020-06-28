@@ -5,12 +5,14 @@ const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackBar = require('webpackbar');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const terser = require('terser');
 const cssNano = require('cssnano');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
 const Dotenv = require('dotenv-webpack');
@@ -30,6 +32,7 @@ const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
 const ReloadHtmlWebpackPlugin = require('../utils/reloadHTML');
+const pathToTSConf = require('../utils/pathToTSConf');
 
 function getTitle(packageJson) {
   if (!packageJson) {
@@ -43,6 +46,10 @@ function getTitle(packageJson) {
 }
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
+  const tsConfig = pathToTSConf(root, mode, false, conf);
+
+  const isTypeScript = isString(tsConfig);
+
   const plugins = {};
 
   if (conf.makePO) {
@@ -51,16 +58,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     return plugins;
   }
 
-  plugins.WebpackBar = new WebpackBar({
-    reporters: [
-      'basic',
-      'fancy',
-      'profile',
-      'stats'
-    ],
-    profile: mode === 'production',
-    stats: mode === 'production'
-  });
+  plugins.ProgressPlugin = new ProgressBarPlugin();
+
+  plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin();
+
+  if (isTypeScript) {
+    plugins.ForkTsCheckerPlugin = new ForkTsCheckerWebpackPlugin();
+  }
 
   if (packageJson.dependencies && packageJson.dependencies.antd) {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();

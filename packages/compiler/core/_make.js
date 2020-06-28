@@ -44,6 +44,8 @@ const _make = async (conf, post) => {
     externals
   };
 
+  finalConfig.mode = mode;
+
   if (conf.nodejs) {
     finalConfig.node = makeNode();
     finalConfig.target = 'node';
@@ -63,9 +65,10 @@ const _make = async (conf, post) => {
     finalConfig.performance = {
       hints: 'warning'
     };
-    finalConfig.output = {
-      pathinfo: false
-    };
+    if (!finalConfig.output) {
+      finalConfig.output = {};
+    }
+    finalConfig.output.pathinfo = false;
   }
 
   if (isFunction(post)) {

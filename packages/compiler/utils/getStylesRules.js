@@ -27,7 +27,6 @@ const getStylesRules = (conf, mode, root) => {
   if (!isProduction) {
     debug = true;
   }
-
   if (conf.debug) {
     debug = true;
   }
@@ -47,8 +46,20 @@ const getStylesRules = (conf, mode, root) => {
   if (conf.makePO) {
     extractStyles = false;
   }
-  console.log('extractStyles', extractStyles);
+
   if (conf.__isIsomorphicStyles) {
+    /*
+    * Don't extract styles from isomorphic backend
+    * If mode is development it will be saved on HDD
+    * */
+    const _extractStyles = extractStyles;
+
+    if (conf.__isIsomorphicBackend) {
+      extractStyles = false;
+    } else if (mode === 'development') {
+      extractStyles = true;
+    }
+
     css = [
       extractStyles ? MiniCssExtractPlugin.loader :
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
@@ -67,7 +78,8 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'),
+      {
+        loader: require.resolve('less-loader'),
         options: {
           sourceMap: debug,
           lessOptions: {
@@ -76,6 +88,10 @@ const getStylesRules = (conf, mode, root) => {
         }
       }
     ];
+
+    if (!conf.__isIsomorphicBackend) {
+      extractStyles = _extractStyles;
+    }
 
     cssModules = [
       extractStyles ? MiniCssExtractPlugin.loader :
@@ -95,7 +111,8 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'),
+      {
+        loader: require.resolve('less-loader'),
         options: {
           sourceMap: debug,
           lessOptions: {
@@ -120,7 +137,8 @@ const getStylesRules = (conf, mode, root) => {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'),
+      {
+        loader: require.resolve('less-loader'),
         options: {
           sourceMap: debug,
           lessOptions: {
@@ -145,7 +163,8 @@ const getStylesRules = (conf, mode, root) => {
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-      { loader: require.resolve('less-loader'),
+      {
+        loader: require.resolve('less-loader'),
         options: {
           sourceMap: debug,
           lessOptions: {
@@ -179,7 +198,8 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'),
+        {
+          loader: require.resolve('less-loader'),
           options: {
             sourceMap: debug,
             lessOptions: {
@@ -207,7 +227,8 @@ const getStylesRules = (conf, mode, root) => {
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { config: getPostcssConfig(root), sourceMap: debug } },
-        { loader: require.resolve('less-loader'),
+        {
+          loader: require.resolve('less-loader'),
           options: {
             sourceMap: debug,
             lessOptions: {

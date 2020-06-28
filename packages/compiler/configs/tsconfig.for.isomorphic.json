@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "allowJs": true
+    "allowJs": true,
+    "importsNotUsedAsValues": "preserve"
   }
 }
