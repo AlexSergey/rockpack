@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useWillMount, useIsFirstMounting } from '@rockpack/ussr';
+import { useWillMount } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts, createPost, deletePost, settingPage } from './actions';
 import { PostsState, Post } from '../../types/Posts';
@@ -16,15 +16,17 @@ export const usePagination = (): { current: number; count: number } => {
 };
 
 export const usePosts = (): [boolean, boolean, Post[]] => {
-  const isFirst = useIsFirstMounting();
   const dispatch = useDispatch();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
 
-  useWillMount((resolver) => dispatch(fetchPosts({ resolver, page: current })));
+  useWillMount((resolver) => {
+    dispatch(fetchPosts({ resolver, page: current }));
+  });
 
+  // Pagination changed
   useEffect(() => {
-    if (!isFirst) {
+    if (current > 1) {
       dispatch(fetchPosts({ page: current }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -22,7 +22,6 @@ const Posts = (): JSX.Element => {
   const i18n = useI18n();
   const currentLanguage = useCurrentLanguage();
   const currentUser = useUser();
-
   const [loading, error, data] = usePosts();
   const { deletePost } = usePostsApi();
 
