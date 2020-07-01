@@ -40,14 +40,14 @@ const makeEntry = (conf, root, mode) => {
     mode === 'development'
   ) {
     if (isArray(s)) {
-      return [`${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.server}/`, require.resolve('webpack/hot/dev-server')].concat(s);
+      return [`${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.port}/`, require.resolve('webpack/hot/dev-server')].concat(s);
     } else if (isObject(s)) {
-      s['dev-server-client'] = `${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.server}/`;
+      s['dev-server-client'] = `${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.port}/`;
       s['dev-server-hot'] = require.resolve('webpack/hot/dev-server');
       return s;
     }
 
-    return [`${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.server}/`, require.resolve('webpack/hot/dev-server'), s];
+    return [`${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.port}/`, require.resolve('webpack/hot/dev-server'), s];
   }
 
   return s;

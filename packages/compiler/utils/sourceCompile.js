@@ -73,7 +73,7 @@ module.exports = async function sourceCompile(conf) {
     const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
     let compilerOptions;
 
-    const tsConfig = pathToTSConf(root, mode, debug, conf);
+    const tsConfig = pathToTSConf(root, mode, debug);
 
     rimraf.sync(dist);
     console.log(`=========${format} format is starting=========`);

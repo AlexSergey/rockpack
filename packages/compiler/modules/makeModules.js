@@ -21,7 +21,7 @@ function getModules(conf = {}, mode, root) {
     debug = true;
   }
 
-  const tsConfig = pathToTSConf(root, mode, debug, conf);
+  const tsConfig = pathToTSConf(root, mode, debug);
 
   const isTypeScript = isString(tsConfig);
 

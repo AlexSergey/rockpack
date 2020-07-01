@@ -1,7 +1,7 @@
 const path = require('path');
 const { isArray } = require('valid-types');
 
-const getOutput = (conf = {}, root, version = '') => {
+const makeOutput = (conf = {}, root, version = '') => {
   const outputProps = {
     pathinfo: false,
     publicPath: '/',
@@ -29,4 +29,4 @@ const getOutput = (conf = {}, root, version = '') => {
   return outputProps;
 };
 
-module.exports = getOutput;
+module.exports = makeOutput;

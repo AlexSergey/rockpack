@@ -1,12 +1,12 @@
-const { isString } = require('valid-types');
 const { existsSync } = require('fs');
 const path = require('path');
 
-const pathToTSConf = (root, mode, debug, conf) => {
+const pathToTSConf = (root, mode, debug) => {
   let tsConfig = false;
 
   if (existsSync(path.resolve(root, './tsconfig.js'))) {
     tsConfig = path.resolve(root, './tsconfig.js');
+
     if (
       debug &&
       existsSync(path.resolve(root, './tsconfig.debug.js'))
@@ -17,6 +17,7 @@ const pathToTSConf = (root, mode, debug, conf) => {
 
   if (existsSync(path.resolve(root, './tsconfig.json'))) {
     tsConfig = path.resolve(root, './tsconfig.json');
+
     if (
       debug &&
       existsSync(path.resolve(root, './tsconfig.debug.json'))
@@ -30,13 +31,6 @@ const pathToTSConf = (root, mode, debug, conf) => {
   }
   if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
     tsConfig = path.resolve(root, './tsconfig.production.js');
-  }
-
-  if (
-    isString(conf.tsconfig) &&
-    existsSync(path.resolve(root, conf.tsconfig))
-  ) {
-    tsConfig = path.resolve(root, conf.tsconfig);
   }
 
   return tsConfig;

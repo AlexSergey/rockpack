@@ -8,7 +8,7 @@ const makeDevServer = (conf, root) => ({
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
   },
   disableHostCheck: true,
-  port: conf.server || 3000,
+  port: conf.port || 3000,
   noInfo: true,
   quiet: true,
   lazy: false,

@@ -6,7 +6,7 @@ const mergeConfWithDefault = async (conf, mode) => {
   const c = deepExtend({}, defaultProps, conf);
 
   if (mode === 'development') {
-    c.server = await fpPromise(c.server);
+    c.port = await fpPromise(c.port);
   }
 
   return c;

@@ -46,7 +46,7 @@ function getTitle(packageJson) {
 }
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
-  const tsConfig = pathToTSConf(root, mode, false, conf);
+  const tsConfig = pathToTSConf(root, mode, false);
 
   const isTypeScript = isString(tsConfig);
 
@@ -116,14 +116,17 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
       watch: path.resolve(root, conf.dist),
       verbose: false,
       nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
-      ignore: ['*.map', '*.hot-update.json', '*.hot-update.js', 'stats.json'],
-      script: `./${conf.dist}/index.js`,
+      ignore: [
+        '*.map',
+        '*.hot-update.json',
+        '*.hot-update.js',
+        'stats.json'
+      ],
+      script: version ?
+        `./${conf.dist}/index-${version}.js` :
+        `./${conf.dist}/index.js`,
       ext: 'js'
     };
-
-    if (isString(conf.nodemon)) {
-      opts.script = conf.nodemon;
-    }
 
     plugins.NodemonPlugin = new NodemonPlugin(opts);
   }

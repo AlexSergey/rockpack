@@ -10,6 +10,9 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   if (!conf) {
     conf = {};
   }
+
+  conf.write = true;
+
   errorHandler();
   let libraryName = false;
 

@@ -14,7 +14,6 @@ multiCompiler(
   libraryCompiler('MyLib', {
     src: './library/src/index.js',
     dist: './library/dist',
-    write: true,
     html: false
   })
 );
