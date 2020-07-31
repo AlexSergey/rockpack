@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "0.9.9",
+  "version": "0.9.9-rc1",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
