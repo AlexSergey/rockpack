@@ -61,6 +61,7 @@ const _make = async (conf, post) => {
       hints: false
     };
   }
+
   if (mode === 'production') {
     finalConfig.performance = {
       hints: 'warning'

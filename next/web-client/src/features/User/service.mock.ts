@@ -7,6 +7,7 @@ export const mockUserService = (): UserServiceInterface => ({
       data: {
         id: 1,
         email: 'admin@rock.com',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         role_id: 2,
         Statistic: {
           posts: 0,
@@ -25,6 +26,7 @@ export const mockUserService = (): UserServiceInterface => ({
       data: {
         id: 1,
         email: 'admin@rock.com',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         role_id: 2,
         Statistic: {
           posts: 0,
@@ -42,6 +44,7 @@ export const mockUserService = (): UserServiceInterface => ({
       data: {
         id: 10,
         email: user.email,
+        // eslint-disable-next-line @typescript-eslint/camelcase
         role_id: 2,
         Statistic: {
           posts: 0,

@@ -2,7 +2,7 @@ import { LocaleData } from '@rockpack/localazer';
 import { Languages } from '../../types/Localization';
 
 export interface LocalizationServiceInterface {
-  fetchLocalization: (language: Languages) => LocaleData;
+  fetchLocalization: (language: Languages) => Promise<LocaleData>;
 }
 
 export const localizationService = (rest): LocalizationServiceInterface => ({

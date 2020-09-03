@@ -3,11 +3,9 @@ const getNodeModules = require('../utils/getNodeModules');
 
 const makeExternals = (conf, root) => (
   conf.__isBackend && !conf.__isIsomorphicBackend ?
-    getNodeModules(root)
-      .map(pth => nodeExternals({
-        modulesDir: pth
-      })) :
-    []
+    nodeExternals({
+      additionalModuleDirs: getNodeModules(root)
+    }) : []
 );
 
 module.exports = makeExternals;

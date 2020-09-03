@@ -1,20 +1,5 @@
-const makeOptimization = (mode, conf) => {
+const makeOptimization = (mode) => {
   const optimization = {};
-
-  if (conf.vendor) {
-    Object.assign(optimization, {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: 'initial',
-            name: 'vendor',
-            test: 'vendor',
-            enforce: true
-          },
-        }
-      }
-    });
-  }
 
   if (mode === 'development') {
     Object.assign(optimization, {

@@ -71,7 +71,6 @@ describe('server render tests', () => {
       <App />
     ), externalCallback);
 
-
     expect(called)
       .toBe(true);
     expect(html)

@@ -11,6 +11,8 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
     conf = {};
   }
 
+  conf.__library = true;
+
   conf.write = true;
 
   errorHandler();

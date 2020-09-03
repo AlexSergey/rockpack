@@ -15,7 +15,7 @@ const pathToEslintrc = (root, mode) => {
   if (existsSync(path.resolve(root, './.eslintrc.production.js')) && mode === 'production') {
     eslintRc = path.resolve(root, './.eslintrc.production.js');
   }
-  
+
   if (existsSync(path.resolve(root, 'eslintrc.js'))) {
     eslintRc = path.resolve(root, 'eslintrc.js');
   }

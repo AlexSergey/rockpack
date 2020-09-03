@@ -5,7 +5,11 @@ export enum Languages {
   en = 'en'
 }
 
+export interface LanguageList {
+  [key: string]: LocaleData;
+}
+
 export interface Localization {
-  locale: LocaleData;
   currentLanguage: Languages;
+  languages: LanguageList;
 }

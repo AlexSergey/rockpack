@@ -44,6 +44,7 @@ const styles = stats.assets
 app.use(noCache({
   global: true
 }));
+
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {

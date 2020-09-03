@@ -28,7 +28,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
     initState,
     history,
     testMode: true,
-    services: createMockServices()
+    services: createMockServices(),
   });
 
   const insertCss = (...styles): () => void => {

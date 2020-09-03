@@ -22,5 +22,5 @@ export default {
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Wysiwyg = (): JSX.Element => (
   //eslint-disable-next-line no-console
-  <WysiwygComponent value={'<h1>Test</h1>'} onChange={(value): void => console.log(value)} />
+  <WysiwygComponent value="<h1>Test</h1>" onChange={(value): void => console.log(value)} />
 );

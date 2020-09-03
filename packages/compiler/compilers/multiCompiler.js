@@ -64,9 +64,9 @@ async function multiCompiler(...props) {
         ports[config.id].server = port;
       }
     } else {
-      let port = await fpPromise(defaultProps.server);
+      let port = await fpPromise(defaultProps.port);
       if (serverDev.indexOf(port) >= 0) {
-        port = await fpPromise(defaultProps.server + getRandom(100));
+        port = await fpPromise(defaultProps.port + getRandom(100));
       }
       ports[config.id].server = port;
       serverDev.push(port);

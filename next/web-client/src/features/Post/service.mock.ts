@@ -13,6 +13,7 @@ export const mockPostService = (): PostServiceInterface => ({
         User: {
           id: 2,
           email: 'second_admin@rock.com',
+          // eslint-disable-next-line @typescript-eslint/camelcase
           role_id: 2,
           Statistic: {
             posts: 10,

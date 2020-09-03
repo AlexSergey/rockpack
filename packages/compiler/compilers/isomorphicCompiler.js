@@ -1,4 +1,4 @@
-const { isDefined, isUndefined, isArray } = require('valid-types');
+const { isDefined, isUndefined } = require('valid-types');
 const multiCompiler = require('./multiCompiler');
 const errors = require('../errors/isomorphicCompiler');
 const getMode = require('../utils/getMode');
@@ -47,10 +47,6 @@ async function isomorphicCompiler(...props) {
 
   backend.__isIsomorphicBackend = true;
   frontend.__isIsomorphicFrontend = true;
-
-  if (isArray(frontend.vendor)) {
-    backend.__frontendHasVendor = true;
-  }
 
   if (mode === 'development') {
     props.forEach(prop => {

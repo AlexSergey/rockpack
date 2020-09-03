@@ -21,7 +21,6 @@ type PathParamsType = {
   postId: string;
 };
 
-
 type PropsType = RouteComponentProps<PathParamsType> & {
   // Your component own properties
 };

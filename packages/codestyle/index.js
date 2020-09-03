@@ -164,6 +164,27 @@ module.exports = {
             '@typescript-eslint/explicit-function-return-type': ['error', {
               allowExpressions: true
             }],
+            '@typescript-eslint/naming-convention': [
+              'error',
+              {
+                selector: 'variable',
+                leadingUnderscore: 'allow',
+                trailingUnderscore: 'allow',
+                format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+              },
+              {
+                selector: 'function',
+                leadingUnderscore: 'allow',
+                trailingUnderscore: 'allow',
+                format: ['camelCase', 'PascalCase'],
+              },
+              {
+                selector: 'typeLike',
+                leadingUnderscore: 'allow',
+                trailingUnderscore: 'allow',
+                format: ['PascalCase'],
+              },
+            ],
             '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
             'react/prop-types': 'off',
             quotes: 'off',

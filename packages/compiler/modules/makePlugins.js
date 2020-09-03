@@ -2,13 +2,12 @@ const { existsSync } = require('fs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const terser = require('terser');
 const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -245,9 +244,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     env.ROOT_DIRNAME = root;
   }
 
-  if (conf.__frontendHasVendor) {
-    env.FRONTEND_HAS_VENDOR = true;
-  }
   const definePluginOpts = Object.assign(
     {},
     {
@@ -362,28 +358,17 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
 
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
-
-    plugins.UglifyJS = new UglifyJsPlugin({
+    plugins.Terser = new TerserPlugin({
       sourceMap: conf.debug,
-      minify(file, sourceMap) {
-        const terserOptions = {
-          mangle: true,
-          output: {
-            comments: new RegExp('banner')
-          },
-          compress: {
-            drop_console: !conf.debug,
-            drop_debugger: !conf.debug
-          }
-        };
-
-        if (sourceMap) {
-          terserOptions.sourceMap = {
-            content: sourceMap,
-          };
+      terserOptions: {
+        mangle: true,
+        output: {
+          comments: new RegExp('banner')
+        },
+        compress: {
+          drop_console: !conf.debug,
+          drop_debugger: !conf.debug
         }
-
-        return terser.minify(file, terserOptions);
       }
     });
 

@@ -10,14 +10,15 @@ import { LocalizationContext } from './context';
 
 export const LocalizationContainer = withRouter(({ children }): JSX.Element => {
   const dispatcher = useDispatch();
-  const { currentLanguage, locale } = useSelector<RootState, Localization>(
+  const { currentLanguage, languages } = useSelector<RootState, Localization>(
     (state) => state.localization
   );
 
-  const languages = { [currentLanguage]: locale };
-
-  const changeLanguage = (lang: Languages): void => {
-    dispatcher(fetchLocalization(lang));
+  const changeLanguage = (language: Languages): void => {
+    dispatcher(fetchLocalization({
+      language,
+      languages
+    }));
   };
 
   return (
