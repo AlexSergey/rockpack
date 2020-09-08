@@ -44,7 +44,7 @@ function getTitle(packageJson) {
     .join(' ')}`;
 }
 
-const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
+const getPlugins = async (conf, mode, root, packageJson, webpack) => {
   const tsConfig = pathToTSConf(root, mode, false);
 
   const isTypeScript = isString(tsConfig);
@@ -121,9 +121,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
         '*.hot-update.js',
         'stats.json'
       ],
-      script: version ?
-        `./${conf.dist}/index-${version}.js` :
-        `./${conf.dist}/index.js`,
+      script: `./${conf.dist}/index.js`,
       ext: 'js'
     };
 
@@ -187,9 +185,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
     }
 
     pages = pages.map(page => {
-      if (version) {
-        page.version = version;
-      }
       if (conf._liveReloadPort) {
         page.liveReloadPort = conf._liveReloadPort;
       }
@@ -310,16 +305,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
 
     plugins.ModuleConcatenationPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 
-    const addVersion = !!version;
-    let styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ? conf.styles : 'css/styles.css';
-    styleName = styleName.split('.');
-
-    if (styleName.length > 1 && addVersion && version) {
-      const last = styleName.length - 1;
-      const filename = last - 1;
-      styleName[filename] = `${styleName[filename]}-${version}`;
-    }
-    styleName = styleName.join('.');
+    const styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ?
+      conf.styles :
+      'css/styles.css';
 
     plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
       filename: styleName,
@@ -401,8 +389,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, version) => {
   return plugins;
 };
 
-const makePlugins = async (conf, root, packageJson, mode, webpack, version) => {
-  const plugins = await getPlugins(conf, mode, root, packageJson, webpack, version);
+const makePlugins = async (conf, root, packageJson, mode, webpack) => {
+  const plugins = await getPlugins(conf, mode, root, packageJson, webpack);
 
   return new Collection({
     data: plugins,

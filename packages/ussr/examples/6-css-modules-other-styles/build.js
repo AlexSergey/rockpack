@@ -9,30 +9,20 @@ const alias = {
   }
 };
 
-isomorphicCompiler([
-  {
-    compiler: backendCompiler,
-    config: {
-      src: 'src/server.jsx',
-      dist: 'dist',
-      debug: true
-    },
-    callback: config => {
-      Object.assign(config.resolve, alias);
-    }
-  },
-  {
-    compiler: frontendCompiler,
-    config: {
-      src: 'src/client.jsx',
-      dist: 'public',
-      debug: true,
-      copy: [
-        { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
-      ]
-    },
-    callback: config => {
-      Object.assign(config.resolve, alias);
-    }
-  }
-]);
+isomorphicCompiler(
+  backendCompiler({
+    src: 'src/server.jsx',
+    dist: 'dist',
+  }, config => {
+    Object.assign(config.resolve, alias);
+  }),
+  frontendCompiler({
+    src: 'src/client.jsx',
+    dist: 'public',
+    copy: [
+      { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+    ]
+  }, config => {
+    Object.assign(config.resolve, alias);
+  })
+);

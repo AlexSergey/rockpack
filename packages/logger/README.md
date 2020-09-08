@@ -70,7 +70,7 @@ export default function() {
     const showMessage = useCallback((level, message, important) => {
         alert(message);
     });
-    
+
     return <LoggerContainer
            sessionID={window.sessionID}
            limit={75} // stack limit. After overflowing the first item will be remove
@@ -102,11 +102,11 @@ import React, { useState } from "react";
 
 export default function Toggle(props) {
     const [toggleState, setToggleState] = useState("off");
-    
+
     function toggle() {
         setToggleState(toggleState === "off" ? "on" : "off");
     }
-    
+
     return <div className={`switch ${toggleState}`} onClick={toggle} />;
 }
 ```
@@ -120,13 +120,13 @@ import logger from 'logrock';
 
 export default function Toggle(props) {
     const [toggleState, setToggleState] = useState("off");
-    
+
     function toggle() {
         let state = toggleState === "off" ? "on" : "off";
         logger.info(`React.Toggle|Toggle component changed state ${state}`);
         setToggleState(state);
     }
-    
+
     return <div className={`switch ${toggleState}`} onClick={toggle} />;
 }
 ```
@@ -135,7 +135,7 @@ export default function Toggle(props) {
 - \<LoggerContainer /> props:
 
 | Prop | Type | Description |
-| --- | --- | --- | 
+| --- | --- | --- |
 | active | Boolean[true] | Turn on/off logger system. You can turn it off in the test environment. |
 | bsodActive | Boolean[true] | Show BSOD when an error occurs in your system. I recommend you to turn it off in production. |
 | sessionID | Number | If you want to connect your session with backend actions you can generate SessionID and add it to all your requests. |
@@ -169,25 +169,6 @@ It will be useful when we need to say our user that there are some errors in our
 | Safari  | Yes    |
 | IE 11   | Yes    |
 
-
 ## License
 
-The MIT License (MIT)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>

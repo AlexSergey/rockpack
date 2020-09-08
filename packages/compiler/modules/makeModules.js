@@ -17,13 +17,18 @@ function getModules(conf = {}, mode, root) {
   if (!isProduction) {
     debug = true;
   }
+
   if (conf.debug) {
     debug = true;
   }
 
   const tsConfig = pathToTSConf(root, mode, debug);
 
+  const eslintRc = pathToEslintrc(root, mode);
+
   const isTypeScript = isString(tsConfig);
+
+  const isEslint = isString(eslintRc);
 
   const finalConf = {
     handlebars: {
@@ -366,9 +371,7 @@ function getModules(conf = {}, mode, root) {
     },
   };
 
-  const eslintRc = pathToEslintrc(root, mode);
-
-  if (isString(eslintRc)) {
+  if (isEslint) {
     finalConf.jsPre = {
       enforce: 'pre',
       test: /\.(js|jsx|ts|tsx)$/,

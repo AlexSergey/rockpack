@@ -1,7 +1,17 @@
-# Rocket Starter
+# @rockpack/compiler
 
-This is the simplest way to make webpack config with many default settings.
-This config-generator include modules and features:
+**@rockpack/compiler** - основной модуль системы, позволяющий компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
+- С помощью данного модуля вы сможете
+- Скомпилировать ваше React приложение
+- Скомпилировать библиотеку как для React так и для vanilla JS
+- Nodejs backend
+- markup html files
+- собрать изоморфное приложение
+- Провести анализ бандла
+
+**@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+
+### Features support:
 
 - Webpack 4+, Webpack-dev-server
 - TypeScript support
@@ -14,221 +24,219 @@ This config-generator include modules and features:
 - ESLint
 - Templates: HTML/Jade/Handlebars
 - CSS: CSS/SASS/LESS + Postcss
-- Postcss: Autoprefixer, Mqpacker, Lost, Instagram filters, Rucksack
+- Postcss, Autoprefixer
 - CSS Modules support
 - Imagemin
 - File import support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
 - SVG + SVGO, SVGR
 - Antd optimizations (momentjs to dayjs, import antd)
-- Uglifyjs (terser)
-- Hard Source Plugin (in production mode)
+- Terser
 - Generate stats.json (in production mode)
 - SEO Optimizations
-- Bundle Analyzer
+- Bundle Analyze
 - Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports, @loadable)
 - Multi compile support
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
 - MDX files support
 
 ## How it works
-You have 4 compilers for your scripts
 
-```jsx
-const { frontendCompiler, backendCompiler, libraryCompiler, markupCompiler } = require('rocket-starter');
+To compile simple React App like create-react-app example follow these steps:
+
+1. Create build.js file in project folder
+
+2. Add code:
+```js
+const { frontendCompiler } = require('@rockpack/compiler');
+
+frontendCompiler();
 ```
-all of these compilers can get options object and callback. Callback is a function that will run after your webpack config will compile. This can help you for override some properties (You can see example below).
+3. Run build.js use:
+```shell script
+cross-env NODE_ENV=development node build
+```
 
-### frontendCompiler(options[optional], callback[optional]);
-can compile any frontend application (React, TypeScript, flow, etc)
-```jsx
-const { frontendCompiler } = require('rocket-starter');
+*Для того, чтобы провести production-ready сборку нужно запустить*
 
-frontendCompiler(options, webpackConfig => {
-    Object.assign(finalConfig.resolve, {
-        alias: // add some aliases
-    });
+```shell script
+cross-env NODE_ENV=production node build
+```
+
+Ваше приложение будет собрано, минифицированно, оптимизировано для продакшена.
+
+## Details:
+
+@rockpack/compiler has compilers:
+
+```js
+const {
+  multiCompiler,
+  isomorphicCompiler,
+  markupCompiler,
+  libraryCompiler,
+  frontendCompiler,
+  backendCompiler,
+  analyzerCompiler,
+} = require('@rockpack/compiler');
+```
+#### frontendCompiler(options[optional], callback[optional]);
+
+*frontendCompiler* can compile React frontend application (React, TypeScript etc)
+
+*Options* - is an optional object. It's similar to every compiler:
+
+| Key | Value[<i>Default value</i>] | Description |
+| --- | --- | --- |
+| dist | String['./dist'] | Path to the distribution folder. By default it will be "dist" folder in the root of project |
+| src | String['./src'] | Path to the source folder. By default it will be "src" folder in the root of project with index.{jx|jsx|ts|tsx} file there |
+| debug | Boolean[false] | Debug option can help to debug code on production. If debug - true the compiler will save all source maps |
+| html | Boolean/Object[undefined] | It's object provide Html webpack plugin information about which files will be copy since we run compilation. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
+| port | Number[3000] | webpack-dev-server port |
+| styles | String[undefined] | Path to extract CSS styles (mini-css-extract-plugin) |
+| banner | String[undefined] | Add banner to the head of JS and CSS files |
+| global | Object[undefined] | Global variables to webpack.ProvidePlugin |
+| copy | Object/Array[undefined] | Support files copying by copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}} |
+
+```js
+const { frontendCompiler } = require('@rockpack/compiler');
+
+frontendCompiler({
+  dist: 'public',
+  src: 'src/main.js',
+  debug: true,
+  html: {
+    title: 'New app',
+    favicon: './favicon.ico',
+    template: './index.ejs' // Support html, hbs, ejs
+  },
+  port: 8900
 });
 ```
-### backendCompiler(options[optional], callback[optional]);
-can compile nodejs scripts. Can run nodemon.
-```jsx
-const { backendCompiler } = require('rocket-starter');
+<b>Callback</b>. Every compiler has the last argument is callback. Callback is a function that will run after your webpack config will compile but before webpack will be started. This can help you to override some properties (You can see example below).
 
-backendCompiler(options || {
-    nodemon: // path to file that will run from nodemon
-}, webpackConfig => {
-    Object.assign(finalConfig.resolve, {
-        alias: // add some aliases
-    });
+In the example below alias will be override
+```js
+const { frontendCompiler } = require('@rockpack/compiler');
+
+frontendCompiler({}, webpackConfig => {
+  Object.assign(finalConfig.resolve, {
+    alias: {
+      react: '<path to react>'
+    }
+  });
 });
 ```
-if you need to use live-reload in nodejs project you should add
-```html
-<script src="http://localhost:35729/livereload.js"></script>
-```
 
-### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
-can compile UMD library
-```jsx
-const { libraryCompiler } = require('rocket-starter');
+#### backendCompiler(options[optional], callback[optional]);
 
-libraryCompiler('MyLib', options, webpackConfig => {
-    Object.assign(finalConfig.resolve, {
-        alias: // add some aliases
-    });
+Can compile nodejs scripts and run nodemon in NODE_ENV development
+
+```js
+const { backendCompiler } = require('@rockpack/compiler');
+
+backendCompiler(options, webpackConfig => {
+  Object.assign(finalConfig.resolve, {
+    alias: // add some aliases
+  });
 });
 ```
-### markupCompiler(paths[needed], options[optional], callback[optional]);
-can compile markup (HTML, handlebars, jade)
-```jsx
+
+#### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
+
+Can compile UMD library
+
+```js
+const { libraryCompiler } = require('@rockpack/compiler');
+
+libraryCompiler('MyLib', options);
+```
+#### markupCompiler(paths[needed], options[optional], callback[optional]);
+
+Can compile markup (HTML, handlebars, jade files)
+
+```js
 const { markupCompiler } = require('rocket-starter');
 
 markupCompiler(
-    './src/**/*.{html,hbs,jade,njk}', // supported Glob format
-     options,
-     webpackConfig => {
-         Object.assign(finalConfig.resolve, {
-             alias: // add some aliases
-         });
+  './src/**/*.{html,hbs,jade,njk}', // Glob format supported
+  options,
+  webpackConfig => {
+    Object.assign(finalConfig.resolve, {
+      alias: // add some aliases
     });
+  });
 ```
-### analyzerCompiler(options[optional], callback[optional]);
-compile your application and run webpack-bundle-analyzer
-```jsx
+#### analyzerCompiler(options[optional], callback[optional]);
+
+Compile your application and run webpack-bundle-analyzer
+
+```js
 const { analyzerCompiler } = require('rocket-starter');
 
-analyzerCompiler(options); //analyzerPort by default 8888
+analyzerCompiler(options);
 ```
-### multiCompiler(configArray[needed]);
-Multi compilation
-```jsx
+Analyzer's page will be available on the port 8888
+
+#### multiCompiler(configArray[needed]);
+
+Compile multi app. Or app with library or different cases.
+
+```js
 let { multiCompiler, frontendCompiler, libraryCompiler, backendCompiler } = require('rocket-starter');
 
-multiCompiler([
-    {
-        compiler: backendCompiler,
-        config: {
-            src: './backend/src/index.js',
-            dist: './backend/dist'
-        }
-    },
-    {
-        compiler: frontendCompiler,
-        config: {
-            src: './client/src/index.jsx',
-            dist: './client/dist',
-            banner: true,
-            styles: 'style.css'
-        }
-    },
-    {
-        compiler: libraryCompiler,
-        libraryName: 'MyLib',
-        config: {
-            src: './library/src/index.js',
-            dist: './library/dist',
-            write: true,
-            html: false
-        }
-    }
-]);
+multiCompiler(
+  backendCompiler({
+    src: './backend/src/index.js',
+    dist: './backend/dist'
+  }),
+  frontendCompiler({
+    src: './client/src/index.jsx',
+    dist: './client/dist',
+    banner: true,
+    styles: 'style.css'
+  }),
+  libraryCompiler('MyLib', {
+    src: './library/src/index.js',
+    dist: './library/dist',
+    html: false
+  })
+);
 ```
-### isomorphicCompiler(configArray[needed]);
+#### isomorphicCompiler(configArray[needed]);
+
 Compile isomorphic app
-```jsx
+
+```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');
 
-isomorphicCompiler([
-    {
-        compiler: backendCompiler,
-        config: {
-            src: 'backend/src/index.jsx'
-        }
-    },
-    {
-        compiler: frontendCompiler,
-        config: {
-            src: 'client/src/index.jsx',
-            dist: 'backend/dist',
-            write: true,
-            html: false,
-            onlyWatch: true
-        }
-    }
-]);
-```
-
-#### Default Options:
-
-```jsx
-{
+isomorphicCompiler(
+  frontendCompiler({
+    src: 'src/client.jsx',
+    dist: 'public',
+  }),
+  backendCompiler({
+    src: 'src/server.jsx',
     dist: 'dist',
-    src: 'src/index',
-    url: '/',
-    debug: false, // Activate debug mode in all plugins or loaders
-    stats: false, // Generate stats webpack file
-    write: false, // Write files to HDD after changes (watch mode)
-    inline: true, // Convert images, fonts, svg to base64
-    analyzerPort: false, //port number, for example: 8888
-    server: {
-        browserSyncPort: false, // run with browser-sync
-        port: 3000,
-        host: 'localhost'
-    }
-}
+  })
+);
 ```
 
-#### All Options
+**To see more examples please visit examples folder** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/examples" target="_blank">here</a>
 
-```jsx
-{
-    dist: 'dist',
-    src: 'src/index',
-    url: '/',
-    debug: false, // Activate debug mode in all plugins or loaders
-    stats: false, // Generate stats webpack file
-    write: false, // Write files to HDD after changes (watch mode)
-    inline: true, // Convert images, fonts, svg to base64
-    analyzerPort: false, //port number, for example: 8888
-    vendor: ['react', 'react-dom'],
-    server: {
-        browserSyncPort: false, // run with browser-sync
-        port: 3000,
-        host: 'localhost'
-    },
-    // secondary properties
-    nodemon: path to nodemon run file (only for backendCompiler)
-    version: false, // You can add version to script's filenames
-    styles: String, // You can extract CSS styles from scripts, or disable it - set false
-    html: { // CopyWebpackPlugin. You can also add array for multi-pages support
-        title: String,
-        favicon: ...,
-        version: Boolean,
-        template: String, path to file
-    }
-    banner: String, // You can set banner in the head of scripts
-    global: { // DefinePlugin activate
-        var: 'var1'
-    },
-    copy: {from: ... to: ...} || [] || {files: [], opts: {}}
-}
-```
+### Tips & tricks
+
 TypeScript activation:
 - make tsconfig.json
 - add config (Example: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
 
-You can run it with NODE_ENV=production - it is active uglifier.
+If you don't need to extract styles to css file in production version you will be able to set *styles: false*
 
-If you want a styles extraction you need to set styles: 'mystyle.css'
+*write: true* options will force Webpack to save file in HDD after each update webpack watcher / dev-server
 
-If you don't need to extract styles to css file in production version you can set styles: false
-
-"copy" is activate CopyWebpackPlugin and we can use default syntax but we can set files and opts. Opts is second parameter in this plugin.
-
-"write" will force Webpack to save file in HDD after each update webpack watcher / dev-server
-
-You can add eslint config. Just add eslintrc.js in your main (project) dir.
+You can add eslint config. Just add **eslintrc.js/.eslintrc.js** in your main (project) dir.
 
 You can add postcss config. Just add postcss.config.js  in your main (project) dir.
 
-Add .flowconfig to root folder and that activation flow-type checking
+## License
+
+<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>

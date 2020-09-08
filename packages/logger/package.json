@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/logger",
-  "version": "0.9.9-rc.2",
+  "version": "0.9.9-rc.3",
   "description": "This module can help you build error tracking & crash reporting system for your React application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,8 +39,8 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.2",
-    "@rockpack/compiler": "0.9.9-rc.2",
+    "@rockpack/codestyle": "0.9.9-rc.3",
+    "@rockpack/compiler": "0.9.9-rc.3",
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",

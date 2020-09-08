@@ -9,26 +9,17 @@ const alias = {
   }
 };
 
-isomorphicCompiler([
-  {
-    compiler: backendCompiler,
-    config: {
-      src: 'src/server.jsx',
-      dist: 'dist',
-      debug: true
-    },
-    callback: config => {
-      Object.assign(config.resolve, alias);
-    }
-  },
-  {
-    compiler: frontendCompiler,
-    config: {
-      src: 'src/client.jsx',
-      dist: 'public',
-    },
-    callback: config => {
-      Object.assign(config.resolve, alias);
-    }
-  }
-]);
+isomorphicCompiler(
+  backendCompiler({
+    src: 'src/server.jsx',
+    dist: 'dist',
+  }, config => {
+    Object.assign(config.resolve, alias);
+  }),
+  frontendCompiler({
+    src: 'src/client.jsx',
+    dist: 'public',
+  }, config => {
+    Object.assign(config.resolve, alias);
+  })
+);

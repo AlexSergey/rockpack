@@ -1,15 +1,11 @@
 const path = require('path');
 
-const makeOutput = (conf = {}, root, version = '') => {
+const makeOutput = (conf = {}, root) => {
   const outputProps = {
     pathinfo: false,
     publicPath: '/',
     path: path.resolve(root, conf.dist),
-    filename: chunkData => (
-      chunkData.chunk.name === 'main' ?
-        (version ? `index-${version}.js` : 'index.js') :
-        version ? `[name]-${version}.js` : '[name].js'
-    )
+    filename: '[name].js'
   };
 
   if (conf.library) {

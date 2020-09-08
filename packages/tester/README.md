@@ -6,3 +6,7 @@
 
 ### Reporters
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
+
+## License
+
+<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>

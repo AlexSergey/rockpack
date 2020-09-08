@@ -71,20 +71,19 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
 
-  if (configs.isomorphicMode) {
+  if (global.ISOMORPHIC) {
     const compiler = webpack(webpackConfig);
     const strategy = getStrategy(mode, {
       nodejs: true
     });
-    const runner = runNodeStrategy;
     try {
-      const frontConf = configs.find(c => c.__isIsomorphicFrontend);
-      await runner(
+      const frontConfig = configs.find(c => c.__isIsomorphicFrontend);
+      await runNodeStrategy(
         compiler,
         webpack,
         webpackConfig,
         {
-          _liveReloadPort: frontConf._liveReloadPort
+          _liveReloadPort: frontConfig._liveReloadPort
         },
       )[strategy]();
     } catch (e) {

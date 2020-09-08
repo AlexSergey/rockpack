@@ -1,4 +1,6 @@
-const makeOptimization = (mode) => {
+const { isArray } = require('valid-types');
+
+const makeOptimization = (mode, conf) => {
   const optimization = {};
 
   if (mode === 'development') {
@@ -43,6 +45,19 @@ const makeOptimization = (mode) => {
       removeEmptyChunks: true,
       usedExports: true,
       sideEffects: true
+    });
+  }
+
+  if (isArray(conf.vendor)) {
+    Object.assign(optimization.splitChunks, {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          test: 'vendor',
+          enforce: true
+        },
+      }
     });
   }
 

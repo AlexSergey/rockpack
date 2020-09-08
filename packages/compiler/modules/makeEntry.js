@@ -1,4 +1,4 @@
-const { isString } = require('valid-types');
+const { isString, isArray } = require('valid-types');
 const path = require('path');
 
 const makeEntry = (conf, root, mode) => {
@@ -7,9 +7,13 @@ const makeEntry = (conf, root, mode) => {
     process.exit(1);
   }
 
-  const entry = {
-    index: path.resolve(root, conf.src)
-  };
+  const entry = {};
+
+  if (isArray(conf.vendor)) {
+    entry.vendor = conf.vendor;
+  }
+
+  entry.index = path.resolve(root, conf.src);
 
   if (
     !conf.onlyWatch &&

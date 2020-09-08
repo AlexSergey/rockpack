@@ -6,7 +6,6 @@ const getMode = require('../utils/getMode');
 const makeEntry = require('../modules/makeEntry');
 const makeOutput = require('../modules/makeOutput');
 const makeNode = require('../modules/makeNode');
-const makeVersion = require('../modules/makeVersion');
 const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
 const makeDevtool = require('../modules/makeDevtool');
 const { makeModules } = require('../modules/makeModules');
@@ -23,14 +22,13 @@ const _make = async (conf, post) => {
   // eslint-disable-next-line global-require
   const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
   conf = await mergeConfWithDefault(conf, mode);
-  const version = makeVersion(conf);
   const entry = makeEntry(conf, root, mode);
-  const output = makeOutput(conf, root, version);
+  const output = makeOutput(conf, root);
   const devtool = makeDevtool(mode, conf);
   const devServer = makeDevServer(conf, root);
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
-  const plugins = await makePlugins(conf, root, packageJson, mode, webpack, version);
+  const plugins = await makePlugins(conf, root, packageJson, mode, webpack);
   const resolve = makeResolve();
   const externals = makeExternals(conf, root);
 
