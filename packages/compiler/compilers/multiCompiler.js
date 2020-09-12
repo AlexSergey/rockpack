@@ -12,19 +12,16 @@ const errorHandler = require('../errorHandler');
 async function multiCompiler(...props) {
   errorHandler();
   const mode = getMode();
-  const isIsomorphic = Boolean(global.ISOMORPHIC);
 
-  if (isIsomorphic) {
-    props.compilerName = 'isomorphicCompiler';
-  } else {
-    global.CONFIG_ONLY = true;
-    for (let i = 0, l = props.length; i < l; i++) {
-      if (typeof props[i].then === 'function') {
-        props[i] = await props[i];
-      }
+  global.CONFIG_ONLY = true;
+
+  for (let i = 0, l = props.length; i < l; i++) {
+    if (typeof props[i].then === 'function') {
+      props[i] = await props[i];
     }
-    props = props.map(c => c.conf);
   }
+
+  props = props.map(c => c.conf);
 
   commonMultiValidator(props);
 
@@ -51,7 +48,7 @@ async function multiCompiler(...props) {
         port = await fpPromise(35729 + getRandom(100));
       }
       liveReload.push(port);
-      ports[config.id].liveReload = port;
+      ports[config.id]._liveReloadPort = port;
     }
 
     if (config && isNumber(config.server)) {

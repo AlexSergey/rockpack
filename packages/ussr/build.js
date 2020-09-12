@@ -9,11 +9,11 @@ libraryCompiler({
   esm: {
     src: './src',
     dist: './lib/esm'
-  },
-  debug: true
+  }
 }, null, config => {
   config.externals = [
     'react',
+    'react-dom',
     'react-dom/server'
   ];
 });

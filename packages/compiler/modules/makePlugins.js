@@ -127,12 +127,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
 
     plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
-
   if (conf._liveReload && mode === 'development') {
     const liveReloadPort = await fpPromise(isNumber(conf.liveReload) ? conf.liveReload : 35729);
     conf._liveReloadPort = liveReloadPort;
     process.env.__LIVE_RELOAD__ = liveReloadPort;
-    plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300 });
+    plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300, quiet: true });
+
+    console.log(`\nLive Reload listening on port ${liveReloadPort}\n`);
 
     const errors = ['unhandledRejection', 'uncaughtException'];
 
@@ -346,6 +347,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
 
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
+
     plugins.Terser = new TerserPlugin({
       sourceMap: conf.debug,
       terserOptions: {

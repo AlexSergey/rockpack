@@ -1,6 +1,6 @@
-const { makeConfig } = require('@rockpack/codestyle');
+const { rockConfig } = require('@rockpack/codestyle');
 
-module.exports = makeConfig({
+module.exports = rockConfig({
   '@typescript-eslint/camelcase': 'off',
   'no-console': 'off'
 });

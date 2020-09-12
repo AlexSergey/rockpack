@@ -204,7 +204,7 @@ multiCompiler(
 ```
 #### isomorphicCompiler(configArray[needed]);
 
-Compile isomorphic app
+Compile isomorphic. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');

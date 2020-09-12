@@ -1,20 +1,98 @@
 const deepExtend = require('deep-extend');
 
+const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
+  if (!overrideRules) {
+    overrideRules = {};
+  }
+  if (!customConfig) {
+    customConfig = {};
+  }
+
+  const tsconfigPath = opts && typeof opts.tsconf === 'string' ?
+    opts.tsconf :
+    './tsconfig.json';
+
+  const isNodejs = !!opts.nodejs;
+
+  const extendsRules = [
+    'plugin:sonarjs/recommended',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:promise/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'airbnb'
+  ];
+
+  if (isNodejs) {
+    extendsRules.push('plugin:node/recommended');
+  }
+
+  const plugins = [
+    'babel',
+    'jest',
+    'react',
+    'promise',
+    'react-hooks'
+  ];
+
+  return deepExtend({}, {
+    extends: extendsRules,
+    parser: require.resolve('babel-eslint'),
+    parserOptions: {
+      ecmaVersion: 2018,
+      sourceType: 'module',
+      ecmaFeatures: {
+        modules: true,
+        jsx: true,
+        useJSXTextNode: true
+      }
+    },
+    env: {
+      browser: true,
+      'jest/globals': true,
+      es6: true
+    },
+    overrides: [
+      {
+        files: ['*.ts', '*.tsx'],
+        parser: require.resolve('@typescript-eslint/parser'),
+        parserOptions: {
+          project: tsconfigPath
+        },
+        extends: [
+          'plugin:@typescript-eslint/recommended',
+          'plugin:@typescript-eslint/eslint-recommended',
+          'airbnb-typescript'
+        ],
+        plugins: [
+          '@typescript-eslint'
+        ],
+        rules: deepExtend({}, commonRules, tsCommonRules, overrideRules)
+      }
+    ],
+    plugins,
+    globals: {
+      global: true,
+      globalThis: true,
+      shallow: true,
+      render: true,
+      mount: true,
+      mountToJson: true,
+      shallowToJson: true,
+      renderToJson: true,
+      createSerializer: true
+    },
+    rules: deepExtend({}, commonRules, overrideRules)
+  }, customConfig);
+};
+
 module.exports = {
-  makeConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
-    if (!overrideRules) {
-      overrideRules = {};
-    }
-    if (!customConfig) {
-      customConfig = {};
-    }
+  cleanConfig: (overrideRules = {}, customConfig = {}, opts = {}) => (
+    _makeConfig({}, {}, overrideRules, customConfig, opts)
+  ),
 
-    const tsconfigPath = opts && typeof opts.tsconf === 'string' ?
-      opts.tsconf :
-      './tsconfig.json';
-
-    const isNodejs = !!opts.nodejs;
-
+  rockConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
     const commonRules = {
       indent: ['error', 2, {
         SwitchCase: 1
@@ -104,108 +182,40 @@ module.exports = {
       quotes: ['error', 'single'],
     };
 
-    const extendsRules = [
-      'plugin:sonarjs/recommended',
-      'eslint:recommended',
-      'plugin:react/recommended',
-      'plugin:promise/recommended',
-      'plugin:import/errors',
-      'plugin:import/warnings',
-      'airbnb'
-    ];
-
-    if (isNodejs) {
-      extendsRules.push('plugin:node/recommended');
-    }
-
-    const plugins = [
-      'babel',
-      'jest',
-      'react',
-      'promise',
-      'react-hooks'
-    ];
-
-    return deepExtend({}, {
-      extends: extendsRules,
-      parser: require.resolve('babel-eslint'),
-      parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: 'module',
-        ecmaFeatures: {
-          modules: true,
-          jsx: true,
-          useJSXTextNode: true
-        }
-      },
-      env: {
-        browser: true,
-        'jest/globals': true,
-        es6: true
-      },
-      overrides: [
+    const tsCommonRules = {
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/ban-ts-ignore': 'off',
+      '@typescript-eslint/explicit-function-return-type': ['error', {
+        allowExpressions: true
+      }],
+      '@typescript-eslint/naming-convention': [
+        'error',
         {
-          files: ['*.ts', '*.tsx'],
-          parser: require.resolve('@typescript-eslint/parser'),
-          parserOptions: {
-            project: tsconfigPath
-          },
-          extends: [
-            'plugin:@typescript-eslint/recommended',
-            'plugin:@typescript-eslint/eslint-recommended',
-            'airbnb-typescript'
-          ],
-          plugins: [
-            '@typescript-eslint'
-          ],
-          rules: deepExtend({}, commonRules, {
-            '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/ban-ts-ignore': 'off',
-            '@typescript-eslint/explicit-function-return-type': ['error', {
-              allowExpressions: true
-            }],
-            '@typescript-eslint/naming-convention': [
-              'error',
-              {
-                selector: 'variable',
-                leadingUnderscore: 'allow',
-                trailingUnderscore: 'allow',
-                format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-              },
-              {
-                selector: 'function',
-                leadingUnderscore: 'allow',
-                trailingUnderscore: 'allow',
-                format: ['camelCase', 'PascalCase'],
-              },
-              {
-                selector: 'typeLike',
-                leadingUnderscore: 'allow',
-                trailingUnderscore: 'allow',
-                format: ['PascalCase'],
-              },
-            ],
-            '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-            'react/prop-types': 'off',
-            quotes: 'off',
-            'no-unused-vars': 'off',
-            semi: 'off'
-          }, overrideRules)
-        }
+          selector: 'variable',
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+        },
+        {
+          selector: 'function',
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+          format: ['camelCase', 'PascalCase'],
+        },
+        {
+          selector: 'typeLike',
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+          format: ['PascalCase'],
+        },
       ],
-      plugins,
-      globals: {
-        global: true,
-        globalThis: true,
-        shallow: true,
-        render: true,
-        mount: true,
-        mountToJson: true,
-        shallowToJson: true,
-        renderToJson: true,
-        createSerializer: true
-      },
-      rules: deepExtend({}, commonRules, overrideRules)
-    }, customConfig);
+      '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'react/prop-types': 'off',
+      quotes: 'off',
+      'no-unused-vars': 'off',
+      semi: 'off'
+    };
+
+    return _makeConfig(commonRules, tsCommonRules, overrideRules, customConfig, opts);
   }
 };

@@ -1,4 +1,4 @@
-const { isNumber, isArray, isDefined } = require('valid-types');
+const { isArray, isDefined } = require('valid-types');
 const WebpackDevServer = require('webpack-dev-server');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
@@ -27,18 +27,12 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
     const server = new WebpackDevServer(compiler, webpackConfig.devServer);
 
     server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
-      if (isNumber(conf._liveReloadPort)) {
-        console.log(`LiveReload server on http://localhost:${conf._liveReloadPort}`);
-      }
-      console.log(`Starting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/`);
+      console.log(`\nStarting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/\n`);
     });
   },
   watch: () => {
     compiler.watch({}, (err, stats) => {
       log(stats);
-      if (isNumber(conf._liveReloadPort)) {
-        console.log(`LiveReload server on http://localhost:${conf._liveReloadPort}`);
-      }
     });
   }
 });
@@ -47,6 +41,7 @@ const runNodeStrategy = (compiler, webpack, webpackConfig, conf) => ({
   simple: () => (
     runAppStrategy(compiler, webpack, webpackConfig, conf).simple()
   ),
+  // eslint-disable-next-line sonarjs/no-identical-functions
   'node-watch': () => {
     compiler.watch({}, (err, stats) => {
       log(stats);
@@ -78,6 +73,7 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
     });
     try {
       const frontConfig = configs.find(c => c.__isIsomorphicFrontend);
+
       await runNodeStrategy(
         compiler,
         webpack,

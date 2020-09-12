@@ -10,15 +10,15 @@ const alias = {
 };
 
 isomorphicCompiler(
-  backendCompiler({
-    src: 'src/server.jsx',
-    dist: 'dist',
-  }, config => {
-    Object.assign(config.resolve, alias);
-  }),
   frontendCompiler({
     src: 'src/client.jsx',
     dist: 'public',
+  }, config => {
+    Object.assign(config.resolve, alias);
+  }),
+  backendCompiler({
+    src: 'src/server.jsx',
+    dist: 'dist',
   }, config => {
     Object.assign(config.resolve, alias);
   })

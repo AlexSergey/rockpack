@@ -1,8 +1,8 @@
-const { makeConfig } = require('../index');
+const { rockConfig } = require('../index');
 
 test('Codestyle basic config rules overriding', async () => {
   //process.env.NODE_ENV = 'production';
-  const eslintConf = makeConfig({
+  const eslintConf = rockConfig({
     'no-console': 'error'
   });
   expect(eslintConf.rules['no-console']).toBe('error');
@@ -10,7 +10,7 @@ test('Codestyle basic config rules overriding', async () => {
 
 test('Codestyle basic config rules overriding for TS', async () => {
   //process.env.NODE_ENV = 'production';
-  const eslintConf = makeConfig({
+  const eslintConf = rockConfig({
     'no-console': 'error'
   });
   expect(eslintConf.overrides[0].rules['no-console'])
@@ -19,7 +19,7 @@ test('Codestyle basic config rules overriding for TS', async () => {
 
 test('Check NODE_ENV = production for some rules', async () => {
   process.env.NODE_ENV = 'production';
-  const eslintConf = makeConfig();
+  const eslintConf = rockConfig();
 
   expect(eslintConf.rules['no-console'])
     .toBe('error');
@@ -31,7 +31,7 @@ test('Check NODE_ENV = production for some rules', async () => {
 
 test('Codestyle overriding with NODE_ENV = production for some rules', async () => {
   process.env.NODE_ENV = 'production';
-  const eslintConf = makeConfig({
+  const eslintConf = rockConfig({
     'no-console': 'off',
     'no-alert': 'off',
   });
@@ -46,7 +46,7 @@ test('Codestyle overriding with NODE_ENV = production for some rules', async () 
 
 test('Codestyle overriding by global config', async () => {
   process.env.NODE_ENV = 'production';
-  const eslintConf = makeConfig(null, {
+  const eslintConf = rockConfig(null, {
     rules: {
       quotes: 'off'
     }

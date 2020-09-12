@@ -40,7 +40,7 @@ const makeOptimization = (mode, conf) => {
       },
       noEmitOnErrors: true,
       checkWasmTypes: true,
-      minimize: true,
+      minimize: false,
       removeAvailableModules: true,
       removeEmptyChunks: true,
       usedExports: true,

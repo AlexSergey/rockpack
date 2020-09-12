@@ -3,7 +3,7 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "target": "esnext",
-    "jsx": "preserve",
+    "jsx": "react",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

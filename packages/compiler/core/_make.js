@@ -74,7 +74,7 @@ const _make = async (conf, post) => {
     post(finalConfig, modules, plugins);
   }
 
-  return compileWebpackConfig(
+  const webpackConfig = compileWebpackConfig(
     finalConfig,
     conf,
     mode,
@@ -82,6 +82,8 @@ const _make = async (conf, post) => {
     modules,
     plugins
   );
+
+  return { webpackConfig, conf };
 };
 
 module.exports = _make;

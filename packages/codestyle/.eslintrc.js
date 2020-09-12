@@ -1,3 +1,3 @@
-const { makeConfig } = require('./index');
+const { rockConfig } = require('./index');
 
-module.exports = makeConfig();
+module.exports = rockConfig();

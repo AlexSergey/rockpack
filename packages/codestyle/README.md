@@ -13,17 +13,19 @@
 2. Поместить код в **.eslintrc.js**
 
 ```js
-const { makeConfig } = require('@rockpack/codestyle');
+const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
 
-module.exports = makeConfig();
+module.exports = rockConfig();
 ```
+
+*Отличие rockConfig от cleanConfig в том, что cleanConfig не использует никаких кастомных переопределений, от автора Rockpack*
 
 Для переопределения свойств нужно передать объект в *makeConfig*
 
 ```js
-const { makeConfig } = require('@rockpack/codestyle');
+const { rockConfig } = require('@rockpack/codestyle');
 
-module.exports = makeConfig({
+module.exports = rockConfig({
   'no-plusplus': 'error'
 });
 ```
@@ -31,9 +33,9 @@ module.exports = makeConfig({
 Передав второй параметр в  *makeConfig* можно переопределить весь конфиг
 
 ```js
-const { makeConfig } = require('@rockpack/codestyle');
+const { rockConfig } = require('@rockpack/codestyle');
 
-module.exports = makeConfig({}, {
+module.exports = rockConfig({}, {
   plugins: [
     'some new plugin'
   ]
@@ -53,7 +55,7 @@ module.exports = makeConfig({}, {
 - eslint-plugin-sonarjs
 - eslint-plugin-jsx-a11y
 
-### Custom properties:
+### rockConfig overrides:
 
 ```js
 // JS:

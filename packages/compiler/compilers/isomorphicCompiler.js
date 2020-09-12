@@ -1,8 +1,9 @@
-const { isDefined, isUndefined } = require('valid-types');
-const multiCompiler = require('./multiCompiler');
+const webpack = require('webpack');
+const { isUndefined } = require('valid-types');
 const errors = require('../errors/isomorphicCompiler');
 const getMode = require('../utils/getMode');
 const errorHandler = require('../errorHandler');
+const _run = require('../core/_run');
 
 async function isomorphicCompiler(...props) {
   errorHandler();
@@ -12,14 +13,15 @@ async function isomorphicCompiler(...props) {
   for (let i = 0, l = props.length; i < l; i++) {
     props[i] = await props[i];
   }
-  props = props.map(c => c.conf);
 
-  props.compilerName = isomorphicCompiler.name;
+  const webpackConfigs = props.map(c => c.webpackConfig);
+  const configs = props.map(c => c.conf);
+  configs.compilerName = isomorphicCompiler.name;
   const mode = getMode();
 
-  const backend = props.find(p => p.compilerName === 'backendCompiler');
+  const backend = configs.find(p => p.compilerName === 'backendCompiler');
 
-  const frontend = props.find(p => p.compilerName === 'frontendCompiler');
+  const frontend = configs.find(p => p.compilerName === 'frontendCompiler');
 
   if (!frontend) {
     console.error(errors.SUPPORT);
@@ -31,12 +33,12 @@ async function isomorphicCompiler(...props) {
     return process.exit(1);
   }
 
-  if (Object.keys(props) <= 1) {
+  if (Object.keys(configs) <= 1) {
     console.error(errors.SHOULD_SET_MORE_THEN_ONE_COMPILERS);
     return process.exit(1);
   }
 
-  props.forEach(prop => {
+  configs.forEach(prop => {
     ['dist', 'src'].forEach(option => {
       if (isUndefined(prop[option])) {
         console.error(errors.SHOULD_SET_OPTION(prop.compilerName, option));
@@ -45,31 +47,7 @@ async function isomorphicCompiler(...props) {
     });
   });
 
-  backend.__isIsomorphicBackend = true;
-  frontend.__isIsomorphicFrontend = true;
-
-  if (mode === 'development') {
-    props.forEach(prop => {
-      prop.__isIsomorphicStyles = true;
-    });
-  } else {
-    backend.__isIsomorphicStyles = true;
-  }
-
-  props.forEach(prop => {
-    prop.__isIsomorphicLoader = true;
-  });
-
-  frontend.write = isDefined(frontend.write) ? frontend.write : true;
-  frontend.html = isDefined(frontend.html) ? frontend.html : false;
-
-  if (mode === 'development') {
-    frontend.onlyWatch = isDefined(frontend.onlyWatch) ?
-      frontend.onlyWatch :
-      true;
-  }
-
-  return await multiCompiler.apply(null, props);
+  return await _run(webpackConfigs, mode, webpack, configs);
 }
 
 module.exports = isomorphicCompiler;
