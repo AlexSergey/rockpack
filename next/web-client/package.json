@@ -31,7 +31,7 @@
     "koa": "2.13.0",
     "koa-no-cache": "2.0.0",
     "koa-static": "5.0.0",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "pretty-error": "2.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

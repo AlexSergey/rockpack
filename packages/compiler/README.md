@@ -37,7 +37,8 @@
 - Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports, @loadable)
 - Multi compile support
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
-- MDX files support
+- MD/MDX files support
+- GraphQL support (webpack-graphql-loader)
 
 ## How it works
 
