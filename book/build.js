@@ -1,8 +1,11 @@
+const path = require('path');
 const { frontendCompiler } = require('@rockpack/compiler');
 const prerenderDocgen = require('./postrender');
 
 frontendCompiler({
-  inline: false
+  copy: [
+    { from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }
+  ]
 }, (finalConfig, modules, plugins) => {
   if (process.env.NODE_ENV === 'production') {
     prerenderDocgen(plugins, finalConfig);

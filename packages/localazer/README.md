@@ -54,25 +54,28 @@ yarn add localazer-compiler --dev
 2. ES6 and CommonJS builds are available with each distribution. For example:
 
 ```js
-import { LocalizationObserver } from 'localaser';
+import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
 ```
 
 3. You need to wrap your app with <LocalizationObserver>
 
 ```jsx
 class Root extends Component {
-      render() {
-       return <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-           <App />
-       </LocalizationObserver>
-   }
+  render() {
+    return (
+      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
+        <App/>
+      </LocalizationObserver>)
+  }
 }
 ```
 
 4. You need add your localization text to JSX markup:
 
 ```jsx
-import Localization, { l, nl, sprintf } from 'localaser';
+import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
+
+...
 
 <h2><Localization>{l('Hello')}</Localization></h2>
 ```
@@ -81,12 +84,12 @@ If you need use variables inside your localization string you can yse sprintf me
 
 ```jsx
 <Localization>
-   {
-       sprintf(
-           l('Your name is %s', 'USER'),
-           name
-       )
-   }
+  {
+    sprintf(
+      l('Your name is %s', 'USER'),
+      name
+    )
+  }
 </Localization>
 ```
 
@@ -94,16 +97,16 @@ You can use plural forms:
 
 ```jsx
 <Localization>
-   {
-       sprintf(
-           nl(
-               '%d click',
-               '%d clicks',
-               count
-           ),
-           count
-       )
-   }
+  {
+    sprintf(
+      nl(
+        '%d click',
+        '%d clicks',
+        count
+      ),
+      count
+    )
+  }
 </Localization>
 ```
 
@@ -111,9 +114,9 @@ You can use plural forms:
 
 5.1 Create makePO.js in root of your project
 ```js
-const { makePo } = require('localaser-compiler');
+const { localazer } = require('@rockpack/compiler');
 
-makePo({
+localazer.makePo({
     dist: './po',
     src: './src'
 });
@@ -136,9 +139,9 @@ You can send this PO file to translator.
 
 Create po2json.js in root of your project
 ```js
-const { po2json } = require('localaser-compiler');
+const { localazer } = require('@rockpack/compiler');
 
-po2json({
+localazer.po2json({
     dist: './json',
     src: './po'
 });
@@ -149,18 +152,21 @@ po2json({
 import ru from '../json/ru.json';
 
 class Root extends Component {
-   constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
 
-      this.state = {
-          languages: { ru }
-      }
-   }
-   render() {
-       return <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-           <App />
-       </LocalizationObserver>
-   }
+    this.state = {
+      languages: { ru }
+    }
+  }
+
+  render() {
+    return (
+      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
+        <App/>
+      </LocalizationObserver>
+    )
+  }
 }
 ```
 
@@ -168,29 +174,32 @@ You can use it from backend. Just make route that will move JSON's to client.
 
 ```jsx
 class Root extends Component {
-   constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
 
-      this.state = {
-          languages: {}
-      }
-   }
+    this.state = {
+      languages: {}
+    }
+  }
 
-   getLanguages = () => {
-      fetch('http://localhost:8000/api/languages')
-        .then(response => { return response.json(); })
-        .then(({ languages }) => {
-            this.setState({ languages });
-        });
-   }
+  getLanguages = () => {
+    fetch('http://localhost:8000/api/languages')
+      .then(response => {
+        return response.json();
+      })
+      .then(({ languages }) => {
+        this.setState({ languages });
+      });
+  }
 
-   render() {
-       return <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-           <App />
-       </LocalizationObserver>
-   }
+  render() {
+    return (
+      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
+        <App/>
+      </LocalizationObserver>
+    )
+  }
 }
-
 ```
 
 ## Props

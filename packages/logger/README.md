@@ -28,68 +28,63 @@ LogRock is React.js component with module which can help you to build error trac
 
 You can tie it with ElasticSearch or other backend to analyze your bugs.
 
-## Articles
-
-More information in my article:
-
-<p>
-    English (work in progress)
-</p>
-<p>
-    <a href="https://habr.com/ru/post/453652/">
-        Russian
-    </a>
-</p>
-
 ## Usage
 
 1. Installation:
 
 ```sh
 # NPM
-npm install logrock --save
+npm install @rockpack/logger --save
 
 # YARN
-yarn add logrock
+yarn add @rockpack/logger
 ```
 
 2. ES6 and CommonJS builds are available with each distribution. For example:
 
 ```js
-import logger, { LoggerContainer, LoggerContext } from 'logrock';
+import { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
 ```
 
 3. You need to wrap your app with <LoggerContainer>
 
 ```jsx
 import React, { useCallback, useContext } from 'react';
-import { LoggerContainer, LoggerContext } from 'logrock';
+import { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
 
-export default function() {
-    const loggerCtx = useContext(LoggerContext);
-    const showMessage = useCallback((level, message, important) => {
-        alert(message);
-    });
+const App = () => {
+  const { getStackData, triggerError } = useLoggerApi();
+  const logger = useLogger();
 
-    return <LoggerContainer
-           sessionID={window.sessionID}
-           limit={75} // stack limit. After overflowing the first item will be remove
-           getCurrentDate={() => {
-                // You can replace default date to another format
-                return dayjs().format('YYYY-MM-DD HH:mm:ss');
-           }}
-           stdout={showMessage} // show logs for your users
-           onError={stackData => {
-               // Send stack on your Backend or ElasticSearch or save it to file etc.
-               sendToServer(stack);
-           }}
-           onPrepareStack={stack => {
-               // This is middleware
-               // Add extra data to stack before it will call onError
-               stack.language = window.navigator.language;
-           }}>
-               <App />
-       </LoggerContainer>
+  ...
+}
+
+export default function () {
+  const loggerCtx = useContext(LoggerContext);
+  const showMessage = useCallback((level, message, important) => {
+    alert(message);
+  });
+
+  return <LoggerContainer
+    sessionID={window.sessionID}
+    limit={75} // stack limit. After overflowing the first item will be remove
+    getCurrentDate={() => {
+      // You can replace default date to another format
+      return dayjs()
+        .format('YYYY-MM-DD HH:mm:ss');
+    }}
+    stdout={showMessage} // show logs for your users
+    onError={stackData => {
+      // Send stack on your Backend or ElasticSearch or save it to file etc.
+      sendToServer(stack);
+    }}
+    onPrepareStack={stack => {
+      // This is middleware
+      // Add extra data to stack before it will call onError
+      stack.language = window.navigator.language;
+    }}>
+    <App/>
+  </LoggerContainer>
 }
 ```
 
@@ -98,36 +93,36 @@ export default function() {
 For example, we have toggle component in React
 
 ```jsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export default function Toggle(props) {
-    const [toggleState, setToggleState] = useState("off");
+  const [toggleState, setToggleState] = useState('off');
 
-    function toggle() {
-        setToggleState(toggleState === "off" ? "on" : "off");
-    }
+  function toggle() {
+    setToggleState(toggleState === 'off' ? 'on' : 'off');
+  }
 
-    return <div className={`switch ${toggleState}`} onClick={toggle} />;
+  return <div className={`switch ${toggleState}`} onClick={toggle}/>;
 }
 ```
 
 If you want to cover this code by logger you need to add logger.log to toggle method:
 
 ```jsx
-import React, { useState } from "react";
-import logger from 'logrock';
-
+import React, { useState } from 'react';
+import { useLogger } from '@rockpack/logger';
 
 export default function Toggle(props) {
-    const [toggleState, setToggleState] = useState("off");
+  const [toggleState, setToggleState] = useState('off');
+  const logger = useLogger();
 
-    function toggle() {
-        let state = toggleState === "off" ? "on" : "off";
-        logger.info(`React.Toggle|Toggle component changed state ${state}`);
-        setToggleState(state);
-    }
+  function toggle() {
+    let state = toggleState === 'off' ? 'on' : 'off';
+    logger.info(`React.Toggle|Toggle component changed state ${state}`);
+    setToggleState(state);
+  }
 
-    return <div className={`switch ${toggleState}`} onClick={toggle} />;
+  return <div className={`switch ${toggleState}`} onClick={toggle}/>;
 }
 ```
 ## Props
@@ -136,6 +131,7 @@ export default function Toggle(props) {
 
 | Prop | Type | Description |
 | --- | --- | --- |
+| logger | LoggerInterface | Logger instance |
 | active | Boolean[true] | Turn on/off logger system. You can turn it off in the test environment. |
 | bsodActive | Boolean[true] | Show BSOD when an error occurs in your system. I recommend you to turn it off in production. |
 | sessionID | Number | If you want to connect your session with backend actions you can generate SessionID and add it to all your requests. |
@@ -151,11 +147,11 @@ export default function Toggle(props) {
 This is a simple logger. That related to LoggerContainer and it builds your stack.
 Each of logger calls and adds the new action to our stack.
 ```js
-logger.log("log text here!");
-logger.info("Some extra log information");
-logger.warn("Warning! Warning!");
-logger.debug("I'm a debug message!");
-logger.error("Ups...");
+logger.log('log text here!');
+logger.info('Some extra log information');
+logger.warn('Warning! Warning!');
+logger.debug('I\'m a debug message!');
+logger.error('Ups...');
 ```
 If we add second parameter to logger we can call stdout function to show this action to our users.
 It will be useful when we need to say our user that there are some errors in our application or successful actions.
