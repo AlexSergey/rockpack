@@ -18,24 +18,22 @@
 
 ## What is it?
 
-We have had many articles for localization our applications. ...
+Большинство подходов локализации приложения используют в качестве места хранения JSON файлы. JSON удобный формат для разработчика но не для локализатора. Локализатор работает в специализированном софте, который должен поддерживать корректность правописания, находить опечатки а также объеденять наработки в GIT-о подобном стиле между версиями приложения для формаирования словарика.
+
+Самым распространенным подходом для локализации приложений есть - **gettext**. Это набор программ локализации, которые организовывают проверку орфографии, объединение разных версия локализаций приложения, удаление ненужных текстовых данных. Это приложение используется большинством десктоп разработчиков начиная с 90-ых годов.
+
+Для того, чтобы организовать связь нашего **React** приложения с **gettext** и обратно нам могут помочь **rocpack/compiler** и **rockpack/localizer**
+
+**@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+
+## Как это работает
+Этап 1. Нам нужно добавить локализацию и подружить её с нашим приложением.
+Этап 2. Извлечь все данные для словарика из нашего приложения и передать их в формате gettext переводчику.
+Этап 3. Получив готовый перевод, мы должны его перегнать в JSON и вставить в наше приложение.
 
 <div align="center">
     <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
 </div>
-
-## Articles
-
-More information in my article:
-
-<p>
-    English (work in progress)
-</p>
-<p>
-    <a href="">
-        Russian
-    </a>
-</p>
 
 ## Usage
 
@@ -43,12 +41,12 @@ More information in my article:
 
 ```sh
 # NPM
-npm install localazer --save
-npm install localazer-compiler --save-dev
+npm install @rockpack/localaser --save
+npm install @rockpack/compiler --save-dev
 
 # YARN
-yarn add localazer
-yarn add localazer-compiler --dev
+yarn add @rockpack/localaser
+yarn add @rockpack/compiler --dev
 ```
 
 2. ES6 and CommonJS builds are available with each distribution. For example:
@@ -65,7 +63,8 @@ class Root extends Component {
     return (
       <LocalizationObserver active={this.state.active} languages={this.state.languages}>
         <App/>
-      </LocalizationObserver>)
+      </LocalizationObserver>
+    )
   }
 }
 ```
@@ -127,7 +126,7 @@ node makePO.js
 ```
 Make PO compile hole of your localization nodes to one PO dictionary for translator.
 
-After you get PO file your translator can work with it use POEdit tool:
+After you get PO file your translator can work with it use <a href="https://poedit.net/download">POEdit tool</a>:
 
 <div align="center">
     <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />

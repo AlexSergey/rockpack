@@ -20,12 +20,13 @@ router.get('/*', async (ctx) => {
     initState: { },
     rest
   });
+
   const { html } = await serverRender(() => (
     <Provider store={store}>
       <App />
     </Provider>
   ));
-  const reduxState = store && typeof store.getState === 'function' ? store.getState() : {};
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +34,7 @@ router.get('/*', async (ctx) => {
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-      window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
+      window.REDUX_DATA = ${serialize(store.getState(), { isJSON: true })}
     </script>
 </head>
 <body>
@@ -48,6 +49,6 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-const server = app.listen(4000, () => {
+app.listen(4000, () => {
   console.log(`Server is listening ${4000} port`);
 });

@@ -8,9 +8,19 @@
 
 ### How it works
 
-1. Создать **.eslintrc.js** в корне проекта
+1. Installation:
 
-2. Поместить код в **.eslintrc.js**
+```sh
+# NPM
+npm install @rockpack/codestyle --save-dev
+
+# YARN
+yarn add @rockpack/codestyle --dev
+```
+
+2. Создать **.eslintrc.js** в корне проекта
+
+3. Поместить код в **.eslintrc.js**
 
 ```js
 const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
@@ -20,7 +30,9 @@ module.exports = rockConfig();
 
 *Отличие rockConfig от cleanConfig в том, что cleanConfig не использует никаких кастомных переопределений, от автора Rockpack*
 
-Для переопределения свойств нужно передать объект в *makeConfig*
+Для переопределения свойств нужно передать объект в *rockConfig* или *cleanConfig*
+
+*Данный генератор ESLint конфига работает с IDE редакторами*
 
 ```js
 const { rockConfig } = require('@rockpack/codestyle');

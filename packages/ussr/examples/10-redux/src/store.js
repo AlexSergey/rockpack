@@ -1,8 +1,8 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import dogReducer from './containers/Dog/reducer';
-import watchFetchDog from './containers/Dog/saga';
+import imageReducer from './containers/Image/reducer';
+import watchFetchImage from './containers/Image/saga';
 
 import { isProduction, isNotProduction } from './utils/mode';
 
@@ -17,7 +17,7 @@ export default ({ initState = {}, rest } = {}) => {
 
   const store = configureStore({
     reducer: {
-      dogReducer
+      imageReducer
     },
     devTools: isNotProduction(),
     middleware: isProduction() ? middleware.concat([
@@ -29,7 +29,7 @@ export default ({ initState = {}, rest } = {}) => {
     preloadedState: initState
   });
 
-  sagaMiddleware.run(watchFetchDog, rest);
+  sagaMiddleware.run(watchFetchImage, rest);
 
   return store;
 };

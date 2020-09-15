@@ -25,7 +25,6 @@ app.get('/*', async (req, res) => {
     <script src="/index.js"></script>
 </body>
 </html>
-
 `);
 });
 

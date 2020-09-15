@@ -1,21 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchDog } from './action';
+import { fetchImage } from './action';
 import { useWillMount } from '../../../../../src';
 
 const Dogs = () => {
   const dispatch = useDispatch();
-  const dog = useSelector(state => state.dogReducer);
+  const image = useSelector(state => state.imageReducer);
 
-  useWillMount((resolver) => dispatch(fetchDog(resolver)));
+  useWillMount((resolver) => dispatch(fetchImage(resolver)));
 
   return (
     <div>
-      {dog.loading ?
-        <p>Loading...</p> : dog.error ?
+      {image.loading ?
+        <p>Loading...</p> : image.error ?
           <p>Error, try again</p> : (
             <p>
-              <img alt="dog" src={dog.url} />
+              <img width="200px" alt="random" src={image.url} />
             </p>
           )}
     </div>

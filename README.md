@@ -62,7 +62,7 @@
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/logger/README.md" target="_blank">Подробнее...</a>
 ***
 
-**@rockpack/localazer** - это система локализации React приложения, которое поддерживает gettext для того, чтобы локализаторы могли работать с файлами локализации в привычной среде.
+**@rockpack/localazer** - это система "правильной" локализации React приложения, которое поддерживает gettext для того, чтобы локализаторы могли в привычной среде.
 
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/localazer/README.md" target="_blank">Подробнее...</a>
 ***

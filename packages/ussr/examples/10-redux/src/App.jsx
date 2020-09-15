@@ -1,4 +1,4 @@
 import React from 'react';
-import Dogs from './containers/Dog';
+import Image from './containers/Image';
 
-export const App = () => <Dogs />;
+export const App = () => <Image />;

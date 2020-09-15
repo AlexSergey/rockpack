@@ -18,17 +18,27 @@
 
 ### How it works
 
-1. Создать **tests.js** в корне проекта
+1. Installation:
 
-2. Поместить код в **tests.js**
+```sh
+# NPM
+npm install @rockpack/tester --save-dev
+
+# YARN
+yarn add @rockpack/tester --dev
+```
+
+2. Создать **tests.js** в корне проекта
+
+3. Поместить код в **tests.js**
 
 ```js
-const tests = require('../../index');
+const tests = require('@rockpack/tester');
 
 tests();
 ```
 
-3. Запустить скрипт при помощи
+4. Запустить скрипт при помощи
 ```shell script
 node tests.js
 ```

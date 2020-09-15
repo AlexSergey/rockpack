@@ -44,15 +44,25 @@
 
 To compile simple React App like create-react-app example follow these steps:
 
-1. Create build.js file in project folder
+1. Installation:
 
-2. Add code:
+```sh
+# NPM
+npm install @rockpack/compiler --save-dev
+
+# YARN
+yarn add @rockpack/compiler --dev
+```
+
+2. Create build.js file in project folder
+
+3. Add code:
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
 
 frontendCompiler();
 ```
-3. Run build.js use:
+4. Run build.js use:
 ```shell script
 cross-env NODE_ENV=development node build
 ```
@@ -178,7 +188,7 @@ analyzerCompiler(options);
 ```
 Analyzer's page will be available on the port 8888
 
-#### multiCompiler(configArray[needed]);
+#### multiCompiler(configs[needed]);
 
 Compile multi app. Or app with library or different cases.
 
@@ -203,7 +213,7 @@ multiCompiler(
   })
 );
 ```
-#### isomorphicCompiler(configArray[needed]);
+#### isomorphicCompiler(configs[needed]);
 
 Compile isomorphic. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
 

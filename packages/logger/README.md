@@ -24,9 +24,11 @@ As developers, we would like to know which actions caused the error, what button
 
 If our users told us what they do before the bug appears it would be very cool... LogRock can help you with that!
 
-LogRock is React.js component with module which can help you to build error tracking & crash reporting system.
+**@rockpack/logger** is React.js component with module which can help you to build error tracking & crash reporting system.
 
 You can tie it with ElasticSearch or other backend to analyze your bugs.
+
+**@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
 
 ## Usage
 
