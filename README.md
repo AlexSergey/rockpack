@@ -16,7 +16,7 @@
 
 Используя **Rockpack** вы сможете развернуть проект за считанные минуты и начать писать действительно полезный код.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_1.2.png"></div>
+<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png"></div>
 
 Также на этапе старта проекта мы можем заложить такие фичи как - локализация, логирование и это мы можем сделать практически без затрат по времени.
 
