@@ -28,15 +28,17 @@
 
 ### Обзор модулей Rockpack
 
-**Rockpack** комплексное решение упрощающее разработку React проектов, рассмотрим модули по подробнее:
+**Rockpack** состоит из модулей. Рассмотрим их по подробнее:
 
 **@rockpack/compiler** - основной модуль системы, позволяющий компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
-- С помощью данного модуля вы сможете
+
+**С помощью данного модуля вы сможете:**
+
 - Скомпилировать ваше React приложение
 - Скомпилировать библиотеку как для React так и для vanilla JS
 - Nodejs backend
-- markup html files
-- собрать изоморфное приложение
+- Обработать markup html files
+- Собрать изоморфное приложение
 - Провести анализ бандла
 
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/README.md" target="_blank">Подробнее...</a>
@@ -80,10 +82,10 @@
 
 Проект **Rockpack** вдохновлялся в разработке такими вещами как
 
-[Next.js](https://github.com/vercel/next.js/)
-[Creat React App](https://github.com/facebook/create-react-app)
-[Rome](https://github.com/romefrontend/rome)
-[Estrella](https://github.com/rsms/estrella)
+- [Next.js](https://github.com/vercel/next.js/)
+- [Creat React App](https://github.com/facebook/create-react-app)
+- [Rome](https://github.com/romefrontend/rome)
+- [Estrella](https://github.com/rsms/estrella)
 
 Отличительной особенностью **Rockpack** является то, что при создании приложения с его помощью можно выбирать только те инструменты которые нужны. **Rockpack** не вносит какой либо магии, это набор лучших практик и библиотек для автоматизации старта проекта. С таким подходом, **Rockpack** не является фреймверком, который диктует свои правила формирования архитектуры, **Rockpack** может работать с любыми фреймверками и не ограничивает подходы в проектировании архитектуры.
 
