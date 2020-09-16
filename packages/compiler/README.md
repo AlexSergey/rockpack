@@ -239,21 +239,21 @@ isomorphicCompiler(
 
 ### Вопросы/Ответы
 
-- Как активировать TypeScript?
-*Достаточно поместить **tsconfig.json** в корень с **@rockpack/compiler***
-[Примеры tsconfig.json](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
+Как активировать TypeScript?
+- *Достаточно поместить **tsconfig.json** в корень с **@rockpack/compiler***
+- [Примеры tsconfig.json](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
 ***
-- Как активировать Eslint?
-*Достаточно поместить **.eslintrc.js** или **.eslintrc.development.js** для DEV режима или **.eslintrc.production.js** для PRODUCTION режима в корень с **@rockpack/compiler***
+Как активировать Eslint?
+- *Достаточно поместить **.eslintrc.js** или **.eslintrc.development.js** для DEV режима или **.eslintrc.production.js** для PRODUCTION режима в корень с **@rockpack/compiler***
 ***
-- Как расширить PostCSS?
-*Достаточно поместить **postcss.config.js** в корень с **@rockpack/compiler***
+Как расширить PostCSS?
+- *Достаточно поместить **postcss.config.js** в корень с **@rockpack/compiler***
 ***
-- Как заставить **Rockpack** сохранять изменения на HDD при DEV сборке?
-Нужно добавить в конфиг *write: true*
+Как заставить **Rockpack** сохранять изменения на HDD при DEV сборке?
+- *Нужно добавить в конфиг **write: true***
 ***
-- Как обработать TypeScript библиотеку, чтобы сохранить исходники?
-**libraryCompiler** принимает первым параметром не только строку-имя библиотеки но и объект с параметрами
+Как обработать TypeScript библиотеку, чтобы сохранить исходники?
+- ***libraryCompiler** принимает первым параметром не только строку-имя библиотеки но и объект с параметрами*
 ```js
 libraryCompiler({
   name: 'Color',
