@@ -1,6 +1,6 @@
 ## @rockpack/babel
 
-**@rockpack/babel** это пресет babel обеспечивающий поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
+**@rockpack/babel** это настройки Babel обеспечивающие поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
 
 **@rockpack/babel** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
 

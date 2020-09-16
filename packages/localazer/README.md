@@ -37,7 +37,7 @@
 
 ## Usage
 
-1. Installation:
+1. Установка:
 
 ```sh
 # NPM
@@ -49,15 +49,11 @@ yarn add @rockpack/localaser
 yarn add @rockpack/compiler --dev
 ```
 
-2. ES6 and CommonJS builds are available with each distribution. For example:
-
-```js
-import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
-```
-
-3. You need to wrap your app with <LocalizationObserver>
+2. Для того, чтобы переключение языков работало корректно, нужно обернуть приложение в *<LocalizationObserver>* компонент
 
 ```jsx
+import { LocalizationObserver } from '@rockpack/localaser';
+
 class Root extends Component {
   render() {
     return (
@@ -69,7 +65,7 @@ class Root extends Component {
 }
 ```
 
-4. You need add your localization text to JSX markup:
+3. В компонентах, где необходимо осуществить перевод, нужно добавить компоненты с языком по умолчанию:
 
 ```jsx
 import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
@@ -79,7 +75,7 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 <h2><Localization>{l('Hello')}</Localization></h2>
 ```
 
-If you need use variables inside your localization string you can yse sprintf method, like this:
+Если вы хотите использовать переменные в переводе, нужно использовать:
 
 ```jsx
 <Localization>
@@ -92,7 +88,7 @@ If you need use variables inside your localization string you can yse sprintf me
 </Localization>
 ```
 
-You can use plural forms:
+Для множественной формы:
 
 ```jsx
 <Localization>
@@ -109,9 +105,11 @@ You can use plural forms:
 </Localization>
 ```
 
-5. After you add localizations in your application you need to get dictionary to translator.
+В результате при count = 0, будет выведен текст 0 clicks, при count = 1 - 1 click.
 
-5.1 Create makePO.js in root of your project
+5. После того, как текст для локализации будет добавлен в приложение, нужно извлечь словарик с данными текстовыми фрагментами.
+
+5.1 Создайте **makePO.js** в корне проекта
 ```js
 const { localazer } = require('@rockpack/compiler');
 
@@ -120,23 +118,21 @@ localazer.makePo({
     src: './src'
 });
 ```
-Run it!
+Запустите скрипт при помощи nodejs:
 ```sh
 node makePO.js
 ```
-Make PO compile hole of your localization nodes to one PO dictionary for translator.
+В результате будет создан словарик со всеми текстовыми фрагментами для перевода.
 
-After you get PO file your translator can work with it use <a href="https://poedit.net/download">POEdit tool</a>:
+Для перевода словарика необходимо использовать <a href="https://poedit.net/download">POEdit tool</a>:
 
 <div align="center">
     <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
 </div>
 
-You can send this PO file to translator.
+5.2 После перевода словарика, необходимо создать **mo** файл с созданным переводом. Этот файл должен быть добавлен в проект. После чего его нужно преобразовать в JSON:
 
-5.2 After your translator sent translations you need add these to the GIT and convert to JSON:
-
-Create po2json.js in root of your project
+Создайте **po2json.js** в корне вашего проекта
 ```js
 const { localazer } = require('@rockpack/compiler');
 
@@ -146,7 +142,8 @@ localazer.po2json({
 });
 ```
 
-6. When your translations almost have converted you need import it to your application
+6. Когда вы сконвертируете переведенные фрагменты в JSON их можно добавить в компонент с *<LocalizationObserver>* а также создать способ переключения языка.
+
 ```jsx
 import ru from '../json/ru.json';
 
@@ -155,21 +152,28 @@ class Root extends Component {
     super(props);
 
     this.state = {
+      activeLanguage: 'en',
       languages: { ru }
     }
+  }
+
+  setActiveLanguage = (activeLanguage) => {
+    this.setState({ activeLanguage })
   }
 
   render() {
     return (
       <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-        <App/>
+        <App setActiveLanguage={setActiveLanguage} />
       </LocalizationObserver>
     )
   }
 }
 ```
 
-You can use it from backend. Just make route that will move JSON's to client.
+**@rockpack/localazer** не отвечает за передачу переводов в приложение. Вы можете сделать это на ваш выбор, например через динамические импорты, через backend API, Redux, Local Storage и т.д.
+
+Пример получения сконвертированных переводов через Backend API может выглядеть как то так:
 
 ```jsx
 class Root extends Component {
@@ -177,8 +181,13 @@ class Root extends Component {
     super(props);
 
     this.state = {
+      activeLanguage: 'en',
       languages: {}
     }
+  }
+
+  componentDidMount() {
+    this.getLanguages();
   }
 
   getLanguages = () => {
@@ -191,6 +200,10 @@ class Root extends Component {
       });
   }
 
+  setActiveLanguage = (activeLanguage) => {
+    this.setState({ activeLanguage })
+  }
+
   render() {
     return (
       <LocalizationObserver active={this.state.active} languages={this.state.languages}>
@@ -201,17 +214,17 @@ class Root extends Component {
 }
 ```
 
-## Props
+## Свойства
 
-- \<LocalizationObserver /> props:
+- \<LocalizationObserver /> свойства:
 
-| Prop | Type | Description |
+| Свойство | Тип | Описание |
 | --- | --- | --- |
-| active | String | Set active language |
-| default | String['en'] | Default application's language |
-| languages | Object | JSON's localization files after PO -> JSON converted |
+| active | String | Установить активный язык |
+| default | String['en'] | Язык по умолчанию |
+| languages | Object | Объект с переводами JSON |
 
-## Browser Compatibility
+## Поддержка браузеров
 
 | Browser | Works? |
 | :------ | :----- |

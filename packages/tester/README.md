@@ -18,7 +18,7 @@
 
 ### How it works
 
-1. Installation:
+1. Установка:
 
 ```sh
 # NPM
@@ -47,9 +47,8 @@ node tests.js
 node tests.js --watch
 ```
 
-*Чтобы установить настройки для enzyme нужно создать в корне проекта файл*
-**enzyme.setup.js**
-С кодом
+Чтобы установить настройки для enzyme нужно создать в корне проекта файл **enzyme.setup.js** c кодом
+
 ```js
 const enzyme = require('enzyme');
 const Adapter = require('enzyme-adapter-react-16');
@@ -59,7 +58,7 @@ enzyme.configure({
 });
 ```
 
-**To see more examples please visit examples folder** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/tester/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/tester/examples" target="_blank">here</a>
 
 ## License
 

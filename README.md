@@ -42,6 +42,11 @@
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/README.md" target="_blank">Подробнее...</a>
 ***
 
+**@rockpack/ussr** - небольшая библиотека обеспечивающая SSR. Работает с Redux, Apollo и прочими решениями.
+
+<a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">Подробнее...</a>
+***
+
 **@rockpack/tester** - полностью совместим с TS/Babel настроенный Jest, с множеством полезных дополнений.
 
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/tester/README.md" target="_blank">Подробнее...</a>
@@ -50,11 +55,6 @@
 **@rockpack/codestyle** - эффективно настроенный Eslint с множеством best practice правил и дополнений.
 
 <a href="https://github.com/AlexSergey/rock/blob/master/packages/codestyle/README.md" target="_blank">Подробнее...</a>
-***
-
-**@rockpack/ussr** - небольшая библиотека обеспечивающая SSR. Работает с Redux, Apollo и прочими решениями.
-
-<a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">Подробнее...</a>
 ***
 
 **@rockpack/logger** - это система логирования, которая будет выдавать отчет при возникновении ошибки в системе. Записываются все действия, которые совершал пользователь, нажатые кнопки, информация о ОС, дисплеи, браузере и прочем. Этот модуль позволяет понять причину возникновения ошибки.
@@ -75,6 +75,17 @@
 *Для более подробного описания заходите по ссылкам каждого модуля.*
 
 **Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**
+
+### Альтернативы
+
+Проект **Rockpack** вдохновлялся в разработке такими вещами как
+
+[Next.js](https://github.com/vercel/next.js/)
+[Creat React App](https://github.com/facebook/create-react-app)
+[Rome](https://github.com/romefrontend/rome)
+[Estrella](https://github.com/rsms/estrella)
+
+Отличительной особенностью **Rockpack** является то, что при создании приложения с его помощью можно выбирать только те инструменты которые нужны. **Rockpack** не вносит какой либо магии, это набор лучших практик и библиотек для автоматизации старта проекта. С таким подходом, **Rockpack** не является фреймверком, который диктует свои правила формирования архитектуры, **Rockpack** может работать с любыми фреймверками и не ограничивает подходы в проектировании архитектуры.
 
 ### MIT License
 

@@ -8,7 +8,7 @@
 
 ### How it works
 
-1. Installation:
+1. Установка:
 
 ```sh
 # NPM
@@ -28,7 +28,7 @@ const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
 module.exports = rockConfig();
 ```
 
-*Отличие rockConfig от cleanConfig в том, что cleanConfig не использует никаких кастомных переопределений, от автора Rockpack*
+*Отличие rockConfig от cleanConfig в том, что cleanConfig не использует никаких сторонних переопределений, от автора Rockpack*
 
 Для переопределения свойств нужно передать объект в *rockConfig* или *cleanConfig*
 
@@ -42,7 +42,7 @@ module.exports = rockConfig({
 });
 ```
 
-Передав второй параметр в  *makeConfig* можно переопределить весь конфиг
+Передав второй параметр в  *rockConfig* или *cleanConfig* можно переопределить весь конфиг
 
 ```js
 const { rockConfig } = require('@rockpack/codestyle');

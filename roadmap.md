@@ -1,5 +1,5 @@
 ## Roadmap
 
-- Readme
+- Readme ENG
 - Book
-- Circle CI
+- CI/CD Book

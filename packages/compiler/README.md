@@ -1,12 +1,14 @@
 # @rockpack/compiler
 
 **@rockpack/compiler** - основной модуль системы, позволяющий компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
-- С помощью данного модуля вы сможете
+
+**С помощью данного модуля вы сможете:**
+
 - Скомпилировать ваше React приложение
 - Скомпилировать библиотеку как для React так и для vanilla JS
 - Nodejs backend
-- markup html files
-- собрать изоморфное приложение
+- Обработать markup html files
+- Собрать изоморфное приложение
 - Провести анализ бандла
 
 **@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
@@ -21,7 +23,7 @@
 - React optimizations
 - Write file webpack plugin (in dev mode)
 - Copy Webpack Plugin
-- ESLint
+- ESLint support
 - Templates: HTML/Jade/Handlebars
 - CSS: CSS/SASS/LESS + Postcss
 - Postcss, Autoprefixer
@@ -29,22 +31,23 @@
 - Imagemin
 - File import support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
 - SVG + SVGO, SVGR
-- Antd optimizations (momentjs to dayjs, import antd)
-- Terser
+- Antd optimizations (With optimizations: momentjs to dayjs, import antd)
+- Terser minification
 - Generate stats.json (in production mode)
 - SEO Optimizations
 - Bundle Analyze
-- Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports, @loadable)
+- Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports - **@loadable**)
 - Multi compile support
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
-- MD/MDX files support
+- MD/MDX support
 - GraphQL support (webpack-graphql-loader)
+- Сross-env included
 
 ## How it works
 
-To compile simple React App like create-react-app example follow these steps:
+Для компиляции приложения в стиле create-react-app:
 
-1. Installation:
+1. Установка:
 
 ```sh
 # NPM
@@ -54,20 +57,20 @@ npm install @rockpack/compiler --save-dev
 yarn add @rockpack/compiler --dev
 ```
 
-2. Create build.js file in project folder
+2. Создайте **build.js** файл в корневой папке проекта
 
-3. Add code:
+3. Добавьте код:
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
 
 frontendCompiler();
 ```
-4. Run build.js use:
+4. Запустите **build.js**:
 ```shell script
 cross-env NODE_ENV=development node build
 ```
 
-*Для того, чтобы провести production-ready сборку нужно запустить*
+*Для того, чтобы провести production-ready сборку, нужно запустить*
 
 ```shell script
 cross-env NODE_ENV=production node build
@@ -77,7 +80,7 @@ cross-env NODE_ENV=production node build
 
 ## Details:
 
-@rockpack/compiler has compilers:
+@rockpack/compiler включает компиляторы:
 
 ```js
 const {
@@ -92,21 +95,21 @@ const {
 ```
 #### frontendCompiler(options[optional], callback[optional]);
 
-*frontendCompiler* can compile React frontend application (React, TypeScript etc)
+*frontendCompiler* соберет React приложение в стиле create react app (Babel/TypeScript)
 
-*Options* - is an optional object. It's similar to every compiler:
+*Options* - Объект настроек, одинаков для каждого типа компилятора:
 
 | Key | Value[<i>Default value</i>] | Description |
 | --- | --- | --- |
-| dist | String['./dist'] | Path to the distribution folder. By default it will be "dist" folder in the root of project |
-| src | String['./src'] | Path to the source folder. By default it will be "src" folder in the root of project with index.{jx|jsx|ts|tsx} file there |
-| debug | Boolean[false] | Debug option can help to debug code on production. If debug - true the compiler will save all source maps |
-| html | Boolean/Object[undefined] | It's object provide Html webpack plugin information about which files will be copy since we run compilation. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
-| port | Number[3000] | webpack-dev-server port |
-| styles | String[undefined] | Path to extract CSS styles (mini-css-extract-plugin) |
-| banner | String[undefined] | Add banner to the head of JS and CSS files |
-| global | Object[undefined] | Global variables to webpack.ProvidePlugin |
-| copy | Object/Array[undefined] | Support files copying by copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}} |
+| dist | String['./dist'] | Путь для скопилированного приложения, по умолчанию **dist** |
+| src | String['./src'] | Путь к исходникам приложения. По умолчанию "src", где будет взят index.{jx|jsx|ts|tsx} |
+| debug | Boolean[false] | Опция для дебага сохранит Source maps. Удобно для поиска коварных багов при минфицированной версии кода в production |
+| html | Boolean/Object[undefined] | Эта настройка активирует Html webpack plugin. Можно переопределить index.ejs шаблон по умолчанию. Пример: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
+| port | Number[3000] | Порт для webpack-dev-server |
+| styles | String[undefined] | Путь для извлечения стилей CSS (mini-css-extract-plugin) |
+| banner | String[undefined] | Данный параметр позволяет добавить баннер в JS и CSS файлы |
+| global | Object[undefined] | Позволяет пробросить глобальные переменные с помощью webpack.ProvidePlugin |
+| copy | Object/Array[undefined] | Позволяет скопировать файлы и папки с помощью copy-webpack-plugin. Формат: {from: ... to: ...} или [] или {files: [], opts: {}} |
 
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
@@ -118,14 +121,14 @@ frontendCompiler({
   html: {
     title: 'New app',
     favicon: './favicon.ico',
-    template: './index.ejs' // Support html, hbs, ejs
+    template: './index.ejs' // Поддерживает html, hbs, ejs
   },
   port: 8900
 });
 ```
-<b>Callback</b>. Every compiler has the last argument is callback. Callback is a function that will run after your webpack config will compile but before webpack will be started. This can help you to override some properties (You can see example below).
+<b>Callback</b>. У каждого компилятора есть последний параметр - callback. Это функция, которая принимает в качестве аргумента готовый webpack.config, который Вы сможете дополнить напрямую.
 
-In the example below alias will be override
+В данном примере alias будут расширены через callback функцию
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
 
@@ -140,7 +143,7 @@ frontendCompiler({}, webpackConfig => {
 
 #### backendCompiler(options[optional], callback[optional]);
 
-Can compile nodejs scripts and run nodemon in NODE_ENV development
+Позволяет скопилировать **node.js** приложение. При запуске данного компилятора с NODE_ENV development будет запущен nodemon для перезапуска приложения после изменений
 
 ```js
 const { backendCompiler } = require('@rockpack/compiler');
@@ -154,7 +157,7 @@ backendCompiler(options, webpackConfig => {
 
 #### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
 
-Can compile UMD library
+Позволяет собрать UMD библиотеку (React / Vanilla JS)
 
 ```js
 const { libraryCompiler } = require('@rockpack/compiler');
@@ -163,7 +166,7 @@ libraryCompiler('MyLib', options);
 ```
 #### markupCompiler(paths[needed], options[optional], callback[optional]);
 
-Can compile markup (HTML, handlebars, jade files)
+Позволяет обрабатывать HTML файлы (HTML, handlebars, jade). Полезно при верстки макета
 
 ```js
 const { markupCompiler } = require('rocket-starter');
@@ -179,18 +182,18 @@ markupCompiler(
 ```
 #### analyzerCompiler(options[optional], callback[optional]);
 
-Compile your application and run webpack-bundle-analyzer
+Собирает приложение и запускает webpack-bundle-analyzer
 
 ```js
 const { analyzerCompiler } = require('rocket-starter');
 
 analyzerCompiler(options);
 ```
-Analyzer's page will be available on the port 8888
+Страница анализатора доступна на порту 8888
 
 #### multiCompiler(configs[needed]);
 
-Compile multi app. Or app with library or different cases.
+Позволяет скомпилировать несколько приложений. Полезно при разработке фулл-стек решений (nodejs + react приложение) или при сборке библиотеки + React приложение где будет использована эта библиотека
 
 ```js
 let { multiCompiler, frontendCompiler, libraryCompiler, backendCompiler } = require('rocket-starter');
@@ -215,7 +218,7 @@ multiCompiler(
 ```
 #### isomorphicCompiler(configs[needed]);
 
-Compile isomorphic. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
+Компилирует SSR приложение. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');
@@ -232,21 +235,39 @@ isomorphicCompiler(
 );
 ```
 
-**To see more examples please visit examples folder** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/examples" target="_blank">here</a>
 
-### Tips & tricks
+### Вопросы/Ответы
 
-TypeScript activation:
-- make tsconfig.json
-- add config (Example: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
-
-If you don't need to extract styles to css file in production version you will be able to set *styles: false*
-
-*write: true* options will force Webpack to save file in HDD after each update webpack watcher / dev-server
-
-You can add eslint config. Just add **eslintrc.js/.eslintrc.js** in your main (project) dir.
-
-You can add postcss config. Just add postcss.config.js  in your main (project) dir.
+- Как активировать TypeScript?
+*Достаточно поместить **tsconfig.json** в корень с **@rockpack/compiler***
+[Примеры tsconfig.json](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
+***
+- Как активировать Eslint?
+*Достаточно поместить **.eslintrc.js** или **.eslintrc.development.js** для DEV режима или **.eslintrc.production.js** для PRODUCTION режима в корень с **@rockpack/compiler***
+***
+- Как расширить PostCSS?
+*Достаточно поместить **postcss.config.js** в корень с **@rockpack/compiler***
+***
+- Как заставить **Rockpack** сохранять изменения на HDD при DEV сборке?
+Нужно добавить в конфиг *write: true*
+***
+- Как обработать TypeScript библиотеку, чтобы сохранить исходники?
+**libraryCompiler** принимает первым параметром не только строку-имя библиотеки но и объект с параметрами
+```js
+libraryCompiler({
+  name: 'Color',
+  cjs: {
+    src: './src',
+    dist: './lib/cjs'
+  },
+  esm: {
+    src: './src',
+    dist: './lib/esm'
+  }
+});
+```
+Таким образом, TypeScript исходники будут сохранены в формате ESM и CJS по указанному пути.
 
 ## License
 
