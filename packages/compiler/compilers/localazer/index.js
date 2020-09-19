@@ -1,7 +1,7 @@
-const makePo = require('../../localazer/makePo');
+const makePot = require('../../localazer/makePot');
 const po2json = require('../../localazer/po2json');
 
 module.exports = {
-  makePo,
+  makePot,
   po2json
 };

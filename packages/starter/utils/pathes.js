@@ -2,6 +2,8 @@ const path = require('path');
 
 const currentPath = process.cwd();
 
+const getCurrentPath = projectName => path.join(currentPath, projectName);
+
 const folderNames = {
   templates: 'templates',
   backbone: 'backbone',
@@ -21,5 +23,5 @@ const addons = path.resolve(_template, folderNames.addons);
 module.exports = {
   addons,
   backbone,
-  currentPath
+  getCurrentPath
 }

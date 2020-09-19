@@ -1,3 +1,3 @@
 const { localazer } = require('../../index');
 
-localazer.makePo();
+localazer.makePot();

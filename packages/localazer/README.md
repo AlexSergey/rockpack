@@ -109,18 +109,18 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 
 5. После того, как текст для локализации будет добавлен в приложение, нужно извлечь словарик с данными текстовыми фрагментами.
 
-5.1 Создайте **makePO.js** в корне проекта
+5.1 Создайте **makePOT.js** в корне проекта
 ```js
 const { localazer } = require('@rockpack/compiler');
 
-localazer.makePo({
+localazer.makePot({
     dist: './po',
     src: './src'
 });
 ```
 Запустите скрипт при помощи nodejs:
 ```sh
-node makePO.js
+node makePOT.js
 ```
 В результате будет создан словарик со всеми текстовыми фрагментами для перевода.
 
@@ -233,6 +233,14 @@ class Root extends Component {
 | Safari  | Yes    |
 | IE 11   | Yes    |
 
+### Вопросы/Ответы
+
+Как использовать gettext под Windows?
+- *Для создания словарика, извлечения текстовых фрагментов из приложения, нужно установить gettext под windows версии не ранее 0.20, так как в ранних версиях нет поддержки JavaScript*
+- Скачать последнюю актуальную версию можно [здесь](https://mlocati.github.io/articles/gettext-iconv-windows.html)
+- Прежде чем запускать localazer makePOT нужно убедиться, что в консоли доступны gettext, xgettext
+- Для редактирования PO и POT файлов нужно установить [POEdit](https://poedit.net/download)
+***
 
 ## License
 

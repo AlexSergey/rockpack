@@ -5,21 +5,6 @@ const latestVersion = require('latest-version');
 const merge = require('merge-package-json');
 const sortPackageJson = require('sort-package-json');
 
-const STATE = {
-  no_package: 'no_package.json',
-  src_not_found: 'src_not_found',
-  src_no_empty: 'src_no_empty',
-  set_up: 'set_up',
-}
-
-const isExist = (currentPath, target) => {
-  return new Promise((resolve) => {
-    fs.exists(path.resolve(currentPath, target), exists => {
-      resolve(exists);
-    });
-  })
-}
-
 const readPackageJSON = (currentPath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(path.resolve(currentPath, 'package.json'), (err, data) => {
@@ -37,58 +22,19 @@ const readPackageJSON = (currentPath) => {
   })
 }
 
-const isSrcFolderEmpty = (currentPath) => {
+const isProjectFolderNotEmpty = (currentPath) => {
   return new Promise(async (resolve, reject) => {
-    fs.readdir(path.resolve(currentPath, 'src'), (err, files) => {
+    fs.readdirSync(currentPath, (err, files) => {
       if (err) {
         return reject(err);
       } else {
-        resolve(!files.length);
+        resolve(files.length > 0);
       }
     });
   });
 }
 
-const checkProjectFolder = async (currentPath) => {
-  const packageJSON = await isExist(currentPath, 'package.json');
-
-  if (!packageJSON) {
-    return STATE.no_package;
-  }
-
-  const isSrcNotFound = await isExist(currentPath, 'src');
-
-  if (!isSrcNotFound) {
-    return STATE.src_not_found;
-  }
-
-  const isEmpty = await isSrcFolderEmpty(currentPath);
-
-  if (!isEmpty) {
-    return STATE.src_no_empty;
-  }
-
-  return STATE.set_up;
-}
-
-const projectIsReadyForSetup = async (currentPath, {
-  onPackageJSONNotFound,
-  onSrcFolderNotFound,
-  onSrcFolderNotEmpty
-}) => {
-  const state = await checkProjectFolder(currentPath);
-
-  switch (state) {
-    case STATE.no_package:
-      return await onPackageJSONNotFound();
-    case STATE.src_not_found:
-      return await onSrcFolderNotFound();
-    case STATE.src_no_empty:
-      return await onSrcFolderNotEmpty();
-  }
-}
-
-const addLibraries = async (packageJSON, { dependencies = [], devDependencies = [] }) => {
+const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [] }) => {
   const toMerge = {
     dependencies: {},
     devDependencies: {}
@@ -124,9 +70,11 @@ const writePackageJSON = (currentPath, packageJSON) => {
   });
 }
 
-const createProject = () => {
+const createPackageJSON = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec('npm init -y --silent', (err) => {
+    childProcess.exec('npm init -y --silent', {
+      cwd
+    }, (err) => {
       if (err) {
         console.log(err);
         return reject(err);
@@ -136,9 +84,11 @@ const createProject = () => {
   });
 }
 
-const npmInstall = () => {
+const npmInstall = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec('npm install --silent', (err) => {
+    childProcess.exec('npm install --silent', {
+      cwd
+    }, (err) => {
       if (err) {
         console.log(err);
         return reject(err);
@@ -148,10 +98,19 @@ const npmInstall = () => {
   });
 }
 
-module.exports.npmInstall = npmInstall;
+module.exports = {
+  addScripts,
+  addDependencies,
+  createPackageJSON,
+  readPackageJSON,
+  writePackageJSON,
+  npmInstall
+}
+
+/*module.exports.npmInstall = npmInstall;
 module.exports.createProject = createProject;
 module.exports.addScripts = addScripts;
 module.exports.addLibraries = addLibraries;
 module.exports.readPackageJSON = readPackageJSON;
 module.exports.writePackageJSON = writePackageJSON;
-module.exports.projectIsReadyForSetup = projectIsReadyForSetup;
+module.exports.projectIsReadyForSetup = projectIsReadyForSetup;*/

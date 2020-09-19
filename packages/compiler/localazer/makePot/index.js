@@ -12,7 +12,7 @@ module.exports = async (options = {}, cb, configOnly = false) => {
   options.localization = await prepareOptions(defaultOptions, options);
 
   options.dist = tempy.file();
-  options.makePO = true;
+  options.makePOT = true;
 
   return await _compile(options, cb, configOnly);
 };

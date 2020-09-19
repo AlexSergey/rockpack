@@ -48,15 +48,15 @@ const findValue = (ast, arg) => {
   return excludeOther.value;
 };
 
-class MakePoPlugin {
+class MakePotPlugin {
   constructor(options) {
-    console.log('Making PO file is started...');
+    console.log('Making POT file is started...');
     this.options = options;
   }
 
   apply(compiler) {
-    compiler.hooks.compilation.tap('MakePoPlugin', compilation => {
-      compilation.hooks.optimizeChunkAssets.tapAsync('MakePoPlugin', (chunks, callback) => {
+    compiler.hooks.compilation.tap('MakePotPlugin', compilation => {
+      compilation.hooks.optimizeChunkAssets.tapAsync('MakePotPlugin', (chunks, callback) => {
         const result = [];
 
         chunks.forEach(chunk => {
@@ -144,11 +144,10 @@ class MakePoPlugin {
             const dict = tempy.file();
             const list = tempy.file();
 
-            writeFileSync(dict, result);
+            writeFileSync(dict, result.join(''));
             writeFileSync(list, dict);
 
             mkdirp.sync(this.options.dist);
-
             execSync(
               [
                 'xgettext',
@@ -181,4 +180,4 @@ class MakePoPlugin {
   }
 }
 
-module.exports = MakePoPlugin;
+module.exports = MakePotPlugin;

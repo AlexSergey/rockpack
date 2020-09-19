@@ -43,7 +43,7 @@ const getStylesRules = (conf, mode, root) => {
   let scss;
   let less;
 
-  if (conf.makePO) {
+  if (conf.makePOT) {
     extractStyles = false;
   }
 

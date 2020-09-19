@@ -26,7 +26,7 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
-const MakePoPlugin = require('../localazer/makePo/MakePoPlugin');
+const MakePotPlugin = require('../localazer/makePot/MakePotPlugin');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
@@ -51,8 +51,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
 
   const plugins = {};
 
-  if (conf.makePO) {
-    plugins.LocalizationWebpackPlugin = new MakePoPlugin(conf.localization);
+  if (conf.makePOT) {
+    plugins.LocalizationWebpackPlugin = new MakePotPlugin(conf.localization);
 
     return plugins;
   }

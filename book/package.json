@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node build",
     "build": "cross-env NODE_ENV=production node build",
-    "makePo": "node makePo",
+    "makePot": "node makePot",
     "po2json": "node po2json",
     "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
     "lint": "cross-env NODE_ENV=production eslint \"src/**\""
