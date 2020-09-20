@@ -76,7 +76,6 @@ const createPackageJSON = (cwd) => {
       cwd
     }, (err) => {
       if (err) {
-        console.log(err);
         return reject(err);
       }
       resolve();
@@ -84,13 +83,12 @@ const createPackageJSON = (cwd) => {
   });
 }
 
-const npmInstall = (cwd) => {
+const installDependencies = (yarn = false, cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec('npm install --silent', {
+    childProcess.exec(yarn ? 'yarn install --silent' : 'npm install --silent', {
       cwd
     }, (err) => {
       if (err) {
-        console.log(err);
         return reject(err);
       }
       resolve();
@@ -104,13 +102,5 @@ module.exports = {
   createPackageJSON,
   readPackageJSON,
   writePackageJSON,
-  npmInstall
+  installDependencies
 }
-
-/*module.exports.npmInstall = npmInstall;
-module.exports.createProject = createProject;
-module.exports.addScripts = addScripts;
-module.exports.addLibraries = addLibraries;
-module.exports.readPackageJSON = readPackageJSON;
-module.exports.writePackageJSON = writePackageJSON;
-module.exports.projectIsReadyForSetup = projectIsReadyForSetup;*/

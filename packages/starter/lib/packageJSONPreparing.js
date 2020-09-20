@@ -49,7 +49,6 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@types/react-dom', version: '16' },
           { name: '@types/koa', version: '2' },
           { name: '@types/koa-router', version: '7' },
-          { name: '@types/koa-router', version: '4' },
           { name: '@types/node', version: '14' },
           { name: '@rockpack/compiler', version: '0.9.9-rc.3' }
         ]

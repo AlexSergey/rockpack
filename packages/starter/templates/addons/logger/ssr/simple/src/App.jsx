@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUssrState, useWillMount } from '@rockpack/ussr';
+import { LoggerContainer } from '@rockpack/logger';
 
 const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
@@ -16,4 +17,9 @@ const App = () => {
   );
 };
 
-export default App;
+export default () => (
+  <LoggerContainer>
+    <App />
+  </LoggerContainer>
+);
+

@@ -9,14 +9,19 @@ const {
   readPackageJSON,
   createPackageJSON,
   writePackageJSON,
-  npmInstall
+  installDependencies
 } = require('../utils/project');
+const {
+  yarnIsAvailable
+} = require('../utils/other');
 
 const install = async ({
   projectName,
   currentPath
 }) => {
-  fs.mkdirSync(currentPath);
+  if (!fs.existsSync(currentPath)) {
+    fs.mkdirSync(currentPath);
+  }
 
   await createPackageJSON(currentPath);
   console.log(chalk.green('Package.json created'));
@@ -28,15 +33,15 @@ const install = async ({
   const state = await wizard();
   const spinner = ora('Package.json is preparing. Dependencies are checking.')
     .start();
+
   const packageJSON = await packageJSONPreparing(await readPackageJSON(currentPath), state);
+
   spinner.text = 'Files are copying';
-
   await copyFiles(currentPath, state);
+
   spinner.text = 'Project is initializing... It takes 2 - 5 minutes';
-
   await writePackageJSON(currentPath, packageJSON);
-
-  await npmInstall(currentPath);
+  await installDependencies(yarnIsAvailable(), currentPath);
   spinner.stop();
 
   console.log();

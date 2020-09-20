@@ -5,7 +5,7 @@ import serve from 'koa-static';
 import Router from 'koa-router';
 import serialize from 'serialize-javascript';
 import { serverRender } from '@rockpack/ussr';
-import { App } from './App';
+import App from './App';
 
 const app = new Koa();
 const router = new Router();
@@ -13,8 +13,10 @@ const router = new Router();
 app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
-  const { html, state } = await serverRender(() => <App />);
-  
+  const { html, state } = await serverRender(() => (
+    <App />
+  ));
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +44,7 @@ app
 
 const server = app.listen(4000, () => {
   console.log(`Server is listening ${4000} port`);
-  
+
   if (process.env.NODE_ENV === 'development') {
     console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
   }

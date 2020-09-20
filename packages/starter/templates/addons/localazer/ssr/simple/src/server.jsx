@@ -5,7 +5,8 @@ import serve from 'koa-static';
 import Router from 'koa-router';
 import serialize from 'serialize-javascript';
 import { serverRender } from '@rockpack/ussr';
-import { App } from './App';
+import { LocalizationObserver, getDefaultLocale } from '@rockpack/localazer';
+import App from './App';
 
 const app = new Koa();
 const router = new Router();
@@ -14,7 +15,9 @@ app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
   const { html, state } = await serverRender(() => (
-    <App />
+    <LocalizationObserver active="en" languages={{ en: getDefaultLocale() }}>
+      <App />
+    </LocalizationObserver>
   ));
 
   ctx.body = `

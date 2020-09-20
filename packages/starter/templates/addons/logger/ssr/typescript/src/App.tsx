@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUssrState, useWillMount } from '@rockpack/ussr';
+import { LoggerContainer } from '@rockpack/logger';
 
 type Data = { text: string };
 
@@ -18,4 +19,8 @@ const App = () => {
   );
 };
 
-export default App;
+export default () => (
+  <LoggerContainer>
+    <App />
+  </LoggerContainer>
+);
