@@ -2,6 +2,8 @@
 
 **@rockpack/ussr** маленькая библиотека дающая большие возможности для создания SSR приложений. Не привязана ни к каким библиотекам.
 
+**@rockpack/ussr** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+
 USSR - Universal server side rendering. Universal - по тому, что мы можем использовать данное решение для любых реализаций состояния приложения, таких как Redux, Apollo, так и для обычного setState.
 
 Современные JS приложения делятся на 2 вида:

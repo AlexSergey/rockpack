@@ -114,7 +114,7 @@ createDocumentation({
       }
     }
   },
-  github: 'https://github.com/AlexSergey/rock',
+  github: 'https://github.com/AlexSergey/rockpack',
   footer: <div>License MIT, 2020</div>,
   ga: 'UA-155200418-1',
 }, document.getElementById('root'));

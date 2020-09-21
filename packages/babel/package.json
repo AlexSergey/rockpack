@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel",
-  "version": "0.9.9-rc.5",
+  "version": "0.9.9-rc.6",
   "description": "Babel presets module for @rock",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexSergey/rock.git"
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
   "homepage": "https://www.rock-book.io/",
   "bugs": {
@@ -48,6 +48,6 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.5"
+    "@rockpack/codestyle": "0.9.9-rc.6"
   }
 }

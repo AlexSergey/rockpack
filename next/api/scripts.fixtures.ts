@@ -1,4 +1,9 @@
-import { readdirSync, copyFileSync } from 'fs';
+import {
+  readdirSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync
+} from 'fs';
 import { resolve } from 'path';
 import { loadFile } from 'sequelize-fixtures';
 import { config } from './src/config';
@@ -30,6 +35,10 @@ const copy = (folder) => (
   new Promise(r => {
     const imagesPath = resolve(__dirname, folder);
     const files = readdirSync(imagesPath);
+
+    if (!existsSync(resolve(__dirname, config.storage))) {
+      mkdirSync(resolve(__dirname, config.storage));
+    }
 
     for (let i = 0, l = files.length; i < l; i++) {
       const file = files[i];

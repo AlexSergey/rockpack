@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/ussr",
-  "version": "0.9.9-rc.5",
+  "version": "0.9.9-rc.6",
   "description": "USSR can help you to build Server Side Rendering for your react application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexSergey/rock.git"
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
   "homepage": "https://www.rock-book.io/",
   "bugs": {
@@ -35,8 +35,8 @@
     "lodash": "4.17.20"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.5",
-    "@rockpack/compiler": "0.9.9-rc.5",
+    "@rockpack/codestyle": "0.9.9-rc.6",
+    "@rockpack/compiler": "0.9.9-rc.6",
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",

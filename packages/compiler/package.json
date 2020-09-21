@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "0.9.9-rc.5",
+  "version": "0.9.9-rc.6",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlexSergey/rock.git"
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rock)",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
   "homepage": "https://www.rock-book.io/",
   "bugs": {
@@ -33,7 +33,7 @@
     "@becklyn/typescript-error-formatter": "1.0.4",
     "@loadable/webpack-plugin": "5.13.0",
     "@mdx-js/loader": "1.6.16",
-    "@rockpack/babel": "0.9.9-rc.5",
+    "@rockpack/babel": "0.9.9-rc.6",
     "@svgr/webpack": "5.4.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.3.0",
     "antd-dayjs-webpack-plugin": "1.0.1",
@@ -115,6 +115,6 @@
     "yargs": "15.4.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.5"
+    "@rockpack/codestyle": "0.9.9-rc.6"
   }
 }
