@@ -11,7 +11,7 @@
 - Собрать изоморфное приложение
 - Провести анализ бандла
 
-**@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ### Features support:
 
@@ -218,7 +218,7 @@ multiCompiler(
 ```
 #### isomorphicCompiler(configs[needed]);
 
-Компилирует SSR приложение. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
+Компилирует SSR приложение. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');
@@ -235,7 +235,7 @@ isomorphicCompiler(
 );
 ```
 
-**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/compiler/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 
 ### Вопросы/Ответы
 
@@ -280,4 +280,4 @@ import styles from './App.modules.css';
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

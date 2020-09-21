@@ -4,7 +4,7 @@
 
 Некоторые свойства были отключены для удобства написания кода, но любые свойства поддерживаемые установленными плагинами можно переопределить.
 
-**@rockpack/codestyle** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/codestyle** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ## Usage
 
@@ -198,4 +198,4 @@ module.exports = rockConfig({}, {
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

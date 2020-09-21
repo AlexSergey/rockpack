@@ -24,7 +24,7 @@
 
 Для того, чтобы организовать связь нашего **React** приложения с **gettext** и обратно нам могут помочь **rocpack/compiler** и **rockpack/localizer**
 
-**@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ## Как это работает
 Этап 1. Нам нужно добавить локализацию и подружить её с нашим приложением.
@@ -244,4 +244,4 @@ class Root extends Component {
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

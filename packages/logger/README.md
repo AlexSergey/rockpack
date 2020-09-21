@@ -24,7 +24,7 @@
 
 **@rockpack/logger** это реакт компонент и система логирования позволяющая записать все действия перед возникновением критиской ошибки чтобы в дальнейшем эту информацию можно было проанализировать.
 
-**@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ## Usage
 
@@ -169,4 +169,4 @@ logger.error('Ups...');
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

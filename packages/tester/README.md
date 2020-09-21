@@ -4,7 +4,7 @@
 
 **@rockpack/tester** включает в себя несколько рекомендуемых модулей и генератор отчетов тестирования.
 
-**@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ### Expect addons:
 - [jest-extended](https://github.com/jest-community/jest-extended)
@@ -58,8 +58,8 @@ enzyme.configure({
 });
 ```
 
-**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/tester/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

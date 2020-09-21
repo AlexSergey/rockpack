@@ -2,7 +2,7 @@
 
 **@rockpack/babel** это настройки Babel обеспечивающие поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
 
-**@rockpack/babel** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/babel** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 **@rockpack/babel** включает в себя поддержку React, Jest, содержит ряд оптимизирующих плагинов для React и многое другое. Полный список включенных фич смотрите ниже:
 
@@ -40,4 +40,4 @@
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>

@@ -34,7 +34,7 @@ Side effect'ы могут быть зависимы друг от друга. Н
 
 Все вышеописанное позволяет организовать **@rockpack/ussr** и **@rockpack/ussr**
 
-**@rockpack/ussr** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/ussr** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ## Usage
 
@@ -217,10 +217,10 @@ app.use(express.static('public'));
 
 ***
 
-**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rock/blob/master/packages/ussr/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/examples" target="_blank">here</a>
 
 ***
 
 ## License
 
-<a href="https://github.com/AlexSergey/rock/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
