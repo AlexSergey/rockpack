@@ -20,5 +20,5 @@ hydrate(
       <App />
     </StyleContext.Provider>
   </Ussr>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

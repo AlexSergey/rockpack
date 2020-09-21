@@ -1,6 +1,6 @@
 const { localazer } = require('@rockpack/compiler');
 
 localazer.makePot({
-  src: './src/client.tsx',
+  src: './src/client.jsx',
   dist: './locales'
 });
