@@ -13,14 +13,21 @@ if (existsSync(path.resolve(currentProjectFolder, './tsconfig.js'))) {
   tsConfig = path.resolve(currentProjectFolder, './tsconfig.json');
 }
 
-const setupFiles = [
-  `${rootFolder}/configs/jest.setup.js`
-];
+const setupFiles = [];
+const setupFilesAfterEnv = [];
+
+if (existsSync(path.resolve(currentProjectFolder, './jest.init.js'))) {
+  setupFiles.push('<rootDir>/jest.init.js');
+} else if (existsSync(path.resolve(currentProjectFolder, './jest.init.ts'))) {
+  setupFiles.push('<rootDir>/jest.init.ts');
+} else {
+  setupFiles.push(`${rootFolder}/configs/jest.init.js`);
+}
 
 if (existsSync(path.resolve(currentProjectFolder, './jest.setup.js'))) {
-  setupFiles.push('<rootDir>/jest.setup.js');
+  setupFilesAfterEnv.push('<rootDir>/jest.setup.js');
 } else if (existsSync(path.resolve(currentProjectFolder, './jest.setup.ts'))) {
-  setupFiles.push('<rootDir>/jest.setup.ts');
+  setupFilesAfterEnv.push('<rootDir>/jest.setup.ts');
 }
 
 if (existsSync(path.resolve(currentProjectFolder, './enzyme.setup.js'))) {
@@ -71,7 +78,7 @@ module.exports = {
     require.resolve('jest-generator'),
     require.resolve('jest-chain'),
     require.resolve('@testing-library/jest-dom/extend-expect')
-  ],
+  ].concat(setupFilesAfterEnv),
   collectCoverage: true,
   coverageReporters: ['json', 'html'],
   reporters: [

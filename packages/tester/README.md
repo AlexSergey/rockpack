@@ -16,7 +16,7 @@
 ### Reporters
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
 
-### How it works
+## Usage
 
 1. Установка:
 

@@ -1,9 +1,12 @@
 {
   "name": "@rockpack/starter",
-  "version": "0.9.9-rc.4",
+  "version": "0.9.9-rc.5",
   "main": "./lib/index.js",
   "bin": {
     "rockpack": "./bin/index.js"
+  },
+  "scripts": {
+    "production": "npm publish"
   },
   "dependencies": {
     "chalk": "4.1.0",

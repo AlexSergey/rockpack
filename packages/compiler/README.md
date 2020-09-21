@@ -43,7 +43,7 @@
 - GraphQL support (webpack-graphql-loader)
 - Сross-env included
 
-## How it works
+## Usage
 
 Для компиляции приложения в стиле create-react-app:
 
@@ -268,6 +268,15 @@ libraryCompiler({
 });
 ```
 Таким образом, TypeScript исходники будут сохранены в формате ESM и CJS по указанному пути.
+***
+Как работать с CSS(SCSS, LESS) Modules?
+- *Нужно переименовать файл с модульными стилями в формат [имя_файла].modules.scss*
+```jsx
+import styles from './App.modules.css';
+<div className={styles.App}>
+```
+*Для версии проекта с TypeScript будут генерироваться файлы definitions, при помощи [@teamsupercell/typings-for-css-modules-loader](https://www.npmjs.com/package/@teamsupercell/typings-for-css-modules-loader)*
+***
 
 ## License
 

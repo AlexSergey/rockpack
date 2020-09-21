@@ -30,7 +30,18 @@
 
 **Rockpack** состоит из модулей. Рассмотрим их по подробнее:
 
-**@rockpack/compiler** - основной модуль системы, позволяющий компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
+**@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, но и:
+ - приложение с Server Side Render [@rockpack/ussr](https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md)
+ - Настроенный линтер с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rock/blob/master/packages/codestyle/README.md)
+ - Настроенный Jest с дополнениями [@rockpack/tester](https://github.com/AlexSergey/rock/blob/master/packages/tester/README.md)
+ - Typescript, CSS(SCSS, LESS) Modules, @loadable components [@rockpack/compiler](https://github.com/AlexSergey/rock/blob/master/packages/compiler/README.md)
+А также такие типы приложения как:
+- Библиотека. Настроенный webpack для создания UMD библиотеки, как React так и Vanilla JS
+- NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
+
+<a href="https://github.com/AlexSergey/rock/blob/master/packages/starter/README.md" target="_blank">Подробнее...</a>
+***
+**@rockpack/compiler** - модуль позволяет компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
 
 **С помощью данного модуля вы сможете:**
 
@@ -77,6 +88,20 @@
 *Для более подробного описания заходите по ссылкам каждого модуля.*
 
 **Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**
+
+### С чего начать
+Для настройки проекта с нуля рекомендованный подход является использование **@rockpack/starter**
+
+- [Как сгенерировать приложение с помощью @rockpack/starter](https://github.com/AlexSergey/rock/blob/master/packages/starter/README.md#how-it-works)
+
+Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
+
+- [@rockpack/compiler](https://github.com/AlexSergey/rock/blob/master/packages/compiler/README.md#how-it-works)
+- [@rockpack/tester](https://github.com/AlexSergey/rock/blob/master/packages/tester/README.md#how-it-works)
+- [@rockpack/ussr](https://github.com/AlexSergey/rock/blob/master/packages/ussr/README.md#how-it-works)
+- [@rockpack/codestyle](https://github.com/AlexSergey/rock/blob/master/packages/codestyle/README.md#how-it-works)
+- [@rockpack/logger](https://github.com/AlexSergey/rock/blob/master/packages/logger/README.md#how-it-works)
+- [@rockpack/localazer](https://github.com/AlexSergey/rock/blob/master/packages/localazer/README.md#how-it-works)
 
 ### Альтернативы
 

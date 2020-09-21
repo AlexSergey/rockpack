@@ -6,7 +6,7 @@
 
 **@rockpack/codestyle** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rock/blob/master/README.md" target="_blank">здесь</a>
 
-### How it works
+## Usage
 
 1. Установка:
 

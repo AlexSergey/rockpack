@@ -55,6 +55,10 @@ const addDependencies = async (packageJSON, { dependencies = [], devDependencies
   return JSON.parse(merge(packageJSON, toMerge));
 }
 
+const addFields = (packageJSON, fields = {}) => {
+  return JSON.parse(merge(packageJSON, fields));
+}
+
 const addScripts = (packageJSON, scripts = {}) => {
   return JSON.parse(merge(packageJSON, { scripts }));
 }
@@ -97,6 +101,7 @@ const installDependencies = (yarn = false, cwd) => {
 }
 
 module.exports = {
+  addFields,
   addScripts,
   addDependencies,
   createPackageJSON,

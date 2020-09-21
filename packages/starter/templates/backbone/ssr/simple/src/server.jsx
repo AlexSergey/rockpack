@@ -1,21 +1,47 @@
 import path from 'path';
+import { readFileSync } from 'fs';
 import React from 'react';
 import Koa from 'koa';
 import serve from 'koa-static';
-import Router from 'koa-router';
+import PrettyError from 'pretty-error';
+import Router from '@koa/router';
 import serialize from 'serialize-javascript';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { serverRender } from '@rockpack/ussr';
-import { App } from './App';
+import App from './App';
 
 const app = new Koa();
 const router = new Router();
+const pe = new PrettyError();
 
-app.use(serve(path.resolve(__dirname, '../public')));
+const publicFolder = path.resolve(__dirname, '../public');
+const stats = JSON.parse(
+  readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'),
+);
+
+const styles = stats.assets
+  .filter((file) => path.extname(file.name) === '.css')
+  .map((style) => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
+
+app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
+  const css = new Set();
+
+  const insertCss = process.env.NODE_ENV === 'production'
+    ? () => {}
+    // eslint-disable-next-line no-underscore-dangle
+    : (...moduleStyles) => moduleStyles.forEach((style) => css.add(style._getCss()));
+
   const { html, state } = await serverRender(() => (
-    <App />
+    <StyleContext.Provider value={{ insertCss }}>
+      <App />
+    </StyleContext.Provider>
   ));
+
+  if (process.env.NODE_ENV === 'development') {
+    styles.push(`<style>${[...css].join('')}</style>`);
+  }
 
   ctx.body = `
   <!DOCTYPE html>
@@ -23,9 +49,11 @@ router.get('/*', async (ctx) => {
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    ${process.env.NODE_ENV === 'development' ?
-      `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` :
-    ''}
+    ${styles.join('')}
+    ${process.env.NODE_ENV === 'development'
+    // eslint-disable-next-line no-underscore-dangle
+    ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>`
+    : ''}
     <script>
       window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
@@ -42,10 +70,37 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-const server = app.listen(4000, () => {
-  console.log(`Server is listening ${4000} port`);
+const server = app.listen(process.env.PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server is listening ${process.env.PORT} port`);
 
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-underscore-dangle, no-console
     console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
   }
+});
+
+const handleError = (err, ctx) => {
+  if (ctx == null) {
+    // eslint-disable-next-line no-console
+    console.error(pe.render(err));
+  }
+};
+
+const terminate = async (signal) => {
+  server.close();
+  process.exit(signal);
+};
+
+server.once('error', handleError);
+
+['unhandledRejection', 'uncaughtException'].forEach((error) => {
+  process.on(error, (e) => {
+    // eslint-disable-next-line no-console
+    console.error(pe.render(e));
+  });
+});
+
+['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal) => {
+  process.once((signal), () => terminate(signal));
 });

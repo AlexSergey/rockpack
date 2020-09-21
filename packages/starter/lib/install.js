@@ -50,33 +50,33 @@ const install = async ({
   console.log(chalk.yellow('COMMANDS:'));
   console.log();
   console.log(chalk.magenta('  Building project:'));
-  console.log(`${chalk.blue('npm start')} - run dev mode`);
-  console.log(`${chalk.blue('npm run build')} - build production`);
+  console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} start`)} - run dev mode`);
+  console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run build`)} - build production`);
 
   if (state.tester) {
     console.log();
     console.log(chalk.magenta('  Testing project:'));
-    console.log(`${chalk.blue('npm test')} - run tests`);
-    console.log(`${chalk.blue('npm run test:watch')} - run tests in dev mode`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} test`)} - run tests`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run test:watch`)} - run tests in dev mode`);
   }
 
   if (state.typescript) {
     console.log();
     console.log(chalk.magenta('  Typescript checking:'));
-    console.log(`${chalk.blue('npm run typing')} - check types`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run typing`)} - check types`);
   }
 
   if (state.codestyle) {
     console.log();
     console.log(chalk.magenta('  ESLint checking:'));
-    console.log(`${chalk.blue('npm run lint')} - check ESLint rules`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run lint`)} - check ESLint rules`);
   }
 
   if (state.modules.localization) {
     console.log();
     console.log(chalk.magenta('  Localizing:'));
-    console.log(`${chalk.blue('npm run localization:makePot')} - create POT file`);
-    console.log(`${chalk.blue('npm run localization:po2json')} - convert PO files to JSON`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run localization:makePot`)} - create POT file`);
+    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run localization:po2json`)} - convert PO files to JSON`);
   }
 
   console.log();

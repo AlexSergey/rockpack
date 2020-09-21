@@ -28,30 +28,28 @@ const copyFiles = async (currentPath, {
   }
 
   if (tester) {
+    await copy(
+      path.join(addons, 'tester', 'common'),
+      path.join(currentPath)
+    );
     if (appType === 'csr' || appType === 'ssr') {
       await copy(
         path.join(addons, 'tester', 'react-common'),
         path.join(currentPath)
       );
-    } else {
       await copy(
-        path.join(addons, 'tester', 'common'),
+        path.join(addons, 'tester', appType, typescript ? 'typescript' : 'simple'),
+        path.join(currentPath)
+      );
+    } else if (appType === 'library') {
+      await copy(
+        path.join(addons, 'tester', appType, typescript ? 'typescript' : 'simple'),
         path.join(currentPath)
       );
     }
   }
 
-  if (modules.localization && modules.logger) {
-    await copy(
-      path.join(addons, 'logger-localazer', appType, typescript ? 'typescript' : 'simple'),
-      path.join(currentPath)
-    );
-  } else if (!modules.localization && modules.logger) {
-    await copy(
-      path.join(addons, 'logger', appType, typescript ? 'typescript' : 'simple'),
-      path.join(currentPath)
-    );
-  } else if (modules.localization && !modules.logger) {
+  if (modules.localization) {
     await copy(
       path.join(addons, 'localazer', appType, typescript ? 'typescript' : 'simple'),
       path.join(currentPath)
