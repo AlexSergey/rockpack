@@ -28,7 +28,6 @@
   ],
   "include": [
     "./src/**/*",
-    "./typings/global.d.ts",
-    "./typings/window.d.ts"
+    "./typings/global.d.ts"
   ]
 }

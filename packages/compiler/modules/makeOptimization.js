@@ -1,4 +1,5 @@
 const { isArray } = require('valid-types');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const makeOptimization = (mode, conf) => {
   const optimization = {};
@@ -40,7 +41,22 @@ const makeOptimization = (mode, conf) => {
       },
       noEmitOnErrors: true,
       checkWasmTypes: true,
-      minimize: false,
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          sourceMap: conf.debug,
+          terserOptions: {
+            mangle: true,
+            output: {
+              comments: new RegExp('banner')
+            },
+            compress: {
+              drop_console: !conf.debug,
+              drop_debugger: !conf.debug
+            }
+          }
+        })
+      ],
       removeAvailableModules: true,
       removeEmptyChunks: true,
       usedExports: true,

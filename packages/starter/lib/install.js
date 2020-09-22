@@ -4,6 +4,7 @@ const path = require('path');
 const chalk = require('chalk');
 const wizard = require('./wizard');
 const copyFiles = require('./copyFiles');
+const createFiles = require('./createFiles');
 const packageJSONPreparing = require('./packageJSONPreparing');
 const {
   readPackageJSON,
@@ -36,8 +37,10 @@ const install = async ({
 
   const packageJSON = await packageJSONPreparing(await readPackageJSON(currentPath), state);
 
-  spinner.text = 'Files are copying';
+  spinner.text = 'Files are copying and creating';
+
   await copyFiles(currentPath, state);
+  await createFiles(currentPath, state);
 
   spinner.text = 'Project is initializing... It takes 2 - 5 minutes';
   await writePackageJSON(currentPath, packageJSON);

@@ -249,6 +249,46 @@ isomorphicCompiler(
 Как расширить PostCSS?
 - *Достаточно поместить **postcss.config.js** в корень с **@rockpack/compiler***
 ***
+Я могу расширить webpack.config сгенерированный **@rockpack/compiler**?
+- Конечно! Это одно из фундаментальных отличий от **create-react-app**, расширяемость из коробки без *eject*
+- Пример, позволяющий работать с Elm:
+```js
+const { frontendCompiler } = require('../../index');
+const WebpackNotifierPlugin = require('webpack-notifier');
+
+frontendCompiler({
+  banner: true,
+  styles: 'style.css',
+  vendor: ['react', 'react-dom', 'core-js']
+}, (config, modules, plugins) => {
+  config.resolve.extensions = ['.js', '.elm'];
+
+  modules.set('elm', {
+    test: /\.elm$/,
+    exclude: [/elm-stuff/, /node_modules/],
+    use: process.env.NODE_ENV === 'development' ? [
+      { loader: 'elm-hot-webpack-loader' },
+      {
+        loader: 'elm-webpack-loader',
+        options: {
+          forceWatch: true
+        }
+      }
+    ] : [
+      {
+        loader: 'elm-webpack-loader',
+        options: {
+          optimize: true
+        }
+      }
+    ]
+  });
+
+  plugins.set('WebpackNotifierPlugin', new WebpackNotifierPlugin());
+});
+```
+- [Полный пример по ссылке](https://github.com/AlexSergey/rockpack/tree/master/packages/compiler/examples/advanced-config-elm-support)
+***
 Как заставить **Rockpack** сохранять изменения на HDD при DEV сборке?
 - *Нужно добавить в конфиг **write: true***
 ***

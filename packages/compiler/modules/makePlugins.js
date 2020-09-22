@@ -2,7 +2,6 @@ const { existsSync } = require('fs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
-const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -347,20 +346,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
 
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
-
-    plugins.Terser = new TerserPlugin({
-      sourceMap: conf.debug,
-      terserOptions: {
-        mangle: true,
-        output: {
-          comments: new RegExp('banner')
-        },
-        compress: {
-          drop_console: !conf.debug,
-          drop_debugger: !conf.debug
-        }
-      }
-    });
 
     plugins.OptimizeCssAssetsPlugin = new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
