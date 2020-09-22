@@ -1,4 +1,4 @@
-## @rockpack/tester
+## @rockpack/starter
 
 **@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, а также:
  - приложение с Server Side Render [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
@@ -9,7 +9,7 @@
 - Библиотека. Настроенный webpack для создания UMD библиотеки, как React так и Vanilla JS
 - NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
 
-**@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/starter** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
 ## Usage
 
