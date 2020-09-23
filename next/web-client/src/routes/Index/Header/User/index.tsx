@@ -7,6 +7,7 @@ import styles from './style.modules.scss';
 
 export const User = (): JSX.Element => {
   useStyles(styles);
+
   const { email } = useUser();
   const role = useRole();
 

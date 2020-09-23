@@ -50,7 +50,7 @@ export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn })
 const OnComplete = ({ loading, onLoad }): JSX.Element => {
   useEffect(() => {
     if (!isBackend() && loading) {
-      onLoad(false);
+      setTimeout(() => onLoad(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

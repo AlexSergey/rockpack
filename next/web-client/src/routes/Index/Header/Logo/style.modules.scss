@@ -1,0 +1,12 @@
+@import '../../../../assets/styles/variables';
+
+.logo {
+  width: 50px;
+  height: 100%;
+  top: 10px;
+  float: left;
+  svg {
+    position: relative;
+    top: 10px;
+  }
+}

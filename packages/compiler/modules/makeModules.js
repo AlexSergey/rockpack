@@ -371,7 +371,7 @@ function getModules(conf = {}, mode, root) {
     },
   };
 
-  if (isEslint) {
+  if (!conf.makePOT && isEslint) {
     finalConf.jsPre = {
       enforce: 'pre',
       test: /\.(js|jsx|ts|tsx)$/,

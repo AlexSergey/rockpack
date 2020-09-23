@@ -1,6 +1,7 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import createUssr from '@rockpack/ussr';
+import { loadableReady } from '@loadable/component';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import App from './App';
 
@@ -22,11 +23,13 @@ const insertCss = (...styles): () => void => {
   return (): void => removeCss.forEach((dispose) => dispose());
 };
 
-hydrate(
-  <Ussr>
-    <StyleContext.Provider value={{ insertCss }}>
-      <App />
-    </StyleContext.Provider>
-  </Ussr>,
-  document.getElementById('root'),
-);
+loadableReady(() => {
+  hydrate(
+    <Ussr>
+      <StyleContext.Provider value={{ insertCss }}>
+        <App />
+      </StyleContext.Provider>
+    </Ussr>,
+    document.getElementById('root'),
+  );
+});

@@ -2,6 +2,7 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import Cookies from 'js-cookie';
 import createUssr from '@rockpack/ussr';
+import { loadableReady } from '@loadable/component';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -47,17 +48,19 @@ const insertCss = (...styles): () => void => {
   return (): void => removeCss.forEach(dispose => dispose());
 };
 
-hydrate(
-  <Ussr>
-    <Provider store={store}>
-      <StyleContext.Provider value={{ insertCss }}>
-        <ConnectedRouter history={history}>
-          <LocalizationContainer>
-            <App />
-          </LocalizationContainer>
-        </ConnectedRouter>
-      </StyleContext.Provider>
-    </Provider>
-  </Ussr>,
-  document.getElementById('root')
-);
+loadableReady(() => {
+  hydrate(
+    <Ussr>
+      <Provider store={store}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <ConnectedRouter history={history}>
+            <LocalizationContainer>
+              <App />
+            </LocalizationContainer>
+          </ConnectedRouter>
+        </StyleContext.Provider>
+      </Provider>
+    </Ussr>,
+    document.getElementById('root')
+  );
+});

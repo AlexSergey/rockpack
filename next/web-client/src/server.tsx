@@ -64,7 +64,9 @@ router.get('/*', async (ctx) => {
       },
       localization: {
         currentLanguage,
-        locale
+        languages: {
+          [currentLanguage]: locale
+        }
       }
     },
     logger,
@@ -146,9 +148,9 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-const server = app.listen(4000, () => {
+const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is listening ${4000} port`);
+  console.log(`Server is listening ${process.env.PORT} port`);
 });
 
 const handleError = (err, ctx): void => {
