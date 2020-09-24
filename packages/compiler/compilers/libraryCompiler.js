@@ -1,5 +1,5 @@
 const deepExtend = require('deep-extend');
-const { isString, isObject } = require('valid-types');
+const { isString, isObject, isArray } = require('valid-types');
 const frontendCompiler = require('./frontendCompiler');
 const backendCompiler = require('./backendCompiler');
 const getMode = require('../utils/getMode');
@@ -21,6 +21,10 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   if (isString(libraryOpts)) {
     libraryName = libraryOpts;
   } else if (isObject(libraryOpts) && isString(libraryOpts.name)) {
+    if (isArray(libraryOpts.externals) && libraryOpts.externals.length > 0) {
+      conf.externals = libraryOpts.externals;
+    }
+
     libraryName = libraryOpts.name;
     if (isObject(libraryOpts.esm)) {
       deepExtend(conf, {

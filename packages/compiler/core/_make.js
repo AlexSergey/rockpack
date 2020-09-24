@@ -44,6 +44,10 @@ const _make = async (conf, post) => {
 
   finalConfig.mode = mode;
 
+  if (conf.externals) {
+    finalConfig.externals = conf.externals;
+  }
+
   if (conf.nodejs) {
     finalConfig.node = makeNode();
     finalConfig.target = 'node';

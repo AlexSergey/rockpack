@@ -101,6 +101,7 @@ test-reports
 # Custom rules
 packages/next/public
 packages/compiler/examples/**/public
+packages/compiler/examples/**/lib
 packages/ussr/examples/**/public
 packages/logger/lib
 packages/localazer/lib

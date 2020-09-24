@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "0.9.9-rc.8",
+  "version": "0.9.9-rc.9",
   "main": "./lib/index.js",
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "bin": {

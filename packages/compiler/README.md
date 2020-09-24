@@ -164,6 +164,28 @@ const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler('MyLib', options);
 ```
+
+*libraryName* может принимать объект с дополнительными настройками:
+
+```js
+const { libraryCompiler } = require('@rockpack/compiler');
+
+libraryCompiler({
+  name: 'MyLib',
+  cjs: {
+    src: './src',
+    dist: './lib/cjs'
+  },
+  esm: {
+    src: './src',
+    dist: './lib/esm'
+  },
+  externals: [
+    'react',
+     'react-dom'
+  ]
+}, options);
+```
 #### markupCompiler(paths[needed], options[optional], callback[optional]);
 
 Позволяет обрабатывать HTML файлы (HTML, handlebars, jade). Полезно при верстки макета
