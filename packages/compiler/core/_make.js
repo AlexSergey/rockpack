@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const { existsSync } = require('fs');
-const { isFunction } = require('valid-types');
+const { isFunction, isDefined } = require('valid-types');
 const getMode = require('../utils/getMode');
 const makeEntry = require('../modules/makeEntry');
 const makeOutput = require('../modules/makeOutput');
@@ -44,7 +44,7 @@ const _make = async (conf, post) => {
 
   finalConfig.mode = mode;
 
-  if (conf.externals) {
+  if (isDefined(conf.externals)) {
     finalConfig.externals = conf.externals;
   }
 

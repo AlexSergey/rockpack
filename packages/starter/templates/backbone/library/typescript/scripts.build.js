@@ -9,5 +9,6 @@ libraryCompiler({
   esm: {
     src: './src',
     dist: './lib/esm'
-  }
+  },
+  external: []
 });
