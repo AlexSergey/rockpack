@@ -2,101 +2,104 @@
 
 # Rockpack
 
-**Rockpack** это комплексное решение, которое позволяет нам экономить время на старте проекта и начать сразу решать боевые задачи, писать бизнес логику, а не в очередной раз иметь дело с рутиной, такой как настройки webpack и прочих вещей.
+**Rockpack** is a comprehensive solution that allows us to save time at the start of a project and start immediately solving business problems and not once again having to deal with routine such as setting up webpack, jest, eslint etc.
 
-**Rockpack** был разработан с одной целью - использовать ранее созданные готовые решения максимально эффективно. В его разработке я старался избегать велосипедо строения, чтобы сделать данный инструмент максимально универсальным для каждого React проекта
+**Rockpack** was designed with one goal in mind - to use previously created turnkey solutions as efficiently as possible. In its development, I tried to avoid the bike structure in order to make this tool as versatile as possible for every React project.
 
-## Мотивация
+[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/README_RU.md)
 
-Работая над многими проектами на React с нуля мы сталкиваемся с однотипными рутинными задачами. Мы каждый раз отвечаем на вопросы:
+## Motivation
 
-- *Как настроить эффективно билд систему с поддержкой множества необходимых нам форматов и Typescript*
-- *Какие правила выстроить для линтера, чтобы было комфортно работать*
-- *Как подружить Jest с нашей системой, чтобы он обрабатывал последний синтаксис Babel или Typescript*
-- *Как сделать серверный рендеринг правильно, чтобы он работал с готовыми решениями, такими как Redux или Apollo*
-- *Как настроить Webpack под сервер сайд рендеринг и иметь на выходе готовый артефакт для продакшена и отзывчивый дев сервер*
+Working on many React projects from scratch, we are faced with the same type of routine tasks. We answer questions every time:
 
-Каждый раз на эти рутинные задачи мы тратим недели времени.
+- *How to set up an efficient build system with support for many formats and Typescript we need*
+- *Which linter's rules should be on the project for comfortable work*
+- *How to set up Jest that it works with Babel or Typescript*
+- *How to make server-side rendering to work with exists solutions - Redux, Apollo and other*
+- *How to set up Webpack for server-side rendering and get production ready artifact and cool dev server*
+
+Every time we spend weeks on these routine tasks.
 
 <div style="text-align: center"><img alt="Usual flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png"></div>
 
-Используя **Rockpack** вы сможете развернуть проект за считанные минуты и начать писать действительно полезный код.
+Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
 
 <div style="text-align: center"><img alt="Rockpack flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png"></div>
 
-Также на этапе старта проекта мы можем заложить такие фичи как - локализация, логирование и это мы можем сделать практически без затрат по времени.
+Also at the start of the project, we can create localization, logging and we can do this practically without spending time.
 
-## Обзор модулей Rockpack
+## Rockpack modules overview
 
-**Rockpack** состоит из модулей. Рассмотрим их по подробнее:
+**Rockpack** consists of modules. Let's consider them in more detail:
 
-**@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, но и:
- - Приложение с Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
- - Настроенный линтер с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
- - Настроенный Jest с дополнениями [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
+**@rockpack/starter** is **create-react-app** on steroids. Allows you to create not only a regular React application, but also:
+
+ - Application with Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
+ - ESLint with the best practices and rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
+ - Jest with cool add-ons and Typescript/Babel support [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
  - Typescript, CSS(SCSS, LESS) Modules, @loadable components [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
-**А также такие типы приложения как:**
+**Also, such types of applications as:**
 
-- Библиотека. Настроенный webpack для создания UMD библиотеки, как React так и Vanilla JS
-- NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
+- Library. Configured webpack for building UMD libraries, both React and Vanilla JS
+- NodeJS application. Supporting ES6 Imports, source minification, etc.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">Подробнее...</a>
 ***
-**@rockpack/compiler** - модуль позволяет компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
+**@rockpack/compiler** - is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
-**С помощью данного модуля вы сможете:**
+**@rockpack/compiler** can help you with:
 
-- Скомпилировать ваше React приложение (TS/Babel)
-- Скомпилировать библиотеку как для React так и для vanilla JS (TS/Babel)
+- Compile your React application (TS/Babel)
+- Compile React Component or VanillaJS UMD library (TS/Babel)
 - Nodejs backend (TS/Babel)
-- Обработать html для верстки
-- Собрать изоморфное приложение (TS/Babel)
-- Провести анализ бандла (TS/Babel)
+- Markup html files
+- Compile isomorphic (Server-side rendering) application (TS/Babel)
+- Bundle analyze (TS/Babel)
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/ussr** - небольшая библиотека обеспечивающая SSR. Работает с Redux, Apollo и прочими решениями.
+**@ rockpack/ussr** is a small library providing SSR. Works with Redux, Apollo and other solutions.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/tester** - полностью совместим с TS/Babel настроенный Jest, с множеством полезных дополнений.
+**@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/codestyle** - эффективно настроенный Eslint с множеством best practice правил и дополнений.
+**@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/logger** - это система логирования, которая будет выдавать отчет при возникновении ошибки в системе. Записываются все действия, которые совершал пользователь, нажатые кнопки, информация о ОС, дисплеи, браузере и прочем. Этот модуль позволяет понять причину возникновения ошибки.
+**@rockpack/logger** is a logging system that will issue a report when an error occurs in the system. All actions that the user performed, buttons pressed, information about the OS, displays, browser, and more are recorded. This module allows you to understand the cause of the error.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/localazer** - это система "правильной" локализации React приложения, которое поддерживает gettext для того, чтобы локализаторы могли в привычной среде.
+**@rockpack/localazer** is a "correct" localization system for React applications that supports gettext so that localizers can work in a familiar environment.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md" target="_blank">More details...</a>
 ***
 
-**@rockpack/babel** - вспомогательный модуль, babel presets.
+**@rockpack/babel** - helper module, babel presets.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md" target="_blank">More details...</a>
 ***
 
-*Для более подробного описания заходите по ссылкам каждого модуля.*
+*In order to get more detailed info please follow each module links.*
 
-**Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**
+**Rockpack is completely free project. We are always open to collaboration and contributors.**
 
-## С чего начать
-Для настройки проекта с нуля рекомендованный подход является использование **@rockpack/starter**
+## Where to start
+For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
 
-- [Как сгенерировать приложение с помощью @rockpack/starter](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md#how-it-works)
+- [How to generate an app using @rockpack/starter](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md#how-it-works)
 
-Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
+If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
 
 - [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
 - [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
@@ -105,28 +108,28 @@
 - [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
 - [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
 
-## Альтернативы
+## Alternatives
 
-Проект **Rockpack** вдохновлялся в разработке такими вещами как
+The **Rockpack** project was inspired by:
 
 - [Next.js](https://github.com/vercel/next.js/)
 - [Creat React App](https://github.com/facebook/create-react-app)
 - [Rome](https://github.com/romefrontend/rome)
 - [Estrella](https://github.com/rsms/estrella)
 
-## Зачем нам нужен Rockpack...?
-...если есть **create-react-app** и другие альтернативы?
-- **Rockpack** предоставляет очень легкий способ для старта проекта при помощи **@rockpack/starter**. Всего одна команда позволяет настроить каркас для вашего приложения с поддержкой TypeScript, Jest, Eslint, SSR и прочего.
-- **Rockpack** очень гибок в использовании. Вы в праве проектировать архитектуру как вам угодно, использовать разные библиотеки и решения, например для стейт менеджмента.
-- **Rockpack** не вносит какой либо магии. Это набор лучших практик и библиотек для автоматизации старта проекта.
-- **Rockpack** имеет возможность помодульной интеграции в ранее созданный проект.
-- **Rockpack** имеет возможность модифицировать webpack конфиг без "eject" с возможностью обновления **Rockpack**.
-- **Rockpack** использует только существуюие модули и подходы и не создает велосипедов.
+## Why do we need Rockpack...?
+...if we have **create-react-app** or other?
+- **Rockpack** provides a very easy way to get started with **@rockpack/starter**. Just one command allows you to set up your application with support for TypeScript, Jest, Eslint, SSR and more.
+- **Rockpack** is very flexible to use. You can design the architecture as you like, use different libraries and solutions, for example, for state management.
+- **Rockpack** doesn't add any magic. This is a set of best practices and libraries for automating the start of a project.
+- **Rockpack** has the option of modular integration into legacy project
+- **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
+- **Rockpack** uses only existing modules and approaches and does not create bicycles.
 
-## Лицензия MIT
+## The MIT License
 
 Copyright (c) Aleksandrov Sergey
 
-Данная лицензия разрешает лицам, получившим копию данного программного обеспечения и сопутствующей документации (в дальнейшем именуемыми «Программное Обеспечение»), безвозмездно использовать Программное Обеспечение без ограничений, включая неограниченное право на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и/или продажу копий Программного Обеспечения, а также лицам, которым предоставляется данное Программное Обеспечение, при соблюдении следующих условий:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-ДАННОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, ЯВНО ВЫРАЖЕННЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ ГАРАНТИИ ТОВАРНОЙ ПРИГОДНОСТИ, СООТВЕТСТВИЯ ПО ЕГО КОНКРЕТНОМУ НАЗНАЧЕНИЮ И ОТСУТСТВИЯ НАРУШЕНИЙ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ. НИ В КАКОМ СЛУЧАЕ АВТОРЫ ИЛИ ПРАВООБЛАДАТЕЛИ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ПО КАКИМ-ЛИБО ИСКАМ, ЗА УЩЕРБ ИЛИ ПО ИНЫМ ТРЕБОВАНИЯМ, В ТОМ ЧИСЛЕ, ПРИ ДЕЙСТВИИ КОНТРАКТА, ДЕЛИКТЕ ИЛИ ИНОЙ СИТУАЦИИ, ВОЗНИКШИМ ИЗ-ЗА ИСПОЛЬЗОВАНИЯ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ИЛИ ИНЫХ ДЕЙСТВИЙ С ПРОГРАММНЫМ ОБЕСПЕЧЕНИЕМ.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

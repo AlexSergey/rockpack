@@ -1,12 +1,14 @@
 # @rockpack/babel
 
-**@rockpack/babel** это настройки Babel обеспечивающие поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
+**@rockpack/babel** is Babel settings that provide modern JS syntax support for **@rockpack/compiler**, **@rockpack/tester**.
 
-**@rockpack/babel** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/babel** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-**@rockpack/babel** включает в себя поддержку React, Jest, содержит ряд оптимизирующих плагинов для React и многое другое. Полный список включенных фич смотрите ниже:
+**@rockpack/babel** includes support for React, Jest, contains a number of optimizing plugins for React, and more. See below for a complete list of included features:
 
-## Особенности:
+[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README_RU.md)
+
+## Features:
 
 ### Babel:
 - @babel/preset-env (browsers supporting > 5%, nodejs supporting the latest version)
@@ -23,7 +25,7 @@
 ### React:
 - @babel/preset-react
 
-### React Оптимизации:
+### React optimizations:
 - @babel/plugin-transform-react-constant-elements
 - @babel/plugin-transform-react-inline-elements
 - babel-plugin-transform-react-pure-class-to-function
@@ -32,12 +34,12 @@
 ### Jest:
 - @babel/plugin-transform-modules-commonjs
 
-### Другое:
+### Other:
 - @loadable/babel-plugin (support loadable components)
 - babel-plugin-import (Ant Design correct import modules)
 
-*@loadable/babel-plugin* позволяет организовать поддержку dynamic import для SSR приложений.
+*@loadable/babel-plugin* allows you to organize dynamic import support for SSR applications.
 
-## Лицензия MIT
+## The MIT License
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

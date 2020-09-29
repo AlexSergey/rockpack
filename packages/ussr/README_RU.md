@@ -2,7 +2,7 @@
 
 **@rockpack/ussr** маленькая библиотека дающая большие возможности для создания SSR приложений. Не привязана ни к каким библиотекам.
 
-**@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/ussr** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
 USSR - Universal server side rendering. Universal - по тому, что мы можем использовать данное решение для любых реализаций состояния приложения, таких как Redux, Apollo, так и для обычного setState.
 
@@ -12,7 +12,7 @@ USSR - Universal server side rendering. Universal - по тому, что мы �
 
 Организовать Серверный рендеринг весьма непростая задача которая делиться на несколько под задач.
 
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md)
+[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
 
 ## Проблема Side effect'ов
 
@@ -38,7 +38,7 @@ Side effect'ы могут быть зависимы друг от друга. Н
 
 Все вышеописанное позволяет организовать **@rockpack/ussr** и **@rockpack/ussr**
 
-**@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/ussr** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
 ## Использование
 
@@ -221,10 +221,10 @@ app.use(express.static('public'));
 
 ***
 
-**Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/examples" target="_blank">here</a>
+**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/examples" target="_blank">here</a>
 
 ***
 
-## The MIT License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

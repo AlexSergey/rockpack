@@ -6,26 +6,28 @@
 
 # @rockpack/localazer
 
-Большинство подходов локализации приложения используют в качестве места хранения JSON файлы. JSON удобный формат для разработчика но не для локализатора. Локализатор работает в специализированном софте, который должен поддерживать корректность правописания, находить опечатки а также объеденять наработки в GIT-о подобном стиле между версиями приложения для формаирования словарика.
+Most application localization approaches use JSON files as the storage location. JSON is a convenient format for a developer but not for a localizer. The localizer works in specialized software that must maintain correct spelling, find typos, and combine GIT-style developments between versions of the application to form a dictionary.
 
-Самым распространенным подходом для локализации приложений есть - **gettext**. Это набор программ локализации, которые организовывают проверку орфографии, объединение разных версия локализаций приложения, удаление ненужных текстовых данных. Это приложение используется большинством десктоп разработчиков начиная с 90-ых годов.
+The most common approach for localizing applications is **gettext**. This is a set of localization programs that organize spell checking, merge different versions of application localizations, and delete unnecessary text data. This application has been used by most of the desktop developers since the 90s.
 
-Для того, чтобы организовать связь нашего **React** приложения с **gettext** и обратно нам могут помочь **@rockpack/compiler** и **@rockpack/localizer**
+In order to organize the communication of our **React** application with **gettext** and back, **@rockpack/compiler** and **@rockpack/localizer** can help us.
 
-**@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/localazer** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-## Как это работает
-Этап 1. Нам нужно добавить локализацию и подружить её с нашим приложением.
-Этап 2. Извлечь все данные для словарика из нашего приложения и передать их в формате gettext переводчику.
-Этап 3. Получив готовый перевод, мы должны его перегнать в JSON и вставить в наше приложение.
+[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md)
+
+## How it works
+Stage 1. We need to add localization and make it friends with our application.
+Stage 2. Extract all the data for the dictionary from our application and pass it in the gettext format to the translator.
+Stage 3. Having received the finished translation, we must overtake it into JSON and insert it into our application.
 
 <div align="center">
     <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
 </div>
 
-## Использование
+## Using
 
-1. Установка:
+1. Installation:
 
 ```sh
 # NPM
@@ -37,7 +39,7 @@ yarn add @rockpack/localaser
 yarn add @rockpack/compiler --dev
 ```
 
-2. Для того, чтобы переключение языков работало корректно, нужно обернуть приложение в *<LocalizationObserver>* компонент
+2. In order for language switching to work correctly, you need to wrap the application in a *<LocalizationObserver>* component
 
 ```jsx
 import { LocalizationObserver } from '@rockpack/localaser';
@@ -53,7 +55,7 @@ class Root extends Component {
 }
 ```
 
-3. В компонентах, где необходимо осуществить перевод, нужно добавить компоненты с языком по умолчанию:
+3. In the components where you need to translate, you need to add components with the default language:
 
 ```jsx
 import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
@@ -63,7 +65,7 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 <h2><Localization>{l('Hello')}</Localization></h2>
 ```
 
-Если вы хотите использовать переменные в переводе, нужно использовать:
+If you want to use variables in translation, you need to use:
 
 ```jsx
 <Localization>
@@ -76,7 +78,7 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 </Localization>
 ```
 
-Для множественной формы:
+For plural forms:
 
 ```jsx
 <Localization>
@@ -93,11 +95,11 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 </Localization>
 ```
 
-В результате при count = 0, будет выведен текст 0 clicks, при count = 1 - 1 click.
+As a result, with count = 0, the text will be displayed 0 clicks, with count = 1 - 1 click.
 
-5. После того, как текст для локализации был добавлен в приложение, нужно извлечь словарик с данными текстовыми фрагментами.
+5. After the text for localization has been added to the application, you need to extract the dictionary with these text fragments.
 
-5.1 Создайте **makePOT.js** в корне проекта
+5.1 Make **makePOT.js** in the root of project
 ```js
 const { localazer } = require('@rockpack/compiler');
 
@@ -106,21 +108,21 @@ localazer.makePot({
     src: './src'
 });
 ```
-Запустите скрипт при помощи nodejs:
+Run the script
 ```sh
 node makePOT.js
 ```
-В результате будет создан словарик со всеми текстовыми фрагментами для перевода.
+As a result, a dictionary with all text fragments for translation will be created.
 
-Для перевода словарика необходимо использовать <a href="https://poedit.net/download">POEdit tool</a>:
+To translate a dictionary, you must use <a href="https://poedit.net/download">POEdit tool</a>:
 
 <div align="center">
     <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
 </div>
 
-5.2 После перевода словарика через POEdit, необходимо сохранить **mo** файл с созданным переводом. Этот файл должен быть добавлен в проект. После чего его нужно преобразовать в JSON:
+5.2 After translating the dictionary through POEdit, you need to save the **mo** file with the created translation. This file must be added to the project. Then it needs to be converted to JSON:
 
-Создайте **po2json.js** в корне вашего проекта
+Make **po2json.js** in the root of project
 ```js
 const { localazer } = require('@rockpack/compiler');
 
@@ -130,12 +132,12 @@ localazer.po2json({
 });
 ```
 
-Запустите скрипт
+Run the script
 ```shell script
 node po2json.js
 ```
 
-6. Когда вы сконвертируете переведенные фрагменты в JSON их можно добавить в компонент с *<LocalizationObserver>* а также создать способ переключения языка.
+6. When you convert the translated snippets to JSON, you can add them to the component with *<LocalizationObserver>* and create a way to switch the language.
 
 ```jsx
 import ru from '../json/ru.json';
@@ -164,9 +166,9 @@ class Root extends Component {
 }
 ```
 
-**@rockpack/localazer** не отвечает за передачу переводов в приложение. Вы можете сделать это на ваш выбор, например через динамические импорты, через backend API, Redux, Local Storage и т.д.
+**@rockpack/localazer** is not responsible for passing translations to the app. You can do this of your choice, for example through dynamic imports, backend API, Redux, Local Storage, etc.
 
-Пример получения сконвертированных переводов через Backend API может выглядеть как то так:
+An example of receiving converted transfers via the Backend API:
 
 ```jsx
 class Root extends Component {
@@ -207,25 +209,25 @@ class Root extends Component {
 }
 ```
 
-## Свойства
+## Properties
 
-- \<LocalizationObserver /> свойства:
+- \<LocalizationObserver /> properties:
 
-| Свойство | Тип | Описание |
+| Property | Type | Description |
 | --- | --- | --- |
-| active | String | Установить активный язык |
-| default | String['en'] | Язык по умолчанию |
-| languages | Object | Объект с переводами JSON |
+| active | String | Set active language |
+| default | String['en'] | Default language |
+| languages | Object | Object with JSON translations |
 
-## Вопросы/Ответы
+## Q&A
 
-Как использовать gettext под Windows?
-- *Для создания словарика, извлечения текстовых фрагментов из приложения, нужно установить gettext под windows версии не ранее 0.20, так как в ранних версиях нет поддержки JavaScript*
-- Скачать последнюю актуальную версию можно [здесь](https://mlocati.github.io/articles/gettext-iconv-windows.html)
-- Прежде чем запускать localazer makePOT нужно убедиться, что в консоли доступны gettext, xgettext
-- Для редактирования PO и POT файлов нужно установить [POEdit](https://poedit.net/download)
+How do I use gettext on Windows?
+- *It needs to install **gettext** version no earlier than 0.20 (for supporting JS)*
+- You can download the latest gettext Windows version [here](https://mlocati.github.io/articles/gettext-iconv-windows.html)
+- Before running localazer makePOT, you need to make sure that gettext, xgettext are available in the console
+- To edit PO and POT files, you need to install [POEdit](https://poedit.net/download)
 ***
 
-## Лицензия MIT
+## The MIT License
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

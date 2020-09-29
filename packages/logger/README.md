@@ -6,17 +6,19 @@
 
 # @rockpack/logger
 
-Если сравнить программу с живым организмом, то баг в ней — это болезнь. На возникновение «болезни» может повлиять целый ряд факторов и окружение, особенно, если мы рассматриваем веб-платформу в качестве запуска. Иногда причинно-следственная связь очень сложная, и баг, который нашли при тестировании результат целого ряда событий.
+Our application is alive organism. The bug in your application is a kind of disease. Nobody and nothing than your application can tell you better what went wrong with it.
 
-Для понимания возникновения бага, нам нужен список действий, которые совершил пользователь в нашем приложении.
+As developers, we would like to know which actions caused the error, what buttons the user clicked, what device and operation system it was. That and much more information could help us to resolve any problems and fix bugs more effectively.
 
-**@rockpack/logger** это React компонент и система логирования позволяющая записать все действия перед возникновением критической ошибки чтобы в дальнейшем эту информацию можно было проанализировать.
+**@rockpack/logger** is a React component and logging system that allows you to record all actions before a critical error occurs so that this information can be analyzed later.
 
-**@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/logger** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-## Использование
+[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md)
 
-1. Установка:
+## Using
+
+1. Installation:
 
 ```sh
 # NPM
@@ -26,7 +28,7 @@ npm install @rockpack/logger --save
 yarn add @rockpack/logger
 ```
 
-2. Для корректной работы logger системы, нужно обернуть наше приложение в *<LoggerContainer>* компонент
+2. For the logger system to work correctly, we need to wrap our application in a *<LoggerContainer>* component
 
 ```jsx
 import React, { useCallback, useContext } from 'react';
@@ -47,19 +49,19 @@ export default function () {
 
   return <LoggerContainer
     sessionID={window.sessionID}
-    limit={75} // Лимит стека. При переполнении - первый элемент будет удален
+    limit={75} // Stack length limit. On overflow, the first element will be removed
     getCurrentDate={() => {
-      // Дата возникновкния критической ошибки
+      // Critical error date
       return dayjs()
         .format('YYYY-MM-DD HH:mm:ss');
     }}
-    stdout={showMessage} // Выводить некоторые ошибки в виде тултипа для пользователей
+    stdout={showMessage} // Display some errors as a tooltip for users
     onError={stackData => {
-      // Отправить стек действий перед ошибкой на бекенд (или как то иначе обработать)
+      // Send a stack of actions before the error to the backend (or otherwise process it)
       sendToServer(stack);
     }}
     onPrepareStack={stack => {
-      // Позволяет добавить дополнительную информацию к стеку
+      // Allows you to add additional information to the stack
       stack.language = window.navigator.language;
     }}>
     <App/>
@@ -67,11 +69,11 @@ export default function () {
 }
 ```
 
-4. Для того, чтобы произвести качественное логирование действий пользователя, нам придется покрыть наш код лог-вызовами.
+4. You need to add the logger to any of the methods you want to cover our logging system.
 
-В комплекте модуля **@rockpack/logger** идет логгер, который связан с *<LoggerContainer />*
+The **@rockpack/logger** module comes with a logger that is linked to *<LoggerContainer />*
 
-Предположим у нас есть компонент
+Suppose we have a component
 
 ```jsx
 import React, { useState } from 'react';
@@ -87,7 +89,7 @@ export default function Toggle(props) {
 }
 ```
 
-Для того, чтобы его правильно покрыть логом, нам нужно модифицировать метод toggle
+To properly log it, we need to modify the toggle method
 
 ```jsx
 import React, { useState } from 'react';
@@ -107,36 +109,36 @@ export default function Toggle(props) {
 }
 ```
 
-Мы добавили логгер, в котором информация разделена на 2 части. React.Toggle показывает нам, что данное действие произошло на уровне React, компонента Toggle, а далее мы имеем словесное пояснение действия и текущий state, который пришел в этот компонент.
+We have added a logger in which the information is divided into 2 parts. React.Toggle shows us that this action happened at the level of React, the Toggle component, and then we have a verbal explanation of the action and the current state that came to this component.
 
-Таким образом, при возникновении критической ошибки в системе, у нас появится **BSOD** с подробным описанием действий пользователя. А также будет возможность отправить данный стек в систему анализа ошибок или на ElasticSearch, чтобы быстрее отлавливать ошибки произошедшие у наших пользователей.
+If a critical error occurs in the system, we will have a **BSOD** with a detailed description of the user's actions. It will also be possible to send this stack to the error analysis system or ElasticSearch in order to quickly catch errors that occurred among our users.
 
 <div style="text-align: center"><img alt="BSOD" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" /></div>
 
-*- При логгировании приложений нужно проставлять логи в наиболее запутанные и сложные участки кода, таким образом вы будете понимать, что происходило на этом этапе.*
+*- When logging applications, you need to put logs in the most confusing and complex parts of the code, so you will understand what happened at this stage.*
 
-*- Также мы можем использовать метод “componentDidCatch”, который введен в React 16 версии, на случай возникновения ошибки.*
+*- We can also use the “componentDidCatch” method, which was introduced in React 16, in case an error occurs.*
 
-## Свойства
+## Properties
 
-- \<LoggerContainer /> свойства:
+- \<LoggerContainer /> properties:
 
-| Свойство | Тип | Описание |
+| Prop | Type | Description |
 | --- | --- | --- |
-| logger | LoggerInterface | Это свойство позволяет переопределить logger. Logger должен соответствовать интерфейсу LoggerInterface |
-| active | Boolean[true] | Включить/выключить логгирование. Рекомендовано отключать логгинг на этапе тестирования. |
-| bsodActive | Boolean[true] | Включить/выключить вывод BSOD. Рекомендуется отключать для Production  |
-| sessionID | Number | Если нужно связать логирование с Backend вызовами - единая сессия для Frontend и Backend позволит это сделать |
-| bsod | ReactElement[Component] | Можно задать свой BSOD Component |
-| limit | Number[25] | Лимит на длинну стека. При переполнении первый элемент будет удален |
-| getCurrentDate | Function | Формат даты при возникновении ошибки. По умолчанию - new Date().toLocaleString() |
-| onError | Function | window.onbeforeunload callback. В данном callback можно обработать стек или отправить его на Backend |
-| onPrepareStack | Function | Позволяет добавить дополнительную информацию к стеку перед вызовом onError. Например можно добавить текущую локализацию приложения, тему выбранную пользователем, имя пользователя у кого произошла ошибка и т.д. |
-| stdout | Function | Данный метод позволяет вывести лог-метод для пользователя (который был вызван со вторым параметром "true"). Например, при вызове logger.error('Ups...', true) в методе stdout можно выводить alert(message);|
+| logger | LoggerInterface | This property allows you to override logger. Logger must match the interface LoggerInterface |
+| active | Boolean[true] | Enable / disable logging. It is recommended to disable logging during the testing phase. |
+| bsodActive | Boolean[true] | Enable / disable BSOD output. It is recommended to disable for Production  |
+| sessionID | Number | If you need to associate logging with Backend calls - a single session for Frontend and Backend will allow you to do this |
+| bsod | ReactElement[Component] | You can set your BSOD Component |
+| limit | Number[25] | Stack length limit. On overflow, the first element will be removed |
+| getCurrentDate | Function | Date format when an error occurred. Default - new Date().toLocaleString() |
+| onError | Function | window.onbeforeunload callback. In this callback, you can handle the stack or send it to the Backend |
+| onPrepareStack | Function | Allows you to add additional information to the stack before calling onError. For example, you can add the current localization of the application, the theme selected by the user, the name of the user who got the error, etc. |
+| stdout | Function | This method allows you to display the log method for the user (which was called with the second parameter "true"). For example, calling logger.error ('Ups ...', true) in the stdout method would output alert (message); |
 
-- logger методы:
+- logger methods:
 
-Логгер поставляемый с **@rockpack/logger** имеет методы:
+The logger provided with **@rockpack/logger** has methods:
 
 ```js
 logger.log('log text here!');
@@ -146,8 +148,8 @@ logger.debug('I\'m a debug message!');
 logger.error('Ups...');
 ```
 
-Если мы добавим вторым параметром *true*, сообщение переданное в данный лог метод будет передано в stdout *<LoggerContainer>*. Это позволит вывести некоторые полезные для пользователя сообщения, например в tooltip или alert.
+If we add *true* as the second parameter, the message passed to this log method will be passed to stdout *<LoggerContainer>*. This will display some useful messages for the user, for example, in tooltip or alert.
 
-## Лицензия MIT
+## The MIT License
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

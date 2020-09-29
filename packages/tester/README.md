@@ -1,24 +1,26 @@
 # @rockpack/tester
 
-**@rockpack/tester** предоставляет настроенный Jest для работы с проектом с Typescript или Babel.
+**@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.
 
-**@rockpack/tester** включает в себя несколько рекомендуемых модулей и генератор отчетов тестирования.
+**@rockpack/tester** includes several recommended modules and a test report generator.
 
-**@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
+**@rockpack/tester** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-### Дополнения:
+[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md)
+
+### Add-ons:
 - [jest-extended](https://github.com/jest-community/jest-extended)
 - [expect-more](https://github.com/JamieMason/expect-more/)
 - [jest-generator](https://github.com/doniyor2109/jest-generator)
 - [jest-chain](https://github.com/mattphillips/jest-chain)
 - [@testing-library/jest-dom/extend-expect](https://github.com/testing-library/jest-dom)
 
-### Генератор отчетов
+### Reporter:
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
 
-## Использование
+## Using
 
-1. Установка:
+1. Installation:
 
 ```sh
 # NPM
@@ -28,9 +30,9 @@ npm install @rockpack/tester --save-dev
 yarn add @rockpack/tester --dev
 ```
 
-2. Создать **tests.js** в корне проекта
+2. Make **tests.js** in the root of project
 
-3. Поместить код в **tests.js**
+3. Put the code in **tests.js**
 
 ```js
 const tests = require('@rockpack/tester');
@@ -38,16 +40,16 @@ const tests = require('@rockpack/tester');
 tests();
 ```
 
-4. Запустить скрипт при помощи
+4. Run the script
 ```shell script
 node tests.js
 ```
-или DEV режим
+or DEV mode
 ```shell script
 node tests.js --watch
 ```
 
-Чтобы установить настройки для enzyme нужно создать в корне проекта файл **enzyme.setup.js** c кодом
+To set the settings for enzyme, you need to create a file **enzyme.setup.js** with the code in the root of the project:
 
 ```js
 const enzyme = require('enzyme');
@@ -58,8 +60,8 @@ enzyme.configure({
 });
 ```
 
-**В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
+**Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
-## Лицензия MIT
+## The MIT License
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

@@ -1,12 +1,12 @@
 # @rockpack/codestyle
 
-**@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
+**@rockpack/codestyle** предоставляет настроенный ESLint с поддержкой Typescript и множеством best practice решений.
 
-**@rockpack/codestyle** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/codestyle** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
+[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
 
-## Features:
+## Особенности:
 
 - TS support, React support
 - eslint-config-airbnb
@@ -19,9 +19,9 @@
 - eslint-plugin-sonarjs
 - eslint-plugin-jsx-a11y
 
-## Using
+## Использование
 
-1. Installation:
+1. Установка:
 
 ```sh
 # NPM
@@ -31,9 +31,9 @@ npm install @rockpack/codestyle --save-dev
 yarn add @rockpack/codestyle --dev
 ```
 
-2. Make **.eslintrc.js** in the root of project
+2. Создать **.eslintrc.js** в корне проекта
 
-3. Put the code in **.eslintrc.js**
+3. Поместить код в **.eslintrc.js**
 
 ```js
 const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
@@ -41,11 +41,11 @@ const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
 module.exports = rockConfig();
 ```
 
-*The difference between rockConfig and cleanConfig is that cleanConfig does not use any third-party overrides, from the author of Rockpack*
+*Отличие rockConfig от cleanConfig в том, что cleanConfig не использует никаких сторонних переопределений, от автора Rockpack*
 
-To override properties, you need to pass the object to *rockConfig* or *cleanConfig*
+Для переопределения свойств нужно передать объект в *rockConfig* или *cleanConfig*
 
-*It completely supports IDE editors*
+*Данный генератор ESLint конфига работает с IDE редакторами*
 
 ```js
 const { rockConfig } = require('@rockpack/codestyle');
@@ -55,7 +55,7 @@ module.exports = rockConfig({
 });
 ```
 
-Second parameter *rockConfig* or *cleanConfig* helps override all config
+Передав второй параметр в  *rockConfig* или *cleanConfig* можно переопределить весь конфиг
 
 ```js
 const { rockConfig } = require('@rockpack/codestyle');
@@ -67,7 +67,7 @@ module.exports = rockConfig({}, {
 });
 ```
 
-### rockConfig rules overriding:
+### rockConfig переопределения:
 
 ```js
 // JS:
@@ -196,6 +196,6 @@ module.exports = rockConfig({}, {
 })
 ```
 
-## The MIT License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
