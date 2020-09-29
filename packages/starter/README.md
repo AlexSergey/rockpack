@@ -1,17 +1,17 @@
-## @rockpack/starter
+# @rockpack/starter
 
 **@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, а также:
- - приложение с Server Side Render [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
+ - Приложение с Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
  - Настроенный линтер с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
  - Настроенный Jest с дополнениями [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
  - Typescript, CSS(SCSS, LESS) Modules, @loadable components [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
-А также такие типы приложения как
+*А также такие типы приложения как*
 - Библиотека. Настроенный webpack для создания UMD библиотеки, как React так и Vanilla JS
 - NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
 
 **@rockpack/starter** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
-## Usage
+## Использование
 
 1. Установка
 ```shell script
@@ -38,6 +38,6 @@ rockpack <project name>
 - [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
 - [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

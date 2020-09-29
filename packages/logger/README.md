@@ -3,30 +3,18 @@
         <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
     </a>
 </div>
-<div align="center">
-    <a href="http://www.natrube.net/logrock/index.html">Website</a>
-</div>
 
-## Table of Contents
-
-- [What is it](#what-is-it)
-- [Articles](#articles)
-- [Usage](#usage)
-- [Props](#props)
-- [Browser Compatibility](#browser-compatibility)
-- [License](#license)
-
-## What is it?
+# @rockpack/logger
 
 Если сравнить программу с живым организмом, то баг в ней — это болезнь. На возникновение «болезни» может повлиять целый ряд факторов и окружение, особенно, если мы рассматриваем веб-платформу в качестве запуска. Иногда причинно-следственная связь очень сложная, и баг, который нашли при тестировании результат целого ряда событий.
 
 Для понимания возникновения бага, нам нужен список действий, которые совершил пользователь в нашем приложении.
 
-**@rockpack/logger** это реакт компонент и система логирования позволяющая записать все действия перед возникновением критиской ошибки чтобы в дальнейшем эту информацию можно было проанализировать.
+**@rockpack/logger** это React компонент и система логирования позволяющая записать все действия перед возникновением критической ошибки чтобы в дальнейшем эту информацию можно было проанализировать.
 
 **@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
-## Usage
+## Использование
 
 1. Установка:
 
@@ -81,7 +69,7 @@ export default function () {
 
 4. Для того, чтобы произвести качественное логирование действий пользователя, нам придется покрыть наш код лог-вызовами.
 
-В комплекте модуля **@rockpack/logger** идет логгер, который связан с <LoggerContainer />
+В комплекте модуля **@rockpack/logger** идет логгер, который связан с *<LoggerContainer />*
 
 Предположим у нас есть компонент
 
@@ -123,9 +111,9 @@ export default function Toggle(props) {
 
 Таким образом, при возникновении критической ошибки в системе, у нас появится **BSOD** с подробным описанием действий пользователя. А также будет возможность отправить данный стек в систему анализа ошибок или на ElasticSearch, чтобы быстрее отлавливать ошибки произошедшие у наших пользователей.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" /></div>
+<div style="text-align: center"><img alt="BSOD" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" /></div>
 
-*- При логгировании приложений нужно проставлять логи в наиболее запутанные и сложные участки кода, таким образом вы будете понимать, что происходило на этом этапе*
+*- При логгировании приложений нужно проставлять логи в наиболее запутанные и сложные участки кода, таким образом вы будете понимать, что происходило на этом этапе.*
 
 *- Также мы можем использовать метод “componentDidCatch”, который введен в React 16 версии, на случай возникновения ошибки.*
 
@@ -139,7 +127,7 @@ export default function Toggle(props) {
 | active | Boolean[true] | Включить/выключить логгирование. Рекомендовано отключать логгинг на этапе тестирования. |
 | bsodActive | Boolean[true] | Включить/выключить вывод BSOD. Рекомендуется отключать для Production  |
 | sessionID | Number | Если нужно связать логирование с Backend вызовами - единая сессия для Frontend и Backend позволит это сделать |
-| bsod | ReactElement[Component] | Можно задать свой BSOD |
+| bsod | ReactElement[Component] | Можно задать свой BSOD Component |
 | limit | Number[25] | Лимит на длинну стека. При переполнении первый элемент будет удален |
 | getCurrentDate | Function | Формат даты при возникновении ошибки. По умолчанию - new Date().toLocaleString() |
 | onError | Function | window.onbeforeunload callback. В данном callback можно обработать стек или отправить его на Backend |
@@ -149,6 +137,7 @@ export default function Toggle(props) {
 - logger методы:
 
 Логгер поставляемый с **@rockpack/logger** имеет методы:
+
 ```js
 logger.log('log text here!');
 logger.info('Some extra log information');
@@ -156,17 +145,9 @@ logger.warn('Warning! Warning!');
 logger.debug('I\'m a debug message!');
 logger.error('Ups...');
 ```
-Если мы добавим вторым параметром *true*, сообщение переданное в данный лог метод будет передано в stdout *<LoggerContainer>*. Это позволит вывести некоторые полезные для пользователя сообщения, например в tooltip или alert
 
-## Поддержка браузеров
+Если мы добавим вторым параметром *true*, сообщение переданное в данный лог метод будет передано в stdout *<LoggerContainer>*. Это позволит вывести некоторые полезные для пользователя сообщения, например в tooltip или alert.
 
-| Browser | Works? |
-| :------ | :----- |
-| Chrome  | Yes    |
-| Firefox | Yes    |
-| Safari  | Yes    |
-| IE 11   | Yes    |
+## Лицензия MIT
 
-## License
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

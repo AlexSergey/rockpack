@@ -13,7 +13,7 @@
 
 **@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
-### Features support:
+## Особенности:
 
 - Webpack 4+, Webpack-dev-server
 - TypeScript support
@@ -43,7 +43,7 @@
 - GraphQL support (webpack-graphql-loader)
 - Сross-env included
 
-## Usage
+## Использование
 
 Для компиляции приложения в стиле create-react-app:
 
@@ -78,9 +78,9 @@ cross-env NODE_ENV=production node build
 
 Ваше приложение будет собрано, минифицированно, оптимизировано для продакшена.
 
-## Details:
+## Детали:
 
-@rockpack/compiler включает компиляторы:
+**@rockpack/compiler** включает компиляторы:
 
 ```js
 const {
@@ -93,13 +93,13 @@ const {
   analyzerCompiler,
 } = require('@rockpack/compiler');
 ```
-#### frontendCompiler(options[optional], callback[optional]);
+### frontendCompiler(options[optional], callback[optional]);
 
-*frontendCompiler* соберет React приложение в стиле create react app (Babel/TypeScript)
+*frontendCompiler* соберет React приложение в стиле **create-react-app** (Babel/TypeScript)
 
 *Options* - Объект настроек, одинаков для каждого типа компилятора:
 
-| Key | Value[<i>Default value</i>] | Description |
+| Свойство | Значение[<i>Default value</i>] | Описание |
 | --- | --- | --- |
 | dist | String['./dist'] | Путь для скопилированного приложения, по умолчанию **dist** |
 | src | String['./src'] | Путь к исходникам приложения. По умолчанию "src", где будет взят index.{jx|jsx|ts|tsx} |
@@ -126,7 +126,7 @@ frontendCompiler({
   port: 8900
 });
 ```
-<b>Callback</b>. У каждого компилятора есть последний параметр - callback. Это функция, которая принимает в качестве аргумента готовый webpack.config, который Вы сможете дополнить напрямую.
+**Callback** - у каждого компилятора есть последний параметр - callback. Это функция, в которой можно переопределить свойства сформированного webpack конфига.
 
 В данном примере alias будут расширены через callback функцию
 ```js
@@ -141,9 +141,9 @@ frontendCompiler({}, webpackConfig => {
 });
 ```
 
-#### backendCompiler(options[optional], callback[optional]);
+### backendCompiler(options[optional], callback[optional]);
 
-Позволяет скопилировать **node.js** приложение. При запуске данного компилятора с NODE_ENV development будет запущен nodemon для перезапуска приложения после изменений
+Позволяет скопилировать **Node.js** приложение. При запуске данного компилятора с NODE_ENV development будет запущен nodemon для перезапуска приложения после изменений
 
 ```js
 const { backendCompiler } = require('@rockpack/compiler');
@@ -155,7 +155,7 @@ backendCompiler(options, webpackConfig => {
 });
 ```
 
-#### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
+### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
 
 Позволяет собрать UMD библиотеку (React / Vanilla JS)
 
@@ -186,7 +186,7 @@ libraryCompiler({
   ]
 }, options);
 ```
-#### markupCompiler(paths[needed], options[optional], callback[optional]);
+### markupCompiler(paths[needed], options[optional], callback[optional]);
 
 Позволяет обрабатывать HTML файлы (HTML, handlebars, jade). Полезно при верстки макета
 
@@ -202,7 +202,7 @@ markupCompiler(
     });
   });
 ```
-#### analyzerCompiler(options[optional], callback[optional]);
+### analyzerCompiler(options[optional], callback[optional]);
 
 Собирает приложение и запускает webpack-bundle-analyzer
 
@@ -213,9 +213,9 @@ analyzerCompiler(options);
 ```
 Страница анализатора доступна на порту 8888
 
-#### multiCompiler(configs[needed]);
+### multiCompiler(configs[needed]);
 
-Позволяет скомпилировать несколько приложений. Полезно при разработке фулл-стек решений (nodejs + react приложение) или при сборке библиотеки + React приложение где будет использована эта библиотека
+Позволяет скомпилировать несколько приложений. Полезно при разработке full-stack решений (Nodejs + react приложение) или при сборке UMD библиотеки + React приложения где будет использована эта библиотека
 
 ```js
 let { multiCompiler, frontendCompiler, libraryCompiler, backendCompiler } = require('rocket-starter');
@@ -238,9 +238,9 @@ multiCompiler(
   })
 );
 ```
-#### isomorphicCompiler(configs[needed]);
+### isomorphicCompiler(configs[needed]);
 
-Компилирует SSR приложение. Более подробное описание, как создавать изоморфное прилоежние с помощью **rockpack** находится <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
+Компилирует SSR приложение. Более подробное описание, как создавать изоморфное прилоежние с помощью **Rockpack** находится <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">здесь</a>
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');
@@ -259,7 +259,7 @@ isomorphicCompiler(
 
 **В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 
-### Вопросы/Ответы
+## Вопросы/Ответы
 
 Как активировать TypeScript?
 - *Достаточно поместить **tsconfig.json** в корень с **@rockpack/compiler***
@@ -340,6 +340,6 @@ import styles from './App.modules.css';
 *Для версии проекта с TypeScript будут генерироваться файлы definitions, при помощи [@teamsupercell/typings-for-css-modules-loader](https://www.npmjs.com/package/@teamsupercell/typings-for-css-modules-loader)*
 ***
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

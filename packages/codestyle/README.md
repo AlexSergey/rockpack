@@ -1,12 +1,23 @@
-## @rockpack/codestyle
+# @rockpack/codestyle
 
 **@rockpack/codestyle** предоставляет настроенный ESLint с поддержкой Typescript и множеством best practice решений.
 
-Некоторые свойства были отключены для удобства написания кода, но любые свойства поддерживаемые установленными плагинами можно переопределить.
-
 **@rockpack/codestyle** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
-## Usage
+## Особенности:
+
+- TS support, React support
+- eslint-config-airbnb
+- eslint-config-airbnb-typescript
+- eslint-plugin-import
+- eslint-plugin-node
+- eslint-plugin-promise
+- eslint-plugin-react
+- eslint-plugin-react-hooks
+- eslint-plugin-sonarjs
+- eslint-plugin-jsx-a11y
+
+## Использование
 
 1. Установка:
 
@@ -54,20 +65,7 @@ module.exports = rockConfig({}, {
 });
 ```
 
-### Features
-
-- TS support, React support
-- eslint-config-airbnb
-- eslint-config-airbnb-typescript
-- eslint-plugin-import
-- eslint-plugin-node
-- eslint-plugin-promise
-- eslint-plugin-react
-- eslint-plugin-react-hooks
-- eslint-plugin-sonarjs
-- eslint-plugin-jsx-a11y
-
-### rockConfig overrides:
+### rockConfig переопределения:
 
 ```js
 // JS:
@@ -196,6 +194,6 @@ module.exports = rockConfig({}, {
 })
 ```
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

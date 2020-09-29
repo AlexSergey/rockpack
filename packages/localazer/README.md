@@ -3,26 +3,14 @@
         <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
     </a>
 </div>
-<div align="center">
-    <a href="http://www.natrube.net/localazer/index.html">Website</a>
-</div>
 
-## Table of Contents
-
-- [What is it](#what-is-it)
-- [Articles](#articles)
-- [Usage](#usage)
-- [Props](#props)
-- [Browser Compatibility](#browser-compatibility)
-- [License](#license)
-
-## What is it?
+# @rockpack/localazer
 
 Большинство подходов локализации приложения используют в качестве места хранения JSON файлы. JSON удобный формат для разработчика но не для локализатора. Локализатор работает в специализированном софте, который должен поддерживать корректность правописания, находить опечатки а также объеденять наработки в GIT-о подобном стиле между версиями приложения для формаирования словарика.
 
 Самым распространенным подходом для локализации приложений есть - **gettext**. Это набор программ локализации, которые организовывают проверку орфографии, объединение разных версия локализаций приложения, удаление ненужных текстовых данных. Это приложение используется большинством десктоп разработчиков начиная с 90-ых годов.
 
-Для того, чтобы организовать связь нашего **React** приложения с **gettext** и обратно нам могут помочь **rocpack/compiler** и **rockpack/localizer**
+Для того, чтобы организовать связь нашего **React** приложения с **gettext** и обратно нам могут помочь **@rockpack/compiler** и **@rockpack/localizer**
 
 **@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
@@ -35,7 +23,7 @@
     <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
 </div>
 
-## Usage
+## Использование
 
 1. Установка:
 
@@ -107,7 +95,7 @@ import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@ro
 
 В результате при count = 0, будет выведен текст 0 clicks, при count = 1 - 1 click.
 
-5. После того, как текст для локализации будет добавлен в приложение, нужно извлечь словарик с данными текстовыми фрагментами.
+5. После того, как текст для локализации был добавлен в приложение, нужно извлечь словарик с данными текстовыми фрагментами.
 
 5.1 Создайте **makePOT.js** в корне проекта
 ```js
@@ -130,7 +118,7 @@ node makePOT.js
     <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
 </div>
 
-5.2 После перевода словарика, необходимо создать **mo** файл с созданным переводом. Этот файл должен быть добавлен в проект. После чего его нужно преобразовать в JSON:
+5.2 После перевода словарика через POEdit, необходимо сохранить **mo** файл с созданным переводом. Этот файл должен быть добавлен в проект. После чего его нужно преобразовать в JSON:
 
 Создайте **po2json.js** в корне вашего проекта
 ```js
@@ -140,6 +128,11 @@ localazer.po2json({
     dist: './json',
     src: './po'
 });
+```
+
+Запустите скрипт
+```shell script
+node po2json.js
 ```
 
 6. Когда вы сконвертируете переведенные фрагменты в JSON их можно добавить в компонент с *<LocalizationObserver>* а также создать способ переключения языка.
@@ -224,16 +217,7 @@ class Root extends Component {
 | default | String['en'] | Язык по умолчанию |
 | languages | Object | Объект с переводами JSON |
 
-## Поддержка браузеров
-
-| Browser | Works? |
-| :------ | :----- |
-| Chrome  | Yes    |
-| Firefox | Yes    |
-| Safari  | Yes    |
-| IE 11   | Yes    |
-
-### Вопросы/Ответы
+## Вопросы/Ответы
 
 Как использовать gettext под Windows?
 - *Для создания словарика, извлечения текстовых фрагментов из приложения, нужно установить gettext под windows версии не ранее 0.20, так как в ранних версиях нет поддержки JavaScript*
@@ -242,6 +226,6 @@ class Root extends Component {
 - Для редактирования PO и POT файлов нужно установить [POEdit](https://poedit.net/download)
 ***
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

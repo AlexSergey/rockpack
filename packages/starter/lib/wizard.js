@@ -19,7 +19,7 @@ const wizard = async () => {
         checked: false
       },
       {
-        name: 'React SSR - React Server Side Render (Single page application + Node.js Application)',
+        name: 'React SSR - React Server Side Rendering (Single page application + Node.js Application)',
         value: 'ssr',
         checked: false
       },

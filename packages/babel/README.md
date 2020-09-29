@@ -1,4 +1,4 @@
-## @rockpack/babel
+# @rockpack/babel
 
 **@rockpack/babel** это настройки Babel обеспечивающие поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
 
@@ -6,9 +6,9 @@
 
 **@rockpack/babel** включает в себя поддержку React, Jest, содержит ряд оптимизирующих плагинов для React и многое другое. Полный список включенных фич смотрите ниже:
 
-### Features:
+## Особенности:
 
-#### Babel:
+### Babel:
 - @babel/preset-env (browsers supporting > 5%, nodejs supporting the latest version)
 - @babel/plugin-proposal-pipeline-operator
 - @babel/plugin-proposal-do-expressions
@@ -20,10 +20,10 @@
 - @babel/plugin-proposal-class-properties
 - @babel/plugin-proposal-object-rest-spread
 
-#### React:
+### React:
 - @babel/preset-react
 
-#### React Optimizations:
+### React Оптимизации:
 - @babel/plugin-transform-react-constant-elements
 - @babel/plugin-transform-react-inline-elements
 - babel-plugin-transform-react-pure-class-to-function
@@ -32,12 +32,12 @@
 ### Jest:
 - @babel/plugin-transform-modules-commonjs
 
-#### Other:
+### Другое:
 - @loadable/babel-plugin (support loadable components)
 - babel-plugin-import (Ant Design correct import modules)
 
 *@loadable/babel-plugin* позволяет организовать поддержку dynamic import для SSR приложений.
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

@@ -1,4 +1,4 @@
-## @rockpack/tester
+# @rockpack/tester
 
 **@rockpack/tester** предоставляет настроенный Jest для работы с проектом с Typescript или Babel.
 
@@ -6,17 +6,17 @@
 
 **@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">здесь</a>
 
-### Expect addons:
+### Дополнения:
 - [jest-extended](https://github.com/jest-community/jest-extended)
 - [expect-more](https://github.com/JamieMason/expect-more/)
 - [jest-generator](https://github.com/doniyor2109/jest-generator)
 - [jest-chain](https://github.com/mattphillips/jest-chain)
 - [@testing-library/jest-dom/extend-expect](https://github.com/testing-library/jest-dom)
 
-### Reporters
+### Генератор отчетов
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
 
-## Usage
+## Использование
 
 1. Установка:
 
@@ -60,6 +60,6 @@ enzyme.configure({
 
 **В папке "examples" находится больше примеров** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
-## License
+## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
