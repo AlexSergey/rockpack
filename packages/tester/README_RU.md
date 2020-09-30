@@ -1,12 +1,14 @@
 # @rockpack/tester
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md">Readme (English version)</a>
+</p>
+
 **@rockpack/tester** предоставляет настроенный Jest для работы с проектом с Typescript или Babel.
 
 **@rockpack/tester** включает в себя несколько рекомендуемых модулей и генератор отчетов тестирования.
 
 **@rockpack/tester** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
-
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
 
 ### Дополнения:
 - [jest-extended](https://github.com/jest-community/jest-extended)
@@ -64,4 +66,4 @@ enzyme.configure({
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

@@ -1,18 +1,22 @@
-<div style="text-align: center"><img alt="Rockpack" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logo.png"></div>
+<p align="center">
+  <img alt="Rockpack" src="https://www.rock-book.io/readme_assets/rockpack_logo.png">
+</p>
 
 # Rockpack
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md">Readme (English version)</a>
+</p>
 
 **Rockpack** это комплексное решение, которое позволяет нам экономить время на старте проекта и начать сразу решать боевые задачи, писать бизнес логику, а не в очередной раз иметь дело с рутиной, такой как настройки webpack и прочих вещей.
 
 **Rockpack** был разработан с одной целью - использовать ранее созданные готовые решения максимально эффективно. В его разработке я старался избегать велосипедо строения, чтобы сделать данный инструмент максимально универсальным для каждого React проекта
 
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/README.md)
-
 ## Мотивация
 
 Работая над многими проектами на React с нуля мы сталкиваемся с однотипными рутинными задачами. Мы каждый раз отвечаем на вопросы:
 
-- *Как настроить эффективно билд систему с поддержкой множества необходимых нам форматов и Typescript*
+- *Как настроить эффективно систему сборки с поддержкой множества необходимых нам форматов и Typescript*
 - *Какие правила выстроить для линтера, чтобы было комфортно работать*
 - *Как подружить Jest с нашей системой, чтобы он обрабатывал последний синтаксис Babel или Typescript*
 - *Как сделать серверный рендеринг правильно, чтобы он работал с готовыми решениями, такими как Redux или Apollo*
@@ -20,11 +24,15 @@
 
 Каждый раз на эти рутинные задачи мы тратим недели времени.
 
-<div style="text-align: center"><img alt="Usual flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png"></div>
+<p align="center">
+  <img alt="Usual flow" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png">
+</p>
 
 Используя **Rockpack** вы сможете развернуть проект за считанные минуты и начать писать действительно полезный код.
 
-<div style="text-align: center"><img alt="Rockpack flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png"></div>
+<p align="center">
+  <img alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
+</p>
 
 Также на этапе старта проекта мы можем заложить такие фичи как - локализация, логирование и это мы можем сделать практически без затрат по времени.
 
@@ -43,7 +51,9 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+<p align="center">
+  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
+</p>
 
 Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
 

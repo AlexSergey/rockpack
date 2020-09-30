@@ -1,5 +1,8 @@
 # @rockpack/ussr (Universal Server-Side Rendering)
-<div style="text-align: right"><a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md">Readme (Russian version)</a></div>
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md">Readme (Russian version)</a>
+</p>
 
 **@rockpack/ussr** A small library for building SSR applications. Universal in the name says that you can use it with any libraries and approaches for storing state - Redux (thunk, sagas), Mobx, Apollo...
 
@@ -11,38 +14,41 @@ Modern JS applications are divided into 2 types:
 
 There are 2 problems when building SSR applications
 
-## Проблема Side effect'ов
+## Side effect's issue
 
-Для организации кода нашего приложения нужно понимать, что запросы для получения данных нашим приложением - это асинхронные операции и они должны участвовать в SSR, так как они предоставляют пользователю и СЕО ботам необходимые данные.
-Например, страничка с списком статей делает запрос на API для получения статей в последствии отображения их в нашем приложении. Такого рода Side effect'ы должны быть обработаны SSR библиотекой.
-Side effect'ы могут быть зависимы друг от друга. Например при получении списка статей мы должны получить статистические данные по ним, чтобы отобразить это пользователям.
-Также наше приложение должно обладать механизмом для того, чтобы прикрепить выполненный на стороне сервера объект состояния с клиентским приложением, чтобы пользователь мог продолжить работать с этим состоянием.
+For example, in a blog written in React, articles are loaded into the application via an asynchronous request to the server. Articles, in this case, are an important part of the application for the SEO bot to perform high-quality content indexing and for the user to immediately see the page content.
+This asynchronous piece of code must participate in the SSR.
+React out of the box can render an application on the server, but without considering asynchronous operations.
+**@rockpack/ussr** allows for asynchronous behavior during SSR.
 
-## Проблема компиляции
+## Compilation issue
 
-Для продакшен режима нам нужно иметь артефакт для деплоя. Для этих целей нам нужно собрать как клиент часть такого приложения так и бекенд.
+In production mode, we need to have an artifact for deployment. For these purposes, we need to compile both the client and the backend of the application.
 
-Схематично это выглядит так:
+Schematically it looks like this:
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_ussr_1.png" /></div>
+<p align="right">
+  <img src="https://www.rock-book.io/readme_assets/rockpack_ussr_1.png" />
+</p>
 
-- NodeJS приложение выполняет React приложение
-- React приложение выполняет все асинхронные операции
-- После получения данных из асинхронных операций производится рендер
-- NodeJS приложение отдает HTML пользователю
+- SSR application consists of two sub-applications - frontend, backend with common logic.
+- NodeJS app runs React app.
+- **@rockpack/ussr** handles all asynchronous operations.
+- After receiving data from asynchronous operations, the React application is rendered.
+- NodeJS application serves HTML to the user.
 
-Вышеописанное приложение собрано при помощи **@rockpack/compiler** как минфицированные NodeJS и React приложения.
+The above application is compiled with **@rockpack/compiler** as minified NodeJS and React applications.
 
-Все вышеописанное позволяет организовать **@rockpack/ussr** и **@rockpack/ussr**
+All of the above allows you to organize **@rockpack/compiler** and **@rockpack/ussr**.
 
 **@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-## Использование
+## Using
 
-Простейший пример SSR приложения с использованием асинхронной функции через setState
+The simplest example of an SSR application using an asynchronous function via setState
 
-Пример:
-Есть простейшее приложение без SSR:
+Example:
+There is a simple application without SSR:
 
 ```jsx
 import React, { render, useState, useEffect } from 'react';
@@ -70,9 +76,9 @@ render(
 );
 ```
 
-Чтобы из этого приложения получить SSR, нужно:
+Let's change this app to SSR:
 
-1. Установка:
+1. Installation:
 
 ```sh
 # NPM
@@ -84,7 +90,7 @@ yarn add @rockpack/ussr
 yarn add @rockpack/compiler --dev
 ```
 
-2. Создать файл для компиляции приложения *build.js*
+2. Make *build.js* in the root of project
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rockpack/compiler');
@@ -100,8 +106,9 @@ isomorphicCompiler(
   })
 );
 ```
+The main goal is to create 2 applications **client** and **server** with common logic.
 
-3. App.jsx точка входа приложения, одинакова как для сервер кода так и для клиента
+3. Let's separate the general logic from render. Let's create **App.jsx**, and take out the common part for both Frontend and Backend:
 
 ```jsx
 import React from 'react';
@@ -123,22 +130,22 @@ export const App = () => {
 };
 ```
 
-В данном коде effect это асинхронная операция, которая эмулирует обращение на сервер.
+In this code, *effect* is an asynchronous operation that emulates a call to the server.
 
- *useUssrState* аналог useState только с поддержкой SSR
+ - *useUssrState* is analogue of useState only with SSR support
 
- *useWillMount* - аналог useEffect(() => {}, []); для SSR. Данная функция может работать как с promise, так и с другими видами асинхронности через передачу параметра:
+ - *useWillMount* is analogue useEffect (() => {}, []); for SSR. This function can work both with promises and with other types of asynchrony by passing a parameter:
 
 ```js
 useWillMount(resolve => {
   setTimeout(() => {
-    //async logic
+    // Async logic here
     resolve();
   }, 1000);
 });
 ```
 
-4. client.js должен содержать часть приложения для frontend
+4. **client.jsx** should contain part of the application for Frontend
 
 ```jsx
 import React from 'react';
@@ -156,13 +163,13 @@ hydrate(
 );
 ```
 
-Код
+The code:
 ```js
 const [, Ussr] = createUssr(window.USSR_DATA);
 ```
-Связывает состояние выполненное на сервере с приложением на клиенте. Для корректной работы *useUssrState* на клиенте
+Associates the state executed on the server with the application on the client. For correct work *useUssrState* on the client
 
-5. server.js должен содержать логику NodeJS приложения, для этого удобно использовать фреймверк koa/express или подобные:
+5. **server.jsx** should contain the logic of the NodeJS application, for this it is convenient to use the koa/express framework or similar:
 
 ```jsx
 import React from 'react';
@@ -200,12 +207,12 @@ app.listen(4000, () => {
   console.log('Example app listening on port 4000!');
 });
 ```
-В данном коде есть 2 важных момента:
+There are 2 important points in this code:
 5.1
 ```js
 app.use(express.static('public'));
 ```
-должен расшаривать папку в которую происходит билд **frontendCompiler**
+The server should serve the folder where the build **frontendCompiler** takes place
 
 5.2
 ```html
@@ -214,7 +221,7 @@ app.use(express.static('public'));
 </script>
 ```
 
-Этот код сохраняет выполненное состояние на сервере для последующего продолжения работы с ним на клиенте.
+This code saves the executed state on the server for later continuation of work with it on the client.
 
 ***
 

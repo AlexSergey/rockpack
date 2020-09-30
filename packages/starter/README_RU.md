@@ -1,5 +1,9 @@
 # @rockpack/starter
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md">Readme (English version)</a>
+</p>
+
 **@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, а также:
  - Приложение с Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md)
  - Настроенный линтер с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
@@ -12,8 +16,6 @@
 - NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
 
 **@rockpack/starter** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
-
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md)
 
 ## Использование
 
@@ -29,7 +31,9 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+<p align="right">
+  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
+</p>
 
 ***
 
@@ -44,4 +48,4 @@ rockpack <project name>
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

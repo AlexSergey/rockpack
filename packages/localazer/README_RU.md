@@ -1,10 +1,12 @@
-<div align="center">
-    <a href="http://www.natrube.net/localazer/index.html">
-        <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
-    </a>
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
+</p>
 
 # @rockpack/localazer
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md">Readme (English version)</a>
+</p>
 
 Большинство подходов локализации приложения используют в качестве места хранения JSON файлы. JSON удобный формат для разработчика но не для локализатора. Локализатор работает в специализированном софте, который должен поддерживать корректность правописания, находить опечатки а также объеденять наработки в GIT-о подобном стиле между версиями приложения для формаирования словарика.
 
@@ -14,16 +16,14 @@
 
 **@rockpack/localazer** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md)
-
 ## Как это работает
 Этап 1. Нам нужно добавить локализацию и подружить её с нашим приложением.
 Этап 2. Извлечь все данные для словарика из нашего приложения и передать их в формате gettext переводчику.
 Этап 3. Получив готовый перевод, мы должны его перегнать в JSON и вставить в наше приложение.
 
-<div align="center">
-    <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
+</p>
 
 ## Использование
 
@@ -116,9 +116,9 @@ node makePOT.js
 
 Для перевода словарика необходимо использовать <a href="https://poedit.net/download">POEdit tool</a>:
 
-<div align="center">
-    <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
+</p>
 
 5.2 После перевода словарика через POEdit, необходимо сохранить **mo** файл с созданным переводом. Этот файл должен быть добавлен в проект. После чего его нужно преобразовать в JSON:
 
@@ -230,4 +230,4 @@ class Root extends Component {
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

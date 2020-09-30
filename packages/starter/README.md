@@ -1,5 +1,9 @@
 # @rockpack/starter
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README_RU.md">Readme (Russian version)</a>
+</p>
+
 **@rockpack/starter** is **create-react-app** on steroids. Allows you to create not only a regular React application, but also:
 
  - Application with Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
@@ -13,8 +17,6 @@
 - NodeJS application. Supporting ES6 Imports, source minification, etc.
 
 **@rockpack/starter** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
-
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README_RU.md)
 
 ## Using
 
@@ -31,7 +33,9 @@ rockpack <project name>
 
 3. Select the type of application, select the required modules.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+<p align="right">
+  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
+</p>
 
 ***
 

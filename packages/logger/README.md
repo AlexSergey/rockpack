@@ -1,10 +1,12 @@
-<div align="center">
-    <a href="http://www.natrube.net/logrock/index.html">
-        <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
-    </a>
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
+</p>
 
 # @rockpack/logger
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md">Readme (Russian version)</a>
+</p>
 
 Our application is alive organism. The bug in your application is a kind of disease. Nobody and nothing than your application can tell you better what went wrong with it.
 
@@ -13,8 +15,6 @@ As developers, we would like to know which actions caused the error, what button
 **@rockpack/logger** is a React component and logging system that allows you to record all actions before a critical error occurs so that this information can be analyzed later.
 
 **@rockpack/logger** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
-
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md)
 
 ## Using
 
@@ -113,7 +113,9 @@ We have added a logger in which the information is divided into 2 parts. React.T
 
 If a critical error occurs in the system, we will have a **BSOD** with a detailed description of the user's actions. It will also be possible to send this stack to the error analysis system or ElasticSearch in order to quickly catch errors that occurred among our users.
 
-<div style="text-align: center"><img alt="BSOD" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" /></div>
+<p align="right">
+  <img alt="BSOD" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" />
+</p>
 
 *- When logging applications, you need to put logs in the most confusing and complex parts of the code, so you will understand what happened at this stage.*
 

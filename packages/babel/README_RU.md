@@ -1,12 +1,14 @@
 # @rockpack/babel
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md">Readme (English version)</a>
+</p>
+
 **@rockpack/babel** это настройки Babel обеспечивающие поддержку современного синтаксиса JS для **@rockpack/compiler**, **@rockpack/tester**.
 
 **@rockpack/babel** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
 **@rockpack/babel** включает в себя поддержку React, Jest, содержит ряд оптимизирующих плагинов для React и многое другое. Полный список включенных фич смотрите ниже:
-
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md)
 
 ## Особенности:
 
@@ -42,4 +44,4 @@
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

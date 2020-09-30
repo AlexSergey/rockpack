@@ -1,5 +1,9 @@
 # @rockpack/compiler
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md">Readme (English version)</a>
+</p>
+
 **@rockpack/compiler** - основной модуль системы, позволяющий компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
 
 **С помощью данного модуля вы сможете:**
@@ -12,8 +16,6 @@
 - Провести анализ бандла
 
 **@rockpack/compiler** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
-
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
 ## Особенности:
 
@@ -344,4 +346,4 @@ import styles from './App.modules.css';
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>

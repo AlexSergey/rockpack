@@ -1,10 +1,12 @@
-<div align="center">
-    <a href="http://www.natrube.net/localazer/index.html">
-        <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
-    </a>
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
+</p>
 
 # @rockpack/localazer
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md">Readme (Russian version)</a>
+</p>
 
 Most application localization approaches use JSON files as the storage location. JSON is a convenient format for a developer but not for a localizer. The localizer works in specialized software that must maintain correct spelling, find typos, and combine GIT-style developments between versions of the application to form a dictionary.
 
@@ -14,16 +16,14 @@ In order to organize the communication of our **React** application with **gette
 
 **@rockpack/localazer** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md)
-
 ## How it works
 Stage 1. We need to add localization and make it friends with our application.
 Stage 2. Extract all the data for the dictionary from our application and pass it in the gettext format to the translator.
 Stage 3. Having received the finished translation, we must overtake it into JSON and insert it into our application.
 
-<div align="center">
-    <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
+</p>
 
 ## Using
 
@@ -116,9 +116,9 @@ As a result, a dictionary with all text fragments for translation will be create
 
 To translate a dictionary, you must use <a href="https://poedit.net/download">POEdit tool</a>:
 
-<div align="center">
-    <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
+</p>
 
 5.2 After translating the dictionary through POEdit, you need to save the **mo** file with the created translation. This file must be added to the project. Then it needs to be converted to JSON:
 

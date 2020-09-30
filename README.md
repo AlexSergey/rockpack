@@ -1,12 +1,16 @@
-<div style="text-align: center"><img alt="Rockpack" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logo.png"></div>
+<p align="center">
+  <img alt="Rockpack" src="https://www.rock-book.io/readme_assets/rockpack_logo.png">
+</p>
 
 # Rockpack
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md">Readme (Russian version)</a>
+</p>
 
 **Rockpack** is a comprehensive solution that allows us to save time at the start of a project and start immediately solving business problems and not once again having to deal with routine such as setting up webpack, jest, eslint etc.
 
 **Rockpack** was designed with one goal in mind - to use previously created turnkey solutions as efficiently as possible. In its development, I tried to avoid the bike structure in order to make this tool as versatile as possible for every React project.
-
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/README_RU.md)
 
 ## Motivation
 
@@ -20,11 +24,15 @@ Working on many React projects from scratch, we are faced with the same type of 
 
 Every time we spend weeks on these routine tasks.
 
-<div style="text-align: center"><img alt="Usual flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png"></div>
+<p align="center">
+  <img width="500px" alt="Usual flow" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png">
+</p>
 
 Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
 
-<div style="text-align: center"><img alt="Rockpack flow" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png"></div>
+<p align="center">
+  <img width="500px" alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
+</p>
 
 Also at the start of the project, we can create localization, logging and we can do this practically without spending time.
 
@@ -44,7 +52,9 @@ rockpack <project name>
 
 3. Select the type of application, select the required modules.
 
-<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+<p align="center">
+  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
+</p>
 
 If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
 

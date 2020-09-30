@@ -1,5 +1,9 @@
 # @rockpack/compiler
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md">Readme (Russian version)</a>
+</p>
+
 **@rockpack/compiler** is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
 **@rockpack/compiler** can help you with:
@@ -12,8 +16,6 @@
 - Bundle analyze (TS/Babel)
 
 **@rockpack/compiler** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
-
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
 
 ## Features:
 

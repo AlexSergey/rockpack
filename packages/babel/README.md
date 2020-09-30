@@ -1,12 +1,15 @@
 # @rockpack/babel
 
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README_RU.md">Readme (Russian version)</a>
+</p>
+
 **@rockpack/babel** is Babel settings that provide modern JS syntax support for **@rockpack/compiler**, **@rockpack/tester**.
 
 **@rockpack/babel** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
 **@rockpack/babel** includes support for React, Jest, contains a number of optimizing plugins for React, and more. See below for a complete list of included features:
 
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README_RU.md)
 
 ## Features:
 

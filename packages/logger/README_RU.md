@@ -1,10 +1,12 @@
-<div align="center">
-    <a href="http://www.natrube.net/logrock/index.html">
-        <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
-    </a>
-</div>
+<p align="right">
+  <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
+</p>
 
 # @rockpack/logger
+
+<p align="right">
+  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">Readme (English version)</a>
+</p>
 
 Если сравнить программу с живым организмом, то баг в ней — это болезнь. На возникновение «болезни» может повлиять целый ряд факторов и окружение, особенно, если мы рассматриваем веб-платформу в качестве запуска. Иногда причинно-следственная связь очень сложная, и баг, который нашли при тестировании результат целого ряда событий.
 
@@ -13,8 +15,6 @@
 **@rockpack/logger** это React компонент и система логирования позволяющая записать все действия перед возникновением критической ошибки чтобы в дальнейшем эту информацию можно было проанализировать.
 
 **@rockpack/logger** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
-
-[Readme (English version)](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md)
 
 ## Использование
 
@@ -113,7 +113,9 @@ export default function Toggle(props) {
 
 Таким образом, при возникновении критической ошибки в системе, у нас появится **BSOD** с подробным описанием действий пользователя. А также будет возможность отправить данный стек в систему анализа ошибок или на ElasticSearch, чтобы быстрее отлавливать ошибки произошедшие у наших пользователей.
 
-<div style="text-align: center"><img alt="BSOD" style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" /></div>
+<p align="right">
+  <img alt="BSOD" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" />
+</p>
 
 *- При логгировании приложений нужно проставлять логи в наиболее запутанные и сложные участки кода, таким образом вы будете понимать, что происходило на этом этапе.*
 
@@ -152,4 +154,4 @@ logger.error('Ups...');
 
 ## Лицензия MIT
 
-<a href="https://github.com/AlexSergey/rockpack#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md#%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-mit" target="_blank">MIT</a>
