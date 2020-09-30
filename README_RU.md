@@ -28,6 +28,32 @@
 
 Также на этапе старта проекта мы можем заложить такие фичи как - локализация, логирование и это мы можем сделать практически без затрат по времени.
 
+## С чего начать
+Для настройки проекта с нуля рекомендованный подход является использование **@rockpack/starter**
+
+1. Установка
+```shell script
+npm i @rockpack/starter -g
+```
+
+2. Создание приложения
+```shell script
+rockpack <project name>
+```
+
+3. Выбрать тип приложения, выбрать необходимые модули.
+
+<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+
+Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
+
+- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md#how-it-works)
+- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md#how-it-works)
+- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md#how-it-works)
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md#how-it-works)
+- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md#how-it-works)
+- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md#how-it-works)
+
 ## Обзор модулей Rockpack
 
 **Rockpack** состоит из модулей. Рассмотрим их по подробнее:
@@ -92,20 +118,6 @@
 *Для более подробного описания заходите по ссылкам каждого модуля.*
 
 **Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**
-
-## С чего начать
-Для настройки проекта с нуля рекомендованный подход является использование **@rockpack/starter**
-
-- [Как сгенерировать приложение с помощью @rockpack/starter](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README_RU.md#how-it-works)
-
-Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
-
-- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md#how-it-works)
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md#how-it-works)
-- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md#how-it-works)
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md#how-it-works)
-- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md#how-it-works)
-- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md#how-it-works)
 
 ## Альтернативы
 

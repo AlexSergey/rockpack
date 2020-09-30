@@ -1,18 +1,15 @@
-# @rockpack/ussr
+# @rockpack/ussr (Universal Server-Side Rendering)
+<div style="text-align: right"><a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md">Readme (Russian version)</a></div>
 
-**@rockpack/ussr** маленькая библиотека дающая большие возможности для создания SSR приложений. Не привязана ни к каким библиотекам.
+**@rockpack/ussr** A small library for building SSR applications. Universal in the name says that you can use it with any libraries and approaches for storing state - Redux (thunk, sagas), Mobx, Apollo...
 
 **@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
-USSR - Universal server side rendering. Universal - по тому, что мы можем использовать данное решение для любых реализаций состояния приложения, таких как Redux, Apollo, так и для обычного setState.
+Modern JS applications are divided into 2 types:
+- CSR - Client-Side rendering. The application will be displayed only after downloading and executing all the necessary JS code. Until then, the user will see a blank page. It degrades the UX and is bad for SEO.
+- SSR - Server-Side rendering. The auxiliary server doesn't send a blank page, but a page with data. Thus, the user can immediately start working with the application, and the Secondary Server does not give a blank page but a page with data. The user can immediately start working with the application and SEO bots will index the page.
 
-Современные JS приложения делятся на 2 вида:
-- CSR - Клиентский рендеринг. Пользователь должен скачать весь необходимый для рендера JS файл, чтобы началась отрисовка. До этого пользователь не видит данных. Такой тип приложений затруднителен для SEO систем, так как СЕО бот получает пустой index.html файл. Также время отображения данных замедляется, так как нужно скачать и выполнить весь необходимый JS, а это может занять значительное время.
-- SSR - Серверный рендеринг. Во время запроса на получение HTML странички у нас происходит рендер данных на сервере. Получаемая клиентом страничка HTML включает в себя разметку и данные, что ускореяет вывод для пользователя (ожидать загрузку JS файлов не обязательно), а также улучшает SEO оптимизацию, так как СЕО боты видят данные в полученной HTML странице.
-
-Организовать Серверный рендеринг весьма непростая задача которая делиться на несколько под задач.
-
-[Readme (Russian version)](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md)
+There are 2 problems when building SSR applications
 
 ## Проблема Side effect'ов
 

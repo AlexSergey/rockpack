@@ -28,6 +28,33 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
 
 Also at the start of the project, we can create localization, logging and we can do this practically without spending time.
 
+## How to start
+For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
+
+1. Installation
+
+```shell script
+npm i @rockpack/starter -g
+```
+
+2. Creating an App
+```shell script
+rockpack <project name>
+```
+
+3. Select the type of application, select the required modules.
+
+<div style="text-align: center"><img style="width: 100%" src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg"></div>
+
+If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
+
+- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
+- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
+- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md#how-it-works)
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
+- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
+- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
+
 ## Rockpack modules overview
 
 **Rockpack** consists of modules. Let's consider them in more detail:
@@ -44,7 +71,7 @@ Also at the start of the project, we can create localization, logging and we can
 - Library. Configured webpack for building UMD libraries, both React and Vanilla JS
 - NodeJS application. Supporting ES6 Imports, source minification, etc.
 
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">Подробнее...</a>
+<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 ***
 **@rockpack/compiler** - is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
@@ -93,20 +120,6 @@ Also at the start of the project, we can create localization, logging and we can
 *In order to get more detailed info please follow each module links.*
 
 **Rockpack is completely free project. We are always open to collaboration and contributors.**
-
-## Where to start
-For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
-
-- [How to generate an app using @rockpack/starter](https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md#how-it-works)
-
-If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
-
-- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
-- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md#how-it-works)
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
-- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
-- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
 
 ## Alternatives
 
