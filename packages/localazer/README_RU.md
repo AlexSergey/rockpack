@@ -1,4 +1,4 @@
-<p align="right">
+<p align="center">
   <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
 </p>
 

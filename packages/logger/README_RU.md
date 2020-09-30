@@ -1,4 +1,4 @@
-<p align="right">
+<p align="center">
   <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
 </p>
 

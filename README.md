@@ -2,8 +2,6 @@
   <img alt="Rockpack" src="https://www.rock-book.io/readme_assets/rockpack_logo.png">
 </p>
 
-# Rockpack
-
 <p align="right">
   <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md">Readme (Russian version)</a>
 </p>
