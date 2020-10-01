@@ -6,6 +6,7 @@ const wizard = require('./wizard');
 const copyFiles = require('./copyFiles');
 const createFiles = require('./createFiles');
 const packageJSONPreparing = require('./packageJSONPreparing');
+const { showError } = require('../utils/error');
 const {
   readPackageJSON,
   createPackageJSON,
@@ -23,28 +24,85 @@ const install = async ({
   if (!fs.existsSync(currentPath)) {
     fs.mkdirSync(currentPath);
   }
+  try {
+    await createPackageJSON(currentPath);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 1. Package.json creating');
+    });
+  }
 
-  await createPackageJSON(currentPath);
-  console.log(chalk.green('Package.json created'));
+  console.log(chalk.green('Package.json created\n'));
 
   const src = path.resolve(currentPath, 'src');
-  fs.mkdirSync(src);
-  console.log(chalk.green('Src folder created'));
+
+  try {
+    fs.mkdirSync(src);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 2. src folder creating');
+    });
+  }
+
+  console.log(chalk.green('Src folder created\n'));
 
   const state = await wizard();
-  const spinner = ora('Package.json is preparing. Dependencies are checking.')
+  const spinner = ora('Package.json is preparing. Dependencies are checking.\n')
     .start();
 
-  const packageJSON = await packageJSONPreparing(await readPackageJSON(currentPath), state);
+  let packageJSON;
+
+  try {
+    packageJSON = await readPackageJSON(currentPath);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 3. Package.json reading');
+    });
+  }
+
+  try {
+    packageJSON = await packageJSONPreparing(packageJSON, state);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 4. Package.json set-up');
+    });
+  }
 
   spinner.text = 'Files are copying and creating';
 
-  await copyFiles(currentPath, state);
-  await createFiles(currentPath, state);
+  try {
+    await copyFiles(currentPath, state);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 5. Copying files');
+    });
+  }
 
-  spinner.text = 'Project is initializing... It takes 2 - 5 minutes';
-  await writePackageJSON(currentPath, packageJSON);
-  await installDependencies(yarnIsAvailable(), currentPath);
+  try {
+    await createFiles(currentPath, state);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 6. Creating folders');
+    });
+  }
+
+  spinner.text = 'Project is initializing... It takes 2 - 5 minutes\n';
+
+  try {
+    await writePackageJSON(currentPath, packageJSON);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 7. Package.json updating');
+    });
+  }
+  try {
+    await installDependencies(yarnIsAvailable(), currentPath);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 8. Installing dependencies');
+    });
+  }
+
   spinner.stop();
 
   console.log();

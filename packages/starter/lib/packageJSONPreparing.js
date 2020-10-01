@@ -13,75 +13,69 @@ const packageJSONPreparing = async (packageJSON, {
 }) => {
   switch (appType) {
     case 'csr':
-      packageJSON = typescript ? await addDependencies(packageJSON, {
+      packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
         ],
         devDependencies: [
-          { name: '@types/react', version: '16' },
-          { name: '@types/react-dom', version: '16' },
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
-        ]
-      }) : await addDependencies(packageJSON, {
-        dependencies: [
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' },
-        ],
-        devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.12' }
         ]
       });
+
+      if (typescript) {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: '@types/react', version: '16' },
+            { name: '@types/react-dom', version: '16' }
+          ]
+        });
+      }
       break;
 
     case 'ssr':
-      packageJSON = typescript ? await addDependencies(packageJSON, {
+      packageJSON = await addDependencies(packageJSON, {
         dependencies: [
-          { name: '@rockpack/ussr', version: '0.9.9-rc.11' },
           { name: 'koa', version: '2' },
           { name: 'koa-static', version: '5' },
-          { name: '@koa/router', version: '8' },
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
           { name: 'serialize-javascript', version: '5' },
           { name: 'isomorphic-style-loader', version: '5.1.0' },
-          { name: 'pretty-error', version: '2.1.1' }
-        ],
-        devDependencies: [
-          { name: '@types/react', version: '16' },
-          { name: '@types/react-dom', version: '16' },
-          { name: '@types/koa', version: '2' },
-          { name: '@types/koa-router', version: '7' },
-          { name: '@types/node', version: '14' },
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
-        ]
-      }) : await addDependencies(packageJSON, {
-        dependencies: [
-          { name: '@rockpack/ussr', version: '0.9.9-rc.11' },
-          { name: 'koa', version: '2' },
-          { name: 'koa-static', version: '5' },
+          { name: 'pretty-error', version: '2.1.1' },
           { name: '@koa/router', version: '8' },
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' },
-          { name: 'serialize-javascript', version: '5' },
-          { name: 'isomorphic-style-loader', version: '5.1.0' },
-          { name: 'pretty-error', version: '2.1.1' }
+          { name: '@rockpack/ussr', version: '0.9.9-rc.12' },
+          { name: '@loadable/component', version: '5.13.1' },
+          { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.12' }
         ]
       });
+
+      if (typescript) {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: '@types/react', version: '16' },
+            { name: '@types/react-dom', version: '16' },
+            { name: '@types/koa', version: '2' },
+            { name: '@types/koa-router', version: '7' },
+            { name: '@types/node', version: '14' }
+          ]
+        });
+      }
       break;
 
     case 'library':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.12' }
         ]
       });
       packageJSON = addFields(packageJSON, {
         main: 'dist/index.js'
       });
+
       if (typescript) {
         packageJSON = addFields(packageJSON, {
           types: 'dist/index.d.ts'
@@ -90,18 +84,21 @@ const packageJSONPreparing = async (packageJSON, {
       break;
 
     case 'nodejs':
-      packageJSON = typescript ? await addDependencies(packageJSON, {
-        dependencies: [],
+      packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@types/node', version: '14' },
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
-        ]
-      }) : await addDependencies(packageJSON, {
-        dependencies: [],
-        devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.11' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.12' }
         ]
       });
+
+      if (typescript) {
+        packageJSON = await addDependencies(packageJSON, {
+          dependencies: [],
+          devDependencies: [
+            { name: '@types/node', version: '14' },
+            { name: '@rockpack/compiler', version: '0.9.9-rc.12' }
+          ]
+        });
+      }
       break;
   }
 
@@ -123,7 +120,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '0.9.9-rc.11' }
+        { name: '@rockpack/codestyle', version: '0.9.9-rc.12' }
       ]
     });
   }
@@ -134,7 +131,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '0.9.9-rc.11' }
+        { name: '@rockpack/tester', version: '0.9.9-rc.12' }
       ]
     });
     if (appType === 'csr' || appType === 'ssr') {
@@ -156,14 +153,14 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       dependencies: [
-        { name: '@rockpack/localazer', version: '0.9.9-rc.11' }
+        { name: '@rockpack/localazer', version: '0.9.9-rc.12' }
       ]
     });
   }
   if (modules.logger) {
     packageJSON = await addDependencies(packageJSON, {
       dependencies: [
-        { name: '@rockpack/logger', version: '0.9.9-rc.11' }
+        { name: '@rockpack/logger', version: '0.9.9-rc.12' }
       ]
     });
   }

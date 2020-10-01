@@ -22,18 +22,6 @@ const readPackageJSON = (currentPath) => {
   })
 }
 
-const isProjectFolderNotEmpty = (currentPath) => {
-  return new Promise(async (resolve, reject) => {
-    fs.readdirSync(currentPath, (err, files) => {
-      if (err) {
-        return reject(err);
-      } else {
-        resolve(files.length > 0);
-      }
-    });
-  });
-}
-
 const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [] }) => {
   const toMerge = {
     dependencies: {},
