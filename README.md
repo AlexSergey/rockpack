@@ -6,7 +6,7 @@
   <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md">Readme (Russian version)</a>
 </p>
 
-**Rockpack** is a comprehensive solution that allows us to save time at the start of a project and start immediately solving business problems and not once again having to deal with routine such as setting up webpack, jest, eslint etc.
+**Rockpack** is a comprehensive solution that allows us to save time at the start of a project and start immediately solving business problems and avoid dealing with routines such as setting up webpack, jest, eslint etc.
 
 **Rockpack** was designed with one goal in mind - to use previously created turnkey solutions as efficiently as possible. In its development, I tried to avoid the bike structure in order to make this tool as versatile as possible for every React project.
 
