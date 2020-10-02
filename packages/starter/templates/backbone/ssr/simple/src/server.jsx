@@ -6,6 +6,7 @@ import serve from 'koa-static';
 import PrettyError from 'pretty-error';
 import Router from '@koa/router';
 import serialize from 'serialize-javascript';
+import { ChunkExtractor } from '@loadable/server';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { serverRender } from '@rockpack/ussr';
 import App from './App';
@@ -33,11 +34,20 @@ router.get('/*', async (ctx) => {
     // eslint-disable-next-line no-underscore-dangle
     : (...moduleStyles) => moduleStyles.forEach((style) => css.add(style._getCss()));
 
+  const extractor = new ChunkExtractor({
+    stats,
+    entrypoints: ['index'],
+  });
+
   const { html, state } = await serverRender(() => (
-    <StyleContext.Provider value={{ insertCss }}>
-      <App />
-    </StyleContext.Provider>
+    extractor.collectChunks(
+      <StyleContext.Provider value={{ insertCss }}>
+        <App />
+      </StyleContext.Provider>,
+    )
   ));
+
+  const scriptTags = extractor.getScriptTags();
 
   if (process.env.NODE_ENV === 'development') {
     styles.push(`<style>${[...css].join('')}</style>`);
@@ -60,7 +70,7 @@ router.get('/*', async (ctx) => {
 </head>
 <body>
     <div id="root">${html}</div>
-    <script src="/index.js"></script>
+    ${scriptTags}
 </body>
 </html>
 `;

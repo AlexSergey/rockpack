@@ -19,15 +19,13 @@
       "ES2015.Iterable"
     ],
     "typeRoots": [
-      "node_modules/@types",
-      "./typings"
+      "node_modules/@types"
     ]
   },
   "exclude":  [
     "./node_modules/**/*"
   ],
   "include": [
-    "./src/**/*",
-    "./typings/global.d.ts"
+    "./src/**/*"
   ]
 }

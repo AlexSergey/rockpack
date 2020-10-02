@@ -7,7 +7,7 @@ isomorphicCompiler(
     dist: 'public',
     copy: [
       { from: path.resolve(__dirname, './favicon.ico'), to: './' }
-    ]
+    ],
   }),
   backendCompiler({
     src: 'src/server.jsx',

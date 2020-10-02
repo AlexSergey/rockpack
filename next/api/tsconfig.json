@@ -13,8 +13,7 @@
     "importsNotUsedAsValues": "preserve",
     "typeRoots": [
       "../../node_modules/@types",
-      "node_modules/@types",
-      "./typings"
+      "node_modules/@types"
     ]
   },
   "exclude": [

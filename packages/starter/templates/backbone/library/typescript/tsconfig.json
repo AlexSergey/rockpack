@@ -9,7 +9,9 @@
     "noImplicitAny": true,
     "removeComments": false,
     "noLib": false,
-    "typeRoots": ["./typings"]
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "exclude":  [
     "./node_modules/**/*"

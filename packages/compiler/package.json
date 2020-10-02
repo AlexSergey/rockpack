@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "0.9.9-rc.12",
+  "version": "0.9.9-rc.13",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "@becklyn/typescript-error-formatter": "1.0.4",
     "@loadable/webpack-plugin": "5.13.0",
     "@mdx-js/loader": "1.6.16",
-    "@rockpack/babel": "0.9.9-rc.12",
+    "@rockpack/babel": "0.9.9-rc.13",
     "@svgr/webpack": "5.4.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.3.0",
     "antd-dayjs-webpack-plugin": "1.0.1",
@@ -51,9 +51,8 @@
     "cssnano": "4.1.10",
     "deep-extend": "0.6.0",
     "dotenv-webpack": "2.0.0",
-    "eslint-formatter-friendly": "7.0.0",
     "eslint-formatter-pretty": "4.0.0",
-    "eslint-loader": "4.0.2",
+    "eslint-webpack-plugin": "2.1.0",
     "extract-loader": "4.0.3",
     "file-loader": "6.1.0",
     "find-free-port": "2.0.0",
@@ -116,6 +115,6 @@
     "yargs": "15.4.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.12"
+    "@rockpack/codestyle": "0.9.9-rc.13"
   }
 }

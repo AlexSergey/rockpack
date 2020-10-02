@@ -9,7 +9,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { LocalizationContainer } from '../features/Localization';
 import { createStore } from '../store';
 import { logger } from '../utils/logger';
-import { isProduction } from '../utils/mode';
+import { isProduction } from '../utils/environments';
 import { createMockServices } from './mockServices';
 import { RootState } from '../types/store';
 

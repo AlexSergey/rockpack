@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { isBackend } from '@rockpack/ussr';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { isNotProduction } from './utils/mode';
+import { isDevelopment } from './utils/environments';
 import { localizationSaga, localizationReducer as localization } from './features/Localization';
 import { authorizationSaga, signInSaga, signUpSaga, signOutSaga, userReducer as user } from './features/User';
 import { postsSaga, createPostSaga, deletePostSaga, setPageSaga, postsReducer as posts, paginationReducer as pagination } from './features/Posts';
@@ -33,7 +33,7 @@ export const createStore = ({ initState = {}, logger, history, services, testMod
   middleware.push(sagaMiddleware);
   middleware.push(routerMiddleware(history));
 
-  if (isNotProduction() && !isBackend() && !testMode) {
+  if (isDevelopment() && !isBackend() && !testMode) {
     middleware.push(reduxLogger);
   }
 
@@ -48,7 +48,7 @@ export const createStore = ({ initState = {}, logger, history, services, testMod
       users,
       pagination
     },
-    devTools: isNotProduction(),
+    devTools: isDevelopment(),
     middleware,
     preloadedState: initState
   });

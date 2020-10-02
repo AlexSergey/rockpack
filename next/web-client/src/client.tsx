@@ -1,3 +1,4 @@
+import './types/global';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import Cookies from 'js-cookie';
@@ -9,7 +10,7 @@ import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { LocalizationContainer } from './features/Localization';
 import { App } from './main';
-import { isProduction } from './utils/mode';
+import { isProduction } from './utils/environments';
 import { createStore } from './store';
 import { logger } from './utils/logger';
 import { createRestClient } from './utils/rest';

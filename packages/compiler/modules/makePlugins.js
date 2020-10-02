@@ -9,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
@@ -217,19 +218,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
 
   const eslintRc = pathToEslintrc(root, mode);
 
-  if (isString(eslintRc)) {
-    plugins.LoadOptions = new webpack.LoaderOptionsPlugin({
-      test: /\.(js|jsx|ts|tsx)$/,
-      options: {
-        eslint: {
-          configFile: eslintRc,
-          eslintPath: require.resolve('eslint'),
-          formatter: eslintFormatter,
-          ignore: false,
-          useEslintrc: false,
-          cache: false,
-        }
-      },
+  if (!conf.makePOT && isString(eslintRc)) {
+    plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
+      eslintPath: require.resolve('eslint'),
+      formatter: eslintFormatter
     });
   }
 

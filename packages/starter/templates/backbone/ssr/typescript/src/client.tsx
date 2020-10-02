@@ -1,3 +1,4 @@
+import './types/global';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import createUssr from '@rockpack/ussr';

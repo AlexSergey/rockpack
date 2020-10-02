@@ -3,7 +3,6 @@ const path = require('path');
 const createBabelPresets = require('@rockpack/babel');
 const formatter = require('@becklyn/typescript-error-formatter');
 const Collection = require('../utils/Collection');
-const pathToEslintrc = require('../utils/pathToEslintrc');
 const pathToTSConf = require('../utils/pathToTSConf');
 const getStylesRules = require('../utils/getStylesRules');
 
@@ -24,13 +23,9 @@ function getModules(conf = {}, mode, root) {
 
   const tsConfig = pathToTSConf(root, mode, debug);
 
-  const eslintRc = pathToEslintrc(root, mode);
-
   const isTypeScript = isString(tsConfig);
 
-  const isEslint = isString(eslintRc);
-
-  const finalConf = {
+  return {
     handlebars: {
       test: /\.(hbs|handlebars)$/,
       use: [
@@ -370,24 +365,6 @@ function getModules(conf = {}, mode, root) {
       exclude: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/
     },
   };
-
-  if (!conf.makePOT && isEslint) {
-    finalConf.jsPre = {
-      enforce: 'pre',
-      test: /\.(js|jsx|ts|tsx)$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: require.resolve('eslint-loader'),
-        options: {
-          failOnError: true,
-          configFile: eslintRc,
-          formatter: require.resolve('eslint-formatter-friendly')
-        }
-      }]
-    };
-  }
-
-  return finalConf;
 }
 
 const _makeModules = (modules, conf, excludeModules = []) => {

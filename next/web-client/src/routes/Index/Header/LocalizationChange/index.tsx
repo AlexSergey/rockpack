@@ -3,9 +3,7 @@ import { Select } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import config from '../../../../config';
 import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/Localization';
-// @ts-ignore
 import Ru from './flags/ru.component.svg';
-// @ts-ignore
 import Eng from './flags/us.component.svg';
 
 import styles from './style.modules.scss';
