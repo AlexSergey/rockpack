@@ -6,7 +6,7 @@ const pickUrls = require('./pickUrls');
 const prerenderDocgen = (plugins, finalConfig) => {
   const { sections } = docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
   let { languages } = docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
-  
+
   if (sections.length > 0) {
     try {
       languages = Array.isArray(languages) && languages.length > 0 ? languages.map(l => ({ url: l })) : [{ url: '' }];
@@ -16,7 +16,7 @@ const prerenderDocgen = (plugins, finalConfig) => {
         mergeUrls(cloneSections, l);
         return pickUrls(cloneSections, []);
       }).flat(1);
-      console.log('routesToRender', routesToRender);
+
       if (routesToRender.length > 0) {
         plugins.set('PrerenderSPAPlugin', new PrerenderSPAPlugin({
           staticDir: finalConfig.output.path,
@@ -24,6 +24,7 @@ const prerenderDocgen = (plugins, finalConfig) => {
         }));
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

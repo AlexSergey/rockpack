@@ -1,4 +1,5 @@
 import './src/config';
+import yargs from 'yargs';
 import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
 import { UserModel } from './src/models/User';
@@ -6,7 +7,6 @@ import { StatisticTypeModel } from './src/models/StatisticType';
 import { ImageTypeModel } from './src/models/ImageType';
 import { RoleModel } from './src/models/Role';
 import { StatisticModel } from './src/models/Statistic';
-import yargs from 'yargs';
 
 const { argv } = yargs(process.argv);
 

@@ -41,7 +41,7 @@ export interface InnerInterface extends ExternalPropsInterface {
   changeLocal: (lang: string) => void;
   languages: string[] | boolean;
   toggleOpenId: () => void;
-  children: (route?: any) => JSX.Element;
+  children: (route?: unknown) => JSX.Element;
 }
 
 export interface LayoutInterface extends ExternalPropsInterface {

@@ -25,8 +25,14 @@ test-reports/**
 *.txt
 *.mdx
 *.md
+*.json
+*.ejs
+*.hbs
+*.jade
+*.html
 docs/
 public/
 locales/
 src/locales/
 seo_report
+

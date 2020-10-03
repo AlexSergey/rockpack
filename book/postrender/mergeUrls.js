@@ -11,8 +11,8 @@ const mergeUrls = (route, parent) => {
 
   if (route.url && parent.url) {
     route.url = ulrJoin('/', parent.url, route.url);
-  }
-  else if (route.url && !parent.url) {
+    // eslint-disable-next-line sonarjs/no-collapsible-if
+  } else if (route.url && !parent.url) {
     if (route.url.indexOf('/') !== 0) {
       route.url = `/${route.url}`;
     }

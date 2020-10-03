@@ -15,7 +15,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
 const Dotenv = require('dotenv-webpack');
-const eslintFormatter = require('eslint-formatter-pretty');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -30,6 +29,7 @@ const MakePotPlugin = require('../localazer/makePot/MakePotPlugin');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
+const makeResolve = require('./makeResolve');
 const ReloadHtmlWebpackPlugin = require('../utils/reloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
 
@@ -46,6 +46,7 @@ function getTitle(packageJson) {
 
 const getPlugins = async (conf, mode, root, packageJson, webpack) => {
   const tsConfig = pathToTSConf(root, mode, false);
+  const { extensions } = makeResolve();
 
   const isTypeScript = isString(tsConfig);
 
@@ -220,8 +221,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
 
   if (!conf.makePOT && isString(eslintRc)) {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
-      eslintPath: require.resolve('eslint'),
-      formatter: eslintFormatter
+      extensions,
+      failOnError: mode === 'production',
+      eslintPath: require.resolve('eslint')
     });
   }
 

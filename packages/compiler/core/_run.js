@@ -3,14 +3,16 @@ const WebpackDevServer = require('webpack-dev-server');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
 
-const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
+const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
   simple: () => (
     new Promise((resolve, reject) => {
       compiler.run(async (err, stats) => {
         if (err) {
           return reject(err);
         }
-        log(stats);
+        if (mode === 'production') {
+          log(stats);
+        }
         if (isDefined(conf.esm) || isDefined(conf.cjs)) {
           // Transpile source
           try {
@@ -32,19 +34,32 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf) => ({
   },
   watch: () => {
     compiler.watch({}, (err, stats) => {
-      log(stats);
+      if (err) {
+        console.log(err.message);
+        return process.exit(1);
+      }
+      if (mode === 'production') {
+        log(stats);
+      }
     });
   }
 });
 
-const runNodeStrategy = (compiler, webpack, webpackConfig, conf) => ({
+const runNodeStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
   simple: () => (
     runAppStrategy(compiler, webpack, webpackConfig, conf).simple()
   ),
   // eslint-disable-next-line sonarjs/no-identical-functions
   'node-watch': () => {
+    // eslint-disable-next-line sonarjs/no-identical-functions
     compiler.watch({}, (err, stats) => {
-      log(stats);
+      if (err) {
+        console.log(err.message);
+        return process.exit(1);
+      }
+      if (mode === 'production') {
+        log(stats);
+      }
     });
   }
 });
@@ -81,6 +96,7 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
         {
           _liveReloadPort: frontConfig._liveReloadPort
         },
+        mode
       )[strategy]();
     } catch (e) {
       console.error(e);
@@ -115,7 +131,8 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
             compiler,
           webpack,
           webpackConfig[i],
-          config
+          config,
+          mode
         )[config.strategy];
 
         await compileStrategy();

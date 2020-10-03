@@ -56,6 +56,7 @@ const docgenParse = (index, extensions) => {
 
               if (children.type === 'ObjectExpression') {
                 children.properties.forEach(p => {
+                  // eslint-disable-next-line sonarjs/no-collapsible-if
                   if (p.type === 'ObjectProperty') {
                     if (p.key &&
                       p.key.type &&
@@ -90,6 +91,7 @@ const docgenParse = (index, extensions) => {
 
             traverse.default(ast, {
               ObjectProperty: (path) => {
+                // eslint-disable-next-line sonarjs/no-collapsible-if
                 if (path.node.key.name === 'docgen') {
                   if (sections.length === 0) {
                     const { code } = generator.default(path.node.value);
@@ -97,6 +99,7 @@ const docgenParse = (index, extensions) => {
                     if (code.indexOf('url') >= 0) {
                       if (Array.isArray(path.container)) {
                         path.container.forEach(siblings => {
+                          // eslint-disable-next-line sonarjs/no-collapsible-if
                           if (siblings.key.name === 'localization') {
                             if (Array.isArray(siblings.value.properties)) {
                               siblings.value.properties.forEach(l => {
@@ -116,6 +119,7 @@ const docgenParse = (index, extensions) => {
         }
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

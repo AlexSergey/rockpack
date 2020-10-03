@@ -19,7 +19,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react-dom', version: '16' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.13' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.14' }
         ]
       });
 
@@ -44,12 +44,12 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'isomorphic-style-loader', version: '5.1.0' },
           { name: 'pretty-error', version: '2.1.1' },
           { name: '@koa/router', version: '8' },
-          { name: '@rockpack/ussr', version: '0.9.9-rc.13' },
+          { name: '@rockpack/ussr', version: '0.9.9-rc.14' },
           { name: '@loadable/component', version: '5.13.1' },
           { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.13' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.14' }
         ]
       });
 
@@ -69,7 +69,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'library':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.13' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.14' }
         ]
       });
       packageJSON = addFields(packageJSON, {
@@ -86,7 +86,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '0.9.9-rc.13' }
+          { name: '@rockpack/compiler', version: '0.9.9-rc.14' }
         ]
       });
 
@@ -95,7 +95,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '0.9.9-rc.13' }
+            { name: '@rockpack/compiler', version: '0.9.9-rc.14' }
           ]
         });
       }
@@ -116,11 +116,11 @@ const packageJSONPreparing = async (packageJSON, {
 
   if (codestyle) {
     packageJSON = addScripts(packageJSON, {
-      lint: "cross-env NODE_ENV=production eslint \"src/**\"",
+      lint: "cross-env NODE_ENV=production eslint \"**\"",
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '0.9.9-rc.13' }
+        { name: '@rockpack/codestyle', version: '0.9.9-rc.14' }
       ]
     });
   }
@@ -131,7 +131,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '0.9.9-rc.13' }
+        { name: '@rockpack/tester', version: '0.9.9-rc.14' }
       ]
     });
     if (appType === 'csr' || appType === 'ssr') {
@@ -153,14 +153,14 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       dependencies: [
-        { name: '@rockpack/localazer', version: '0.9.9-rc.13' }
+        { name: '@rockpack/localazer', version: '0.9.9-rc.14' }
       ]
     });
   }
   if (modules.logger) {
     packageJSON = await addDependencies(packageJSON, {
       dependencies: [
-        { name: '@rockpack/logger', version: '0.9.9-rc.13' }
+        { name: '@rockpack/logger', version: '0.9.9-rc.14' }
       ]
     });
   }

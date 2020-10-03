@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/logger",
-  "version": "0.9.9-rc.13",
+  "version": "0.9.9-rc.14",
   "description": "This module can help you build error tracking & crash reporting system for your React application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=development node build",
     "build": "cross-env NODE_ENV=production node build",
     "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
-    "lint": "cross-env NODE_ENV=production eslint \"src/**\"",
+    "lint": "cross-env NODE_ENV=production eslint \"**\"",
     "test": "node tests.js",
     "test:watch": "node tests.js --watch",
     "production": "npm run lint && npm run typing && npm run test && npm run build && npm publish"
@@ -40,8 +40,8 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.13",
-    "@rockpack/compiler": "0.9.9-rc.13",
+    "@rockpack/codestyle": "0.9.9-rc.14",
+    "@rockpack/compiler": "0.9.9-rc.14",
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",

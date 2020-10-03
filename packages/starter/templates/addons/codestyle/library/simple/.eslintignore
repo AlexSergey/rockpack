@@ -26,9 +26,9 @@ test-reports/**
 *.mdx
 *.md
 *.json
+*.ejs
+*.hbs
+*.jade
+*.html
 docs/
-public/
-locales/
-src/locales/
-seo_report
-readme_assets
+lib

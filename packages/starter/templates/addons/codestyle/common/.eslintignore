@@ -25,6 +25,11 @@ test-reports/**
 *.txt
 *.mdx
 *.md
+*.json
+*.ejs
+*.hbs
+*.jade
+*.html
 docs/
 public/
 locales/

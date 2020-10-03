@@ -20,6 +20,8 @@
     "./node_modules/**/*"
   ],
   "include": [
+    "scripts.dropdatabase.ts",
+    "scripts.fixtures.ts",
     "src/**/*"
   ]
 }

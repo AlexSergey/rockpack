@@ -3,7 +3,7 @@ const gutil = require('gutil');
 const moment = require('moment');
 
 const log = (compilation) => {
-  const stats = compilation.stats || [compilation];
+  const stats = compilation ? (compilation.stats || [compilation]) : [];
 
   stats.forEach((s) => {
     const messages = formatMessages(s);

@@ -15,6 +15,7 @@ const options = {
   chromeFlags: ['--disable-mobile-emulation']
 };
 
+// eslint-disable-next-line no-shadow
 async function lighthouseFromPuppeteer(url, options, config = null) {
   // Launch chrome using chrome-launcher
   const chrome = await chromeLauncher.launch(options);

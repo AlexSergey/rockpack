@@ -27,35 +27,53 @@ const fixtures = {
   posts: 'fixtures/posts.json',
   images: 'fixtures/images.json',
   comments: 'fixtures/comments.json'
-}
+};
 
 const IMAGES = 'fixtures/images';
 
-const copy = (folder) => (
-  new Promise(r => {
+const copy = (folder): Promise<void> => (
+  // eslint-disable-next-line promise/param-names
+  new Promise((r, reject) => {
     const imagesPath = resolve(__dirname, folder);
-    const files = readdirSync(imagesPath);
+    let files;
+
+    try {
+      files = readdirSync(imagesPath);
+    } catch (e) {
+      return reject(e);
+    }
 
     if (!existsSync(resolve(__dirname, config.storage))) {
-      mkdirSync(resolve(__dirname, config.storage));
+      try {
+        mkdirSync(resolve(__dirname, config.storage));
+      } catch (e) {
+        return reject(e);
+      }
     }
 
     for (let i = 0, l = files.length; i < l; i++) {
       const file = files[i];
 
-      copyFileSync(
-        resolve(imagesPath, file),
-        resolve(__dirname, config.storage, file)
-      );
+      try {
+        copyFileSync(
+          resolve(imagesPath, file),
+          resolve(__dirname, config.storage, file)
+        );
+      } catch (e) {
+        return reject(e);
+      }
     }
 
     r();
   })
-)
+);
 
 const loadFixture = (file): Promise<unknown> => (
-  new Promise(resolve => {
-    loadFile(file, models).then(resolve);
+  // eslint-disable-next-line no-shadow
+  new Promise((resolve, reject) => {
+    loadFile(file, models)
+      .then(resolve)
+      .catch(reject);
   })
 );
 
@@ -63,18 +81,30 @@ const loadFixture = (file): Promise<unknown> => (
   await database.start();
   await installMappings();
 
-  // admin ID - 2
-  await loadFixture(fixtures.admin);
-  // user ID - 3
-  await loadFixture(fixtures.user);
+  try {
+    // admin ID - 2
+    await loadFixture(fixtures.admin);
+    // user ID - 3
+    await loadFixture(fixtures.user);
 
-  await loadFixture(fixtures.posts);
+    await loadFixture(fixtures.posts);
 
-  await loadFixture(fixtures.images);
+    await loadFixture(fixtures.images);
 
-  await loadFixture(fixtures.comments);
+    await loadFixture(fixtures.comments);
+  } catch (e) {
+    console.log(e);
+    await database.stop();
+    process.exit(1);
+  }
 
-  await copy(IMAGES);
+  try {
+    await copy(IMAGES);
+  } catch (e) {
+    console.log(e);
+    await database.stop();
+    process.exit(1);
+  }
 
   await database.stop();
 })();

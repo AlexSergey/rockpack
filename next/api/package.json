@@ -7,7 +7,7 @@
     "build": "cross-env NODE_ENV=production node scripts.build",
     "start:prod": "node dist/index.js",
     "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
-    "lint": "cross-env NODE_ENV=production eslint \"src/**\"",
+    "lint": "cross-env NODE_ENV=production eslint \"**\"",
     "db": "npm run migrate && npm run seed && npm run fixtures",
     "db:test": "npm run migrate:test && npm run seed:test && npm run fixtures:test",
     "db:production": "npm run migrate:production && npm run seed:production",
@@ -53,9 +53,9 @@
     "yargs": "15.4.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.13",
-    "@rockpack/compiler": "0.9.9-rc.13",
-    "@rockpack/tester": "0.9.9-rc.13",
+    "@rockpack/codestyle": "0.9.9-rc.14",
+    "@rockpack/compiler": "0.9.9-rc.14",
+    "@rockpack/tester": "0.9.9-rc.14",
     "@types/dotenv-safe": "8.1.1",
     "@types/jsonwebtoken": "8.5.0",
     "@types/koa": "2.11.4",
