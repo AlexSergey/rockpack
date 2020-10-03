@@ -23,12 +23,13 @@ const _make = async (conf, post) => {
   const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
   conf = await mergeConfWithDefault(conf, mode);
   const entry = makeEntry(conf, root, mode);
+  const context = path.dirname(entry.index);
   const output = makeOutput(conf, root);
   const devtool = makeDevtool(mode, conf);
   const devServer = makeDevServer(conf, root);
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
-  const plugins = await makePlugins(conf, root, packageJson, mode, webpack);
+  const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
   const resolve = makeResolve();
   const externals = makeExternals(conf, root);
 

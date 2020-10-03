@@ -44,7 +44,7 @@ function getTitle(packageJson) {
     .join(' ')}`;
 }
 
-const getPlugins = async (conf, mode, root, packageJson, webpack) => {
+const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
   const { extensions } = makeResolve();
 
@@ -222,6 +222,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
   if (!conf.makePOT && isString(eslintRc)) {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
       extensions,
+      context,
       failOnError: mode === 'production',
       eslintPath: require.resolve('eslint')
     });
@@ -370,8 +371,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack) => {
   return plugins;
 };
 
-const makePlugins = async (conf, root, packageJson, mode, webpack) => {
-  const plugins = await getPlugins(conf, mode, root, packageJson, webpack);
+const makePlugins = async (conf, root, packageJson, mode, webpack, context) => {
+  const plugins = await getPlugins(conf, mode, root, packageJson, webpack, context);
 
   return new Collection({
     data: plugins,

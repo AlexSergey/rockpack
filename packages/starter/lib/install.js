@@ -91,6 +91,8 @@ const install = async ({
   try {
     await writePackageJSON(currentPath, packageJSON);
   } catch (e) {
+    spinner.stop();
+
     showError(e, () => {
       console.error('Step: 7. Package.json updating');
     });
@@ -98,6 +100,8 @@ const install = async ({
   try {
     await installDependencies(yarnIsAvailable(), currentPath);
   } catch (e) {
+    spinner.stop();
+
     showError(e, () => {
       console.error('Step: 8. Installing dependencies');
     });
