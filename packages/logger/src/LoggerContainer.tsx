@@ -1,21 +1,17 @@
 import React, { ComponentType, Component, createContext, isValidElement, useContext } from 'react';
 import { isString, isNumber, isFunction } from 'valid-types';
-import LimitedArray from 'limited-array';
 import BSOD, { BSODInterface } from './BSOD';
 import { getStackData, onCriticalError } from './stack';
 import { getCurrentDate } from './utils';
-import { createLogger } from './logger';
-import { Stack, Action, LoggerInterface } from './types';
+import { Stack, LoggerInterface } from './types';
+import { logger } from './logger';
 
 interface LoggerContextInterface {
   getStackData: () => Stack;
   onError: (stack: Stack) => void;
-  getLogger: () => LoggerInterface;
 }
 
 export const LoggerContext = createContext<LoggerContextInterface>(null);
-
-export const useLogger = (): LoggerInterface => useContext(LoggerContext).getLogger();
 
 const isBackend = (): boolean => typeof window === 'undefined';
 
@@ -55,10 +51,8 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
 
   private readonly stack;
 
-  private readonly stackCollection: LimitedArray<Action>;
-
   static defaultProps = {
-    logger: createLogger(),
+    logger,
     active: true,
     bsodActive: true,
     sessionID: false,
@@ -73,31 +67,28 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
       bsod: false
     };
 
-    this.stackCollection = new LimitedArray<Action>();
-
     this.stack = {
       keyboardPressed: null,
       mousePressed: null,
       session: {},
       env: {},
-      actions: this.stackCollection.data
+      actions: logger.getStackCollection().data
     };
 
     const LIMIT = isNumber(this.props.limit) ? this.props.limit : 25;
 
-    this.props.logger.setUp({
-      active: props.active,
-      stackCollection: this.stackCollection
+    logger.setUp({
+      active: props.active
     });
 
-    this.stackCollection.setLimit(LIMIT);
+    logger.getStackCollection().setLimit(LIMIT);
 
     if (isFunction(this.props.onPrepareStack)) {
       this.stack.onPrepareStack = this.props.onPrepareStack;
     }
 
     if (isFunction(this.props.stdout)) {
-      this.props.logger.setUp({
+      logger.setUp({
         stdout: this.props.stdout
       });
     }
@@ -128,7 +119,7 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
     if (!this.__hasCriticalError) {
       this.__hasCriticalError = true;
 
-      const stackData = onCriticalError(this.stack, this.stackCollection, {
+      const stackData = onCriticalError(this.stack, logger.getStackCollection(), {
         getCurrentDate: this.props.getCurrentDate,
         onPrepareStack: this.props.onPrepareStack,
       }, trace, lineNumber);
@@ -140,8 +131,6 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
       });
     }
   };
-
-  getLogger = (): LoggerInterface => this.props.logger;
 
   _onMouseDown = (e: MouseEvent): void => {
     this.stack.mousePressed = e && e.button;
@@ -163,7 +152,7 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
     });
   };
 
-  getStackData = (): Stack => getStackData(this.stack, this.stackCollection, {
+  getStackData = (): Stack => getStackData(this.stack, logger.getStackCollection(), {
     getCurrentDate: this.props.getCurrentDate,
     onPrepareStack: this.props.onPrepareStack,
   });
@@ -201,15 +190,14 @@ export default class LoggerContainer extends Component<LoggerContainerProps, Log
     return (
       <LoggerContext.Provider value={{
         getStackData: this.getStackData,
-        onError: this.onError,
-        getLogger: this.getLogger
+        onError: this.onError
       }}
       >
         {this.props.children}
 
         {this.props.bsodActive && this.state.bsod && (
           <Bsod
-            count={this.getLogger().getCounter()}
+            count={logger.getCounter()}
             onClose={this.closeBsod}
             stackData={this.getStackData()}
           />

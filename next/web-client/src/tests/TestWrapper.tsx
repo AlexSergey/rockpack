@@ -1,4 +1,5 @@
 import React from 'react';
+import logger from '@rockpack/logger';
 import { Store } from '@reduxjs/toolkit';
 import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -8,7 +9,6 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import { LocalizationContainer } from '../features/Localization';
 import { createStore } from '../store';
-import { logger } from '../utils/logger';
 import { isProduction } from '../utils/environments';
 import { createMockServices } from './mockServices';
 import { RootState } from '../types/store';

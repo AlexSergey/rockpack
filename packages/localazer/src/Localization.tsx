@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { isFunction, isString } from 'valid-types';
 import { LocalizationObserverContext } from './LocalizationObserver';
-import { I18N } from './jed';
 
 interface LocalizationInterface {
   className?: string;
-  children: (i18n: I18N) => string;
+  children: () => string;
 }
 
 class Localization extends Component<LocalizationInterface> {
@@ -25,7 +24,7 @@ class Localization extends Component<LocalizationInterface> {
     return isFunction(this.props.children) ? (
       <span
         className={`localization-node ${isString(this.props.className) ? this.props.className : ''}`}
-        dangerouslySetInnerHTML={{ __html: this.props.children(this.context.getI18n()) }}
+        dangerouslySetInnerHTML={{ __html: this.props.children() }}
       />
     ) : null;
   }

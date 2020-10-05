@@ -32,12 +32,10 @@ yarn add @rockpack/logger
 
 ```jsx
 import React, { useCallback, useContext } from 'react';
-import { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
+import logger, { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
 
 const App = () => {
   const { getStackData, triggerError } = useLoggerApi();
-  const logger = useLogger();
-
   ...
 }
 
@@ -93,11 +91,10 @@ To properly log it, we need to modify the toggle method
 
 ```jsx
 import React, { useState } from 'react';
-import { useLogger } from '@rockpack/logger';
+import logger from '@rockpack/logger';
 
 export default function Toggle(props) {
   const [toggleState, setToggleState] = useState('off');
-  const logger = useLogger();
 
   function toggle() {
     let state = toggleState === 'off' ? 'on' : 'off';
@@ -127,7 +124,6 @@ If a critical error occurs in the system, we will have a **BSOD** with a detaile
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| logger | LoggerInterface | This property allows you to override logger. Logger must match the interface LoggerInterface |
 | active | Boolean[true] | Enable / disable logging. It is recommended to disable logging during the testing phase. |
 | bsodActive | Boolean[true] | Enable / disable BSOD output. It is recommended to disable for Production  |
 | sessionID | Number | If you need to associate logging with Backend calls - a single session for Frontend and Backend will allow you to do this |

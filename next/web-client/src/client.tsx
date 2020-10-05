@@ -1,7 +1,8 @@
 import './types/global';
 import React from 'react';
-import { hydrate } from 'react-dom';
 import Cookies from 'js-cookie';
+import { hydrate } from 'react-dom';
+import logger from '@rockpack/logger';
 import createUssr from '@rockpack/ussr';
 import { loadableReady } from '@loadable/component';
 import { ConnectedRouter } from 'connected-react-router';
@@ -12,7 +13,6 @@ import { LocalizationContainer } from './features/Localization';
 import { App } from './main';
 import { isProduction } from './utils/environments';
 import { createStore } from './store';
-import { logger } from './utils/logger';
 import { createRestClient } from './utils/rest';
 import { createServices } from './services';
 

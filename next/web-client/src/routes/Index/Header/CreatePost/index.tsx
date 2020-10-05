@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, Input, Form } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import Localization, { l, useI18n } from '@rockpack/localazer';
+import Localization, { l } from '@rockpack/localazer';
 import { isBackend } from '@rockpack/ussr';
 import loadable from '@loadable/component';
 import { PreviewUpload } from '../../../../components/PreviewUpload';
@@ -17,7 +17,6 @@ type FormState = {
 };
 
 export const CreatePost = (): JSX.Element => {
-  const i18n = useI18n();
   useStyles(styles);
   const { current } = usePagination();
   const { createPost } = usePostsApi();
@@ -59,7 +58,7 @@ export const CreatePost = (): JSX.Element => {
         <Localization>{l('Create post')}</Localization>
       </Button>
       <Modal
-        title={l('Create')(i18n)}
+        title={l('Create')()}
         footer={null}
         visible={postCreate}
         onCancel={(): void => {
@@ -81,7 +80,7 @@ export const CreatePost = (): JSX.Element => {
             }}
           >
             <Form.Item
-              label={l('Title')(i18n)}
+              label={l('Title')()}
               name="title"
               rules={[
                 {

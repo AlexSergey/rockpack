@@ -1,5 +1,6 @@
-import LoggerContainer, { useLoggerApi, useLogger } from './LoggerContainer';
-import { createLogger } from './logger';
-import { LoggerInterface as Logger } from './types';
+import LoggerContainer, { useLoggerApi } from './LoggerContainer';
+import { LoggerInterface } from './types';
+import { logger } from './logger';
 
-export { LoggerContainer, createLogger, useLoggerApi, Logger, useLogger };
+export default logger;
+export { LoggerContainer, useLoggerApi, LoggerInterface };

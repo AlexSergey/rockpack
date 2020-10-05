@@ -1,4 +1,4 @@
-import { Logger } from '@rockpack/logger';
+import { LoggerInterface } from '@rockpack/logger';
 import { History } from 'history';
 import { RouterState } from 'connected-react-router';
 import { Localization } from './Localization';
@@ -13,7 +13,7 @@ export interface StoreProps {
   initState: {
     [key: string]: unknown;
   };
-  logger: Logger;
+  logger: LoggerInterface;
   testMode?: boolean;
   history: History;
   services: ServicesInterface;

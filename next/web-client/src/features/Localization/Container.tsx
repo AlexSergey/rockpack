@@ -22,7 +22,8 @@ export const LocalizationContainer = withRouter(({ children }): JSX.Element => {
   };
 
   return (
-    <LocalizationObserver defaultLang={getDefaultLanguage()} languages={languages} active={currentLanguage}>
+    // eslint-disable-next-line max-len
+    <LocalizationObserver defaultLanguage={getDefaultLanguage()} languages={languages} currentLanguage={currentLanguage}>
       <LocalizationContext.Provider value={{
         currentLanguage,
         changeLanguage

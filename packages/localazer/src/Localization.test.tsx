@@ -3,11 +3,10 @@ import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 import { l, nl, sprintf } from './jed';
 import Localization from './Localization';
-import LocalizationObserver, { useI18n } from './LocalizationObserver';
+import LocalizationObserver from './LocalizationObserver';
 
 const WrapperContext = createContext(null);
 
-let i18n;
 let ctx;
 let wrapper;
 
@@ -69,7 +68,6 @@ beforeAll(() => {
 
   const App = ({ name, count }): JSX.Element => {
     ctx = useContext(WrapperContext);
-    i18n = useI18n();
 
     return (
       <div>
@@ -112,7 +110,7 @@ beforeAll(() => {
   wrapper = mount(
     <Wrapper>
       {(activeLang, name, count): JSX.Element => (
-        <LocalizationObserver active={activeLang} languages={{ ru: localeData }}>
+        <LocalizationObserver currentLanguage={activeLang} languages={{ ru: localeData }}>
           <App name={name} count={count} />
         </LocalizationObserver>
       )}
@@ -182,19 +180,12 @@ describe('Test default language (English)', () => {
   });
 });
 
-describe('Change language to Russian', () => {
-  test('JED is russian', async () => {
+describe('Test Russian language', () => {
+  test('Basic l - Привет мир example', async () => {
     await act(async () => {
       ctx.setActiveLang('ru');
     });
-    expect(
-      i18n.options.locale_data.messages['Hello world'][0]
-    )
-      .toBe('Привет мир');
   });
-});
-
-describe('Test Russian language', () => {
   test('Basic l - Привет мир example', async () => {
     expect(
       wrapper.find('.test-case-1')

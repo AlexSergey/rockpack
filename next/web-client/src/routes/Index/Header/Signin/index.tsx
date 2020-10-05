@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
-import Localization, { l, useI18n } from '@rockpack/localazer';
+import Localization, { l } from '@rockpack/localazer';
 import { useUserApi } from '../../../../features/User';
 
 type Store = {
@@ -9,7 +9,6 @@ type Store = {
 };
 
 export const Signin = (): JSX.Element => {
-  const i18n = useI18n();
   const [signinState, signinModal] = useState(false);
   const { signin } = useUserApi();
 
@@ -20,7 +19,7 @@ export const Signin = (): JSX.Element => {
       </Button>
 
       <Modal
-        title={l('Sign In')(i18n)}
+        title={l('Sign In')()}
         visible={signinState}
         onCancel={(): void => signinModal(false)}
         footer={null}
@@ -32,12 +31,12 @@ export const Signin = (): JSX.Element => {
           }}
         >
           <Form.Item
-            label={l('E-mail')(i18n)}
+            label={l('E-mail')()}
             name="email"
             rules={[
               {
                 required: true,
-                message: l('Please input your e-mail!')(i18n),
+                message: l('Please input your e-mail!')(),
               },
             ]}
           >
@@ -45,12 +44,12 @@ export const Signin = (): JSX.Element => {
           </Form.Item>
 
           <Form.Item
-            label={l('Password')(i18n)}
+            label={l('Password')()}
             name="password"
             rules={[
               {
                 required: true,
-                message: l('Please input your password!')(i18n),
+                message: l('Please input your password!')(),
               },
             ]}
           >

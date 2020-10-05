@@ -32,12 +32,10 @@ yarn add @rockpack/logger
 
 ```jsx
 import React, { useCallback, useContext } from 'react';
-import { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
+import logger, { LoggerContainer, useLoggerApi } from '@rockpack/logger';
 
 const App = () => {
   const { getStackData, triggerError } = useLoggerApi();
-  const logger = useLogger();
-
   ...
 }
 
@@ -93,11 +91,10 @@ export default function Toggle(props) {
 
 ```jsx
 import React, { useState } from 'react';
-import { useLogger } from '@rockpack/logger';
+import logger from '@rockpack/logger';
 
 export default function Toggle(props) {
   const [toggleState, setToggleState] = useState('off');
-  const logger = useLogger();
 
   function toggle() {
     let state = toggleState === 'off' ? 'on' : 'off';
@@ -127,7 +124,6 @@ export default function Toggle(props) {
 
 | Свойство | Тип | Описание |
 | --- | --- | --- |
-| logger | LoggerInterface | Это свойство позволяет переопределить logger. Logger должен соответствовать интерфейсу LoggerInterface |
 | active | Boolean[true] | Включить/выключить логгирование. Рекомендовано отключать логгинг на этапе тестирования. |
 | bsodActive | Boolean[true] | Включить/выключить вывод BSOD. Рекомендуется отключать для Production  |
 | sessionID | Number | Если нужно связать логирование с Backend вызовами - единая сессия для Frontend и Backend позволит это сделать |

@@ -1,16 +1,12 @@
-import LimitedArray from 'limited-array';
-import { Logger } from './logger';
+import { createLogger } from './logger';
 
 let logger;
-let stackCollection;
 
 beforeAll(() => {
-  logger = new Logger();
-  stackCollection = new LimitedArray();
+  logger = createLogger();
 
   logger.setUp({
-    active: true,
-    stackCollection
+    active: true
   });
 });
 
@@ -18,7 +14,7 @@ describe('Test active logger', () => {
   ['log', 'info', 'debug', 'warn', 'error'].forEach((logMethod, index) => {
     test(`Logger test ${logMethod} method`, () => {
       logger[logMethod](`test ${logMethod} method`);
-      const logItem = stackCollection.getData()[index];
+      const logItem = logger.getStackCollection().getData()[index];
 
       expect(Object.keys(logItem)[0])
         .toBe(logMethod);
@@ -34,11 +30,11 @@ describe('Test no-active logger', () => {
     logger.setUp({
       active: false
     });
-    const stackLengthBefore = stackCollection.getData().length;
+    const stackLengthBefore = logger.getStackCollection().getData().length;
     ['log', 'info', 'debug', 'warn', 'error'].forEach((logMethod) => {
       logger[logMethod](`test ${logMethod} method`);
     });
-    const stackLengthAfter = stackCollection.getData().length;
+    const stackLengthAfter = logger.getStackCollection().getData().length;
 
     expect(stackLengthBefore)
       .toBe(stackLengthAfter);

@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '../../../../../localazer/dist';
+import Localization, { LocalizationObserver, l, nl, sprintf, LocalizationString } from '../../../../../localazer/src';
 import ru from '../../json/ru.json';
 
 const App = (props) => {
@@ -7,10 +7,8 @@ const App = (props) => {
   const [name, setName] = useState('');
 
   const notifier = () => {
-    alert(l('Alarm!')(i18n));
+    alert(l('Alarm!')());
   };
-
-  const i18n = useI18n();
 
   return (
     <div>
@@ -88,14 +86,6 @@ const App = (props) => {
       </div>
 
       <h4><Localization>{l('Sort By')}</Localization></h4>
-      <p>
-        <select>
-          <option>{l('Latest')(i18n)}</option>
-          <option>{l('Most Popular')(i18n)}</option>
-          <option>{l('Most Viewed')(i18n)}</option>
-          <option>{l('Most Commented')(i18n)}</option>
-        </select>
-      </p>
     </div>
   )
 }
@@ -124,7 +114,7 @@ export default class LocalizationExamples extends Component {
   render() {
     const {active, languages } = this.state;
     return (
-      <LocalizationObserver active={active} languages={languages}>
+      <LocalizationObserver currentLanguage={active} languages={languages}>
         <App onChangeLocale={this.onChangeLocale} />
       </LocalizationObserver>
     )

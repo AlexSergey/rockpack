@@ -3,7 +3,6 @@ import LimitedArray from 'limited-array';
 export interface LoggerProps {
   active?: boolean;
   stdout?: Function|undefined;
-  stackCollection?: LimitedArray<Action>;
 }
 
 export interface LoggerInterface {
@@ -13,6 +12,7 @@ export interface LoggerInterface {
   warn(message: string, important: boolean): void;
   error(message: string, important: boolean): void;
   getCounter(): number;
+  getStackCollection(): LimitedArray<Action>;
   setUp(props: LoggerProps): void;
 }
 

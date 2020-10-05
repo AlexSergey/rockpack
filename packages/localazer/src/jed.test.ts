@@ -1,5 +1,4 @@
-import Jed from 'jed';
-import { I18N, l, nl, sprintf } from './jed';
+import { i18n, l, nl, sprintf } from './jed';
 
 const localeData = {
   domain: 'messages',
@@ -25,26 +24,22 @@ const localeData = {
   }
 };
 
-let i18n: I18N;
-
 beforeAll(() => {
-  i18n = new Jed({ domain: 'messages' });
-
   i18n.options = localeData;
 });
 
 test('"l" test. Hello world -> Привет мир', () => {
-  expect(l('Hello world')(i18n)).toBe('Привет мир');
+  expect(l('Hello world')()).toBe('Привет мир');
 });
 
 test('"l" test. Alarm! -> Ахтунг!', () => {
-  expect(l('Alarm!')(i18n))
+  expect(l('Alarm!')())
     .toBe('Ахтунг!');
 });
 
 test('"l" test. Default variant', () => {
   const defaultString = 'I am default';
-  expect(l(defaultString)(i18n))
+  expect(l(defaultString)())
     .toBe(defaultString);
 });
 
@@ -53,7 +48,7 @@ test('nl plural with zero test', () => {
     '%d click',
     '%d clicks',
     0
-  )(i18n))
+  )())
     .toBe('%d кликов');
 });
 
@@ -62,7 +57,7 @@ test('nl singular test', () => {
     '%d click',
     '%d clicks',
     1
-  )(i18n))
+  )())
     .toBe('%d клик');
 });
 
@@ -71,7 +66,7 @@ test('nl plural with many test', () => {
     '%d click',
     '%d clicks',
     123
-  )(i18n))
+  )())
     .toBe('%d кликов');
 });
 
@@ -83,9 +78,9 @@ test('sprintf pass 0 variable to nl', () => {
         '%d click',
         '%d clicks',
         count
-      ),
+      )(),
       count
-    )(i18n)
+    )()
   )
     .toBe('0 кликов');
 });
@@ -98,9 +93,9 @@ test('sprintf pass 1 variable to nl', () => {
         '%d click',
         '%d clicks',
         count
-      ),
+      )(),
       count
-    )(i18n)
+    )()
   )
     .toBe('1 клик');
 });
@@ -113,9 +108,9 @@ test('sprintf pass 123 variable to nl', () => {
         '%d click',
         '%d clicks',
         count
-      ),
+      )(),
       count
-    )(i18n)
+    )()
   )
     .toBe('123 кликов');
 });

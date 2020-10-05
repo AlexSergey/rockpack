@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import platform from 'platform';
 import isMobile from 'is-mobile';
-import { LoggerContainer, useLoggerApi, useLogger } from '../../../src';
+import logger, { LoggerContainer, useLoggerApi } from '../../../src';
 import 'react-toastify/dist/ReactToastify.css';
 
 const { name, os, version } = platform;
@@ -28,7 +28,7 @@ export default function () {
       toast[notificatorTypes[level]]) {
       toast[notificatorTypes[level]](message);
     }
-  });
+  }, []);
 
   return (
     <>
@@ -83,7 +83,6 @@ export default function () {
       >
         {createElement(() => {
           const { getStackData, triggerError } = useLoggerApi();
-          const logger = useLogger();
 
           return (
             <>

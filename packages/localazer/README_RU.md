@@ -47,7 +47,7 @@ import { LocalizationObserver } from '@rockpack/localaser';
 class Root extends Component {
   render() {
     return (
-      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
+      <LocalizationObserver currentLanguage={this.state.currentLanguage} languages={this.state.languages}>
         <App/>
       </LocalizationObserver>
     )
@@ -58,7 +58,7 @@ class Root extends Component {
 3. В компонентах, где необходимо осуществить перевод, нужно добавить компоненты с языком по умолчанию:
 
 ```jsx
-import Localization, { LocalizationObserver, l, nl, sprintf, useI18n } from '@rockpack/localaser';
+import Localization, { LocalizationObserver, l, nl, sprintf } from '@rockpack/localaser';
 
 ...
 
@@ -147,19 +147,19 @@ class Root extends Component {
     super(props);
 
     this.state = {
-      activeLanguage: 'en',
+      currentLanguage: 'en',
       languages: { ru }
     }
   }
 
-  setActiveLanguage = (activeLanguage) => {
-    this.setState({ activeLanguage })
+  setCurrentLanguage = (currentLanguage) => {
+    this.setState({ currentLanguage })
   }
 
   render() {
     return (
-      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-        <App setActiveLanguage={setActiveLanguage} />
+      <LocalizationObserver currentLanguage={this.state.currentLanguage} languages={this.state.languages}>
+        <App setCurrentLanguage={setCurrentLanguage} />
       </LocalizationObserver>
     )
   }
@@ -176,7 +176,7 @@ class Root extends Component {
     super(props);
 
     this.state = {
-      activeLanguage: 'en',
+      currentLanguage: 'en',
       languages: {}
     }
   }
@@ -195,14 +195,14 @@ class Root extends Component {
       });
   }
 
-  setActiveLanguage = (activeLanguage) => {
-    this.setState({ activeLanguage })
+  setActiveLanguage = (currentLanguage) => {
+    this.setState({ currentLanguage })
   }
 
   render() {
     return (
-      <LocalizationObserver active={this.state.active} languages={this.state.languages}>
-        <App/>
+      <LocalizationObserver currentLanguage={this.state.currentLanguage} languages={this.state.languages}>
+        <App setCurrentLanguage={setCurrentLanguage} />
       </LocalizationObserver>
     )
   }
@@ -215,8 +215,8 @@ class Root extends Component {
 
 | Свойство | Тип | Описание |
 | --- | --- | --- |
-| active | String | Установить активный язык |
-| default | String['en'] | Язык по умолчанию |
+| currentLanguage | String | Установить активный язык |
+| defaultLanguage | String['en'] | Язык по умолчанию |
 | languages | Object | Объект с переводами JSON |
 
 ## Вопросы/Ответы

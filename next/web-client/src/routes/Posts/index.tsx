@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { Button } from 'antd';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import Localization, { l, useI18n } from '@rockpack/localazer';
+import Localization, { l } from '@rockpack/localazer';
 import { usePosts, usePostsApi } from '../../features/Posts';
 import { useCurrentLanguage } from '../../features/Localization';
 import { Access, Owner, useUser } from '../../features/User';
@@ -18,8 +18,6 @@ import styles from './style.modules.scss';
 
 const Posts = (): JSX.Element => {
   useStyles(styles);
-
-  const i18n = useI18n();
   const currentLanguage = useCurrentLanguage();
   const currentUser = useUser();
   const [loading, error, data] = usePosts();
@@ -28,8 +26,8 @@ const Posts = (): JSX.Element => {
   return (
     <>
       <MetaTags>
-        <title>{l('Posts')(i18n)}</title>
-        <meta name="description" content={l('Posts page. Here you find the most popular posts on the Internet')(i18n)} />
+        <title>{l('Posts')()}</title>
+        <meta name="description" content={l('Posts page. Here you find the most popular posts on the Internet')()} />
       </MetaTags>
       <div className={styles.posts}>
         {loading && <Loader />}

@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import Localization, { l, sprintf, useI18n } from '@rockpack/localazer';
+import Localization, { l, sprintf } from '@rockpack/localazer';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import { Comments } from './Comments';
 import { UpdateMode } from './UpdateMode';
@@ -30,7 +30,6 @@ const PostDetails = ({
 }: PropsType): JSX.Element => {
   useStyles(styles);
 
-  const i18n = useI18n();
   const postId = Number(match.params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);
@@ -77,9 +76,9 @@ const PostDetails = ({
           <Modal
             title={
               sprintf(
-                l('Update post %s', 'Post')(i18n),
+                l('Update post %s', 'Post')(),
                 data.title
-              )(i18n)
+              )()
             }
             visible={updateMode}
             onCancel={(): void => setUpdateMode(false)}

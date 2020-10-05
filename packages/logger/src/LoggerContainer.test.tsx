@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import LoggerContainer, { useLoggerApi, useLogger } from './LoggerContainer';
+import { logger } from './logger';
+import LoggerContainer, { useLoggerApi } from './LoggerContainer';
 
 let loggerApi;
-let logger;
 let level;
 let message;
 let stack;
@@ -11,7 +11,6 @@ let stack;
 beforeAll(() => {
   const App = (): JSX.Element => {
     loggerApi = useLoggerApi();
-    logger = useLogger();
     return null;
   };
 
