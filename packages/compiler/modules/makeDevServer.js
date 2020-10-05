@@ -1,31 +1,35 @@
 const path = require('path');
 
-const makeDevServer = (conf, root) => ({
-  contentBase: path.resolve(root, conf.dist),
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
-  },
-  disableHostCheck: true,
-  port: conf.port || 3000,
-  noInfo: true,
-  quiet: true,
-  lazy: false,
-  hot: true,
-  inline: true,
-  stats: 'minimal',
-  overlay: {
-    errors: true
-  },
-  open: true,
-  watchOptions: {
-    poll: true,
-    aggregateTimeout: 50,
-    ignored: /node_modules/
-  },
-  historyApiFallback: true,
-  host: 'localhost'
-});
+const makeDevServer = (conf, root) => {
+  const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
+
+  return {
+    contentBase: path.dirname(distPath),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
+    },
+    disableHostCheck: true,
+    port: conf.port || 3000,
+    noInfo: true,
+    quiet: true,
+    lazy: false,
+    hot: true,
+    inline: true,
+    stats: 'minimal',
+    overlay: {
+      errors: true
+    },
+    open: true,
+    watchOptions: {
+      poll: true,
+      aggregateTimeout: 50,
+      ignored: /node_modules/
+    },
+    historyApiFallback: true,
+    host: 'localhost'
+  };
+};
 
 module.exports = makeDevServer;

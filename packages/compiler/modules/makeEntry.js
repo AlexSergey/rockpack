@@ -1,5 +1,6 @@
-const { isString, isArray } = require('valid-types');
 const path = require('path');
+const { isString, isArray } = require('valid-types');
+const { distExtension } = require('../constants');
 
 const makeEntry = (conf, root, mode) => {
   if (!isString(conf.src)) {
@@ -12,10 +13,14 @@ const makeEntry = (conf, root, mode) => {
   if (isArray(conf.vendor)) {
     entry.vendor = conf.vendor;
   }
+  const entryPoint = path.basename(conf.dist)
+    .replace(distExtension, '');
 
-  entry.index = path.resolve(root, conf.src);
+  entry[entryPoint] = path.resolve(root, conf.src);
+  const context = path.dirname(entry[entryPoint]);
 
   if (
+    !global.ISOMORPHIC &&
     !conf.onlyWatch &&
     !conf.nodejs &&
     mode === 'development'
@@ -24,7 +29,7 @@ const makeEntry = (conf, root, mode) => {
     entry['dev-server-hot'] = require.resolve('webpack/hot/dev-server');
   }
 
-  return entry;
+  return { entry, context };
 };
 
 module.exports = makeEntry;

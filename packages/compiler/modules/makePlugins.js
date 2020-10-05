@@ -111,9 +111,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   ) {
     const defaultInspectPort = 9224;
     const freeInspectPort = await fpPromise(defaultInspectPort);
+    const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
+    const d = path.dirname(distPath);
+
+    const script = path.join(d, path.basename(distPath));
 
     const opts = {
-      watch: path.resolve(root, conf.dist),
+      watch: d,
       verbose: false,
       nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
       ignore: [
@@ -122,7 +126,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         '*.hot-update.js',
         'stats.json'
       ],
-      script: `./${conf.dist}/index.js`,
+      script,
       ext: 'js'
     };
 

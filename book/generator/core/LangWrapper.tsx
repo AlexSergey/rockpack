@@ -60,7 +60,7 @@ export const LangWrapper = withRouter((props: LangWrapperInterface) => {
   return (
     <LocalizationWrapper {...Object.assign({}, isLocalized ? {
       languages,
-      active: activeLanguage
+      currentLanguage: activeLanguage
     } : {})}
     >
       {props.children(isLocalized, languageState, (lang) => {

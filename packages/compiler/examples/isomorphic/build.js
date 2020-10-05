@@ -3,10 +3,10 @@ const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('../..
 isomorphicCompiler(
   frontendCompiler({
     src: 'src/client.jsx',
-    dist: 'public',
+    dist: 'public/index.js',
   }),
   backendCompiler({
     src: 'src/server.jsx',
-    dist: 'dist',
+    dist: 'dist/index.js',
   })
 );

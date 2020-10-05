@@ -1,14 +1,7 @@
-import React, { Component, createContext } from 'react';
+import { Component } from 'react';
 import { isFunction, isDefined, isObject, isString } from 'valid-types';
 import { getDefault, LocaleData } from './utils';
 import { i18n } from './jed';
-
-export interface LocalizationObserverContextInterface {
-  attachComponent: (component: Component) => void;
-  detachComponent: (id: number) => void;
-}
-
-export const LocalizationObserverContext = createContext<LocalizationObserverContextInterface>(null);
 
 export interface LanguagesInterface {
   [key: string]: LocaleData;
@@ -23,11 +16,17 @@ interface LocalizationObserverInterface {
   children?: JSX.Element;
 }
 
+interface Components {
+  [key: number]: Component;
+}
+
+export const components: Components = {};
+
+let uid = 0;
+
+export const getID = (): number => uid++;
+
 export default class LocalizationObserver extends Component<LocalizationObserverInterface> {
-  private components = {};
-
-  private uid = 0;
-
   static defaultProps = {
     currentLanguage: 'en',
     defaultLanguage: 'en',
@@ -46,18 +45,6 @@ export default class LocalizationObserver extends Component<LocalizationObserver
     }
   }
 
-  attachComponent = (component: Component): number => {
-    const id = this.getID();
-    this.components[id] = component;
-    return id;
-  };
-
-  detachComponent = (id: number): void => {
-    delete this.components[id];
-  };
-
-  getID = (): number => this.uid++;
-
   changeLocalization(locale: string): void {
     locale = this.props.languages[locale] ? locale : this.props.defaultLanguage;
     const localeData = this.props.languages[locale] ? this.props.languages[locale] :
@@ -74,24 +61,16 @@ export default class LocalizationObserver extends Component<LocalizationObserver
 
       i18n.options = localeData;
 
-      Object.keys(this.components)
-        .forEach(uid => {
-          if (isDefined(this.components[uid])) {
-            this.components[uid].forceUpdate();
+      Object.keys(components)
+        .forEach(id => {
+          if (isDefined(components[id])) {
+            components[id].forceUpdate();
           }
         });
     }
   }
 
   render(): JSX.Element {
-    return (
-      <LocalizationObserverContext.Provider value={{
-        attachComponent: this.attachComponent,
-        detachComponent: this.detachComponent
-      }}
-      >
-        {this.props.children ? this.props.children : null}
-      </LocalizationObserverContext.Provider>
-    );
+    return this.props.children;
   }
 }

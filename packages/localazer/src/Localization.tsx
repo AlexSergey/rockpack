@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isFunction, isString } from 'valid-types';
-import { LocalizationObserverContext } from './LocalizationObserver';
+import { getID, components } from './LocalizationObserver';
 
 interface LocalizationInterface {
   className?: string;
@@ -8,16 +8,15 @@ interface LocalizationInterface {
 }
 
 class Localization extends Component<LocalizationInterface> {
-  static contextType = LocalizationObserverContext;
-
   private id: number;
 
   componentDidMount(): void {
-    this.id = this.context.attachComponent(this);
+    this.id = getID();
+    components[this.id] = this;
   }
 
   componentWillUnmount(): void {
-    this.context.detachComponent(this.id);
+    delete components[this.id];
   }
 
   render(): JSX.Element {

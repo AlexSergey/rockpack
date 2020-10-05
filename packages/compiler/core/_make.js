@@ -22,8 +22,7 @@ const _make = async (conf, post) => {
   // eslint-disable-next-line global-require
   const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
   conf = await mergeConfWithDefault(conf, mode);
-  const entry = makeEntry(conf, root, mode);
-  const context = path.dirname(entry.index);
+  const { entry, context } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root);
   const devtool = makeDevtool(mode, conf);
   const devServer = makeDevServer(conf, root);

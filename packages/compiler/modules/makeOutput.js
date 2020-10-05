@@ -1,10 +1,12 @@
 const path = require('path');
 
 const makeOutput = (conf = {}, root) => {
+  const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
+
   const outputProps = {
     pathinfo: false,
     publicPath: '/',
-    path: path.resolve(root, conf.dist),
+    path: path.dirname(distPath),
     filename: '[name].js'
   };
 

@@ -1,5 +1,5 @@
 const defaultProps = {
-  dist: 'dist',
+  dist: 'dist/index.js',
   src: 'src/index',
   debug: false,
   html: true,
