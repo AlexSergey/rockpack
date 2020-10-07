@@ -87,7 +87,7 @@ module.exports = async function sourceCompile(conf) {
         ts.createTypeChecker(program, true);
         program.emit();
       } else {
-        throw new Error('tsconfig: Must be correct path to tsconfig file');
+        throw new Error('tsconfig not found');
       }
     } else if (isArray(jsAndJsx) && jsAndJsx.length > 0) {
       const babelOptions = createBabelPresets({

@@ -2,7 +2,7 @@
 import { call, getContext, put, takeLatest } from 'redux-saga/effects';
 import { fetchUsers, setUsers, deleteUser, userDeleted } from './actions';
 
-function* fetchUsersHandler(logger, { payload: { resolver } }: ReturnType<typeof fetchUsers>) {
+function* fetchUsersHandler(logger) {
   try {
     const services = yield getContext('services');
     const { data: { users } } = yield call(services.users.fetchUsers);
@@ -13,7 +13,6 @@ function* fetchUsersHandler(logger, { payload: { resolver } }: ReturnType<typeof
   } catch (error) {
     logger.error(error);
   }
-  resolver();
 }
 
 function* deleteUserHandler(logger, { payload: { id } }: ReturnType<typeof userDeleted>) {

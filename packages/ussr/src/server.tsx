@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import createUssr from './Ussr';
+import createUssr, { Statuses } from './Ussr';
 
 interface StateInterface {
   [key: string]: unknown;
@@ -14,9 +14,15 @@ interface ServerRenderResult {
   state: StateInterface;
 }
 
+type Options = {
+  skipEffects: boolean;
+};
+
 export const serverRender = async (
   iteration: (count?: number) => JSX.Element,
-  middleware?: Middleware): Promise<ServerRenderResult> => {
+  middleware?: Middleware,
+  options?: Options
+): Promise<ServerRenderResult> => {
   let count = 0;
   const [runEffects, Ussr, getEffects, getSate] = createUssr({ });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,8 +39,29 @@ export const serverRender = async (
 
     const waited = effects.filter(effect => effect.status === 'wait');
 
+    if (options && options.skipEffects) {
+      if (typeof middleware === 'function') {
+        await middleware(effects.map(e => e.callback));
+      }
+
+      if (waited.length > 0) {
+        waited.forEach(effect => {
+          effect.status = Statuses.done;
+          effect.resolver();
+        });
+
+        return await renderNested();
+      }
+
+      return _html;
+    }
+
+    if (waited.length === 0) {
+      return _html;
+    }
+
     const callbacks = await (async (callbackFunctions): Promise<Promise<unknown>[]> => {
-      const finalCallbacks = typeof middleware === 'function' ? middleware(callbackFunctions) : callbackFunctions;
+      const finalCallbacks = typeof middleware === 'function' ? await middleware(callbackFunctions) : callbackFunctions;
       return Array.isArray(finalCallbacks) ? finalCallbacks : callbackFunctions;
     })(waited.map(e => e.callback));
 
@@ -43,8 +70,10 @@ export const serverRender = async (
 
       return await renderNested();
     }
+
     return _html;
   };
+
   const html = await renderNested();
 
   return {

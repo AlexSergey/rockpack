@@ -7,7 +7,7 @@ export const usePost = (postId: number): [boolean, boolean, Post] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ post: PostState }, PostState>(state => state.post);
 
-  useWillMount((resolver) => dispatch(fetchPost({ resolver, postId })));
+  useWillMount(() => dispatch(fetchPost({ postId })));
 
   return [loading, error, data];
 };

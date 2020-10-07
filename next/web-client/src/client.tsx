@@ -18,9 +18,6 @@ import { createServices } from './services';
 
 declare global {
   interface Window {
-    USSR_DATA: {
-      [key: string]: unknown;
-    };
     REDUX_DATA: {
       [key: string]: unknown;
     };
@@ -29,13 +26,13 @@ declare global {
 
 const history = createBrowserHistory();
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [, Ussr] = createUssr();
 
 const getToken = (): string | undefined => Cookies.get('token');
 
 const rest = createRestClient(getToken);
 
-const store = createStore({
+const { store } = createStore({
   logger,
   initState: window.REDUX_DATA,
   history,

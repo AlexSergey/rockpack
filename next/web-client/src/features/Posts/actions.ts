@@ -1,9 +1,8 @@
-import { Resolver } from '@rockpack/ussr';
 import { createAction } from '@reduxjs/toolkit';
 import { Post } from '../../types/Posts';
 import { Languages } from '../../types/Localization';
 
-export const fetchPosts = createAction<{ resolver?: Resolver; page: number }>('Posts will fetch');
+export const fetchPosts = createAction<{ page: number }>('Posts will fetch');
 
 export const requestPosts = createAction('Posts are fetching...');
 

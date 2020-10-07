@@ -85,9 +85,7 @@ export const useWillMount = (cb: (resolver?: Resolver) => Promise<unknown> | { p
       };
 
       const effect = cb(resolve);
-      // @ts-ignore
-      if (isBackend() && (effect && typeof effect.finally === 'function')) {
-        // @ts-ignore
+      if (isBackend() && (effect instanceof Promise)) {
         // eslint-disable-next-line promise/catch-or-return
         effect.finally(() => {
           if (!called) {

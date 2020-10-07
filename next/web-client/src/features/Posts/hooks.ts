@@ -19,9 +19,8 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
   const dispatch = useDispatch();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
-
-  useWillMount((resolver) => {
-    dispatch(fetchPosts({ resolver, page: current }));
+  useWillMount(() => {
+    dispatch(fetchPosts({ page: current }));
   });
 
   // Pagination changed

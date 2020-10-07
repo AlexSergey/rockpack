@@ -8,7 +8,7 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ comments: CommentsState }, CommentsState>(state => state.comments);
 
-  useWillMount((resolver) => dispatch(fetchComments({ resolver, postId })));
+  useWillMount(() => dispatch(fetchComments({ postId })));
 
   return [loading, error, data];
 };

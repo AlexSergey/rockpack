@@ -14,6 +14,7 @@ import { getDefaultLocale } from '@rockpack/localazer';
 import { StaticRouter } from 'react-router';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
+import { END } from 'redux-saga';
 import { Provider } from 'react-redux';
 import { serverRender } from '@rockpack/ussr';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
@@ -58,7 +59,7 @@ router.get('/*', async (ctx) => {
 
   const rest = createRestClient(getToken);
 
-  const store = createStore({
+  const { store, rootSaga } = createStore({
     initState: {
       pagination: {
         current: page
@@ -93,7 +94,7 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index']
   });
 
-  const { html, state } = await serverRender(() => (
+  const { html } = await serverRender(() => (
     extractor.collectChunks(
       <Provider store={store}>
         <StyleContext.Provider value={{ insertCss }}>
@@ -107,7 +108,12 @@ router.get('/*', async (ctx) => {
         </StyleContext.Provider>
       </Provider>
     )
-  ));
+  ), async () => {
+    store.dispatch(END);
+    await rootSaga.toPromise();
+  }, {
+    skipEffects: true
+  });
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
@@ -136,7 +142,6 @@ router.get('/*', async (ctx) => {
     <div id="root">${html}</div>
     <script>
       window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
-      window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
     ${scriptTags}
     ${!isProduction ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}

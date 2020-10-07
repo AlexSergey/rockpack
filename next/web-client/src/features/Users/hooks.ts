@@ -7,7 +7,7 @@ export const useUsers = (): User[] => {
   const dispatch = useDispatch();
   const users = useSelector<{ users: User[] }, User[]>(state => state.users);
 
-  useWillMount((resolver) => dispatch(fetchUsers({ resolver })));
+  useWillMount(() => dispatch(fetchUsers()));
 
   return users;
 };

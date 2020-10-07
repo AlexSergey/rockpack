@@ -6,7 +6,7 @@ import { Comment } from '../../types/Comments';
 import { ServicesInterface } from '../../services';
 import { CommentsRes, CommentRes } from './service';
 
-function* getComments(logger, { payload: { resolver, postId } }: ReturnType<typeof fetchComments>) {
+function* getComments(logger, { payload: { postId } }: ReturnType<typeof fetchComments>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield put(requestComments());
@@ -18,7 +18,6 @@ function* getComments(logger, { payload: { resolver, postId } }: ReturnType<type
     logger.error(error);
     yield put(requestCommentsError());
   }
-  resolver();
 }
 
 function* createCommentHandler(logger, { payload: { text, user, postId } }: ReturnType<typeof createComment>) {

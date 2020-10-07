@@ -13,7 +13,7 @@ function* signIn(logger, { payload: { email, password } }: ReturnType<typeof sig
   }
 }
 
-function* authorizationHandler(logger, { payload: { resolver } }: ReturnType<typeof authorization>) {
+function* authorizationHandler(logger) {
   try {
     const services = yield getContext('services');
     const { data } = yield call(services.user.authorization);
@@ -23,7 +23,6 @@ function* authorizationHandler(logger, { payload: { resolver } }: ReturnType<typ
   } catch (error) {
     logger.error(error);
   }
-  resolver();
 }
 
 function* signUp(logger, { payload: { email, password } }: ReturnType<typeof signin>) {

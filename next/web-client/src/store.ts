@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware, { Task } from 'redux-saga';
+import { fork } from 'redux-saga/effects';
 import { createLogger } from 'redux-logger';
 import { isBackend } from '@rockpack/ussr';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
@@ -13,7 +14,12 @@ import { usersSaga, deleteUserSaga, usersReducer as users } from './features/Use
 import { StoreProps, RootState } from './types/store';
 import { ServicesInterface } from './services';
 
-export const createStore = ({ initState = {}, logger, history, services, testMode }: StoreProps): Store<RootState> => {
+export const createStore = ({
+  initState = {},
+  logger,
+  history,
+  services,
+  testMode }: StoreProps): { store: Store<RootState>; rootSaga: Task } => {
   const reduxLogger = createLogger({
     collapsed: true
   });
@@ -53,33 +59,26 @@ export const createStore = ({ initState = {}, logger, history, services, testMod
     preloadedState: initState
   });
 
-  // Localization Sagas
-  sagaMiddleware.run(localizationSaga, logger);
+  function* sagas(): Generator<unknown> {
+    yield fork(localizationSaga, logger);
+    yield fork(signInSaga, logger);
+    yield fork(signOutSaga, logger);
+    yield fork(signUpSaga, logger);
+    yield fork(authorizationSaga, logger);
+    yield fork(postsSaga, logger);
+    yield fork(setPageSaga, logger);
+    yield fork(createPostSaga, logger);
+    yield fork(deletePostSaga, logger);
+    yield fork(commentsSaga, logger);
+    yield fork(createCommentSaga, logger);
+    yield fork(deleteCommentSaga, logger);
+    yield fork(watchPost, logger);
+    yield fork(updatePostSaga, logger);
+    yield fork(usersSaga, logger);
+    yield fork(deleteUserSaga, logger);
+  }
 
-  // User Sagas
-  sagaMiddleware.run(signInSaga, logger);
-  sagaMiddleware.run(signOutSaga, logger);
-  sagaMiddleware.run(signUpSaga, logger);
-  sagaMiddleware.run(authorizationSaga, logger);
+  const rootSaga = sagaMiddleware.run(sagas);
 
-  // Posts Sagas
-  sagaMiddleware.run(postsSaga, logger);
-  sagaMiddleware.run(setPageSaga, logger);
-  sagaMiddleware.run(createPostSaga, logger);
-  sagaMiddleware.run(deletePostSaga, logger);
-
-  // Comments Sagas
-  sagaMiddleware.run(commentsSaga, logger);
-  sagaMiddleware.run(createCommentSaga, logger);
-  sagaMiddleware.run(deleteCommentSaga, logger);
-
-  // Post Sagas
-  sagaMiddleware.run(watchPost, logger);
-  sagaMiddleware.run(updatePostSaga, logger);
-
-  // Users Sagas
-  sagaMiddleware.run(usersSaga, logger);
-  sagaMiddleware.run(deleteUserSaga, logger);
-
-  return store;
+  return { store, rootSaga };
 };

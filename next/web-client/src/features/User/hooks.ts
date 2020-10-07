@@ -18,7 +18,9 @@ export const useRole = (): Roles => (
 
 export const useAuthorization = (): void => {
   const dispatch = useDispatch();
-  useWillMount((resolver) => dispatch(authorization({ resolver })));
+  useWillMount(() => {
+    dispatch(authorization());
+  });
 };
 
 export const useUserStatistic = (): UserStatistic => {

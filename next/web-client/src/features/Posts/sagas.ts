@@ -6,7 +6,7 @@ import { increasePost, decreasePost, decreaseComment } from '../User';
 import { ServicesInterface } from '../../services';
 import { PostsRes, DeletePostRes } from './service';
 
-function* fetchPostsHandler(logger, { payload: { resolver, page } }: ReturnType<typeof fetchPosts>) {
+function* fetchPostsHandler(logger, { payload: { page } }: ReturnType<typeof fetchPosts>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield put(requestPosts());
@@ -15,9 +15,6 @@ function* fetchPostsHandler(logger, { payload: { resolver, page } }: ReturnType<
     yield put(requestPostsSuccess(posts));
   } catch (error) {
     yield put(requestPostsError());
-  }
-  if (typeof resolver === 'function') {
-    resolver();
   }
 }
 

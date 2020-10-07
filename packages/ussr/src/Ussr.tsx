@@ -5,7 +5,7 @@ export interface InitStateInterface {
   [key: string]: unknown;
 }
 
-enum Statuses {
+export enum Statuses {
   wait = 'wait',
   done = 'done',
 }
@@ -14,16 +14,18 @@ interface Effect {
   id: string;
   status: Statuses;
   callback: Promise<unknown>;
+  resolver: () => void;
 }
 
 interface StateInterface {
   [key: string]: unknown;
 }
 
+type RunEffects = (callbacks: Promise<unknown>[], effects: Effect[]) => Promise <StateInterface>;
+
 interface UssrContextInterface {
   isLoading: () => boolean;
   initState: InitStateInterface | {};
-  addEffect: (effectId: string, effect: Promise<unknown>) => void;
   createEffect: (effectId: string) => () => void;
   hasEffect: (effectId: string) => boolean;
 }
@@ -72,36 +74,29 @@ const createUssr = (initState: InitStateInterface = {}, options: OptionsInterfac
   const hasEffect = (effectId: string): boolean => Boolean(app.effects.get(effectId));
 
   const createEffect = (effectId: string): () => void => {
-    let r = (): void => {};
+    const effect = {
+      resolver: (): void => {}
+    };
 
     if (!hasEffect(effectId)) {
       app.effects.set(effectId, {
         id: effectId,
         status: 'wait',
         callback: ((): Promise<unknown> => new Promise(resolve => {
-          r = resolve;
-        }))()
+          effect.resolver = resolve;
+        }))(),
+        resolver: effect.resolver
       });
     }
 
-    return r;
+    return effect.resolver;
   };
 
   const getEffects = (): Effect[] => Array.from(app.effects.values());
 
   const getState = (): StateInterface => clone(app.state);
 
-  const addEffect = (effectId: string, effect: Promise<unknown>): void => {
-    if (!hasEffect(effectId)) {
-      app.effects.set(effectId, {
-        id: effectId,
-        status: 'wait',
-        callback: effect
-      });
-    }
-  };
-
-  const runEffects = (callbacks: Promise<unknown>[], effects: Effect[]): Promise<StateInterface> => {
+  const runEffects: RunEffects = (callbacks, effects) => {
     if (!Array.isArray(callbacks)) {
       return;
     }
@@ -133,7 +128,6 @@ const createUssr = (initState: InitStateInterface = {}, options: OptionsInterfac
     <UssrContext.Provider value={{
       isLoading,
       initState,
-      addEffect,
       hasEffect,
       createEffect
     }}

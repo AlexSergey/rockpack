@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "0.9.9-rc.17",
+  "version": "0.9.9-rc.18",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "@becklyn/typescript-error-formatter": "1.0.4",
     "@loadable/webpack-plugin": "5.13.0",
     "@mdx-js/loader": "1.6.16",
-    "@rockpack/babel": "0.9.9-rc.17",
+    "@rockpack/babel": "0.9.9-rc.18",
     "@svgr/webpack": "5.4.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.3.0",
     "antd-dayjs-webpack-plugin": "1.0.1",
@@ -114,6 +114,6 @@
     "yargs": "15.4.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "0.9.9-rc.17"
+    "@rockpack/codestyle": "0.9.9-rc.18"
   }
 }

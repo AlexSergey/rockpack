@@ -23,7 +23,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
     onlyClient: true
   });
 
-  const store = createStore({
+  const { store } = createStore({
     logger,
     initState,
     history,

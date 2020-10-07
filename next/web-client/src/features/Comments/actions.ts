@@ -1,9 +1,8 @@
-import { Resolver } from '@rockpack/ussr';
 import { createAction } from '@reduxjs/toolkit';
 import { Comment } from '../../types/Comments';
 import { User } from '../../types/User';
 
-export const fetchComments = createAction<{ resolver: Resolver; postId: number }>('Comments will fetch');
+export const fetchComments = createAction<{ postId: number }>('Comments will fetch');
 
 export const requestComments = createAction('Comments are fetching...');
 

@@ -4,7 +4,7 @@ import { fetchPost, requestPost, requestPostError, requestPostSuccess, updatePos
 import { ServicesInterface } from '../../services';
 import { PostRes } from './service';
 
-function* fetchPostSaga(logger, { payload: { resolver, postId } }: ReturnType<typeof fetchPost>) {
+function* fetchPostSaga(logger, { payload: { postId } }: ReturnType<typeof fetchPost>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield put(requestPost());
@@ -13,7 +13,6 @@ function* fetchPostSaga(logger, { payload: { resolver, postId } }: ReturnType<ty
   } catch (error) {
     yield put(requestPostError());
   }
-  resolver();
 }
 
 function* updatePostHandler(logger, { payload: { post } }: ReturnType<typeof updatePost>) {
