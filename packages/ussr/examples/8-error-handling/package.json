@@ -12,7 +12,6 @@
     "koa-static": "5.0.0",
     "koa-router": "8.0.8",
     "serialize-javascript": "3.0.0",
-    "source-map-support": "^0.5.16",
     "pretty-error": "2.1.1"
   }
 }

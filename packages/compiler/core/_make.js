@@ -7,6 +7,7 @@ const makeEntry = require('../modules/makeEntry');
 const makeOutput = require('../modules/makeOutput');
 const makeNode = require('../modules/makeNode');
 const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
+const mergeLocalizationConfWithDefault = require('../localazer/utils/mergeLocalizationConfWithDefault');
 const makeDevtool = require('../modules/makeDevtool');
 const { makeModules } = require('../modules/makeModules');
 const makePlugins = require('../modules/makePlugins');
@@ -21,7 +22,9 @@ const _make = async (conf, post) => {
   const root = path.dirname(require.main.filename);
   // eslint-disable-next-line global-require
   const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
-  conf = await mergeConfWithDefault(conf, mode);
+  conf = conf.makePOT ?
+    await mergeLocalizationConfWithDefault(conf, mode) :
+    await mergeConfWithDefault(conf, mode);
   const { entry, context } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root);
   const devtool = makeDevtool(mode, conf);

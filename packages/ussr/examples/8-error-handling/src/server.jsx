@@ -1,4 +1,3 @@
-import 'source-map-support/register';
 import path from 'path';
 import React from 'react';
 import Koa from 'koa';

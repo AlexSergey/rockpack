@@ -119,7 +119,12 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     const opts = {
       watch: d,
       verbose: false,
-      nodeArgs: conf.__isIsomorphicBackend ? [] : [`--inspect=${freeInspectPort}`],
+      nodeArgs: conf.__isIsomorphicBackend ? [
+        '--require="source-map-support/register"'
+      ] : [
+        `--inspect=${freeInspectPort}`,
+        '--require="source-map-support/register"'
+      ],
       ignore: [
         '*.map',
         '*.hot-update.json',

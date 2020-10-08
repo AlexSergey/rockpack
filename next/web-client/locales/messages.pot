@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-06 09:12+0300\n"
+"POT-Creation-Date: 2020-10-08 18:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,8 @@ msgstr ""
 msgid "Something went wrong. Try later, please."
 msgstr ""
 
-msgid "Posts page. Here you find the most popular posts on the Internet"
+msgctxt "User role"
+msgid "The user has role "
 msgstr ""
 
 #, javascript-format
@@ -81,6 +82,9 @@ msgstr ""
 #, javascript-format
 msgctxt "Post"
 msgid "Update post %s"
+msgstr ""
+
+msgid "Posts page. Here you find the most popular posts on the Internet"
 msgstr ""
 
 msgid "Users list"

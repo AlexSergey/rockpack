@@ -1,5 +1,4 @@
 import './types/global';
-import 'source-map-support/register';
 import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
