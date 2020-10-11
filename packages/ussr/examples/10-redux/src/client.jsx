@@ -8,7 +8,7 @@ import rest from './utils/rest';
 
 const [, Ussr] = createUssr({});
 
-const store = createStore({
+const { store } = createStore({
   rest,
   initState: window.REDUX_DATA
 });

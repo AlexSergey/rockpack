@@ -60,7 +60,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   plugins.ProgressPlugin = new ProgressBarPlugin();
 
-  plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin();
+  plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
+    compilationSuccessInfo: {
+      messages: conf.messages
+    },
+  });
 
   if (isTypeScript) {
     plugins.ForkTsCheckerPlugin = new ForkTsCheckerWebpackPlugin();
@@ -120,7 +124,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       watch: d,
       verbose: false,
       nodeArgs: conf.__isIsomorphicBackend ? [
-        '--require="source-map-support/register"'
+        '--require="source-map-support/register"',
       ] : [
         `--inspect=${freeInspectPort}`,
         '--require="source-map-support/register"'
@@ -132,8 +136,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         'stats.json'
       ],
       script,
-      ext: 'js'
+      ext: 'js',
+      quiet: true
     };
+
+    conf.messages.push('nodemon is running');
+
+    if (!conf.__isIsomorphicBackend) {
+      conf.messages.push(`node-inspect is available on ${freeInspectPort} port`);
+    }
 
     plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
@@ -143,7 +154,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     process.env.__LIVE_RELOAD__ = liveReloadPort;
     plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300, quiet: true });
 
-    console.log(`\nLive Reload listening on port ${liveReloadPort}\n`);
+    conf.messages.push(`LiveReload is listening on port ${liveReloadPort}`);
 
     const errors = ['unhandledRejection', 'uncaughtException'];
 

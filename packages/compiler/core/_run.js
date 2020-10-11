@@ -29,7 +29,7 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
     const server = new WebpackDevServer(compiler, webpackConfig.devServer);
 
     server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
-      console.log(`\nStarting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/\n`);
+      conf.messages.push(`\nStarting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/\n`);
     });
   },
   watch: () => {

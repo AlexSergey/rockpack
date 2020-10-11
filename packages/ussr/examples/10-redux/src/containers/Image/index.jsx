@@ -7,7 +7,7 @@ const Dogs = () => {
   const dispatch = useDispatch();
   const image = useSelector(state => state.imageReducer);
 
-  useWillMount((resolver) => dispatch(fetchImage(resolver)));
+  useWillMount(() => dispatch(fetchImage()));
 
   return (
     <div>

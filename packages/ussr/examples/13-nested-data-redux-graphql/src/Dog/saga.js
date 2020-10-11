@@ -20,6 +20,7 @@ function* fetchDogAsync({ payload: resolver }) {
         }, 1000);
       })
     ));
+    console.log(data);
     yield put(requestDogSuccess({ url: data.message }));
   } catch (error) {
     yield put(requestDogError());

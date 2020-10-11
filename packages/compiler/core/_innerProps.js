@@ -1,6 +1,7 @@
 const { isDefined } = require('valid-types');
 
 const _innerProps = async (conf, mode) => {
+  conf.messages = [];
   if (global.ISOMORPHIC) {
     switch (conf.compilerName) {
       case 'backendCompiler':

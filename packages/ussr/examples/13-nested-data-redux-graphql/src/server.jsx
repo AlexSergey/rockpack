@@ -47,6 +47,7 @@ router.get('/*', async (ctx) => {
       </ApolloProvider>
     </ApolloContext.Provider>
   ), (effects) => {
+    console.log(renderPromises.hasPromises());
     if (renderPromises.hasPromises()) {
       return effects.concat(renderPromises.consumeAndAwaitPromises());
     }

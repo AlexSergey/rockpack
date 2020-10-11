@@ -4,6 +4,7 @@ import Koa from 'koa';
 import serve from 'koa-static';
 import Router from 'koa-router';
 import { Provider } from 'react-redux';
+import { END } from 'redux-saga';
 import serialize from 'serialize-javascript';
 import { App } from './App';
 import { serverRender } from '../../../src';
@@ -16,7 +17,7 @@ const router = new Router();
 app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
-  const store = createStore({
+  const { store, rootSaga } = createStore({
     initState: { },
     rest
   });
@@ -25,7 +26,12 @@ router.get('/*', async (ctx) => {
     <Provider store={store}>
       <App />
     </Provider>
-  ));
+  ), async () => {
+    store.dispatch(END);
+    await rootSaga.toPromise();
+  }, {
+    skipEffects: true
+  });
 
   ctx.body = `
   <!DOCTYPE html>

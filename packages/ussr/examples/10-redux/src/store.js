@@ -1,18 +1,19 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
+import { fork } from 'redux-saga/effects';
 import logger from 'redux-logger';
 import imageReducer from './containers/Image/reducer';
 import watchFetchImage from './containers/Image/saga';
 
 import { isProduction, isNotProduction } from './utils/mode';
 
-const middleware = getDefaultMiddleware({
-  immutableCheck: true,
-  serializableCheck: true,
-  thunk: false,
-});
-
 export default ({ initState = {}, rest } = {}) => {
+  const middleware = getDefaultMiddleware({
+    immutableCheck: true,
+    serializableCheck: true,
+    thunk: false,
+  });
+
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
@@ -29,7 +30,11 @@ export default ({ initState = {}, rest } = {}) => {
     preloadedState: initState
   });
 
-  sagaMiddleware.run(watchFetchImage, rest);
+  function* sagas() {
+    yield fork(watchFetchImage, rest);
+  }
 
-  return store;
+  const rootSaga = sagaMiddleware.run(sagas);
+
+  return { store, rootSaga };
 };

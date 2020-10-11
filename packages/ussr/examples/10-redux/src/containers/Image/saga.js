@@ -5,7 +5,7 @@ function* watchFetchImage(rest) {
   yield takeEvery(fetchImage, fetchImageAsync, rest);
 }
 
-function* fetchImageAsync(rest, { payload: resolver }) {
+function* fetchImageAsync(rest) {
   try {
     yield put(requestImage());
     const { data } = yield call(() => rest.get('https://picsum.photos/id/0/info'));
@@ -13,7 +13,6 @@ function* fetchImageAsync(rest, { payload: resolver }) {
   } catch (error) {
     yield put(requestImageError());
   }
-  resolver();
 }
 
 export default watchFetchImage;
