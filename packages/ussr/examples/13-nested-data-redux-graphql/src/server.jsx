@@ -15,6 +15,7 @@ import { App } from './App';
 import { resolvers, typeDefs } from './Apollo';
 import { serverRender } from '../../../src';
 import createStore from './store';
+import rest from './utils/rest';
 
 const app = new Koa();
 const router = new Router();
@@ -32,8 +33,9 @@ router.get('/*', async (ctx) => {
     typeDefs,
     resolvers
   });
-  const store = createStore({
-    initState: {}
+  const { store } = createStore({
+    initState: {},
+    rest
   });
   const ApolloContext = getApolloContext();
   const renderPromises = new RenderPromises();
@@ -46,10 +48,9 @@ router.get('/*', async (ctx) => {
         </Provider>
       </ApolloProvider>
     </ApolloContext.Provider>
-  ), (effects) => {
-    console.log(renderPromises.hasPromises());
+  ), async () => {
     if (renderPromises.hasPromises()) {
-      return effects.concat(renderPromises.consumeAndAwaitPromises());
+      await renderPromises.consumeAndAwaitPromises();
     }
   });
 

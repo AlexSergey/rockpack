@@ -19,7 +19,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
 }> => {
   const history = createBrowserHistory();
 
-  const [, Ussr] = createUssr({}, {
+  const [Ussr] = createUssr({}, {
     onlyClient: true
   });
 

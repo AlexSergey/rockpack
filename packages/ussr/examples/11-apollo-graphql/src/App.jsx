@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
+import { useUssrEffect } from '../../../src';
 
 const books = [
   {
@@ -30,7 +31,7 @@ export const typeDefs = gql`
   }
 `;
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve(books), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(books), 1000));
 
 export const resolvers = {
   Query: {
@@ -49,10 +50,10 @@ const GET_BOOKS = gql`
 `;
 
 export const App = () => {
-  const { data } = useQuery(GET_BOOKS);
+  useUssrEffect('apollo');
+  let { data } = useQuery(GET_BOOKS);
 
   const loaded = data && data.books && Array.isArray(data.books);
-
   return (
     <div>
       {!data && <h3>Loading...</h3>}

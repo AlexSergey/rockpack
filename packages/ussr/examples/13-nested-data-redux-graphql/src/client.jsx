@@ -9,8 +9,9 @@ import { App } from './App';
 import { resolvers, typeDefs } from './Apollo';
 import createUssr from '../../../src';
 import createStore from './store';
+import rest from './utils/rest';
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 
 const link = createHttpLink({
   uri: 'http://localhost:3010'
@@ -22,8 +23,10 @@ const client = new ApolloClient({
   typeDefs,
   resolvers
 });
-const store = createStore({
-  initState: window.REDUX_DATA
+
+const { store } = createStore({
+  initState: window.REDUX_DATA,
+  rest
 });
 
 hydrate(

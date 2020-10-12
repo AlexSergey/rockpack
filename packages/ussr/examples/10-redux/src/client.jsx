@@ -6,7 +6,7 @@ import createUssr from '../../../src';
 import createStore from './store';
 import rest from './utils/rest';
 
-const [, Ussr] = createUssr({});
+const [Ussr] = createUssr();
 
 const { store } = createStore({
   rest,

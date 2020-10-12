@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useWillMount } from '@rockpack/ussr';
+import { useWillMount, useUssrEffect } from '@rockpack/ussr';
 import { signin, signup, signout, authorization } from './actions';
 import { User, UserStatistic, Roles } from '../../types/User';
 import { RootState } from '../../types/store';
@@ -18,9 +18,9 @@ export const useRole = (): Roles => (
 
 export const useAuthorization = (): void => {
   const dispatch = useDispatch();
-  useWillMount(() => {
-    dispatch(authorization());
-  });
+  const effect = useUssrEffect('authorization');
+
+  useWillMount(effect, () => dispatch(authorization()));
 };
 
 export const useUserStatistic = (): UserStatistic => {

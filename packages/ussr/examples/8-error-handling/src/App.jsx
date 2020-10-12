@@ -1,12 +1,12 @@
 import React from 'react';
-import { useUssrState, useWillMount } from '../../../src';
+import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
 
-const effect = () => new Promise((resolve, reject) => setTimeout(() => reject(new Error('SSR error!')), 1000));
+const asyncFn = () => new Promise((resolve, reject) => setTimeout(() => reject(new Error('SSR error!')), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
-
-  useWillMount(() => effect()
+  const effect = useUssrEffect('hello_world');
+  useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
 
   return (

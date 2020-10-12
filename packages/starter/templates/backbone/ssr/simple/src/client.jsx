@@ -5,7 +5,7 @@ import { loadableReady } from '@loadable/component';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import App from './App';
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 
 const insertCss = (...styles) => {
   const removeCss = process.env.NODE_ENV === 'production'

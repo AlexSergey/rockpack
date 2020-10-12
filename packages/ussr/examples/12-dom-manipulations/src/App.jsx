@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import CustomScroll from 'react-customscroll';
-import { useUssrState, useWillMount, isClient } from '../../../src';
+import { useUssrState, useWillMount, isClient, useUssrEffect } from '../../../src';
 import './styles.css';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: ['1', '2', '3'] }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: ['1', '2', '3'] }), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: [] });
-
-  useWillMount(() => (
-    effect()
+  const effect = useUssrEffect('hello_world');
+  useWillMount(effect, () => (
+    asyncFn()
       .then(data => {
         setState(data);
       })

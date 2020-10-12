@@ -3,16 +3,17 @@
  */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { useUssrState, useWillMount } from './hooks';
+import { useUssrState, useWillMount, useUssrEffect } from './hooks';
 import createUssr from './Ussr';
 
 describe('hooks tests', () => {
   test('useWillMount - Basic load on ready', async () => {
-    const [runEffects, Ussr, getEffects] = createUssr();
+    const [Ussr, ,effectCollection] = createUssr();
     let called = false;
 
     const App = (): JSX.Element => {
-      useWillMount(() => (
+      const effect = useUssrEffect('test');
+      useWillMount(effect, () => (
         new Promise(resolve => {
           setTimeout(() => {
             called = true;
@@ -29,19 +30,13 @@ describe('hooks tests', () => {
       </Ussr>
     ).html();
 
-    const effects = getEffects();
-
-    const callbacks = effects
-      .filter(effect => effect.status === 'wait')
-      .map(e => e.callback);
-
-    await runEffects(callbacks, effects);
+    await effectCollection.runEffects();
 
     expect(called).toBe(true);
   });
 
   test('useUssrState - Load state by source', async () => {
-    const [, Ussr] = createUssr({
+    const [Ussr] = createUssr({
       app: {
         foo: 'bar'
       }
@@ -68,12 +63,12 @@ describe('hooks tests', () => {
   });
 
   test('useUssrState - use setState isomorphic', async () => {
-    const [runEffects, Ussr, getEffects, getState] = createUssr();
+    const [Ussr, getState, effectCollection] = createUssr();
 
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-
-      useWillMount(() => (
+      const effect = useUssrEffect('test');
+      useWillMount(effect, () => (
         new Promise(resolve => {
           setTimeout(() => {
             setState('async bar');
@@ -96,18 +91,54 @@ describe('hooks tests', () => {
     )
       .html();
 
-    const effects = getEffects();
-
-    const callbacks = effects
-      .filter(effect => effect.status === 'wait')
-      .map(e => e.callback);
-
-    await runEffects(callbacks, effects);
+    await effectCollection.runEffects();
 
     expect(getState()).toStrictEqual({
       app: {
         foo: 'async bar'
       }
     });
+  });
+
+  test('effect install test', async () => {
+    const [Ussr, getState, effectCollection] = createUssr();
+
+    // eslint-disable-next-line sonarjs/no-identical-functions
+    const someFn = (setState, resolve): void => {
+      setTimeout(() => {
+        setState('async bar');
+        resolve();
+      }, 500);
+    };
+
+    const App = (): JSX.Element => {
+      const [state, setState] = useUssrState('app.foo', '');
+      const effect = useUssrEffect('test');
+      useWillMount(effect, effect.install((resolve) => {
+        someFn(setState, resolve);
+      }));
+
+      return (
+        <div>
+          {state}
+        </div>
+      );
+    };
+
+    shallow(
+      <Ussr>
+        <App />
+      </Ussr>
+    )
+      .html();
+
+    await effectCollection.runEffects();
+
+    expect(getState())
+      .toStrictEqual({
+        app: {
+          foo: 'async bar'
+        }
+      });
   });
 });

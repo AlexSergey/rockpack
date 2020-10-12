@@ -1,7 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
-import ReduxContainer from './Dog';
+import Image from './containers/Image';
+import { useUssrEffect } from '../../../src';
 
 const books = [
   {
@@ -31,11 +32,11 @@ export const typeDefs = gql`
   }
 `;
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve(books), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(books), 1000));
 
 export const resolvers = {
   Query: {
-    books: async () => await effect()
+    books: async () => await asyncFn()
   }
 };
 
@@ -50,6 +51,7 @@ const GET_BOOKS = gql`
 `;
 
 export const Apollo = () => {
+  useUssrEffect('apollo');
   const { data } = useQuery(GET_BOOKS);
 
   const loaded = data && data.books && Array.isArray(data.books);
@@ -65,7 +67,7 @@ export const Apollo = () => {
               <p>{book.author}</p>
             </div>
           ))}
-          {loaded && <ReduxContainer />}
+          {loaded && <Image />}
         </>
       )}
     </div>

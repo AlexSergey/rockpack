@@ -1,30 +1,24 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import createUssr, { Statuses } from './Ussr';
+import createUssr from './Ussr';
 
 interface StateInterface {
   [key: string]: unknown;
 }
 
-type Middleware = (callbacks: Promise<unknown> | Promise<unknown>[] | []) =>
-Promise<unknown> | Promise<unknown>[] | undefined | [] | void;
+type Middleware = () => any;
 
 interface ServerRenderResult {
   html: string;
   state: StateInterface;
 }
 
-type Options = {
-  skipEffects: boolean;
-};
-
 export const serverRender = async (
   iteration: (count?: number) => JSX.Element,
-  middleware?: Middleware,
-  options?: Options
+  middleware?: Middleware
 ): Promise<ServerRenderResult> => {
   let count = 0;
-  const [runEffects, Ussr, getEffects, getSate] = createUssr({ });
+  const [Ussr, getState, effectCollection] = createUssr({ });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderNested = async (): Promise<string> => {
     count++;
@@ -35,38 +29,18 @@ export const serverRender = async (
       </Ussr>
     ));
 
-    const effects = getEffects();
+    const waited = effectCollection.getWaited();
 
-    const waited = effects.filter(effect => effect.status === 'wait');
-
-    if (options && options.skipEffects) {
-      if (typeof middleware === 'function') {
-        await middleware(effects.map(e => e.callback));
-      }
-
-      if (waited.length > 0) {
-        waited.forEach(effect => {
-          effect.status = Statuses.done;
-          effect.resolver();
-        });
-
-        return await renderNested();
-      }
-
-      return _html;
+    if (typeof middleware === 'function') {
+      await middleware();
     }
 
     if (waited.length === 0) {
       return _html;
     }
 
-    const callbacks = await (async (callbackFunctions): Promise<Promise<unknown>[]> => {
-      const finalCallbacks = typeof middleware === 'function' ? await middleware(callbackFunctions) : callbackFunctions;
-      return Array.isArray(finalCallbacks) ? finalCallbacks : callbackFunctions;
-    })(waited.map(e => e.callback));
-
-    if (callbacks.length > 0) {
-      await runEffects(callbacks, waited);
+    if (waited.length > 0) {
+      await effectCollection.runEffects();
 
       return await renderNested();
     }
@@ -78,6 +52,6 @@ export const serverRender = async (
 
   return {
     html,
-    state: getSate()
+    state: getState()
   };
 };

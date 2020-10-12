@@ -7,7 +7,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { App, resolvers, typeDefs } from './App';
 import createUssr from '../../../src';
 
-const [, Ussr] = createUssr();
+const [Ussr] = createUssr();
 
 const link = createHttpLink({
   uri: 'http://localhost:3010'

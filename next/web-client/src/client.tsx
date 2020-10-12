@@ -26,7 +26,7 @@ declare global {
 
 const history = createBrowserHistory();
 
-const [, Ussr] = createUssr();
+const [Ussr] = createUssr();
 
 const getToken = (): string | undefined => Cookies.get('token');
 

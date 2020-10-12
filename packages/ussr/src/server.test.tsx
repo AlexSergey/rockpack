@@ -3,13 +3,14 @@
  */
 import React from 'react';
 import { serverRender } from './server';
-import { useWillMount, useUssrState } from './hooks';
+import { useWillMount, useUssrState, useUssrEffect } from './hooks';
 
 describe('server render tests', () => {
   test('pure state', async () => {
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-      useWillMount(() => (
+      const effect = useUssrEffect('test');
+      useWillMount(effect, () => (
         new Promise(resolve => {
           setTimeout(() => {
             setState('test bar');
@@ -35,25 +36,27 @@ describe('server render tests', () => {
   test('pure state and external callback', async () => {
     let called = false;
 
-    const externalCallback = (callbackFunctions): void => {
+    const outsideEffect = (): Promise<void> => (
+      new Promise(resolve => {
+        setTimeout(() => {
+          called = true;
+          resolve();
+        }, 500);
+      })
+    );
+
+    const externalCallback = async (): Promise<void> => {
       if (!called) {
-        callbackFunctions.push(
-          new Promise(resolve => {
-            setTimeout(() => {
-              called = true;
-              resolve();
-            }, 500);
-          })
-        );
+        await outsideEffect();
       }
     };
 
     // eslint-disable-next-line sonarjs/no-identical-functions
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-
+      const effect = useUssrEffect('test');
       // eslint-disable-next-line sonarjs/no-identical-functions
-      useWillMount(() => (
+      useWillMount(effect, () => (
         // eslint-disable-next-line sonarjs/no-identical-functions
         new Promise(resolve => {
           setTimeout(() => {

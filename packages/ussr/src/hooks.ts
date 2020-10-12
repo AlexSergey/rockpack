@@ -4,8 +4,7 @@ import set from 'lodash/set';
 import has from 'lodash/has';
 import { isBackend } from './utils';
 import { UssrContext } from './Ussr';
-
-export type Resolver = () => void;
+import { Effect } from './Effect';
 
 interface UssrState<T> {
   setState(componentState: T, skip?: boolean): void;
@@ -58,40 +57,53 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any,max-len
-export const useWillMount = (cb: (resolver?: Resolver) => Promise<unknown> | { payload: any; type: string } | void): void => {
+export const useUssrEffect = (effectId: string): Effect => {
+  const cached = useRef(null);
+  const { effectCollection } = useContext(UssrContext);
+
+  if (cached.current instanceof Effect) {
+    return cached.current;
+  }
+  if (effectCollection.getEffect(effectId)) {
+    return effectCollection.getEffect(effectId);
+  }
+
+  const effect = new Effect({ id: effectId });
+  const id = effect.getId();
+
+  cached.current = effect;
+
+  if (!effectCollection.hasEffect(id)) {
+    effectCollection.addEffect(effect);
+  }
+
+  return effect;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useWillMount = (effect: Effect, cb: () => any | Promise<any>): void => {
   const initHook = useRef(true);
-  const { isLoading, createEffect, hasEffect } = useContext(UssrContext);
+  const { isLoading } = useContext(UssrContext);
   const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
   const onLoadOnTheClient = isClient && loaded && initHook.current && typeof cb === 'function';
-  const onLoadOnTheBackend = isBackend() && typeof cb === 'function';
+  const onLoadOnTheBackend = isBackend() && initHook.current && typeof cb === 'function';
 
   initHook.current = false;
 
   if (onLoadOnTheClient) {
-    cb(() => {});
+    cb();
   } else if (onLoadOnTheBackend) {
-    const effectId = cb.toString();
+    if (!(effect instanceof Effect)) {
+      // eslint-disable-next-line no-console
+      console.warn('useWillMount: The first argument must be effect');
+    }
+    if (!effect.getCallback()) {
+      const res = cb();
 
-    if (!hasEffect(effectId)) {
-      const resolver = createEffect(effectId);
-      let called = false;
-
-      const resolve = (...args: unknown[]): void => {
-        called = true;
-        resolver.apply(null, args);
-      };
-
-      const effect = cb(resolve);
-      if (isBackend() && (effect instanceof Promise)) {
-        // eslint-disable-next-line promise/catch-or-return
-        effect.finally(() => {
-          if (!called) {
-            resolve();
-          }
-        });
+      if (res instanceof Promise && effect instanceof Effect) {
+        effect.addCallback(res);
       }
     }
   }

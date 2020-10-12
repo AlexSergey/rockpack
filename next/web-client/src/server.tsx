@@ -110,8 +110,6 @@ router.get('/*', async (ctx) => {
   ), async () => {
     store.dispatch(END);
     await rootSaga.toPromise();
-  }, {
-    skipEffects: true
   });
 
   const meta = metaTagsInstance.renderToString();

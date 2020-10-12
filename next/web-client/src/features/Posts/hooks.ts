@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useWillMount } from '@rockpack/ussr';
+import { useWillMount, useUssrEffect } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts, createPost, deletePost, settingPage } from './actions';
 import { PostsState, Post } from '../../types/Posts';
@@ -19,9 +19,9 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
   const dispatch = useDispatch();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
-  useWillMount(() => {
-    dispatch(fetchPosts({ page: current }));
-  });
+  const effect = useUssrEffect('posts');
+
+  useWillMount(effect, () => dispatch(fetchPosts({ page: current })));
 
   // Pagination changed
   useEffect(() => {

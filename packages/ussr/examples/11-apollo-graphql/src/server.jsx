@@ -38,9 +38,9 @@ router.get('/*', async (ctx) => {
         <App />
       </ApolloProvider>
     </ApolloContext.Provider>
-  ), (effects) => {
+  ), async () => {
     if (renderPromises.hasPromises()) {
-      return effects.concat(renderPromises.consumeAndAwaitPromises());
+      await renderPromises.consumeAndAwaitPromises();
     }
   });
 

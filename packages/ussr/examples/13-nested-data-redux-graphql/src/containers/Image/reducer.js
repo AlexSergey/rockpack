@@ -1,22 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { requestDog, requestDogSuccess, requestDogError } from './action';
+import { requestImage, requestImageSuccess, requestImageError } from './action';
 
 export default createReducer({
   url: '',
   loading: false,
   error: false,
 }, {
-  [requestDog.type]: () => ({
+  [requestImage.type]: () => ({
     url: '',
     loading: true,
     error: false,
   }),
-  [requestDogSuccess.type]: (state, { payload }) => ({
+  [requestImageSuccess.type]: (state, { payload }) => ({
     url: payload.url,
     loading: false,
     error: false,
   }),
-  [requestDogError.type]: () => ({
+  [requestImageError.type]: () => ({
     url: '',
     loading: false,
     error: true,

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUssrState, useWillMount } from '../../../src';
-import { effect } from './effect';
+import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
+import { asyncFn } from './asyncFn';
 
 const Home = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
-
-  useWillMount(() => effect()
+  const effect = useUssrEffect('hello_world');
+  useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
 
   return (

@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 
 const insertCss = (...styles): () => void => {
   const removeCss = process.env.NODE_ENV === 'production'

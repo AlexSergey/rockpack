@@ -1,4 +1,4 @@
-import { useWillMount } from '@rockpack/ussr';
+import { useWillMount, useUssrEffect } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchComments, createComment, deleteComment } from './actions';
 import { CommentsState, Comment } from '../../types/Comments';
@@ -7,8 +7,9 @@ import { User } from '../../types/User';
 export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ comments: CommentsState }, CommentsState>(state => state.comments);
+  const effect = useUssrEffect('comments');
 
-  useWillMount(() => dispatch(fetchComments({ postId })));
+  useWillMount(effect, () => dispatch(fetchComments({ postId })));
 
   return [loading, error, data];
 };

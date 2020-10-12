@@ -2,17 +2,17 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import { useUssrState, useWillMount } from '../../../src';
+import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
 import styles from './styles.modules.scss';
 import './styles.css';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 const Home = () => {
   useStyles(styles);
   const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
-
-  useWillMount(() => effect()
+  const effect = useUssrEffect('hello_world');
+  useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
 
   return (
