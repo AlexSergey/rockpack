@@ -19,8 +19,13 @@ const wizard = async () => {
         checked: false
       },
       {
-        name: 'React SSR - React Server Side Rendering (Single page application + Node.js Application)',
-        value: 'ssr',
+        name: 'React SSR Light Pack - SSR, CSS Modules, @loadable etc',
+        value: 'ssr-light',
+        checked: false
+      },
+      {
+        name: 'React SSR Full Pack - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc',
+        value: 'ssr-full',
         checked: false
       },
       {
@@ -54,7 +59,7 @@ const wizard = async () => {
     message: 'Do you want ESLint?'
   });
 
-  if (appType === 'csr' || appType === 'ssr') {
+  if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
     const { logger } = await prompt({
       type: 'confirm',
       name: 'logger',

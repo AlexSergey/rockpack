@@ -1,15 +1,24 @@
-import path from 'path';
-import { readFileSync } from 'fs';
-import React from 'react';
 import Koa from 'koa';
+import path from 'path';
+import React from 'react';
 import serve from 'koa-static';
-import PrettyError from 'pretty-error';
+import fetch from 'node-fetch';
 import Router from '@koa/router';
+import { END } from 'redux-saga';
+import { readFileSync } from 'fs';
+import { Helmet } from 'react-helmet';
+import PrettyError from 'pretty-error';
+import { Provider } from 'react-redux';
+import { StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
+import { serverRender } from '@rockpack/ussr';
+import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import { serverRender } from '@rockpack/ussr';
+import { isProduction, isDevelopment } from './utils/environments';
 import App from './App';
+import createStore from './store';
+import createServices from './services';
 
 const app = new Koa();
 const router = new Router();
@@ -29,7 +38,13 @@ app.use(serve(publicFolder));
 router.get('/*', async (ctx) => {
   const css = new Set();
 
-  const insertCss = process.env.NODE_ENV === 'production'
+  const { store, rootSaga } = createStore({
+    initState: {},
+    history: createMemoryHistory(),
+    services: createServices(fetch),
+  });
+
+  const insertCss = isProduction()
     ? () => {}
     // eslint-disable-next-line no-underscore-dangle
     : (...moduleStyles) => moduleStyles.forEach((style) => css.add(style._getCss()));
@@ -39,37 +54,48 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index'],
   });
 
-  const { html, state } = await serverRender(() => (
+  const { html } = await serverRender(() => (
     extractor.collectChunks(
-      <StyleContext.Provider value={{ insertCss }}>
-        <App />
-      </StyleContext.Provider>,
+      <Provider store={store}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <StaticRouter location={ctx.request.url} context={{}}>
+            <App />
+          </StaticRouter>
+        </StyleContext.Provider>
+      </Provider>,
     )
-  ));
+  ), async () => {
+    store.dispatch(END);
+    await rootSaga.toPromise();
+  });
+
+  const helmet = Helmet.renderStatic();
 
   const scriptTags = extractor.getScriptTags();
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDevelopment()) {
     styles.push(`<style>${[...css].join('')}</style>`);
   }
+
+  const reduxState = store.getState();
 
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
     ${styles.join('')}
-    ${process.env.NODE_ENV === 'development'
+    ${isDevelopment()
     // eslint-disable-next-line no-underscore-dangle
     ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>`
     : ''}
-    <script>
-      window.USSR_DATA = ${serialize(state, { isJSON: true })}
-    </script>
 </head>
 <body>
     <div id="root">${html}</div>
+    <script>
+      window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
+    </script>
     ${scriptTags}
 </body>
 </html>
@@ -84,7 +110,7 @@ const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is listening ${process.env.PORT} port`);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDevelopment()) {
     // eslint-disable-next-line no-underscore-dangle, no-console
     console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
   }

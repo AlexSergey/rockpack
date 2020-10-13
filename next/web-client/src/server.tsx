@@ -20,17 +20,17 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
-import { App } from './main';
+import { App } from './App';
 import { createStore } from './store';
 import ru from './features/Localization/locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
 import { createRestClient } from './utils/rest';
+import { isProduction, isDevelopment } from './utils/environments';
 import { createServices } from './services';
 
 const app = new Koa();
 const router = new Router();
 const pe = new PrettyError();
-const isProduction = process.env.NODE_ENV === 'production';
 const publicFolder = path.resolve(__dirname, '../public');
 const languages = { ru };
 
@@ -82,7 +82,7 @@ router.get('/*', async (ctx) => {
 
   const css = new Set();
 
-  const insertCss = isProduction ?
+  const insertCss = isProduction() ?
     (): void => {} :
     (...moduleStyles): void => moduleStyles.forEach(style => css.add(style._getCss()));
 
@@ -115,7 +115,7 @@ router.get('/*', async (ctx) => {
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
 
-  if (!isProduction) {
+  if (isDevelopment()) {
     styles.push(`<style>${[...css].join('')}</style>`);
   }
 
@@ -141,7 +141,7 @@ router.get('/*', async (ctx) => {
       window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
     </script>
     ${scriptTags}
-    ${!isProduction ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
+    ${isDevelopment() ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
 </body>
 </html>
 `;
@@ -154,6 +154,11 @@ app
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is listening ${process.env.PORT} port`);
+
+  if (isDevelopment()) {
+    // eslint-disable-next-line no-underscore-dangle, no-console
+    console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
+  }
 });
 
 const handleError = (err, ctx): void => {

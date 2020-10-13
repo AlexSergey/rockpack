@@ -10,7 +10,7 @@ import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { LocalizationContainer } from './features/Localization';
-import { App } from './main';
+import { App } from './App';
 import { isProduction } from './utils/environments';
 import { createStore } from './store';
 import { createRestClient } from './utils/rest';

@@ -30,10 +30,16 @@ const packageJSONPreparing = async (packageJSON, {
             { name: '@types/react-dom', version: '16' }
           ]
         });
+      } else {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: 'prop-types', version: '15.7.2' },
+          ]
+        });
       }
       break;
 
-    case 'ssr':
+    case 'ssr-light':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'koa', version: '2' },
@@ -61,6 +67,61 @@ const packageJSONPreparing = async (packageJSON, {
             { name: '@types/koa', version: '2' },
             { name: '@types/koa-router', version: '7' },
             { name: '@types/node', version: '14' }
+          ]
+        });
+      } else {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: 'prop-types', version: '15.7.2' },
+          ]
+        });
+      }
+      break;
+
+    case 'ssr-full':
+      packageJSON = await addDependencies(packageJSON, {
+        dependencies: [
+          { name: 'koa', version: '2' },
+          { name: 'koa-static', version: '5' },
+          { name: 'react', version: '16' },
+          { name: 'react-dom', version: '16' },
+          { name: 'connected-react-router', version: '6.8.0' },
+          { name: 'react-redux', version: '7.2.1' },
+          { name: 'react-router', version: '5.2.0' },
+          { name: 'react-router-dom', version: '5.2.0' },
+          { name: 'redux', version: '4.0.5' },
+          { name: 'redux-saga', version: '1.1.3' },
+          { name: 'react-helmet', version: '6.1.0' },
+          { name: 'history', version: '4.10.1' },
+          { name: 'node-fetch', version: '2.6.1' },
+          { name: '@reduxjs/toolkit', version: '1.4.0' },
+          { name: 'serialize-javascript', version: '5' },
+          { name: 'isomorphic-style-loader', version: '5.1.0' },
+          { name: 'pretty-error', version: '2.1.1' },
+          { name: '@koa/router', version: '8' },
+          { name: '@rockpack/ussr', version: '0.9.9-rc.19' },
+          { name: '@loadable/component', version: '5.13.1' },
+          { name: '@loadable/server', version: '5.13.1' }
+        ],
+        devDependencies: [
+          { name: '@rockpack/compiler', version: '0.9.9-rc.19' }
+        ]
+      });
+
+      if (typescript) {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: '@types/react', version: '16' },
+            { name: '@types/react-dom', version: '16' },
+            { name: '@types/koa', version: '2' },
+            { name: '@types/koa-router', version: '7' },
+            { name: '@types/node', version: '14' }
+          ]
+        });
+      } else {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: 'prop-types', version: '15.7.2' },
           ]
         });
       }
@@ -140,7 +201,7 @@ const packageJSONPreparing = async (packageJSON, {
         { name: '@rockpack/tester', version: '0.9.9-rc.19' }
       ]
     });
-    if (appType === 'csr' || appType === 'ssr') {
+    if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: 'enzyme', version: '3' },
