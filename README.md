@@ -65,17 +65,37 @@ If you can't use **@rockpack/starter** or want to migrate your existing applicat
 
 **Rockpack** consists of modules. Let's consider them in more detail:
 
-**@rockpack/starter** is **create-react-app** on steroids. Allows you to create not only a regular React application, but also:
+**@rockpack/starter** this is **create-react-app** on steroids. Supports the following types of applications:
 
- - Application with Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md)
- - ESLint with the best practices and rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
- - Jest with cool add-ons and Typescript/Babel support [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
- - Typescript, CSS(SCSS, LESS) Modules, @loadable components [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
+- **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
+- **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
+    - Koa is used for the server
+    - @loadable/components
+- **React SSR Full Pack** - React Server Side Render. Application skeleton using best practices for project structure and a set of libraries
+    - Koa is used for the server
+    - React-Router
+    - Redux
+    - Sagas
+    - React-Helmet
+    - @loadable/components
+- **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
+- **NodeJS app** - Support for ES6 Imports, source code minification, understandable Source Maps, etc.
 
-**Also, such types of applications as:**
+*All types of applications support:*
+- Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
+- Image optimization
+- Loading SVG as React components
+- CSS/SCSS/Less modules
+- TS, TS support for CSS/SCSS/Less modules
+- CSS Autoprefixer
+- SEO Optimizations, React optimizations, Antd optimizations
+- Support for settings via Dotenv and Dotenv safe
+- Bundle Analyze
+- GraphQL support
 
-- Library. Configured webpack for building UMD libraries, both React and Vanilla JS
-- NodeJS application. Supporting ES6 Imports, source minification, etc.
+*Additionally, for each type of application, you can install:*
+- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
+- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md)
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 ***
