@@ -17,7 +17,7 @@ Working on many React projects from scratch, we are faced with the same type of 
 - *How to set up an efficient build system with support for many formats and Typescript we need*
 - *Which linter's rules should be on the project for comfortable work*
 - *How to set up Jest that it works with Babel or Typescript*
-- *How to make server-side rendering to work with exists solutions - Redux, Apollo and other*
+- *How to make server-side rendering to work with existing solutions - Redux, Apollo and other*
 - *How to set up Webpack for server-side rendering and get production ready artifact and cool dev server*
 
 Every time we spend weeks on these routine tasks.
@@ -32,7 +32,7 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
   <img width="500px" alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
 </p>
 
-Also at the start of the project, we can create localization, logging and we can do this practically without spending time.
+Also at the start of the project, we can create localization, srup logging and we can do this practically without spending time.
 
 ## How to start
 For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
@@ -86,13 +86,13 @@ this is **create-react-app** on steroids. Supports the following types of applic
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
 - Image optimization
-- Loading SVG as React components
+- Loading SVG files as React components
 - CSS/SCSS/Less modules
 - TS, TS support for CSS/SCSS/Less modules
 - CSS Autoprefixer
 - SEO Optimizations, React optimizations, Antd optimizations
 - Support for settings via Dotenv and Dotenv safe
-- Bundle Analyze
+- Bundle Analyzer
 - GraphQL support
 
 *Additionally, for each type of application, you can install:*
@@ -130,7 +130,7 @@ This is Jest with cool config, add-ons and fully compatible with TS / Babel.
 ***
 ### @rockpack/codestyle
 
-This is an efficiently customized Eslint with many best practice rules and additions.
+This is an efficiently customized Eslint with many best practical rules and additions.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
 ***
@@ -168,11 +168,11 @@ The **Rockpack** project was inspired by:
 ## Why do we need Rockpack...?
 ...if we have **create-react-app** or other?
 - **Rockpack** provides a very easy way to get started with **@rockpack/starter**. Just one command allows you to set up your application with support for TypeScript, Jest, Eslint, SSR and more.
-- **Rockpack** is very flexible to use. You can design the architecture as you like, use different libraries and solutions, for example, for state management.
+- **Rockpack** is very flexible. You can design the architecture as you like, use different libraries and solutions, for example, for state management.
 - **Rockpack** doesn't add any magic. This is a set of best practices and libraries for automating the start of a project.
-- **Rockpack** has the option of modular integration into legacy project
+- **Rockpack** has the option of modular integration into legacy project.
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
-- **Rockpack** uses only existing modules and approaches and does not create bicycles.
+- **Rockpack** uses only existing modules and approaches and don't not reinventing the wheel.
 
 ## The MIT License
 
