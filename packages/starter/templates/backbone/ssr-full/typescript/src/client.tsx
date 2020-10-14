@@ -1,3 +1,4 @@
+import './types/global';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import createUssr from '@rockpack/ussr';
@@ -11,16 +12,24 @@ import App from './App';
 import createStore from './store';
 import createServices from './services';
 
+declare global {
+  interface Window {
+    REDUX_DATA: {
+      [key: string]: unknown;
+    };
+  }
+}
+
 const history = createBrowserHistory();
 
 const [Ussr] = createUssr();
 
-const insertCss = (...styles) => {
+const insertCss = (...styles): () => void => {
   const removeCss = process.env.NODE_ENV === 'production'
     ? []
     // eslint-disable-next-line no-underscore-dangle
     : styles.map((style) => style && typeof style._insertCss === 'function' && style._insertCss());
-  return () => removeCss.forEach((dispose) => dispose());
+  return (): void => removeCss.forEach((dispose) => dispose());
 };
 
 const { store } = createStore({

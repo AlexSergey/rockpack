@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-08 22:55+0200\n"
+"POT-Creation-Date: 2020-10-14 17:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,9 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 msgid "Alarm!"
+msgstr ""
+
+msgid "Hello world"
 msgstr ""
 
 #, javascript-format
@@ -33,16 +36,4 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Sort By"
-msgstr ""
-
-msgid "Latest"
-msgstr ""
-
-msgid "Most Popular"
-msgstr ""
-
-msgid "Most Viewed"
-msgstr ""
-
-msgid "Most Commented"
 msgstr ""

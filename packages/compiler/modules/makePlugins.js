@@ -372,7 +372,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
   }
 
-  if (conf.analyze) {
+  if (conf.analyzer) {
     const analyzerPort = await fpPromise(8888);
 
     plugins.BundleAnalyzerPlugin = new BundleAnalyzerPlugin(mode === 'development' ? {

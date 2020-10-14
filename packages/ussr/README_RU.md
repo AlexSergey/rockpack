@@ -27,9 +27,7 @@ React из коробки может рендерить приложение н�
 
 Схематично это выглядит так:
 
-<p align="right">
-  <img src="https://www.rock-book.io/readme_assets/rockpack_ussr_1.png" />
-</p>
+![Rockpack USSR](https://www.rock-book.io/readme_assets/rockpack_ussr_1.png)
 
 - SSR приложение состоит из двух под-приложений - frontend, backend с общей логикой.
 - NodeJS приложение выполняет React приложение.
@@ -53,13 +51,13 @@ React из коробки может рендерить приложение н�
 ```jsx
 import React, { render, useState, useEffect } from 'react';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useState({ text: 'text here' });
 
   useEffect(() => {
-    effect()
+    asyncFn()
         .then(data => setState(data))
   }, []);
 
@@ -113,14 +111,15 @@ isomorphicCompiler(
 
 ```jsx
 import React from 'react';
-import { useUssrState, useWillMount } from '@rockpack/ussr';
+import { useUssrState, useWillMount, useUssrEffect } from '@rockpack/ussr';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'text here' });
+  const effect = useUssrEffect('unique_effect_id');
 
-  useWillMount(() => effect()
+  useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
 
   return (
@@ -135,16 +134,9 @@ export const App = () => {
 
  - *useUssrState* - аналог useState только с поддержкой SSR
 
- - *useWillMount* - аналог useEffect(() => {}, []); для SSR. Данная функция может работать как с promise, так и с другими видами асинхронности через передачу параметра:
+ - *useUssrEffect* - указывает, что данный компонент имеет асинхронную логику
 
-```js
-useWillMount(resolve => {
-  setTimeout(() => {
-    // Async logic here
-    resolve();
-  }, 1000);
-});
-```
+ - *useWillMount* - аналог useEffect(() => {}, []); для SSR.
 
 4. **client.jsx** должен содержать часть приложения для frontend
 
@@ -154,7 +146,7 @@ import { hydrate } from 'react-dom';
 import createUssr from '@rockpack/ussr';
 import { App } from './App';
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 
 hydrate(
   <Ussr>
@@ -166,7 +158,7 @@ hydrate(
 
 Код
 ```js
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 ```
 Связывает состояние выполненное на сервере с приложением на клиенте. Для корректной работы *useUssrState* на клиенте
 

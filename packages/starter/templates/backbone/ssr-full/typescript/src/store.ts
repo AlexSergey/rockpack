@@ -1,15 +1,16 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
+import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
+import createSagaMiddleware, { Task } from 'redux-saga';
 import { fork } from 'redux-saga/effects';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { imageReducer, watchFetchImage } from './features/Image';
 import { isDevelopment } from './utils/environments';
+import { RootState, StoreProps } from './types/store';
 
 const createStore = ({
   initState = {},
   history,
   services,
-}) => {
+}: StoreProps): { store: Store<RootState>; rootSaga: Task } => {
   const sagaMiddleware = createSagaMiddleware({
     context: {
       services,
@@ -35,7 +36,7 @@ const createStore = ({
     preloadedState: initState,
   });
 
-  function* sagas() {
+  function* sagas(): Generator<unknown> {
     yield fork(watchFetchImage);
   }
 

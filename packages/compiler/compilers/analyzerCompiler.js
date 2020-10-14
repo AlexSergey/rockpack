@@ -5,6 +5,7 @@ async function analyzerCompiler(conf = {}, cb, configOnly = false) {
   if (!conf) {
     conf = {};
   }
+  conf.analyzer = true;
 
   errorHandler();
   conf.compilerName = analyzerCompiler.name;

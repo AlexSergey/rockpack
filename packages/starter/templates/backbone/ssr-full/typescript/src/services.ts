@@ -1,6 +1,10 @@
-import { imageService } from './features/Image';
+import { imageService, ImageServiceInterface } from './features/Image';
 
-const createServices = (rest) => ({
+export interface ServicesInterface {
+  image: ImageServiceInterface;
+}
+
+const createServices = (rest): ServicesInterface => ({
   image: imageService(rest),
 });
 

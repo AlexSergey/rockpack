@@ -22,7 +22,7 @@ import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
 import { App } from './App';
 import { createStore } from './store';
-import ru from './features/Localization/locales/ru.json';
+import ru from './locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
 import { createRestClient } from './utils/rest';
 import { isProduction, isDevelopment } from './utils/environments';

@@ -27,9 +27,7 @@ In production mode, we need to have an artifact for deployment. For these purpos
 
 Schematically it looks like this:
 
-<p align="right">
-  <img src="https://www.rock-book.io/readme_assets/rockpack_ussr_1.png" />
-</p>
+![Rockpack USSR](https://www.rock-book.io/readme_assets/rockpack_ussr_1.png)
 
 - SSR application consists of two sub-applications - frontend, backend with common logic.
 - NodeJS app runs React app.
@@ -53,13 +51,13 @@ There is a simple application without SSR:
 ```jsx
 import React, { render, useState, useEffect } from 'react';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useState({ text: 'text here' });
 
   useEffect(() => {
-    effect()
+    asyncFn()
         .then(data => setState(data))
   }, []);
 
@@ -112,14 +110,15 @@ The main goal is to create 2 applications **client** and **server** with common 
 
 ```jsx
 import React from 'react';
-import { useUssrState, useWillMount } from '@rockpack/ussr';
+import { useUssrState, useWillMount, useUssrEffect } from '@rockpack/ussr';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'text here' });
+  const effect = useUssrEffect('unique_effect_id');
 
-  useWillMount(() => effect()
+  useWillMount(() => asyncFn()
     .then(data => setState(data)));
 
   return (
@@ -134,16 +133,9 @@ In this code, *effect* is an asynchronous operation that emulates a call to the 
 
  - *useUssrState* is analogue of useState only with SSR support
 
- - *useWillMount* is analogue useEffect (() => {}, []); for SSR. This function can work both with promises and with other types of asynchrony by passing a parameter:
+- *useUssrEffect* - indicates that this component has asynchronous logic
 
-```js
-useWillMount(resolve => {
-  setTimeout(() => {
-    // Async logic here
-    resolve();
-  }, 1000);
-});
-```
+ - *useWillMount* is analogue useEffect (() => {}, []); for SSR.
 
 4. **client.jsx** should contain part of the application for Frontend
 
@@ -153,7 +145,7 @@ import { hydrate } from 'react-dom';
 import createUssr from '@rockpack/ussr';
 import { App } from './App';
 
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 
 hydrate(
   <Ussr>
@@ -165,7 +157,7 @@ hydrate(
 
 The code:
 ```js
-const [, Ussr] = createUssr(window.USSR_DATA);
+const [Ussr] = createUssr(window.USSR_DATA);
 ```
 Associates the state executed on the server with the application on the client. For correct work *useUssrState* on the client
 

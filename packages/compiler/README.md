@@ -22,7 +22,7 @@
 - Webpack 4+, Webpack-dev-server
 - TypeScript support
 - Babel 7, Babel-preset-env (> 5%)
-- Support build nodejs scripts with nodemon and livereload
+- Support build nodejs scripts with nodemon, livereload, source maps
 - Dotenv support and Dotenv safe support
 - React optimizations
 - Write file webpack plugin (in dev mode)

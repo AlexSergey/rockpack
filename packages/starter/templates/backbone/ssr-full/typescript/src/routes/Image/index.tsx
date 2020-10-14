@@ -4,7 +4,7 @@ import styles from './style.modules.scss';
 import Image from '../../components/Image';
 import { useImage } from '../../features/Image';
 
-export default () => {
+export default (): JSX.Element => {
   useStyles(styles);
   const [loading, error, url] = useImage();
 

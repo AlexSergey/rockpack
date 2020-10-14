@@ -4,16 +4,37 @@
   <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md">Readme (English version)</a>
 </p>
 
-**@rockpack/starter** это **create-react-app** на стеройдах. Позволяет создавать не только обычное React приложение, а также:
- - Приложение с Server Side Rendering [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md)
- - Настроенный линтер с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
+**@rockpack/starter** это **create-react-app** на стеройдах. Поддерживает следующие типы приложений:
+
+- **React CSR** - React Client Side Render. Каркас приложения в стиле **create-react-app**.
+- **React SSR Light Pack** - React Server Side Render. Настроенное приложение для Server Side Render.
+    - Для сервера используется Koa
+    - @loadable/components
+- **React SSR Full Pack** - React Server Side Render. Каркас приложения с использованием лучших практик для структуры проекта и набор библиотек
+    - Для сервера используется Koa
+    - React-Router
+    - Redux
+    - Sagas
+    - React-Helmet
+    - @loadable/components
+- **Библиотека** - Настроенный webpack для создания UMD библиотеки, как React Component так и Vanilla JS
+- **NodeJS приложение** - Поддержка ES6 Imports, минификации исходного кода, понятные Source Maps и т.д.
+
+*Все типы приложений поддерживают:*
+- Импорт многих форматов файлов. [Список форматов](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
+- Оптимизация изображений
+- Загрузка SVG как React компонентов
+- CSS/SCSS/Less modules
+- TS, поддержка TS для CSS/SCSS/Less modules
+- CSS Autoprefixer
+- SEO Optimizations, React optimizations, Antd optimizations
+- Поддержка настроек через Dotenv и Dotenv safe
+- Bundle Analyze
+- Поддержка GraphQL
+
+*Дополнительно для каждого типа приложений можно установить:*
+ - Настроенный ESLint с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
  - Настроенный Jest с дополнениями [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md)
- - Typescript, CSS(SCSS, LESS) Modules, @loadable components [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
-
-*А также такие типы приложения как*
-
-- Библиотека. Настроенный webpack для создания UMD библиотеки, как React так и Vanilla JS
-- NodeJS приложение. Поддержка ES6 Imports, минификации исходного кода и т.д.
 
 **@rockpack/starter** это модуль является частью проекта **Rockpack** о котором можно прочитать <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md" target="_blank">здесь</a>
 
@@ -31,9 +52,7 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-<p align="right">
-  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
-</p>
+![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 ***
 

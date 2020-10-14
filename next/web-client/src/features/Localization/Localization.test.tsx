@@ -3,7 +3,7 @@ import Localization, { l } from '@rockpack/localazer';
 import { useLocalizationAPI } from './hooks';
 import { createTestWrapper } from '../../tests/TestWrapper';
 import { Languages } from '../../types/Localization';
-import ru from './locales/ru.json';
+import ru from '../../locales/ru.json';
 
 test('Check localization', async () => {
   const { wrapper } = await createTestWrapper(() => {

@@ -3,9 +3,9 @@ const MODE = {
   production: 'production',
 };
 
-const isProduction = () => process.env.NODE_ENV === 'production';
+const isProduction = (): boolean => process.env.NODE_ENV === 'production';
 
-const isDevelopment = () => process.env.NODE_ENV === 'development';
+const isDevelopment = (): boolean => process.env.NODE_ENV === 'development';
 
 export default MODE[process.env.NODE_ENV];
 

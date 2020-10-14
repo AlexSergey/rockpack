@@ -6,6 +6,7 @@ interface StateInterface {
   [key: string]: unknown;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Middleware = () => any;
 
 interface ServerRenderResult {

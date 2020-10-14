@@ -49,9 +49,7 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-<p align="center">
-  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
-</p>
+![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
 

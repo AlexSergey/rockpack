@@ -9,6 +9,7 @@ const App = (props) => {
   const notifier = () => {
     alert(l('Alarm!')());
   };
+  console.log(name);
 
   return (
     <div>
@@ -45,18 +46,20 @@ const App = (props) => {
       <br />
       <div>
         <h2>Variable to translation</h2>
-        <input type="text" placeholder="Put your name" onChange={e => setName({ name: e.target.value })} />
+        <input type="text" placeholder="Put your name" onChange={e => {
+          setName(e.target.value);
+        }} />
         <p>
           <Localization>
             {
               sprintf(
                 l('Your name is %s and surname is %s', 'USER'),
                 <span style={{ textDecoration: 'underline' }}>
-                    <b>{name}</b>
-                  </span>,
+                  <b>{name}</b>
+                </span>,
                 <span style={{ textDecoration: 'underline' }}>
-                    <b>Pupkin</b>
-                  </span>
+                  <b>Pupkin</b>
+                </span>
               )
             }
           </Localization>

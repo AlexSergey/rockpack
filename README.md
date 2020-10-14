@@ -50,9 +50,7 @@ rockpack <project name>
 
 3. Select the type of application, select the required modules.
 
-<p align="center">
-  <img src="https://www.rock-book.io/readme_assets/rockpack_starter_1.jpg">
-</p>
+![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
 

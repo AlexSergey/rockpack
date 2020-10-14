@@ -1,10 +1,14 @@
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import PropTypes from 'prop-types';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import styles from './style.modules.scss';
 
-const Image = ({ loading, error, url }) => {
+interface ImageInterface {
+  loading: boolean;
+  error: boolean;
+  url: string;
+}
+
+const Image = ({ loading, error, url }: ImageInterface): JSX.Element => {
   useStyles(styles);
 
   return (
@@ -14,12 +18,6 @@ const Image = ({ loading, error, url }) => {
       <img width="200px" alt="random" src={url} />
     </div>
   );
-};
-
-Image.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
-  url: PropTypes.string.isRequired,
 };
 
 export default Image;

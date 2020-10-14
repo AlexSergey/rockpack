@@ -5,7 +5,7 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import Navigation from './components/Navigation';
 import styles from './style.modules.scss';
 
-const Index = ({ children }) => {
+const Index = ({ children }): JSX.Element => {
   useStyles(styles);
 
   return (

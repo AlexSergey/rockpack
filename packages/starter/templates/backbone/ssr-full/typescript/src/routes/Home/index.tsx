@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from './logo.component.svg';
 
-const Home = () => (
+const Home = (): JSX.Element => (
   <div>
     <Logo />
   </div>

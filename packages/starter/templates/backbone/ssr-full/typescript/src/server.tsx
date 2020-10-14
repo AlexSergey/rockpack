@@ -1,3 +1,4 @@
+import './types/global';
 import Koa from 'koa';
 import path from 'path';
 import React from 'react';
@@ -45,9 +46,9 @@ router.get('/*', async (ctx) => {
   });
 
   const insertCss = isProduction()
-    ? () => {}
+    ? (): void => {}
     // eslint-disable-next-line no-underscore-dangle
-    : (...moduleStyles) => moduleStyles.forEach((style) => css.add(style._getCss()));
+    : (...moduleStyles): void => moduleStyles.forEach((style) => css.add(style._getCss()));
 
   const extractor = new ChunkExtractor({
     stats,
@@ -116,27 +117,27 @@ const server = app.listen(process.env.PORT, () => {
   }
 });
 
-const handleError = (err, ctx) => {
+const handleError = (err, ctx): void => {
   if (ctx == null) {
     // eslint-disable-next-line no-console
     console.error(pe.render(err));
   }
 };
 
-const terminate = async (signal) => {
+const terminate = async (signal): Promise<void> => {
   server.close();
   process.exit(signal);
 };
 
 server.once('error', handleError);
 
-['unhandledRejection', 'uncaughtException'].forEach((error) => {
+['unhandledRejection', 'uncaughtException'].forEach((error: NodeJS.Signals) => {
   process.on(error, (e) => {
     // eslint-disable-next-line no-console
     console.error(pe.render(e));
   });
 });
 
-['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal) => {
+['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal: NodeJS.Signals) => {
   process.once((signal), () => terminate(signal));
 });
