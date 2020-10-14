@@ -65,7 +65,9 @@ If you can't use **@rockpack/starter** or want to migrate your existing applicat
 
 **Rockpack** consists of modules. Let's consider them in more detail:
 
-**@rockpack/starter** this is **create-react-app** on steroids. Supports the following types of applications:
+### @rockpack/starter
+
+this is **create-react-app** on steroids. Supports the following types of applications:
 
 - **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
 - **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
@@ -99,7 +101,9 @@ If you can't use **@rockpack/starter** or want to migrate your existing applicat
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 ***
-**@rockpack/compiler** - is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
+### @rockpack/compiler
+
+This is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
 **@rockpack/compiler** can help you with:
 
@@ -112,37 +116,42 @@ If you can't use **@rockpack/starter** or want to migrate your existing applicat
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/ussr
 
-**@ rockpack/ussr** is a small library providing SSR. Works with Redux, Apollo and other solutions.
+This is a small library providing SSR. Works with Redux, Apollo and other solutions.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/tester
 
-**@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.
+This is Jest with cool config, add-ons and fully compatible with TS / Babel.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/codestyle
 
-**@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
+This is an efficiently customized Eslint with many best practice rules and additions.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/logger
 
-**@rockpack/logger** is a logging system that will issue a report when an error occurs in the system. All actions that the user performed, buttons pressed, information about the OS, displays, browser, and more are recorded. This module allows you to understand the cause of the error.
+This is a logging system that will issue a report when an error occurs in the system. All actions that the user performed, buttons pressed, information about the OS, displays, browser, and more are recorded. This module allows you to understand the cause of the error.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/localazer
 
-**@rockpack/localazer** is a "correct" localization system for React applications that supports gettext so that localizers can work in a familiar environment.
+This is a "correct" localization system for React applications that supports gettext so that localizers can work in a familiar environment.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md" target="_blank">More details...</a>
 ***
+### @rockpack/babel
 
-**@rockpack/babel** - helper module, babel presets.
+This is module helper, babel presets.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md" target="_blank">More details...</a>
 ***
-
 *In order to get more detailed info please follow each module links.*
 
 **Rockpack is completely free project. We are always open to collaboration and contributors.**

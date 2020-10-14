@@ -64,7 +64,8 @@ rockpack <project name>
 
 **Rockpack** состоит из модулей. Рассмотрим их по подробнее:
 
-**@rockpack/starter** это **create-react-app** на стеройдах. Поддерживает следующие типы приложений:
+### @rockpack/starter
+**create-react-app** на стеройдах. Поддерживает следующие типы приложений:
 
 - **React CSR** - React Client Side Render. Каркас приложения в стиле **create-react-app**.
 - **React SSR Light Pack** - React Server Side Render. Настроенное приложение для Server Side Render.
@@ -98,7 +99,8 @@ rockpack <project name>
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README_RU.md" target="_blank">Подробнее...</a>
 ***
-**@rockpack/compiler** - модуль позволяет компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
+### @rockpack/compiler
+Данный модуль позволяет компилировать ваше React приложение используя webpack, набор необходимых лодеров, плагинов и используя лучшие практики по настройки из коробки.
 
 **С помощью данного модуля вы сможете:**
 
@@ -111,37 +113,42 @@ rockpack <project name>
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/ussr
 
-**@rockpack/ussr** - небольшая библиотека обеспечивающая SSR. Работает с Redux, Apollo и прочими решениями.
+Небольшая библиотека обеспечивающая SSR. Работает с Redux, Apollo и прочими решениями.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/tester
 
-**@rockpack/tester** - полностью совместим с TS/Babel настроенный Jest, с множеством полезных дополнений.
+Полностью совместим с TS/Babel настроенный Jest, с множеством полезных дополнений.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/codestyle
 
-**@rockpack/codestyle** - эффективно настроенный Eslint с множеством best practice правил и дополнений.
+Эффективно настроенный Eslint с множеством best practice правил и дополнений.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/logger
 
-**@rockpack/logger** - это система логирования, которая будет выдавать отчет при возникновении ошибки в системе. Записываются все действия, которые совершал пользователь, нажатые кнопки, информация о ОС, дисплеи, браузере и прочем. Этот модуль позволяет понять причину возникновения ошибки.
+Это система логирования, которая будет выдавать отчет при возникновении ошибки в системе. Записываются все действия, которые совершал пользователь, нажатые кнопки, информация о ОС, дисплеи, браузере и прочем. Этот модуль позволяет понять причину возникновения ошибки.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/localazer
 
-**@rockpack/localazer** - это система "правильной" локализации React приложения, которое поддерживает gettext для того, чтобы локализаторы могли в привычной среде.
+Это система "правильной" локализации React приложения, которое поддерживает gettext для того, чтобы локализаторы могли в привычной среде.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md" target="_blank">Подробнее...</a>
 ***
+### @rockpack/babel
 
-**@rockpack/babel** - вспомогательный модуль, babel presets.
+вспомогательный модуль, babel presets.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README_RU.md" target="_blank">Подробнее...</a>
 ***
-
 *Для более подробного описания заходите по ссылкам каждого модуля.*
 
 **Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**
