@@ -32,7 +32,7 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
   <img width="500px" alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
 </p>
 
-Also at the start of the project, we can create localization, srup logging and we can do this practically without spending time.
+Also at the start of the project, we can create localization, setup logging, and we can do this practically without spending time.
 
 ## How to start
 For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
@@ -71,14 +71,14 @@ this is **create-react-app** on steroids. Supports the following types of applic
 
 - **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
 - **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
-    - Koa is used for the server
+    - Koa is being used for the server
     - @loadable/components
 - **React SSR Full Pack** - React Server Side Render. Application skeleton using best practices for project structure and a set of libraries
-    - Koa is used for the server
+    - Koa is being used for the server
     - React-Router
     - Redux
-    - Sagas
-    - React-Helmet
+    - Redux-Saga
+    - React-Helmet-Async
     - @loadable/components
 - **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
 - **NodeJS app** - Support for ES6 Imports, source code minification, understandable Source Maps, etc.
@@ -172,7 +172,7 @@ The **Rockpack** project was inspired by:
 - **Rockpack** doesn't add any magic. This is a set of best practices and libraries for automating the start of a project.
 - **Rockpack** has the option of modular integration into legacy project.
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
-- **Rockpack** uses only existing modules and approaches and don't not reinventing the wheel.
+- **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
 
 ## The MIT License
 

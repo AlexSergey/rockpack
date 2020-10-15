@@ -5,7 +5,7 @@ import serve from 'koa-static';
 import Router from 'koa-router';
 import { StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { App } from './App';
 import { serverRender } from '../../../src';
@@ -17,17 +17,23 @@ app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
   const { url } = ctx.request;
+
   const routerParams = {
     location: url,
     context: {}
   };
 
+  const helmetContext = {};
+
   const { html, state } = await serverRender(() => (
-    <StaticRouter {...routerParams}>
-      <App />
-    </StaticRouter>
+    <HelmetProvider context={helmetContext}>
+      <StaticRouter {...routerParams}>
+        <App />
+      </StaticRouter>
+    </HelmetProvider>
   ));
-  const helmet = Helmet.renderStatic();
+
+  const { helmet } = helmetContext;
 
   ctx.body = `
   <!DOCTYPE html>

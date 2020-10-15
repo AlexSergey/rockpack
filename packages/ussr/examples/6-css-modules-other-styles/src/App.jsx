@@ -6,11 +6,11 @@ import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
 import styles from './styles.modules.scss';
 import './styles.css';
 
-const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
 
 const Home = () => {
   useStyles(styles);
-  const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
+  const [state, setState] = useUssrState('appState.text', 'i am test ');
   const effect = useUssrEffect('hello_world');
   useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
@@ -22,7 +22,7 @@ const Home = () => {
         <meta name="description" content="Home page" />
       </MetaTags>
       <div className={styles.block}>
-        <h1>{state.text}</h1>
+        <h1>{state}</h1>
         <Link to="/secondary">secondary</Link>
       </div>
     </>

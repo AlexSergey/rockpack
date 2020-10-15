@@ -6,7 +6,6 @@ import fetch from 'node-fetch';
 import Router from '@koa/router';
 import { END } from 'redux-saga';
 import { readFileSync } from 'fs';
-import { Helmet } from 'react-helmet';
 import PrettyError from 'pretty-error';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
@@ -14,6 +13,7 @@ import serialize from 'serialize-javascript';
 import { serverRender } from '@rockpack/ussr';
 import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
+import { HelmetProvider } from 'react-helmet-async';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { isProduction, isDevelopment } from './utils/environments';
 import App from './App';
@@ -54,22 +54,26 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index'],
   });
 
+  const helmetContext = {};
+
   const { html } = await serverRender(() => (
     extractor.collectChunks(
-      <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <StaticRouter location={ctx.request.url} context={{}}>
-            <App />
-          </StaticRouter>
-        </StyleContext.Provider>
-      </Provider>,
+      <HelmetProvider context={helmetContext}>
+        <Provider store={store}>
+          <StyleContext.Provider value={{ insertCss }}>
+            <StaticRouter location={ctx.request.url} context={{}}>
+              <App />
+            </StaticRouter>
+          </StyleContext.Provider>
+        </Provider>
+      </HelmetProvider>,
     )
   ), async () => {
     store.dispatch(END);
     await rootSaga.toPromise();
   });
 
-  const helmet = Helmet.renderStatic();
+  const { helmet } = helmetContext;
 
   const scriptTags = extractor.getScriptTags();
 

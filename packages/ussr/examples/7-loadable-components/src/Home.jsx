@@ -4,7 +4,7 @@ import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
 import { asyncFn } from './asyncFn';
 
 const Home = () => {
-  const [state, setState] = useUssrState('appState.text', { text: 'i am test ' });
+  const [state, setState] = useUssrState('appState.text', 'i am test ');
   const effect = useUssrEffect('hello_world');
   useWillMount(effect, () => asyncFn()
     .then(data => setState(data)));
@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1>{state.text}</h1>
+        <h1>{state}</h1>
         <Link to="/secondary">secondary</Link>
       </div>
     </>

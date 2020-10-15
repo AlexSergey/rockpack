@@ -8,14 +8,14 @@
 
 - **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
 - **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
-    - Koa is used for the server
+    - Koa is being used for the server
     - @loadable/components
 - **React SSR Full Pack** - React Server Side Render. Application skeleton using best practices for project structure and a set of libraries
-    - Koa is used for the server
+    - Koa is being used for the server
     - React-Router
     - Redux
-    - Sagas
-    - React-Helmet
+    - Redux-Saga
+    - React-Helmet-Async
     - @loadable/components
 - **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
 - **NodeJS app** - Support for ES6 Imports, source code minification, understandable Source Maps, etc.
@@ -23,13 +23,13 @@
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
 - Image optimization
-- Loading SVG as React components
+- Loading SVG files as React components
 - CSS/SCSS/Less modules
 - TS, TS support for CSS/SCSS/Less modules
 - CSS Autoprefixer
 - SEO Optimizations, React optimizations, Antd optimizations
 - Support for settings via Dotenv and Dotenv safe
-- Bundle Analyze
+- Bundle Analyzer
 - GraphQL support
 
 *Additionally, for each type of application, you can install:*

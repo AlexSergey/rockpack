@@ -2,10 +2,10 @@ import React from 'react';
 import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
 import { Apollo } from './Apollo';
 
-const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world', apollo: true }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ value: 'Hello world', apollo: true }), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', { text: 'i am test ', apollo: false });
+  const [state, setState] = useUssrState('appState.text', { value: 'i am test ', apollo: false });
   const effect = useUssrEffect('state');
 
   useWillMount(effect, () => asyncFn()
@@ -13,7 +13,7 @@ export const App = () => {
 
   return (
     <div>
-      <h1>{state.text}</h1>
+      <h1>{state.value}</h1>
       {state.apollo && <Apollo />}
     </div>
   );

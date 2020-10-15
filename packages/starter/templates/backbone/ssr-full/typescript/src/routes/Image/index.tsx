@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import styles from './style.modules.scss';
 import Image from '../../components/Image';
@@ -9,12 +10,18 @@ export default (): JSX.Element => {
   const [loading, error, url] = useImage();
 
   return (
-    <div className={styles['image-holder']}>
-      <Image
-        loading={loading}
-        error={error}
-        url={url}
-      />
-    </div>
+    <>
+      <Helmet>
+        <title>Image Page</title>
+        <meta name="description" content="Image page" />
+      </Helmet>
+      <div className={styles['image-holder']}>
+        <Image
+          loading={loading}
+          error={error}
+          url={url}
+        />
+      </div>
+    </>
   );
 };

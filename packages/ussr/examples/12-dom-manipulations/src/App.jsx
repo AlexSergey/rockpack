@@ -3,10 +3,10 @@ import CustomScroll from 'react-customscroll';
 import { useUssrState, useWillMount, isClient, useUssrEffect } from '../../../src';
 import './styles.css';
 
-const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: ['1', '2', '3'] }), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(['1', '2', '3']), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', { text: [] });
+  const [state, setState] = useUssrState('appState.text', []);
   const effect = useUssrEffect('hello_world');
   useWillMount(effect, () => (
     asyncFn()
@@ -28,7 +28,7 @@ export const App = () => {
     <CustomScroll>
       <div>
         <h1>Items</h1>
-        {state.text.map((item) => (
+        {state.map((item) => (
           <div id={`block-${item}`} style={{ height: '1000px' }} key={`block-${item}`}>
             <h2>{item}</h2>
           </div>

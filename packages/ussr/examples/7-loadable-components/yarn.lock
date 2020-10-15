@@ -9,18 +9,19 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@loadable/component@5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.12.0.tgz#34d056d15f53dc08d04e9203cad6867cf4f7306c"
-  integrity sha512-eDG7FPZ8tCFA/mqu2IrYV6eS+UxGBo21PwtEV9QpkpYrx25xKRXzJUm36yfQPK3o7jXu43xpPkwiU4mLWcjJlw==
+"@loadable/component@5.13.1":
+  version "5.13.1"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.13.1.tgz#b7650a76f9cc1cccf17f79265dc05b9e62daaaa2"
+  integrity sha512-qTNfTv5bVfb9eTKNUOMzPweRnxzNaxCmLZEsFEMn+kxpd86iXae+IpibXFJlnb052Q4fVkcWM2tvmWLc/+HzLg==
   dependencies:
     "@babel/runtime" "^7.7.7"
     hoist-non-react-statics "^3.3.1"
+    react-is "^16.12.0"
 
-"@loadable/server@5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@loadable/server/-/server-5.12.0.tgz#61069d9cf6151e7d22c25f54264165556a101634"
-  integrity sha512-Sb4hPz3vPf2z8GMPlW2kSiDwy3Lv38LhVFEW/Uy3BJqHxNlollJDD3rXQ6zmCZY5S/x/m1tPox8UyIBhcr8SZg==
+"@loadable/server@5.13.1":
+  version "5.13.1"
+  resolved "https://registry.yarnpkg.com/@loadable/server/-/server-5.13.1.tgz#f7afd5ffaad3c27f749e9d11e94d4093ed0a89e4"
+  integrity sha512-bD8cEV08hYHekXYT1UxxyfCpTkE58DcpJNr/yIB9Kla39O4c1NSv39UdSuaB3plJqmT7SXwL7/rsjmsymBQoBA==
   dependencies:
     lodash "^4.17.15"
 
@@ -426,7 +427,7 @@ react-dom@16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==

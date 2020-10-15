@@ -13,7 +13,7 @@
     "koa-router": "8.0.8",
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
-    "react-helmet": "6.1.0",
+    "react-helmet-async": "1.0.7",
     "history": "4.10.1",
     "serialize-javascript": "3.0.0"
   }

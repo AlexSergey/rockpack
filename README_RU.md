@@ -75,8 +75,8 @@ rockpack <project name>
     - Для сервера используется Koa
     - React-Router
     - Redux
-    - Sagas
-    - React-Helmet
+    - Redux-Saga
+    - React-Helmet-Async
     - @loadable/components
 - **Библиотека** - Настроенный webpack для создания UMD библиотеки, как React Component так и Vanilla JS
 - **NodeJS приложение** - Поддержка ES6 Imports, минификации исходного кода, понятные Source Maps и т.д.

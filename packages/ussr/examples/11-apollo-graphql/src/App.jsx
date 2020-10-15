@@ -35,7 +35,7 @@ const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(books), 
 
 export const resolvers = {
   Query: {
-    books: async () => await effect()
+    books: async () => await asyncFn()
   }
 };
 
