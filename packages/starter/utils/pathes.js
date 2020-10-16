@@ -7,7 +7,8 @@ const getCurrentPath = projectName => path.join(currentPath, projectName);
 const folderNames = {
   templates: 'templates',
   backbone: 'backbone',
-  addons: 'addons'
+  addons: 'addons',
+  dummies: 'dummies'
 }
 
 const bin = path.dirname(require.main.filename);
@@ -20,8 +21,11 @@ const backbone = path.resolve(_template, folderNames.backbone);
 
 const addons = path.resolve(_template, folderNames.addons);
 
+const dummies = path.resolve(_template, folderNames.dummies);
+
 module.exports = {
   addons,
   backbone,
-  getCurrentPath
+  getCurrentPath,
+  dummies
 }

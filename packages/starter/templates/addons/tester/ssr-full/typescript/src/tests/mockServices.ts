@@ -1,6 +1,7 @@
+import { ServicesInterface } from '../services';
 import mockImageService from '../features/Image/service.mock';
 
-const createMockServices = () => ({
+const createMockServices = (): ServicesInterface => ({
   image: mockImageService(),
 });
 

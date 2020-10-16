@@ -2,6 +2,8 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { getCurrentPath } = require('../utils/pathes');
 const install = require('../lib/install');
+const packageJSON = require('../package.json');
+const latestVersion = require('latest-version');
 
 (async () => {
   const args = process.argv.slice(2);
@@ -15,6 +17,21 @@ const install = require('../lib/install');
     console.log('For example:');
     console.log(`  rockpack ${chalk.green('project-name')}`);
     process.exit(1);
+  }
+
+  const rockpackLatestVersion = await latestVersion(packageJSON.name);
+
+  if (packageJSON.version !== rockpackLatestVersion) {
+    console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
+    console.log();
+    console.log(
+      ` => The current available version is ${rockpackLatestVersion}`
+    );
+    console.log();
+    console.log('Please run:');
+    console.log();
+    console.log(`  ${chalk.blue('npm i -g @rockpack/starter')}`);
+    console.log();
   }
 
   const projectName = args[0];

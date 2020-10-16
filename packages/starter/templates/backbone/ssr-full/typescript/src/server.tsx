@@ -14,7 +14,7 @@ import serialize from 'serialize-javascript';
 import { serverRender } from '@rockpack/ussr';
 import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { isProduction, isDevelopment } from './utils/environments';
 import App from './App';
@@ -55,19 +55,19 @@ router.get('/*', async (ctx) => {
     entrypoints: ['index'],
   });
 
-  const helmetContext = {};
+  const helmetContext = {} as FilledContext;
 
   const { html } = await serverRender(() => (
     extractor.collectChunks(
-      <HelmetProvider context={helmetContext}>
-        <Provider store={store}>
+      <Provider store={store}>
+        <HelmetProvider context={helmetContext}>
           <StyleContext.Provider value={{ insertCss }}>
             <StaticRouter location={ctx.request.url} context={{}}>
               <App />
             </StaticRouter>
           </StyleContext.Provider>
-        </Provider>
-      </HelmetProvider>,
+        </HelmetProvider>
+      </Provider>,
     )
   ), async () => {
     store.dispatch(END);

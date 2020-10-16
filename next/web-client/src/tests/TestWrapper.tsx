@@ -9,7 +9,6 @@ import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import { LocalizationContainer } from '../features/Localization';
 import { createStore } from '../store';
-import { isProduction } from '../utils/environments';
 import { createMockServices } from './mockServices';
 import { RootState } from '../types/store';
 
@@ -31,17 +30,10 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
     services: createMockServices(),
   });
 
-  const insertCss = (...styles): () => void => {
-    const removeCss = isProduction() ?
-      [] :
-      styles.map(style => style && typeof style._insertCss === 'function' && style._insertCss());
-    return (): void => removeCss.forEach(dispose => dispose());
-  };
-
   const TestWrapper = (): JSX.Element => (
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
+        <StyleContext.Provider value={{ insertCss: (): () => void => (): void => {} }}>
           <ConnectedRouter history={history}>
             <LocalizationContainer>
               <Component />

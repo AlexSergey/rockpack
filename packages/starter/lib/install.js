@@ -7,6 +7,7 @@ const copyFiles = require('./copyFiles');
 const createFiles = require('./createFiles');
 const packageJSONPreparing = require('./packageJSONPreparing');
 const { showError } = require('../utils/error');
+const { dummies } = require('../utils/pathes');
 const {
   readPackageJSON,
   createPackageJSON,
@@ -21,6 +22,8 @@ const install = async ({
   projectName,
   currentPath
 }) => {
+  const state = await wizard();
+
   if (!fs.existsSync(currentPath)) {
     fs.mkdirSync(currentPath);
   }
@@ -32,7 +35,7 @@ const install = async ({
     });
   }
 
-  console.log(chalk.green('Package.json created\n'));
+  console.log(`${chalk.green('Package.json')} created\n`);
 
   const src = path.resolve(currentPath, 'src');
 
@@ -44,11 +47,7 @@ const install = async ({
     });
   }
 
-  console.log(chalk.green('Src folder created\n'));
-
-  const state = await wizard();
-  const spinner = ora('Package.json is preparing. Dependencies are checking.\n')
-    .start();
+  console.log(`${chalk.green('Src')} folder created\n`);
 
   let packageJSON;
 
@@ -61,8 +60,37 @@ const install = async ({
   }
 
   try {
+    const gitignore = fs.readFileSync(path.join(dummies, 'gitignore'), 'utf8');
+    fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore.toString());
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 3.1. .gitignore creating');
+    });
+  }
+
+  console.log(`${chalk.green('.gitignore')} created\n`);
+
+  if (state.appType === 'library') {
+    try {
+      const gitignore = fs.readFileSync(path.join(dummies, 'npmignore.library'), 'utf8');
+      fs.writeFileSync(path.join(currentPath, '.npmignore'), gitignore.toString());
+    } catch (e) {
+      showError(e, () => {
+        console.error('Step: 3.2. .npmignore creating');
+      });
+    }
+
+    console.log(`${chalk.green('.npmignore')} created\n`);
+  }
+
+  const spinner = ora('Package.json is preparing. Dependencies are checking.\n')
+    .start();
+
+  try {
     packageJSON = await packageJSONPreparing(packageJSON, state);
   } catch (e) {
+    spinner.stop();
+
     showError(e, () => {
       console.error('Step: 4. Package.json set-up');
     });
@@ -73,6 +101,8 @@ const install = async ({
   try {
     await copyFiles(currentPath, state);
   } catch (e) {
+    spinner.stop();
+
     showError(e, () => {
       console.error('Step: 5. Copying files');
     });
@@ -81,12 +111,24 @@ const install = async ({
   try {
     await createFiles(currentPath, state);
   } catch (e) {
+    spinner.stop();
+
     showError(e, () => {
       console.error('Step: 6. Creating folders');
     });
   }
 
-  spinner.text = 'Project is initializing... It takes 2 - 5 minutes\n';
+  spinner.text = 'Project is initializing... It takes 2-5 minutes\n';
+
+  setTimeout(() => {
+    spinner.text = 'Dependencies is installing . . . . It takes 1-2 minutes\n';
+    setTimeout(() => {
+      spinner.text = 'Developer Dependencies are installing . . . . Please wait\n';
+      setTimeout(() => {
+        spinner.text = 'Almost everything is ready. Less than a minute remaining . . . .\n';
+      }, 60 * 1000);
+    }, 60 * 1000);
+  }, 60 * 1000);
 
   try {
     await writePackageJSON(currentPath, packageJSON);

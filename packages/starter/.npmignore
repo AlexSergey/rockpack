@@ -17,3 +17,5 @@ NO_COMMIT
 examples
 test-reports
 coverage
+
+!templates/**

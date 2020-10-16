@@ -7,7 +7,6 @@ import { createBrowserHistory } from 'history';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import createStore from '../store';
-import { isProduction } from '../utils/environments';
 import createMockServices from './mockServices';
 
 const createTestWrapper = async (Component, initState = {}) => {
@@ -23,18 +22,10 @@ const createTestWrapper = async (Component, initState = {}) => {
     services: createMockServices(),
   });
 
-  const insertCss = (...styles) => {
-    const removeCss = isProduction()
-      ? []
-      // eslint-disable-next-line no-underscore-dangle
-      : styles.map((style) => style && typeof style._insertCss === 'function' && style._insertCss());
-    return () => removeCss.forEach((dispose) => dispose());
-  };
-
   const TestWrapper = () => (
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
+        <StyleContext.Provider value={{ insertCss: () => () => {} }}>
           <ConnectedRouter history={history}>
             <Component />
           </ConnectedRouter>

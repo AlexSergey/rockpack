@@ -58,15 +58,15 @@ router.get('/*', async (ctx) => {
 
   const { html } = await serverRender(() => (
     extractor.collectChunks(
-      <HelmetProvider context={helmetContext}>
-        <Provider store={store}>
+      <Provider store={store}>
+        <HelmetProvider context={helmetContext}>
           <StyleContext.Provider value={{ insertCss }}>
             <StaticRouter location={ctx.request.url} context={{}}>
               <App />
             </StaticRouter>
           </StyleContext.Provider>
-        </Provider>
-      </HelmetProvider>,
+        </HelmetProvider>
+      </Provider>,
     )
   ), async () => {
     store.dispatch(END);

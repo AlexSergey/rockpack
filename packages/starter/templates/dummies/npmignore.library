@@ -40,8 +40,8 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
-jspm_packages/
+node_modules
+jspm_packages
 
 # Optional npm cache directory
 .npm
@@ -86,6 +86,7 @@ Thumbs.db
 .DS_Store
 
 # Test reports
+reports
 test-reports
 
 # Custom config for prettier and eslint
@@ -94,5 +95,10 @@ test-reports
 
 # dotenv file ought to ignore
 .env
+
+# NPM rules
+documentation
+example
+examples
 
 # Custom rules

@@ -1,12 +1,13 @@
 import React from 'react';
-import { hydrate } from 'react-dom';
-import createUssr from '@rockpack/ussr';
-import { Provider } from 'react-redux';
-import { loadableReady } from '@loadable/component';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import fetch from 'node-fetch';
-import { ConnectedRouter } from 'connected-react-router';
+import { hydrate } from 'react-dom';
+import { Provider } from 'react-redux';
+import createUssr from '@rockpack/ussr';
 import { createBrowserHistory } from 'history';
+import { loadableReady } from '@loadable/component';
+import { HelmetProvider } from 'react-helmet-async';
+import { ConnectedRouter } from 'connected-react-router';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
@@ -33,11 +34,13 @@ loadableReady(() => {
   hydrate(
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-        </StyleContext.Provider>
+        <HelmetProvider>
+          <StyleContext.Provider value={{ insertCss }}>
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
+          </StyleContext.Provider>
+        </HelmetProvider>
       </Provider>
     </Ussr>,
     document.getElementById('root'),

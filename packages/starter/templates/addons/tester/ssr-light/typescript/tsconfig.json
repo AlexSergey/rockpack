@@ -20,7 +20,6 @@
       "ES2015.Iterable"
     ],
     "typeRoots": [
-      "../../node_modules/@types",
       "node_modules/@types"
     ]
   },

@@ -106,6 +106,7 @@ packages/ussr/examples/**/public
 packages/logger/lib
 packages/localazer/lib
 packages/ussr/lib
+!packages/starter/templates/**
 starter_test
 elm-stuff
 storage
