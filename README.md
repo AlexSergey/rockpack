@@ -84,16 +84,18 @@ this is **create-react-app** on steroids. Supports the following types of applic
 - **NodeJS app** - Support for ES6 Imports, source code minification, understandable Source Maps, etc.
 
 *All types of applications support:*
-- Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
-- Image optimization
+- Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
+- Image optimization, SVG Optimization
 - Loading SVG files as React components
 - CSS/SCSS/Less modules
-- TS, TS support for CSS/SCSS/Less modules
-- CSS Autoprefixer
+- Babel or TS; TS support for CSS/SCSS/Less modules
+- PostCSS Autoprefixer
 - SEO Optimizations, React optimizations, Antd optimizations
 - Support for settings via Dotenv and Dotenv safe
 - Bundle Analyzer
 - GraphQL support
+
+Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
 *Additionally, for each type of application, you can install:*
 - Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)

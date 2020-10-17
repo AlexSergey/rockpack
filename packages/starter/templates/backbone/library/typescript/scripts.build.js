@@ -1,4 +1,4 @@
-const { libraryCompiler } = require('../../index');
+const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler({
   name: 'HelloWorld',

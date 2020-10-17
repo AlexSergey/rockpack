@@ -10,7 +10,6 @@
     "baseUrl": ".",
     "importsNotUsedAsValues": "preserve",
     "types": [
-      "jest",
       "node"
     ],
     "lib": [

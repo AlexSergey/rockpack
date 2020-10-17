@@ -83,15 +83,17 @@ rockpack <project name>
 
 *Все типы приложений поддерживают:*
 - Импорт многих форматов файлов. [Список форматов](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
-- Оптимизация изображений
+- Оптимизация изображений и SVG
 - Загрузка SVG как React компонентов
 - CSS/SCSS/Less modules
-- TS, поддержка TS для CSS/SCSS/Less modules
-- CSS Autoprefixer
+- Babel или TS, поддержка TS для CSS/SCSS/Less modules
+- PostCSS Autoprefixer
 - SEO Optimizations, React optimizations, Antd optimizations
 - Поддержка настроек через Dotenv и Dotenv safe
-- Bundle Analyze
+- Bundle Analyzer
 - Поддержка GraphQL
+
+Полный список смотрите [здесь](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README_RU.md)
 
 *Дополнительно для каждого типа приложений можно установить:*
  - Настроенный ESLint с best practices правилами [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)

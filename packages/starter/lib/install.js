@@ -18,6 +18,18 @@ const {
   yarnIsAvailable
 } = require('../utils/other');
 
+const timeouts = {
+  $el1: null,
+  $el2: null,
+  $el3: null,
+}
+
+const clear = (timeouts) => {
+  Object.keys(timeouts).forEach(k => {
+    clearTimeout(timeouts[k]);
+  })
+}
+
 const install = async ({
   projectName,
   currentPath
@@ -96,7 +108,7 @@ const install = async ({
     });
   }
 
-  spinner.text = 'Files are copying and creating';
+  spinner.text = 'Files are copying and creating.';
 
   try {
     await copyFiles(currentPath, state);
@@ -118,14 +130,14 @@ const install = async ({
     });
   }
 
-  spinner.text = 'Project is initializing... It takes 2-5 minutes\n';
+  spinner.text = 'Project is initializing. It takes 2-5 minutes.';
 
-  setTimeout(() => {
-    spinner.text = 'Dependencies is installing . . . . It takes 1-2 minutes\n';
-    setTimeout(() => {
-      spinner.text = 'Developer Dependencies are installing . . . . Please wait\n';
-      setTimeout(() => {
-        spinner.text = 'Almost everything is ready. Less than a minute remaining . . . .\n';
+  timeouts.$el1 = setTimeout(() => {
+    spinner.text = 'Dependencies is installing. It takes 1-2 minutes.';
+    timeouts.$el2 = setTimeout(() => {
+      spinner.text = 'Developer Dependencies are installing. Please wait.';
+      timeouts.$el3 = setTimeout(() => {
+        spinner.text = 'Almost everything is ready. Less than a minute remaining.';
       }, 60 * 1000);
     }, 60 * 1000);
   }, 60 * 1000);
@@ -134,15 +146,18 @@ const install = async ({
     await writePackageJSON(currentPath, packageJSON);
   } catch (e) {
     spinner.stop();
+    clear(timeouts);
 
     showError(e, () => {
       console.error('Step: 7. Package.json updating');
     });
   }
+
   try {
     await installDependencies(yarnIsAvailable(), currentPath);
   } catch (e) {
     spinner.stop();
+    clear(timeouts);
 
     showError(e, () => {
       console.error('Step: 8. Installing dependencies');
@@ -150,6 +165,7 @@ const install = async ({
   }
 
   spinner.stop();
+  clear(timeouts);
 
   console.log();
   console.log(chalk.green(`Project "${projectName}" was created successfully!`));
