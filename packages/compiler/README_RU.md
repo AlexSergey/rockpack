@@ -279,7 +279,7 @@ isomorphicCompiler(
 - Конечно! Это одно из фундаментальных отличий от **create-react-app**, расширяемость из коробки без *eject*
 - Пример, позволяющий работать с Elm:
 ```js
-const { frontendCompiler } = require('../../index');
+const { frontendCompiler } = require('@rockpack/compiler');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 frontendCompiler({
