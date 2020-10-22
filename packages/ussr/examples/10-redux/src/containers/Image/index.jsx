@@ -1,13 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchImage } from './action';
-import { useWillMount, useUssrEffect } from '../../../../../src';
+import { useUssrEffect } from '../../../../../src';
 
 const Dogs = () => {
   const dispatch = useDispatch();
   const image = useSelector(state => state.imageReducer);
-  const effect = useUssrEffect('hello_world')
-  useWillMount(effect, () => dispatch(fetchImage()));
+
+  useUssrEffect(() => {
+    dispatch(fetchImage());
+  });
 
   return (
     <div>

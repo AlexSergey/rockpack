@@ -51,7 +51,7 @@ const GET_BOOKS = gql`
 `;
 
 export const Apollo = () => {
-  useUssrEffect('apollo');
+  useUssrEffect();
   const { data } = useQuery(GET_BOOKS);
 
   const loaded = data && data.books && Array.isArray(data.books);

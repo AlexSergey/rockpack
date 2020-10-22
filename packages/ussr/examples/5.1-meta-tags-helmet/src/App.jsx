@@ -1,15 +1,17 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useUssrState, useWillMount, useUssrEffect } from '../../../src';
+import { useUssrState, useUssrEffect } from '../../../src';
 
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
 
 const Home = () => {
   const [state, setState] = useUssrState('appState.text', 'i am test ');
-  const effect = useUssrEffect('hello_world');
-  useWillMount(effect, () => asyncFn()
-    .then(data => setState(data)));
+
+  useUssrEffect(async () => {
+    const data = await asyncFn();
+    setState(data);
+  });
 
   return (
     <>

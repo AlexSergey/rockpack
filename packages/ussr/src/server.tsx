@@ -19,7 +19,7 @@ export const serverRender = async (
   middleware?: Middleware
 ): Promise<ServerRenderResult> => {
   let count = 0;
-  const [Ussr, getState, effectCollection] = createUssr({ });
+  const [Ussr, getState, effectCollection, resetIds] = createUssr({ });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderNested = async (): Promise<string> => {
     count++;
@@ -29,6 +29,7 @@ export const serverRender = async (
         {App}
       </Ussr>
     ));
+    resetIds();
 
     const waited = effectCollection.getWaited();
 

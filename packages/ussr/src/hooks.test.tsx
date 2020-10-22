@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { shallow } from 'enzyme';
-import { useUssrState, useWillMount, useUssrEffect } from './hooks';
+import { useUssrState, useUssrEffect } from './hooks';
 import createUssr from './Ussr';
 
 describe('hooks tests', () => {
@@ -12,8 +12,7 @@ describe('hooks tests', () => {
     let called = false;
 
     const App = (): JSX.Element => {
-      const effect = useUssrEffect('test');
-      useWillMount(effect, () => (
+      useUssrEffect(() => (
         new Promise(resolve => {
           setTimeout(() => {
             called = true;
@@ -67,8 +66,7 @@ describe('hooks tests', () => {
 
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-      const effect = useUssrEffect('test');
-      useWillMount(effect, () => (
+      useUssrEffect(() => (
         new Promise(resolve => {
           setTimeout(() => {
             setState('async bar');
@@ -98,47 +96,5 @@ describe('hooks tests', () => {
         foo: 'async bar'
       }
     });
-  });
-
-  test('effect install test', async () => {
-    const [Ussr, getState, effectCollection] = createUssr();
-
-    // eslint-disable-next-line sonarjs/no-identical-functions
-    const someFn = (setState, resolve): void => {
-      setTimeout(() => {
-        setState('async bar');
-        resolve();
-      }, 500);
-    };
-
-    const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('app.foo', '');
-      const effect = useUssrEffect('test');
-      useWillMount(effect, effect.install((resolve) => {
-        someFn(setState, resolve);
-      }));
-
-      return (
-        <div>
-          {state}
-        </div>
-      );
-    };
-
-    shallow(
-      <Ussr>
-        <App />
-      </Ussr>
-    )
-      .html();
-
-    await effectCollection.runEffects();
-
-    expect(getState())
-      .toStrictEqual({
-        app: {
-          foo: 'async bar'
-        }
-      });
   });
 });

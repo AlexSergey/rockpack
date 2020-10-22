@@ -1,15 +1,17 @@
 /* eslint-disable */
 import React from 'react';
 import { render } from 'react-dom';
-import createUssr, { useUssrState, useWillMount } from '../../../src';
+import createUssr, { useUssrState, useUssrEffect } from '../../../src';
 
-const effect = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
 
 const App = ({ children }) => {
   const [state, setState] = useUssrState('appState.text', 'text here');
 
-  useWillMount('hello_world', () => effect()
-    .then(data => setState(data)));
+  useUssrEffect(async () => {
+    const data = await asyncFn();
+    setState(data);
+  });
 
   return (
     <div>

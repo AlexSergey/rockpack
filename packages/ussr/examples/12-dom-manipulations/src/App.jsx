@@ -7,13 +7,11 @@ const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(['1', '2
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', []);
-  const effect = useUssrEffect('hello_world');
-  useWillMount(effect, () => (
-    asyncFn()
-      .then(data => {
-        setState(data);
-      })
-  ));
+
+  useUssrEffect(async () => {
+    const data = await asyncFn();
+    setState(data);
+  });
 
   useEffect(() => {
     if (isClient()) {

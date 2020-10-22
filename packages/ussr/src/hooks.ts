@@ -57,53 +57,35 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-export const useUssrEffect = (effectId: string): Effect => {
-  const cached = useRef(null);
-  const { effectCollection } = useContext(UssrContext);
-
-  if (cached.current instanceof Effect) {
-    return cached.current;
-  }
-  if (effectCollection.getEffect(effectId)) {
-    return effectCollection.getEffect(effectId);
-  }
-
-  const effect = new Effect({ id: effectId });
-  const id = effect.getId();
-
-  cached.current = effect;
-
-  if (!effectCollection.hasEffect(id)) {
-    effectCollection.addEffect(effect);
-  }
-
-  return effect;
-};
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useWillMount = (effect: Effect, cb: () => any | Promise<any>): void => {
+export const useUssrEffect = (cb?: () => any | Promise<any>): void => {
   const initHook = useRef(true);
-  const { isLoading } = useContext(UssrContext);
+  const { isLoading, effectCollection, getId } = useContext(UssrContext);
   const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
-  const onLoadOnTheClient = isClient && loaded && initHook.current && typeof cb === 'function';
-  const onLoadOnTheBackend = isBackend() && initHook.current && typeof cb === 'function';
+  const onLoadOnTheClient = isClient && loaded && initHook.current;
+  const onLoadOnTheBackend = isBackend() && initHook.current;
 
   initHook.current = false;
 
   if (onLoadOnTheClient) {
-    cb();
-  } else if (onLoadOnTheBackend) {
-    if (!(effect instanceof Effect)) {
-      // eslint-disable-next-line no-console
-      console.warn('useWillMount: The first argument must be effect');
+    if (typeof cb === 'function') {
+      cb();
     }
-    if (!effect.getCallback()) {
-      const res = cb();
+  } else if (onLoadOnTheBackend) {
+    const effectId = getId();
 
-      if (res instanceof Promise && effect instanceof Effect) {
-        effect.addCallback(res);
+    if (!effectCollection.getEffect(effectId)) {
+      const effect = new Effect({ id: effectId });
+      effectCollection.addEffect(effect);
+
+      if (typeof cb === 'function') {
+        const res = cb();
+
+        if (res instanceof Promise && effect instanceof Effect) {
+          effect.addCallback(res);
+        }
       }
     }
   }

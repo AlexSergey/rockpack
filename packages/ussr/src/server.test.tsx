@@ -3,14 +3,14 @@
  */
 import React from 'react';
 import { serverRender } from './server';
-import { useWillMount, useUssrState, useUssrEffect } from './hooks';
+import { useUssrState, useUssrEffect } from './hooks';
 
 describe('server render tests', () => {
   test('pure state', async () => {
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-      const effect = useUssrEffect('test');
-      useWillMount(effect, () => (
+
+      useUssrEffect(() => (
         new Promise(resolve => {
           setTimeout(() => {
             setState('test bar');
@@ -54,9 +54,9 @@ describe('server render tests', () => {
     // eslint-disable-next-line sonarjs/no-identical-functions
     const App = (): JSX.Element => {
       const [state, setState] = useUssrState('app.foo', '');
-      const effect = useUssrEffect('test');
+
       // eslint-disable-next-line sonarjs/no-identical-functions
-      useWillMount(effect, () => (
+      useUssrEffect(() => (
         // eslint-disable-next-line sonarjs/no-identical-functions
         new Promise(resolve => {
           setTimeout(() => {

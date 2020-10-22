@@ -11,11 +11,11 @@ export interface EffectInterface {
 }
 
 interface EffectOptions {
-  id: string;
+  id: number;
 }
 
 class Effect {
-  private id: string;
+  private id: number;
 
   private status: Statuses;
 
@@ -43,18 +43,7 @@ class Effect {
     this.status = Statuses.done;
   };
 
-  getId = (): string => this.id;
-
-  install = (effect: (resolve: (data?: unknown) => void) => unknown, cb?: Function) => (): Promise<unknown | void> => (
-    new Promise(resolve => effect(resolve))
-      .then((d) => {
-        if (typeof cb === 'function') {
-          // eslint-disable-next-line promise/no-callback-in-promise
-          cb(d);
-        }
-        return d;
-      })
-  );
+  getId = (): number => this.id;
 }
 
 export { Effect };
