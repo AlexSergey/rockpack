@@ -4,10 +4,10 @@ const { getCurrentPath } = require('../utils/pathes');
 const install = require('../lib/install');
 const packageJSON = require('../package.json');
 const latestVersion = require('latest-version');
-const yargs = require('yargs');
+const { argv } = require('yargs');
 
 (async () => {
-  const { _, h, help, v, version } = yargs.argv;
+  const { _, h, help, v, version } = argv;
   const noName = _.length === 0;
 
   if (v || version) {
@@ -39,8 +39,6 @@ const yargs = require('yargs');
     process.exit(1);
   }
 
-  const name = _[0];
-
   const rockpackLatestVersion = await latestVersion(packageJSON.name);
 
   if (packageJSON.version !== rockpackLatestVersion) {
@@ -56,7 +54,8 @@ const yargs = require('yargs');
     console.log();
   }
 
-  const projectName = args[0];
+  const projectName = _[0];
+
   const currentPath = getCurrentPath(projectName);
 
   if (fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {

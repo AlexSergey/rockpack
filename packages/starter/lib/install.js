@@ -35,6 +35,7 @@ const install = async ({
   currentPath
 }) => {
   const state = await wizard();
+  console.log();
 
   if (!fs.existsSync(currentPath)) {
     fs.mkdirSync(currentPath);
