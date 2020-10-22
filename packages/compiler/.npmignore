@@ -17,3 +17,4 @@ NO_COMMIT
 examples
 test-reports
 coverage
+tests_compiler

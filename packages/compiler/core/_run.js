@@ -10,9 +10,6 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
         if (err) {
           return reject(err);
         }
-        if (mode === 'production') {
-          log(stats);
-        }
         if (isDefined(conf.esm) || isDefined(conf.cjs)) {
           // Transpile source
           try {
@@ -20,6 +17,9 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
           } catch (e) {
             console.error(e.message);
           }
+        }
+        if (mode === 'production') {
+          log(stats);
         }
         return resolve(stats);
       });

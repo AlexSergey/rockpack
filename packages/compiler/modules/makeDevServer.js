@@ -1,4 +1,5 @@
 const path = require('path');
+const { argv } = require('yargs');
 
 const makeDevServer = (conf, root) => {
   const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
@@ -21,7 +22,7 @@ const makeDevServer = (conf, root) => {
     overlay: {
       errors: true
     },
-    open: true,
+    open: !argv._rockpack_testing,
     watchOptions: {
       poll: true,
       aggregateTimeout: 50,

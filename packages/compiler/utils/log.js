@@ -10,7 +10,7 @@ const log = (compilation) => {
     const duration = moment.duration(s.endTime - s.startTime, 'milliseconds');
     gutil.log('[COMPILE]', `${duration.minutes()}:${duration.seconds()} minutes`);
 
-    if (!messages.errors.length && !messages.warnings.length) {
+    if (!messages.errors.length) {
       console.log('Compiled successfully!');
     }
 

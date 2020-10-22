@@ -1,4 +1,5 @@
 const { existsSync } = require('fs');
+const { argv } = require('yargs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
@@ -57,8 +58,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     return plugins;
   }
-
-  plugins.ProgressPlugin = new ProgressBarPlugin();
+  if (!argv._rockpack_testing) {
+    plugins.ProgressPlugin = new ProgressBarPlugin();
+  }
 
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
