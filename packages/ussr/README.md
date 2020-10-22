@@ -110,16 +110,17 @@ The main goal is to create 2 applications **client** and **server** with common 
 
 ```jsx
 import React from 'react';
-import { useUssrState, useWillMount, useUssrEffect } from '@rockpack/ussr';
+import { useUssrState, useUssrEffect } from '@rockpack/ussr';
 
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'text here' });
-  const effect = useUssrEffect('unique_effect_id');
 
-  useWillMount(() => asyncFn()
-    .then(data => setState(data)));
+  useUssrEffect(async () => {
+    const data = await asyncFn();
+    setState(data);
+  });
 
   return (
     <div>
@@ -129,13 +130,11 @@ export const App = () => {
 };
 ```
 
-In this code, *effect* is an asynchronous operation that emulates a call to the server.
+In this code, *asyncFn* is an asynchronous operation that emulates a call to the server.
 
  - *useUssrState* is analogue of useState only with SSR support
 
-- *useUssrEffect* - indicates that this component has asynchronous logic
-
- - *useWillMount* is analogue useEffect (() => {}, []); for SSR.
+ - *useUssrEffect* is analogue useEffect (() => {}, []); for SSR. It works with async logic.
 
 4. **client.jsx** should contain part of the application for Frontend
 
