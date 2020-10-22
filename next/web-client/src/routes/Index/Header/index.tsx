@@ -15,7 +15,7 @@ import { Access } from '../../../features/User';
 import { useCurrentLanguage } from '../../../features/Localization';
 import { Roles } from '../../../types/User';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const Header = (): JSX.Element => {
   useStyles(styles);

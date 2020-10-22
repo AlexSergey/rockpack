@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import styles from './style.modules.scss';
+import styles from './styles.module.scss';
 
 const Navigation = (): JSX.Element => {
   useStyles(styles);

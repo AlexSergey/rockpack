@@ -1,4 +1,4 @@
-import { useWillMount, useUssrEffect } from '@rockpack/ussr';
+import { useUssrEffect } from '@rockpack/ussr';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers, deleteUser } from './actions';
 import { User } from '../../types/User';
@@ -6,9 +6,8 @@ import { User } from '../../types/User';
 export const useUsers = (): User[] => {
   const dispatch = useDispatch();
   const users = useSelector<{ users: User[] }, User[]>(state => state.users);
-  const effect = useUssrEffect('users');
 
-  useWillMount(effect, () => dispatch(fetchUsers()));
+  useUssrEffect(() => dispatch(fetchUsers()));
 
   return users;
 };

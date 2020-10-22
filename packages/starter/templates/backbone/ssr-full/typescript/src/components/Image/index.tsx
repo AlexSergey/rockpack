@@ -1,6 +1,6 @@
 import React from 'react';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import styles from './style.modules.scss';
+import styles from './styles.module.scss';
 
 interface ImageInterface {
   loading: boolean;

@@ -15,7 +15,7 @@ import { Roles } from '../../types/User';
 import { Error } from '../../components/Error';
 import { Loader } from '../../components/Loader';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 type PathParamsType = {
   postId: string;

@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import styles from './style.modules.scss';
+import styles from './styles.module.scss';
 
 const Image = ({ loading, error, url }) => {
   useStyles(styles);

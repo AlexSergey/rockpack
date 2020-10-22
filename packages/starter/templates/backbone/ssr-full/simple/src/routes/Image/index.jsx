@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import styles from './style.modules.scss';
+import styles from './styles.module.scss';
 import Image from '../../components/Image';
 import { useImage } from '../../features/Image';
 

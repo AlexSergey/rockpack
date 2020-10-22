@@ -2,7 +2,7 @@ import React from 'react';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const Error = (): JSX.Element => {
   useStyles(styles);

@@ -6,7 +6,7 @@ import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/Loc
 import Ru from './flags/ru.component.svg';
 import Eng from './flags/us.component.svg';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 const { Option } = Select;
 

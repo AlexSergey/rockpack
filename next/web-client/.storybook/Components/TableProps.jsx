@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.modules.scss';
+import styles from './styles.module.scss';
 
 export const TableComponent = ({ propDefinitions }) => (
   <div className={styles['table-wrap']}>

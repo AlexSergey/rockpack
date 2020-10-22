@@ -3,7 +3,7 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import { useUserStatistic } from '../../../../features/User';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const UserStatistic = (): JSX.Element => {
   useStyles(styles);

@@ -3,7 +3,7 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import { UserOutlined } from '@ant-design/icons';
 import { useRole, useUser } from '../../../../features/User';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const User = (): JSX.Element => {
   useStyles(styles);

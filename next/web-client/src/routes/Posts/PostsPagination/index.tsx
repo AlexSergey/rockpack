@@ -5,7 +5,7 @@ import config from '../../../config';
 import { useCurrentLanguage } from '../../../features/Localization';
 import { usePagination, usePaginationApi } from '../../../features/Posts';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const PostsPagination = (): JSX.Element => {
   useStyles(styles);

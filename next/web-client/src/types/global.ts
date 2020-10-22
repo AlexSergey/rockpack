@@ -59,22 +59,22 @@ declare module '*.less' {
   export default src;
 }
 
-declare module '*.modules.css' {
+declare module '*.module.css' {
   const classes: { [key: string]: string };
   export default classes;
 }
 
-declare module '*.modules.scss' {
+declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;
 }
 
-declare module '*.modules.less' {
+declare module '*.module.less' {
   const classes: { [key: string]: string };
   export default classes;
 }
 
-declare module '*.modules.sass' {
+declare module '*.module.sass' {
   const classes: { [key: string]: string };
   export default classes;
 }

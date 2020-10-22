@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import renderText from './renderText';
-import css from './styles/index.modules.css';
+import css from './styles/index.module.css';
 
 type ClockState = {
   color: string

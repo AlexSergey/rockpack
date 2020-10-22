@@ -336,9 +336,10 @@ libraryCompiler({
 Таким образом, TypeScript исходники будут сохранены в формате ESM и CJS по указанному пути.
 ***
 Как работать с CSS(SCSS, LESS) Modules?
-- *Нужно переименовать файл с модульными стилями в формат [имя_файла].modules.scss*
+- *Нужно переименовать файл с модульными стилями в формат [имя_файла].module.scss*
 ```jsx
-import styles from './App.modules.css';
+import styles from './App.module.css';
+...
 <div className={styles.App}>
 ```
 *Для версии проекта с TypeScript будут генерироваться файлы definitions, при помощи [@teamsupercell/typings-for-css-modules-loader](https://www.npmjs.com/package/@teamsupercell/typings-for-css-modules-loader)*

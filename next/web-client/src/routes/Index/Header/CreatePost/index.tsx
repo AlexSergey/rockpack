@@ -8,7 +8,7 @@ import { PreviewUpload } from '../../../../components/PreviewUpload';
 import { PhotosUpload } from '../../../../components/PhotosUpload';
 import { usePagination, usePostsApi } from '../../../../features/Posts';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 const Wysiwyg = loadable(() => import('../../../../components/Wysiwyg'));
 

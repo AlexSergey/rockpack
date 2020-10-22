@@ -5,7 +5,7 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import { useUser } from '../../../features/User';
 import { useCommentsApi } from '../../../features/Comments';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 interface AddCommentInterface {
   postId: number;

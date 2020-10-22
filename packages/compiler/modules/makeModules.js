@@ -183,37 +183,37 @@ function getModules(conf = {}, mode, root) {
     },
 
     cssModules: {
-      test: /\.modules\.css$/,
-      use: css.modules,
+      test: /\.module\.css$/,
+      use: css.module,
       exclude: /\.async\.css$/
     },
 
     scssModules: {
-      test: /\.modules\.scss$/,
-      use: scss.modules
+      test: /\.module\.scss$/,
+      use: scss.module
     },
 
     lessModules: {
-      test: /\.modules\.less$/,
-      use: less.modules
+      test: /\.module\.less$/,
+      use: less.module
     },
 
     css: {
       test: /\.css$/,
       use: css.simple,
-      exclude: /(\.async\.css$)|(\.modules\.css$)/
+      exclude: /(\.async\.css$)|(\.module\.css$)/
     },
 
     scss: {
       test: /\.scss$/,
       use: scss.simple,
-      exclude: /\.modules\.scss$/
+      exclude: /\.module\.scss$/
     },
 
     less: {
       test: /\.less$/,
       use: less.simple,
-      exclude: /\.modules\.less$/
+      exclude: /\.module\.less$/
     },
 
     jsx: {

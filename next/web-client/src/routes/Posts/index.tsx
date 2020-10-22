@@ -14,7 +14,7 @@ import { dateFormatter } from '../../utils/dateFormat';
 import { Error } from '../../components/Error';
 import { Loader } from '../../components/Loader';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 const Posts = (): JSX.Element => {
   useStyles(styles);

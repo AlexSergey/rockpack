@@ -2,7 +2,7 @@ import './index.css';
 import React from 'react';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import logo from './logo.svg';
-import styles from './App.modules.css';
+import styles from './App.module.css';
 
 const App = () => {
   useStyles(styles);

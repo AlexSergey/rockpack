@@ -1,7 +1,7 @@
 import './global.scss';
 import React from 'react';
 import { render } from 'react-dom';
-import styles from './styles.modules.scss';
+import styles from './styles.module.scss';
 
 render((
   <div className="myclass">

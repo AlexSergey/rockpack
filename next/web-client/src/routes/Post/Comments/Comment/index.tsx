@@ -8,7 +8,7 @@ import { Access, Owner, useUser } from '../../../../features/User';
 import { useCommentsApi } from '../../../../features/Comments';
 import { dateFormatter } from '../../../../utils/dateFormat';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 interface CommentInterface {
   id: number;

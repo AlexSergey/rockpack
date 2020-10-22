@@ -5,7 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import { getBase64 } from '../../utils/file';
 import config from '../../config';
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) => void}): JSX.Element => {
   useStyles(styles);

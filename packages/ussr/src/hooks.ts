@@ -57,8 +57,7 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const useUssrEffect = (cb?: () => any | Promise<any>): void => {
+export const useUssrEffect = (cb?: Function): void => {
   const initHook = useRef(true);
   const { isLoading, effectCollection, getId } = useContext(UssrContext);
   const loading = isLoading();

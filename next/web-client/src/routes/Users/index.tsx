@@ -8,7 +8,7 @@ import { useUsers, useUsersApi } from '../../features/Users';
 import { Access, NotOwner } from '../../features/User';
 import { Roles } from '../../types/User';
 
-import styles from './style.modules.scss';
+import styles from './style.module.scss';
 
 const Users = (): JSX.Element => {
   useStyles(styles);
