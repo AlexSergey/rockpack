@@ -27,7 +27,7 @@ React из коробки может рендерить приложение н�
 
 Схематично это выглядит так:
 
-![Rockpack USSR](https://www.rock-book.io/readme_assets/rockpack_ussr_1.png)
+![Rockpack USSR](https://www.rockpack.io/readme_assets/rockpack_ussr_1.png)
 
 - SSR приложение состоит из двух под-приложений - frontend, backend с общей логикой.
 - NodeJS приложение выполняет React приложение.

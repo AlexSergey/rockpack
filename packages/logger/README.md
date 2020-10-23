@@ -111,7 +111,7 @@ We have added a logger in which the information is divided into 2 parts. React.T
 If a critical error occurs in the system, we will have a **BSOD** with a detailed description of the user's actions. It will also be possible to send this stack to the error analysis system or ElasticSearch in order to quickly catch errors that occurred among our users.
 
 <p align="right">
-  <img alt="BSOD" src="https://www.rock-book.io/readme_assets/rockpack_logger_bsod.jpg" />
+  <img alt="BSOD" src="https://www.rockpack.io/readme_assets/rockpack_logger_bsod.jpg" />
 </p>
 
 *- When logging applications, you need to put logs in the most confusing and complex parts of the code, so you will understand what happened at this stage.*

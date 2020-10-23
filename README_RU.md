@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rock-book.io/readme_assets/rockpack_logo.png">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
 <p align="right">
@@ -23,13 +23,13 @@
 Каждый раз на эти рутинные задачи мы тратим недели времени.
 
 <p align="center">
-  <img alt="Usual flow" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png">
+  <img alt="Usual flow" src="https://www.rockpack.io/readme_assets/rockpack_main_1.v2.png">
 </p>
 
 Используя **Rockpack** вы сможете развернуть проект за считанные минуты и начать писать действительно полезный код.
 
 <p align="center">
-  <img alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
+  <img alt="Rockpack flow" src="https://www.rockpack.io/readme_assets/rockpack_main_2.png">
 </p>
 
 Также на этапе старта проекта мы можем заложить такие фичи как - локализация, логирование и это мы можем сделать практически без затрат по времени.
@@ -49,7 +49,7 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
+![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 Если вы не можете использовать **@rockpack/starter** или хотите мигрировать ваше существующее приложение воспроьзуйтесь мануальной инструкцией для каждого модуля
 

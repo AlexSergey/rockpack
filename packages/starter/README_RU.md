@@ -54,7 +54,7 @@ rockpack <project name>
 
 3. Выбрать тип приложения, выбрать необходимые модули.
 
-![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
+![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 ***
 

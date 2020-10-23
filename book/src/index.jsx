@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import Localization, { l } from '@rockpack/localazer';
 import FlagIconFactory from 'react-flag-icon-css';
@@ -6,7 +7,7 @@ import ComponentReadme from './readme.mdx';
 import image from './T1H4XT8DV-UQ1GA2RSQ-bac8dd448345-512.jpeg';
 
 const FlagIcon = FlagIconFactory(React, { useCssModules: false });
-
+/*
 createDocumentation({
   title: 'Abc',
   docgen: [
@@ -114,6 +115,19 @@ createDocumentation({
       }
     }
   },
+  github: 'https://github.com/AlexSergey/rockpack',
+  footer: <div>License MIT, 2020</div>,
+  ga: 'UA-155200418-1',
+}, document.getElementById('root'));
+*/
+createDocumentation({
+  docgen: [
+    {
+      title: <Localization>{l('coming soon...')}</Localization>,
+      url: '/',
+    },
+  ],
+  title: 'Rockpack',
   github: 'https://github.com/AlexSergey/rockpack',
   footer: <div>License MIT, 2020</div>,
   ga: 'UA-155200418-1',

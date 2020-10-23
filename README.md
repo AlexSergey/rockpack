@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rock-book.io/readme_assets/rockpack_logo.png">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
 <p align="right">
@@ -23,13 +23,13 @@ Working on many React projects from scratch, we are faced with the same type of 
 Every time we spend weeks on these routine tasks.
 
 <p align="center">
-  <img width="500px" alt="Usual flow" src="https://www.rock-book.io/readme_assets/rockpack_main_1.v2.png">
+  <img width="500px" alt="Usual flow" src="https://www.rockpack.io/readme_assets/rockpack_main_1.v2.png">
 </p>
 
 Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
 
 <p align="center">
-  <img width="500px" alt="Rockpack flow" src="https://www.rock-book.io/readme_assets/rockpack_main_2.png">
+  <img width="500px" alt="Rockpack flow" src="https://www.rockpack.io/readme_assets/rockpack_main_2.png">
 </p>
 
 Also at the start of the project, we can create localization, setup logging, and we can do this practically without spending time.
@@ -50,7 +50,7 @@ rockpack <project name>
 
 3. Select the type of application, select the required modules.
 
-![Rockpack Starter](https://www.rock-book.io/readme_assets/rockpack_starter_1.v2.jpg)
+![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v2.jpg)
 
 If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
 

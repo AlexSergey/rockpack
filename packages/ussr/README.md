@@ -27,7 +27,7 @@ In production mode, we need to have an artifact for deployment. For these purpos
 
 Schematically it looks like this:
 
-![Rockpack USSR](https://www.rock-book.io/readme_assets/rockpack_ussr_1.png)
+![Rockpack USSR](https://www.rockpack.io/readme_assets/rockpack_ussr_1.png)
 
 - SSR application consists of two sub-applications - frontend, backend with common logic.
 - NodeJS app runs React app.
