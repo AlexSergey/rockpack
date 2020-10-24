@@ -7,7 +7,7 @@ test('Render React App', () => {
   const { getByText } = render(
     <StyleContext.Provider value={{ insertCss: () => () => {} }}>
       <App />
-    </StyleContext.Provider>
+    </StyleContext.Provider>,
   );
   const element = getByText(/Rockpack/i);
 

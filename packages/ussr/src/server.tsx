@@ -6,9 +6,6 @@ interface StateInterface {
   [key: string]: unknown;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Middleware = () => any;
-
 interface ServerRenderResult {
   html: string;
   state: StateInterface;
@@ -16,25 +13,24 @@ interface ServerRenderResult {
 
 export const serverRender = async (
   iteration: (count?: number) => JSX.Element,
-  middleware?: Middleware
+  outsideEffects?: Function
 ): Promise<ServerRenderResult> => {
-  let count = 0;
   const [Ussr, getState, effectCollection, resetIds] = createUssr({ });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderNested = async (): Promise<string> => {
-    count++;
-    const App = await iteration(count);
+    const App = await iteration();
+
     const _html = renderToString((
       <Ussr>
         {App}
       </Ussr>
     ));
+
     resetIds();
 
     const waited = effectCollection.getWaited();
 
-    if (typeof middleware === 'function') {
-      await middleware();
+    if (typeof outsideEffects === 'function') {
+      await outsideEffects();
     }
 
     if (waited.length === 0) {

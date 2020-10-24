@@ -74,7 +74,7 @@ render(
 );
 ```
 
-Let's change this app to SSR:
+**Let's change this app to SSR:**
 
 1. Installation:
 

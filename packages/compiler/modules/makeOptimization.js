@@ -8,7 +8,7 @@ const makeOptimization = (mode, conf) => {
     Object.assign(optimization, {
       namedModules: true,
       namedChunks: true,
-      nodeEnv: 'development',
+      nodeEnv: mode,
       flagIncludedChunks: false,
       occurrenceOrder: false,
       concatenateModules: false,
@@ -29,7 +29,7 @@ const makeOptimization = (mode, conf) => {
     Object.assign(optimization, {
       namedModules: false,
       namedChunks: false,
-      nodeEnv: 'production',
+      nodeEnv: mode,
       flagIncludedChunks: true,
       occurrenceOrder: true,
       concatenateModules: true,

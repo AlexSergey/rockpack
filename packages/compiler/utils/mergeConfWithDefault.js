@@ -1,4 +1,5 @@
 const path = require('path');
+const chalk = require('chalk');
 const deepExtend = require('deep-extend');
 const defaultProps = require('../defaultProps');
 const fpPromise = require('./findFreePort');
@@ -12,7 +13,7 @@ const mergeConfWithDefault = async (conf, mode) => {
       path.join(c.dist, `${defaultDistFile}${distExtension}`) :
       defaultProps.dist;
 
-    console.error(`The distribution folder will be ${c.dist}`);
+    console.log(`The distribution folder will be ${chalk.green(c.dist)}`);
   }
 
   if (mode === 'development') {

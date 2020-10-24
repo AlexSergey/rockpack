@@ -123,8 +123,13 @@ createDocumentation({
 createDocumentation({
   docgen: [
     {
-      title: <Localization>{l('coming soon...')}</Localization>,
+      title: '',
       url: '/',
+      component: () => (
+        <h2 style={{textAlign: 'center'}}>
+          <Localization>{l('coming soon...')}</Localization>
+        </h2>
+      )
     },
   ],
   title: 'Rockpack',

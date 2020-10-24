@@ -243,8 +243,7 @@ function getModules(conf = {}, mode, root) {
             isProduction
           })
         }
-      ],
-      sideEffects: false
+      ]
     },
 
     node: {
