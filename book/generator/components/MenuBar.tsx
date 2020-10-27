@@ -20,6 +20,7 @@ const MenuBar = (props: MenuBarInterface): JSX.Element => {
     <>
       <Hidden mdUp implementation="css">
         <Drawer
+          anchor="right"
           variant="temporary"
           open={props.open}
           classes={{
@@ -37,6 +38,7 @@ const MenuBar = (props: MenuBarInterface): JSX.Element => {
       </Hidden>
       <Hidden smDown implementation="css">
         <Drawer
+          anchor="left"
           variant="permanent"
           open
           classes={{

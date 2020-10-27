@@ -99,7 +99,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
         {(isLocalized, activeLang, changeLocal): JSX.Element => (
           <OpenIds {...props} openIds={openIds}>
             {/* eslint-disable-next-line no-shadow */}
-            {(openIds): JSX.Element => (
+            {(openIds, setOpenIds): JSX.Element => (
               <Layout {...Object.assign({}, props, {
                 openIds,
                 hasRoutes,
@@ -108,7 +108,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
                 changeLocal,
                 languages,
                 toggleOpenId: () => {
-                  handleOpen(openIds);
+                  handleOpen(setOpenIds);
                 }
               })}
               />

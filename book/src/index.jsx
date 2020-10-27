@@ -131,6 +131,23 @@ createDocumentation({
         </h2>
       )
     },
+    {
+      title: 'Components',
+      url: '/components',
+      component: <div>Crazy components!</div>,
+      children: [
+        {
+          title: 'Button component',
+          name: 'button',
+          component: ComponentReadme
+        },
+        {
+          title: 'Simple component',
+          name: 'simple',
+          component: <div>Simple</div>
+        }
+      ]
+    },
   ],
   title: 'Rockpack',
   github: 'https://github.com/AlexSergey/rockpack',
