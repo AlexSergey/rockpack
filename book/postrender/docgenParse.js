@@ -24,6 +24,7 @@ const docgenParse = (index, extensions) => {
         }
       }
     }
+
     try {
       if (lstatSync(found)) {
         let src = readFileSync(found, 'utf8');

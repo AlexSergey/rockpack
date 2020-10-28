@@ -145,12 +145,6 @@ rockpack <project name>
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md" target="_blank">Подробнее...</a>
 ***
-### @rockpack/babel
-
-вспомогательный модуль, babel presets.
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README_RU.md" target="_blank">Подробнее...</a>
-***
 *Для более подробного описания заходите по ссылкам каждого модуля.*
 
 **Rockpack полностью бесплатный проект. Мы всегда открыты к коллаборации и контрибьютерам.**

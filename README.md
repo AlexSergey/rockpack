@@ -148,12 +148,6 @@ This is a "correct" localization system for React applications that supports get
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/babel
-
-This is module helper, babel presets.
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/babel/README.md" target="_blank">More details...</a>
-***
 *In order to get more detailed info please follow each module links.*
 
 **Rockpack is completely free project. We are always open to collaboration and contributors.**

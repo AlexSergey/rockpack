@@ -31,6 +31,7 @@ const renderInside = (content, index: number|null, props): JSX.Element => {
   }
   const name = content.name;
   const title = content.title;
+
   const opt = {
     key: null,
     id: null
@@ -56,7 +57,7 @@ const renderInside = (content, index: number|null, props): JSX.Element => {
 
   return (
     <div {...Object.assign({}, opt)}>
-      {title && <h2>{title}</h2>}
+      {!content.menuOnly && title && <h2>{title}</h2>}
       {block}
     </div>
   );

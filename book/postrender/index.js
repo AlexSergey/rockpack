@@ -3,9 +3,9 @@ const docgenParse = require('./docgenParse');
 const mergeUrls = require('./mergeUrls');
 const pickUrls = require('./pickUrls');
 
-const prerenderDocgen = (plugins, finalConfig) => {
-  const { sections } = docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
-  let { languages } = docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
+const prerenderDocgen = (plugins, finalConfig, outside = {}) => {
+  const { sections } = typeof outside.sections === 'object' ? outside : docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
+  let { languages } = typeof outside.languages === 'object' ? outside : docgenParse(finalConfig.entry.index, finalConfig.resolve.extensions);
 
   if (sections.length > 0) {
     try {

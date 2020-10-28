@@ -8,6 +8,11 @@ frontendCompiler({
   ]
 }, (finalConfig, modules, plugins) => {
   if (process.env.NODE_ENV === 'production') {
-    prerenderDocgen(plugins, finalConfig);
+    prerenderDocgen(plugins, finalConfig, {
+      sections: [
+        { url: '/' },
+        { url: '/ssr-simple' }
+      ]
+    });
   }
 });
