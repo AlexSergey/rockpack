@@ -1,0 +1,5 @@
+import { LoggerContainer } from "@rockpack/logger";
+
+<LoggerContainer>
+    <App />
+</LoggerContainer>

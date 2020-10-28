@@ -1,0 +1,9 @@
+logger.info(`store.getData|User is ready for loading... User ID is ${id}`);
+
+getData('/api/v1/user', { id })
+    .then(userData => {
+        logger.info(`store.getData|User have already loaded. User count is ${JSON.stringify(userData)}`);
+    })
+    .catch(err => {
+        logger.error(`store.getData|User loaded fail ${err.message}`);
+    });

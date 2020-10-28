@@ -29,7 +29,7 @@
 - Copy Webpack Plugin
 - ESLint support
 - Templates: HTML/Jade/Handlebars
-- CSS: CSS/SASS/LESS + Postcss
+- CSS: CSS/SASS (dart-sass)/LESS + Postcss
 - Postcss, Autoprefixer
 - CSS Modules support
 - Imagemin

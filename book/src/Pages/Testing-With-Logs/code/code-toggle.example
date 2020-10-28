@@ -1,0 +1,17 @@
+import React, { useState } from "react";
+import logger from "@rockpack/logger";
+
+export default function Toggle(props) {
+    const [toggleState, setToggleState] = useState("off");
+
+    function toggle() {
+        let state = toggleState === "off" ? "on" : "off";
+
+        logger.info(`React.Toggle|Toggle component changed state ${state}`);
+
+        setToggleState(state);
+    }
+
+
+    return <div className={`switch ${toggleState}`} onClick={toggle} />;
+}

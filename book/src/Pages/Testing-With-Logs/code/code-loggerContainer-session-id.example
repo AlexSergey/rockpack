@@ -1,0 +1,10 @@
+<LoggerContainer
+    active={true|false}
+    sessionID={window.SESSION_ID}
+    limit={20}
+    onError={stack => {
+        sendToServer(stack);
+    }}
+>
+    <App />
+</LoggerContainer>

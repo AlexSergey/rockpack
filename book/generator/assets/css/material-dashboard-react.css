@@ -629,6 +629,17 @@ footer ul li a:hover {
   right: auto;
   left: 80px;
 }
+.small-menu-item .MuiTreeItem-label {
+  font-size: 14px !important;
+}
+.page-content .flexible-image {
+  width: 100%;
+  max-width: 980px;
+}
+.page-content .flexible-image-half {
+  width: 100%;
+  max-width: 440px;
+}
 * {
   letter-spacing: normal !important;
 }

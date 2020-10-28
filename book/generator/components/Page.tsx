@@ -81,7 +81,7 @@ const InnerPage = withRouter((props: TempInterface) => {
 
   return (
     <Paper style={{ padding: '20px' }}>
-      <div>
+      <div className="page-content">
         {props.content && Array.isArray(props.content) ?
           props.content.map((c, index) => renderInside(c, index, props)) :
           renderInside(props.content, null, props)}

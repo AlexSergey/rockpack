@@ -32,7 +32,7 @@ yarn add @rockpack/logger
 
 ```jsx
 import React, { useCallback, useContext } from 'react';
-import logger, { LoggerContainer, useLoggerApi, useLogger } from '@rockpack/logger';
+import logger, { LoggerContainer, useLoggerApi } from '@rockpack/logger';
 
 const App = () => {
   const { getStackData, triggerError } = useLoggerApi();
@@ -42,7 +42,9 @@ const App = () => {
 export default function () {
   const loggerCtx = useContext(LoggerContext);
   const showMessage = useCallback((level, message, important) => {
-    alert(message);
+    if (important) {
+      alert(message);
+    }
   });
 
   return <LoggerContainer

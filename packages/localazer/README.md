@@ -22,7 +22,7 @@ Stage 2. Extract all the data for the dictionary from our application and pass i
 Stage 3. Having received the finished translation, we must overtake it into JSON and insert it into our application.
 
 <p align="right">
-  <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
+  <img src="https://www.rockpack.io/readme_assets/localazer-approach.jpg" alt="Localization approach" />
 </p>
 
 ## Using

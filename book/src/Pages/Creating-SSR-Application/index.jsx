@@ -8,6 +8,7 @@ const page = {
   title: 'Creating SSR Application',
   url: '/ssr-simple',
   menuOnly: true,
+  menuClassName: 'small-menu-item',
   meta: [
     <meta name="description" content="Rockpack ..." />
   ],

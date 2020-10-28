@@ -22,7 +22,7 @@
 Этап 3. Получив готовый перевод, мы должны его перегнать в JSON и вставить в наше приложение.
 
 <p align="right">
-  <img src="http://www.natrube.net/localazer/assets/approach.jpg" alt="Localization approach" />
+  <img src="https://www.rockpack.io/readme_assets/localazer-approach.jpg" alt="Localization approach" />
 </p>
 
 ## Использование

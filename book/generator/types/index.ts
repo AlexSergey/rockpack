@@ -12,6 +12,7 @@ export interface DocgenRouteInterface {
   url?: string;
   title?: string;
   name?: string;
+  menuClassName?: string;
   uniqId?: string;
   children?: JSX.Element | DocgenRouteInterface[];
   component?: JSX.Element;

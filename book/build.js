@@ -11,7 +11,7 @@ frontendCompiler({
     prerenderDocgen(plugins, finalConfig, {
       sections: [
         { url: '/' },
-        { url: '/ssr-simple' }
+        { url: '/testing-with-logs' }
       ]
     });
   }

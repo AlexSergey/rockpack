@@ -26,6 +26,7 @@ test-reports/**
 *.mdx
 *.md
 *.json
+*.example
 docs/
 public/
 locales/

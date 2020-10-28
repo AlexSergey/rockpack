@@ -2,7 +2,11 @@ import React from 'react';
 import createDocumentation from '../generator';
 import logo from './assets/header-logo.svg';
 import GettingStarted from './Pages/Getting-Started';
+// eslint-disable-next-line no-unused-vars
 import CreatingSSRApplication from './Pages/Creating-SSR-Application';
+import TestingWithLogs from './Pages/Testing-With-Logs';
+// eslint-disable-next-line no-unused-vars
+import Localization from './Pages/Localization';
 
 createDocumentation({
   logo,
@@ -13,7 +17,9 @@ createDocumentation({
       title: 'Articles:',
       menuOnly: true,
     },
-    CreatingSSRApplication
+    TestingWithLogs,
+    //Localization,
+    //CreatingSSRApplication
   ],
   title: 'Rockpack',
   github: 'https://github.com/AlexSergey/rockpack',

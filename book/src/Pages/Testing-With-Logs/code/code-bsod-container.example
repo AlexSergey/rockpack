@@ -1,0 +1,11 @@
+<LoggerContainer
+    active={true|false}
+    limit={20}
+    bsodActive={true}
+    bsod={BSOD}
+    onError={stack => {
+        sendToServer(stack);
+    }}
+>
+    <App />
+</LoggerContainer>

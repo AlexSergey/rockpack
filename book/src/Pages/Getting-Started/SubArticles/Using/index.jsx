@@ -1,14 +1,10 @@
 import React from 'react';
 import Highlight, { defaultProps } from 'prism-react-renderer';
+// eslint-disable-next-line import/no-webpack-loader-syntax,import/order
+import codeInstallationExample from 'raw-loader!./code/code-isntallation.example';
+// eslint-disable-next-line import/no-webpack-loader-syntax,import/order
+import codeCreateExample from 'raw-loader!./code/code-create.example';
 import img from '../../../../../readme_assets/rockpack_starter_1.v2.jpg';
-
-const installationCode = `
-npm i @rockpack/starter -g
-`;
-
-const rockpackCode = `
-rockpack <project name>
-`;
 
 const Page = () => (
   <div>
@@ -26,7 +22,7 @@ const Page = () => (
 
     <p>1. Installation:</p>
 
-    <Highlight {...defaultProps} code={installationCode} language="bash">
+    <Highlight {...defaultProps} code={codeInstallationExample} language="bash">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre className={className} style={style}>
           {tokens.map((line, i) => (
@@ -42,7 +38,7 @@ const Page = () => (
 
     <p>2. Creating an App:</p>
 
-    <Highlight {...defaultProps} code={rockpackCode} language="bash">
+    <Highlight {...defaultProps} code={codeCreateExample} language="bash">
       {/* eslint-disable-next-line sonarjs/no-identical-functions */}
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre className={className} style={style}>

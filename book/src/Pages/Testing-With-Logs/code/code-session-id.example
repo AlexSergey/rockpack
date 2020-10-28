@@ -1,0 +1,1 @@
+window.SESSION_ID = `sessionid-${Math.random().toString(36).substr(3, 9)}`;

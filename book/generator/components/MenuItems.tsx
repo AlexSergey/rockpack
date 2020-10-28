@@ -68,10 +68,12 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       return null;
     }
 
-    const W = data.url ? (Inner: JSX.Element, url): JSX.Element => (
+    const _extraClassName = typeof data.menuClassName === 'string' ? data.menuClassName : '';
+
+    const W = data.url ? (Inner: JSX.Element, url, extraClassName): JSX.Element => (
       <span
         {...data.nodeId ? { id: data.nodeId } : {}}
-        className={setActive(document.location.pathname, url, props.activeLang)}
+        className={`${setActive(document.location.pathname, url, props.activeLang)} ${extraClassName}`}
         onClick={(e): void => {
           e.preventDefault();
           e.stopPropagation();
@@ -102,19 +104,19 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
           (Array.isArray(data.children) ? data.children.map(node => TreeRender(node)) : data.children)
         }
         </TreeItem>
-      ), data.url, '') : (
+      ), data.url, _extraClassName) : (
         data.url ?
           W(
             <TreeItem key={data.uniqId} nodeId={data.nodeId} label={data.title} />,
             data.url,
-            ''
+            _extraClassName
           ) :
           (typeof data.name === 'string' ?
             W((
               <div style={{ padding: '0 0 0 10px' }}>
                 <span style={{ cursor: 'pointer' }}>{data.title}</span>
               </div>
-            ), data.name, 'tree-hash-item') : (
+            ), data.name, `tree-hash-item ${_extraClassName}`) : (
               <div key={data.uniqId} style={{ padding: '0 0 0 10px' }}>
                 <span style={{ cursor: 'pointer' }}>{data.title}</span>
               </div>

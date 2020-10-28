@@ -1,0 +1,2 @@
+npm install @rockpack/localaser --save
+npm install @rockpack/compiler --save-dev
