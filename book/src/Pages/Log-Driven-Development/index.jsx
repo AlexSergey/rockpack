@@ -36,7 +36,7 @@ import bsod from '../../../readme_assets/rockpack_logger_bsod.jpg';
 const Page = () => (
   <div>
     <p>
-      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works">@rockpack/logger</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is software for working with
+      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is software for working with
       vector graphics. Working with a graphics editor implies a huge number of application use cases. We are trying to
       save money and time, so we optimize everything, including testing. Covering each option with test cases is too
       expensive and irrational, especially since it is impossible to cover all options.
@@ -68,7 +68,7 @@ const Page = () => (
     </p>
 
     <p>
-      In order for our program to tell us that it hurts, we will take the <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works">@rockpack/logger</a> module and link it to ElasticSearch,
+      In order for our program to tell us that it hurts, we will take the <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module and link it to ElasticSearch,
       LogStash and Kibana for further analysis.
     </p>
 
@@ -106,7 +106,7 @@ const Page = () => (
 
     <p>For example, we are going to integrate logging system to single page application based on React.</p>
 
-    <p>1. Install @rockpack/logger</p>
+    <p>1. Installation:</p>
 
     <Highlight {...defaultProps} theme={dracula} code={codeInstallSample} language="bash">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
@@ -194,7 +194,7 @@ const Page = () => (
     </p>
 
     <p>
-      The @rockpack/logger module comes with a logger that is linked to the LoggerContainer
+      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module comes with a logger that is linked to the LoggerContainer
     </p>
 
     <p>For instance, we have a component</p>
@@ -489,8 +489,8 @@ const Page = () => (
 );
 
 const page = {
-  title: 'Testing with logs',
-  url: '/testing-with-logs',
+  title: 'Log Driven Development',
+  url: '/log-driven-development',
   menuClassName: 'small-menu-item',
   meta: [
     <meta name="description" content="Rockpack ..." />

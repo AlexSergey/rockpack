@@ -1,0 +1,8 @@
+<Localization>
+   {
+       sprintf(
+           l('Your name is %s', 'USER'),
+           name
+       )
+   }
+</Localization>

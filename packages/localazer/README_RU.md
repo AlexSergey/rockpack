@@ -21,7 +21,7 @@
 Этап 2. Извлечь все данные для словарика из нашего приложения и передать их в формате gettext переводчику.
 Этап 3. Получив готовый перевод, мы должны его перегнать в JSON и вставить в наше приложение.
 
-<p align="right">
+<p align="center">
   <img src="https://www.rockpack.io/readme_assets/localazer-approach.jpg" alt="Localization approach" />
 </p>
 
@@ -116,7 +116,7 @@ node makePOT.js
 
 Для перевода словарика необходимо использовать <a href="https://poedit.net/download">POEdit tool</a>:
 
-<p align="right">
+<p align="center">
   <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
 </p>
 

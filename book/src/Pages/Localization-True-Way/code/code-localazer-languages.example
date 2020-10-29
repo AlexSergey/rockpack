@@ -1,0 +1,15 @@
+import { LocalizationObserver } from '@rockpack/localaser';
+import ru from './locales/ru.json';
+
+class Root extends Component {
+  render() {
+    return (
+      <LocalizationObserver
+        currentLanguage={this.state.currentLanguage}
+        languages={{ ru }
+      >
+        <App/>
+      </LocalizationObserver>
+    )
+  }
+}

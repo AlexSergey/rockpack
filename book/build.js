@@ -11,7 +11,8 @@ frontendCompiler({
     prerenderDocgen(plugins, finalConfig, {
       sections: [
         { url: '/' },
-        { url: '/testing-with-logs' }
+        { url: '/log-driven-development' },
+        { url: '/localization-true-way' }
       ]
     });
   }

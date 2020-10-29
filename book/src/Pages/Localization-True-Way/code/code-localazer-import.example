@@ -1,0 +1,1 @@
+import Localization, { l, nl, sprintf } from 'localaser';

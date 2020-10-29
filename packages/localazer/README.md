@@ -21,7 +21,7 @@ Stage 1. We need to add localization and make it friends with our application.
 Stage 2. Extract all the data for the dictionary from our application and pass it in the gettext format to the translator.
 Stage 3. Having received the finished translation, we must overtake it into JSON and insert it into our application.
 
-<p align="right">
+<p align="center">
   <img src="https://www.rockpack.io/readme_assets/localazer-approach.jpg" alt="Localization approach" />
 </p>
 
@@ -116,7 +116,7 @@ As a result, a dictionary with all text fragments for translation will be create
 
 To translate a dictionary, you must use <a href="https://poedit.net/download">POEdit tool</a>:
 
-<p align="right">
+<p align="center">
   <img src="http://www.natrube.net/localazer/assets/poedit.png" alt="POEdit" />
 </p>
 

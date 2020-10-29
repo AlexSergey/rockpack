@@ -4,9 +4,9 @@ import logo from './assets/header-logo.svg';
 import GettingStarted from './Pages/Getting-Started';
 // eslint-disable-next-line no-unused-vars
 import CreatingSSRApplication from './Pages/Creating-SSR-Application';
-import TestingWithLogs from './Pages/Testing-With-Logs';
+import LogDrivenDevelopment from './Pages/Log-Driven-Development';
 // eslint-disable-next-line no-unused-vars
-import Localization from './Pages/Localization';
+import LocalizationTrueWay from './Pages/Localization-True-Way';
 
 createDocumentation({
   logo,
@@ -17,8 +17,8 @@ createDocumentation({
       title: 'Articles:',
       menuOnly: true,
     },
-    TestingWithLogs,
-    //Localization,
+    LogDrivenDevelopment,
+    LocalizationTrueWay,
     //CreatingSSRApplication
   ],
   title: 'Rockpack',

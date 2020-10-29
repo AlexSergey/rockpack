@@ -1,0 +1,12 @@
+<Localization>
+   {
+       sprintf(
+           nl(
+               '%d click',
+               '%d clicks',
+               count
+           ),
+           count
+       )
+   }
+</Localization>
