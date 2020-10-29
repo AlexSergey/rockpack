@@ -586,6 +586,7 @@ const page = {
   meta: [
     <meta name="description" content="Rockpack ..." />
   ],
+  share: true,
   component: Page
 };
 

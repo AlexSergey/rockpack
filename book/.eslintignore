@@ -26,6 +26,10 @@ test-reports/**
 *.mdx
 *.md
 *.json
+*.ejs
+*.hbs
+*.jade
+*.html
 *.example
 docs/
 public/

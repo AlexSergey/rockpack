@@ -7,6 +7,20 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+  RedditIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  TwitterShareButton,
+  TwitterIcon
+} from 'react-share';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import findRoutes from '../utils/findRoutes';
 import MDXLayout from './MDXLayout';
@@ -54,11 +68,45 @@ const renderInside = (content, index: number|null, props): JSX.Element => {
           component() :
           component
   );
-
+  
   return (
     <div {...Object.assign({}, opt)}>
       {!content.menuOnly && title && <h2>{title}</h2>}
       {block}
+      {content.share && (
+        <ul className="share-links">
+          <li>
+            <TwitterShareButton url={document.location.href}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+          </li>
+          <li>
+            <FacebookShareButton url={document.location.href}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+          </li>
+          <li>
+            <LinkedinShareButton url={document.location.href}>
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+          </li>
+          <li>
+            <RedditShareButton url={document.location.href}>
+              <RedditIcon size={32} round />
+            </RedditShareButton>
+          </li>
+          <li>
+            <TelegramShareButton url={document.location.href}>
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+          </li>
+          <li>
+            <EmailShareButton url={document.location.href}>
+              <EmailIcon size={32} round />
+            </EmailShareButton>
+          </li>
+        </ul>
+      )}
     </div>
   );
 };

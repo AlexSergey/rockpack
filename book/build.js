@@ -3,6 +3,10 @@ const { frontendCompiler } = require('@rockpack/compiler');
 const prerenderDocgen = require('./postrender');
 
 frontendCompiler({
+  html: {
+    template: path.resolve(__dirname, './index.ejs'),
+    favicon: path.resolve(__dirname, './favicon.ico')
+  },
   copy: [
     { from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }
   ]

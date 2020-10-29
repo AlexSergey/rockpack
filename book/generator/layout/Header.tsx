@@ -26,7 +26,7 @@ const Header = (props: HeaderInterface): JSX.Element => {
       <Toolbar className={classesHeader.container} style={{ height: '100%' }}>
         {props.logo && (
           <Hidden
-            smDown
+            xsDown
             implementation="css"
             // @ts-ignore
             className="wrapper-logo"

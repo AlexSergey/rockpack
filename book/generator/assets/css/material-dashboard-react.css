@@ -19,7 +19,8 @@
   box-sizing: border-box;
 }
 body {
-  padding-right: 0 !important
+  padding-right: 0 !important;
+  min-width: 320px;
 }
 .app-header {
   background: #009be5 !important;
@@ -639,6 +640,16 @@ footer ul li a:hover {
 .page-content .flexible-image-half {
   width: 100%;
   max-width: 440px;
+}
+.share-links {
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+.share-links li {
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
 }
 * {
   letter-spacing: normal !important;

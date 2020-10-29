@@ -56,7 +56,7 @@ const Page = () => (
 
     <p>3. Select the type of application, select the required modules:</p>
 
-    <img src={img} alt="Rockpack CLI" />
+    <img className="flexible-image" src={img} alt="Rockpack CLI" />
 
     <hr />
 
