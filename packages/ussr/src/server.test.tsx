@@ -8,7 +8,7 @@ import { useUssrState, useUssrEffect } from './hooks';
 describe('server render tests', () => {
   test('pure state', async () => {
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('');
+      const [state, setState] = useUssrState('', 'state-1');
 
       useUssrEffect(() => (
         new Promise(resolve => {
@@ -17,7 +17,8 @@ describe('server render tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-1');
+
       return (
         <div>{state}</div>
       );
@@ -30,7 +31,7 @@ describe('server render tests', () => {
     expect(html)
       .toBe('<div>test bar</div>');
     expect(state)
-      .toStrictEqual({ app: { foo: 'test bar' } });
+      .toStrictEqual({ 'state-1': 'test bar' });
   });
 
   test('pure state and external callback', async () => {
@@ -53,7 +54,7 @@ describe('server render tests', () => {
 
     // eslint-disable-next-line sonarjs/no-identical-functions
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('');
+      const [state, setState] = useUssrState('', 'state-1');
 
       // eslint-disable-next-line sonarjs/no-identical-functions
       useUssrEffect(() => (
@@ -64,7 +65,8 @@ describe('server render tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-1');
+
       return (
         <div>{state}</div>
       );
@@ -79,6 +81,6 @@ describe('server render tests', () => {
     expect(html)
       .toBe('<div>test bar</div>');
     expect(state)
-      .toStrictEqual({ app: { foo: 'test bar' } });
+      .toStrictEqual({ 'state-1': 'test bar' });
   });
 });
