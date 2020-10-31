@@ -1,0 +1,3 @@
+<script>
+  window.USSR_DATA = ${serialize(state, { isJSON: true })}
+</script>

@@ -116,7 +116,7 @@ import { useUssrState, useUssrEffect } from '@rockpack/ussr';
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', { text: 'text here' });
+  const [state, setState] = useUssrState({ text: 'text here' });
 
   useUssrEffect(async () => {
     const data = await asyncFn();

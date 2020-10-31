@@ -15,7 +15,7 @@ export const serverRender = async (
   iteration: (count?: number) => JSX.Element,
   outsideEffects?: Function
 ): Promise<ServerRenderResult> => {
-  const [Ussr, getState, effectCollection, resetIds] = createUssr({ });
+  const [Ussr, getState, effectCollection] = createUssr({ });
   const renderNested = async (): Promise<string> => {
     const App = await iteration();
 
@@ -24,8 +24,6 @@ export const serverRender = async (
         {App}
       </Ussr>
     ));
-
-    resetIds();
 
     const waited = effectCollection.getWaited();
 

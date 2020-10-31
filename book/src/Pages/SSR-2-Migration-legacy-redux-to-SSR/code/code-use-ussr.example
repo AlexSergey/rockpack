@@ -1,0 +1,3 @@
+useUssrEffect(() => {
+  dispatch(fetchImage());
+});

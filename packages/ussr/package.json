@@ -32,8 +32,7 @@
   ],
   "private": false,
   "dependencies": {
-    "core-js": "3.6.5",
-    "lodash": "4.17.20"
+    "core-js": "3.6.5"
   },
   "devDependencies": {
     "@rockpack/codestyle": "1.1.0",
@@ -41,7 +40,6 @@
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",
-    "@types/lodash": "4.14.161",
     "@types/react": "16.9.49",
     "@types/react-dom": "16.9.8",
     "react": "16.13.1",

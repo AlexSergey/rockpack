@@ -4,7 +4,7 @@ import { useUssrState, useUssrEffect } from '../../../src';
 const asyncFn = () => new Promise((resolve, reject) => setTimeout(() => reject(new Error('SSR error!')), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', 'i am test ');
+  const [state, setState] = useUssrState('i am test ');
 
   useUssrEffect(async () => {
     const data = await asyncFn();

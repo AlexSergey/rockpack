@@ -1,0 +1,2 @@
+npm install @rockpack/ussr --save
+npm install @rockpack/compiler --save-dev

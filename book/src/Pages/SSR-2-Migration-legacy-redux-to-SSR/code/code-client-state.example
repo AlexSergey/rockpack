@@ -1,0 +1,3 @@
+const { store } = createStore(
+  initState: window.REDUX_DATA
+});

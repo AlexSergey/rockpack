@@ -7,7 +7,7 @@ const asyncFn3 = () => new Promise((resolve) => setTimeout(() => resolve('B Comp
 const asyncFn4 = () => new Promise((resolve) => setTimeout(() => resolve('C Component'), 1000));
 
 const Wrapper = ({ children }) => {
-  const [state, setState] = useUssrState('appState.text2', { value: 'none ', show: false });
+  const [state, setState] = useUssrState({ value: 'none ', show: false });
 
   useUssrEffect(async () => {
     const data = await asyncFn1();
@@ -21,7 +21,7 @@ const Wrapper = ({ children }) => {
 }
 
 const A = ({ children }) => {
-  const [state, setState] = useUssrState('appState.text2', { value: 'none ', show: false });
+  const [state, setState] = useUssrState({ value: 'none ', show: false });
 
   useUssrEffect(async () => {
     const data = await asyncFn2();
@@ -33,7 +33,7 @@ const A = ({ children }) => {
   </div>;
 }
 const B = () => {
-  const [state, setState] = useUssrState('appState.text3', 'none');
+  const [state, setState] = useUssrState('none');
 
   useUssrEffect(async () => {
     const data = await asyncFn3();
@@ -44,7 +44,7 @@ const B = () => {
   </div>;
 }
 const C = () => {
-  const [state, setState] = useUssrState('appState.text4', 'none');
+  const [state, setState] = useUssrState('none');
 
   useUssrEffect(async () => {
     const data = await asyncFn4();
@@ -58,8 +58,8 @@ const C = () => {
 export const App = () => (
   <Wrapper>
     <A>
-      <C />
+      <B />
     </A>
-    <B />
+    <C />
   </Wrapper>
 );

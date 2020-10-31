@@ -1,0 +1,11 @@
+import createUssr from '@rockpack/ussr';
+
+const [Ussr] = createUssr();
+
+hydrate(
+  <Ussr>
+    <App />
+  </Ussr>,
+  document.getElementById('root')
+);
+

@@ -8,7 +8,7 @@ import img from '../../../../../readme_assets/rockpack_starter_1.v2.jpg';
 
 const Page = () => (
   <div>
-    <p>The easiest way to start is using rockpack/starter module. This module can help you to create the backbone of an
+    <p>The easiest way to start is using <a href="https://github.com/AlexSergey/rockpack/tree/master/packages/starter">@rockpack/starter</a> module. This module can help you to create the backbone of an
       application. It supports different types of applications:
     </p>
 

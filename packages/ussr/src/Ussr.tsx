@@ -17,8 +17,7 @@ interface OptionsInterface {
 type ReturnCreateUssr = [
   ({ children }: { children: JSX.Element }) => JSX.Element,
   () => StateInterface,
-  EffectCollection,
-  () => void
+  EffectCollection
 ];
 
 interface UssrContextInterface {
@@ -26,7 +25,6 @@ interface UssrContextInterface {
   initState: InitStateInterface | {};
   effectCollection: EffectCollection;
   getState: () => StateInterface;
-  getId: () => number;
 }
 
 type ExcludeFn = (...args: unknown[]) => JSX.Element;
@@ -45,12 +43,11 @@ export const ExcludeUssr = ({ children }: { children: JSX.Element | ExcludeFn })
     )
 );
 
-const OnComplete = ({ loading, onLoad, onUnmount }): JSX.Element => {
+const OnComplete = ({ loading, onLoad }): JSX.Element => {
   useEffect(() => {
     if (!isBackend() && loading) {
       setTimeout(() => onLoad(false));
     }
-    return onUnmount;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -60,19 +57,12 @@ const OnComplete = ({ loading, onLoad, onUnmount }): JSX.Element => {
 const createUssr = (initState: InitStateInterface = {}, options: OptionsInterface = {}): ReturnCreateUssr => {
   const app = {
     loading: options.onlyClient ? false : !isBackend(),
-    state: initState,
-    id: 0
+    state: initState
   };
   const effectCollection = new EffectCollection();
 
   const onLoad = (state): void => {
     app.loading = state;
-  };
-
-  const getId = (): number => app.id++;
-
-  const resetId = (): void => {
-    app.id = 0;
   };
 
   const isLoading = (): boolean => app.loading;
@@ -85,21 +75,18 @@ const createUssr = (initState: InitStateInterface = {}, options: OptionsInterfac
         isLoading,
         initState,
         effectCollection,
-        getState,
-        getId
+        getState
       }}
       >
         {children}
         <OnComplete
           loading={app.loading}
           onLoad={onLoad}
-          onUnmount={resetId}
         />
       </UssrContext.Provider>
     ),
     getState,
-    effectCollection,
-    resetId
+    effectCollection
   ];
 };
 

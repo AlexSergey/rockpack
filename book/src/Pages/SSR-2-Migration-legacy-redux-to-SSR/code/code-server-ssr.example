@@ -1,0 +1,46 @@
+import React from 'react';
+import express from 'express';
+import { END } from 'redux-saga';
+import serialize from 'serialize-javascript';
+import { serverRender } from '@rockpack/ussr';
+import { App } from './App';
+
+const app = express();
+
+app.use(express.static('public'));
+
+app.get('/*', async (req, res) => {
+  const { store, rootSaga } = createStore({
+    initState: { }
+  });
+
+  const { html } = await serverRender(() => (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  ), async () => {
+    store.dispatch(END);
+    await rootSaga.toPromise();
+  });
+
+  ctx.body = `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+      window.REDUX_DATA = ${serialize(store.getState(), { isJSON: true })}
+    </script>
+</head>
+<body>
+    <div id="root">${html}</div>
+    <script src="/index.js"></script>
+</body>
+</html>
+`);
+});
+
+app.listen(4000, () => {
+  console.log('Example app listening on port 4000!');
+});

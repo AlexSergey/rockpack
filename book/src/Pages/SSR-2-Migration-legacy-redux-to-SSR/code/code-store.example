@@ -1,0 +1,32 @@
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
+import { fork } from 'redux-saga/effects';
+import imageReducer from './reducer';
+import watchFetchImage from './saga';
+
+export default () => {
+  const middleware = getDefaultMiddleware({
+    immutableCheck: true,
+    serializableCheck: true,
+    thunk: false,
+  });
+
+  const sagaMiddleware = createSagaMiddleware();
+
+  const store = configureStore({
+    reducer: {
+      imageReducer
+    },
+    middleware: middleware.concat([
+      sagaMiddleware
+    ])
+  });
+
+  function* sagas() {
+    yield fork(watchFetchImage);
+  }
+
+  const rootSaga = sagaMiddleware.run(sagas);
+
+  return { store, rootSaga };
+};

@@ -386,7 +386,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
   }
 
-  if (conf.__isIsomorphicLoader) {
+  if (conf.__isIsomorphic) {
     plugins.LoadablePlugin = new LoadablePlugin({ filename: 'stats.json', writeToDisk: true });
   }
 

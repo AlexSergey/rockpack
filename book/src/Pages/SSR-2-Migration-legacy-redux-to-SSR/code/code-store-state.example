@@ -1,0 +1,27 @@
+export default ({ initState }) => {
+  const middleware = getDefaultMiddleware({
+    immutableCheck: true,
+    serializableCheck: true,
+    thunk: false,
+  });
+
+  const sagaMiddleware = createSagaMiddleware();
+
+  const store = configureStore({
+    reducer: {
+      imageReducer
+    },
+    middleware: middleware.concat([
+      sagaMiddleware
+    ]),
+    preloadedState: initState
+  });
+
+  function* sagas() {
+    yield fork(watchFetchImage);
+  }
+
+  const rootSaga = sagaMiddleware.run(sagas);
+
+  return { store, rootSaga };
+};

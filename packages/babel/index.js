@@ -1,11 +1,12 @@
 const { existsSync } = require('fs');
 const path = require('path');
 const { isString, isObject } = require('valid-types');
+const BabelUssrPlugin = require('./ussr');
 
 const createBabelPresets = ({
   isNodejs = false,
   framework = false,
-  loadable = false,
+  isomorphic = false,
   modules = false,
   isProduction = false,
   isTest = false,
@@ -97,10 +98,14 @@ const createBabelPresets = ({
     }
   }
 
-  if (loadable) {
+  if (isomorphic) {
     opts.plugins.push(
       require.resolve('@loadable/babel-plugin')
     );
+    opts.plugins.push([
+      BabelUssrPlugin,
+      { effect: 'useUssrEffect', setState: 'useUssrState' }
+    ]);
   }
 
   if (isTest) {

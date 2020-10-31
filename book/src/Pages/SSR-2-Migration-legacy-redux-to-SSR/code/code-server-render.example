@@ -1,0 +1,8 @@
+const { html } = await serverRender(() => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+), async () => {
+  store.dispatch(END);
+  await rootSaga.toPromise();
+});

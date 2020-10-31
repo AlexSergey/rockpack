@@ -6,7 +6,7 @@ import createUssr, { useUssrState, useUssrEffect } from '../../../src';
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
 
 const App = ({ children }) => {
-  const [state, setState] = useUssrState('appState.text', 'text here');
+  const [state, setState] = useUssrState('text here');
 
   useUssrEffect(async () => {
     const data = await asyncFn();

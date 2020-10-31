@@ -10,7 +10,7 @@ const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello w
 
 const Home = () => {
   useStyles(styles);
-  const [state, setState] = useUssrState('appState.text', 'i am test ');
+  const [state, setState] = useUssrState('i am test ');
 
   useUssrEffect(async () => {
     const data = await asyncFn();

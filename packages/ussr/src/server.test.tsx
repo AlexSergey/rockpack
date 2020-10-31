@@ -8,7 +8,7 @@ import { useUssrState, useUssrEffect } from './hooks';
 describe('server render tests', () => {
   test('pure state', async () => {
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('app.foo', '');
+      const [state, setState] = useUssrState('');
 
       useUssrEffect(() => (
         new Promise(resolve => {
@@ -53,7 +53,7 @@ describe('server render tests', () => {
 
     // eslint-disable-next-line sonarjs/no-identical-functions
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('app.foo', '');
+      const [state, setState] = useUssrState('');
 
       // eslint-disable-next-line sonarjs/no-identical-functions
       useUssrEffect(() => (

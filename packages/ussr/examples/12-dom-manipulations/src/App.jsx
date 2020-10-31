@@ -6,7 +6,7 @@ import './styles.css';
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve(['1', '2', '3']), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', []);
+  const [state, setState] = useUssrState([]);
 
   useUssrEffect(async () => {
     const data = await asyncFn();

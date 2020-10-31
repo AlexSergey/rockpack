@@ -68,7 +68,7 @@ function getModules(conf = {}, mode, root) {
           query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: conf.__isIsomorphicLoader,
+            isomorphic: conf.__isIsomorphic,
             isProduction
           })
         },
@@ -101,13 +101,13 @@ function getModules(conf = {}, mode, root) {
 
     tsx: {
       test: /\.tsx$/,
-      use: conf.__isIsomorphicLoader ? [
+      use: conf.__isIsomorphic ? [
         {
           loader: require.resolve('babel-loader'),
           query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: true,
+            isomorphic: true,
             isProduction,
             typescript: true
           })
@@ -138,13 +138,13 @@ function getModules(conf = {}, mode, root) {
 
     ts: {
       test: /\.ts$/,
-      use: conf.__isIsomorphicLoader ? [
+      use: conf.__isIsomorphic ? [
         {
           loader: require.resolve('babel-loader'),
           query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: false,
-            loadable: true,
+            isomorphic: true,
             isProduction,
             typescript: true
           })
@@ -225,7 +225,7 @@ function getModules(conf = {}, mode, root) {
           query: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            loadable: conf.__isIsomorphicLoader,
+            isomorphic: conf.__isIsomorphic,
             isProduction
           })
         }
@@ -328,7 +328,7 @@ function getModules(conf = {}, mode, root) {
         query: createBabelPresets({
           isNodejs: !!conf.nodejs,
           framework: 'react',
-          loadable: conf.__isIsomorphicLoader,
+          isomorphic: conf.__isIsomorphic,
           isProduction
         })
       }, {

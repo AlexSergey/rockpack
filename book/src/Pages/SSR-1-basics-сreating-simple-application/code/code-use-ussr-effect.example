@@ -1,0 +1,4 @@
+useUssrEffect(async () => {
+  const data = await asyncFn();
+  setState(data);
+});

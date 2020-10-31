@@ -42,7 +42,7 @@ describe('hooks tests', () => {
     });
 
     const App = (): JSX.Element => {
-      const [state] = useUssrState('app.foo', '');
+      const [state] = useUssrState('');
 
       return (
         <div>
@@ -65,7 +65,7 @@ describe('hooks tests', () => {
     const [Ussr, getState, effectCollection] = createUssr();
 
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('app.foo', '');
+      const [state, setState] = useUssrState('');
       useUssrEffect(() => (
         new Promise(resolve => {
           setTimeout(() => {

@@ -11,11 +11,11 @@ export interface EffectInterface {
 }
 
 interface EffectOptions {
-  id: number;
+  id: string;
 }
 
 class Effect {
-  private id: number;
+  private id: string;
 
   private status: Statuses;
 
@@ -43,7 +43,7 @@ class Effect {
     this.status = Statuses.done;
   };
 
-  getId = (): number => this.id;
+  getId = (): string => this.id;
 }
 
 export { Effect };

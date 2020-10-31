@@ -2,11 +2,10 @@ import React from 'react';
 import createDocumentation from '../generator';
 import logo from './assets/header-logo.svg';
 import GettingStarted from './Pages/Getting-Started';
-// eslint-disable-next-line no-unused-vars
-import CreatingSSRApplication from './Pages/Creating-SSR-Application';
 import LogDrivenDevelopment from './Pages/Log-Driven-Development';
-// eslint-disable-next-line no-unused-vars
 import LocalizationTrueWay from './Pages/Localization-True-Way';
+import SSR1Basic from './Pages/SSR-1-basics-сreating-simple-application';
+import SSR2Migration from './Pages/SSR-2-Migration-legacy-redux-to-SSR';
 
 createDocumentation({
   logo,
@@ -17,9 +16,10 @@ createDocumentation({
       title: 'Articles:',
       menuOnly: true,
     },
+    SSR1Basic,
+    SSR2Migration,
     LogDrivenDevelopment,
     LocalizationTrueWay,
-    //CreatingSSRApplication
   ],
   title: 'Rockpack',
   github: 'https://github.com/AlexSergey/rockpack',

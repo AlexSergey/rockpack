@@ -93,7 +93,7 @@ module.exports = async function sourceCompile(conf) {
       const babelOptions = createBabelPresets({
         isNodejs: !!conf.nodejs,
         framework: 'react',
-        loadable: conf.__isIsomorphicLoader,
+        isomorphic: conf.__isIsomorphic,
         modules: format === 'esm' ?
           false :
           'commonjs'

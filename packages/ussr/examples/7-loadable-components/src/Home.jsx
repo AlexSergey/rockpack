@@ -4,7 +4,7 @@ import { useUssrState, useUssrEffect } from '../../../src';
 import { asyncFn } from './asyncFn';
 
 const Home = () => {
-  const [state, setState] = useUssrState('appState.text', 'i am test ');
+  const [state, setState] = useUssrState('i am test ');
 
   useUssrEffect(async () => {
     const data = await asyncFn();

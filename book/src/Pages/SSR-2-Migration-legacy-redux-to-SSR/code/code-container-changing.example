@@ -1,0 +1,9 @@
+useEffect(() => {
+  dispatch(fetchImage());
+}, []);
+
+to this:
+
+useUssrEffect(() => {
+  dispatch(fetchImage());
+});

@@ -11,3 +11,5 @@ export const clone = (state: StateInterface): Readonly<StateInterface> => (
     JSON.stringify(state)
   )
 );
+
+export const getRandomID = (): string => `${Math.random()}`;

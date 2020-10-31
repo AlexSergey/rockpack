@@ -11,7 +11,7 @@ const asyncFn = async (resolve) => {
 const simpleFn = (resolve) => asyncFn(resolve);
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', 'text here');
+  const [state, setState] = useUssrState('text here');
 
   useUssrEffect(() => (
     new Promise(resolve => simpleFn(resolve, 1000))

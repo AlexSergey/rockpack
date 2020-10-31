@@ -1,7 +1,7 @@
 import { Effect, Statuses } from './Effect';
 
 export default class EffectCollection {
-  private effects: Map<number, Effect>;
+  private effects: Map<string, Effect>;
 
   constructor() {
     this.effects = new Map();
@@ -13,11 +13,11 @@ export default class EffectCollection {
     }
   };
 
-  hasEffect = (effectId: number): boolean => Boolean(this.effects.get(effectId));
+  hasEffect = (effectId: string): boolean => Boolean(this.effects.get(effectId));
 
   getEffects = (): Effect[] => Array.from(this.effects.values());
 
-  getEffect = (effectId: number): Effect|undefined => this.effects.get(effectId);
+  getEffect = (effectId: string): Effect|undefined => this.effects.get(effectId);
 
   getWaited = (): Effect[] => {
     const effects = this.getEffects();

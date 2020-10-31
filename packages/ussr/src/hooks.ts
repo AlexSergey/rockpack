@@ -1,8 +1,5 @@
 import { useContext, useState, useRef, useMemo, useEffect } from 'react';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import has from 'lodash/has';
-import { isBackend } from './utils';
+import { isBackend, getRandomID } from './utils';
 import { UssrContext } from './Ussr';
 import { Effect } from './Effect';
 
@@ -10,7 +7,11 @@ interface UssrState<T> {
   setState(componentState: T, skip?: boolean): void;
 }
 
-export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentState: T, skip?: boolean) => void] => {
+export const useUssrState = <T>(defaultValue: T, id?: string): [T, (componentState: T, skip?: boolean) => void] => {
+  const key = typeof id === 'undefined' ?
+    getRandomID() :
+    id;
+
   const hook = useRef<false | UssrState<T>>(false);
   const { isLoading, initState } = useContext(UssrContext);
   const loading = isLoading();
@@ -21,23 +22,27 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
 
   if (
     setImmediately &&
-    has(initState, key) &&
-    process.env.NODE_ENV !== 'production' &&
-    typeof get(initState, key) !== 'undefined'
+    initState[key] &&
+    process.env.NODE_ENV !== 'production'
   ) {
     // eslint-disable-next-line no-console
     console.warn(`Key should be unique! The key "${key}" is already exist in InitialState`);
   }
 
   const appStateFragment: T = useMemo<T>(
-    () => get(initState, key, defaultValue),
+    () => (
+      !initState[key] ?
+        defaultValue :
+        initState[key]
+    ),
     [initState, key, defaultValue]
   );
   const [state, setState] = useState<T>(appStateFragment);
 
   useEffect(() => (): void => {
     // Clear Global state when component was unmounted
-    set(initState, key, undefined);
+    initState[key] = undefined;
+    delete initState[key];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,7 +50,7 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
     hook.current = {
       setState: (componentState: T, skip?: boolean): void => {
         const s = typeof componentState === 'function' ? componentState(state) : componentState;
-        set(initState, key, s);
+        initState[key] = s;
 
         if (!skip) {
           setState(s);
@@ -57,9 +62,15 @@ export const useUssrState = <T>(key: string, defaultValue: T): [T, (componentSta
   return [state, hook.current.setState];
 };
 
-export const useUssrEffect = (cb?: Function): void => {
+export const useUssrEffect = (cb?: Function, id?: string): void => {
+  const effectId = (typeof cb === 'string' && typeof id === 'undefined') ?
+    cb :
+    typeof id === 'undefined' ?
+      getRandomID() :
+      id;
+
   const initHook = useRef(true);
-  const { isLoading, effectCollection, getId } = useContext(UssrContext);
+  const { isLoading, effectCollection } = useContext(UssrContext);
   const loading = isLoading();
   const loaded = !loading;
   const isClient = !isBackend();
@@ -72,9 +83,8 @@ export const useUssrEffect = (cb?: Function): void => {
     if (typeof cb === 'function') {
       cb();
     }
+    // eslint-disable-next-line sonarjs/no-collapsible-if
   } else if (onLoadOnTheBackend) {
-    const effectId = getId();
-
     if (!effectCollection.getEffect(effectId)) {
       const effect = new Effect({ id: effectId });
       effectCollection.addEffect(effect);

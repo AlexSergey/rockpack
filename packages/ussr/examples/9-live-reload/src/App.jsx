@@ -1,10 +1,10 @@
 import React from 'react';
 import { useUssrState, useUssrEffect } from '../../../src';
 
-const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world'), 1000));
+const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve('Hello world 3'), 1000));
 
 export const App = () => {
-  const [state, setState] = useUssrState('appState.text', 'i am test ');
+  const [state, setState] = useUssrState('i am test ');
 
   useUssrEffect(async () => {
     const data = await asyncFn();
