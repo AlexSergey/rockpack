@@ -651,6 +651,9 @@ footer ul li a:hover {
   vertical-align: top;
   margin: 10px;
 }
+.prism-code {
+  overflow-x: auto;
+}
 * {
   letter-spacing: normal !important;
 }

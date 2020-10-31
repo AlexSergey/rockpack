@@ -14,7 +14,7 @@ const App = () => (
       . Please read official
       {' '}
       <a
-        href="https://github.com/AlexSergey/rock"
+        href="https://www.rockpack.io/"
         target="_blank"
         rel="noopener noreferrer"
       >
