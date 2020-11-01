@@ -20,7 +20,6 @@
     - React-Helmet-Async
     - @loadable/components
 - **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
-- **NodeJS app** - Support for ES6 Imports, source code minification, understandable Source Maps, etc.
 
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
