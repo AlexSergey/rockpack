@@ -53,7 +53,7 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
 
 module.exports = {
   transform: {
-    '^.+\\.(ts|tsx)$': require.resolve('ts-jest'),
+    '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babelJestTS.js`,
     '^.+\\.(js|jsx|ts|tsx)$': `${rootFolder}/modules/babelJest.js`,
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/fileTransformer.js`
   },

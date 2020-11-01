@@ -19,7 +19,8 @@ describe('hooks tests', () => {
             resolve();
           }, 500);
         })
-      ), 'effect-1');
+      ));
+
       return null;
     };
 
@@ -36,11 +37,11 @@ describe('hooks tests', () => {
 
   test('useUssrState - Load state by source', async () => {
     const [Ussr] = createUssr({
-      'state-1': 'bar'
+      'state-0': 'bar'
     });
 
     const App = (): JSX.Element => {
-      const [state] = useUssrState('', 'state-1');
+      const [state] = useUssrState('', 'state-0');
 
       return (
         <div>
@@ -63,7 +64,7 @@ describe('hooks tests', () => {
     const [Ussr, getState, effectCollection] = createUssr();
 
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('', 'state-1');
+      const [state, setState] = useUssrState('');
 
       useUssrEffect(() => (
         new Promise(resolve => {
@@ -72,7 +73,7 @@ describe('hooks tests', () => {
             resolve();
           }, 500);
         })
-      ), 'effect-1');
+      ));
 
       return (
         <div>
@@ -89,7 +90,10 @@ describe('hooks tests', () => {
       .html();
 
     await effectCollection.runEffects();
+    const state = getState();
 
-    expect(getState()).toStrictEqual({ 'state-1': 'async bar' });
+    const key = Object.keys(state)[0];
+
+    expect(state).toStrictEqual({ [key]: 'async bar' });
   });
 });

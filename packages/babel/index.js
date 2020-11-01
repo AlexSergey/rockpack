@@ -27,7 +27,9 @@ const createBabelPresets = ({
 
   const opts = typescript ? {
     babelrc: false,
-    presets: [],
+    presets: [
+      require.resolve('@babel/preset-typescript')
+    ],
     plugins: [],
     env: {
       production: {}
@@ -53,35 +55,48 @@ const createBabelPresets = ({
         useBuiltIns: 'usage'
       } : {})]
     ],
-    plugins: [
-      [
-        require.resolve('@babel/plugin-proposal-pipeline-operator'),
-        { proposal: 'minimal' }
-      ],
-      require.resolve('@babel/plugin-proposal-do-expressions'),
-      require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
-      [
-        require.resolve('@babel/plugin-proposal-optional-chaining'),
-        { loose: false }
-      ],
-      require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-      require.resolve('@babel/plugin-syntax-dynamic-import'),
-      [
-        require.resolve('@babel/plugin-proposal-decorators'),
-        { legacy: true }
-      ],
-      require.resolve('@babel/plugin-proposal-class-properties'),
-      require.resolve('@babel/plugin-proposal-object-rest-spread'),
-      [require.resolve('babel-plugin-import'),
-        { libraryName: 'antd', style: true }
-      ]
-    ],
+    plugins: [],
     env: {
       production: {}
     }
   };
 
-  if (!typescript && framework === 'react') {
+  opts.plugins = [
+    [
+      require.resolve('@babel/plugin-proposal-pipeline-operator'),
+      { proposal: 'minimal' }
+    ],
+    require.resolve('@babel/plugin-proposal-do-expressions'),
+    require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
+    [
+      require.resolve('@babel/plugin-proposal-optional-chaining'),
+      { loose: false }
+    ],
+    require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
+    require.resolve('@babel/plugin-syntax-dynamic-import'),
+    [
+      require.resolve('@babel/plugin-proposal-decorators'),
+      { legacy: true }
+    ],
+    require.resolve('babel-plugin-parameter-decorator'),
+    require.resolve('@babel/plugin-proposal-class-properties'),
+    require.resolve('@babel/plugin-proposal-object-rest-spread'),
+    [require.resolve('babel-plugin-import'),
+      { libraryName: 'antd', style: true }
+    ],
+    [
+      BabelUssrPlugin,
+      { effect: 'useUssrEffect', setState: 'useUssrState' }
+    ]
+  ];
+
+  if (typescript) {
+    opts.plugins.push(
+      require.resolve('babel-plugin-transform-typescript-metadata')
+    );
+  }
+
+  if (framework === 'react') {
     opts.presets.push(
       [require.resolve('@babel/preset-react'), { useBuiltIns: true }]
     );
@@ -102,10 +117,6 @@ const createBabelPresets = ({
     opts.plugins.push(
       require.resolve('@loadable/babel-plugin')
     );
-    opts.plugins.push([
-      BabelUssrPlugin,
-      { effect: 'useUssrEffect', setState: 'useUssrState' }
-    ]);
   }
 
   if (isTest) {

@@ -31,9 +31,6 @@
     "react"
   ],
   "private": false,
-  "dependencies": {
-    "core-js": "3.6.5"
-  },
   "devDependencies": {
     "@rockpack/codestyle": "1.5.0",
     "@rockpack/compiler": "1.5.0",

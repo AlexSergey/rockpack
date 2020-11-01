@@ -1,29 +1,11 @@
-const { isString } = require('valid-types');
-const path = require('path');
 const createBabelPresets = require('@rockpack/babel');
-const formatter = require('@becklyn/typescript-error-formatter');
 const Collection = require('../utils/Collection');
-const pathToTSConf = require('../utils/pathToTSConf');
 const getStylesRules = require('../utils/getStylesRules');
 
 function getModules(conf = {}, mode, root) {
   const isProduction = mode === 'production';
 
   const { css, scss, less } = getStylesRules(conf, mode, root);
-
-  let debug = false;
-
-  if (!isProduction) {
-    debug = true;
-  }
-
-  if (conf.debug) {
-    debug = true;
-  }
-
-  const tsConfig = pathToTSConf(root, mode, debug);
-
-  const isTypeScript = isString(tsConfig);
 
   return {
     handlebars: {
@@ -101,76 +83,30 @@ function getModules(conf = {}, mode, root) {
 
     tsx: {
       test: /\.tsx$/,
-      use: conf.__isIsomorphic ? [
-        {
-          loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
-            isNodejs: !!conf.nodejs,
-            framework: 'react',
-            isomorphic: true,
-            isProduction,
-            typescript: true
-          })
-        },
-        {
-          loader: require.resolve('ts-loader'),
-          options: {
-            transpileOnly: !conf.__library,
-            configFile: isTypeScript ?
-              tsConfig :
-              path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
-          }
-        }
-      ] : [
-        {
-          loader: require.resolve('ts-loader'),
-          options: {
-            transpileOnly: !conf.__library,
-            configFile: isTypeScript ?
-              tsConfig :
-              path.resolve(__dirname, '../configs/tsconfig.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
-          }
-        }
-      ]
+      use: {
+        loader: require.resolve('babel-loader'),
+        query: createBabelPresets({
+          isNodejs: !!conf.nodejs,
+          framework: 'react',
+          isomorphic: conf.__isIsomorphic,
+          isProduction,
+          typescript: true
+        })
+      },
     },
 
     ts: {
       test: /\.ts$/,
-      use: conf.__isIsomorphic ? [
-        {
-          loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
-            isNodejs: !!conf.nodejs,
-            framework: false,
-            isomorphic: true,
-            isProduction,
-            typescript: true
-          })
-        },
-        {
-          loader: require.resolve('ts-loader'),
-          options: {
-            transpileOnly: !conf.__library,
-            configFile: isTypeScript ?
-              tsConfig :
-              path.resolve(__dirname, '../configs/tsconfig.for.isomorphic.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
-          }
-        }
-      ] : [
-        {
-          loader: require.resolve('ts-loader'),
-          options: {
-            transpileOnly: !conf.__library,
-            configFile: isTypeScript ?
-              tsConfig :
-              path.resolve(__dirname, '../configs/tsconfig.json'),
-            errorFormatter: (message, colors) => formatter(message, colors, process.cwd())
-          }
-        }
-      ]
+      use: {
+        loader: require.resolve('babel-loader'),
+        query: createBabelPresets({
+          isNodejs: !!conf.nodejs,
+          framework: false,
+          isomorphic: true,
+          isProduction,
+          typescript: true
+        })
+      }
     },
 
     shaders: {
