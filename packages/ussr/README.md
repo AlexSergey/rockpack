@@ -9,8 +9,8 @@
 **@rockpack/ussr** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ## Articles
-- [Creating simple SSR application [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
-- [Migration legacy application to SSR [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
+- [Creating simple SSR application [Article]](https://www.rockpack.io/ssr-1-creating-simple-ssr-application)
+- [Migration legacy application to SSR [Article]](https://www.rockpack.io/ssr-2-migration-legacy-app-to-ssr)
 
 ## Getting Started
 Modern JS applications are divided into 2 types:
