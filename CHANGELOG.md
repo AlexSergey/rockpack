@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.0]
+- Simplification of USSR's api
+- Small fixes
+- added: Articles, [the official site](http://rockpack.io/)
+
 ## [1.1.0]
 - fix(@rockpack/compiler): Side effects
 - Small fixes
