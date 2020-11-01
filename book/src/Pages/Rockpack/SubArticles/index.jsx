@@ -1,11 +1,11 @@
 import About from './About-Rockpack';
 import GettingStarted from './Getting-started';
-import HistoryOfCreation from './History-of-creation';
+//import HistoryOfCreation from './History-of-creation';
 
 const pages = [
   About,
   GettingStarted,
-  HistoryOfCreation
+  //HistoryOfCreation
 ];
 
 export default pages;

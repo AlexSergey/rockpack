@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/codestyle
 
 **@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.

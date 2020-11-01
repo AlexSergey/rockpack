@@ -36,35 +36,35 @@ import bsod from '../../../readme_assets/rockpack_logger_bsod.jpg';
 const Page = () => (
   <div>
     <p>
-      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is software for working with
+      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is a software for working with
       vector graphics. Working with a graphics editor implies a huge number of application use cases. We are trying to
       save money and time, so we optimize everything, including testing. Covering each option with test cases is too
       expensive and irrational, especially since it is impossible to cover all options.
     </p>
 
     <p>
-      This module can organize modern logging for your application. Based on the logs we test our application. In this
-      article I am going to tell you about how you can organize your logging system for search bugs.
+      This module can organize modern logging for your application. Basing on the logs we test our application. In this
+      article I am going to tell you about how you can organize your logging system for searching bugs.
     </p>
 
     <h3>What is the problem?</h3>
 
     <p>
-      If we compare application with alive organism that bug is the disease. The cause of this "disease" can be a number
-      of factors, including the environment of a particular user. This is much actually when we are talking about web
-      platform. Sometimes causation is very complicated and bug that was find they were testing - the result of a number
+      If we compare application with alive organism that bug is a disease. The cause of this "disease" can be a number
+      of factors, including the environment of a particular user. This is really relevant when we are talking about web
+      platform. Sometimes reason is very complicated and bug that was found through testing - the result of a number
       of actions.
     </p>
 
     <p>
-      As with human illnesses, no one can explain their symptoms better than a patient, no tester can tell what
+      As with human illnesses, no one can explain their symptoms better than a patient, any tester can tell what
       happened, better than the program itself.
     </p>
 
     <h3>What to do?</h3>
 
     <p>
-      To understand what is happening, we need a list of actions that the user performed in our application.
+      To understand what is happening, we need a history of actions that the user performed in our application.
     </p>
 
     <p>
@@ -87,19 +87,19 @@ const Page = () => (
 
     <p>
       In case of an error (or just on demand), the application sends logs to the server where they are saved to a file.
-      Logstash incrementally saves data to ElasticSearch - to the database. The user logs into Kibana and sees the saved
+      Logstash incrementally saves data to ElasticSearch - to the database. The user logs in Kibana and sees the saved
       logs.
     </p>
 
     <img className="flexible-image" src={img3} alt="Kibana" />
 
     <p>
-      This is a well set up Kibana. It displays your data from ElasticSearch. That can help you to analyze your data and
-      understand what happened.
+      Above you see a well set up Kibana. It displays your data from ElasticSearch. That can help you to analyze your
+      data and understand what happened.
     </p>
 
     <p>
-      <strong>In this article I am NOT considering setup ElasticStack!</strong>
+      <strong>In this article I am <strong>NOT</strong> considering setup ElasticStack!</strong>
     </p>
 
     <h3>Creating logging system</h3>
@@ -356,7 +356,7 @@ const Page = () => (
 
     <p>Working with a QA engineer deserves a separate description of the process.</p>
 
-    <p>Since we are a startup, we have no formal requirements and sometimes not everything is logical with us.</p>
+    <p>As we are a startup, we have no formal requirements and sometimes not everything is logical.</p>
 
     <p>
       If the tester does not understand the behavior, this is a case that at least needs to be considered. Also, often,
@@ -370,7 +370,7 @@ const Page = () => (
     <img className="flexible-image" src={img4} alt="BSOD button" />
 
     <p>
-      If, nevertheless, a critical error has occurred, we must block the interface so that the tester does not click
+      In case, a critical error has occurred, we must block the interface so that the tester does not click
       further and get stuck.
     </p>
 

@@ -46,20 +46,22 @@ const Page = () => (
     <h3>What is the problem?</h3>
 
     <p>
-      There are hundreds of reports on this topic, thousands of articles. So what can I tell you new, you ask? The fact
-      is that many of the articles have nothing to do with the real world and can only confuse us developers.
+      There are hundreds of reports on this topic, thousands of articles. So what can I tell you new, you are gonna ask?
+      The fact is that many of these articles have nothing to do with the real world and can only confuse us as
+      developers.
     </p>
 
     <p>
-      First, I want to tell you a story about how I came a long way doing localization for one of my previous projects.
+      Firstly, I want to tell you a story about how I passed a long way doing localization for one of my previous
+      projects.
     </p>
 
     <h3>Beginning</h3>
 
     <p>
-      And so, 2015. We have developed an application with localization. After reading relevant articles, we made a JSON
-      dictionary with Russian and English translations, where in the depth of nesting we had textual representations of
-      our strings
+      Let's get back to 2016. We have developed an application with localization. After reading relevant articles, we
+      made a JSON dictionary with Russian and English translations, where in the depth of nesting we had textual
+      representations of our strings
     </p>
 
     <Highlight {...defaultProps} theme={dracula} code={codeDictionaryExample} language="json">
@@ -84,42 +86,42 @@ const Page = () => (
 
     <p>
       Our customer decided to add support for a third language - Spanish! After a little thought, we copied the English
-      version of JSON, and sent it by mail to the translators.
+      version of JSON, and sent it by mail to the translator.
     </p>
 
     <p>
-      The translator was shocked to receive the JSON. He didn't know how to work with this format. He hadn't software
-      for editing JSON, no way to check spelling, view changes, etc. In general, the translator refused to work with
-      this.
+      The translator was shocked to receive the JSON. He didn't know how to work with this format. He didn't have
+      software for editing JSON, no way to check spelling, view changes, etc. Eventually, the translator refused to work
+      with this.
     </p>
 
     <img className="flexible-image" src={img1} alt="Fun" />
 
     <p>
       We began to realize that our path was not entirely correct, but there was nowhere to retreat, we decided to see it
-      through to the end, and ... We wrote a JSON-> CSV parser!
+      through to the end, and ... We wrote a JSON -> CSV parser!
     </p>
 
     <p>
       CSV format was more friendly for our translator, he was able to work with it. Having sent us the edited CSV, we
-      wrote a reverse CSV-> JSON parser. Everything seemed to be going well, and then ...
+      wrote a reverse CSV -> JSON parser. Everything seemed to be going well, and then ...
     </p>
 
     <p>
-      The tests have begun! The edits came. There were many of them. We started to send the updated CSV to our
-      translator, the translator sent them back to us. All this went through the mail of our manager. At some point, we
-      lost the current version, all our edits were mixed into a large pile of different options, which we could no
-      longer figure out.
+      The tests have begun! The corrections came. There were many of them. We sent the updated CSV to our
+      translator oftenly and translator sent it back to us. All this went through the mail of our manager. At some
+      point, we lost the current version, all our corrections were mixed into a large pile of different options, which
+      we could no longer understand.
     </p>
 
     <p>
       Since the JSON was nested, we got <i>undefined</i> fields due to the version difference, and our application
-      stopped work!
+      stopped working!
     </p>
 
     <p>
-      And we developed the wheel! We spent almost a couple of months of our team's time on development. What was it? It
-      was a page in the admin area where we could work with the most current locale, changing the translation for
+      And we invented the wheel! We spent almost a couple of months our team's time on development. What was it? It
+      was a page in the admin area where we could work with the most current locale, changing the translation to
       a friendly interface. English was taken as the default language. This is how it looked like.
     </p>
 
@@ -131,7 +133,7 @@ const Page = () => (
       manually saved JSON to our GIT repository.
     </p>
 
-    <p>It was nightmare! Now, let's figure it out.</p>
+    <p>It was a nightmare! Now, let's figure it out.</p>
 
     <h3>Concepts</h3>
 

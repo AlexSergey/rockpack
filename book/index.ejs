@@ -14,16 +14,16 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
     <meta name="google" value="notranslate" />
 
+    <% if (Array.isArray(htmlWebpackPlugin.files.css)) { %>
+        <% htmlWebpackPlugin.files.css.forEach(function(css){ %>
+            <link href="<%- css %>" rel="stylesheet">
+        <% }); %>
+    <% } %>
+
     <title>Rockpack</title>
 </head>
 <body>
     <div id="root"></div>
-    <% if (Array.isArray(htmlWebpackPlugin.files.css)) { %>
-        <% htmlWebpackPlugin.files.css.forEach(function(css){ %>
-            <link rel="preload" href="<%- css %>" as="style">
-            <link href="<%- css %>" rel="stylesheet">
-        <% }); %>
-    <% } %>
     <% if (Array.isArray(htmlWebpackPlugin.files.js)) { %>
         <% htmlWebpackPlugin.files.js.forEach(function(js){ %>
             <script src="<%- js %>" type="text/javascript"></script>

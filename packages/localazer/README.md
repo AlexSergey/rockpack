@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://www.natrube.net/localazer/assets/logo.png" alt="This module can help you organize localization in your application" />
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
 </p>
 
 # @rockpack/localazer

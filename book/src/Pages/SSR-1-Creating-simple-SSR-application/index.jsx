@@ -44,19 +44,19 @@ import img1 from '../../../readme_assets/rockpack_ussr_1.png';
 const Page = () => (
   <div>
     <p>
-      Working for a long time on outsourcing, a person begins to have outsourcer syndrome. What it is? We create
+      Working for a long time in outsource, a person grows outsourcer-syndrome. What it is? We create
       products without worrying about their future fate. A customer came, ordered an application, a website, whatever,
       we happily did it, assembled it using ultra-modern technologies, approaches, putting our souls into this project
-      ... But after completing the work, the customer leaves. In his place comes another. With another product, etc.
-      This is a conveyor belt. In such a situation, we do not know whether the customer's business is successful after
-      development, whether we have achieved the desired goals. Does the audience like the product, etc.
+      ... But after completing the work, the customer leaves. On his place comes another. With another product, etc.
+      This is a pipeline! In such situation, we do not know whether the customer's business is successful after
+      release, and if we achieved the business goals. Does the audience like the product, etc?
     </p>
 
     <p>
-      I was also prone to outsourcer syndrome. At the time when we started making our product, I had over 8 years of
-      experience in outsourcing. And now the time has come to realize this. We have released our product <a href="http://cleverbrush.com/">Cleverbrush</a>. As
-      time passed, I noticed that the main site, our selling platform, was simply not searched. Nobody visits it. It is
-      absent in the results of Google and other search engines.
+      I also had an outsourcer-syndrome. When we were making our product, I had 8+ years of
+      experience in outsource. And now the time has come to realize this. We have released our product <a href="http://cleverbrush.com/">Cleverbrush</a>. As
+      time passed, I noticed that the main site, our selling platform, was simply not searched. Nobody visited it. It
+      was absent in Google and other search engines results.
     </p>
 
     <p>
@@ -67,13 +67,13 @@ const Page = () => (
     <p>
       What was the problem, why users couldn't find the site? It was just a simple Single Page React application, making
       multiple requests, rendering a nice landing page. So what? Most of the modern web is Single Page applications.
-      Yes! But, wondering why this is happening, I looked at Google PageSpeed and the results were sad.
+      Yes! But, wondering why this is happening, I looked at Google PageSpeed and the results were pure.
     </p>
 
     <h3>The problem</h3>
 
     <p>
-      The main problem with Single Page applications is that the server serves a blank HTML page to the client. Its
+      The main problem with Single Page applications is that the server serves a blank HTML page to the client. It's
       formation occurs only after all JS has been downloaded (this is all your code, libraries, framework). It is
       advisable to load the styles as well so that the page does not "jump". In most cases, this is more than 2
       megabytes in size + code processing delays.
@@ -82,32 +82,33 @@ const Page = () => (
     <p>
       Even if a Google bot is able to parse a Single Page application, it only receives content after some time, which
       is critical for the ranking of the site. The Google bot simply sees a white, blank page for a few seconds! This is
-      bad!
+      a bad thing!
     </p>
 
     <p>
-      Our audience was not limited to the US market. Residents of Russia, Ukraine, Belarus, etc. can become our clients.
-      In these countries, the Yandex search engine is developed, which does not know how to render Single Page
-      applications (at the time when we encountered the problem). There are many other search engines out there, and I
+      {/* eslint-disable-next-line max-len */}
+      Our audience was not limited to the US market. Residents of Russia, Ukraine, Belarus, etc. can become our clients to.
+      In these countries, the Yandex search engine is widely used, which does not know how to render Single Page
+      applications (by that time when we encountered the problem). There are many other search engines out there, and I
       was surprised that the traffic from them is very, very high. I never thought about it before! These people will
       never know about our product, we will not get potential customers, etc.
     </p>
 
     <p>
-      Google starts issuing red cards if your site takes more than 3 seconds to render. First Contentful Paint, Time to
-      Interactive are metrics that will necessarily be underestimated with Single Page Application.
+      Google starts issuing red cards if your site takes more than 3 seconds to render. <i>First Contentful Paint</i>,
+      <i>Time to Interactive</i> are metrics that will necessarily be underestimated with Single Page Application.
     </p>
 
     <p>
-      But where does this figure of 2-3 seconds come from? I heard about it somewhere, hmm... Many articles on UX refer
-      to this figure. And the answer lies in the people. In the modern world, everyone has become a little lazier.
-      Everyone was oversaturated with information. And the person no longer intends to wait more than two seconds for
-      your site to load! What is it, we are wasting the time of his life while he watches the loading of our stunning
-      site!
+      But where does this figure of 2-3 seconds come from? I heard about it somewhere, hmm... Many articles in UX refer
+      to this figure. And the answer covered in the people. In the modern world, everyone has become a little lazy.
+      Everyone was overfilled with information. And the person no longer intends to wait more than two seconds for
+      your site to load! What is it, we are wasting time of his life while he watching the loading process of our
+      stunning site!
     </p>
 
     <p>
-      A bunch of factors are also linked to site rankings. I will tell you about them in other articles. Let's focus on
+      A bunch of factors are also related to site rankings. I will tell you about them in other articles. Let's focus on
       the rendering issue.
     </p>
 

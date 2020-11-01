@@ -30,8 +30,8 @@ const Page = () => (
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Library or React component.</strong> If you want to write a UMD library or React component, with support for the esm /
-          cjs build as well as the minified version.
+          <strong>Library or React component.</strong> If you want to write a UMD library or React component, with support for the esm/cjs
+          build as well as the minified version.
         </p>
       </li>
     </ul>
@@ -41,7 +41,7 @@ const Page = () => (
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Legacy projects or modular use.</strong> Rockpack is a modular platform, you can only use what you need. Please, read articles:
+          <strong>Legacy projects or modular use.</strong> Rockpack is a modular platform, you can only use what you need. Please, read articles to learn more:
         </p>
         <ul>
           <li>
@@ -68,7 +68,6 @@ const Page = () => (
         </ul>
       </li>
     </ul>
-    <hr />
   </div>
 );
 

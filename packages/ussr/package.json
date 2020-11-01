@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/ussr",
-  "version": "1.1.0",
+  "version": "1.5.0",
   "description": "USSR can help you to build Server Side Rendering for your react application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,8 +35,8 @@
     "core-js": "3.6.5"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.1.0",
-    "@rockpack/compiler": "1.1.0",
+    "@rockpack/codestyle": "1.5.0",
+    "@rockpack/compiler": "1.5.0",
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",

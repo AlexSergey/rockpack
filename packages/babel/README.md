@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/babel
 
 **@rockpack/babel** is Babel settings that provide modern JS syntax support for **@rockpack/compiler**, **@rockpack/tester**.

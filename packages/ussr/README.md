@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/ussr (Universal Server-Side Rendering)
 
 **@rockpack/ussr** A small library for building SSR applications. Universal in the name says that you can use it with any libraries and approaches for storing state - Redux (thunk, sagas), Mobx, Apollo...

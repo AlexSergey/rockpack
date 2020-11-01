@@ -18,7 +18,7 @@ frontendCompiler({
         { url: '/fast-setup' },
         { url: '/log-driven-development' },
         { url: '/localization-true-way' },
-        { url: '/ssr-1-basics-creating-simple-application' },
+        { url: '/ssr-1-creating-simple-ssr-application' },
         { url: '/ssr-2-migration-legacy-app-to-ssr' }
       ]
     });

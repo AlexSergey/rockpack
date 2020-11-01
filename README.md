@@ -2,7 +2,7 @@
   <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
-**Rockpack** is a complex solution for Server Side Rendering, bundling, linting, testing, logging, localizing.
+**Rockpack** is a complex solution for creating React Application with Server Side Rendering, bundling, linting, testing, logging, localizing.
 
 **Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.
 
@@ -13,11 +13,11 @@
 - **Beginners.** With the help of Rockpack, any newbie to React can deploy a project of any complexity in a few minutes, with configured webpack, eslint, jest, etc. Applications can be either regular Single Page or with a project structure, Server Side Render, etc.
 - **Large projects from scratch.** Rockpack supports most of the webpack best practices configurations, eslint rules, jest, typescript and will work great even on large projects
 - **Startup.** If you need to quickly check an idea without wasting time on unfolding and setting up the project.
-- **Library or React component.** If you want to write a UMD library or React component, with support for the esm / cjs build as well as the minified version.
+- **Library or React component.** If you want to write a UMD library or React component, with support for the esm/cjs build as well as the minified version.
 
 [Fast setup](https://www.rockpack.io/fast-setup)
 
-- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need.
+- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please, read articles to learn more:
   - Server Side Rendering:
     - [Creating simple SSR application [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
     - [Migration legacy application to SSR [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
@@ -160,6 +160,7 @@ The **Rockpack** project was inspired by:
 - **Rockpack** has the option of modular integration into legacy project.
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
 - **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
+- **Rockpack** provides powerful tools for logging and localization.
 
 ## The MIT License
 

@@ -17,7 +17,6 @@ const Page = () => (
       <li>Server-Side Render</li>
       <li>Server-Side Render + Redux + Sagas + React-Router + project structure</li>
       <li>UMD library or React Component</li>
-      <li>Nodejs application</li>
     </ul>
 
     <p>1. Installation:</p>

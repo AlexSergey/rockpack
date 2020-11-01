@@ -5,8 +5,8 @@ const Page = () => (
   <div>
     <LogoComponent />
     <p>
-      <strong>Rockpack</strong> is a complex solution for Server Side Rendering, bundling, linting, testing, logging,
-      localizing.
+      <strong>Rockpack</strong> is a complex solution for creating React Application with Server Side Rendering,
+      bundling, linting, testing, logging, localizing.
     </p>
     <p>The main goal is to reduce project setup time from weeks to 5 minutes.</p>
   </div>

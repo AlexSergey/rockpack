@@ -1,6 +1,12 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/starter
 
 **@rockpack/starter** this is **create-react-app** on steroids. Supports the following types of applications:
+
+**@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 - **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
 - **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
@@ -33,8 +39,6 @@ Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/mas
 *Additionally, for each type of application, you can install:*
 - Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
 - Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
-
-**@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ## Using
 

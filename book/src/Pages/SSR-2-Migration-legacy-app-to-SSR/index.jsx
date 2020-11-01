@@ -48,7 +48,7 @@ const Page = () => (
     </p>
 
     <p>
-      And so, of course, in real life, none of us will store important state in the local state of the component. For
+      Of course, in real life, none of us will store important state in the local state of the component. For
       these purposes, we use different state management systems, such as Redux, Mobx and others. In this article I will
       consider an example of how to make an application with SSR support from an existing application using Redux,
       Redux-Saga.
@@ -438,6 +438,8 @@ const Page = () => (
         </pre>
       )}
     </Highlight>
+
+    <h3>Conclusion</h3>
 
     <p>
       We have ported our Redux Application to SSR. In the same way, we can process any asynchronous operations from the

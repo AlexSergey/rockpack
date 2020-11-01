@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/tester
 
 **@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.

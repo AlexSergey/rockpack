@@ -1,6 +1,12 @@
+<p align="center">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+</p>
+
 # @rockpack/compiler
 
 **@rockpack/compiler** is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
+
+**@rockpack/compiler** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 **@rockpack/compiler** can help you with:
 
@@ -10,8 +16,6 @@
 - Markup html files
 - Compile isomorphic (Server-side rendering) application (TS/Babel)
 - Bundle analyze (TS/Babel)
-
-**@rockpack/compiler** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ## Features:
 

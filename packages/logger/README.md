@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://www.natrube.net/logrock/LogRock.png" alt="This module can help you build error tracking & crash reporting system" />
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
 </p>
 
 # @rockpack/logger
