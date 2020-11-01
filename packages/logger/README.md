@@ -4,17 +4,12 @@
 
 # @rockpack/logger
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README_RU.md">Readme (Russian version)</a>
-</p>
-
-Our application is alive organism. The bug in your application is a kind of disease. Nobody and nothing than your application can tell you better what went wrong with it.
-
-As developers, we would like to know which actions caused the error, what buttons the user clicked, what device and operation system it was. That and much more information could help us to resolve any problems and fix bugs more effectively.
-
 **@rockpack/logger** is a React component and logging system that allows you to record all actions before a critical error occurs so that this information can be analyzed later.
 
-**@rockpack/logger** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/logger** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+
+## Articles
+- [Log Driven Development [Article]](https://www.rockpack.io/log-driven-development)
 
 ## Using
 

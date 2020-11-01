@@ -15,10 +15,11 @@ frontendCompiler({
     prerenderDocgen(plugins, finalConfig, {
       sections: [
         { url: '/' },
+        { url: '/fast-setup' },
         { url: '/log-driven-development' },
         { url: '/localization-true-way' },
         { url: '/ssr-1-basics-creating-simple-application' },
-        { url: '/ssr-2-migration-legacy-redux-app-to-ssr' }
+        { url: '/ssr-2-migration-legacy-app-to-ssr' }
       ]
     });
   }

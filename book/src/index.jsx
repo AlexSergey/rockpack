@@ -1,17 +1,19 @@
 import React from 'react';
 import createDocumentation from '../generator';
 import logo from './assets/header-logo.svg';
-import GettingStarted from './Pages/Getting-Started';
+import Rockpack from './Pages/Rockpack';
+import FastSetup from './Pages/Fast-setup';
 import LogDrivenDevelopment from './Pages/Log-Driven-Development';
 import LocalizationTrueWay from './Pages/Localization-True-Way';
-import SSR1Basic from './Pages/SSR-1-basics-сreating-simple-application';
-import SSR2Migration from './Pages/SSR-2-Migration-legacy-redux-to-SSR';
+import SSR1Basic from './Pages/SSR-1-Creating-simple-SSR-application';
+import SSR2Migration from './Pages/SSR-2-Migration-legacy-app-to-SSR';
 
 createDocumentation({
   logo,
   logoAlt: 'Rockpack',
   docgen: [
-    GettingStarted,
+    Rockpack,
+    FastSetup,
     {
       title: 'Articles:',
       menuOnly: true,

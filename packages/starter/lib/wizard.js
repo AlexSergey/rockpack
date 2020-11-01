@@ -33,11 +33,11 @@ const wizard = async () => {
         value: 'library',
         checked: false
       },
-      {
+      /*{
         name: 'Node.js Application',
         value: 'nodejs',
         checked: false
-      }
+      }*/
     ]
   });
 

@@ -4,17 +4,16 @@
 
 # @rockpack/localazer
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README_RU.md">Readme (Russian version)</a>
-</p>
-
 Most application localization approaches use JSON files as the storage location. JSON is a convenient format for a developer but not for a localizer. The localizer works in specialized software that must maintain correct spelling, find typos, and combine GIT-style developments between versions of the application to form a dictionary.
 
 The most common approach for localizing applications is **gettext**. This is a set of localization programs that organize spell checking, merge different versions of application localizations, and delete unnecessary text data. This application has been used by most of the desktop developers since the 90s.
 
 In order to organize the communication of our **React** application with **gettext** and back, **@rockpack/compiler** and **@rockpack/localizer** can help us.
 
-**@rockpack/localazer** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/localazer** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+
+## Articles
+- [Localization. True way [Article]](https://www.rockpack.io/localization-true-way)
 
 ## How it works
 Stage 1. We need to add localization and make it friends with our application.

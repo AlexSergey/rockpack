@@ -1,12 +1,8 @@
 # @rockpack/codestyle
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md">Readme (Russian version)</a>
-</p>
-
 **@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
 
-**@rockpack/codestyle** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/codestyle** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ## Features:
 

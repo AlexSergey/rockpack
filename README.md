@@ -2,17 +2,35 @@
   <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/README_RU.md">Readme (Russian version)</a>
-</p>
+**Rockpack** is a complex solution for Server Side Rendering, bundling, linting, testing, logging, localizing.
 
-**Rockpack** is a comprehensive solution that allows us to save time at the start of a project and start immediately solving business problems and avoid dealing with routines such as setting up webpack, jest, eslint etc.
+**Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.
 
-**Rockpack** was designed with one goal in mind - to use previously created turnkey solutions as efficiently as possible. In its development, I tried to avoid the bike structure in order to make this tool as versatile as possible for every React project.
+## Getting Started:
+
+**Rockpack** will help if:
+
+- **Beginners.** With the help of Rockpack, any newbie to React can deploy a project of any complexity in a few minutes, with configured webpack, eslint, jest, etc. Applications can be either regular Single Page or with a project structure, Server Side Render, etc.
+- **Large projects from scratch.** Rockpack supports most of the webpack best practices configurations, eslint rules, jest, typescript and will work great even on large projects
+- **Startup.** If you need to quickly check an idea without wasting time on unfolding and setting up the project.
+- **Library or React component.** If you want to write a UMD library or React component, with support for the esm / cjs build as well as the minified version.
+
+[Fast setup](https://www.rockpack.io/fast-setup)
+
+- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need.
+  - Server Side Rendering:
+    - [Creating simple SSR application [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
+    - [Migration legacy application to SSR [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
+  - Finding bugs using logging:
+    - [Log Driven Development [Article]](https://www.rockpack.io/log-driven-development)
+  - Application localizing without problems:
+    - [Localization. True way [Article]](https://www.rockpack.io/localization-true-way)
+
+***
 
 ## Motivation
 
-Working on many React projects from scratch, we are faced with the same type of routine tasks. We answer questions every time:
+Working on many React projects, we are faced with the same type of routine tasks. We answer questions every time:
 
 - *How to set up an efficient build system with support for many formats and Typescript we need*
 - *Which linter's rules should be on the project for comfortable work*
@@ -33,33 +51,6 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
 </p>
 
 Also at the start of the project, we can create localization, setup logging, and we can do this practically without spending time.
-
-## How to start
-For setting up a project from scratch, the recommended approach is to use **@rockpack/starter**
-
-1. Installation
-
-```shell script
-npm i @rockpack/starter -g
-```
-
-2. Creating an App
-```shell script
-rockpack <project name>
-```
-
-3. Select the type of application, select the required modules.
-
-![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v2.jpg)
-
-If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module
-
-- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
-- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md#how-it-works)
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
-- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
-- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
 
 ## Rockpack modules overview
 
@@ -98,8 +89,8 @@ this is **create-react-app** on steroids. Supports the following types of applic
 Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
 *Additionally, for each type of application, you can install:*
-- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
-- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md)
+- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
+- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 ***

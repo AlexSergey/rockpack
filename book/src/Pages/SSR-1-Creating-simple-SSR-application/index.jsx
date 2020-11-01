@@ -608,8 +608,8 @@ const Page = () => (
 );
 
 const page = {
-  title: 'SSR part 1. Basics. Creating simple app',
-  url: '/ssr-1-basics-creating-simple-application',
+  title: 'SSR part 1. Creating simple SSR application',
+  url: '/ssr-1-creating-simple-ssr-application',
   menuClassName: 'small-menu-item',
   share: true,
   meta: [

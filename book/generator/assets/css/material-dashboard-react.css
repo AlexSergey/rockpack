@@ -23,7 +23,7 @@ body {
   min-width: 320px;
 }
 .app-header {
-  background: #009be5 !important;
+  background: #0068af !important;
   border-radius: 0 !important;
   color: #fff;
 }
@@ -257,13 +257,13 @@ h6 {
 }
 
 a {
-  color: #b05f0d;
+  color: #0068af;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #80420a;
+  color: #009be5;
   text-decoration: none;
 }
 

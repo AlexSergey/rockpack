@@ -2,7 +2,7 @@ import React from 'react';
 import children from './SubArticles';
 
 const page = {
-  title: 'Getting Started',
+  title: 'Rockpack',
   url: '/',
   menuOnly: true,
   meta: [

@@ -1,13 +1,14 @@
 # @rockpack/ussr (Universal Server-Side Rendering)
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README_RU.md">Readme (Russian version)</a>
-</p>
-
 **@rockpack/ussr** A small library for building SSR applications. Universal in the name says that you can use it with any libraries and approaches for storing state - Redux (thunk, sagas), Mobx, Apollo...
 
-**@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/ussr** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
+## Articles
+- [Creating simple SSR application [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
+- [Migration legacy application to SSR [Article]](https://www.rockpack.io/SSR-1-creating-simple-ssr-application)
+
+## Getting Started
 Modern JS applications are divided into 2 types:
 - CSR - Client-Side rendering. The application will be displayed only after downloading and executing all the necessary JS code. Until then, the user will see a blank page. It degrades the UX and is bad for SEO.
 - SSR - Server-Side rendering. The auxiliary server doesn't send a blank page, but a page with data. Thus, the user can immediately start working with the application, and the Secondary Server does not give a blank page but a page with data. The user can immediately start working with the application and SEO bots will index the page.
@@ -38,8 +39,6 @@ Schematically it looks like this:
 The above application is compiled with **@rockpack/compiler** as minified NodeJS and React applications.
 
 All of the above allows you to organize **@rockpack/compiler** and **@rockpack/ussr**.
-
-**@rockpack/ussr** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
 
 ## Using
 

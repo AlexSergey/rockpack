@@ -1,9 +1,5 @@
 # @rockpack/starter
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README_RU.md">Readme (Russian version)</a>
-</p>
-
 **@rockpack/starter** this is **create-react-app** on steroids. Supports the following types of applications:
 
 - **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
@@ -35,10 +31,10 @@
 Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
 *Additionally, for each type of application, you can install:*
-- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README_RU.md)
-- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md)
+- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
+- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
 
-**@rockpack/starter** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ## Using
 
@@ -55,7 +51,7 @@ rockpack <project name>
 
 3. Select the type of application, select the required modules.
 
-![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v2.jpg)
+![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v3.jpg)
 ***
 
 *If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module*

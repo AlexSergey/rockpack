@@ -1,14 +1,10 @@
 # @rockpack/tester
 
-<p align="right">
-  <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README_RU.md">Readme (Russian version)</a>
-</p>
-
 **@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.
 
 **@rockpack/tester** includes several recommended modules and a test report generator.
 
-**@rockpack/tester** this module is part of the **Rockpack** project which you can read about <a href="https://github.com/AlexSergey/rockpack/blob/master/README.md" target="_blank">here</a>
+**@rockpack/tester** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
 ### Add-ons:
 - [jest-extended](https://github.com/jest-community/jest-extended)

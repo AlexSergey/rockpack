@@ -448,8 +448,8 @@ const Page = () => (
 );
 
 const page = {
-  title: 'SSR part 2. Migration legacy Redux app to SSR',
-  url: '/ssr-2-migration-legacy-redux-app-to-ssr',
+  title: 'SSR part 2. Migration legacy app to SSR',
+  url: '/ssr-2-migration-legacy-app-to-ssr',
   menuClassName: 'small-menu-item',
   share: true,
   meta: [
