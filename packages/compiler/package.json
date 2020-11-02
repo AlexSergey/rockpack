@@ -51,6 +51,7 @@
     "cssnano": "4.1.10",
     "deep-extend": "0.6.0",
     "dotenv-webpack": "2.0.0",
+    "dts-generator": "3.0.0",
     "eslint-webpack-plugin": "2.1.0",
     "extract-loader": "4.0.3",
     "file-loader": "6.1.0",

@@ -48,6 +48,8 @@ function getTitle(packageJson) {
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
   const { extensions } = makeResolve();
+  const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
+  const distFolder = path.dirname(distPath);
 
   const isTypeScript = isString(tsConfig);
 
@@ -117,13 +119,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   ) {
     const defaultInspectPort = 9224;
     const freeInspectPort = await fpPromise(defaultInspectPort);
-    const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
-    const d = path.dirname(distPath);
 
-    const script = path.join(d, path.basename(distPath));
+    const script = path.join(distFolder, path.basename(distPath));
 
     const opts = {
-      watch: d,
+      watch: distFolder,
       verbose: false,
       nodeArgs: conf.__isIsomorphicBackend ? [
         '--require="source-map-support/register"',

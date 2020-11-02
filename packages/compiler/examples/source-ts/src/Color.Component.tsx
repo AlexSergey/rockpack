@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import renderText from './renderText';
 import css from './styles/index.module.css';
+import { check } from './utils/nested/check';
 
 type ClockState = {
   color: string
 }
 
 export function colorMiddleware(color: string): string {
-  return color;
+  return check(color) ? color : '#f00';
 }
 
 export default class ColorString extends Component<ClockState> {

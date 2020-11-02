@@ -1,7 +1,10 @@
-const { isArray, isDefined } = require('valid-types');
+const path = require('path');
+const { isArray, isDefined, isString } = require('valid-types');
 const WebpackDevServer = require('webpack-dev-server');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
+const generateDts = require('../utils/generateDts');
+const pathToTSConf = require('../utils/pathToTSConf');
 
 const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
   simple: () => (
@@ -9,6 +12,19 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
       compiler.run(async (err, stats) => {
         if (err) {
           return reject(err);
+        }
+        if (conf.library && mode === 'production') {
+          const root = path.dirname(require.main.filename);
+          const tsConfig = pathToTSConf(root, mode, false);
+          const isTypeScript = isString(tsConfig);
+
+          if (isTypeScript) {
+            try {
+              await generateDts(conf);
+            } catch (e) {
+              console.error(e.message);
+            }
+          }
         }
         if (isDefined(conf.esm) || isDefined(conf.cjs)) {
           // Transpile source

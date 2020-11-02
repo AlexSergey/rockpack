@@ -1,12 +1,12 @@
-declare namespace IndexModulesCssNamespace {
-  export interface IIndexModulesCss {
+declare namespace IndexModuleCssNamespace {
+  export interface IIndexModuleCss {
     block: string;
   }
 }
 
-declare const IndexModulesCssModule: IndexModulesCssNamespace.IIndexModulesCss & {
+declare const IndexModuleCssModule: IndexModuleCssNamespace.IIndexModuleCss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: IndexModulesCssNamespace.IIndexModulesCss;
+  locals: IndexModuleCssNamespace.IIndexModuleCss;
 };
 
-export = IndexModulesCssModule;
+export = IndexModuleCssModule;
