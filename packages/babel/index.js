@@ -1,7 +1,6 @@
 const { existsSync } = require('fs');
 const path = require('path');
 const { isString, isObject } = require('valid-types');
-const BabelUssrPlugin = require('./ussr');
 
 const createBabelPresets = ({
   isNodejs = false,
@@ -84,10 +83,7 @@ const createBabelPresets = ({
     [require.resolve('babel-plugin-import'),
       { libraryName: 'antd', style: true }
     ],
-    [
-      BabelUssrPlugin,
-      { effect: 'useUssrEffect', setState: 'useUssrState' }
-    ]
+    require.resolve('@rockpack/babel-ussr-plugin')
   ];
 
   if (typescript) {

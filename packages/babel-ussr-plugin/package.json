@@ -1,0 +1,33 @@
+{
+  "name": "@rockpack/babel-ussr-plugin",
+  "version": "1.5.0",
+  "description": "Babel USSR plugin",
+  "main": "index.js",
+  "scripts": {
+    "lint": "cross-env NODE_ENV=production eslint \"**\"",
+    "production": "npm run lint && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
+  },
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "license": "MIT",
+  "homepage": "https://www.rockpack.io/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rockpack/issues"
+  },
+  "keywords": [
+    "babel",
+    "ssr",
+    "server-side-rendering",
+    "isomorphic-rendering",
+    "universal-application",
+    "react"
+  ],
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {
+    "@rockpack/codestyle": "1.5.0"
+  }
+}
