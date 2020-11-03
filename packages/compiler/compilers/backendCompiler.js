@@ -1,7 +1,6 @@
 const deepExtend = require('deep-extend');
 const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
-const getMode = require('../utils/getMode');
 
 async function backendCompiler(conf = {}, cb, configOnly = false) {
   if (!conf) {
@@ -9,7 +8,6 @@ async function backendCompiler(conf = {}, cb, configOnly = false) {
   }
 
   errorHandler();
-  const mode = getMode();
 
   conf = deepExtend({}, conf, {
     html: false,
@@ -17,10 +15,6 @@ async function backendCompiler(conf = {}, cb, configOnly = false) {
     __isBackend: true,
     compilerName: backendCompiler.name
   });
-
-  if (mode === 'development') {
-    conf._liveReload = true;
-  }
 
   return await _compile(conf, cb, configOnly);
 }

@@ -1,6 +1,6 @@
+/* eslint-disable */
 const path = require('path');
 const { isArray, isDefined, isString } = require('valid-types');
-const WebpackDevServer = require('webpack-dev-server');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
 const generateDts = require('../utils/generateDts');
@@ -41,13 +41,13 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
       });
     })
   ),
-  'dev-server': () => {
+  /*'dev-server': () => {
     const server = new WebpackDevServer(compiler, webpackConfig.devServer);
 
     server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
       conf.messages.push(`Starting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/`);
     });
-  },
+  },*/
   watch: () => {
     compiler.watch({}, (err, stats) => {
       if (err) {
@@ -61,34 +61,9 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
   }
 });
 
-const runNodeStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
-  simple: () => (
-    runAppStrategy(compiler, webpack, webpackConfig, conf).simple()
-  ),
-  // eslint-disable-next-line sonarjs/no-identical-functions
-  'node-watch': () => {
-    // eslint-disable-next-line sonarjs/no-identical-functions
-    compiler.watch({}, (err, stats) => {
-      if (err) {
-        console.log(err.message);
-        return process.exit(1);
-      }
-      if (mode === 'production') {
-        log(stats);
-      }
-    });
-  }
-});
-
 const getStrategy = (mode, conf) => {
-  if (conf.onlyWatch) {
-    return conf.nodejs ? 'node-watch' : 'watch';
-  }
   if (mode === 'development') {
-    if (conf.nodejs) {
-      return 'node-watch';
-    }
-    return 'dev-server';
+    return 'watch';
   }
   return 'simple';
 };
@@ -97,7 +72,7 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
 
-  if (global.ISOMORPHIC) {
+  /*if (global.ISOMORPHIC) {
     const compiler = webpack(webpackConfig);
     const strategy = getStrategy(mode, {
       nodejs: true
@@ -161,7 +136,7 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
     if (configs.length === configs.filter(c => c.strategy === 'simple').length) {
       process.exit(0);
     }
-  }
+  }*/
 };
 
 module.exports = _run;

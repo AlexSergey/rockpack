@@ -15,9 +15,6 @@ const _innerProps = async (conf, mode) => {
         conf.__isIsomorphic = true;
         if (mode === 'development') {
           conf.__isIsomorphicStyles = true;
-          conf.onlyWatch = isDefined(conf.onlyWatch) ?
-            conf.onlyWatch :
-            true;
         }
         conf.__isIsomorphicFrontend = true;
         conf.write = isDefined(conf.write) ?

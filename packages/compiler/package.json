@@ -106,10 +106,9 @@
     "valid-types": "2.0.3",
     "webpack": "4.44.2",
     "webpack-bundle-analyzer": "3.8.0",
-    "webpack-dev-server": "3.11.0",
+    "webpack-plugin-serve": "1.2.0",
     "webpack-format-messages": "2.0.6",
     "webpack-graphql-loader": "1.0.2",
-    "webpack-livereload-plugin": "2.3.0",
     "webpack-node-externals": "2.5.2",
     "write-file-webpack-plugin": "4.5.1",
     "yargs": "15.4.1"

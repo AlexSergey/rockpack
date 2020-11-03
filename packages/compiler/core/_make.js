@@ -45,6 +45,10 @@ const _make = async (conf, post) => {
     externals
   };
 
+  if (mode === 'development') {
+    finalConfig.watch = true;
+  }
+
   finalConfig.mode = mode;
 
   if (isDefined(conf.externals)) {

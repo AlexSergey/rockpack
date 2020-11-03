@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { existsSync } = require('fs');
 const { argv } = require('yargs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
@@ -8,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Serve = require('webpack-plugin-serve');
 const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
@@ -150,36 +152,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
-  if (conf._liveReload && mode === 'development') {
-    const liveReloadPort = await fpPromise(isNumber(conf.liveReload) ? conf.liveReload : 35729);
-    conf._liveReloadPort = liveReloadPort;
-    process.env.__LIVE_RELOAD__ = liveReloadPort;
-    plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300, quiet: true });
-
-    conf.messages.push(`LiveReload is listening on port ${liveReloadPort}`);
-
-    const errors = ['unhandledRejection', 'uncaughtException'];
-
-    errors.forEach(error => {
-      process.on(error, () => {
-        if (plugins.liveReload && plugins.liveReload.server && isFunction(plugins.liveReload.server.close)) {
-          plugins.liveReload.server.close();
-        }
-        process.exit(1);
-      });
-    });
-
-    const signals = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
-
-    signals.forEach(signal => {
-      process.once(signal, () => {
-        if (plugins.liveReload && plugins.liveReload.server && isFunction(plugins.liveReload.server.close)) {
-          plugins.liveReload.server.close();
-        }
-        process.exit(0);
-      });
-    });
-  }
 
   let pages = [];
   let HTMLProcessing = true;
@@ -197,21 +169,16 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       pages = conf.html;
     } else {
       pages = [
-        Object.assign({
+        {
           title: (conf.html && conf.html.title) || (getTitle(packageJson) ? getTitle(packageJson) : ''),
           code: (conf.html && conf.html.code) ? conf.html.code : null,
           favicon: (conf.html && conf.html.favicon) ? conf.html.favicon : null,
           template: (conf.html && conf.html.template) || path.resolve(__dirname, '..', './index.ejs')
-        }, conf._liveReloadPort ? {
-          liveReloadPort: conf._liveReloadPort
-        } : {})
+        }
       ];
     }
 
     pages = pages.map(page => {
-      if (conf._liveReloadPort) {
-        page.liveReloadPort = conf._liveReloadPort;
-      }
       if (!page.template) {
         page.template = path.resolve(__dirname, '..', './index.ejs');
       }
@@ -290,14 +257,24 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
+    plugins.Server = new Serve({
+      liveReload: true,
+      historyFallback: true,
+      port: 3000,
+      open: true,
+      host: 'localhost',
+      static: conf.dist,
+      client: {
+        address: 'localhost:3000',
+      }
+    });
+
     plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
     plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
 
     plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin([
       /css\.d\.ts$/
     ]);
-
-    plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
 
     if (conf.__isIsomorphicStyles) {
       plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({

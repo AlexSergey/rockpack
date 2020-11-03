@@ -19,14 +19,8 @@ const makeEntry = (conf, root, mode) => {
   entry[entryPoint] = path.resolve(root, conf.src);
   const context = path.dirname(entry[entryPoint]);
 
-  if (
-    !global.ISOMORPHIC &&
-    !conf.onlyWatch &&
-    !conf.nodejs &&
-    mode === 'development'
-  ) {
-    entry['dev-server-client'] = `${require.resolve('webpack-dev-server/client')}?http://localhost:${conf.port}/`;
-    entry['dev-server-hot'] = require.resolve('webpack/hot/dev-server');
+  if (mode === 'development') {
+    entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
   }
 
   return { entry, context };

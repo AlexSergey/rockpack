@@ -2,7 +2,6 @@ const deepExtend = require('deep-extend');
 const { isString, isObject, isArray } = require('valid-types');
 const frontendCompiler = require('./frontendCompiler');
 const backendCompiler = require('./backendCompiler');
-const getMode = require('../utils/getMode');
 const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
 
@@ -47,21 +46,11 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
     return process.exit(1);
   }
 
-  const mode = getMode();
-
   conf = deepExtend({}, conf, {
     library: libraryName
   }, {
     html: !conf.html ? false : conf.html
   });
-
-  if (!conf.html) {
-    if (mode === 'development') {
-      conf.onlyWatch = true;
-    }
-  } else if (mode === 'development') {
-    conf._liveReload = true;
-  }
 
   conf.compilerName = libraryCompiler.name;
 

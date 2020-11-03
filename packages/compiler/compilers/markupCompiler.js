@@ -16,10 +16,6 @@ async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
     return process.exit(1);
   }
 
-  if (process.env.NODE_ENV === 'development') {
-    conf._liveReload = true;
-  }
-
   try {
     const html = await findHTML(pth, conf.html);
 

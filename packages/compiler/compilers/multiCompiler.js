@@ -29,7 +29,6 @@ async function multiCompiler(...props) {
   const serverDev = [];
   const configs = {};
   const webpackConfigs = [];
-  const liveReload = [];
 
   // set id
   props.forEach((config, index) => {
@@ -41,15 +40,6 @@ async function multiCompiler(...props) {
   // check intersection ports
   for (let i = 0, l = props.length; i < l; i++) {
     const config = props[i];
-
-    if (!ports[config.id].liveReload) {
-      let port = await fpPromise(35729);
-      if (liveReload.indexOf(port) >= 0) {
-        port = await fpPromise(35729 + getRandom(100));
-      }
-      liveReload.push(port);
-      ports[config.id]._liveReloadPort = port;
-    }
 
     if (config && isNumber(config.server)) {
       if (!ports[config.id].server) {
