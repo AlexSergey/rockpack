@@ -2,7 +2,7 @@
   <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
-**Rockpack** is a complex solution for creating React Application with Server Side Rendering, bundling, linting, testing, logging, localizing.
+**Rockpack** is a solution for creating React Application with Server Side Rendering, bundling, linting, testing, logging, localizing.
 
 **Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.
 
