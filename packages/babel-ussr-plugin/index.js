@@ -1,8 +1,13 @@
+function getTarget(caller) {
+  return caller && caller.target;
+}
+
 const BabelUssrPlugin = (api) => {
   const t = api.types;
-  api.cache(false);
   let effectIndex = 0;
   let setStateIndex = 0;
+
+  api.caller(getTarget);
 
   return {
     name: 'ussr',
