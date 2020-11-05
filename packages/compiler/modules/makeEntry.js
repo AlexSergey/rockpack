@@ -19,7 +19,10 @@ const makeEntry = (conf, root, mode) => {
   entry[entryPoint] = path.resolve(root, conf.src);
   const context = path.dirname(entry[entryPoint]);
 
-  if (mode === 'development') {
+  if (
+    mode === 'development' &&
+    !conf.nodejs
+  ) {
     entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
   }
 

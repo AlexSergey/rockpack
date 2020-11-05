@@ -141,7 +141,8 @@ router.get('/*', async (ctx) => {
       window.REDUX_DATA = ${serialize(reduxState, { isJSON: true })}
     </script>
     ${scriptTags}
-    ${isDevelopment() ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
+
+    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ''}
 </body>
 </html>
 `;

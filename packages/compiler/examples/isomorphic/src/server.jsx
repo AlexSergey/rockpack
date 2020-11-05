@@ -22,7 +22,8 @@ app.get('/*', async (req, res) => {
 <body>
     <div id="root">${html}</div>
     <script src="/index.js"></script>
-    ${!isProduction ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
+
+    ${!isProduction ? `<script src="/dev-server.js"></script>` : ''}
 </body>
 </html>
 `);

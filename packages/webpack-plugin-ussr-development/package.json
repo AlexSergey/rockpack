@@ -1,0 +1,9 @@
+{
+  "name": "@rockpack/webpack-plugin-ussr-development",
+  "version": "1.5.0",
+  "dependencies": {
+    "nodemon": "2.0.6",
+    "ramda": "0.27.1",
+    "wait-on": "5.2.0"
+  }
+}

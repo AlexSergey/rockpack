@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Serve = require('webpack-plugin-serve');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
@@ -23,7 +23,6 @@ const NodemonPlugin = require('nodemon-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
@@ -35,6 +34,7 @@ const makeBanner = require('./makeBanner');
 const makeResolve = require('./makeResolve');
 const ReloadHtmlWebpackPlugin = require('../utils/reloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
+const { UssrBackend, UssrFrontend } = require('@rockpack/webpack-plugin-ussr-development');
 
 function getTitle(packageJson) {
   if (!packageJson) {
@@ -45,6 +45,41 @@ function getTitle(packageJson) {
   }
   return `${packageJson.name.split('_')
     .join(' ')}`;
+}
+
+const getNodemonOptions = async (distFolder, distPath, conf) => {
+  const defaultInspectPort = 9224;
+  const freeInspectPort = await fpPromise(defaultInspectPort);
+
+  const script = path.join(distFolder, path.basename(distPath));
+
+  const opts = {
+    watch: distFolder,
+    verbose: false,
+    nodeArgs: conf.__isIsomorphicBackend ? [
+      '--require="source-map-support/register"',
+    ] : [
+      `--inspect=${freeInspectPort}`,
+      '--require="source-map-support/register"'
+    ],
+    ignore: [
+      '*.map',
+      '*.hot-update.json',
+      '*.hot-update.js',
+      'stats.json'
+    ],
+    script,
+    ext: 'js',
+    quiet: true
+  };
+
+  conf.messages.push('nodemon is running');
+
+  if (!conf.__isIsomorphicBackend) {
+    conf.messages.push(`node-inspect is available on ${freeInspectPort} port`);
+  }
+
+  return opts;
 }
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
@@ -113,44 +148,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       banner: !banner ? '' : banner,
       entryOnly: true
     });
-  }
-
-  if (
-    mode === 'development' &&
-    conf.nodejs
-  ) {
-    const defaultInspectPort = 9224;
-    const freeInspectPort = await fpPromise(defaultInspectPort);
-
-    const script = path.join(distFolder, path.basename(distPath));
-
-    const opts = {
-      watch: distFolder,
-      verbose: false,
-      nodeArgs: conf.__isIsomorphicBackend ? [
-        '--require="source-map-support/register"',
-      ] : [
-        `--inspect=${freeInspectPort}`,
-        '--require="source-map-support/register"'
-      ],
-      ignore: [
-        '*.map',
-        '*.hot-update.json',
-        '*.hot-update.js',
-        'stats.json'
-      ],
-      script,
-      ext: 'js',
-      quiet: true
-    };
-
-    conf.messages.push('nodemon is running');
-
-    if (!conf.__isIsomorphicBackend) {
-      conf.messages.push(`node-inspect is available on ${freeInspectPort} port`);
-    }
-
-    plugins.NodemonPlugin = new NodemonPlugin(opts);
   }
 
   let pages = [];
@@ -257,17 +254,49 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
-    plugins.Server = new Serve({
-      liveReload: true,
-      historyFallback: true,
-      port: 3000,
-      open: true,
-      host: 'localhost',
-      static: conf.dist,
-      client: {
-        address: 'localhost:3000',
-      }
-    });
+    if (
+      !conf.nodejs &&
+      !global.ISOMORPHIC
+    ) {
+      plugins.WebpackPluginServe = new WebpackPluginServe({
+        liveReload: true,
+        historyFallback: true,
+        port: 3000,
+        open: !global.ISOMORPHIC,
+        host: 'localhost',
+        static: conf.distContext,
+        client: {
+          address: 'localhost:3000',
+        },
+        waitForBuild: true
+      });
+    }
+    else if (
+      conf.nodejs &&
+      !global.ISOMORPHIC
+    ) {
+      const opts = await getNodemonOptions(distFolder, distPath, conf);
+
+      plugins.NodemonPlugin = new NodemonPlugin(opts);
+    } else if (global.ISOMORPHIC) {
+      const opts = await getNodemonOptions(distFolder, distPath, conf);
+
+      plugins.UssrDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
+        new UssrBackend(Object.assign({}, opts, {
+          onChanged: global.OBSERVER.backendChanged
+        })) :
+        new UssrFrontend({
+          port: 3000,
+          host: 'localhost',
+          static: conf.distContext,
+          client: {
+            address: 'localhost:3000',
+          },
+          onChanged: global.OBSERVER.frontendChanged,
+          onInit: global.OBSERVER.register
+        })
+      ;
+    }
 
     plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
     plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();

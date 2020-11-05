@@ -20,11 +20,16 @@ const makeOptimization = require('../modules/makeOptimization');
 const _make = async (conf, post) => {
   const mode = getMode();
   const root = path.dirname(require.main.filename);
-  // eslint-disable-next-line global-require
-  const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
+
+  const packageJson = existsSync(path.resolve(root, 'package.json')) ?
+    // eslint-disable-next-line global-require
+    require(path.resolve(root, 'package.json')) :
+    {};
+
   conf = conf.makePOT ?
     await mergeLocalizationConfWithDefault(conf, mode) :
     await mergeConfWithDefault(conf, mode);
+
   const { entry, context } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root);
   const devtool = makeDevtool(mode, conf);

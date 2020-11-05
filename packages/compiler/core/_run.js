@@ -71,7 +71,10 @@ const getStrategy = (mode, conf) => {
 const _run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
+  const compiler = webpack(webpackConfig);
+  const strategy = getStrategy(mode, configs);
 
+  runAppStrategy(compiler, webpack, webpackConfig, configs, mode)[strategy]();
   /*if (global.ISOMORPHIC) {
     const compiler = webpack(webpackConfig);
     const strategy = getStrategy(mode, {
