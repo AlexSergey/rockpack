@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/localazer",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "This module can help you organize localization in your React application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,8 +38,8 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.5.0",
-    "@rockpack/compiler": "1.5.0",
+    "@rockpack/codestyle": "1.6.0",
+    "@rockpack/compiler": "1.6.0",
     "@types/enzyme": "3.10.5",
     "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "26.0.12",

@@ -1,18 +1,36 @@
+const md5 = require('md5');
+const pathNode = require('path');
+
 function getTarget(caller) {
   return caller && caller.target;
 }
 
+const createDummy = (globalCache, id, field) => {
+  if (!globalCache[id]) {
+    globalCache[id] = {
+      setState: 0,
+      effect: 0
+    };
+  }
+  if (!globalCache[id][field]) {
+    globalCache[id][field] = 0;
+  }
+};
+
 const BabelUssrPlugin = (api) => {
   const t = api.types;
-  let effectIndex = 0;
-  let setStateIndex = 0;
+  const globalCache = {};
 
   api.caller(getTarget);
 
   return {
     name: 'ussr',
     visitor: {
-      CallExpression(path, { opts: options }) {
+      CallExpression(path, { opts: options, file }) {
+        const { filename, cwd } = file.opts;
+
+        const id = md5(pathNode.relative(cwd, filename));
+
         const effectName = options && (
           typeof options.effect === 'string' ||
           Array.isArray(options.effect)
@@ -39,7 +57,8 @@ const BabelUssrPlugin = (api) => {
           // eslint-disable-next-line sonarjs/no-collapsible-if
           if (path.node.callee.name === effect) {
             if (path.node.arguments.length < 2) {
-              const effectID = `effect-${effectIndex++}`;
+              createDummy(globalCache, id, 'effect');
+              const effectID = `effect-${id}-${globalCache[id].effect++}`;
               path.node.arguments.push(t.StringLiteral(effectID));
             }
           }
@@ -49,7 +68,8 @@ const BabelUssrPlugin = (api) => {
           // eslint-disable-next-line sonarjs/no-collapsible-if
           if (path.node.callee.name === stateName) {
             if (path.node.arguments.length < 2) {
-              const setStateID = `state-${setStateIndex++}`;
+              createDummy(globalCache, id, 'setState');
+              const setStateID = `state-${id}-${globalCache[id].setState++}`;
               path.node.arguments.push(t.StringLiteral(setStateID));
             }
           }
