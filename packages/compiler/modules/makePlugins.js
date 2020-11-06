@@ -258,15 +258,17 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       !conf.nodejs &&
       !global.ISOMORPHIC
     ) {
+      const defaultFrontServePort = conf.port;
+      const frontServePort = await fpPromise(defaultFrontServePort);
       plugins.WebpackPluginServe = new WebpackPluginServe({
         liveReload: true,
         historyFallback: true,
-        port: 3000,
-        open: !global.ISOMORPHIC,
+        port: frontServePort,
+        open: true,
         host: 'localhost',
         static: conf.distContext,
         client: {
-          address: 'localhost:3000',
+          address: `localhost:${frontServePort}`,
         },
         waitForBuild: true
       });
@@ -279,21 +281,20 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       plugins.NodemonPlugin = new NodemonPlugin(opts);
     } else if (global.ISOMORPHIC) {
+      const defaultFrontReloaderPort = 8767;
+      const frontReloaderPort = await fpPromise(defaultFrontReloaderPort);
+
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
       plugins.UssrDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
-        new UssrBackend(Object.assign({}, opts, {
-          onChanged: global.OBSERVER.backendChanged
-        })) :
+        new UssrBackend(opts) :
         new UssrFrontend({
-          port: 3000,
+          port: frontReloaderPort,
           host: 'localhost',
           static: conf.distContext,
           client: {
-            address: 'localhost:3000',
-          },
-          onChanged: global.OBSERVER.frontendChanged,
-          onInit: global.OBSERVER.register
+            address: `localhost:${frontReloaderPort}`,
+          }
         })
       ;
     }

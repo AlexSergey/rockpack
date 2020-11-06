@@ -6,7 +6,6 @@ const libraryCompiler = require('./compilers/libraryCompiler');
 const frontendCompiler = require('./compilers/frontendCompiler');
 const backendCompiler = require('./compilers/backendCompiler');
 const analyzerCompiler = require('./compilers/analyzerCompiler');
-const multiCompiler = require('./compilers/multiCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
 const localazer = require('./compilers/localazer');
 
@@ -18,7 +17,6 @@ module.exports = {
   getWebpack,
   getArgs,
   makeWebpackConfig,
-  multiCompiler,
   isomorphicCompiler,
   markupCompiler,
   libraryCompiler,

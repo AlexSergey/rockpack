@@ -2,6 +2,20 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 class UssrFrontend {
   constructor(opts) {
+    if (!global.__USSR_OBSERVER__) {
+      console.error('You forget use createUssrObserver!');
+      console.log();
+      console.log('Please, follow instruction:')
+      console.log();
+      console.log('import createUssrObserver from \'@rockpack/webpack-plugin-ussr-development\';');
+      console.log();
+      console.log('...');
+      console.log();
+      console.log('createUssrObserver();');
+      console.log();
+      process.exit(1);
+    }
+
     const defaultOptions = {
       liveReload: false,
       hmr: false,
@@ -10,11 +24,10 @@ class UssrFrontend {
       waitForBuild: true
     }
 
-    const onChanged = opts.onChanged;
-    const onInit = opts.onInit;
+    const onChanged = global.__USSR_OBSERVER__.frontendChanged;
+    const onInit = global.__USSR_OBSERVER__.register;
+
     let first = true;
-    delete opts.onChanged;
-    delete opts.onInit;
 
     this.server = new WebpackPluginServe(Object.assign({}, defaultOptions, opts));
 

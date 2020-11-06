@@ -20,8 +20,7 @@ router.get('/*', async (ctx) => {
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    ${process.env.NODE_ENV === 'development' ?
-    `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` : ''}
+    ${process.env.NODE_ENV === 'development' ? <script src="/dev-server.js"></script> : ''}
     <script>
       window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
@@ -40,8 +39,4 @@ app
 
 const server = app.listen(4000, () => {
   console.log(`Server is listening ${4000} port`);
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
-  }
 });

@@ -1,7 +1,7 @@
 const UssrBackend = require('./backend');
 const UssrFrontend = require('./frontend');
 
-const createObserver = () => {
+const createUssrObserver = () => {
   let state = {
     back: false,
     front: false,
@@ -25,7 +25,7 @@ const createObserver = () => {
     }
   }, 100);
 
-  return {
+  global.__USSR_OBSERVER__ = {
     register: (inst) => state.instance = inst,
 
     backendChanged: () => state.back = true,
@@ -35,10 +35,15 @@ const createObserver = () => {
       state.stats = stats;
       state.compiler = compiler;
     },
+  };
+
+  return {
+    UssrBackend,
+    UssrFrontend
   }
 }
 
-createObserver.UssrBackend = UssrBackend;
-createObserver.UssrFrontend = UssrFrontend;
+createUssrObserver.UssrBackend = UssrBackend;
+createUssrObserver.UssrFrontend = UssrFrontend;
 
-module.exports = createObserver;
+module.exports = createUssrObserver;

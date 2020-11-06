@@ -62,10 +62,7 @@ router.get('/*', async (ctx) => {
     <meta charset="UTF-8">
     <title>Title</title>
     ${styles.join('')}
-    ${isDevelopment()
-    // eslint-disable-next-line no-underscore-dangle
-    ? `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>`
-    : ''}
+    ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
     <script>
       window.USSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
@@ -85,11 +82,6 @@ app
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is listening ${process.env.PORT} port`);
-
-  if (isDevelopment()) {
-    // eslint-disable-next-line no-underscore-dangle, no-console
-    console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
-  }
 });
 
 const handleError = (err, ctx): void => {

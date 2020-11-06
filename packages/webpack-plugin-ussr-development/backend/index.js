@@ -6,6 +6,19 @@ const { getOutputFileMeta } = require('./webpack-utils');
 
 module.exports = class {
   constructor(nodemonOptions) {
+    if (!global.__USSR_OBSERVER__) {
+      console.error('You forget use createUssrObserver!');
+      console.log();
+      console.log('Please, follow instruction:')
+      console.log();
+      console.log('import createUssrObserver from \'@rockpack/webpack-plugin-ussr-development\';');
+      console.log();
+      console.log('...');
+      console.log();
+      console.log('createUssrObserver();');
+      console.log();
+      process.exit(1);
+    }
     this.nodemonOptions = nodemonOptions;
     this.isWebpackWatching = false;
     this.isNodemonRunning = false;
@@ -60,9 +73,9 @@ module.exports = class {
       console.log(colouredMessage)
     );
     monitor.on('restart', () => {
-      if (typeof this.nodemonOptions.onChanged === 'function') {
+      if (typeof global.__USSR_OBSERVER__.backendChanged === 'function') {
         setTimeout(() => {
-          this.nodemonOptions.onChanged();
+          global.__USSR_OBSERVER__.backendChanged();
         }, 500);
       }
     });

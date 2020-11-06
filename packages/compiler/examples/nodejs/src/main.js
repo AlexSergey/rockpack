@@ -8,10 +8,7 @@ const render = (message) => `<!DOCTYPE html>
     <meta charset="utf-8" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    ${process.env.NODE_ENV === 'development' ?
-      `<script src="http://localhost:${process.env.__LIVE_RELOAD__}/livereload.js"></script>` :
-      ''
-    }
+    ${process.env.NODE_ENV === 'development' ? <script src="/dev-server.js"></script> : ''}
     <title></title>
 </head>
 <body>
@@ -31,11 +28,7 @@ const server = http.createServer(requestHandler);
 
 server.listen(port, (err) => {
   if (err) {
-    return console.log('something bad happened', err);
+    return console.log('Something bad happened', err);
   }
-  console.log(`server is listening on ${port}`);
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
-  }
+  console.log(`Server is listening on ${port}`);
 });

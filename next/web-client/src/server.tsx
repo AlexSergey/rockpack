@@ -155,11 +155,6 @@ app
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is listening ${process.env.PORT} port`);
-
-  if (isDevelopment()) {
-    // eslint-disable-next-line no-underscore-dangle, no-console
-    console.log(`LiveReload connected to ${process.env.__LIVE_RELOAD__} port`);
-  }
 });
 
 const handleError = (err, ctx): void => {

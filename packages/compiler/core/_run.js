@@ -1,6 +1,5 @@
-/* eslint-disable */
 const path = require('path');
-const { isArray, isDefined, isString } = require('valid-types');
+const { isDefined, isString } = require('valid-types');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
 const generateDts = require('../utils/generateDts');
@@ -41,13 +40,6 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
       });
     })
   ),
-  /*'dev-server': () => {
-    const server = new WebpackDevServer(compiler, webpackConfig.devServer);
-
-    server.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, () => {
-      conf.messages.push(`Starting server on http://${webpackConfig.devServer.host}:${webpackConfig.devServer.port}/`);
-    });
-  },*/
   watch: () => {
     compiler.watch({}, (err, stats) => {
       if (err) {
@@ -61,7 +53,7 @@ const runAppStrategy = (compiler, webpack, webpackConfig, conf, mode) => ({
   }
 });
 
-const getStrategy = (mode, conf) => {
+const getStrategy = (mode) => {
   if (mode === 'development') {
     return 'watch';
   }
@@ -72,74 +64,17 @@ const _run = async (webpackConfig, mode, webpack, configs) => {
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
   const compiler = webpack(webpackConfig);
-  const strategy = getStrategy(mode, configs);
+  const strategy = getStrategy(mode);
 
-  runAppStrategy(compiler, webpack, webpackConfig, configs, mode)[strategy]();
-  /*if (global.ISOMORPHIC) {
-    const compiler = webpack(webpackConfig);
-    const strategy = getStrategy(mode, {
-      nodejs: true
-    });
-    try {
-      const frontConfig = configs.find(c => c.__isIsomorphicFrontend);
-
-      await runNodeStrategy(
-        compiler,
-        webpack,
-        webpackConfig,
-        {
-          _liveReloadPort: frontConfig._liveReloadPort
-        },
-        mode
-      )[strategy]();
-    } catch (e) {
-      console.error(e);
-      process.exit(1);
-    }
-
-    if (strategy === 'simple') {
-      process.exit(0);
-    }
-  } else {
-    const isMultiCompile = isArray(webpackConfig);
-
-    webpackConfig = isMultiCompile ? webpackConfig : [webpackConfig];
-    configs = isMultiCompile ? configs : [configs];
-
-    // eslint-disable-next-line no-shadow
-    webpackConfig.forEach((webpackConfig, index) => {
-      configs[index].strategy = getStrategy(mode, configs[index]);
-    });
-
-    const compiler = isMultiCompile ? webpack(webpackConfig) : webpack(webpackConfig[0]);
-
-    for (let i = 0, l = configs.length; i < l; i++) {
-      const config = configs[i];
-      let compileStrategy;
-      const runner = config.nodejs ? runNodeStrategy : runAppStrategy;
-
-      try {
-        compileStrategy = runner(
-          isMultiCompile ?
-            compiler.compilers[i] :
-            compiler,
-          webpack,
-          webpackConfig[i],
-          config,
-          mode
-        )[config.strategy];
-
-        await compileStrategy();
-      } catch (e) {
-        console.error(e);
-        process.exit(1);
-      }
-    }
-
-    if (configs.length === configs.filter(c => c.strategy === 'simple').length) {
-      process.exit(0);
-    }
-  }*/
+  try {
+    await runAppStrategy(compiler, webpack, webpackConfig, configs, mode)[strategy]();
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+  if (strategy === 'simple') {
+    process.exit(0);
+  }
 };
 
 module.exports = _run;
