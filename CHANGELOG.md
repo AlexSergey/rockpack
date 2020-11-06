@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.0]
+- Babel-ussr-plugin added
+- ts-loader, ts-jest -> @babel/preset-typescript
+
 ## [1.5.0]
 - Simplification of USSR's api
 - Small fixes

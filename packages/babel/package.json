@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Babel presets module for @rock",
   "main": "index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "@babel/preset-typescript": "7.12.1",
     "@babel/traverse": "7.11.5",
     "@loadable/babel-plugin": "5.13.0",
-    "@rockpack/babel-ussr-plugin": "1.5.0",
+    "@rockpack/babel-ussr-plugin": "1.6.0",
     "babel-plugin-import": "1.13.0",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
@@ -53,6 +53,6 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.5.0"
+    "@rockpack/codestyle": "1.6.0"
   }
 }
