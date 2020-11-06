@@ -25,6 +25,7 @@
 - Support build nodejs scripts with nodemon, livereload, source maps
 - Dotenv support and Dotenv safe support
 - React optimizations
+- Monorepo supported
 - Write file webpack plugin (in dev mode)
 - Copy Webpack Plugin
 - ESLint support
@@ -88,7 +89,6 @@ Your app will be built, minified, and optimized for production.
 
 ```js
 const {
-  multiCompiler,
   isomorphicCompiler,
   markupCompiler,
   libraryCompiler,
@@ -217,31 +217,6 @@ analyzerCompiler(options);
 ```
 The analyzer page is available on port 8888
 
-### multiCompiler(configs[needed]);
-
-Allows you to compile multiple applications. Useful when developing a full stack of solutions (Nodejs + React application) or when building a UMD library + React application where this library will be used
-
-```js
-let { multiCompiler, frontendCompiler, libraryCompiler, backendCompiler } = require('rocket-starter');
-
-multiCompiler(
-  backendCompiler({
-    src: './backend/src/index.js',
-    dist: './backend/dist'
-  }),
-  frontendCompiler({
-    src: './client/src/index.jsx',
-    dist: './client/dist',
-    banner: true,
-    styles: 'style.css'
-  }),
-  libraryCompiler('MyLib', {
-    src: './library/src/index.js',
-    dist: './library/dist',
-    html: false
-  })
-);
-```
 ### isomorphicCompiler(configs[needed]);
 
 Compiles an SSR application. For a more detailed description of how to create an isomorphic application using **Rockpack**, please see <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">here</a>

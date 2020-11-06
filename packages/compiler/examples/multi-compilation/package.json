@@ -1,8 +1,0 @@
-{
-  "name": "example-multi-entry",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "cross-env NODE_ENV=development node build",
-    "build": "cross-env NODE_ENV=production node build"
-  }
-}
