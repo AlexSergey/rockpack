@@ -172,7 +172,8 @@ const packageJSONPreparing = async (packageJSON, {
 
   packageJSON = addScripts(packageJSON, {
     start: 'cross-env NODE_ENV=development node scripts.build',
-    build: 'cross-env NODE_ENV=production node scripts.build'
+    build: 'cross-env NODE_ENV=production node scripts.build',
+    analyzer: 'cross-env NODE_ENV=development node scripts.build --analyzer'
   });
 
 

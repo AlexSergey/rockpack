@@ -94,7 +94,6 @@ const {
   libraryCompiler,
   frontendCompiler,
   backendCompiler,
-  analyzerCompiler,
 } = require('@rockpack/compiler');
 ```
 ### frontendCompiler(options[optional], callback[optional]);
@@ -192,7 +191,7 @@ libraryCompiler({
 ```
 ### markupCompiler(paths[needed], options[optional], callback[optional]);
 
-Позволяет обрабатывать HTML файлы (HTML, handlebars, jade). Полезно при верстки макета
+Allows to process HTML files (HTML, handlebars, jade). Useful for markup
 
 ```js
 const { markupCompiler } = require('rocket-starter');
@@ -206,17 +205,6 @@ markupCompiler(
     });
   });
 ```
-### analyzerCompiler(options[optional], callback[optional]);
-
-Builds the application and runs webpack-bundle-analyzer
-
-```js
-const { analyzerCompiler } = require('rocket-starter');
-
-analyzerCompiler(options);
-```
-The analyzer page is available on port 8888
-
 ### isomorphicCompiler(configs[needed]);
 
 Compiles an SSR application. For a more detailed description of how to create an isomorphic application using **Rockpack**, please see <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">here</a>

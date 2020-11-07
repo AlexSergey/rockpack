@@ -5,7 +5,6 @@ const markupCompiler = require('./compilers/markupCompiler');
 const libraryCompiler = require('./compilers/libraryCompiler');
 const frontendCompiler = require('./compilers/frontendCompiler');
 const backendCompiler = require('./compilers/backendCompiler');
-const analyzerCompiler = require('./compilers/analyzerCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
 const localazer = require('./compilers/localazer');
 
@@ -22,6 +21,5 @@ module.exports = {
   libraryCompiler,
   frontendCompiler,
   backendCompiler,
-  analyzerCompiler,
   localazer
 };
