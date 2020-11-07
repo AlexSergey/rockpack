@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel-ussr-plugin",
-  "version": "1.6.0",
+  "version": "1.8.0",
   "description": "Babel USSR plugin",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "md5": "2.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.6.0"
+    "@rockpack/codestyle": "1.8.0"
   }
 }

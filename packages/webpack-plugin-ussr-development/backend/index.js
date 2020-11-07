@@ -7,15 +7,25 @@ const { getOutputFileMeta } = require('./webpack-utils');
 module.exports = class {
   constructor(nodemonOptions) {
     if (!global.__USSR_OBSERVER__) {
+      // eslint-disable-next-line no-console
       console.error('You forget use createUssrObserver!');
+      // eslint-disable-next-line no-console
       console.log();
-      console.log('Please, follow instruction:')
+      // eslint-disable-next-line no-console
+      console.log('Please, follow instruction:');
+      // eslint-disable-next-line no-console
       console.log();
+      // eslint-disable-next-line no-console
       console.log('import createUssrObserver from \'@rockpack/webpack-plugin-ussr-development\';');
+      // eslint-disable-next-line no-console
       console.log();
+      // eslint-disable-next-line no-console
       console.log('...');
+      // eslint-disable-next-line no-console
       console.log();
+      // eslint-disable-next-line no-console
       console.log('createUssrObserver();');
+      // eslint-disable-next-line no-console
       console.log();
       process.exit(1);
     }
@@ -69,9 +79,8 @@ module.exports = class {
 
     const monitor = nodemon(nodemonOptions);
 
-    monitor.on('log', ({ colour: colouredMessage }) =>
-      console.log(colouredMessage)
-    );
+    // eslint-disable-next-line no-console
+    monitor.on('log', ({ colour: colouredMessage }) => console.log(colouredMessage));
     monitor.on('restart', () => {
       if (typeof global.__USSR_OBSERVER__.backendChanged === 'function') {
         setTimeout(() => {

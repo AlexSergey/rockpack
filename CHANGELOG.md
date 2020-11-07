@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.8.0]
+- webpack-dev-server -> webpack-plugin-serve
+- @rockpack/compiler simplification
+- @rockpack/webpack-plugin-ussr-development added
+
 ## [1.6.0]
 - Babel-ussr-plugin added
 - ts-loader, ts-jest -> @babel/preset-typescript
