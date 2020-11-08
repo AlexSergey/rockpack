@@ -24,7 +24,7 @@ const BabelUssrPlugin = (api) => {
   api.caller(getTarget);
 
   return {
-    name: 'ussr',
+    name: 'ussr-marker',
     visitor: {
       CallExpression(path, { opts: options, file }) {
         const { filename, cwd } = file.opts;

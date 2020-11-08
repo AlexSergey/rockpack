@@ -1,1 +1,0 @@
-# @rockpack/babel-ussr-plugin

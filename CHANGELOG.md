@@ -5,6 +5,9 @@
 - @rockpack/compiler simplification
 - @rockpack/webpack-plugin-ussr-development added
 
+## [1.6.1]
+- Babel-ussr-plugin -> babel-plugin-ussr-marker
+
 ## [1.6.0]
 - Babel-ussr-plugin added
 - ts-loader, ts-jest -> @babel/preset-typescript

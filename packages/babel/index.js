@@ -83,7 +83,7 @@ const createBabelPresets = ({
     [require.resolve('babel-plugin-import'),
       { libraryName: 'antd', style: true }
     ],
-    require.resolve('@rockpack/babel-ussr-plugin')
+    require.resolve('@rockpack/babel-plugin-ussr-marker')
   ];
 
   if (typescript) {
