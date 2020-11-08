@@ -1,7 +1,7 @@
 {
-  "name": "@rockpack/babel-ussr-plugin",
-  "version": "1.6.0",
-  "description": "Babel USSR plugin",
+  "name": "@rockpack/babel-plugin-ussr-marker",
+  "version": "1.6.1",
+  "description": "Babel plugin for @rockpack/ussr",
   "main": "index.js",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
@@ -23,13 +23,14 @@
     "server-side-rendering",
     "isomorphic-rendering",
     "universal-application",
-    "react"
+    "react",
+    "rockpack"
   ],
   "private": false,
   "dependencies": {
     "md5": "2.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.6.0"
+    "@rockpack/codestyle": "1.6.1"
   }
 }
