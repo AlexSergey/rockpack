@@ -1,0 +1,1 @@
+npm i @babel/core @babel/preset-react @rockpack/babel-plugin-ussr-marker babel-loader webpack webpack-cli nodemon-webpack-plugin --save-dev

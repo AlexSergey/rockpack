@@ -21,6 +21,7 @@
   - Server Side Rendering:
     - [Creating simple SSR application [Article]](https://www.rockpack.io/ssr-1-creating-simple-ssr-application)
     - [Migration legacy application to SSR [Article]](https://www.rockpack.io/ssr-2-migration-legacy-app-to-ssr)
+    - [SSR Advanced Techniques [Article]](https://www.rockpack.io/ssr-3-advanced-techniques)
   - Finding bugs using logging:
     - [Log Driven Development [Article]](https://www.rockpack.io/log-driven-development)
   - Application localizing without problems:
