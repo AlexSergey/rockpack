@@ -7,6 +7,7 @@ import LogDrivenDevelopment from './Pages/Log-Driven-Development';
 import LocalizationTrueWay from './Pages/Localization-True-Way';
 import SSR1Basic from './Pages/SSR-1-Creating-simple-SSR-application';
 import SSR2Migration from './Pages/SSR-2-Migration-legacy-app-to-SSR';
+import SSR3Advanced from './Pages/SSR-3-Advanced-Techniques';
 
 createDocumentation({
   logo,
@@ -20,6 +21,7 @@ createDocumentation({
     },
     SSR1Basic,
     SSR2Migration,
+    SSR3Advanced,
     LogDrivenDevelopment,
     LocalizationTrueWay,
   ],

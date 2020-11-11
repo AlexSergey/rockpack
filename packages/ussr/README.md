@@ -11,6 +11,7 @@
 ## Articles
 - [Creating simple SSR application [Article]](https://www.rockpack.io/ssr-1-creating-simple-ssr-application)
 - [Migration legacy application to SSR [Article]](https://www.rockpack.io/ssr-2-migration-legacy-app-to-ssr)
+- [SSR Advanced Techniques [Article]](https://www.rockpack.io/ssr-3-advanced-techniques)
 
 ## Getting Started
 Modern JS applications are divided into 2 types:
@@ -80,6 +81,9 @@ render(
 **Let's change this app to SSR:**
 
 1. Installation:
+
+--> **@rockpack/compiler** is an optional module! If you have your own webpack.config or you want to
+build it from scratch you can use [this approach](https://www.rockpack.io/ssr-3-advanced-techniques#webpack-config).
 
 ```sh
 # NPM

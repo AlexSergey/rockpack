@@ -230,6 +230,15 @@ const Page = () => (
 
     <p>1. Installation</p>
 
+    <p>
+      <i>
+        <u>
+          --> <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md">@rockpack/compiler</a> is an optional module! If you have your own webpack.config or you want
+          to build it from scratch you can use <a href="/ssr-3-advanced-techniques#webpack-config">this approach</a>
+        </u>
+      </i>
+    </p>
+
     <Highlight {...defaultProps} theme={dracula} code={codeInstallationExample} language="bash">
       {/* eslint-disable-next-line sonarjs/no-identical-functions */}
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
@@ -284,6 +293,15 @@ const Page = () => (
         </pre>
       )}
     </Highlight>
+
+    <p>
+      <i>
+        <u>
+          --> <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md">@rockpack/compiler</a> is an optional module! If you have your own webpack.config or you want
+          to build it from scratch you can use <a href="/ssr-3-advanced-techniques#webpack-config">this approach</a>
+        </u>
+      </i>
+    </p>
 
     <p>
       Let's move the general logic of our application into a separate file <strong>App.jsx</strong>. This is necessary
@@ -545,7 +563,7 @@ const Page = () => (
 
     <p>
       That's it! We now have an SSR-enabled application. For a more realistic example, where not setState will be used,
-      but Redux, please read the <a href="/ssr-2-migration-legacy-redux-app-to-ssr">continuation</a>.
+      but Redux, please read the <a href="/ssr-2-migration-legacy-app-to-ssr">continuation</a>.
     </p>
 
     <h3>Complete code</h3>

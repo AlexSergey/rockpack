@@ -43,7 +43,7 @@ import codeClientStateExample from 'raw-loader!./code/code-client-state.example'
 const Page = () => (
   <div>
     <p>
-      If you haven't read the <a href="/ssr-1-basics-creating-simple-application">first part</a> of this article, it covers the basic concepts and ideas. I ask you to read it
+      If you haven't read the <a href="/ssr-1-creating-simple-ssr-application">first part</a> of this article, it covers the basic concepts and ideas. I ask you to read it
       first and only then continue reading.
     </p>
 
