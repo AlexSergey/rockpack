@@ -299,19 +299,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       ;
     }
 
-    plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
-    plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
-
-    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin([
-      /css\.d\.ts$/
-    ]);
+    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin({
+      paths: [
+        /css\.d\.ts$/
+      ]
+    });
 
     if (conf.__isIsomorphicStyles) {
       plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
-        filename: 'css/styles.css',
-        insertAt: {
-          after: 'title'
-        }
+        filename: 'css/styles.css'
       });
     }
   }
@@ -334,10 +330,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       'css/styles.css';
 
     plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
-      filename: styleName,
-      insertAt: {
-        after: 'title'
-      }
+      filename: styleName
     });
 
     plugins.ImageminPlugin = new ImageminPlugin({
@@ -360,8 +353,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         })
       ]
     });
-
-    plugins.OccurrenceOrderPlugin = new webpack.optimize.OccurrenceOrderPlugin();
 
     plugins.FlagDependencyUsagePlugin = new FlagDependencyUsagePlugin();
 
