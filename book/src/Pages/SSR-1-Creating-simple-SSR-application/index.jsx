@@ -226,7 +226,7 @@ const Page = () => (
 
     <p>In place of the <strong>asyncFn</strong> method, we can have a request to the server.</p>
 
-    <h3>Let's make this application asynchronous!</h3>
+    <h3>And so, let's move this application to SSR!</h3>
 
     <p>1. Installation</p>
 
@@ -623,6 +623,13 @@ const Page = () => (
     </Highlight>
 
     <p>Also the code is available <a href="https://github.com/AlexSergey/rockpack/tree/master/packages/ussr/examples/2-simple-express">here</a></p>
+
+    <h3>Conclusion</h3>
+    <p>
+      The main problems in creating SSR applications are asynchronous operations and code bundling. We have considered
+      their implementation using the simplest example and are ready to move on. In the next article we will see how to
+      port an existing application to SSR.
+    </p>
   </div>
 );
 
