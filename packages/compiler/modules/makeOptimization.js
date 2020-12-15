@@ -44,7 +44,6 @@ const makeOptimization = (mode, conf) => {
       minimize: true,
       minimizer: [
         new TerserPlugin({
-          sourceMap: conf.debug,
           terserOptions: {
             mangle: true,
             output: {

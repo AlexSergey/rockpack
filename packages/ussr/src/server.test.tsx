@@ -11,7 +11,7 @@ describe('server render tests', () => {
       const [state, setState] = useUssrState('');
 
       useUssrEffect(() => (
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           setTimeout(() => {
             setState('test bar');
             resolve();
@@ -61,7 +61,7 @@ describe('server render tests', () => {
       // eslint-disable-next-line sonarjs/no-identical-functions
       useUssrEffect(() => (
         // eslint-disable-next-line sonarjs/no-identical-functions
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           setTimeout(() => {
             setState('test bar');
             resolve();

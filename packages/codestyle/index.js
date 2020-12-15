@@ -210,6 +210,7 @@ module.exports = {
         },
       ],
       '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      '@typescript-eslint/comma-dangle': 'off',
       'react/prop-types': 'off',
       quotes: 'off',
       'no-unused-vars': 'off',

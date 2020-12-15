@@ -32,7 +32,7 @@
     "@koa/multer": "2.0.2",
     "@koa/router": "8.0.8",
     "bcrypt": "5.0.0",
-    "debug": "4.1.1",
+    "debug": "4.3.1",
     "dotenv-safe": "8.2.0",
     "jsonwebtoken": "8.5.1",
     "koa": "2.11.0",
