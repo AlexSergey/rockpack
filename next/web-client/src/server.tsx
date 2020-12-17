@@ -38,10 +38,6 @@ const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
 
-const styles = stats.assets
-  .filter(file => path.extname(file.name) === '.css')
-  .map(style => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
-
 app.use(noCache({
   global: true
 }));
@@ -114,9 +110,11 @@ router.get('/*', async (ctx) => {
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
+  const linkTags = extractor.getLinkTags();
+  let styleTags = extractor.getStyleTags();
 
   if (isDevelopment()) {
-    styles.push(`<style>${[...css].join('')}</style>`);
+    styleTags += `<style>${[...css].join('')}</style>`;
   }
 
   const reduxState = store.getState();
@@ -133,7 +131,8 @@ router.get('/*', async (ctx) => {
     <link rel="alternate" hreflang="en-En" href=${process.env.URL}/en/ />
     ${meta}
     ${googleFontsInstall()}
-    ${styles.join('')}
+    ${linkTags}
+    ${styleTags}
 </head>
 <body>
     <div id="root">${html}</div>

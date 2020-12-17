@@ -220,7 +220,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     env.ROOT_DIRNAME = root;
   }
 
-  const definePluginOpts = Object.assign(
+  /*const definePluginOpts = Object.assign(
     {},
     {
       'process.env.NODE_ENV': JSON.stringify(mode)
@@ -231,7 +231,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         return prev;
       }, {})
   );
-  plugins.DefinePlugin = new webpack.DefinePlugin(definePluginOpts);
+  plugins.DefinePlugin = new webpack.DefinePlugin(definePluginOpts);*/
 
   if (conf.copy) {
     let _prop = null;

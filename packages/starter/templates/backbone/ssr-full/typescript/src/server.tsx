@@ -30,10 +30,6 @@ const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'),
 );
 
-const styles = stats.assets
-  .filter((file) => path.extname(file.name) === '.css')
-  .map((style) => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
-
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
@@ -77,9 +73,11 @@ router.get('/*', async (ctx) => {
   const { helmet } = helmetContext;
 
   const scriptTags = extractor.getScriptTags();
+  const linkTags = extractor.getLinkTags();
+  let styleTags = extractor.getStyleTags();
 
   if (isDevelopment()) {
-    styles.push(`<style>${[...css].join('')}</style>`);
+    styleTags += `<style>${[...css].join('')}</style>`;
   }
 
   const reduxState = store.getState();
@@ -90,7 +88,8 @@ router.get('/*', async (ctx) => {
 <head>
     ${helmet.title.toString()}
     ${helmet.meta.toString()}
-    ${styles.join('')}
+    ${linkTags}
+    ${styleTags}
     ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
 </head>
 <body>

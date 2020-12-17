@@ -19,7 +19,7 @@ httpServer.on('connection', socket => {
 export async function start(): Promise<void> {
   if (httpServer.listening) throw new Error('HTTP Server is already listening');
 
-  const serverListenPromise = new Promise((resolve, reject) => {
+  const serverListenPromise = new Promise<void>((resolve, reject) => {
     httpServer.listen(config.http.port, resolve);
     httpServer.once('error', reject);
   });

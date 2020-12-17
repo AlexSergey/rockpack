@@ -1,5 +1,5 @@
 const makeDevtool = (mode, conf) => {
-  let sourceMap = mode === 'development' ? 'eval-source-map' : false;
+  let sourceMap = mode === 'development' ? 'source-map' : false;
 
   if (mode === 'development' && conf.nodejs) {
     sourceMap = 'source-map';

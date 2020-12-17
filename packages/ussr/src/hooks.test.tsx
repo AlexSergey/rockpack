@@ -13,7 +13,7 @@ describe('hooks tests', () => {
 
     const App = (): JSX.Element => {
       useUssrEffect(() => (
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           setTimeout(() => {
             called = true;
             resolve();
@@ -67,7 +67,7 @@ describe('hooks tests', () => {
       const [state, setState] = useUssrState('');
 
       useUssrEffect(() => (
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           setTimeout(() => {
             setState('async bar');
             resolve();
