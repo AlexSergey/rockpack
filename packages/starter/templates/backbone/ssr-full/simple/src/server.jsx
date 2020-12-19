@@ -14,8 +14,7 @@ import { serverRender } from '@rockpack/ussr';
 import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
 import { HelmetProvider } from 'react-helmet-async';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
-import { isProduction, isDevelopment } from './utils/environments';
+import { isDevelopment } from './utils/environments';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
@@ -32,18 +31,11 @@ const stats = JSON.parse(
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  const css = new Set();
-
   const { store, rootSaga } = createStore({
     initState: {},
     history: createMemoryHistory(),
     services: createServices(fetch),
   });
-
-  const insertCss = isProduction()
-    ? () => {}
-    // eslint-disable-next-line no-underscore-dangle
-    : (...moduleStyles) => moduleStyles.forEach((style) => css.add(style._getCss()));
 
   const extractor = new ChunkExtractor({
     stats,
@@ -56,11 +48,9 @@ router.get('/*', async (ctx) => {
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
-          <StyleContext.Provider value={{ insertCss }}>
-            <StaticRouter location={ctx.request.url} context={{}}>
-              <App />
-            </StaticRouter>
-          </StyleContext.Provider>
+          <StaticRouter location={ctx.request.url} context={{}}>
+            <App />
+          </StaticRouter>
         </HelmetProvider>
       </Provider>,
     )
@@ -73,11 +63,7 @@ router.get('/*', async (ctx) => {
 
   const scriptTags = extractor.getScriptTags();
   const linkTags = extractor.getLinkTags();
-  let styleTags = extractor.getStyleTags();
-
-  if (isDevelopment()) {
-    styleTags += `<style>${[...css].join('')}</style>`;
-  }
+  const styleTags = extractor.getStyleTags();
 
   const reduxState = store.getState();
 

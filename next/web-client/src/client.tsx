@@ -8,10 +8,8 @@ import { loadableReady } from '@loadable/component';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { LocalizationContainer } from './features/Localization';
 import { App } from './App';
-import { isProduction } from './utils/environments';
 import { createStore } from './store';
 import { createRestClient } from './utils/rest';
 import { createServices } from './services';
@@ -39,24 +37,15 @@ const { store } = createStore({
   services: createServices(rest)
 });
 
-const insertCss = (...styles): () => void => {
-  const removeCss = isProduction() ?
-    [] :
-    styles.map(style => style && typeof style._insertCss === 'function' && style._insertCss());
-  return (): void => removeCss.forEach(dispose => dispose());
-};
-
 loadableReady(() => {
   hydrate(
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <ConnectedRouter history={history}>
-            <LocalizationContainer>
-              <App />
-            </LocalizationContainer>
-          </ConnectedRouter>
-        </StyleContext.Provider>
+        <ConnectedRouter history={history}>
+          <LocalizationContainer>
+            <App />
+          </LocalizationContainer>
+        </ConnectedRouter>
       </Provider>
     </Ussr>,
     document.getElementById('root')

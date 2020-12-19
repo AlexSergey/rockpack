@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Tooltip } from 'antd';
 import { l, sprintf } from '@rockpack/localazer';
 import { CloseOutlined } from '@ant-design/icons';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import { Roles, User } from '../../../../types/User';
 import { Access, Owner, useUser } from '../../../../features/User';
 import { useCommentsApi } from '../../../../features/Comments';
@@ -18,8 +17,6 @@ interface CommentInterface {
 }
 
 export const Comment = ({ id, text, createdAt, user }: CommentInterface): JSX.Element => {
-  useStyles(styles);
-
   const commentsApi = useCommentsApi();
   const currentUser = useUser();
   return (

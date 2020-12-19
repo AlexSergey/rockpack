@@ -7,7 +7,6 @@ import { StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 
 import { App } from './App';
 import { serverRender } from '../../../src';
@@ -18,10 +17,6 @@ const router = new Router();
 app.use(serve(path.resolve(__dirname, '../public')));
 
 router.get('/*', async (ctx) => {
-  const css = new Set();
-  const insertCss = process.env.NODE_ENV === 'production' ?
-    () => {} :
-    (...styles) => styles.forEach(style => css.add(style._getCss()));
   const { url } = ctx.request;
   const routerParams = {
     location: url,
@@ -30,13 +25,11 @@ router.get('/*', async (ctx) => {
   const metaTagsInstance = MetaTagsServer();
 
   const { html, state } = await serverRender(() => (
-    <StyleContext.Provider value={{ insertCss }}>
-      <MetaTagsContext extract={metaTagsInstance.extract}>
-        <StaticRouter {...routerParams}>
-          <App />
-        </StaticRouter>
-      </MetaTagsContext>
-    </StyleContext.Provider>
+    <MetaTagsContext extract={metaTagsInstance.extract}>
+      <StaticRouter {...routerParams}>
+        <App />
+      </StaticRouter>
+    </MetaTagsContext>
   ));
   const meta = metaTagsInstance.renderToString();
 
@@ -45,7 +38,6 @@ router.get('/*', async (ctx) => {
 <html lang="en">
 <head>
     ${meta}
-    ${process.env.NODE_ENV === 'development' ? `<style>${[...css].join('')}</style>` : ''}
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <script>
       window.USSR_DATA = ${serialize(state, { isJSON: true })}

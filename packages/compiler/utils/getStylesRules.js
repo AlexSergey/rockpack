@@ -59,21 +59,18 @@ const getStylesRules = (conf, mode, root) => {
     }
 
     css = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } }
     ];
     scss = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },
       { loader: require.resolve('sass-loader'), options: { sourceMap: debug } }
     ];
     less = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },
       {
@@ -92,21 +89,18 @@ const getStylesRules = (conf, mode, root) => {
     }
 
     cssModule = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } }
     ];
     scssModule = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },
       { loader: require.resolve('sass-loader'), options: { sourceMap: debug } }
     ];
     lessModule = [
-      extractStyles ? MiniCssExtractPlugin.loader :
-        { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+      MiniCssExtractPlugin.loader,
       { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
       { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },
       {
@@ -176,23 +170,20 @@ const getStylesRules = (conf, mode, root) => {
   if (isTypeScript) {
     if (conf.__isIsomorphicStyles) {
       cssModule = [
-        extractStyles ? MiniCssExtractPlugin.loader :
-          { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+        MiniCssExtractPlugin.loader,
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } }
       ];
       scssModule = [
-        extractStyles ? MiniCssExtractPlugin.loader :
-          { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+        MiniCssExtractPlugin.loader,
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },
         { loader: require.resolve('sass-loader'), options: { sourceMap: debug } }
       ];
       lessModule = [
-        extractStyles ? MiniCssExtractPlugin.loader :
-          { loader: require.resolve('isomorphic-style-loader'), options: { sourceMap: debug } },
+        MiniCssExtractPlugin.loader,
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { sourceMap: debug, modules: true } },
         { loader: require.resolve('postcss-loader'), options: { postcssOptions: getPostcssConfig(root), sourceMap: debug } },

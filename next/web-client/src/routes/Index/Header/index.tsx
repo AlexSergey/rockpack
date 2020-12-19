@@ -1,5 +1,4 @@
 import React from 'react';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import { Layout, Menu, Dropdown, Button } from 'antd';
 import { Link } from 'react-router-dom';
@@ -18,8 +17,6 @@ import { Roles } from '../../../types/User';
 import styles from './style.module.scss';
 
 export const Header = (): JSX.Element => {
-  useStyles(styles);
-
   const currentLanguage = useCurrentLanguage();
 
   return (

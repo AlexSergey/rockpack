@@ -4,7 +4,6 @@ import 'antd/dist/antd.css';
 import { addDecorator, addParameters } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { TableComponent } from './Components/TableProps';
-import { StyleProvider } from './StyleProvider';
 import { LocalizationProvider } from './LocalizationProvider';
 
 addParameters({
@@ -24,5 +23,4 @@ addDecorator(withInfo({
   inline: true
 }));
 
-addDecorator(StyleProvider);
 addDecorator(LocalizationProvider);

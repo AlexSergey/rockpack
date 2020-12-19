@@ -5,7 +5,6 @@ import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
 import createUssr from '@rockpack/ussr';
 import { createBrowserHistory } from 'history';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import { LocalizationContainer } from '../features/Localization';
 import { createStore } from '../store';
@@ -33,13 +32,11 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
   const TestWrapper = (): JSX.Element => (
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss: (): () => void => (): void => {} }}>
-          <ConnectedRouter history={history}>
-            <LocalizationContainer>
-              <Component />
-            </LocalizationContainer>
-          </ConnectedRouter>
-        </StyleContext.Provider>
+        <ConnectedRouter history={history}>
+          <LocalizationContainer>
+            <Component />
+          </LocalizationContainer>
+        </ConnectedRouter>
       </Provider>
     </Ussr>
   );

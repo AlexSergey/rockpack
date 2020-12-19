@@ -8,9 +8,8 @@ import PrettyError from 'pretty-error';
 import Router from '@koa/router';
 import serialize from 'serialize-javascript';
 import { ChunkExtractor } from '@loadable/server';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { serverRender } from '@rockpack/ussr';
-import { isProduction, isDevelopment } from './utils/environments';
+import { isDevelopment } from './utils/environments';
 import App from './App';
 
 const app = new Koa();
@@ -25,13 +24,6 @@ const stats = JSON.parse(
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  const css = new Set();
-
-  const insertCss = isProduction()
-    ? (): void => {}
-    // eslint-disable-next-line no-underscore-dangle
-    : (...moduleStyles): void => moduleStyles.forEach((style) => css.add(style._getCss()));
-
   const extractor = new ChunkExtractor({
     stats,
     entrypoints: ['index'],
@@ -39,19 +31,13 @@ router.get('/*', async (ctx) => {
 
   const { html, state } = await serverRender(() => (
     extractor.collectChunks(
-      <StyleContext.Provider value={{ insertCss }}>
-        <App />
-      </StyleContext.Provider>,
+      <App />,
     )
   ));
 
   const scriptTags = extractor.getScriptTags();
   const linkTags = extractor.getLinkTags();
-  let styleTags = extractor.getStyleTags();
-
-  if (isDevelopment()) {
-    styleTags += `<style>${[...css].join('')}</style>`;
-  }
+  const styleTags = extractor.getStyleTags();
 
   ctx.body = `
   <!DOCTYPE html>
