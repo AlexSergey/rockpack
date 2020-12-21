@@ -27,7 +27,6 @@
     "antd": "4.6.2",
     "connected-react-router": "6.8.0",
     "dayjs": "1.8.34",
-    "isomorphic-style-loader": "5.1.0",
     "js-cookie": "2.2.1",
     "koa": "2.13.0",
     "koa-no-cache": "2.0.0",
