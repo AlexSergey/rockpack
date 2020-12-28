@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/webpack-plugin-ussr-development",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "description": "webpack USSR development plugin",
   "main": "index.js",
   "scripts": {

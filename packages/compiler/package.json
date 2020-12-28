@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "dependencies": {
     "@loadable/webpack-plugin": "5.14.0",
     "@mdx-js/loader": "1.6.22",
-    "@rockpack/babel": "1.8.0",
+    "@rockpack/babel": "2.0.0",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.4.0",
     "antd-dayjs-webpack-plugin": "1.0.1",
@@ -73,6 +73,7 @@
     "imports-loader": "1.2.0",
     "inspectpack": "4.5.2",
     "isomorphic-style-loader": "5.1.0",
+    "@statoscope/ui-webpack": "3.3.0",
     "less": "3.12.2",
     "less-loader": "7.1.0",
     "markdown-loader": "6.0.0",
@@ -108,7 +109,7 @@
     "webpack": "4.44.2",
     "webpack-bundle-analyzer": "3.9.0",
     "webpack-plugin-serve": "1.2.1",
-    "@rockpack/webpack-plugin-ussr-development": "1.8.0",
+    "@rockpack/webpack-plugin-ussr-development": "2.0.0",
     "webpack-format-messages": "2.0.6",
     "webpack-graphql-loader": "1.0.2",
     "webpack-node-externals": "2.5.2",
@@ -116,6 +117,6 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.8.0"
+    "@rockpack/codestyle": "2.0.0"
   }
 }

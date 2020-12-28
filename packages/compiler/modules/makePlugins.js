@@ -17,6 +17,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
+const StatoscopeWebpackPlugin = require('@statoscope/ui-webpack');
 const Dotenv = require('dotenv-webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
@@ -384,6 +385,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       analyzerMode: 'static',
       reportFilename: 'webpack-report.html',
       openAnalyzer: false,
+    });
+
+    plugins.StatoscopeWebpackPlugin = new StatoscopeWebpackPlugin({
+      watchMode: mode === 'development'
     });
   }
 

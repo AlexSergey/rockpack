@@ -62,6 +62,7 @@ class MakePotPlugin {
         chunks.forEach(chunk => {
           chunk.files.forEach(filename => {
             const source = compilation.assets[filename].source();
+            console.log(compiler.options.resolve, filename);
             const code = source.toString();
             const ast = parse(code);
 

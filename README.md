@@ -2,7 +2,7 @@
   <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
 </p>
 
-**Rockpack** is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing, logging, localizing.
+**Rockpack** is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing.
 
 **Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.
 
@@ -22,10 +22,6 @@
     - [Creating simple SSR application [Article]](https://www.rockpack.io/ssr-1-creating-simple-ssr-application)
     - [Migration legacy application to SSR [Article]](https://www.rockpack.io/ssr-2-migration-legacy-app-to-ssr)
     - [SSR Advanced Techniques [Article]](https://www.rockpack.io/ssr-3-advanced-techniques)
-  - Finding bugs using logging:
-    - [Log Driven Development [Article]](https://www.rockpack.io/log-driven-development)
-  - Application localizing without problems:
-    - [Localization. True way [Article]](https://www.rockpack.io/localization-true-way)
 
 ***
 
@@ -50,8 +46,6 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
 <p align="center">
   <img width="500px" alt="Rockpack flow" src="https://www.rockpack.io/readme_assets/rockpack_main_2.png">
 </p>
-
-Also at the start of the project, we can create localization, setup logging, and we can do this practically without spending time.
 
 ## Rockpack modules overview
 
@@ -127,18 +121,6 @@ This is an efficiently customized Eslint with many best practical rules and addi
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/logger
-
-This is a logging system that will issue a report when an error occurs in the system. All actions that the user performed, buttons pressed, information about the OS, displays, browser, and more are recorded. This module allows you to understand the cause of the error.
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md" target="_blank">More details...</a>
-***
-### @rockpack/localazer
-
-This is a "correct" localization system for React applications that supports gettext so that localizers can work in a familiar environment.
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md" target="_blank">More details...</a>
-***
 *In order to get more detailed info please follow each module links.*
 
 **Rockpack is completely free project. We are always open to collaboration and contributors.**
@@ -160,7 +142,6 @@ The **Rockpack** project was inspired by:
 - **Rockpack** has the option of modular integration into legacy project.
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
 - **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
-- **Rockpack** provides powerful tools for logging and localization.
 
 ## The MIT License
 

@@ -1,4 +1,4 @@
-import { LocalizationObserver } from '@rockpack/localaser';
+import { LocalizationObserver } from '@localaser/component';
 import ru from './locales/ru.json';
 
 class Root extends Component {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logger from "@rockpack/logger";
+import logger from "logrock";
 
 export default function Toggle(props) {
     const [toggleState, setToggleState] = useState("off");

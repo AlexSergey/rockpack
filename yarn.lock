@@ -1906,6 +1906,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@discoveryjs/json-ext@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.1.tgz#cf87081ac9b0f3eb3b5740415b50b7966bac8fc5"
+  integrity sha512-Oee4NT60Lxe90m7VTYBU4UbABNaz0N4Q3G62CPB+6mGE4KuLMsTACmH8q3PH5u9pSZCuOdE9JClJ9vBqsp6DQg==
+
 "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -3485,6 +3490,14 @@
   integrity sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@statoscope/ui-webpack@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@statoscope/ui-webpack/-/ui-webpack-3.3.0.tgz#0ec24a208bfd5c7adc264a642a38674f930851ef"
+  integrity sha512-uZ6Vak3te0d0skUU3c94sTcQcLp+0mY/8dx/OBRCgRaKJLooYRQPpftBtaQVH88oZwbsKuhHYcaGvuIf3UZcAw==
+  dependencies:
+    "@discoveryjs/json-ext" "^0.5.1"
+    open "^7.3.0"
 
 "@storybook/addon-actions@5.3.21":
   version "5.3.21"
@@ -17201,7 +17214,7 @@ open@^7.0.0:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
-open@^7.0.3:
+open@^7.0.3, open@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/open/-/open-7.3.0.tgz#45461fdee46444f3645b6e14eb3ca94b82e1be69"
   integrity sha512-mgLwQIx2F/ye9SmbrUkurZCnkoXyXyu9EbHtJZrICjVAJfyMArdHp3KkixGdZx1ZHFPNIwl0DDM1dFFqXbTLZw==
