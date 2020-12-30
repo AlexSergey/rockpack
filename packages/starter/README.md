@@ -52,7 +52,7 @@ npm i @rockpack/starter -g
 rockpack <project name>
 ```
 
-3. Select the type of application, select the required modules.
+3. Select the type of application.
 
 ![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v3.jpg)
 ***

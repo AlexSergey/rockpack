@@ -196,13 +196,6 @@ const install = async ({
     console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run lint`)} - check ESLint rules`);
   }
 
-  if (state.modules.localization) {
-    console.log();
-    console.log(chalk.magenta('  Localizing:'));
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run localization:makePot`)} - create POT file`);
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run localization:po2json`)} - convert PO files to JSON`);
-  }
-
   console.log();
   console.log(chalk.yellow('Thank you for using Rockpack!'));
 }

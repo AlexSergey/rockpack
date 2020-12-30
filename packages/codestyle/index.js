@@ -8,10 +8,6 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
     customConfig = {};
   }
 
-  const tsconfigPath = opts && typeof opts.tsconf === 'string' ?
-    opts.tsconf :
-    './tsconfig.json';
-
   const isNodejs = !!opts.nodejs;
 
   const extendsRules = [
@@ -57,9 +53,6 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
       {
         files: ['*.ts', '*.tsx'],
         parser: require.resolve('@typescript-eslint/parser'),
-        parserOptions: {
-          project: tsconfigPath
-        },
         extends: [
           'plugin:@typescript-eslint/recommended',
           'plugin:@typescript-eslint/eslint-recommended',

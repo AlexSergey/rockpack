@@ -215,25 +215,6 @@ const packageJSONPreparing = async (packageJSON, {
     }
   }
 
-  if (modules.localization) {
-    packageJSON = addScripts(packageJSON, {
-      "localization:makePot": "node scripts.makePot",
-      "localization:po2json": "node scripts.po2json",
-    });
-    packageJSON = await addDependencies(packageJSON, {
-      dependencies: [
-        { name: '@rockpack/localazer', version: '1.8.0' }
-      ]
-    });
-  }
-  if (modules.logger) {
-    packageJSON = await addDependencies(packageJSON, {
-      dependencies: [
-        { name: '@rockpack/logger', version: '1.8.0' }
-      ]
-    });
-  }
-
   return packageJSON;
 }
 
