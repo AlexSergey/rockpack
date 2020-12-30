@@ -12,8 +12,8 @@ static
 Thumbs.db
 logs
 reports
-dist
 NO_COMMIT
+example
 examples
 test-reports
 coverage
