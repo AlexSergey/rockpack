@@ -35,8 +35,8 @@
     "debug": "4.3.1",
     "dotenv-safe": "8.2.0",
     "jsonwebtoken": "8.5.1",
-    "koa": "2.11.0",
-    "koa-bodyparser": "4.2.1",
+    "koa": "2.13.0",
+    "koa-bodyparser": "4.3.0",
     "koa-logger": "3.2.1",
     "koa-mount": "4.0.0",
     "koa-static": "5.0.0",
@@ -66,6 +66,7 @@
     "@types/koa-static": "4.0.1",
     "@types/node": "14.6.3",
     "@types/validator": "13.1.0",
+    "@types/enzyme": "3.10.8",
     "sequelize-fixtures": "1.2.0",
     "@types/sequelize-fixtures": "0.6.2"
   }

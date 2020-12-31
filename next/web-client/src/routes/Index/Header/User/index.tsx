@@ -1,13 +1,10 @@
 import React from 'react';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import { UserOutlined } from '@ant-design/icons';
 import { useRole, useUser } from '../../../../features/User';
 
 import styles from './style.module.scss';
 
 export const User = (): JSX.Element => {
-  useStyles(styles);
-
   const { email } = useUser();
   const role = useRole();
 

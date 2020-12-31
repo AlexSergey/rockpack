@@ -6,7 +6,7 @@
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
     "test": "node tests.js",
     "test:watch": "node tests.js --watch",
-    "production": "npm run lint && npm test && npm publish"
+    "production": "npm run lint && npm test && npm publish --access public"
   },
   "repository": {
     "type": "git",

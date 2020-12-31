@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { UserDeleteOutlined } from '@ant-design/icons';
 import Localization, { l } from '@rockpack/localazer';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import { useUsers, useUsersApi } from '../../features/Users';
 import { Access, NotOwner } from '../../features/User';
 import { Roles } from '../../types/User';
@@ -11,7 +10,6 @@ import { Roles } from '../../types/User';
 import styles from './style.module.scss';
 
 const Users = (): JSX.Element => {
-  useStyles(styles);
   const users = useUsers();
   const usersApi = useUsersApi();
   const hasUsers = Array.isArray(users) && users.length > 0;

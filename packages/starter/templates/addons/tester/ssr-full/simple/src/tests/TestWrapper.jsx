@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import createUssr from '@rockpack/ussr';
 import { createBrowserHistory } from 'history';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import createStore from '../store';
 import createMockServices from './mockServices';
@@ -25,11 +24,9 @@ const createTestWrapper = async (Component, initState = {}) => {
   const TestWrapper = () => (
     <Ussr>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss: () => () => {} }}>
-          <ConnectedRouter history={history}>
-            <Component />
-          </ConnectedRouter>
-        </StyleContext.Provider>
+        <ConnectedRouter history={history}>
+          <Component />
+        </ConnectedRouter>
       </Provider>
     </Ussr>
   );

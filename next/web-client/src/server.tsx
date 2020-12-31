@@ -16,7 +16,6 @@ import { MetaTagsContext } from 'react-meta-tags';
 import { END } from 'redux-saga';
 import { Provider } from 'react-redux';
 import { serverRender } from '@rockpack/ussr';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';
@@ -25,7 +24,7 @@ import { createStore } from './store';
 import ru from './locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
 import { createRestClient } from './utils/rest';
-import { isProduction, isDevelopment } from './utils/environments';
+import { isDevelopment } from './utils/environments';
 import { createServices } from './services';
 
 const app = new Koa();
@@ -37,10 +36,6 @@ const languages = { ru };
 const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
 );
-
-const styles = stats.assets
-  .filter(file => path.extname(file.name) === '.css')
-  .map(style => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
 
 app.use(noCache({
   global: true
@@ -80,12 +75,6 @@ router.get('/*', async (ctx) => {
     context: {}
   };
 
-  const css = new Set();
-
-  const insertCss = isProduction() ?
-    (): void => {} :
-    (...moduleStyles): void => moduleStyles.forEach(style => css.add(style._getCss()));
-
   const metaTagsInstance = MetaTagsServer();
 
   const extractor = new ChunkExtractor({
@@ -96,15 +85,13 @@ router.get('/*', async (ctx) => {
   const { html } = await serverRender(() => (
     extractor.collectChunks(
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss }}>
-          <MetaTagsContext extract={metaTagsInstance.extract}>
-            <StaticRouter {...routerParams}>
-              <LocalizationContainer>
-                <App />
-              </LocalizationContainer>
-            </StaticRouter>
-          </MetaTagsContext>
-        </StyleContext.Provider>
+        <MetaTagsContext extract={metaTagsInstance.extract}>
+          <StaticRouter {...routerParams}>
+            <LocalizationContainer>
+              <App />
+            </LocalizationContainer>
+          </StaticRouter>
+        </MetaTagsContext>
       </Provider>
     )
   ), async () => {
@@ -114,10 +101,8 @@ router.get('/*', async (ctx) => {
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
-
-  if (isDevelopment()) {
-    styles.push(`<style>${[...css].join('')}</style>`);
-  }
+  const linkTags = extractor.getLinkTags();
+  const styleTags = extractor.getStyleTags();
 
   const reduxState = store.getState();
 
@@ -133,7 +118,8 @@ router.get('/*', async (ctx) => {
     <link rel="alternate" hreflang="en-En" href=${process.env.URL}/en/ />
     ${meta}
     ${googleFontsInstall()}
-    ${styles.join('')}
+    ${linkTags}
+    ${styleTags}
 </head>
 <body>
     <div id="root">${html}</div>

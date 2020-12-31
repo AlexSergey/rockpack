@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
 import Masonry from 'react-masonry-css';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import styles from './style.module.scss';
 import config from '../../../config';
 
 export const Images = ({ images }: { images: { uri: string; thumbnail: string }[] }): JSX.Element => {
-  useStyles(styles);
-
   const [full, setFull] = useState<string|false>(false);
 
   return (

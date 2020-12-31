@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { Upload, Button, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { UploadOutlined } from '@ant-design/icons';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import { getBase64 } from '../../utils/file';
 import config from '../../config';
 import styles from './style.module.scss';
 
 export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<{}>|false) => void}): JSX.Element => {
-  useStyles(styles);
-
   const [preview, setPreview] = useState('');
   const [fileList, setFileList] = useState([]);
 

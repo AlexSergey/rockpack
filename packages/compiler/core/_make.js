@@ -51,6 +51,7 @@ const _make = async (conf, post) => {
   };
 
   if (mode === 'development') {
+    finalConfig.bail = true;
     finalConfig.watch = true;
   }
 

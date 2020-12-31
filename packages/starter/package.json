@@ -24,7 +24,7 @@
     "rockpack": "./bin/index.js"
   },
   "scripts": {
-    "production": "npm publish"
+    "production": "npm publish --access public"
   },
   "private": false,
   "dependencies": {

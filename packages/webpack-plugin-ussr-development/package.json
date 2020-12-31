@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
-    "production": "npm run lint && npm publish"
+    "production": "npm run lint && npm publish --access public"
   },
   "repository": {
     "type": "git",

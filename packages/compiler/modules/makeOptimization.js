@@ -6,11 +6,10 @@ const makeOptimization = (mode, conf) => {
 
   if (mode === 'development') {
     Object.assign(optimization, {
-      namedModules: true,
-      namedChunks: true,
+      moduleIds: 'named',
+      chunkIds: 'named',
       nodeEnv: mode,
       flagIncludedChunks: false,
-      occurrenceOrder: false,
       concatenateModules: false,
       splitChunks: {
         hidePathInfo: false,
@@ -18,7 +17,7 @@ const makeOptimization = (mode, conf) => {
         maxAsyncRequests: Infinity,
         maxInitialRequests: Infinity,
       },
-      noEmitOnErrors: false,
+      emitOnErrors: true,
       checkWasmTypes: false,
       minimize: false,
       removeAvailableModules: false
@@ -27,11 +26,10 @@ const makeOptimization = (mode, conf) => {
 
   if (mode === 'production') {
     Object.assign(optimization, {
-      namedModules: false,
-      namedChunks: false,
+      moduleIds: 'size',
+      chunkIds: 'total-size',
       nodeEnv: mode,
       flagIncludedChunks: true,
-      occurrenceOrder: true,
       concatenateModules: true,
       splitChunks: {
         hidePathInfo: true,
@@ -39,7 +37,7 @@ const makeOptimization = (mode, conf) => {
         maxAsyncRequests: 5,
         maxInitialRequests: 3,
       },
-      noEmitOnErrors: true,
+      emitOnErrors: false,
       checkWasmTypes: true,
       minimize: true,
       minimizer: [
@@ -66,7 +64,7 @@ const makeOptimization = (mode, conf) => {
   if (isArray(conf.vendor)) {
     Object.assign(optimization.splitChunks, {
       cacheGroups: {
-        vendor: {
+        defaultVendors: {
           chunks: 'initial',
           name: 'vendor',
           test: 'vendor',

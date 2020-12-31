@@ -3,7 +3,6 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { Button } from 'antd';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import Localization, { l } from '@rockpack/localazer';
 import { usePosts, usePostsApi } from '../../features/Posts';
 import { useCurrentLanguage } from '../../features/Localization';
@@ -17,7 +16,6 @@ import { Loader } from '../../components/Loader';
 import styles from './style.module.scss';
 
 const Posts = (): JSX.Element => {
-  useStyles(styles);
   const currentLanguage = useCurrentLanguage();
   const currentUser = useUser();
   const [loading, error, data] = usePosts();
