@@ -1,5 +1,5 @@
 import React from 'react';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 
 import styles from './style.module.scss';
 

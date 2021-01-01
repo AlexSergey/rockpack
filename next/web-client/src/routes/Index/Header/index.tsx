@@ -1,5 +1,5 @@
 import React from 'react';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { Layout, Menu, Dropdown, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { Signin } from './Signin';

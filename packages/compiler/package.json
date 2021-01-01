@@ -83,7 +83,6 @@
     "nodemon-webpack-plugin": "4.3.2",
     "null-loader": "4.0.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
-    "po2json": "0.4.5",
     "postcss": "8.2.1",
     "postcss-loader": "4.1.0",
     "progress-bar-webpack-plugin": "2.1.0",

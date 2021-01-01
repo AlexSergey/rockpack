@@ -1,5 +1,5 @@
 import React from 'react';
-import logger from '@rockpack/logger';
+import logger from 'logrock';
 import { Store } from '@reduxjs/toolkit';
 import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';

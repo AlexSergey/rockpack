@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { useUser } from '../../../features/User';
 import { useCommentsApi } from '../../../features/Comments';
 

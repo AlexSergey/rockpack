@@ -6,7 +6,6 @@ const libraryCompiler = require('./compilers/libraryCompiler');
 const frontendCompiler = require('./compilers/frontendCompiler');
 const backendCompiler = require('./compilers/backendCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
-const localazer = require('./compilers/localazer');
 
 const getArgs = () => argv;
 
@@ -20,6 +19,5 @@ module.exports = {
   markupCompiler,
   libraryCompiler,
   frontendCompiler,
-  backendCompiler,
-  localazer
+  backendCompiler
 };

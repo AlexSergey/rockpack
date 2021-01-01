@@ -3,7 +3,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { Button } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { usePosts, usePostsApi } from '../../features/Posts';
 import { useCurrentLanguage } from '../../features/Localization';
 import { Access, Owner, useUser } from '../../features/User';

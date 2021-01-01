@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { UserDeleteOutlined } from '@ant-design/icons';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { useUsers, useUsersApi } from '../../features/Users';
 import { Access, NotOwner } from '../../features/User';
 import { Roles } from '../../types/User';

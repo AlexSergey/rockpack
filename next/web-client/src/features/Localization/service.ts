@@ -1,4 +1,4 @@
-import { LocaleData } from '@rockpack/localazer';
+import { LocaleData } from '@localazer/component';
 import { Languages } from '../../types/Localization';
 
 export interface LocalizationServiceInterface {

@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import Localization, { l, sprintf } from '@rockpack/localazer';
+import Localization, { l, sprintf } from '@localazer/component';
 import { Comments } from './Comments';
 import { UpdateMode } from './UpdateMode';
 import { AddComment } from './AddComment';

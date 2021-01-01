@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
-import { l, sprintf } from '@rockpack/localazer';
+import { l, sprintf } from '@localazer/component';
 import { CloseOutlined } from '@ant-design/icons';
 import { Roles, User } from '../../../../types/User';
 import { Access, Owner, useUser } from '../../../../features/User';

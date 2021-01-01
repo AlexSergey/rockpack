@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-08 18:09+0300\n"
+"POT-Creation-Date: 2021-01-01 10:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-msgid "Sign In"
+msgid "Users"
+msgstr ""
+
+msgid "Users list"
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Posts page. Here you find the most popular posts on the Internet"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Update post"
+msgstr ""
+
+#, javascript-format
+msgctxt "Post"
+msgid "Update post %s"
+msgstr ""
+
+msgid "Add comment"
+msgstr ""
+
+msgid "Publish"
+msgstr ""
+
+#, javascript-format
+msgid "This post has %d comment"
+msgid_plural "This post has %d comments"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Something went wrong. Try later, please."
+msgstr ""
+
+msgid "Create post"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign Up"
 msgstr ""
 
 msgid "E-mail"
@@ -33,59 +83,9 @@ msgstr ""
 msgid "Please input your password!"
 msgstr ""
 
-msgid "Sign Up"
-msgstr ""
-
-msgid "Sign Out"
-msgstr ""
-
-msgid "Create post"
-msgstr ""
-
-msgid "Create"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Comments"
-msgstr ""
-
-msgid "Posts"
-msgstr ""
-
-msgid "Users"
-msgstr ""
-
-msgid "Something went wrong. Try later, please."
+msgid "Sign In"
 msgstr ""
 
 msgctxt "User role"
 msgid "The user has role "
-msgstr ""
-
-#, javascript-format
-msgid "This post has %d comment"
-msgid_plural "This post has %d comments"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Update post"
-msgstr ""
-
-msgid "Add comment"
-msgstr ""
-
-msgid "Publish"
-msgstr ""
-
-#, javascript-format
-msgctxt "Post"
-msgid "Update post %s"
-msgstr ""
-
-msgid "Posts page. Here you find the most popular posts on the Internet"
-msgstr ""
-
-msgid "Users list"
 msgstr ""

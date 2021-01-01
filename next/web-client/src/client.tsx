@@ -2,7 +2,7 @@ import './types/global';
 import React from 'react';
 import Cookies from 'js-cookie';
 import { hydrate } from 'react-dom';
-import logger from '@rockpack/logger';
+import logger from 'logrock';
 import createUssr from '@rockpack/ussr';
 import { loadableReady } from '@loadable/component';
 import { ConnectedRouter } from 'connected-react-router';

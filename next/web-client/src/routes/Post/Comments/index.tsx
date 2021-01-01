@@ -1,5 +1,5 @@
 import React from 'react';
-import Localization, { nl, sprintf } from '@rockpack/localazer';
+import Localization, { nl, sprintf } from '@localazer/component';
 import { Comment } from './Comment';
 import { useComments } from '../../../features/Comments';
 import { Error } from '../../../components/Error';

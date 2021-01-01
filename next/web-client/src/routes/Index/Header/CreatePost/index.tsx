@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, Input, Form } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { isBackend } from '@rockpack/ussr';
 import loadable from '@loadable/component';
 import { PreviewUpload } from '../../../../components/PreviewUpload';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { useUserApi } from '../../../../features/User';
 
 export const Signout = (): JSX.Element => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { Modal, Button, Form, Input } from 'antd';
 import { useUserApi } from '../../../../features/User';
 
