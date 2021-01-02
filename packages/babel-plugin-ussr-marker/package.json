@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel-plugin-ussr-marker",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Babel plugin for @rockpack/ussr",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
     "md5": "2.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.8.0"
+    "@rockpack/codestyle": "1.9.0"
   }
 }

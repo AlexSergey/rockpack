@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.0]
+- babel config extend added
+
 ## [1.8.0]
 - webpack-dev-server -> webpack-plugin-serve
 - @rockpack/compiler simplification
