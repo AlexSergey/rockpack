@@ -41,10 +41,6 @@ const getStylesRules = (conf, mode, root) => {
   let scss;
   let less;
 
-  if (conf.makePOT) {
-    extractStyles = false;
-  }
-
   if (conf.__isIsomorphicStyles) {
     css = [
       MiniCssExtractPlugin.loader,

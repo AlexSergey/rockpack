@@ -28,7 +28,6 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
-const MakePotPlugin = require('../localazer/makePot/MakePotPlugin');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
@@ -93,11 +92,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const plugins = {};
 
-  if (conf.makePOT) {
-    plugins.LocalizationWebpackPlugin = new MakePotPlugin(conf.localization);
-
-    return plugins;
-  }
   if (!argv._rockpack_testing) {
     plugins.ProgressPlugin = new ProgressBarPlugin();
   }
@@ -206,7 +200,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const eslintRc = pathToEslintrc(root, mode);
 
-  if (!conf.makePOT && isString(eslintRc)) {
+  if (isString(eslintRc)) {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
       extensions,
       context,
