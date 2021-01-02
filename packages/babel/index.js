@@ -1,6 +1,7 @@
 const { existsSync } = require('fs');
 const path = require('path');
 const { isString, isObject } = require('valid-types');
+const deepmerge = require('deepmerge');
 
 const createBabelPresets = ({
   isNodejs = false,
@@ -10,7 +11,7 @@ const createBabelPresets = ({
   isProduction = false,
   isTest = false,
   typescript = false
-}) => {
+}, babelConfig) => {
   const root = path.dirname(require.main.filename);
   const packageJsonPath = path.resolve(root, 'package.json');
   // eslint-disable-next-line global-require
@@ -24,7 +25,7 @@ const createBabelPresets = ({
     corejs = packageJson.dependencies['core-js'];
   }
 
-  const opts = typescript ? {
+  let opts = typescript ? {
     babelrc: false,
     presets: [
       require.resolve('@babel/preset-typescript')
@@ -82,8 +83,7 @@ const createBabelPresets = ({
     require.resolve('@babel/plugin-proposal-object-rest-spread'),
     [require.resolve('babel-plugin-import'),
       { libraryName: 'antd', style: true }
-    ],
-    require.resolve('@rockpack/babel-plugin-ussr-marker')
+    ]
   ];
 
   if (typescript) {
@@ -119,6 +119,24 @@ const createBabelPresets = ({
     opts.plugins.push(
       require.resolve('@babel/plugin-transform-modules-commonjs')
     );
+  }
+
+  if (typeof babelConfig === 'object' && Object.keys(babelConfig).length > 0) {
+    opts = deepmerge(opts, babelConfig);
+  } else if (typeof babelConfig === 'function') {
+    const result = babelConfig({
+      isNodejs,
+      framework,
+      isomorphic,
+      modules,
+      isProduction,
+      isTest,
+      typescript
+    }, opts, deepmerge);
+
+    if (typeof result === 'object' && Object.keys(result).length > 0) {
+      opts = result;
+    }
   }
 
   return opts;

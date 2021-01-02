@@ -13,12 +13,22 @@ isomorphicCompiler(
   backendCompiler({
     src: 'src/server.jsx',
     dist: 'dist',
+    babel: {
+      plugins: [
+        '@rockpack/babel-plugin-ussr-marker'
+      ]
+    },
   }, config => {
     Object.assign(config.resolve, alias);
   }),
   frontendCompiler({
     src: 'src/client.jsx',
     dist: 'public',
+    babel: {
+      plugins: [
+        '@rockpack/babel-plugin-ussr-marker'
+      ]
+    },
     copy: [
       { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
     ]

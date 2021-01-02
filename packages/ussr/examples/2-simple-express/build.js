@@ -13,12 +13,22 @@ isomorphicCompiler(
   frontendCompiler({
     src: 'src/client.jsx',
     dist: 'public',
+    babel: {
+      plugins: [
+        '@rockpack/babel-plugin-ussr-marker'
+      ]
+    }
   }, config => {
     Object.assign(config.resolve, alias);
   }),
   backendCompiler({
     src: 'src/server.jsx',
     dist: 'dist',
+    babel: {
+      plugins: [
+        '@rockpack/babel-plugin-ussr-marker'
+      ]
+    }
   }, config => {
     Object.assign(config.resolve, alias);
   })
