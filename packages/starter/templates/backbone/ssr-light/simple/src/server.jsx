@@ -38,6 +38,7 @@ router.get('/*', async (ctx) => {
   const linkTags = extractor.getLinkTags();
   const styleTags = extractor.getStyleTags();
 
+  /* eslint-disable */
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +58,7 @@ router.get('/*', async (ctx) => {
 </body>
 </html>
 `;
+  /* eslint-enable */
 });
 
 app

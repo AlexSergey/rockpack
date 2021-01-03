@@ -107,6 +107,7 @@ router.get('/*', async (ctx) => {
   const reduxState = store.getState();
 
   ctx.type = 'html';
+  /* eslint-disable */
   ctx.body = `
   <!DOCTYPE html>
 <html lang="${currentLanguage === 'ru' ? 'ru-RU' : 'en-US'}">
@@ -132,6 +133,7 @@ router.get('/*', async (ctx) => {
 </body>
 </html>
 `;
+  /* eslint-enable */
 });
 
 app

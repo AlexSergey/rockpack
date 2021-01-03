@@ -1,7 +1,7 @@
 {
   "name": "@rockpack/babel",
   "version": "2.0.0",
-  "description": "Babel presets module for @rock",
+  "description": "Babel presets module for Rockpack",
   "main": "index.js",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",

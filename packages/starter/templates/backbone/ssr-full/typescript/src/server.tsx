@@ -68,6 +68,7 @@ router.get('/*', async (ctx) => {
 
   const reduxState = store.getState();
 
+  /* eslint-disable */
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -87,6 +88,7 @@ router.get('/*', async (ctx) => {
 </body>
 </html>
 `;
+  /* eslint-enable */
 });
 
 app
