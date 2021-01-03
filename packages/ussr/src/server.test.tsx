@@ -8,7 +8,7 @@ import { useUssrState, useUssrEffect } from './hooks';
 describe('server render tests', () => {
   test('pure state', async () => {
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('');
+      const [state, setState] = useUssrState('', 'state-0');
 
       useUssrEffect(() => (
         new Promise(resolve => {
@@ -17,7 +17,7 @@ describe('server render tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-0');
 
       return (
         <div>{state}</div>
@@ -56,7 +56,7 @@ describe('server render tests', () => {
 
     // eslint-disable-next-line sonarjs/no-identical-functions
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('');
+      const [state, setState] = useUssrState('', 'state-0');
 
       // eslint-disable-next-line sonarjs/no-identical-functions
       useUssrEffect(() => (
@@ -67,7 +67,7 @@ describe('server render tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-0');
 
       return (
         <div>{state}</div>

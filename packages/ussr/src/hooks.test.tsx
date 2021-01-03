@@ -19,7 +19,7 @@ describe('hooks tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-0');
 
       return null;
     };
@@ -37,11 +37,11 @@ describe('hooks tests', () => {
 
   test('useUssrState - Load state by source', async () => {
     const [Ussr] = createUssr({
-      'state-0': 'bar'
+      'custom-id': 'bar'
     });
 
     const App = (): JSX.Element => {
-      const [state] = useUssrState('', 'state-0');
+      const [state] = useUssrState('', 'custom-id');
 
       return (
         <div>
@@ -64,7 +64,7 @@ describe('hooks tests', () => {
     const [Ussr, getState, effectCollection] = createUssr();
 
     const App = (): JSX.Element => {
-      const [state, setState] = useUssrState('');
+      const [state, setState] = useUssrState('', 'state-0');
 
       useUssrEffect(() => (
         new Promise(resolve => {
@@ -73,7 +73,7 @@ describe('hooks tests', () => {
             resolve();
           }, 500);
         })
-      ));
+      ), 'effect-0');
 
       return (
         <div>
