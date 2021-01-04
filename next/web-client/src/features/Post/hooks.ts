@@ -1,4 +1,4 @@
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPost, updatePost } from './actions';
 import { PostState, Post } from '../../types/Post';
@@ -7,7 +7,7 @@ export const usePost = (postId: number): [boolean, boolean, Post] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ post: PostState }, PostState>(state => state.post);
 
-  useUssrEffect(() => dispatch(fetchPost({ postId })));
+  useSsrEffect(() => dispatch(fetchPost({ postId })));
 
   return [loading, error, data];
 };

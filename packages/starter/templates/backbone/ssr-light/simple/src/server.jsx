@@ -7,7 +7,7 @@ import PrettyError from 'pretty-error';
 import Router from '@koa/router';
 import serialize from 'serialize-javascript';
 import { ChunkExtractor } from '@loadable/server';
-import { serverRender } from '@rockpack/ussr';
+import { serverRender } from '@issr/core';
 import { isDevelopment } from './utils/environments';
 import App from './App';
 
@@ -49,7 +49,7 @@ router.get('/*', async (ctx) => {
     ${styleTags}
     ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
     <script>
-      window.USSR_DATA = ${serialize(state, { isJSON: true })}
+      window.SSR_DATA = ${serialize(state, { isJSON: true })}
     </script>
 </head>
 <body>

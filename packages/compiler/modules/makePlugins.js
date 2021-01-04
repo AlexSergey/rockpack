@@ -1,9 +1,8 @@
-/* eslint-disable */
 const { existsSync } = require('fs');
 const { argv } = require('yargs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
+const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -32,9 +31,9 @@ const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
 const makeResolve = require('./makeResolve');
-const ReloadHtmlWebpackPlugin = require('../utils/reloadHTML');
+const ReloadHtmlWebpackPlugin = require('../plugins/ReloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
-const { UssrBackend, UssrFrontend } = require('@rockpack/webpack-plugin-ussr-development');
+const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 
 function getTitle(packageJson) {
   if (!packageJson) {
@@ -80,7 +79,7 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
   }
 
   return opts;
-}
+};
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
@@ -267,8 +266,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         },
         waitForBuild: true
       });
-    }
-    else if (
+    } else if (
       conf.nodejs &&
       !global.ISOMORPHIC
     ) {
@@ -281,17 +279,16 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
-      plugins.UssrDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
-        new UssrBackend(opts) :
-        new UssrFrontend({
+      plugins.SSRDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
+        new SSRBackend(opts) :
+        new SSRFrontend({
           port: frontReloaderPort,
           host: 'localhost',
           static: conf.distContext,
           client: {
             address: `localhost:${frontReloaderPort}`,
           }
-        })
-      ;
+        });
     }
 
     plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin({

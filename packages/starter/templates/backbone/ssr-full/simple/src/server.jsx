@@ -10,7 +10,7 @@ import PrettyError from 'pretty-error';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
-import { serverRender } from '@rockpack/ussr';
+import { serverRender } from '@issr/core';
 import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
 import { HelmetProvider } from 'react-helmet-async';

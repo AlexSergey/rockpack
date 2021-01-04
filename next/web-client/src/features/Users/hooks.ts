@@ -1,4 +1,4 @@
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUsers, deleteUser } from './actions';
 import { User } from '../../types/User';
@@ -7,7 +7,7 @@ export const useUsers = (): User[] => {
   const dispatch = useDispatch();
   const users = useSelector<{ users: User[] }, User[]>(state => state.users);
 
-  useUssrEffect(() => dispatch(fetchUsers()));
+  useSsrEffect(() => dispatch(fetchUsers()));
 
   return users;
 };

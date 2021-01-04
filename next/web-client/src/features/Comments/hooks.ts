@@ -1,4 +1,4 @@
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchComments, createComment, deleteComment } from './actions';
 import { CommentsState, Comment } from '../../types/Comments';
@@ -8,7 +8,7 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ comments: CommentsState }, CommentsState>(state => state.comments);
 
-  useUssrEffect(() => dispatch(fetchComments({ postId })));
+  useSsrEffect(() => dispatch(fetchComments({ postId })));
 
   return [loading, error, data];
 };

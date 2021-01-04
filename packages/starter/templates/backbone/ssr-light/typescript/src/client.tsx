@@ -1,25 +1,25 @@
 import './types/global';
 import React from 'react';
 import { hydrate } from 'react-dom';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import App from './App';
 
 declare global {
   interface Window {
-    USSR_DATA: {
+    SSR_DATA: {
       [key: string]: unknown;
     };
   }
 }
 
-const [Ussr] = createUssr(window.USSR_DATA);
+const [SSR] = createSsr(window.SSR_DATA);
 
 loadableReady(() => {
   hydrate(
-    <Ussr>
+    <SSR>
       <App />
-    </Ussr>,
+    </SSR>,
     document.getElementById('root'),
   );
 });

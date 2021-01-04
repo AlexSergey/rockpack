@@ -61,11 +61,8 @@ const { argv } = require('yargs');
   if (fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
     console.error(chalk.red(`Project "${projectName}" has already created. Please use manual installation:\n`));
     console.log(`${chalk.green('@rockpack/compiler')} - https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md`);
-    console.log(`${chalk.green('@rockpack/ussr')} - https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md`);
     console.log(`${chalk.green('@rockpack/tester')} - https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md`);
     console.log(`${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`);
-    console.log(`${chalk.green('@rockpack/logger')} - https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md`);
-    console.log(`${chalk.green('@rockpack/localazer')} - https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md`);
     return process.exit(1);
   }
 

@@ -103,12 +103,6 @@ This is React bundler (based on Webpack) using a set of necessary loaders, plugi
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/ussr
-
-This is a small library providing SSR. Works with Redux, Apollo and other solutions.
-
-<a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">More details...</a>
-***
 ### @rockpack/tester
 
 This is Jest with cool config, add-ons and fully compatible with TS / Babel.

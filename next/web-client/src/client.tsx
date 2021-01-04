@@ -3,7 +3,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { hydrate } from 'react-dom';
 import logger from 'logrock';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
@@ -24,7 +24,7 @@ declare global {
 
 const history = createBrowserHistory();
 
-const [Ussr] = createUssr();
+const [SSR] = createSsr();
 
 const getToken = (): string | undefined => Cookies.get('token');
 
@@ -39,7 +39,7 @@ const { store } = createStore({
 
 loadableReady(() => {
   hydrate(
-    <Ussr>
+    <SSR>
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <LocalizationContainer>
@@ -47,7 +47,7 @@ loadableReady(() => {
           </LocalizationContainer>
         </ConnectedRouter>
       </Provider>
-    </Ussr>,
+    </SSR>,
     document.getElementById('root')
   );
 });

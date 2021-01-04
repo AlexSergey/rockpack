@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import createStore from '../store';
@@ -11,7 +11,7 @@ import createMockServices from './mockServices';
 const createTestWrapper = async (Component, initState = {}) => {
   const history = createBrowserHistory();
 
-  const [Ussr] = createUssr({}, {
+  const [SSR] = createSsr({}, {
     onlyClient: true,
   });
 
@@ -22,13 +22,13 @@ const createTestWrapper = async (Component, initState = {}) => {
   });
 
   const TestWrapper = () => (
-    <Ussr>
+    <SSR>
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <Component />
         </ConnectedRouter>
       </Provider>
-    </Ussr>
+    </SSR>
   );
 
   const wrapper = mount(<TestWrapper />);

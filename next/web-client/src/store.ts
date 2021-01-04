@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import createSagaMiddleware, { Task } from 'redux-saga';
 import { fork } from 'redux-saga/effects';
 import { createLogger } from 'redux-logger';
-import { isBackend } from '@rockpack/ussr';
+import { isBackend } from '@issr/core';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { isDevelopment } from './utils/environments';
 import { localizationSaga, localizationReducer as localization } from './features/Localization';

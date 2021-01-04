@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, Input, Form } from 'antd';
 import Localization, { l } from '@localazer/component';
-import { isBackend } from '@rockpack/ussr';
+import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
 import { PreviewUpload } from '../../../../components/PreviewUpload';
 import { PhotosUpload } from '../../../../components/PhotosUpload';

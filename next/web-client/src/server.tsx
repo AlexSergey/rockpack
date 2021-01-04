@@ -15,7 +15,7 @@ import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
 import { END } from 'redux-saga';
 import { Provider } from 'react-redux';
-import { serverRender } from '@rockpack/ussr';
+import { serverRender } from '@issr/core';
 import { ChunkExtractor } from '@loadable/server';
 import serialize from 'serialize-javascript';
 import { googleFontsInstall } from './assets/fonts';

@@ -3,7 +3,7 @@ import React from 'react';
 import fetch from 'node-fetch';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
 import { loadableReady } from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
@@ -22,7 +22,7 @@ declare global {
 
 const history = createBrowserHistory();
 
-const [Ussr] = createUssr();
+const [SSR] = createSsr();
 
 const { store } = createStore({
   initState: window.REDUX_DATA,
@@ -32,7 +32,7 @@ const { store } = createStore({
 
 loadableReady(() => {
   hydrate(
-    <Ussr>
+    <SSR>
       <Provider store={store}>
         <HelmetProvider>
           <ConnectedRouter history={history}>
@@ -40,7 +40,7 @@ loadableReady(() => {
           </ConnectedRouter>
         </HelmetProvider>
       </Provider>
-    </Ussr>,
+    </SSR>,
     document.getElementById('root'),
   );
 });

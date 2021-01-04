@@ -3,7 +3,7 @@ import logger from 'logrock';
 import { Store } from '@reduxjs/toolkit';
 import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import { LocalizationContainer } from '../features/Localization';
@@ -17,7 +17,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
 }> => {
   const history = createBrowserHistory();
 
-  const [Ussr] = createUssr({}, {
+  const [SSR] = createSsr({}, {
     onlyClient: true
   });
 
@@ -30,7 +30,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
   });
 
   const TestWrapper = (): JSX.Element => (
-    <Ussr>
+    <SSR>
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <LocalizationContainer>
@@ -38,7 +38,7 @@ export const createTestWrapper = async (Component, initState = {}): Promise<{
           </LocalizationContainer>
         </ConnectedRouter>
       </Provider>
-    </Ussr>
+    </SSR>
   );
 
   const wrapper = mount(<TestWrapper />);
