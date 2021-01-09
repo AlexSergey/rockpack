@@ -112,13 +112,21 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   if (existsSync(path.resolve(root, '.env'))) {
     const isExample = existsSync(path.resolve(root, '.env.example'));
     const isDefaults = existsSync(path.resolve(root, '.env.defaults'));
-
-    plugins.Dotenv = new Dotenv({
+    /**
+     * dotenv-webpack 6.0 fix
+     * {}.DEBUG = namespaces;
+     * Error
+     * */
+    const dotenv = new Dotenv({
       path: path.resolve(root, '.env'),
       safe: isExample,
       allowEmptyValues: true,
       defaults: isDefaults
     });
+    if (dotenv.definitions && dotenv.definitions['process.env']) {
+      delete dotenv.definitions['process.env'];
+    }
+    plugins.Dotenv = dotenv;
   }
 
   if (conf.write && mode !== 'production') {

@@ -47,13 +47,13 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react-dom', version: '16' },
           { name: 'serialize-javascript', version: '5' },
           { name: 'pretty-error', version: '2.1.1' },
-          { name: '@issr/core', version: '0.9.9-rc.1' },
+          { name: '@issr/core', version: '1.0.0' },
           { name: '@koa/router', version: '8' },
           { name: '@loadable/component', version: '5.13.1' },
           { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '0.9.9-rc.1' },
+          { name: '@issr/babel-loader', version: '1.0.0' },
           { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
@@ -93,7 +93,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@redux-saga/core', version: '1.1.3' },
           { name: 'react-helmet-async', version: '1.0.7' },
           { name: 'history', version: '4.10.1' },
-          { name: '@issr/core', version: '0.9.9-rc.1' },
+          { name: '@issr/core', version: '1.0.0' },
           { name: 'node-fetch', version: '2.6.1' },
           { name: '@reduxjs/toolkit', version: '1.4.0' },
           { name: 'serialize-javascript', version: '5' },
@@ -103,7 +103,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '0.9.9-rc.1' },
+          { name: '@issr/babel-loader', version: '1.0.0' },
           { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
