@@ -13,11 +13,12 @@ export interface UserInterface {
   id: number;
   username: string;
   password: string;
+  role: string;
 }
 
 export class UserModel extends Model<UserInterface> {
   async isValidPassword(password: string): Promise<boolean> {
-    return await isValidPassword(this.get('password'), password);
+    return await isValidPassword(this.get('password') as string, password);
   }
 
   toJSON(): { [key: string]: unknown } {
@@ -70,7 +71,7 @@ UserModel.init({
 
   hooks: {
     beforeCreate: async (user): Promise<void> => {
-      const { cryptedPassword } = await cryptPassword(user.get('password'));
+      const { cryptedPassword } = await cryptPassword(user.get('password') as string);
 
       user.setAttributes({
         password: cryptedPassword

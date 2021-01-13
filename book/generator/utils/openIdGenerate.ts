@@ -1,5 +1,7 @@
+import { DocgenRouteInterface } from '../types';
+
 let uniq = 0;
-const openIdGenerate = (route, openedIds): string[] => {
+const openIdGenerate = (route: DocgenRouteInterface | DocgenRouteInterface[], openedIds: string[]): string[] => {
   uniq++;
   if (!route) {
     return openedIds;
@@ -9,7 +11,7 @@ const openIdGenerate = (route, openedIds): string[] => {
     return openedIds;
   }
 
-  route.uniqId = uniq;
+  route.uniqId = String(uniq);
   if (route.url) {
     const nodeId = String(uniq);
     openedIds.push(nodeId);

@@ -1,5 +1,6 @@
 import { Comment } from '../../types/Comments';
 import config from '../../config';
+import { RestInterface } from '../../utils/rest';
 
 export type CommentsRes = { data: Comment[] };
 export type CommentRes = { data: { id: number } };
@@ -10,7 +11,7 @@ export interface CommentsServiceInterface {
   deleteComment: (id: number) => Promise<void>;
 }
 
-export const commentsService = (rest): CommentsServiceInterface => ({
+export const commentsService = (rest: RestInterface): CommentsServiceInterface => ({
   fetchComments: (postId) => rest.get(`${config.api}/v1/comments/${postId}`),
 
   createComment: (postId, text) => rest.post(`${config.api}/v1/comments/${postId}`, { text }),

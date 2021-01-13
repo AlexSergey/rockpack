@@ -68,7 +68,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
 
   const handleOpen = (setOpenIds): void => {
     setTimeout(() => {
-      // eslint-disable-next-line no-shadow
+      // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
       let found = false;
 
       if (Array.isArray(props.docgen)) {
@@ -98,7 +98,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
       <LangWrapper {...props}>
         {(isLocalized, activeLang, changeLocal): JSX.Element => (
           <OpenIds {...props} openIds={openIds}>
-            {/* eslint-disable-next-line no-shadow */}
+            {/* eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow */}
             {(openIds, setOpenIds): JSX.Element => (
               <Layout {...Object.assign({}, props, {
                 openIds,

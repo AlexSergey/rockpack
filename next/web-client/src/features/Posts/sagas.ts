@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type  */
+import { LoggerInterface } from 'logrock';
 import { push } from 'connected-react-router';
 import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects';
 import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, createPost, deletePost, postDeleted, paginationSetCount, paginationSetCurrent, settingPage } from './actions';
@@ -6,7 +7,7 @@ import { increasePost, decreasePost, decreaseComment } from '../User';
 import { ServicesInterface } from '../../services';
 import { PostsRes, DeletePostRes } from './service';
 
-function* fetchPostsHandler(logger, { payload: { page } }: ReturnType<typeof fetchPosts>) {
+function* fetchPostsHandler(logger: LoggerInterface, { payload: { page } }: ReturnType<typeof fetchPosts>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield put(requestPosts());
@@ -18,16 +19,17 @@ function* fetchPostsHandler(logger, { payload: { page } }: ReturnType<typeof fet
   }
 }
 
-function* setPageHandler(logger, { payload: { currentLanguage, page } }: ReturnType<typeof settingPage>) {
+function* setPageHandler(logger: LoggerInterface, { payload: { currentLanguage, page } }:
+ReturnType<typeof settingPage>) {
   try {
     yield put(paginationSetCurrent(page));
     yield put(push(`/${currentLanguage}/?page=${page}`));
   } catch (error) {
-    logger.error(error);
+    logger.error(error, false);
   }
 }
 
-function* createPostHandler(logger, { payload: { postData, page } }: ReturnType<typeof createPost>) {
+function* createPostHandler(logger: LoggerInterface, { payload: { postData, page } }: ReturnType<typeof createPost>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield call(() => services.posts.createPost(postData));
@@ -42,7 +44,7 @@ function* createPostHandler(logger, { payload: { postData, page } }: ReturnType<
   }
 }
 
-function* deletePostHandler(logger, { payload: { id, owner } }: ReturnType<typeof deletePost>) {
+function* deletePostHandler(logger: LoggerInterface, { payload: { id, owner } }: ReturnType<typeof deletePost>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     const ownerState = Boolean(owner);
@@ -64,19 +66,19 @@ function* deletePostHandler(logger, { payload: { id, owner } }: ReturnType<typeo
   }
 }
 
-function* postsSaga(logger): IterableIterator<unknown> {
+function* postsSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(fetchPosts.type, fetchPostsHandler, logger);
 }
 
-function* deletePostSaga(logger): IterableIterator<unknown> {
+function* deletePostSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeLatest(deletePost.type, deletePostHandler, logger);
 }
 
-function* setPageSaga(logger): IterableIterator<unknown> {
+function* setPageSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeLatest(settingPage.type, setPageHandler, logger);
 }
 
-function* createPostSaga(logger): IterableIterator<unknown> {
+function* createPostSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(createPost.type, createPostHandler, logger);
 }
 

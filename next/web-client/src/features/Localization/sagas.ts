@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type  */
+import { LoggerInterface } from 'logrock';
 import { push } from 'connected-react-router';
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { getDefaultLocale, LocaleData } from '@localazer/component';
@@ -6,7 +7,8 @@ import { fetchLocalization, setLocale } from './actions';
 import { ServicesInterface } from '../../services';
 import { getDefaultLanguage } from './utils';
 
-function* fetchLocalizationHandler(logger, { payload: { language, languages } }: ReturnType<typeof fetchLocalization>) {
+function* fetchLocalizationHandler(logger: LoggerInterface, { payload: { language, languages } }:
+ReturnType<typeof fetchLocalization>) {
   try {
     if (languages[language]) {
       yield put(setLocale({
@@ -38,7 +40,7 @@ function* fetchLocalizationHandler(logger, { payload: { language, languages } }:
   }
 }
 
-function* localizationSaga(logger): IterableIterator<unknown> {
+function* localizationSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(fetchLocalization, fetchLocalizationHandler, logger);
 }
 

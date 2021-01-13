@@ -1,4 +1,4 @@
-type Data = object | object[];
+type Data = unknown;
 
 interface Response {
   code: number;

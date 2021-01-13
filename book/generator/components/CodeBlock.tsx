@@ -56,8 +56,8 @@ const CodeBlock = ({ children, className, live, render }: CodeBlockInterface): J
 
   return (
     <Highlight {...defaultProps} code={children.trim()} language={language}>
-      {({ className, style, tokens, getLineProps, getTokenProps }): JSX.Element => (
-        <pre className={className} style={{ ...style, padding: '20px', overflow: 'auto' }}>
+      {({ className: preClassName, style, tokens, getLineProps, getTokenProps }): JSX.Element => (
+        <pre className={preClassName} style={{ ...style, padding: '20px', overflow: 'auto' }}>
           {tokens.map((line, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <div key={i} {...getLineProps({ line, key: i })}>

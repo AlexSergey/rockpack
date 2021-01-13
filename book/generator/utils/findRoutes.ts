@@ -1,4 +1,5 @@
 import { matchPath } from 'react-router';
+import { DocgenRouteInterface } from '../types';
 
 interface Url {
   url: string;
@@ -6,7 +7,7 @@ interface Url {
   nodeId: string;
 }
 
-const getRoutes = (route, allRoutes): Url[] => {
+const getRoutes = (route: DocgenRouteInterface | DocgenRouteInterface[], allRoutes: Url[]): Url[] => {
   if (!route) {
     return allRoutes;
   }
@@ -31,7 +32,7 @@ const getRoutes = (route, allRoutes): Url[] => {
   return allRoutes;
 };
 
-const findRoutes = (current, route): {
+const findRoutes = (current: string, route: DocgenRouteInterface | DocgenRouteInterface[]): {
   prev: Url | null;
   next: Url | null;
 } => {

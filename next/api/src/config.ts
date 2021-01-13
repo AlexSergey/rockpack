@@ -12,6 +12,7 @@ dotenvSafe.config({
   allowEmptyValues: true
 });
 
+// eslint-disable-next-line no-shadow
 export enum Roles {
   user = 'user',
   admin = 'admin'

@@ -134,7 +134,7 @@ body {
   max-width: 100%;
   display: inline-block;
 }
-.wrapper-logo {
+.logo-holder > div:nth-child(1) {
   height: 100%;
 }
 .ct-grid {

@@ -28,7 +28,7 @@ const _make = async (conf, post) => {
   conf = await mergeConfWithDefault(conf, mode);
 
   const { entry, context } = makeEntry(conf, root, mode);
-  const output = makeOutput(conf, root);
+  const output = makeOutput(conf, root, mode);
   const devtool = makeDevtool(mode, conf);
   const devServer = makeDevServer(conf, root);
   const optimization = makeOptimization(mode, conf);

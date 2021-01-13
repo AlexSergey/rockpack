@@ -24,9 +24,8 @@ import {
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import findRoutes from '../utils/findRoutes';
 import MDXLayout from './MDXLayout';
-import { DocgenRouteInterface } from '../types';
+import { DocgenRouteInterface, LayoutInterface } from '../types';
 
-// @ts-ignore
 const useStylesPage = makeStyles(stylesHeader);
 
 const renderInside = (content, index: number|null, props): JSX.Element => {
@@ -68,7 +67,7 @@ const renderInside = (content, index: number|null, props): JSX.Element => {
           component() :
           component
   );
-  
+
   return (
     <div {...Object.assign({}, opt)}>
       {!content.menuOnly && title && <h2>{title}</h2>}
@@ -111,14 +110,13 @@ const renderInside = (content, index: number|null, props): JSX.Element => {
   );
 };
 
-interface TempInterface extends RouteComponentProps {
+interface PageAndRouterInterface extends LayoutInterface, RouteComponentProps {
   toggleOpenId: () => void;
-  activeLang?: string;
   content: unknown;
   docgen: DocgenRouteInterface | DocgenRouteInterface[];
 }
 
-const InnerPage = withRouter((props: TempInterface) => {
+const InnerPage = withRouter((props: PageAndRouterInterface) => {
   const classesPage = useStylesPage();
 
   const current = typeof props.activeLang === 'string' ?
@@ -166,6 +164,6 @@ const InnerPage = withRouter((props: TempInterface) => {
   );
 });
 
-const Page = (content, props): JSX.Element => <InnerPage content={content} {...props} />;
+const Page = (content: unknown, props: LayoutInterface): JSX.Element => <InnerPage content={content} {...props} />;
 
 export default Page;

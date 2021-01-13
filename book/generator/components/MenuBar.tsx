@@ -4,7 +4,6 @@ import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from '../assets/jss/material-dashboard-react/components/sidebarStyle';
 
-// @ts-ignore
 const useStyles = makeStyles(styles);
 
 interface MenuBarInterface {

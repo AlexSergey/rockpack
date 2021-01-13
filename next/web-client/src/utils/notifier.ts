@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { isDevelopment } from './environments';
 
-export const notify = (level, text, isImportant): void => {
+export const notify = (level: string, text: string, isImportant: boolean): void => {
   if (isDevelopment() && ['log', 'warn', 'info', 'error'].includes(level)) {
     //eslint-disable-next-line
     console[level](text);

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type  */
+import { LoggerInterface } from 'logrock';
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { fetchComments, requestCommentsError, requestCommentsSuccess, requestComments, createComment, commentCreated, deleteComment, commentDeleted } from './actions';
 import { increaseComment, decreaseComment } from '../User';
@@ -6,7 +7,7 @@ import { Comment } from '../../types/Comments';
 import { ServicesInterface } from '../../services';
 import { CommentsRes, CommentRes } from './service';
 
-function* getComments(logger, { payload: { postId } }: ReturnType<typeof fetchComments>) {
+function* getComments(logger: LoggerInterface, { payload: { postId } }: ReturnType<typeof fetchComments>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     yield put(requestComments());
@@ -15,12 +16,13 @@ function* getComments(logger, { payload: { postId } }: ReturnType<typeof fetchCo
     ));
     yield put(requestCommentsSuccess(data));
   } catch (error) {
-    logger.error(error);
+    logger.error(error, false);
     yield put(requestCommentsError());
   }
 }
 
-function* createCommentHandler(logger, { payload: { text, user, postId } }: ReturnType<typeof createComment>) {
+function* createCommentHandler(logger: LoggerInterface, { payload: { text, user, postId } }:
+ReturnType<typeof createComment>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     const { data }: CommentRes = yield call(() => services.comments.createComment(postId, text));
@@ -42,11 +44,11 @@ function* createCommentHandler(logger, { payload: { text, user, postId } }: Retu
     yield put(increaseComment());
     yield put(commentCreated(comment));
   } catch (error) {
-    logger.error(error);
+    logger.error(error, false);
   }
 }
 
-function* deleteCommentHandler(logger, { payload: { id, owner } }: ReturnType<typeof deleteComment>) {
+function* deleteCommentHandler(logger: LoggerInterface, { payload: { id, owner } }: ReturnType<typeof deleteComment>) {
   try {
     const services: ServicesInterface = yield getContext('services');
     const ownerState = Boolean(owner);
@@ -58,19 +60,19 @@ function* deleteCommentHandler(logger, { payload: { id, owner } }: ReturnType<ty
       yield put(decreaseComment());
     }
   } catch (error) {
-    logger.error(error);
+    logger.error(error, false);
   }
 }
 
-function* createCommentSaga(logger): IterableIterator<unknown> {
+function* createCommentSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(createComment.type, createCommentHandler, logger);
 }
 
-function* deleteCommentSaga(logger): IterableIterator<unknown> {
+function* deleteCommentSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(deleteComment.type, deleteCommentHandler, logger);
 }
 
-function* commentsSaga(logger): IterableIterator<unknown> {
+function* commentsSaga(logger: LoggerInterface): IterableIterator<unknown> {
   yield takeEvery(fetchComments.type, getComments, logger);
 }
 

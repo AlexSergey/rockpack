@@ -1,3 +1,4 @@
+import Application from 'koa';
 import Router from '@koa/router';
 import { NotFound } from './errors';
 import { config } from './config';
@@ -14,7 +15,7 @@ import { CommentControllerDIType, CommentControllerInterface } from './controlle
 
 const router = new Router();
 
-export const routes = (app): void => {
+export const routes = (app: Application): void => {
   const userController = container.get<UserControllerInterface>(UserControllerDIType);
   const postController = container.get<PostControllerInterface>(PostControllerDIType);
   const commentController = container.get<CommentControllerInterface>(CommentControllerDIType);
