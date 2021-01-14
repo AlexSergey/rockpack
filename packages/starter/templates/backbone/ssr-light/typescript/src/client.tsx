@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const [SSR] = createSsr(window.SSR_DATA);
+const SSR = createSsr(window.SSR_DATA);
 
 loadableReady(() => {
   hydrate(

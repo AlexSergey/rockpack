@@ -13,7 +13,7 @@ import createServices from './services';
 
 const history = createBrowserHistory();
 
-const [SSR] = createSsr();
+const SSR = createSsr();
 
 const { store } = createStore({
   initState: window.REDUX_DATA,

@@ -4,7 +4,7 @@ import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import App from './App';
 
-const [SSR] = createSsr(window.SSR_DATA);
+const SSR = createSsr(window.SSR_DATA);
 
 loadableReady(() => {
   hydrate(

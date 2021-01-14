@@ -11,7 +11,7 @@ import createMockServices from './mockServices';
 const createTestWrapper = async (Component, initState = {}) => {
   const history = createBrowserHistory();
 
-  const [SSR] = createSsr({}, {
+  const SSR = createSsr({}, {
     onlyClient: true,
   });
 

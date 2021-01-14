@@ -24,7 +24,7 @@ declare global {
 
 const history = createBrowserHistory();
 
-const [SSR] = createSsr();
+const SSR = createSsr();
 
 const getToken = (): string | undefined => Cookies.get('token');
 

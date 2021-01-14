@@ -18,7 +18,7 @@ Promise<{
 }> => {
   const history = createBrowserHistory();
 
-  const [SSR] = createSsr({}, {
+  const SSR = createSsr({}, {
     onlyClient: true
   });
 
