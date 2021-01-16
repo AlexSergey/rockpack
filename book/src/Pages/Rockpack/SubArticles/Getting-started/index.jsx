@@ -45,15 +45,6 @@ const Page = () => (
         </p>
         <ul>
           <li>
-            <p>Server Side Rendering:</p>
-            <p>
-              <a href="/ssr-1-creating-simple-ssr-application">Creating simple SSR application [Article]</a>
-            </p>
-            <p>
-              <a href="/ssr-2-migration-legacy-app-to-ssr">Migration legacy application to SSR [Article]</a>
-            </p>
-          </li>
-          <li>
             <p>Finding bugs using logging:</p>
             <p>
               <a href="/log-driven-development">Log Driven Development [Article]</a>

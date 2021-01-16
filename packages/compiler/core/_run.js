@@ -18,7 +18,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
         break;
       case 'production':
         if (err) {
-          console.error(err);
+          console.error(err.message);
           return process.exit(1);
         }
 
@@ -48,16 +48,6 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
 
         return process.exit(0);
     }
-    /*if (err) {
-      console.log(err.message);
-      return process.exit(1);
-    }
-    if (conf.library && mode === 'production') {
-
-    }
-    if (mode === 'production') {
-      log(stats);
-    }*/
   });
 };
 

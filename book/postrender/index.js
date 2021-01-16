@@ -21,11 +21,12 @@ const prerenderDocgen = (plugins, finalConfig, outside = {}) => {
         plugins.set('PrerenderSPAPlugin', new PrerenderSPAPlugin({
           staticDir: finalConfig.output.path,
           routes: routesToRender,
+          minify: true
         }));
       }
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error(e);
+      console.error(e.message);
     }
   }
 };

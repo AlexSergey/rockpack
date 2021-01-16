@@ -121,7 +121,7 @@ const docgenParse = (index, extensions) => {
       }
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error(e);
+      console.error(e.message);
     }
   }
 

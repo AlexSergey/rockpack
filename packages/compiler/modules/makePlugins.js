@@ -9,7 +9,6 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
-const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -20,7 +19,6 @@ const StatoscopeWebpackPlugin = require('@statoscope/ui-webpack');
 const Dotenv = require('dotenv-webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -361,15 +359,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
 
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
-
-    plugins.OptimizeCssAssetsPlugin = new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.css$/g,
-      cssProcessor: cssNano,
-      cssProcessorPluginOptions: {
-        preset: ['default', { discardComments: { removeAll: true } }],
-      },
-      canPrint: true
-    });
   }
 
   if (conf.analyzer) {

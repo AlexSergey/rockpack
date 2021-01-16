@@ -17,11 +17,7 @@
 
 [Fast setup](https://www.rockpack.io/fast-setup)
 
-- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please, read articles to learn more:
-  - Server Side Rendering:
-    - [Creating simple SSR application [Article]](https://www.rockpack.io/ssr-1-creating-simple-ssr-application)
-    - [Migration legacy application to SSR [Article]](https://www.rockpack.io/ssr-2-migration-legacy-app-to-ssr)
-    - [SSR Advanced Techniques [Article]](https://www.rockpack.io/ssr-3-advanced-techniques)
+- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need.
 
 ***
 

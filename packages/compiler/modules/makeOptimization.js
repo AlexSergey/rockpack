@@ -1,5 +1,6 @@
 const { isArray } = require('valid-types');
 const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const makeOptimization = (mode, conf) => {
   const optimization = {};
@@ -52,7 +53,8 @@ const makeOptimization = (mode, conf) => {
               drop_debugger: !conf.debug
             }
           }
-        })
+        }),
+        new CssMinimizerPlugin()
       ],
       removeAvailableModules: true,
       removeEmptyChunks: true,

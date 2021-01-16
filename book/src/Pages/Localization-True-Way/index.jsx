@@ -20,8 +20,6 @@ import codeMakePotExample from 'raw-loader!./code/code-makepot.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeMakePotOptionsExample from 'raw-loader!./code/code-makepot-options.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
-import codeMakePotRunExample from 'raw-loader!./code/code-makepot-run.example';
-// eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codePo2JsonExample from 'raw-loader!./code/code-po2json.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codePo2JsonOptionsExample from 'raw-loader!./code/code-po2json-options.example';
@@ -212,7 +210,7 @@ const Page = () => (
 
     <img className="flexible-image-half" src={approach} alt="Approach" />
 
-    <h3><a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md">@rockpack/localazer</a></h3>
+    <h3><a href="https://github.com/AlexSergey/localazer/README.md">localazer</a></h3>
 
     <p>1. Installation:</p>
 
@@ -234,11 +232,13 @@ const Page = () => (
 
     <ul>
       <li>
-        <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md">@rockpack/localazer</a> React component for translations.
+        <a href="https://github.com/AlexSergey/localazer/README.md">@localaser/component</a> React component for translations.
       </li>
       <li>
-        <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md">@rockpack/compiler</a> is needed to parse our application and generate a dictionary for gettext
-        and convert gettext to json.
+        <a href="https://github.com/AlexSergey/localazer/README.md">@localazer/webpack-plugin</a> Webpack plugin to make pot file
+      </li>
+      <li>
+        <a href="https://github.com/AlexSergey/localazer/README.md">@localazer/po2json</a> po2json tool
       </li>
     </ul>
 
@@ -265,7 +265,7 @@ const Page = () => (
       server, or integrate it into your application bundle.
     </p>
 
-    <h3>Using <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md">@rockpack/localazer</a></h3>
+    <h3>Using <a href="https://github.com/AlexSergey/localazer/README.md">localazer</a></h3>
 
     <p>
       In the components of our application where we want to have text localization, we must:
@@ -370,10 +370,8 @@ const Page = () => (
       a dictionary for the translator so that he can create translations for us in other languages.
     </p>
 
-    <h3>makePOT.js</h3>
-
     <p>
-      Let's create a script, separate from our application. Let's call it makePOT.js
+      Let's add @localazer/webpack-plugin to your webpack.config.
     </p>
 
     <p>
@@ -397,7 +395,7 @@ const Page = () => (
       )}
     </Highlight>
 
-    <p><strong>makePot</strong> has properties:</p>
+    <p><strong>@localazer/webpack-plugin</strong> has properties:</p>
 
     <Highlight {...defaultProps} theme={dracula} code={codeMakePotOptionsExample} language="jsx">
       {/* eslint-disable-next-line sonarjs/no-identical-functions */}
@@ -422,23 +420,7 @@ const Page = () => (
 
     <h3>Creating a gettext dictionary</h3>
 
-    <p>Now, after creating and configuring makePOT.js, we only need to run</p>
-
-    <Highlight {...defaultProps} theme={dracula} code={codeMakePotRunExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <p>Now, rebuild your app with @localazer/webpack-plugin</p>
 
     <p>
       After that, a dictionary with the pot extension will be created on the specified path dist. Subsequently, we see
@@ -574,7 +556,7 @@ const Page = () => (
     <h3>Conclusion</h3>
 
     <p>
-      <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md">@rockpack/localazer</a> and <strong>gettext</strong> are very powerful tools for localizing your applications. With this approach, you will be
+      <a href="https://github.com/AlexSergey/localazer/README.md">localazer</a> and <strong>gettext</strong> are very powerful tools for localizing your applications. With this approach, you will be
       able to effectively work with the translator using the format of programs that are convenient for him. You don't
       have to worry about your JSON files being out of date.
     </p>
