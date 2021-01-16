@@ -7,7 +7,6 @@ const makeEntry = require('../modules/makeEntry');
 const makeOutput = require('../modules/makeOutput');
 const makeNode = require('../modules/makeNode');
 const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
-const mergeLocalizationConfWithDefault = require('../localazer/utils/mergeLocalizationConfWithDefault');
 const makeDevtool = require('../modules/makeDevtool');
 const { makeModules } = require('../modules/makeModules');
 const makePlugins = require('../modules/makePlugins');
@@ -26,12 +25,10 @@ const _make = async (conf, post) => {
     require(path.resolve(root, 'package.json')) :
     {};
 
-  conf = conf.makePOT ?
-    await mergeLocalizationConfWithDefault(conf, mode) :
-    await mergeConfWithDefault(conf, mode);
+  conf = await mergeConfWithDefault(conf, mode);
 
   const { entry, context } = makeEntry(conf, root, mode);
-  const output = makeOutput(conf, root);
+  const output = makeOutput(conf, root, mode);
   const devtool = makeDevtool(mode, conf);
   const devServer = makeDevServer(conf, root);
   const optimization = makeOptimization(mode, conf);
@@ -51,6 +48,7 @@ const _make = async (conf, post) => {
   };
 
   if (mode === 'development') {
+    finalConfig.bail = true;
     finalConfig.watch = true;
   }
 

@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-shadow
 export enum Statuses {
   fail = 'fail',
   error = 'error',
   success = 'success'
 }
 
-export const getStatus = (statusCode): Statuses => {
+export const getStatus = (statusCode: number): Statuses => {
   if (statusCode < 400) {
     return Statuses.success;
   }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { useLocalizationAPI } from './hooks';
 import { createTestWrapper } from '../../tests/TestWrapper';
 import { Languages } from '../../types/Localization';

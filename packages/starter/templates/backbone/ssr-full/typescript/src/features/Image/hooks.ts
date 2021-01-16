@@ -1,4 +1,4 @@
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchImage } from './actions';
 import { ImageState } from '../../types/Image';
@@ -9,7 +9,7 @@ const useImage = (): [boolean, boolean, string] => {
     image: ImageState;
   }, ImageState>((state) => state.image);
 
-  useUssrEffect(() => dispatch(fetchImage()));
+  useSsrEffect(() => dispatch(fetchImage()));
 
   return [loading, error, url];
 };

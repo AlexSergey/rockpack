@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPosts, createPost, deletePost, settingPage } from './actions';
 import { PostsState, Post } from '../../types/Posts';
@@ -20,7 +20,7 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
 
-  useUssrEffect(() => dispatch(fetchPosts({ page: current })));
+  useSsrEffect(() => dispatch(fetchPosts({ page: current })));
 
   // Pagination changed
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { getDefaultLocale } from '@rockpack/localazer';
+import { getDefaultLocale } from '@localazer/component';
 import { setLocale } from './actions';
 import { getDefaultLanguage } from './utils';
 import { Localization } from '../../types/Localization';

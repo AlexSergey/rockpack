@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch from 'node-fetch';
 
 interface Opts {
@@ -5,13 +6,13 @@ interface Opts {
 }
 
 export interface RestInterface {
-  get: (url: string) => Promise<unknown>;
-  post: (url: string, body?: Opts, options?: Opts) => Promise<unknown>;
-  put: (url: string, body?: Opts, options?: Opts) => Promise<unknown>;
-  delete: (url: string) => Promise<unknown>;
+  get: (url: string) => Promise<any>;
+  post: (url: string, body?: Opts | FormData, options?: Opts) => Promise<any>;
+  put: (url: string, body?: Opts | FormData, options?: Opts) => Promise<any>;
+  delete: (url: string) => Promise<any>;
 }
 
-const commonHeaders = (token: string): { Authorization: string } | {} => {
+const commonHeaders = (token: string): { Authorization: string } | Record<string, never> => {
   if (token) {
     return {
       Authorization: token
@@ -20,11 +21,12 @@ const commonHeaders = (token: string): { Authorization: string } | {} => {
   return {};
 };
 
-export const createRestClient = (getToken): RestInterface => (
+export const createRestClient = (getToken: () => string): RestInterface => (
   {
     get: (url) => (
       fetch(url, {
         headers: commonHeaders(getToken()),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         credentials: 'include',
       })
@@ -52,6 +54,7 @@ export const createRestClient = (getToken): RestInterface => (
         Object.assign(headers, options.headers);
       }
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,
@@ -85,6 +88,7 @@ export const createRestClient = (getToken): RestInterface => (
         Object.assign(headers, options.headers);
       }
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,
@@ -109,6 +113,7 @@ export const createRestClient = (getToken): RestInterface => (
         Object.assign(headers, options.headers);
       }
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return fetch(url, Object.assign({}, {
         headers,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
-import useStyles from 'isomorphic-style-loader/useStyles';
+import Localization, { l } from '@localazer/component';
 import { useUser } from '../../../features/User';
 import { useCommentsApi } from '../../../features/Comments';
 
@@ -16,8 +15,6 @@ type Store = {
 };
 
 export const AddComment = ({ postId }: AddCommentInterface): JSX.Element => {
-  useStyles(styles);
-
   const [form] = Form.useForm();
   const user = useUser();
   const { createComment } = useCommentsApi();

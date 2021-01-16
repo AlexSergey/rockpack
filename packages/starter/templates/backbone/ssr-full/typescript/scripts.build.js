@@ -10,7 +10,7 @@ isomorphicCompiler(
     ],
     babel: {
       plugins: [
-        '@rockpack/babel-plugin-ussr-marker'
+        '@issr/babel-loader'
       ]
     }
   }),
@@ -19,7 +19,7 @@ isomorphicCompiler(
     dist: 'dist',
     babel: {
       plugins: [
-        '@rockpack/babel-plugin-ussr-marker'
+        '@issr/babel-loader'
       ]
     }
   })

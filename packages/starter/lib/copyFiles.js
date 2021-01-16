@@ -55,13 +55,6 @@ const copyFiles = async (currentPath, {
       );
     }
   }
-
-  if (modules.localization) {
-    await copy(
-      path.join(addons, 'localazer', appType, typescript ? 'typescript' : 'simple'),
-      path.join(currentPath)
-    );
-  }
 }
 
 module.exports = copyFiles;

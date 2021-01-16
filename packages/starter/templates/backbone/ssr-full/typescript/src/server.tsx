@@ -11,12 +11,11 @@ import PrettyError from 'pretty-error';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import serialize from 'serialize-javascript';
-import { serverRender } from '@rockpack/ussr';
+import { serverRender } from '@issr/core';
 import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
 import { HelmetProvider, FilledContext } from 'react-helmet-async';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
-import { isProduction, isDevelopment } from './utils/environments';
+import { isDevelopment } from './utils/environments';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
@@ -30,25 +29,14 @@ const stats = JSON.parse(
   readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'),
 );
 
-const styles = stats.assets
-  .filter((file) => path.extname(file.name) === '.css')
-  .map((style) => `<link rel="stylesheet" type="text/css" href="/${style.name}" />`);
-
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  const css = new Set();
-
   const { store, rootSaga } = createStore({
     initState: {},
     history: createMemoryHistory(),
     services: createServices(fetch),
   });
-
-  const insertCss = isProduction()
-    ? (): void => {}
-    // eslint-disable-next-line no-underscore-dangle
-    : (...moduleStyles): void => moduleStyles.forEach((style) => css.add(style._getCss()));
 
   const extractor = new ChunkExtractor({
     stats,
@@ -61,11 +49,9 @@ router.get('/*', async (ctx) => {
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
-          <StyleContext.Provider value={{ insertCss }}>
-            <StaticRouter location={ctx.request.url} context={{}}>
-              <App />
-            </StaticRouter>
-          </StyleContext.Provider>
+          <StaticRouter location={ctx.request.url} context={{}}>
+            <App />
+          </StaticRouter>
         </HelmetProvider>
       </Provider>,
     )
@@ -77,20 +63,20 @@ router.get('/*', async (ctx) => {
   const { helmet } = helmetContext;
 
   const scriptTags = extractor.getScriptTags();
-
-  if (isDevelopment()) {
-    styles.push(`<style>${[...css].join('')}</style>`);
-  }
+  const linkTags = extractor.getLinkTags();
+  const styleTags = extractor.getStyleTags();
 
   const reduxState = store.getState();
 
+  /* eslint-disable */
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
 <head>
     ${helmet.title.toString()}
     ${helmet.meta.toString()}
-    ${styles.join('')}
+    ${linkTags}
+    ${styleTags}
     ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
 </head>
 <body>
@@ -102,6 +88,7 @@ router.get('/*', async (ctx) => {
 </body>
 </html>
 `;
+  /* eslint-enable */
 });
 
 app

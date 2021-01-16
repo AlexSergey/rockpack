@@ -1,5 +1,6 @@
 import config from '../../config';
 import { User } from '../../types/User';
+import { RestInterface } from '../../utils/rest';
 
 type UserData = {
   email: string;
@@ -18,7 +19,7 @@ export interface UserServiceInterface {
   signOut: () => Promise<void>;
 }
 
-export const userService = (rest): UserServiceInterface => ({
+export const userService = (rest: RestInterface): UserServiceInterface => ({
   signIn: (user) => rest.post(`${config.api}/v1/users/signin`, user),
 
   authorization: () => rest.get(`${config.api}/v1/users/authorization`),

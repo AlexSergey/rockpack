@@ -4,7 +4,7 @@ import './assets/styles/global.scss';
 import React, { Fragment } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
-import logger, { LoggerContainer } from '@rockpack/logger';
+import logger, { LoggerContainer } from 'logrock';
 import { Switch } from './utils/RouteSwitch';
 import { notify } from './utils/notifier';
 import { useCurrentLanguage } from './features/Localization';

@@ -1,5 +1,6 @@
 import config from '../../config';
 import { Post } from '../../types/Post';
+import { RestInterface } from '../../utils/rest';
 
 type PostData = {
   title: string;
@@ -14,7 +15,7 @@ export interface PostServiceInterface {
   updatePost: (postId: number, post: PostData) => Promise<void>;
 }
 
-export const postService = (rest): PostServiceInterface => ({
+export const postService = (rest: RestInterface): PostServiceInterface => ({
   fetchPost: (postId) => rest.get(`${config.api}/v1/posts/${postId}`),
 
   updatePost: (postId, post) => rest.put(`${config.api}/v1/posts/${postId}`, post)

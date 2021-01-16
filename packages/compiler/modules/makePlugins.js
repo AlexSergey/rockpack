@@ -1,40 +1,37 @@
-/* eslint-disable */
 const { existsSync } = require('fs');
 const { argv } = require('yargs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { isString, isBoolean, isArray, isObject, isNumber, isFunction } = require('valid-types');
+const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
-const cssNano = require('cssnano');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
+const StatoscopeWebpackPlugin = require('@statoscope/ui-webpack');
 const Dotenv = require('dotenv-webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
-const MakePotPlugin = require('../localazer/makePot/MakePotPlugin');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
 const makeResolve = require('./makeResolve');
-const ReloadHtmlWebpackPlugin = require('../utils/reloadHTML');
+const ReloadHtmlWebpackPlugin = require('../plugins/ReloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
-const { UssrBackend, UssrFrontend } = require('@rockpack/webpack-plugin-ussr-development');
+const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 
 function getTitle(packageJson) {
   if (!packageJson) {
@@ -80,7 +77,7 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
   }
 
   return opts;
-}
+};
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
@@ -92,11 +89,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const plugins = {};
 
-  if (conf.makePOT) {
-    plugins.LocalizationWebpackPlugin = new MakePotPlugin(conf.localization);
-
-    return plugins;
-  }
   if (!argv._rockpack_testing) {
     plugins.ProgressPlugin = new ProgressBarPlugin();
   }
@@ -115,16 +107,24 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
 
-  if (existsSync(path.resolve(root, '.env.example'))) {
-    plugins.Dotenv = new Dotenv({
+  if (existsSync(path.resolve(root, '.env'))) {
+    const isExample = existsSync(path.resolve(root, '.env.example'));
+    const isDefaults = existsSync(path.resolve(root, '.env.defaults'));
+    /**
+     * dotenv-webpack 6.0 fix
+     * {}.DEBUG = namespaces;
+     * Error
+     * */
+    const dotenv = new Dotenv({
       path: path.resolve(root, '.env'),
-      safe: true,
-      allowEmptyValues: true
+      safe: isExample,
+      allowEmptyValues: true,
+      defaults: isDefaults
     });
-  } else if (existsSync(path.resolve(root, '.env'))) {
-    plugins.Dotenv = new Dotenv({
-      path: path.resolve(root, '.env')
-    });
+    if (dotenv.definitions && dotenv.definitions['process.env']) {
+      delete dotenv.definitions['process.env'];
+    }
+    plugins.Dotenv = dotenv;
   }
 
   if (conf.write && mode !== 'production') {
@@ -205,7 +205,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const eslintRc = pathToEslintrc(root, mode);
 
-  if (!conf.makePOT && isString(eslintRc)) {
+  if (isString(eslintRc)) {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
       extensions,
       context,
@@ -272,8 +272,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         },
         waitForBuild: true
       });
-    }
-    else if (
+    } else if (
       conf.nodejs &&
       !global.ISOMORPHIC
     ) {
@@ -286,32 +285,27 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
-      plugins.UssrDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
-        new UssrBackend(opts) :
-        new UssrFrontend({
+      plugins.SSRDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
+        new SSRBackend(opts) :
+        new SSRFrontend({
           port: frontReloaderPort,
           host: 'localhost',
           static: conf.distContext,
           client: {
             address: `localhost:${frontReloaderPort}`,
           }
-        })
-      ;
+        });
     }
 
-    plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
-    plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
-
-    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin([
-      /css\.d\.ts$/
-    ]);
+    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin({
+      paths: [
+        /css\.d\.ts$/
+      ]
+    });
 
     if (conf.__isIsomorphicStyles) {
       plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
-        filename: 'css/styles.css',
-        insertAt: {
-          after: 'title'
-        }
+        filename: 'css/styles.css'
       });
     }
   }
@@ -334,10 +328,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       'css/styles.css';
 
     plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
-      filename: styleName,
-      insertAt: {
-        after: 'title'
-      }
+      filename: styleName
     });
 
     plugins.ImageminPlugin = new ImageminPlugin({
@@ -361,8 +352,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       ]
     });
 
-    plugins.OccurrenceOrderPlugin = new webpack.optimize.OccurrenceOrderPlugin();
-
     plugins.FlagDependencyUsagePlugin = new FlagDependencyUsagePlugin();
 
     plugins.FlagIncludedChunksPlugin = new FlagIncludedChunksPlugin();
@@ -370,15 +359,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.NoEmitOnErrorsPlugin = new webpack.NoEmitOnErrorsPlugin();
 
     plugins.SideEffectsFlagPlugin = new webpack.optimize.SideEffectsFlagPlugin();
-
-    plugins.OptimizeCssAssetsPlugin = new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.css$/g,
-      cssProcessor: cssNano,
-      cssProcessorPluginOptions: {
-        preset: ['default', { discardComments: { removeAll: true } }],
-      },
-      canPrint: true
-    });
   }
 
   if (conf.analyzer) {
@@ -390,6 +370,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       analyzerMode: 'static',
       reportFilename: 'webpack-report.html',
       openAnalyzer: false,
+    });
+
+    plugins.StatoscopeWebpackPlugin = new StatoscopeWebpackPlugin({
+      watchMode: mode === 'development'
     });
   }
 

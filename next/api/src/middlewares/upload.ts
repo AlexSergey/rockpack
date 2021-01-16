@@ -1,7 +1,9 @@
 import path from 'path';
+import { Next } from 'koa';
 import multer from '@koa/multer';
 import { config } from '../config';
 import { BadFileFormat, MulterError } from '../errors';
+import { KoaContext } from '../types/koa.context';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -35,7 +37,7 @@ interface UploadInterface {
 }
 
 export const upload = (...fields: (string | UploadInterface)[]) => (
-  async (ctx, next): Promise<void> => {
+  async (ctx: KoaContext, next: Next): Promise<void> => {
     try {
       await uploader.fields(fields)(ctx);
     } catch (e) {

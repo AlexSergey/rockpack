@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import loadable from '@loadable/component';
 import { usePostApi } from '../../../features/Post';
 

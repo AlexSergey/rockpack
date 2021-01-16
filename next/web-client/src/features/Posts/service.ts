@@ -1,5 +1,6 @@
 import config from '../../config';
 import { Post } from '../../types/Posts';
+import { RestInterface } from '../../utils/rest';
 
 export type PostsRes = { data: { posts: Post[]; count: number } };
 
@@ -11,7 +12,7 @@ export interface PostsServiceInterface {
   deletePost: (id: number) => Promise<DeletePostRes>;
 }
 
-export const postsService = (rest): PostsServiceInterface => ({
+export const postsService = (rest: RestInterface): PostsServiceInterface => ({
   fetchPosts: (page) => rest.get(`${config.api}/v1/posts?page=${page}`),
 
   createPost: (postData) => rest.post(`${config.api}/v1/posts`, postData),

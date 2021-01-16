@@ -1,5 +1,4 @@
 import React from 'react';
-import useStyles from 'isomorphic-style-loader/useStyles';
 import styles from './styles.module.scss';
 
 interface ImageInterface {
@@ -8,16 +7,12 @@ interface ImageInterface {
   url: string;
 }
 
-const Image = ({ loading, error, url }: ImageInterface): JSX.Element => {
-  useStyles(styles);
-
-  return (
-    <div className={styles.img}>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error, try again</p>}
-      <img width="200px" alt="random" src={url} />
-    </div>
-  );
-};
+const Image = ({ loading, error, url }: ImageInterface): JSX.Element => (
+  <div className={styles.img}>
+    {loading && <p>Loading...</p>}
+    {error && <p>Error, try again</p>}
+    <img width="200px" alt="random" src={url} />
+  </div>
+);
 
 export default Image;

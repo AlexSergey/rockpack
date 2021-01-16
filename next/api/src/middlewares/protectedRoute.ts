@@ -1,9 +1,11 @@
+import { Next } from 'koa';
 import { UserRepositoryDIType, UserRepositoryInterface } from '../repositories/User';
 import { decodeToken } from '../utils/auth';
 import { Unauthorized, ExpiredToken, UserNotFound, ErrorProxy } from '../errors';
 import { container } from '../container';
+import { KoaContext } from '../types/koa.context';
 
-export const protectedRoute = async (ctx, next): Promise<void> => {
+export const protectedRoute = async (ctx: KoaContext, next: Next): Promise<void> => {
   const userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
   const token = ctx.get('Authorization');
 

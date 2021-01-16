@@ -1,4 +1,4 @@
-import { LoggerInterface } from '@rockpack/logger';
+import { LoggerInterface } from 'logrock';
 import { History } from 'history';
 import { RouterState } from 'connected-react-router';
 import { Localization } from './Localization';

@@ -25,7 +25,7 @@ const FIELDS = [
   },
 ];
 
-const validate = (props): boolean => {
+const validate = (props: unknown): boolean => {
   let isValid = true;
 
   FIELDS.forEach(f => {

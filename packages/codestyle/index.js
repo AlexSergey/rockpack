@@ -1,16 +1,47 @@
+const path = require('path');
+const { existsSync } = require('fs');
 const deepExtend = require('deep-extend');
 
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
+  const root = process.cwd();
+
+  let tsConfig = false;
+
+  if (existsSync(path.resolve(root, './tsconfig.js'))) {
+    tsConfig = path.resolve(root, './tsconfig.js');
+
+    if (
+      opts.debug &&
+      existsSync(path.resolve(root, './tsconfig.debug.js'))
+    ) {
+      tsConfig = path.resolve(root, './tsconfig.debug.js');
+    }
+  }
+
+  if (existsSync(path.resolve(root, './tsconfig.json'))) {
+    tsConfig = path.resolve(root, './tsconfig.json');
+
+    if (
+      opts.debug &&
+      existsSync(path.resolve(root, './tsconfig.debug.json'))
+    ) {
+      tsConfig = path.resolve(root, './tsconfig.debug.json');
+    }
+  }
+
+  if (existsSync(path.resolve(root, './tsconfig.development.js')) && process.env.NODE_ENV === 'development') {
+    tsConfig = path.resolve(root, './tsconfig.development.js');
+  }
+  if (existsSync(path.resolve(root, './tsconfig.production.js')) && process.env.NODE_ENV === 'production') {
+    tsConfig = path.resolve(root, './tsconfig.production.js');
+  }
+
   if (!overrideRules) {
     overrideRules = {};
   }
   if (!customConfig) {
     customConfig = {};
   }
-
-  const tsconfigPath = opts && typeof opts.tsconf === 'string' ?
-    opts.tsconf :
-    './tsconfig.json';
 
   const isNodejs = !!opts.nodejs;
 
@@ -58,7 +89,7 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
         files: ['*.ts', '*.tsx'],
         parser: require.resolve('@typescript-eslint/parser'),
         parserOptions: {
-          project: tsconfigPath
+          project: tsConfig || './tsconfig.json'
         },
         extends: [
           'plugin:@typescript-eslint/recommended',
@@ -210,10 +241,14 @@ module.exports = {
         },
       ],
       '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      '@typescript-eslint/ban-ts-comment': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      '@typescript-eslint/comma-dangle': 'off',
       'react/prop-types': 'off',
       quotes: 'off',
       'no-unused-vars': 'off',
-      semi: 'off'
+      semi: 'off',
+      'no-use-before-define': 'off',
+      '@typescript-eslint/no-use-before-define': ['error']
     };
 
     return _makeConfig(commonRules, tsCommonRules, overrideRules, customConfig, opts);

@@ -1,6 +1,9 @@
-const { localazer } = require('@rockpack/compiler');
+const MakePotPlugin = require('@localazer/webpack-plugin');
 
-localazer.makePot({
-  src: './src/index.jsx',
-  dist: './locales'
-});
+// webpack.config
+
+plugins: [
+...
+  new MakePotPlugin()
+...
+]

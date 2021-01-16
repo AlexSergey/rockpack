@@ -1,7 +1,7 @@
 import urlParse from 'url-parse';
 import { isArray, isObject } from 'valid-types';
 
-const parseLanguageFromUrl = (url, languages): string | false => {
+const parseLanguageFromUrl = (url: string, languages: string[]): string | false => {
   const { pathname } = urlParse(url);
 
   if (pathname.indexOf('/') === 0) {

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const { isUndefined } = require('valid-types');
-const createUssrObserver = require('@rockpack/webpack-plugin-ussr-development');
+const createSSRObserver = require('../plugins/SSRDevelopment');
 const errors = require('../errors/isomorphicCompiler');
 const getMode = require('../utils/getMode');
 const errorHandler = require('../errorHandler');
@@ -8,7 +8,7 @@ const _run = require('../core/_run');
 
 async function isomorphicCompiler(...props) {
   errorHandler();
-  createUssrObserver();
+  createSSRObserver();
   global.ISOMORPHIC = true;
   global.CONFIG_ONLY = true;
 

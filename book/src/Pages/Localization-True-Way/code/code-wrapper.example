@@ -1,4 +1,4 @@
-import { LocalizationObserver } from '@rockpack/localaser';
+import { LocalizationObserver } from 'localaser';
 
 class Root extends Component {
   render() {

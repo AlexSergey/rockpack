@@ -5,7 +5,6 @@ const {
 } = require('../utils/project');
 
 const packageJSONPreparing = async (packageJSON, {
-  modules,
   appType,
   typescript,
   tester,
@@ -19,7 +18,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react-dom', version: '16' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.9.0' }
+          { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
 
@@ -47,15 +46,15 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
           { name: 'serialize-javascript', version: '5' },
-          { name: 'isomorphic-style-loader', version: '5.1.0' },
           { name: 'pretty-error', version: '2.1.1' },
+          { name: '@issr/core', version: '1.0.0' },
           { name: '@koa/router', version: '8' },
-          { name: '@rockpack/ussr', version: '1.9.0' },
           { name: '@loadable/component', version: '5.13.1' },
           { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.9.0' }
+          { name: '@issr/babel-loader', version: '1.0.0' },
+          { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
 
@@ -94,18 +93,18 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@redux-saga/core', version: '1.1.3' },
           { name: 'react-helmet-async', version: '1.0.7' },
           { name: 'history', version: '4.10.1' },
+          { name: '@issr/core', version: '1.0.0' },
           { name: 'node-fetch', version: '2.6.1' },
           { name: '@reduxjs/toolkit', version: '1.4.0' },
           { name: 'serialize-javascript', version: '5' },
-          { name: 'isomorphic-style-loader', version: '5.1.0' },
           { name: 'pretty-error', version: '2.1.1' },
           { name: '@koa/router', version: '8' },
-          { name: '@rockpack/ussr', version: '1.9.0' },
           { name: '@loadable/component', version: '5.13.1' },
           { name: '@loadable/server', version: '5.13.1' }
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.9.0' }
+          { name: '@issr/babel-loader', version: '1.0.0' },
+          { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
 
@@ -131,7 +130,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'library':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.9.0' }
+          { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
       packageJSON = addFields(packageJSON, {
@@ -154,7 +153,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.9.0' }
+          { name: '@rockpack/compiler', version: '1.8.0' }
         ]
       });
 
@@ -163,7 +162,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '1.9.0' }
+            { name: '@rockpack/compiler', version: '1.8.0' }
           ]
         });
       }
@@ -189,7 +188,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '1.9.0' }
+        { name: '@rockpack/codestyle', version: '1.8.0' }
       ]
     });
   }
@@ -200,7 +199,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '1.9.0' }
+        { name: '@rockpack/tester', version: '1.8.0' }
       ]
     });
     if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
@@ -213,25 +212,6 @@ const packageJSONPreparing = async (packageJSON, {
         ]
       });
     }
-  }
-
-  if (modules.localization) {
-    packageJSON = addScripts(packageJSON, {
-      "localization:makePot": "node scripts.makePot",
-      "localization:po2json": "node scripts.po2json",
-    });
-    packageJSON = await addDependencies(packageJSON, {
-      dependencies: [
-        { name: '@rockpack/localazer', version: '1.9.0' }
-      ]
-    });
-  }
-  if (modules.logger) {
-    packageJSON = await addDependencies(packageJSON, {
-      dependencies: [
-        { name: '@rockpack/logger', version: '1.9.0' }
-      ]
-    });
   }
 
   return packageJSON;

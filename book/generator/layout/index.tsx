@@ -11,7 +11,6 @@ import Page from '../components/Page';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
 import { LayoutInterface } from '../types';
 
-// @ts-ignore
 const useStyles = makeStyles(styles);
 
 const Layout = (props: LayoutInterface): JSX.Element => {

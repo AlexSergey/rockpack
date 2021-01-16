@@ -59,32 +59,6 @@ const wizard = async () => {
     message: 'Do you want ESLint?'
   });
 
-  if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
-    const { logger } = await prompt({
-      type: 'confirm',
-      name: 'logger',
-      message: 'Do you want logger?'
-    });
-
-    if (logger) {
-      modules.logger = true;
-    }
-
-    const { localization } = await prompt({
-      type: 'confirm',
-      name: 'localization',
-      message: 'Do you want localization?'
-    });
-
-    if (logger) {
-      modules.logger = true;
-    }
-
-    if (localization) {
-      modules.localization = true;
-    }
-  }
-
   return {
     modules,
     appType,

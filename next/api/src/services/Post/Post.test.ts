@@ -96,6 +96,7 @@ describe('PostService tests', () => {
     });
     const postDetails = await postRepository.postDetails(post.get('id'));
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(postDetails.toJSON().Photos)
       .toEqual([
@@ -115,6 +116,7 @@ describe('PostService tests', () => {
     const post = rows.find(r => r.get('id') === p.get('id'));
     const postData = post.toJSON();
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(postData.Preview)
       .toEqual({

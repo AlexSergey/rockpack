@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-export const createToken = (email, secret, expiresIn): string => (
+export const createToken = (email: string, secret: string, expiresIn: string): string => (
   jwt.sign({ email }, secret, { expiresIn })
 );
 
-export const decodeToken = (token: string, secret: string): object | string => (
+export const decodeToken = (token: string, secret: string): unknown => (
   jwt.verify(token, secret)
 );
 
-export const isValidPassword = async (userPassword, password): Promise<boolean> => (
+export const isValidPassword = async (userPassword: string, password: string): Promise<boolean> => (
   await bcrypt.compare(password, userPassword)
 );
 
@@ -18,7 +18,7 @@ interface BcryptResult {
   salt: string;
 }
 
-export const cryptPassword = (password): Promise<BcryptResult> => (
+export const cryptPassword = (password: string): Promise<BcryptResult> => (
   new Promise((resolve, reject) => {
     bcrypt.genSalt(10, (err, salt): void => {
       if (err) {

@@ -52,7 +52,7 @@ npm i @rockpack/starter -g
 rockpack <project name>
 ```
 
-3. Select the type of application, select the required modules.
+3. Select the type of application.
 
 ![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v3.jpg)
 ***
@@ -61,10 +61,7 @@ rockpack <project name>
 
 - [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
 - [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
-- [@rockpack/ussr](https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md#how-it-works)
 - [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
-- [@rockpack/logger](https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md#how-it-works)
-- [@rockpack/localazer](https://github.com/AlexSergey/rockpack/blob/master/packages/localazer/README.md#how-it-works)
 
 ## The MIT License
 

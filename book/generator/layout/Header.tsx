@@ -12,7 +12,6 @@ import classNames from 'classnames';
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
 import { HeaderInterface } from '../types';
 
-// @ts-ignore
 const useStylesHeader = makeStyles(stylesHeader);
 
 const Header = (props: HeaderInterface): JSX.Element => {
@@ -23,13 +22,11 @@ const Header = (props: HeaderInterface): JSX.Element => {
 
   return (
     <AppBar className={`app-header ${classesHeader.appBar + appBarClasses}`} style={{ height: '75px' }}>
-      <Toolbar className={classesHeader.container} style={{ height: '100%' }}>
+      <Toolbar className={`${classesHeader.container} logo-holder`} style={{ height: '100%' }}>
         {props.logo && (
           <Hidden
             xsDown
             implementation="css"
-            // @ts-ignore
-            className="wrapper-logo"
           >
             {typeof props.logo === 'string' && (
               <div style={{ height: '100%', margin: '0 20px 0' }} className="logo-holder">

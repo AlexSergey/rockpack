@@ -1,4 +1,4 @@
-import { LoggerContainer } from "@rockpack/logger";
+import { LoggerContainer } from "logrock";
 
 <LoggerContainer>
     <App />

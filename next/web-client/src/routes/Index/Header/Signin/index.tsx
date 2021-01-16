@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
-import Localization, { l } from '@rockpack/localazer';
+import Localization, { l } from '@localazer/component';
 import { useUserApi } from '../../../../features/User';
 
 type Store = {

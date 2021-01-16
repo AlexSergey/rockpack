@@ -1,6 +1,7 @@
 import ulrJoin from 'url-join';
+import { DocgenRouteInterface } from '../types';
 
-const mergeUrls = (route, parent?): void => {
+const mergeUrls = (route: DocgenRouteInterface | DocgenRouteInterface[], parent?: DocgenRouteInterface): void => {
   if (!route) {
     return;
   }

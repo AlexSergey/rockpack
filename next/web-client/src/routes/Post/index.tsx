@@ -3,8 +3,7 @@ import { Button, Modal } from 'antd';
 import MetaTags from 'react-meta-tags';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import Localization, { l, sprintf } from '@rockpack/localazer';
-import useStyles from 'isomorphic-style-loader/useStyles';
+import Localization, { l, sprintf } from '@localazer/component';
 import { Comments } from './Comments';
 import { UpdateMode } from './UpdateMode';
 import { AddComment } from './AddComment';
@@ -28,8 +27,6 @@ type PropsType = RouteComponentProps<PathParamsType> & {
 const PostDetails = ({
   match
 }: PropsType): JSX.Element => {
-  useStyles(styles);
-
   const postId = Number(match.params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);

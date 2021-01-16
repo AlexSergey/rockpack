@@ -207,7 +207,7 @@ markupCompiler(
 ```
 ### isomorphicCompiler(configs[needed]);
 
-Compiles an SSR application. For a more detailed description of how to create an isomorphic application using **Rockpack**, please see <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md" target="_blank">here</a>
+Compiles an SSR application.
 
 ```js
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');

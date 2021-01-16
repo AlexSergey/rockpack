@@ -1,14 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, Input, Form } from 'antd';
-import useStyles from 'isomorphic-style-loader/useStyles';
-import Localization, { l } from '@rockpack/localazer';
-import { isBackend } from '@rockpack/ussr';
+import Localization, { l } from '@localazer/component';
+import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
 import { PreviewUpload } from '../../../../components/PreviewUpload';
 import { PhotosUpload } from '../../../../components/PhotosUpload';
 import { usePagination, usePostsApi } from '../../../../features/Posts';
-
-import styles from './style.module.scss';
 
 const Wysiwyg = loadable(() => import('../../../../components/Wysiwyg'));
 
@@ -17,7 +14,6 @@ type FormState = {
 };
 
 export const CreatePost = (): JSX.Element => {
-  useStyles(styles);
   const { current } = usePagination();
   const { createPost } = usePostsApi();
   const [postCreate, postCreateModal] = useState(false);

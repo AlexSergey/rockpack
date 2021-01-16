@@ -55,7 +55,7 @@ export class CommentController implements CommentControllerInterface {
     }
   };
 
-  update = async (ctx): Promise<void> => {
+  update = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
     const { text } = ctx.request.body;
 

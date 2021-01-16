@@ -3,9 +3,8 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { Store } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { ConnectedRouter } from 'connected-react-router';
 import createStore from '../store';
 import createMockServices from './mockServices';
@@ -17,7 +16,7 @@ const createTestWrapper = async (Component, initState = {}): Promise<{
 }> => {
   const history = createBrowserHistory();
 
-  const [Ussr] = createUssr({}, {
+  const SSR = createSsr({}, {
     onlyClient: true,
   });
 
@@ -28,15 +27,13 @@ const createTestWrapper = async (Component, initState = {}): Promise<{
   });
 
   const TestWrapper = (): JSX.Element => (
-    <Ussr>
+    <SSR>
       <Provider store={store}>
-        <StyleContext.Provider value={{ insertCss: (): () => void => (): void => {} }}>
-          <ConnectedRouter history={history}>
-            <Component />
-          </ConnectedRouter>
-        </StyleContext.Provider>
+        <ConnectedRouter history={history}>
+          <Component />
+        </ConnectedRouter>
       </Provider>
-    </Ussr>
+    </SSR>
   );
 
   const wrapper = mount(<TestWrapper />);

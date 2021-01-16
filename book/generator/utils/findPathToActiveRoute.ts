@@ -1,6 +1,8 @@
 import { matchPath } from 'react-router';
+import { DocgenRouteInterface } from '../types';
 
-const findPathToActiveRoute = (currentUrl, route, pathToRoute, isFound = false): string[] | [] => {
+const findPathToActiveRoute = (currentUrl: string, route: DocgenRouteInterface, pathToRoute: string[],
+  isFound = false): string[] | [] => {
   if (!route) {
     return isFound ? pathToRoute : [];
   }

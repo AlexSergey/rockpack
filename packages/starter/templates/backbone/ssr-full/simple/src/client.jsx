@@ -2,27 +2,18 @@ import React from 'react';
 import fetch from 'node-fetch';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import createUssr from '@rockpack/ussr';
+import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
 import { loadableReady } from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
 import { ConnectedRouter } from 'connected-react-router';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
 
 const history = createBrowserHistory();
 
-const [Ussr] = createUssr();
-
-const insertCss = (...styles) => {
-  const removeCss = process.env.NODE_ENV === 'production'
-    ? []
-    // eslint-disable-next-line no-underscore-dangle
-    : styles.map((style) => style && typeof style._insertCss === 'function' && style._insertCss());
-  return () => removeCss.forEach((dispose) => dispose());
-};
+const SSR = createSsr();
 
 const { store } = createStore({
   initState: window.REDUX_DATA,
@@ -32,17 +23,15 @@ const { store } = createStore({
 
 loadableReady(() => {
   hydrate(
-    <Ussr>
+    <SSR>
       <Provider store={store}>
         <HelmetProvider>
-          <StyleContext.Provider value={{ insertCss }}>
-            <ConnectedRouter history={history}>
-              <App />
-            </ConnectedRouter>
-          </StyleContext.Provider>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
         </HelmetProvider>
       </Provider>
-    </Ussr>,
+    </SSR>,
     document.getElementById('root'),
   );
 });

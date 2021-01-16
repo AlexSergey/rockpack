@@ -13,6 +13,11 @@ isomorphicCompiler(
   frontendCompiler({
     src: 'src/client.tsx',
     dist: 'public',
+    babel: {
+      plugins: [
+        '@issr/babel-plugin'
+      ]
+    },
     copy: [
       { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
       { from: path.resolve(__dirname, './src/assets/robots.txt'), to: './' },
@@ -23,7 +28,12 @@ isomorphicCompiler(
   }),
   backendCompiler({
     src: 'src/server.tsx',
-    dist: 'dist'
+    dist: 'dist',
+    babel: {
+      plugins: [
+        '@issr/babel-plugin'
+      ]
+    },
   }, config => {
     Object.assign(config.resolve, alias);
   })

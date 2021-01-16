@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useUssrEffect } from '@rockpack/ussr';
+import { useSsrEffect } from '@issr/core';
 import { signin, signup, signout, authorization } from './actions';
 import { User, UserStatistic, Roles } from '../../types/User';
 import { RootState } from '../../types/store';
@@ -18,7 +18,7 @@ export const useRole = (): Roles => (
 
 export const useAuthorization = (): void => {
   const dispatch = useDispatch();
-  useUssrEffect(() => dispatch(authorization()));
+  useSsrEffect(() => dispatch(authorization()));
 };
 
 export const useUserStatistic = (): UserStatistic => {

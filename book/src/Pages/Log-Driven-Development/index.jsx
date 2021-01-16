@@ -36,7 +36,7 @@ import bsod from '../../../readme_assets/rockpack_logger_bsod.jpg';
 const Page = () => (
   <div>
     <p>
-      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is a software for working with
+      The <a href="https://github.com/AlexSergey/logrock">logrock</a> module was born when we started working on the <a href="https://www.cleverbrush.com/">Cleverbrush</a> product. This is a software for working with
       vector graphics. Working with a graphics editor implies a huge number of application use cases. We are trying to
       save money and time, so we optimize everything, including testing. Covering each option with test cases is too
       expensive and irrational, especially since it is impossible to cover all options.
@@ -68,7 +68,7 @@ const Page = () => (
     </p>
 
     <p>
-      In order for our program to tell us that it hurts, we will take the <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module and link it to ElasticSearch,
+      In order for our program to tell us that it hurts, we will take the <a href="https://github.com/AlexSergey/logrock">logrock</a> module and link it to ElasticSearch,
       LogStash and Kibana for further analysis.
     </p>
 
@@ -194,7 +194,7 @@ const Page = () => (
     </p>
 
     <p>
-      The <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/logger/README.md">@rockpack/logger</a> module comes with a logger that is linked to the LoggerContainer
+      The <a href="https://github.com/AlexSergey/logrock">logrock</a> module comes with a logger that is linked to the LoggerContainer
     </p>
 
     <p>For instance, we have a component</p>

@@ -32,11 +32,11 @@
     "@koa/multer": "2.0.2",
     "@koa/router": "8.0.8",
     "bcrypt": "5.0.0",
-    "debug": "4.1.1",
+    "debug": "4.3.1",
     "dotenv-safe": "8.2.0",
     "jsonwebtoken": "8.5.1",
-    "koa": "2.11.0",
-    "koa-bodyparser": "4.2.1",
+    "koa": "2.13.0",
+    "koa-bodyparser": "4.3.0",
     "koa-logger": "3.2.1",
     "koa-mount": "4.0.0",
     "koa-static": "5.0.0",
@@ -54,9 +54,9 @@
     "yargs": "15.4.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "1.9.0",
-    "@rockpack/compiler": "1.9.0",
-    "@rockpack/tester": "1.9.0",
+    "@rockpack/codestyle": "2.0.0",
+    "@rockpack/compiler": "2.0.0",
+    "@rockpack/tester": "2.0.0",
     "@types/dotenv-safe": "8.1.1",
     "@types/jsonwebtoken": "8.5.0",
     "@types/koa": "2.11.4",
@@ -66,6 +66,7 @@
     "@types/koa-static": "4.0.1",
     "@types/node": "14.6.3",
     "@types/validator": "13.1.0",
+    "@types/enzyme": "3.10.8",
     "sequelize-fixtures": "1.2.0",
     "@types/sequelize-fixtures": "0.6.2"
   }

@@ -2,8 +2,10 @@ import fs from 'fs';
 import util from 'util';
 import path from 'path';
 import sharp from 'sharp';
+import { Next } from 'koa';
 import { config } from '../config';
 import { logger } from '../logger';
+import { KoaContext } from '../types/koa.context';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -29,7 +31,7 @@ interface ResizeImageInterface {
 }
 
 export const resizeImage = (...fields: (string | ResizeImageInterface)[]) => (
-  async (ctx, next): Promise<void> => {
+  async (ctx: KoaContext, next: Next): Promise<void> => {
     const files = ctx.files;
 
     if (files) {
