@@ -53,9 +53,7 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
   const opts = {
     watch: distFolder,
     verbose: false,
-    nodeArgs: conf.__isIsomorphicBackend ? [
-      '--require="source-map-support/register"',
-    ] : [
+    nodeArgs: [
       `--inspect=${freeInspectPort}`,
       '--require="source-map-support/register"'
     ],
