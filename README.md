@@ -17,7 +17,11 @@
 
 [Fast setup](https://www.rockpack.io/fast-setup)
 
-- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need.
+- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please see every modules' readme.
+
+*Also, pay attention to module [iSSR](https://github.com/AlexSergey/issr). This tiny module helps you to move your React application to Server-Side Rendering. Please see articles:*
+- [ENG: Server-Side Rendering from zero to hero](https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610)
+- [RU: Server-Side Rendering с нуля до профи](https://habr.com/ru/post/527310/)
 
 ***
 
