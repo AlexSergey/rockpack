@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
@@ -19,7 +19,6 @@ const StatoscopeWebpackPlugin = require('@statoscope/ui-webpack');
 const Dotenv = require('dotenv-webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -32,17 +31,8 @@ const makeResolve = require('./makeResolve');
 const ReloadHtmlWebpackPlugin = require('../plugins/ReloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
 const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
-
-function getTitle(packageJson) {
-  if (!packageJson) {
-    return false;
-  }
-  if (!packageJson.name) {
-    return false;
-  }
-  return `${packageJson.name.split('_')
-    .join(' ')}`;
-}
+const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
+const { getTitle } = require('../utils/other');
 
 const getNodemonOptions = async (distFolder, distPath, conf) => {
   const defaultInspectPort = 9224;
@@ -90,6 +80,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   if (!argv._rockpack_testing) {
     plugins.ProgressPlugin = new ProgressBarPlugin();
   }
+
+  plugins.BreakingChangesWebpack4 = new BreakingChangesWebpack4();
 
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
@@ -329,25 +321,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       filename: styleName
     });
 
-    plugins.ImageminPlugin = new ImageminPlugin({
-      disable: false,
-      optipng: {
-        optimizationLevel: 3
-      },
-      gifsicle: {
-        optimizationLevel: 1
-      },
-      jpegtran: {
-        progressive: false
-      },
-      svgo: {},
-      pngquant: null,
-      plugins: [
-        imageminMozjpeg({
-          quality: 85,
-          progressive: true
-        })
-      ]
+    plugins.ImageminPlugin = new ImageMinimizerPlugin({
+      test: /\.(jpe?g|png|gif)$/i,
+      minimizerOptions: {
+        plugins: [
+          ['gifsicle', { interlaced: true }],
+          ['jpegtran', { progressive: true }],
+          ['optipng', { optimizationLevel: 3 }],
+        ]
+      }
     });
 
     plugins.FlagDependencyUsagePlugin = new FlagDependencyUsagePlugin();
