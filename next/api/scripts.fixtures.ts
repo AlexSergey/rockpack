@@ -69,10 +69,10 @@ const copy = (folder): Promise<void> => (
 );
 
 const loadFixture = (file): Promise<unknown> => (
-  // eslint-disable-next-line no-shadow
-  new Promise((resolve, reject) => {
+  // eslint-disable-next-line no-shadow,promise/param-names
+  new Promise((res, reject) => {
     loadFile(file, models)
-      .then(resolve)
+      .then(res)
       .catch(reject);
   })
 );
