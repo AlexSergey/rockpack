@@ -43,18 +43,23 @@ const Page = () => (
           {/* eslint-disable-next-line max-len */}
           <strong>Legacy projects or modular use.</strong> Rockpack is a modular platform, you can only use what you need. Please, read articles to learn more:
         </p>
+        <p>
+          <i>
+            Also, pay attention to module <a href="https://github.com/AlexSergey/issr">iSSR</a>. This tiny module helps
+            you to move your React application to Server-Side Rendering. Please see articles:
+          </i>
+        </p>
         <ul>
           <li>
-            <p>Finding bugs using logging:</p>
-            <p>
-              <a href="/log-driven-development">Log Driven Development [Article]</a>
-            </p>
+            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">ENG: Server-Side
+              Rendering from zero to
+              hero
+            </a>
           </li>
           <li>
-            <p>Application localizing without problems:</p>
-            <p>
-              <a href="/localization-true-way">Localization. True way [Article]</a>
-            </p>
+            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">RU: Server-Side Rendering с
+              нуля до профи
+            </a>
           </li>
         </ul>
       </li>
