@@ -325,9 +325,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       test: /\.(jpe?g|png|gif)$/i,
       minimizerOptions: {
         plugins: [
-          ['gifsicle', { interlaced: true }],
-          ['jpegtran', { progressive: true }],
-          ['optipng', { optimizationLevel: 3 }],
+          ['gifsicle', { interlaced: true, optimizationLevel: 2 }],
+          ['mozjpeg', { progressive: true, quality: 80 }],
+          ['pngquant', { quality: [0.7, 0.9] }],
         ]
       }
     });
