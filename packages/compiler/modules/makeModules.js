@@ -49,7 +49,7 @@ function getModules(conf = {}, mode, root) {
             isNodejs: !!conf.nodejs,
             framework: 'react',
             isomorphic: conf.__isIsomorphic
-          }, conf.babel)
+          })
         },
         {
           loader: require.resolve('@mdx-js/loader')
@@ -90,7 +90,7 @@ function getModules(conf = {}, mode, root) {
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
           typescript: true
-        }, conf.babel)
+        })
       },
     },
 
@@ -103,7 +103,7 @@ function getModules(conf = {}, mode, root) {
           framework: false,
           isomorphic: true,
           typescript: true
-        }, conf.babel)
+        })
       }
     },
 
@@ -160,7 +160,7 @@ function getModules(conf = {}, mode, root) {
             isNodejs: !!conf.nodejs,
             framework: 'react',
             isomorphic: conf.__isIsomorphic,
-          }, conf.babel)
+          })
         }
       ]
     },
@@ -173,7 +173,7 @@ function getModules(conf = {}, mode, root) {
           loader: require.resolve('babel-loader'),
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
-          }, conf.babel)
+          })
         }
       ]
     },
@@ -261,7 +261,7 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
-        }, conf.babel)
+        })
       }, {
         loader: require.resolve('@svgr/webpack')
       }]

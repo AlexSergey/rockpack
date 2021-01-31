@@ -16,7 +16,7 @@ const createBabelPresets = ({
   modules = false,
   isTest = false,
   typescript = false
-}, babelConfig) => {
+}) => {
   const isProduction = process.env.NODE_ENV === 'production';
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
@@ -144,30 +144,29 @@ const createBabelPresets = ({
     try {
       // eslint-disable-next-line global-require
       const babelMergeModule = require(babelMerge);
-      opts = deepmerge(opts, babelMergeModule);
+
+      if (typeof babelMergeModule === 'object' && Object.keys(babelMergeModule).length > 0) {
+        opts = deepmerge(opts, babelMergeModule);
+      } else if (typeof babelMergeModule === 'function') {
+        const result = babelMergeModule({
+          isNodejs,
+          framework,
+          isomorphic,
+          modules,
+          isProduction,
+          isTest,
+          typescript
+        }, opts, deepmerge);
+
+        if (typeof result === 'object' && Object.keys(result).length > 0) {
+          opts = result;
+        }
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Rockpack/Babel: can\'t merge rockpack.babel.js');
       // eslint-disable-next-line no-console
       console.log(e);
-    }
-  }
-
-  if (typeof babelConfig === 'object' && Object.keys(babelConfig).length > 0) {
-    opts = deepmerge(opts, babelConfig);
-  } else if (typeof babelConfig === 'function') {
-    const result = babelConfig({
-      isNodejs,
-      framework,
-      isomorphic,
-      modules,
-      isProduction,
-      isTest,
-      typescript
-    }, opts, deepmerge);
-
-    if (typeof result === 'object' && Object.keys(result).length > 0) {
-      opts = result;
     }
   }
 

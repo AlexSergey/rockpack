@@ -3,8 +3,7 @@ const defaultProps = {
   src: 'src/index',
   debug: false,
   html: true,
-  port: 3000,
-  babel: {}
+  port: 3000
   /*
   Other Props:
   * version: true,
