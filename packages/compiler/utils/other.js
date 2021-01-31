@@ -17,7 +17,14 @@ function getTitle(packageJson) {
     .join(' ')}`;
 }
 
+function getMajorVersion(version) {
+  return typeof version === 'string' && version.includes('.') ?
+    version.split('.')[0] :
+    false;
+}
+
 module.exports = {
   capitalize,
-  getTitle
+  getTitle,
+  getMajorVersion
 };

@@ -3,26 +3,41 @@ const path = require('path');
 const { isString, isObject } = require('valid-types');
 const deepmerge = require('deepmerge');
 
+function getMajorVersion(version) {
+  return typeof version === 'string' && version.includes('.') ?
+    version.split('.')[0] :
+    false;
+}
+
 const createBabelPresets = ({
   isNodejs = false,
   framework = false,
   isomorphic = false,
   modules = false,
-  isProduction = false,
   isTest = false,
   typescript = false
 }, babelConfig) => {
-  const root = path.dirname(require.main.filename);
+  const isProduction = process.env.NODE_ENV === 'production';
+  const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
+  const babelMerge = path.resolve(root, 'rockpack.babel.js');
   // eslint-disable-next-line global-require
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
+  let reactNewSyntax = false;
 
   if (packageJson &&
     isObject(packageJson.dependencies) &&
     isString(packageJson.dependencies['core-js'])
   ) {
     corejs = packageJson.dependencies['core-js'];
+  }
+
+  if (packageJson &&
+    isObject(packageJson.dependencies) &&
+    isString(packageJson.dependencies.react)
+  ) {
+    reactNewSyntax = getMajorVersion(packageJson.dependencies.react) >= 17;
   }
 
   let opts = typescript ? {
@@ -93,7 +108,12 @@ const createBabelPresets = ({
 
   if (framework === 'react') {
     opts.presets.push(
-      [require.resolve('@babel/preset-react'), { useBuiltIns: true }]
+      [require.resolve('@babel/preset-react'), reactNewSyntax ? {
+        runtime: 'automatic',
+        useBuiltIns: true
+      } : {
+        useBuiltIns: true
+      }]
     );
 
     if (isProduction) {
@@ -118,6 +138,19 @@ const createBabelPresets = ({
     opts.plugins.push(
       require.resolve('@babel/plugin-transform-modules-commonjs')
     );
+  }
+
+  if (existsSync(babelMerge)) {
+    try {
+      // eslint-disable-next-line global-require
+      const babelMergeModule = require(babelMerge);
+      opts = deepmerge(opts, babelMergeModule);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Rockpack/Babel: can\'t merge rockpack.babel.js');
+      // eslint-disable-next-line no-console
+      console.log(e);
+    }
   }
 
   if (typeof babelConfig === 'object' && Object.keys(babelConfig).length > 0) {

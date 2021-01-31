@@ -2,6 +2,12 @@ const path = require('path');
 const { existsSync } = require('fs');
 const deepExtend = require('deep-extend');
 
+function getMajorVersion(version) {
+  return typeof version === 'string' && version.includes('.') ?
+    version.split('.')[0] :
+    false;
+}
+
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
   const root = process.cwd();
 
@@ -34,6 +40,22 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   }
   if (existsSync(path.resolve(root, './tsconfig.production.js')) && process.env.NODE_ENV === 'production') {
     tsConfig = path.resolve(root, './tsconfig.production.js');
+  }
+
+  let reactNewSyntax = false;
+  const packageJsonPath = path.resolve(root, 'package.json');
+  // eslint-disable-next-line global-require
+  const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+  if (packageJson &&
+    packageJson.dependencies &&
+    packageJson.dependencies.react
+  ) {
+    reactNewSyntax = getMajorVersion(packageJson.dependencies.react) >= 17;
+  }
+
+  if (reactNewSyntax) {
+    commonRules['react/jsx-uses-react'] = 'off';
+    commonRules['react/react-in-jsx-scope'] = 'off';
   }
 
   if (!overrideRules) {

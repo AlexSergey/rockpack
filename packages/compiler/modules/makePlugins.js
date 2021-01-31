@@ -221,6 +221,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         return prev;
       }, {})
   );
+
   plugins.DefinePlugin = new webpack.DefinePlugin(definePluginOpts);
 
   if (conf.copy) {

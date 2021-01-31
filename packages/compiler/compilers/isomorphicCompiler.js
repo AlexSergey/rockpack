@@ -9,6 +9,9 @@ const _run = require('../core/_run');
 async function isomorphicCompiler(...props) {
   errorHandler();
   createSSRObserver();
+  const mode = getMode();
+  process.env.NODE_ENV = mode;
+  process.env.BABEL_ENV = mode;
   global.ISOMORPHIC = true;
   global.CONFIG_ONLY = true;
 
@@ -19,7 +22,6 @@ async function isomorphicCompiler(...props) {
   const webpackConfigs = props.map(c => c.webpackConfig);
   const configs = props.map(c => c.conf);
   configs.compilerName = isomorphicCompiler.name;
-  const mode = getMode();
 
   const backend = configs.find(p => p.compilerName === 'backendCompiler');
 

@@ -1,6 +1,7 @@
 const deepExtend = require('deep-extend');
 const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
+const getMode = require('../utils/getMode');
 
 async function backendCompiler(conf = {}, cb, configOnly = false) {
   if (!conf) {
@@ -8,6 +9,9 @@ async function backendCompiler(conf = {}, cb, configOnly = false) {
   }
 
   errorHandler();
+  const mode = getMode();
+  process.env.NODE_ENV = mode;
+  process.env.BABEL_ENV = mode;
 
   conf = deepExtend({}, conf, {
     html: false,
