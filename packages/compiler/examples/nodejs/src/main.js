@@ -8,7 +8,7 @@ const render = (message) => `<!DOCTYPE html>
     <meta charset="utf-8" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    ${process.env.NODE_ENV === 'development' ? <script src="/dev-server.js"></script> : ''}
+    ${process.env.NODE_ENV === 'development' ? '<script src="/dev-server.js"></script>' : ''}
     <title></title>
 </head>
 <body>

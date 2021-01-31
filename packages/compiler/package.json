@@ -107,7 +107,7 @@
     "typescript": "4.1.3",
     "url-loader": "4.1.1",
     "valid-types": "2.0.3",
-    "webpack": "5.16.0",
+    "webpack": "5.19.0",
     "webpack-bundle-analyzer": "3.9.0",
     "webpack-format-messages": "2.0.6",
     "webpack-graphql-loader": "1.0.2",

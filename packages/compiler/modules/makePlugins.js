@@ -32,10 +32,10 @@ const ReloadHtmlWebpackPlugin = require('../plugins/ReloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
 const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
-const { getTitle } = require('../utils/other');
+const { getTitle, getRandomInt } = require('../utils/other');
 
 const getNodemonOptions = async (distFolder, distPath, conf) => {
-  const defaultInspectPort = 9224;
+  const defaultInspectPort = global.ISOMORPHIC ? getRandomInt(9000, 9999) : 9224;
   const freeInspectPort = await fpPromise(defaultInspectPort);
 
   const script = path.join(distFolder, path.basename(distPath));
@@ -78,7 +78,12 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const plugins = {};
 
   if (!argv._rockpack_testing) {
-    plugins.ProgressPlugin = new ProgressBarPlugin();
+    if (!global.ISOMORPHIC) {
+      plugins.ProgressPlugin = new ProgressBarPlugin();
+      // eslint-disable-next-line sonarjs/no-duplicated-branches
+    } else if (global.ISOMORPHIC && conf.__isIsomorphicFrontend) {
+      plugins.ProgressPlugin = new ProgressBarPlugin();
+    }
   }
 
   plugins.BreakingChangesWebpack4 = new BreakingChangesWebpack4();
@@ -257,10 +262,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         port: frontServePort,
         open: true,
         host: 'localhost',
-        static: conf.distContext,
+        static: [
+          conf.distContext
+        ],
         client: {
           address: `localhost:${frontServePort}`,
         },
+        progress: 'minimal',
         waitForBuild: true
       });
     } else if (
@@ -281,7 +289,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         new SSRFrontend({
           port: frontReloaderPort,
           host: 'localhost',
-          static: conf.distContext,
+          log: { level: 'warn' },
+          static: [
+            conf.distContext
+          ],
+          progress: 'minimal',
           client: {
             address: `localhost:${frontReloaderPort}`,
           }
