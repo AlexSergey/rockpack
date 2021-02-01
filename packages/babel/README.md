@@ -11,6 +11,7 @@
 **@rockpack/babel** includes support for React, Jest, contains a number of optimizing plugins for React, and more. See below for a complete list of included features:
 
 ## Features:
+To add additional plugins please make *rockpack.babel.js* in the root folder of your project and add plugins. These plugins will merge to common babel config.
 
 ### Babel:
 - @babel/preset-env (browsers supporting > 5%, nodejs supporting the latest version)

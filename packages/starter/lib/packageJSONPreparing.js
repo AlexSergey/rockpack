@@ -50,7 +50,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@issr/core', version: '1.0.0' },
           { name: '@koa/router', version: '8' },
           { name: '@loadable/component', version: '5.13.1' },
-          { name: '@loadable/server', version: '5.13.1' }
+          { name: '@loadable/server', version: '5.14.2' }
         ],
         devDependencies: [
           { name: '@issr/babel-loader', version: '1.0.0' },
@@ -100,7 +100,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'pretty-error', version: '2.1.1' },
           { name: '@koa/router', version: '8' },
           { name: '@loadable/component', version: '5.13.1' },
-          { name: '@loadable/server', version: '5.13.1' }
+          { name: '@loadable/server', version: '5.14.2' }
         ],
         devDependencies: [
           { name: '@issr/babel-loader', version: '1.0.0' },

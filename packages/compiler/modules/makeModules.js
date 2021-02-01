@@ -3,8 +3,6 @@ const Collection = require('../utils/Collection');
 const getStylesRules = require('../utils/getStylesRules');
 
 function getModules(conf = {}, mode, root) {
-  const isProduction = mode === 'production';
-
   const { css, scss, less } = getStylesRules(conf, mode, root);
 
   return {
@@ -50,9 +48,8 @@ function getModules(conf = {}, mode, root) {
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            isomorphic: conf.__isIsomorphic,
-            isProduction
-          }, conf.babel)
+            isomorphic: conf.__isIsomorphic
+          })
         },
         {
           loader: require.resolve('@mdx-js/loader')
@@ -92,9 +89,8 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
-          isProduction,
           typescript: true
-        }, conf.babel)
+        })
       },
     },
 
@@ -106,9 +102,8 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: false,
           isomorphic: true,
-          isProduction,
           typescript: true
-        }, conf.babel)
+        })
       }
     },
 
@@ -165,8 +160,7 @@ function getModules(conf = {}, mode, root) {
             isNodejs: !!conf.nodejs,
             framework: 'react',
             isomorphic: conf.__isIsomorphic,
-            isProduction
-          }, conf.babel)
+          })
         }
       ]
     },
@@ -179,8 +173,7 @@ function getModules(conf = {}, mode, root) {
           loader: require.resolve('babel-loader'),
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
-            isProduction
-          }, conf.babel)
+          })
         }
       ]
     },
@@ -268,8 +261,7 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
-          isProduction
-        }, conf.babel)
+        })
       }, {
         loader: require.resolve('@svgr/webpack')
       }]

@@ -1,11 +1,8 @@
 import path from 'path';
 import dotenvSafe from 'dotenv-safe';
-import yargs from 'yargs';
-
-const { argv } = yargs(process.argv);
 
 dotenvSafe.config({
-  path: argv.env === 'test' ?
+  path: process.env.NODE_ENV === 'test' ?
     path.resolve('./.env.test') :
     path.resolve('./.env'),
   example: path.resolve(path.resolve('./'), './.env.example'),

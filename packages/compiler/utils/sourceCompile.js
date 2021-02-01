@@ -97,7 +97,7 @@ module.exports = async function sourceCompile(conf) {
         modules: format === 'esm' ?
           false :
           'commonjs'
-      }, conf.babel);
+      });
       console.log('Babel convert: ', jsAndJsx.join('\n'));
       jsAndJsx.forEach(file => {
         const { code } = babel.transformFileSync(file, babelOptions);

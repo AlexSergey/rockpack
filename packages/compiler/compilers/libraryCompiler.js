@@ -4,6 +4,7 @@ const frontendCompiler = require('./frontendCompiler');
 const backendCompiler = require('./backendCompiler');
 const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
+const getMode = require('../utils/getMode');
 
 async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   if (!conf) {
@@ -15,6 +16,9 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   conf.write = true;
 
   errorHandler();
+  const mode = getMode();
+  process.env.NODE_ENV = mode;
+  process.env.BABEL_ENV = mode;
   let libraryName = false;
 
   if (isString(libraryOpts)) {

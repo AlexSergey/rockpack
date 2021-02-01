@@ -3,7 +3,6 @@ const argsCompiler = require('./argsCompiler');
 
 function run(opts = {}) {
   const argv = argsCompiler(opts, 'run');
-  
   jest.run(argv);
 }
 

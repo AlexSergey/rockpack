@@ -7,20 +7,10 @@ isomorphicCompiler(
     dist: 'public',
     copy: [
       { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
-    ],
-    babel: {
-      plugins: [
-        '@issr/babel-loader'
-      ]
-    }
+    ]
   }),
   backendCompiler({
     src: 'src/server.jsx',
-    dist: 'dist',
-    babel: {
-      plugins: [
-        '@issr/babel-loader'
-      ]
-    }
+    dist: 'dist'
   })
 );

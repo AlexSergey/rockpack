@@ -1,5 +1,4 @@
 import './src/config';
-import yargs from 'yargs';
 import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
 import { UserModel } from './src/models/User';
@@ -8,42 +7,45 @@ import { ImageTypeModel } from './src/models/ImageType';
 import { RoleModel } from './src/models/Role';
 import { StatisticModel } from './src/models/Statistic';
 
-const { argv } = yargs(process.argv);
-
 (async () => {
-  if (argv.env !== 'test') {
+  if (process.env.NODE_ENV !== 'test') {
     console.error('Dropdatabase script must be used only in test env!');
     process.exit(1);
     return;
   }
-  await database.start();
-  await installMappings();
+  try {
+    await database.start();
+    await installMappings();
 
-  await UserModel.destroy({
-    where: {},
-    truncate: true,
-    individualHooks: true
-  });
+    await UserModel.destroy({
+      where: {},
+      truncate: true,
+      individualHooks: true
+    });
 
-  await StatisticTypeModel.destroy({
-    where: {},
-    truncate: true
-  });
+    await StatisticTypeModel.destroy({
+      where: {},
+      truncate: true
+    });
 
-  await ImageTypeModel.destroy({
-    where: {},
-    truncate: true
-  });
+    await ImageTypeModel.destroy({
+      where: {},
+      truncate: true
+    });
 
-  await RoleModel.destroy({
-    where: {},
-    truncate: true
-  });
+    await RoleModel.destroy({
+      where: {},
+      truncate: true
+    });
 
-  await StatisticModel.destroy({
-    where: {},
-    truncate: true
-  });
+    await StatisticModel.destroy({
+      where: {},
+      truncate: true
+    });
 
-  await database.stop();
+    await database.stop();
+  } catch (e) {
+    console.log(e);
+    await database.stop();
+  }
 })();

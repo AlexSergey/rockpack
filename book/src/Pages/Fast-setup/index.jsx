@@ -56,26 +56,6 @@ const Page = () => (
     <p>3. Select the type of application, select the required modules:</p>
 
     <img className="flexible-image" src={img} alt="Rockpack CLI" />
-
-    <hr />
-
-    {/* eslint-disable-next-line max-len */}
-    <p>You can use Rockpack modularly, just what you need. Or in a Legacy project. These approaches are described below.</p>
-
-    <ul>
-      <li>
-        <p>Finding bugs using logging:</p>
-        <p>
-          <a href="/log-driven-development">Log Driven Development [Article]</a>
-        </p>
-      </li>
-      <li>
-        <p>Application localizing without problems:</p>
-        <p>
-          <a href="/localization-true-way">Localization. True way [Article]</a>
-        </p>
-      </li>
-    </ul>
   </div>
 );
 

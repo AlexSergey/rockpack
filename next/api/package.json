@@ -19,8 +19,8 @@
     "seed": "sequelize db:seed:all",
     "seed:test": "sequelize db:seed:all --env test",
     "seed:production": "sequelize db:seed:all --env production",
-    "test": "ts-node -P tsconfig.json scripts.dropdatabase.ts --env test && npm run db:test --env test && node scripts.tests.js --env test",
-    "test:watch": "ts-node -P tsconfig.json scripts.dropdatabase.ts --env test && npm run db:test --env test && node scripts.tests.js --watch --env test",
+    "test": "cross-env NODE_ENV=test ts-node -P tsconfig.json scripts.dropdatabase.ts && cross-env NODE_ENV=test npm run db:test && cross-env NODE_ENV=test node scripts.tests.js",
+    "test:watch": "cross-env NODE_ENV=test ts-node -P tsconfig.json scripts.dropdatabase.ts && cross-env NODE_ENV=test npm run db:test && cross-env NODE_ENV=test node scripts.tests.js --watch",
     "fixtures": "ts-node -P tsconfig.json scripts.fixtures.ts",
     "fixtures:test": "ts-node -P tsconfig.json scripts.fixtures.ts --env test"
   },

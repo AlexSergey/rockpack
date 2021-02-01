@@ -1,5 +1,5 @@
 const path = require('path');
-const { frontendCompiler } = require('../../compiler');
+const { frontendCompiler } = require('../../../compiler');
 
 frontendCompiler({}, config => {
   Object.assign(config.resolve, {

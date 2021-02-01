@@ -1,9 +1,8 @@
 const path = require('path');
-const { argv } = require('yargs');
 
 require('dotenv-safe')
   .config({
-    path: argv.env === 'test' ?
+    path: process.env.NODE_ENV === 'test' ?
       path.resolve('./.env.test') :
       path.resolve('./.env'),
     allowEmptyValues: true

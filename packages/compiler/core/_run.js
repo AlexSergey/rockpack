@@ -6,9 +6,6 @@ const generateDts = require('../utils/generateDts');
 const pathToTSConf = require('../utils/pathToTSConf');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
-  process.env.NODE_ENV = mode;
-  process.env.BABEL_ENV = mode;
-
   webpack(webpackConfig, async (err, stats) => {
     switch (mode) {
       case 'development':

@@ -1,0 +1,26 @@
+{
+  "name": "react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests.js",
+    "test:watch": "node tests.js --watch",
+    "screenshot-test-local": "jest -c jest.screenshot.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react-dom": "^16.7.0",
+    "react": "^16.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "9.3.2",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2",
+    "enzyme-to-json": "3.4.4",
+    "react-screenshot-test": "2.2.2"
+  }
+}
