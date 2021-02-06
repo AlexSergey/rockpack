@@ -10,8 +10,11 @@ import createStore from '../store';
 import createMockServices from './mockServices';
 import { RootState } from '../types/store';
 
-const createTestWrapper = async (Component, initState = {}): Promise<{
-  wrapper: ReactWrapper<{}, {}, {}>;
+const createTestWrapper = async (
+  Component: React.ComponentType<Record<string, unknown>>,
+  initState = {},
+): Promise<{
+  wrapper: ReactWrapper<unknown, unknown, unknown>;
   store: Store<RootState>;
 }> => {
   const history = createBrowserHistory();

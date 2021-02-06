@@ -1,10 +1,8 @@
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import PropTypes from 'prop-types';
 import Navigation from './components/Navigation';
 import styles from './styles.module.scss';
 
-const Index = ({ children }): JSX.Element => (
+const Index = ({ children }: { children: JSX.Element }): JSX.Element => (
   <div>
     <Navigation />
     <div className={styles.wrapper}>
@@ -12,9 +10,5 @@ const Index = ({ children }): JSX.Element => (
     </div>
   </div>
 );
-
-Index.propTypes = {
-  children: PropTypes.element.isRequired,
-};
 
 export default Index;

@@ -17,9 +17,9 @@ function* fetchImageAsync(): SagaIterator {
     const services = yield getContext('services');
     yield put(requestImage());
     // eslint-disable-next-line max-len
-    // eslint-disable-next-line camelcase,@typescript-eslint/camelcase,@typescript-eslint/naming-convention
+    // eslint-disable-next-line camelcase,@typescript-eslint/naming-convention
     const { download_url } = yield call(() => services.image.fetchImage());
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     yield put(requestImageSuccess({ url: download_url }));
   } catch (error) {
     yield put(requestImageError());

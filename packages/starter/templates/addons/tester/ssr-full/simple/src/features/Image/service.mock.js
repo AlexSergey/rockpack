@@ -6,6 +6,7 @@ const mockImageService = () => ({
       width: 5616,
       height: 3744,
       url: 'https://unsplash.com/photos/yC-Yzbqy7PY',
+      // eslint-disable-next-line camelcase
       download_url: 'https://picsum.photos/id/0/5616/3744',
     })
   ),
