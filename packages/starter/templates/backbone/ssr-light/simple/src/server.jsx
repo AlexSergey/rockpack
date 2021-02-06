@@ -47,7 +47,7 @@ router.get('/*', async (ctx) => {
     <title>Title</title>
     ${linkTags}
     ${styleTags}
-    ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
+    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ''}
     <script>
       window.SSR_DATA = ${serialize(state, { isJSON: true })}
     </script>

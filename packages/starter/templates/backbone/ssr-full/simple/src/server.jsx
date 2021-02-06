@@ -76,7 +76,7 @@ router.get('/*', async (ctx) => {
     ${helmet.meta.toString()}
     ${linkTags}
     ${styleTags}
-    ${isDevelopment() ? <script src="/dev-server.js"></script> : ''}
+    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ''}
 </head>
 <body>
     <div id="root">${html}</div>
