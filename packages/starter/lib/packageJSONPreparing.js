@@ -18,7 +18,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react-dom', version: '16' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.8.0' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
 
@@ -32,7 +32,7 @@ const packageJSONPreparing = async (packageJSON, {
       } else {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: 'prop-types', version: '15.7.2' },
+            { name: 'prop-types', version: '15' },
           ]
         });
       }
@@ -46,15 +46,15 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
           { name: 'serialize-javascript', version: '5' },
-          { name: 'pretty-error', version: '2.1.1' },
-          { name: '@issr/core', version: '1.0.0' },
+          { name: 'pretty-error', version: '2' },
+          { name: '@issr/core', version: '1' },
           { name: '@koa/router', version: '8' },
-          { name: '@loadable/component', version: '5.13.1' },
-          { name: '@loadable/server', version: '5.14.2' }
+          { name: '@loadable/component', version: '5' },
+          { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '1.0.0' },
-          { name: '@rockpack/compiler', version: '1.8.0' }
+          { name: '@issr/babel-loader', version: '1' },
+          { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
 
@@ -71,7 +71,7 @@ const packageJSONPreparing = async (packageJSON, {
       } else {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: 'prop-types', version: '15.7.2' },
+            { name: 'prop-types', version: '15' },
           ]
         });
       }
@@ -84,27 +84,27 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'koa-static', version: '5' },
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
-          { name: 'connected-react-router', version: '6.8.0' },
-          { name: 'react-redux', version: '7.2.1' },
-          { name: 'react-router', version: '5.2.0' },
-          { name: 'react-router-dom', version: '5.2.0' },
-          { name: 'redux', version: '4.0.5' },
-          { name: 'redux-saga', version: '1.1.3' },
-          { name: '@redux-saga/core', version: '1.1.3' },
-          { name: 'react-helmet-async', version: '1.0.7' },
-          { name: 'history', version: '4.10.1' },
-          { name: '@issr/core', version: '1.0.0' },
-          { name: 'node-fetch', version: '2.6.1' },
-          { name: '@reduxjs/toolkit', version: '1.4.0' },
+          { name: 'connected-react-router', version: '6' },
+          { name: 'react-redux', version: '7' },
+          { name: 'react-router', version: '5' },
+          { name: 'react-router-dom', version: '5' },
+          { name: 'redux', version: '4' },
+          { name: 'redux-saga', version: '1' },
+          { name: '@redux-saga/core', version: '1' },
+          { name: 'react-helmet-async', version: '1' },
+          { name: 'history', version: '4' },
+          { name: '@issr/core', version: '1' },
+          { name: 'node-fetch', version: '2' },
+          { name: '@reduxjs/toolkit', version: '1' },
           { name: 'serialize-javascript', version: '5' },
-          { name: 'pretty-error', version: '2.1.1' },
+          { name: 'pretty-error', version: '2' },
           { name: '@koa/router', version: '8' },
-          { name: '@loadable/component', version: '5.13.1' },
-          { name: '@loadable/server', version: '5.14.2' }
+          { name: '@loadable/component', version: '5' },
+          { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '1.0.0' },
-          { name: '@rockpack/compiler', version: '1.8.0' }
+          { name: '@issr/babel-loader', version: '1' },
+          { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
 
@@ -121,7 +121,7 @@ const packageJSONPreparing = async (packageJSON, {
       } else {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: 'prop-types', version: '15.7.2' },
+            { name: 'prop-types', version: '15' },
           ]
         });
       }
@@ -130,7 +130,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'library':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.8.0' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
       packageJSON = addFields(packageJSON, {
@@ -153,7 +153,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '1.8.0' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
 
@@ -162,7 +162,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '1.8.0' }
+            { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
           ]
         });
       }
@@ -188,7 +188,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '1.8.0' }
+        { name: '@rockpack/codestyle', version: '2.0.0-rc.1' }
       ]
     });
   }
@@ -199,7 +199,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '1.8.0' }
+        { name: '@rockpack/tester', version: '2.0.0-rc.1' }
       ]
     });
     if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
