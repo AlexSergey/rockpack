@@ -10,7 +10,7 @@ isomorphicCompiler(
     ],
     babel: {
       plugins: [
-        '@issr/babel-loader'
+        '@issr/babel-plugin'
       ]
     }
   }),
@@ -19,7 +19,7 @@ isomorphicCompiler(
     dist: 'dist',
     babel: {
       plugins: [
-        '@issr/babel-loader'
+        '@issr/babel-plugin'
       ]
     }
   })

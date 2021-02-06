@@ -53,7 +53,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '1' },
+          { name: '@issr/babel-plugin', version: '1' },
           { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
@@ -103,7 +103,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-loader', version: '1' },
+          { name: '@issr/babel-plugin', version: '1' },
           { name: '@rockpack/compiler', version: '2.0.0-rc.1' }
         ]
       });
