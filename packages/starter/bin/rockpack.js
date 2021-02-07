@@ -54,7 +54,7 @@ const { argv } = require('yargs');
     console.log();
   }
 
-  const projectName = _[0];
+  const projectName = String(_[0]);
 
   const currentPath = getCurrentPath(projectName);
 

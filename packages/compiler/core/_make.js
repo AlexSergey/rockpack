@@ -5,7 +5,6 @@ const { isFunction, isDefined } = require('valid-types');
 const getMode = require('../utils/getMode');
 const makeEntry = require('../modules/makeEntry');
 const makeOutput = require('../modules/makeOutput');
-const makeNode = require('../modules/makeNode');
 const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
 const makeDevtool = require('../modules/makeDevtool');
 const { makeModules } = require('../modules/makeModules');
@@ -59,7 +58,6 @@ const _make = async (conf, post) => {
   }
 
   if (conf.nodejs) {
-    finalConfig.node = makeNode();
     finalConfig.target = 'node';
 
     if (mode === 'development') {

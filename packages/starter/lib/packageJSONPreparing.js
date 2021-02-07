@@ -3,12 +3,16 @@ const {
   addScripts,
   addDependencies
 } = require('../utils/project');
+const {
+  yarnIsAvailable
+} = require('../utils/other');
 
 const packageJSONPreparing = async (packageJSON, {
   appType,
   typescript,
   tester,
-  codestyle
+  codestyle,
+  nogit
 }) => {
   switch (appType) {
     case 'csr':
@@ -143,7 +147,7 @@ const packageJSONPreparing = async (packageJSON, {
         });
       }
 
-      const production = `${codestyle ? 'npm run lint && ' : ''}${typescript ? 'npm run typing && ' : ''}${tester ? 'npm test && ' : ''}npm run build && npm publish`;
+      const production = `${codestyle ? `${yarnIsAvailable() ? 'yarn' : 'npm'} run lint && ` : ''}${typescript ? `${yarnIsAvailable() ? 'yarn' : 'npm'} run typing && ` : ''}${tester ? `${yarnIsAvailable() ? 'yarn' : 'npm'} test && ` : ''}${yarnIsAvailable() ? 'yarn' : 'npm'} run build && ${yarnIsAvailable() ? 'yarn' : 'npm'} publish`;
 
       packageJSON = addScripts(packageJSON, {
         production,
@@ -212,6 +216,35 @@ const packageJSONPreparing = async (packageJSON, {
         ]
       });
     }
+  }
+
+  if (!nogit) {
+    let huskyQuery = [];
+    if (typescript) {
+      huskyQuery.push(`${yarnIsAvailable() ? 'yarn' : 'npm'} run typing`);
+    }
+    if (codestyle) {
+      huskyQuery.push(`${yarnIsAvailable() ? 'yarn' : 'npm'} run lint`);
+    }
+    if (tester) {
+      huskyQuery.push(`${yarnIsAvailable() ? 'yarn' : 'npm'} test`);
+    }
+    huskyQuery = huskyQuery.join(' && ');
+
+    packageJSON = addFields(packageJSON, {
+      husky: {
+        hooks: {
+          'pre-commit': huskyQuery,
+          'pre-push': huskyQuery
+        }
+      }
+    });
+
+    packageJSON = await addDependencies(packageJSON, {
+      devDependencies: [
+        { name: 'husky', version: '4' }
+      ]
+    });
   }
 
   return packageJSON;

@@ -1,7 +1,7 @@
 const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler({
-  name: 'HelloWorld',
+  name: '%libraryName%',
   cjs: {
     src: './src',
     dist: './lib/cjs'

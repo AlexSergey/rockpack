@@ -3,6 +3,7 @@ const ora = require('ora');
 const path = require('path');
 const chalk = require('chalk');
 const wizard = require('./wizard');
+const gitInit = require('./gitInit');
 const copyFiles = require('./copyFiles');
 const createFiles = require('./createFiles');
 const packageJSONPreparing = require('./packageJSONPreparing');
@@ -35,6 +36,8 @@ const install = async ({
   currentPath
 }) => {
   const state = await wizard();
+  state.projectName = projectName;
+
   console.log();
 
   if (!fs.existsSync(currentPath)) {
@@ -44,23 +47,31 @@ const install = async ({
     await createPackageJSON(currentPath);
   } catch (e) {
     showError(e, () => {
-      console.error('Step: 1. Package.json creating');
+      console.error('Step: 1. package.json creating');
     });
   }
 
-  console.log(`${chalk.green('Package.json')} created\n`);
+  console.log(`${chalk.green('package.json')} created\n`);
 
   const src = path.resolve(currentPath, 'src');
+
+  try {
+    await gitInit(currentPath, state);
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 2. GIT init fail');
+    });
+  }
 
   try {
     fs.mkdirSync(src);
   } catch (e) {
     showError(e, () => {
-      console.error('Step: 2. src folder creating');
+      console.error('Step: 3. src folder creating');
     });
   }
 
-  console.log(`${chalk.green('Src')} folder created\n`);
+  console.log(`${chalk.green('src')} folder created\n`);
 
   let packageJSON;
 
@@ -68,20 +79,22 @@ const install = async ({
     packageJSON = await readPackageJSON(currentPath);
   } catch (e) {
     showError(e, () => {
-      console.error('Step: 3. Package.json reading');
+      console.error('Step: 4. Package.json reading');
     });
   }
 
-  try {
-    const gitignore = fs.readFileSync(path.join(dummies, 'gitignore'), 'utf8');
-    fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore.toString());
-  } catch (e) {
-    showError(e, () => {
-      console.error('Step: 3.1. .gitignore creating');
-    });
-  }
+  if (!state.nogit) {
+    try {
+      const gitignore = fs.readFileSync(path.join(dummies, 'gitignore'), 'utf8');
+      fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore.toString());
+    } catch (e) {
+      showError(e, () => {
+        console.error('Step: 4.1. .gitignore creating');
+      });
+    }
 
-  console.log(`${chalk.green('.gitignore')} created\n`);
+    console.log(`${chalk.green('.gitignore')} created\n`);
+  }
 
   if (state.appType === 'library') {
     try {
@@ -89,7 +102,7 @@ const install = async ({
       fs.writeFileSync(path.join(currentPath, '.npmignore'), gitignore.toString());
     } catch (e) {
       showError(e, () => {
-        console.error('Step: 3.2. .npmignore creating');
+        console.error('Step: 4.2. .npmignore creating');
       });
     }
 
@@ -105,7 +118,7 @@ const install = async ({
     spinner.stop();
 
     showError(e, () => {
-      console.error('Step: 4. Package.json set-up');
+      console.error('Step: 5. Package.json set-up');
     });
   }
 
@@ -117,7 +130,7 @@ const install = async ({
     spinner.stop();
 
     showError(e, () => {
-      console.error('Step: 5. Copying files');
+      console.error('Step: 6. Copying files');
     });
   }
 
@@ -127,7 +140,7 @@ const install = async ({
     spinner.stop();
 
     showError(e, () => {
-      console.error('Step: 6. Creating folders');
+      console.error('Step: 7. Creating files');
     });
   }
 
@@ -150,7 +163,7 @@ const install = async ({
     clear(timeouts);
 
     showError(e, () => {
-      console.error('Step: 7. Package.json updating');
+      console.error('Step: 8. Package.json updating');
     });
   }
 
@@ -161,7 +174,7 @@ const install = async ({
     clear(timeouts);
 
     showError(e, () => {
-      console.error('Step: 8. Installing dependencies');
+      console.error('Step: 9. Installing dependencies');
     });
   }
 
@@ -194,6 +207,13 @@ const install = async ({
     console.log();
     console.log(chalk.magenta('  ESLint checking:'));
     console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run lint`)} - check ESLint rules`);
+  }
+
+  if (!state.nogit) {
+    console.log();
+    console.log(chalk.magenta('  GIT add origin:'));
+    console.log(chalk.blue('git remote add origin <url>'));
+
   }
 
   console.log();

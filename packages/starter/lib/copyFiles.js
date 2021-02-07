@@ -9,7 +9,6 @@ const {
 const copy = require('../utils/copy');
 
 const copyFiles = async (currentPath, {
-  modules,
   appType,
   typescript,
   tester,

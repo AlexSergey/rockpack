@@ -3,11 +3,6 @@ const inquirer = require('inquirer');
 const wizard = async () => {
   const prompt = inquirer.createPromptModule();
 
-  const modules = {
-    logger: false,
-    localization: false
-  }
-
   const { appType } = await prompt({
     type: 'list',
     name: 'appType',
@@ -60,7 +55,6 @@ const wizard = async () => {
   });
 
   return {
-    modules,
     appType,
     typescript,
     tester,
