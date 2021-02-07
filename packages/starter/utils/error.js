@@ -1,6 +1,9 @@
 const os = require('os');
 const chalk = require('chalk');
-const { getPMVersion, yarnIsAvailable } = require('../utils/other');
+const {
+  getPMVersion,
+  getPM
+} = require('../utils/other');
 
 const showError = (e, cb) => {
   console.log(e);
@@ -18,7 +21,7 @@ const showError = (e, cb) => {
   console.log();
   console.log(`OS: ${os.type()}, ${os.release()}, ${os.platform()}`);
   console.log(`NodeJS version: ${process.versions.node}`);
-  console.log(`Package manager: ${yarnIsAvailable() ? 'yarn' : 'npm'}. version: ${getPMVersion()}`);
+  console.log(`Package manager: ${getPM()}. version: ${getPMVersion()}`);
   console.log();
   process.exit(1);
 }

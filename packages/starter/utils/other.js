@@ -22,7 +22,15 @@ const getPMVersion = () => {
     .toString()
 }
 
+const getPM = () => {
+  if (yarnIsAvailable()) {
+    return 'yarn';
+  }
+  return 'npm';
+}
+
 module.exports = {
   yarnIsAvailable,
-  getPMVersion
+  getPMVersion,
+  getPM
 }

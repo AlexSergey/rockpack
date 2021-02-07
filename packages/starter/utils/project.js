@@ -4,6 +4,9 @@ const childProcess = require('child_process');
 const latestVersion = require('latest-version');
 const merge = require('merge-package-json');
 const sortPackageJson = require('sort-package-json');
+const {
+  getPM
+} = require('../utils/other');
 
 const readPackageJSON = (currentPath) => {
   return new Promise((resolve, reject) => {
@@ -75,9 +78,9 @@ const createPackageJSON = (cwd) => {
   });
 }
 
-const installDependencies = (yarn = false, cwd) => {
+const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(yarn ? 'yarn install --silent' : 'npm install --silent', {
+    childProcess.exec(`${getPM()} install --silent`, {
       cwd
     }, (err) => {
       if (err) {

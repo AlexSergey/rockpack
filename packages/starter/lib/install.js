@@ -16,7 +16,7 @@ const {
   installDependencies
 } = require('../utils/project');
 const {
-  yarnIsAvailable
+  getPM
 } = require('../utils/other');
 
 const timeouts = {
@@ -168,7 +168,7 @@ const install = async ({
   }
 
   try {
-    await installDependencies(yarnIsAvailable(), currentPath);
+    await installDependencies(currentPath);
   } catch (e) {
     spinner.stop();
     clear(timeouts);
@@ -187,26 +187,26 @@ const install = async ({
   console.log(chalk.yellow('COMMANDS:'));
   console.log();
   console.log(chalk.magenta('  Building project:'));
-  console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} start`)} - run dev mode`);
-  console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run build`)} - build production`);
+  console.log(`${chalk.blue(`${getPM()} start`)} - run dev mode`);
+  console.log(`${chalk.blue(`${getPM()} run build`)} - build production`);
 
   if (state.tester) {
     console.log();
     console.log(chalk.magenta('  Testing project:'));
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} test`)} - run tests`);
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run test:watch`)} - run tests in dev mode`);
+    console.log(`${chalk.blue(`${getPM()} test`)} - run tests`);
+    console.log(`${chalk.blue(`${getPM()} run test:watch`)} - run tests in dev mode`);
   }
 
   if (state.typescript) {
     console.log();
     console.log(chalk.magenta('  Typescript checking:'));
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run typing`)} - check types`);
+    console.log(`${chalk.blue(`${getPM()} run typing`)} - check types`);
   }
 
   if (state.codestyle) {
     console.log();
     console.log(chalk.magenta('  ESLint checking:'));
-    console.log(`${chalk.blue(`${yarnIsAvailable() ? 'yarn' : 'npm'} run lint`)} - check ESLint rules`);
+    console.log(`${chalk.blue(`${getPM()} run lint`)} - check ESLint rules`);
   }
 
   if (!state.nogit) {

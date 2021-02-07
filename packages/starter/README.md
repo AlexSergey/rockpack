@@ -57,6 +57,13 @@ rockpack <project name>
 ![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v3.jpg)
 ***
 
+## Arguments
+*--yarn* - use Yarn as default package manager
+```shell script
+rockpack <project name> --yarn
+```
+
+***
 *If you can't use **@rockpack/starter** or want to migrate your existing application please follow the manual for each module*
 
 - [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
