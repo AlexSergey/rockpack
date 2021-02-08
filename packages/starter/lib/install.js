@@ -79,7 +79,7 @@ const install = async ({
     packageJSON = await readPackageJSON(currentPath);
   } catch (e) {
     showError(e, () => {
-      console.error('Step: 4. Package.json reading');
+      console.error('Step: 4. package.json reading');
     });
   }
 
@@ -109,7 +109,7 @@ const install = async ({
     console.log(`${chalk.green('.npmignore')} created\n`);
   }
 
-  const spinner = ora('Package.json is preparing. Dependencies are checking.\n')
+  const spinner = ora('package.json is preparing. Dependencies are checking.\n')
     .start();
 
   try {
@@ -118,7 +118,7 @@ const install = async ({
     spinner.stop();
 
     showError(e, () => {
-      console.error('Step: 5. Package.json set-up');
+      console.error('Step: 5. package.json set-up');
     });
   }
 
@@ -163,7 +163,7 @@ const install = async ({
     clear(timeouts);
 
     showError(e, () => {
-      console.error('Step: 8. Package.json updating');
+      console.error('Step: 8. package.json updating');
     });
   }
 
@@ -213,6 +213,7 @@ const install = async ({
     console.log();
     console.log(chalk.magenta('  GIT add origin:'));
     console.log(chalk.blue('git remote add origin <url>'));
+    console.log('pre-commit, pre-push hooks added');
 
   }
 

@@ -9,27 +9,27 @@ const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: 'React CSR - React Client Side Render (Single page application)',
+        name: '• React CSR - React Client Side Render (Single page application)',
         value: 'csr',
         checked: false
       },
       {
-        name: 'React SSR Light Pack - SSR, CSS Modules, @loadable etc',
+        name: '• React SSR Light Pack - SSR, CSS Modules, @loadable etc',
         value: 'ssr-light',
         checked: false
       },
       {
-        name: 'React SSR Full Pack - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc',
+        name: '• React SSR Full Pack - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc',
         value: 'ssr-full',
         checked: false
       },
       {
-        name: 'Simple Library (UMD Library)',
+        name: '• Simple Library (UMD Library)',
         value: 'library',
         checked: false
       },
       /*{
-        name: 'Node.js Application',
+        name: '• Node.js Application',
         value: 'nodejs',
         checked: false
       }*/
