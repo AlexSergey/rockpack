@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel",
-  "version": "2.0.0-rc.5",
+  "version": "2.0.0-rc.6",
   "description": "Babel presets module for Rockpack",
   "main": "index.js",
   "scripts": {
@@ -52,6 +52,6 @@
     "valid-types": "2.0.3"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.5"
+    "@rockpack/codestyle": "2.0.0-rc.6"
   }
 }

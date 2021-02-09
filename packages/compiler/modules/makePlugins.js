@@ -251,6 +251,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * */
   if (mode === 'development') {
     if (
+      !conf.__library &&
       !conf.nodejs &&
       !global.ISOMORPHIC
     ) {
@@ -272,6 +273,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         waitForBuild: true
       });
     } else if (
+      !conf.__library &&
       conf.nodejs &&
       !global.ISOMORPHIC
     ) {

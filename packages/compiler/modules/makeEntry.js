@@ -20,6 +20,7 @@ const makeEntry = (conf, root, mode) => {
   const context = path.dirname(entry[entryPoint]);
 
   if (
+    !conf.__library &&
     mode === 'development' &&
     !conf.nodejs
   ) {
