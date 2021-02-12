@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const inquirer = require('inquirer');
 
 const wizard = async () => {
@@ -9,22 +10,22 @@ const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: '• React CSR - React Client Side Render (Single page application)',
+        name: `• ${chalk.bold('React CSR')}: React Client Side Render (Single page application)`,
         value: 'csr',
         checked: false
       },
       {
-        name: '• React SSR Light Pack - SSR, CSS Modules, @loadable etc',
+        name: `• ${chalk.bold('React SSR Light Pack')}: SSR, CSS Modules, @loadable etc`,
         value: 'ssr-light',
         checked: false
       },
       {
-        name: '• React SSR Full Pack - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc',
+        name: `• ${chalk.bold('React SSR Full Pack')}: SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'ssr-full',
         checked: false
       },
       {
-        name: '• Simple Library (UMD Library)',
+        name: `• ${chalk.bold('Simple Library (UMD Library)')}: Starter for creating UMD Library or React Component`,
         value: 'library',
         checked: false
       },

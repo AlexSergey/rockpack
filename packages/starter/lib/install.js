@@ -98,8 +98,8 @@ const install = async ({
 
   if (state.appType === 'library') {
     try {
-      const gitignore = fs.readFileSync(path.join(dummies, 'npmignore.library'), 'utf8');
-      fs.writeFileSync(path.join(currentPath, '.npmignore'), gitignore.toString());
+      const npmignore = fs.readFileSync(path.join(dummies, 'npmignore.library'), 'utf8');
+      fs.writeFileSync(path.join(currentPath, '.npmignore'), npmignore.toString());
     } catch (e) {
       showError(e, () => {
         console.error('Step: 4.2. .npmignore creating');
