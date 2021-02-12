@@ -6,5 +6,8 @@
     "build": "cross-env NODE_ENV=production node scripts.build"
   },
   "dependencies": {
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3"
   }
 }
