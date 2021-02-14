@@ -38,7 +38,7 @@ Working on many React projects, we are faced with the same type of routine tasks
 Every time we spend weeks on these routine tasks.
 
 <p align="center">
-  <img width="500px" alt="Usual flow" src="https://www.rockpack.io/readme_assets/rockpack_main_1.v2.png">
+  <img width="500px" alt="Usual flow" src="https://www.rockpack.io/readme_assets/rockpack_main_1.v2.0.png">
 </p>
 
 Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
