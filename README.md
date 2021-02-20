@@ -1,6 +1,8 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo.png">
+  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_v2.0.png">
 </p>
+
+*This is beta. Official release coming soon*
 
 **Rockpack** is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing.
 

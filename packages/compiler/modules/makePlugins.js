@@ -28,7 +28,6 @@ const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
 const makeResolve = require('./makeResolve');
-const ReloadHtmlWebpackPlugin = require('../plugins/ReloadHTML');
 const pathToTSConf = require('../utils/pathToTSConf');
 const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
@@ -192,10 +191,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       plugins[q] = new HtmlWebpackPlugin(page);
     });
-
-    if (mode === 'development') {
-      plugins.ReloadHtmlWebpackPlugin = new ReloadHtmlWebpackPlugin();
-    }
   }
 
   const eslintRc = pathToEslintrc(root, mode);
