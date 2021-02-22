@@ -12849,7 +12849,7 @@ is-color-stop@^1.0.0:
     rgb-regex "^1.0.1"
     rgba-regex "^1.0.0"
 
-is-core-module@^2.1.0, is-core-module@^2.2.0:
+is-core-module@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.2.0.tgz#97037ef3d52224d85163f5597b2b63d9afed981a"
   integrity sha512-XRAfAdyyY5F5cOXn7hYQDqh2Xmii+DEfIcQGxK/uNwMHhIkPWO0g8msXcbzLe+MpGoR951MlqM/2iIlU4vKDdQ==
@@ -16345,16 +16345,6 @@ npm-conf@^1.1.0:
   dependencies:
     config-chain "^1.1.11"
     pify "^3.0.0"
-
-npm-install-webpack-plugin@4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/npm-install-webpack-plugin/-/npm-install-webpack-plugin-4.0.5.tgz#0af5bbe45eaf2648e2cd51fd8b091e0b652fef1b"
-  integrity sha1-CvW75F6vJkjizVH9iwkeC2Uv7xs=
-  dependencies:
-    cross-spawn "^5.0.1"
-    json5 "^0.5.1"
-    memory-fs "^0.4.1"
-    resolve "^1.2.0"
 
 npm-lifecycle@^3.1.2:
   version "3.1.5"
@@ -19931,14 +19921,6 @@ resolve@^1.1.6, resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.
     is-core-module "^2.1.0"
     path-parse "^1.0.6"
 
-resolve@^1.2.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
-  integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
-  dependencies:
-    is-core-module "^2.2.0"
-    path-parse "^1.0.6"
-
 responselike@1.0.2, responselike@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/responselike/-/responselike-1.0.2.tgz#918720ef3b631c5642be068f15ade5a46f4ba1e7"
@@ -20079,11 +20061,6 @@ safe-regex@^1.1.0:
   integrity sha1-QKNmnzsHfR6UPURinhV91IAjvy4=
   dependencies:
     ret "~0.1.10"
-
-safe-stable-stringify@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-1.1.1.tgz#c8a220ab525cd94e60ebf47ddc404d610dc5d84a"
-  integrity sha512-ERq4hUjKDbJfE4+XtZLFPCDi8Vb1JqaxAPTxWFLBx8XcAlf9Bda/ZJdVezs/NAfsMQScyIlUMx+Yeu7P7rx5jw==
 
 "safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
@@ -22985,10 +22962,10 @@ webpack-plugin-ramdisk@^0.1.2:
     execa "^4.0.3"
     superstruct "^0.12.1"
 
-webpack-plugin-serve@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/webpack-plugin-serve/-/webpack-plugin-serve-1.2.1.tgz#f9def36e4f8dd9ab5a225c401dfafa3dbd32272e"
-  integrity sha512-9FVTFFEqgMuc83pL6xdw3Cmhts9LlS1Oi/iRgvbbMaspfgCfL+DeZvCzoM5sFPm9YwQpMN97UW5OUjgz4/R7cA==
+webpack-plugin-serve@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/webpack-plugin-serve/-/webpack-plugin-serve-1.3.0.tgz#81736be9e5f5c6883590d755887af8b6c61670d8"
+  integrity sha512-oXJOki593KgZhOzc61nfyCL9AzrnZymkpZYZDytYIn0oXTcrqLfL/qRsO7JJyLrit4OIYdYF60EjgHlbVZs9hg==
   dependencies:
     chalk "^4.0.0"
     connect-history-api-fallback "^1.5.0"
@@ -22997,6 +22974,7 @@ webpack-plugin-serve@1.2.1:
     http-proxy-middleware "^1.0.3"
     is-path-cwd "^2.2.0"
     is-promise "^4.0.0"
+    json-stringify-safe "^5.0.1"
     koa "^2.5.3"
     koa-compress "^5.0.1"
     koa-connect "^2.0.1"
@@ -23008,7 +22986,6 @@ webpack-plugin-serve@1.2.1:
     open "^7.0.3"
     p-defer "^3.0.0"
     rimraf "^3.0.2"
-    safe-stable-stringify "^1.1.1"
     strip-ansi "^6.0.0"
     superstruct "^0.12.1"
     webpack-plugin-ramdisk "^0.1.2"
