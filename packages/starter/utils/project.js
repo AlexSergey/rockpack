@@ -50,6 +50,12 @@ const addDependencies = async (packageJSON, { dependencies = [], devDependencies
     toMerge.peerDependencies[peerDep.name] = peerVersion;
   }
 
+  Object.keys(toMerge).forEach(type => {
+    if (Object.keys(toMerge[type]).length === 0) {
+      delete toMerge[type];
+    }
+  });
+
   return JSON.parse(merge(packageJSON, toMerge));
 }
 

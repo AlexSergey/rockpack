@@ -204,10 +204,20 @@ const install = async ({
   console.log();
   console.log(chalk.green(`Project "${projectName}" was created successfully!`));
   console.log();
+  console.log(`Go to "${projectName}" folder`);
+  console.log(chalk.blue(`cd ${projectName}`));
+  console.log('and run commands')
+  console.log();
   console.log(chalk.yellow('COMMANDS:'));
   console.log();
   console.log(chalk.magenta('  Building project:'));
-  console.log(`${chalk.blue(`${getPM()} start`)} - run dev mode`);
+
+  if (state.appType === 'library' || state.appType === 'component') {
+    console.log(`${chalk.blue(`cd example`)} && ${chalk.blue(`${getPM()} start`)} - run dev mode`);
+  } else {
+    console.log(`${chalk.blue(`${getPM()} start`)} - run dev mode`);
+  }
+
   console.log(`${chalk.blue(`${getPM()} run build`)} - build production`);
 
   if (state.tester) {
