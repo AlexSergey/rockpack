@@ -1,7 +1,10 @@
+const path = require('path');
 const {
   addFields,
   addScripts,
-  addDependencies
+  addDependencies,
+  readPackageJSON,
+  writePackageJSON
 } = require('../utils/project');
 const {
   getPM
@@ -13,51 +16,26 @@ const packageJSONPreparing = async (packageJSON, {
   tester,
   codestyle,
   nogit
-}) => {
+}, currentPath) => {
   switch (appType) {
     case 'csr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'react', version: '16' },
           { name: 'react-dom', version: '16' },
-        ],
-        devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.8' }
-        ]
-      });
-
-      if (typescript) {
-        packageJSON = await addDependencies(packageJSON, {
-          devDependencies: [
-            { name: '@types/react', version: '16' },
-            { name: '@types/react-dom', version: '16' }
-          ]
-        });
-      } else {
-        packageJSON = await addDependencies(packageJSON, {
-          devDependencies: [
-            { name: 'prop-types', version: '15' },
-          ]
-        });
-      }
-      break;
-
-    case 'ssr-light':
-      packageJSON = await addDependencies(packageJSON, {
-        dependencies: [
-          { name: 'koa', version: '2' },
-          { name: 'koa-static', version: '5' },
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' },
-          { name: 'serialize-javascript', version: '5' },
-          { name: 'pretty-error', version: '2' },
-          { name: '@issr/core', version: '1' },
-          { name: '@koa/router', version: '8' },
+          { name: 'connected-react-router', version: '6' },
+          { name: 'react-redux', version: '7' },
+          { name: 'react-router', version: '5' },
+          { name: 'react-router-dom', version: '5' },
+          { name: 'react-helmet', version: '6' },
+          { name: 'redux', version: '4' },
+          { name: 'redux-saga', version: '1' },
+          { name: '@redux-saga/core', version: '1' },
+          { name: 'history', version: '4' },
+          { name: '@reduxjs/toolkit', version: '1' },
           { name: '@loadable/component', version: '5' },
-          { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-plugin', version: '1' },
           { name: '@rockpack/compiler', version: '2.0.0-rc.8' }
         ]
       });
@@ -67,9 +45,6 @@ const packageJSONPreparing = async (packageJSON, {
           devDependencies: [
             { name: '@types/react', version: '16' },
             { name: '@types/react-dom', version: '16' },
-            { name: '@types/koa', version: '2' },
-            { name: '@types/koa-router', version: '7' },
-            { name: '@types/node', version: '14' }
           ]
         });
       } else {
@@ -81,7 +56,7 @@ const packageJSONPreparing = async (packageJSON, {
       }
       break;
 
-    case 'ssr-full':
+    case 'ssr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'koa', version: '2' },
@@ -132,11 +107,29 @@ const packageJSONPreparing = async (packageJSON, {
       break;
 
     case 'library':
+    case 'component':
+      if (appType === 'component') {
+        packageJSON = await addDependencies(packageJSON, {
+          peerDependencies: [
+            { name: 'react', version: '16' },
+          ]
+        });
+
+        if (typescript) {
+          packageJSON = await addDependencies(packageJSON, {
+            devDependencies: [
+              { name: '@types/react', version: '16' },
+            ]
+          });
+        }
+      }
+
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: '@rockpack/compiler', version: '2.0.0-rc.8' }
         ]
       });
+
       packageJSON = addFields(packageJSON, {
         main: 'dist/index.js'
       });
@@ -173,6 +166,33 @@ const packageJSONPreparing = async (packageJSON, {
       break;
   }
 
+  if (appType === 'library' || appType === 'component') {
+    const examplePath = path.resolve(currentPath, 'example');
+    let packageJSONExample = await readPackageJSON(examplePath);
+
+    packageJSONExample = await addDependencies(packageJSONExample, {
+      devDependencies: [
+        { name: 'cross-env', version: '7' }
+      ]
+    });
+
+    packageJSONExample = addScripts(packageJSONExample, {
+      start: 'cross-env NODE_ENV=development node scripts.build',
+      build: 'cross-env NODE_ENV=production node scripts.build'
+    });
+
+    if (appType === 'component') {
+      packageJSONExample = await addDependencies(packageJSONExample, {
+        dependencies: [
+          { name: 'react', version: '16' },
+          { name: 'react-dom', version: '16' }
+        ]
+      });
+    }
+
+    await writePackageJSON(examplePath, packageJSONExample);
+  }
+
   packageJSON = addScripts(packageJSON, {
     start: 'cross-env NODE_ENV=development node scripts.build',
     build: 'cross-env NODE_ENV=production node scripts.build',
@@ -201,12 +221,14 @@ const packageJSONPreparing = async (packageJSON, {
       test: "node scripts.tests.js",
       "test:watch": "node scripts.tests.js --watch"
     });
+
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
         { name: '@rockpack/tester', version: '2.0.0-rc.8' }
       ]
     });
-    if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
+
+    if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: 'enzyme', version: '3' },

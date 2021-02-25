@@ -43,8 +43,23 @@ const install = async ({
   if (!fs.existsSync(currentPath)) {
     fs.mkdirSync(currentPath);
   }
+
+  if (state.appType === 'library' || state.appType === 'component') {
+    try {
+      fs.mkdirSync(path.resolve(currentPath, 'example'));
+    } catch (e) {
+      showError(e, () => {
+        console.error(`Step: 0.1. example folder for app type ${state.appType} creating`);
+      });
+    }
+  }
+
   try {
     await createPackageJSON(currentPath);
+
+    if (state.appType === 'library' || state.appType === 'component') {
+      await createPackageJSON(path.resolve(currentPath, 'example'));
+    }
   } catch (e) {
     showError(e, () => {
       console.error('Step: 1. package.json creating');
@@ -96,9 +111,9 @@ const install = async ({
     console.log(`${chalk.green('.gitignore')} created\n`);
   }
 
-  if (state.appType === 'library') {
+  if (state.appType === 'library' || state.appType === 'component') {
     try {
-      const npmignore = fs.readFileSync(path.join(dummies, 'npmignore.library'), 'utf8');
+      const npmignore = fs.readFileSync(path.join(dummies, 'npmignore.lc'), 'utf8');
       fs.writeFileSync(path.join(currentPath, '.npmignore'), npmignore.toString());
     } catch (e) {
       showError(e, () => {
@@ -113,7 +128,7 @@ const install = async ({
     .start();
 
   try {
-    packageJSON = await packageJSONPreparing(packageJSON, state);
+    packageJSON = await packageJSONPreparing(packageJSON, state, currentPath);
   } catch (e) {
     spinner.stop();
 
@@ -169,6 +184,11 @@ const install = async ({
 
   try {
     await installDependencies(currentPath);
+
+    if (state.appType === 'library' || state.appType === 'component') {
+      const examplePath = path.resolve(currentPath, 'example');
+      await installDependencies(examplePath);
+    }
   } catch (e) {
     spinner.stop();
     clear(timeouts);

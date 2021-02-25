@@ -25,10 +25,11 @@ const readPackageJSON = (currentPath) => {
   })
 }
 
-const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [] }) => {
+const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [], peerDependencies = [] }) => {
   const toMerge = {
     dependencies: {},
-    devDependencies: {}
+    devDependencies: {},
+    peerDependencies: {}
   };
 
   for (let i = 0, l = dependencies.length; i < l; i++) {
@@ -41,6 +42,12 @@ const addDependencies = async (packageJSON, { dependencies = [], devDependencies
     const devDep = devDependencies[i];
     const devDepVersion = await latestVersion(devDep.name, { version: devDep.version });
     toMerge.devDependencies[devDep.name] = devDepVersion;
+  }
+
+  for (let i = 0, l = peerDependencies.length; i < l; i++) {
+    const peerDep = peerDependencies[i];
+    const peerVersion = await latestVersion(peerDep.name, { version: peerDep.version });
+    toMerge.peerDependencies[peerDep.name] = peerVersion;
   }
 
   return JSON.parse(merge(packageJSON, toMerge));

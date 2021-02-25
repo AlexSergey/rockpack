@@ -10,22 +10,22 @@ const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: `• ${chalk.bold('React CSR')}: React Client Side Render (Single page application)`,
+        name: `• ${chalk.bold('React SPA')}: Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'csr',
         checked: false
       },
       {
-        name: `• ${chalk.bold('React SSR Light Pack')}: SSR, CSS Modules, @loadable etc`,
-        value: 'ssr-light',
+        name: `• ${chalk.bold('React SPA + SSR')}: SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
+        value: 'ssr',
         checked: false
       },
       {
-        name: `• ${chalk.bold('React SSR Full Pack')}: SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
-        value: 'ssr-full',
+        name: `• ${chalk.bold('React Component')}: Starter for creating React Component`,
+        value: 'component',
         checked: false
       },
       {
-        name: `• ${chalk.bold('Simple Library (UMD Library)')}: Starter for creating UMD Library or React Component`,
+        name: `• ${chalk.bold('UMD Library')}: Starter for creating UMD Library`,
         value: 'library',
         checked: false
       },

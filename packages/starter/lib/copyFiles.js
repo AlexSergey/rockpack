@@ -25,7 +25,7 @@ const copyFiles = async (currentPath, {
       path.join(currentPath)
     );
 
-    if (appType === 'library' || appType === 'ssr-light' || appType === 'ssr-full') {
+    if (appType === 'library' || appType === 'ssr') {
       await copy(
         path.join(addons, 'codestyle', appType, typescript ? 'typescript' : 'simple'),
         path.join(currentPath)
@@ -38,7 +38,7 @@ const copyFiles = async (currentPath, {
       path.join(addons, 'tester', 'common'),
       path.join(currentPath)
     );
-    if (appType === 'csr' || appType === 'ssr-light' || appType === 'ssr-full') {
+    if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       await copy(
         path.join(addons, 'tester', 'react-common'),
         path.join(currentPath)
