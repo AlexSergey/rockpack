@@ -2,7 +2,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const Wysiwyg = ({ value, onChange }: { value: string; onChange: (content: string) => void}): JSX.Element => (
+const Wysiwyg = ({ value, onChange }: { value: string; onChange: (content: string) => void }): JSX.Element => (
   <ReactQuill
     theme="snow"
     value={value}

@@ -4,7 +4,7 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import codeInstallationExample from 'raw-loader!./code/code-isntallation.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeCreateExample from 'raw-loader!./code/code-create.example';
-import img from '../../../readme_assets/rockpack_starter_1.v3.jpg';
+import img from '../../../readme_assets/rockpack_starter_1.v4.jpg';
 
 const Page = () => (
   <div>

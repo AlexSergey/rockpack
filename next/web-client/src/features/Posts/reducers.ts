@@ -20,7 +20,7 @@ export const postsReducer = createReducer<PostsState>({
     state.loading = true;
   },
 
-  [postDeleted.type]: (state, { payload: { id } }: { payload: { id: number }}) => {
+  [postDeleted.type]: (state, { payload: { id } }: { payload: { id: number } }) => {
     state.data = state.data.filter(post => post.id !== id);
     state.error = false;
     state.loading = false;

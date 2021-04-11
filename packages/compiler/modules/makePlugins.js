@@ -91,6 +91,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     compilationSuccessInfo: {
       messages: conf.messages
     },
+    additionalTransformers: [
+      (error) => {
+        // TODO: Fix webpack serve error. Remove it after update webpack-serve-plugin
+        if (error.message === 'DefinePlugin\nConflicting values for \'ʎɐɹɔosǝʌɹǝs\'') return false;
+        return error;
+      }
+    ]
   });
 
   if (isTypeScript) {
@@ -253,13 +260,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       const defaultFrontServePort = conf.port;
       const frontServePort = await fpPromise(defaultFrontServePort);
       plugins.WebpackPluginServe = new WebpackPluginServe({
-        liveReload: true,
+        hmr: 'refresh-on-failure',
         historyFallback: true,
         port: frontServePort,
         open: true,
         host: 'localhost',
         static: [
-          conf.distContext
+          path.isAbsolute(conf.distContext) ?
+            conf.distContext :
+            path.resolve(root, conf.distContext)
         ],
         client: {
           address: `localhost:${frontServePort}`,
@@ -288,7 +297,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
           host: 'localhost',
           log: { level: 'warn' },
           static: [
-            conf.distContext
+            path.isAbsolute(conf.distContext) ?
+              conf.distContext :
+              path.resolve(root, conf.distContext)
           ],
           progress: 'minimal',
           client: {

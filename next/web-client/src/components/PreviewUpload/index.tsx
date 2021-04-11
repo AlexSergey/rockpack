@@ -7,7 +7,7 @@ import config from '../../config';
 import styles from './style.module.scss';
 
 export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<Record<string, unknown>>|false)
-=> void}): JSX.Element => {
+=> void }): JSX.Element => {
   const [preview, setPreview] = useState('');
   const [fileList, setFileList] = useState([]);
 

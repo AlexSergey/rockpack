@@ -8,23 +8,48 @@ const makeEntry = (conf, root, mode) => {
     process.exit(1);
   }
 
-  const entry = {};
+  let entry = {};
+  let context = '';
 
-  if (isArray(conf.vendor)) {
-    entry.vendor = conf.vendor;
-  }
-  const entryPoint = path.basename(conf.dist)
-    .replace(distExtension, '');
+  if (global.ISOMORPHIC) {
+    if (isArray(conf.vendor)) {
+      entry.vendor = conf.vendor;
+    }
+    const entryPoint = path.basename(conf.dist)
+      .replace(distExtension, '');
 
-  entry[entryPoint] = path.resolve(root, conf.src);
-  const context = path.dirname(entry[entryPoint]);
+    entry[entryPoint] = path.resolve(root, conf.src);
+    context = path.dirname(entry[entryPoint]);
 
-  if (
-    !conf.__library &&
-    mode === 'development' &&
-    !conf.nodejs
-  ) {
-    entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
+    if (
+      !conf.__library &&
+      mode === 'development' &&
+      !conf.nodejs
+    ) {
+      entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
+    }
+  } else {
+    // eslint-disable-next-line
+    if (mode === 'development') {
+      entry = [
+        path.resolve(root, conf.src)
+      ];
+      if (
+        !conf.__library &&
+        !conf.nodejs
+      ) {
+        entry.push(require.resolve('webpack-plugin-serve/client'));
+      }
+    } else if (mode === 'production') {
+      if (isArray(conf.vendor)) {
+        entry.vendor = conf.vendor;
+      }
+      const entryPoint = path.basename(conf.dist)
+        .replace(distExtension, '');
+
+      entry[entryPoint] = path.resolve(root, conf.src);
+      context = path.dirname(entry[entryPoint]);
+    }
   }
 
   return { entry, context };

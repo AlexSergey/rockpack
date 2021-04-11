@@ -4,7 +4,7 @@ const makeOutput = (conf = {}, root, mode) => {
   const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
 
   const outputProps = {
-    pathinfo: false,
+    pathinfo: mode === 'development',
     publicPath: '/',
     path: path.dirname(distPath),
     filename: '[name].js'
@@ -16,10 +16,6 @@ const makeOutput = (conf = {}, root, mode) => {
       libraryTarget: 'umd',
       globalObject: 'this'
     });
-  }
-
-  if (mode === 'development') {
-    outputProps.hotUpdateMainFilename = '[runtime].[fullhash].hot-update.json';
   }
 
   return outputProps;

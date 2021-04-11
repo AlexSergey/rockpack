@@ -12,10 +12,10 @@
 
 **Rockpack** will help if:
 
-- **Beginners.** With the help of Rockpack, any newbie to React can deploy a project of any complexity in a few minutes, with configured webpack, eslint, jest, etc. Applications can be either regular Single Page or with a project structure, Server Side Render, etc.
+- **Beginners.** With the help of Rockpack, any newbie to React can deploy a project of any complexity in a few minutes, with configured webpack, eslint, jest, etc. Rockpack supports the most popular types of React application with the project structure, Server Side Rendering, optimizations, and has the necessary dependencies.
 - **Large projects from scratch.** Rockpack supports most of the webpack best practices configurations, eslint rules, jest, typescript and will work great even on large projects
 - **Startup.** If you need to quickly check an idea without wasting time on unfolding and setting up the project.
-- **Library or React component.** If you want to write a UMD library or React component, with support for the esm/cjs build as well as the minified version.
+- **Library or React Component.** If you want to write a UMD library or React component, with support for the esm/cjs build as well as the minified version.
 
 [Fast setup](https://www.rockpack.io/fast-setup)
 
@@ -55,20 +55,30 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
 
 ### @rockpack/starter
 
-this is **create-react-app** on steroids. Supports the following types of applications:
+this is **create-react-app** on steroids.
 
-- **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
-- **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
-    - Koa is being used for the server
-    - @loadable/components
-- **React SSR Full Pack** - React Server Side Render. Application skeleton using best practices for project structure and a set of libraries
-    - Koa is being used for the server
+**Rockpack** provides the best practice to set up your application. Project structure has feature based approach (see article [here](https://dev.to/alexsergey/project-structure-repository-and-folders-review-of-approaches-4kh2)).
+
+Supports the following types of applications:
+
+- **React SPA** - Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc.
     - React-Router
     - Redux
+    - Redux Toolkit
+    - Redux-Saga
+    - React-Helmet
+    - @loadable/components is being used for split your code into SSR application
+- **React SPA + SSR** - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc.
+    - Koa is being used for the server
+    - iSSR is being used for effect handling in the server side
+    - React-Router
+    - Redux
+    - Redux Toolkit
     - Redux-Saga
     - React-Helmet-Async
-    - @loadable/components
-- **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
+    - @loadable/components is being used for split your code into SSR application
+- **React Component** - Configured webpack to create React component (for NPM publishing).
+- **UMD Library** - Configured webpack to create UMD library (vanilla JS, for NPM publishing).
 
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
@@ -79,7 +89,7 @@ this is **create-react-app** on steroids. Supports the following types of applic
 - PostCSS Autoprefixer
 - SEO Optimizations, React optimizations, Antd optimizations
 - Support for settings via Dotenv and Dotenv safe
-- Bundle Analyzer
+- Bundle Analyzer, Statoscope
 - GraphQL support
 
 Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
@@ -101,7 +111,7 @@ This is React bundler (based on Webpack) using a set of necessary loaders, plugi
 - Nodejs backend (TS/Babel)
 - Markup html files
 - Compile isomorphic (Server-side rendering) application (TS/Babel)
-- Bundle analyze (TS/Babel)
+- Bundle Analyzer, Statoscope (TS/Babel)
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 ***

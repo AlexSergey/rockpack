@@ -72,7 +72,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@redux-saga/core', version: '1' },
           { name: 'react-helmet-async', version: '1' },
           { name: 'history', version: '4' },
-          { name: '@issr/core', version: '1' },
+          { name: '@issr/core', version: '1.1.0' },
           { name: 'node-fetch', version: '2' },
           { name: '@reduxjs/toolkit', version: '1' },
           { name: 'serialize-javascript', version: '5' },
@@ -82,7 +82,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-plugin', version: '1' },
+          { name: '@issr/babel-plugin', version: '1.1.0' },
           { name: '@rockpack/compiler', version: '2.0.0-rc.9' }
         ]
       });

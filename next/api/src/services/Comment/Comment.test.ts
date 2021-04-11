@@ -43,7 +43,7 @@ afterAll(async () => {
 describe('CommentService tests', () => {
   test('createComment to one of the post', async () => {
     let user = await userRepository.getUserById(newuser.get('id'));
-    let { comments } = (user.toJSON() as { Statistic: { comments: number }}).Statistic;
+    let { comments } = (user.toJSON() as { Statistic: { comments: number } }).Statistic;
     const oldComments = comments;
     await commentService.createComment(newuser.get('id'), post.get('id'), 'test comment');
     user = await userRepository.getUserById(newuser.get('id'));
