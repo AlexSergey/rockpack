@@ -15,15 +15,13 @@
     "test": "lerna run test --stream",
     "postinstall": "cpy node_modules/@types/koa-bodyparser next/api/node_modules/@types/koa-bodyparser"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run typing",
-      "pre-push": "npm run lint && npm run typing && npm test"
-    }
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint && npm run typing",
+    "pre-push": "npm run lint && npm run typing && npm test"
   },
   "devDependencies": {
+    "cpy-cli": "3.1.1",
     "lerna": "3.22.1",
-    "husky": "4.2.5",
-    "cpy-cli": "3.1.1"
+    "simple-git-hooks": "2.4.1"
   }
 }

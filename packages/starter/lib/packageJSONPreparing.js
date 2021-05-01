@@ -240,30 +240,34 @@ const packageJSONPreparing = async (packageJSON, {
   }
 
   if (!nogit) {
-    let huskyQuery = [];
+    let hooksCommon = [];
+    let hooksCommit = [];
+    let hooksPush = [];
     if (typescript) {
-      huskyQuery.push(`${getPM()} run typing`);
+      hooksCommon.push(`${getPM()} run typing`);
     }
     if (codestyle) {
-      huskyQuery.push(`${getPM()} run lint`);
+      hooksCommon.push(`${getPM()} run lint`);
     }
+    hooksCommit = hooksCommit.concat(hooksCommon);
+
     if (tester) {
-      huskyQuery.push(`${getPM()} test`);
+      hooksPush = hooksPush.concat(hooksCommon);
+      hooksPush.push(`${getPM()} test`);
     }
-    huskyQuery = huskyQuery.join(' && ');
+    hooksCommit = hooksCommit.join(' && ');
+    hooksPush = hooksPush.join(' && ');
 
     packageJSON = addFields(packageJSON, {
-      husky: {
-        hooks: {
-          'pre-commit': huskyQuery,
-          'pre-push': huskyQuery
-        }
+      'simple-git-hooks': {
+        'pre-commit': hooksCommit,
+        'pre-push': hooksPush
       }
     });
 
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: 'husky', version: '4' }
+        { name: 'simple-git-hooks', version: '2' }
       ]
     });
   }
