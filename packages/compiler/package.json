@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "2.0.0-rc.9",
+  "version": "2.0.0-rc.10",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "dependencies": {
     "@loadable/webpack-plugin": "5.14.2",
     "@mdx-js/loader": "1.6.22",
-    "@rockpack/babel": "2.0.0-rc.9",
+    "@rockpack/babel": "2.0.0-rc.10",
     "@statoscope/ui-webpack": "3.5.0",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
@@ -117,6 +117,6 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.9"
+    "@rockpack/codestyle": "2.0.0-rc.10"
   }
 }

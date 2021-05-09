@@ -1,10 +1,9 @@
 import React from 'react';
-import dracula from 'prism-react-renderer/themes/dracula';
-import Highlight, { defaultProps } from 'prism-react-renderer';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeInstallationExample from 'raw-loader!./code/code-isntallation.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeWebpackConfigExample from 'raw-loader!./code/code-webpack.config.example';
+import Code from '../../components/Code';
 
 const Page = () => (
   <div>
@@ -27,39 +26,11 @@ const Page = () => (
 
     <p>1. Installation</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeInstallationExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeInstallationExample} language="bash" />
 
     <p>2. Create webpack.config.js</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeWebpackConfigExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeWebpackConfigExample} language="jsx" />
 
     <p>Important points:</p>
 
@@ -185,7 +156,7 @@ const page = {
   menuClassName: 'small-menu-item',
   share: true,
   meta: [
-    <meta name="description" content="Rockpack ..." />
+    <meta name="description" content="Rockpack ..." key="description" />
   ],
   component: Page
 };

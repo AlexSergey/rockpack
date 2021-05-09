@@ -1,6 +1,4 @@
 import React from 'react';
-import dracula from 'prism-react-renderer/themes/dracula';
-import Highlight, { defaultProps } from 'prism-react-renderer';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeInstallSample from 'raw-loader!./code/code-install.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
@@ -32,6 +30,7 @@ import img2 from './assets/img-2.png';
 import img3 from './assets/img-3.png';
 import img4 from './assets/img-4.png';
 import bsod from '../../../readme_assets/rockpack_logger_bsod.jpg';
+import Code from '../../components/Code';
 
 const Page = () => (
   <div>
@@ -108,37 +107,11 @@ const Page = () => (
 
     <p>1. Installation:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeInstallSample} language="bash">
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeInstallSample} language="bash" />
 
     <p>2. We need to wrap up the application with a component</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeWrapContainerSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeWrapContainerSample} language="jsx" />
 
     <p>
       LoggerContainer is a component that reacts to errors in your application and forms a stack.
@@ -154,21 +127,7 @@ const Page = () => (
       LoggerContainer has settings, consider some of them
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeWrapContainerSettingsSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeWrapContainerSettingsSample} language="jsx" />
 
     <ul>
       <li>
@@ -199,41 +158,13 @@ const Page = () => (
 
     <p>For instance, we have a component</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeComponentSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeComponentSample} language="jsx" />
 
     <p>
       In order to correctly cover it with a log, we need to modify the toggle method
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeToggleSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeToggleSample} language="jsx" />
 
     <p>
       We have added a logger in which the information is divided into 2 parts. React.Toggle shows us that this action
@@ -265,78 +196,22 @@ const Page = () => (
 
     <p>1. Generating SessionID on the client</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeSessionID} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeSessionID} language="jsx" />
 
     <p>
       2. We need to set the SessionID for all requests to the server. If we use libraries for requests, it is very easy
       to do this by declaring a SessionID for all requests.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeFetch} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeFetch} language="jsx" />
 
     <p>3. The LoggerContainer has a special field for SessionID</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeLoggerContainerSessionID} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeLoggerContainerSessionID} language="jsx" />
 
     <p>4. The request (on the client) will look like this:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeRequestSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeRequestSample} language="jsx" />
 
     <p>4. The request (on the client) will look like this:</p>
 
@@ -386,21 +261,7 @@ const Page = () => (
 
     <p>For these purposes, the LoggerContainer has properties</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeBSODSample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeBSODSample} language="jsx" />
 
     <ul>
       <li><strong>bsodActive</strong> – enables / disables BSOD (disabling BSOD applies to production code)</li>
@@ -409,41 +270,13 @@ const Page = () => (
 
     <p>To display the button in the UI LoggerContainer, we can use the hook:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeHookExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeHookExample} language="jsx" />
 
     <h3>User interaction</h3>
 
     <p>Some logs are useful to the user. To output the user need to use the stdout method:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeStdoutExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeStdoutExample} language="jsx" />
 
     <p><strong>stdout</strong> is the method that is responsible for printing messages.</p>
 
@@ -453,21 +286,7 @@ const Page = () => (
       can display an error message.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeLoggerImportantExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeLoggerImportantExample} language="jsx" />
 
     <h3>Tips and tricks</h3>
 
@@ -493,7 +312,7 @@ const page = {
   url: '/log-driven-development',
   menuClassName: 'small-menu-item',
   meta: [
-    <meta name="description" content="Rockpack ..." />
+    <meta name="description" content="Rockpack ..." key="description" />
   ],
   share: true,
   component: Page

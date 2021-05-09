@@ -1,6 +1,4 @@
 import React from 'react';
-import dracula from 'prism-react-renderer/themes/dracula';
-import Highlight, { defaultProps } from 'prism-react-renderer';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeDictionaryExample from 'raw-loader!./code/code-dictionaty.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
@@ -33,6 +31,7 @@ import img3 from './assets/img-3.png';
 import approach from '../../../readme_assets/localazer-approach.jpg';
 import img4 from './assets/img-4.png';
 import img5 from './assets/img-5.png';
+import Code from '../../components/Code';
 
 const Page = () => (
   <div>
@@ -62,19 +61,7 @@ const Page = () => (
       representations of our strings
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeDictionaryExample} language="json">
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeDictionaryExample} language="json" />
 
     <p>
       When switching the language, the root component replaced this huge object, and all child components, as if by
@@ -214,21 +201,7 @@ const Page = () => (
 
     <p>1. Installation:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeInstallationExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeInstallationExample} language="bash" />
 
     <ul>
       <li>
@@ -244,21 +217,7 @@ const Page = () => (
 
     <p>2. We need to wrap up the application with a component</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeWrapperExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeWrapperExample} language="jsx" />
 
     <p>
       <strong>languages</strong> is a set of JSONs received after translation; you can load it asynchronously from the
@@ -271,39 +230,11 @@ const Page = () => (
       In the components of our application where we want to have text localization, we must:
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeLocalazerImportExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeLocalazerImportExample} language="jsx" />
 
     <p>And in the JSX markup code, add</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeLocalazerExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeLocalazerExample} language="jsx" />
 
     <p>
       The Localization component is needed to communicate with the LocalizationObserver. Thus, when switching one
@@ -319,21 +250,7 @@ const Page = () => (
 
     <p>If we need to pass a variable to localization text:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeSprintfExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeSprintfExample} language="jsx" />
 
     <p><strong>sprintf</strong> passes the variable into the localization text.</p>
 
@@ -347,21 +264,7 @@ const Page = () => (
       variables passed to this method.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeNlExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeNlExample} language="jsx" />
 
     <h3>Dictionary</h3>
 
@@ -379,39 +282,11 @@ const Page = () => (
       of <strong>l()/nl()</strong> nodes for gettext.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeMakePotExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeMakePotExample} language="jsx" />
 
     <p><strong>@localazer/webpack-plugin</strong> has properties:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeMakePotOptionsExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeMakePotOptionsExample} language="jsx" />
 
     <p>
       <strong>variables</strong> - Variables to process. If you use other localaser variable names in the project,
@@ -468,57 +343,15 @@ const Page = () => (
       Let's create a second script at the <strong>makePOT.js</strong> level, let's call it <strong>po2json.js</strong>
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codePo2JsonExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codePo2JsonExample} language="jsx" />
 
     <p><strong>po2json</strong> has options</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codePo2JsonOptionsExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codePo2JsonOptionsExample} language="jsx" />
 
     <p>After that, let's call the script</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeRunPo2JsonExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeRunPo2JsonExample} language="bash" />
 
     <p>Our script will generate a JSON version of the translations.</p>
 
@@ -537,21 +370,7 @@ const Page = () => (
 
     <p>Just for example:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeLocalazerLanguagesExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeLocalazerLanguagesExample} language="jsx" />
 
     <h3>Conclusion</h3>
 
@@ -568,7 +387,7 @@ const page = {
   url: '/localization-true-way',
   menuClassName: 'small-menu-item',
   meta: [
-    <meta name="description" content="Rockpack ..." />
+    <meta name="description" content="Rockpack ..." key="description" />
   ],
   share: true,
   component: Page

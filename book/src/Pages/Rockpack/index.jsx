@@ -6,7 +6,7 @@ const page = {
   url: '/',
   menuOnly: true,
   meta: [
-    <meta name="description" content="Rockpack ..." />
+    <meta name="description" content="Rockpack ..." key="description" />
   ],
   children
 };

@@ -1,6 +1,4 @@
 import React from 'react';
-import dracula from 'prism-react-renderer/themes/dracula';
-import Highlight, { defaultProps } from 'prism-react-renderer';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeActionsExample from 'raw-loader!./code/code-actions.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
@@ -39,6 +37,7 @@ import codeSagaSolveExample from 'raw-loader!./code/code-saga-solve.example';
 import codeStateToClientExample from 'raw-loader!./code/code-state-to-client.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeClientStateExample from 'raw-loader!./code/code-client-state.example';
+import Code from '../../components/Code';
 
 const Page = () => (
   <div>
@@ -60,73 +59,19 @@ const Page = () => (
 
     <p><strong>actions.js:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeActionsExample} language="jsx">
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeActionsExample} language="jsx" />
 
     <p><strong>reducer.js:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeReducerExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeReducerExample} language="jsx" />
 
     <p><strong>saga.js:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeSagaExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeSagaExample} language="jsx" />
 
     <p><strong>Container.jsx:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeContainerExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeContainerExample} language="jsx" />
 
     <p>
       Everything is pretty clear. We make a request. We put the loading state, when the response arrives, we extract the
@@ -135,39 +80,11 @@ const Page = () => (
 
     <p><strong>store.js:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeStoreExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeStoreExample} language="jsx" />
 
     <p><strong>index.jsx:</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeIndexExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeIndexExample} language="jsx" />
 
     <h3>Let's start migration to the SSR!</h3>
 
@@ -175,81 +92,25 @@ const Page = () => (
 
     <p>1. Installation</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeInstallationExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeInstallationExample} language="bash" />
 
     <p>
       Let's create a build.js file at the root of our project. It will allow us to compile our client and server,
       processing TS, JSX, various resources such as SVG, images, and more.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeBuildExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeBuildExample} language="jsx" />
 
     <p><i>Launch commands:</i></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeRunExample} language="bash">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeRunExample} language="bash" />
 
     <p>
       The general logic is not necessary, we will rename our index.jsx to <strong>client.jsx</strong> and create
       <strong>server.jsx</strong>:
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeServerExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeServerExample} language="jsx" />
 
     <h3>Redux, Saga -> SSR</h3>
 
@@ -257,21 +118,7 @@ const Page = () => (
 
     <p>Change in <strong>Container.jsx</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeContainerChangingExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeContainerChangingExample} language="jsx" />
 
     <p>
       <i>
@@ -281,59 +128,17 @@ const Page = () => (
 
     <p>Modify <strong>store.js</strong> to receive synchronized state:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeStoreStateExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeStoreStateExample} language="jsx" />
 
     <p>Modifying <strong>server.jsx</strong></p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeServerSSRExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeServerSSRExample} language="jsx" />
 
     <p>What's going on here?</p>
 
     <p>1. We create store with default state as empty object:</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeEmptyStoreExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeEmptyStoreExample} language="jsx" />
 
     <p>
       2. <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md">@rockpack/ussr</a> - <strong>serverRender</strong> method can take a function as its second argument. It will be called
@@ -342,102 +147,32 @@ const Page = () => (
       the saga level. In this case. we need a tool to wait for them outside.
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeServerRenderExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeServerRenderExample} language="jsx" />
 
     <p>
       Specifically in this code, we have - render the application, <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/ussr/README.md">@rockpack/ussr</a> understands that in the depths of our code there
       is a side effect, but in this case, it is not asynchronous
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeUseUssrExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeUseUssrExample} language="jsx" />
 
     <p>
       Therefore, a callback will be called in which we will perform an asynchronous operation at the sag level, since
       this is not part of the React Components
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeSagaSolveExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeSagaSolveExample} language="jsx" />
 
     <p>3. After that, we transfer the resulting state to the client, but we take it from the redux store</p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeStateToClientExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeStateToClientExample} language="jsx" />
 
     <p>
       In <strong>client.jsx</strong>, we need to change the creation of the store, setting the state that came from
       the backend for synchronization
     </p>
 
-    <Highlight {...defaultProps} theme={dracula} code={codeClientStateExample} language="jsx">
-      {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={style}>
-          {/* eslint-disable-next-line sonarjs/no-identical-functions */}
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </pre>
-      )}
-    </Highlight>
+    <Code code={codeClientStateExample} language="jsx" />
 
     <h3>Conclusion</h3>
 
@@ -455,7 +190,7 @@ const page = {
   menuClassName: 'small-menu-item',
   share: true,
   meta: [
-    <meta name="description" content="Rockpack ..." />
+    <meta name="description" content="Rockpack ..." key="description" />
   ],
   component: Page
 };

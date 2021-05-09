@@ -9,8 +9,7 @@ function getMajorVersion(version) {
 }
 
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
-  const root = process.cwd();
-
+  const { root, packageJson, hasReact } = opts;
   let tsConfig = false;
 
   if (existsSync(path.resolve(root, './tsconfig.js'))) {
@@ -43,13 +42,8 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   }
 
   let reactNewSyntax = false;
-  const packageJsonPath = path.resolve(root, 'package.json');
-  // eslint-disable-next-line global-require
-  const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
-  if (packageJson &&
-    packageJson.dependencies &&
-    packageJson.dependencies.react
-  ) {
+
+  if (hasReact) {
     reactNewSyntax = getMajorVersion(packageJson.dependencies.react) >= 17;
   }
 
@@ -70,11 +64,10 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   const extendsRules = [
     'plugin:sonarjs/recommended',
     'eslint:recommended',
-    'plugin:react/recommended',
     'plugin:promise/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'airbnb'
+    hasReact ? 'airbnb' : 'airbnb/base'
   ];
 
   if (isNodejs) {
@@ -84,10 +77,14 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   const plugins = [
     'babel',
     'jest',
-    'react',
-    'promise',
-    'react-hooks'
+    'promise'
   ];
+
+  if (hasReact) {
+    extendsRules.push('plugin:react/recommended');
+    plugins.push('react');
+    plugins.push('react-hooks');
+  }
 
   return deepExtend({}, {
     extends: extendsRules,
@@ -116,7 +113,7 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
         extends: [
           'plugin:@typescript-eslint/recommended',
           'plugin:@typescript-eslint/eslint-recommended',
-          'airbnb-typescript'
+          hasReact ? 'airbnb-typescript' : 'airbnb-typescript/base'
         ],
         plugins: [
           '@typescript-eslint'
@@ -136,16 +133,50 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
       renderToJson: true,
       createSerializer: true
     },
-    rules: deepExtend({}, commonRules, overrideRules)
+    rules: deepExtend({}, commonRules, overrideRules),
   }, customConfig);
 };
 
 module.exports = {
-  cleanConfig: (overrideRules = {}, customConfig = {}, opts = {}) => (
-    _makeConfig({}, {}, overrideRules, customConfig, opts)
-  ),
+  cleanConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
+    const root = process.cwd();
+    const packageJsonPath = path.resolve(root, 'package.json');
+    // eslint-disable-next-line global-require
+    const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+
+    let hasReact = false;
+
+    if (packageJson &&
+      packageJson.dependencies &&
+      packageJson.dependencies.react
+    ) {
+      hasReact = true;
+    }
+
+    _makeConfig({}, {}, overrideRules, customConfig, { ...opts,
+      ...{
+        root,
+        packageJson,
+        hasReact
+      }
+    });
+  },
 
   rockConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
+    const root = process.cwd();
+    const packageJsonPath = path.resolve(root, 'package.json');
+    // eslint-disable-next-line global-require
+    const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+
+    let hasReact = false;
+
+    if (packageJson &&
+      packageJson.dependencies &&
+      packageJson.dependencies.react
+    ) {
+      hasReact = true;
+    }
+
     const commonRules = {
       indent: ['error', 2, {
         SwitchCase: 1
@@ -209,27 +240,6 @@ module.exports = {
       'promise/no-nesting': 'off',
       'promise/always-return': 'warn',
       'promise/catch-or-return': 'warn',
-      'react-hooks/exhaustive-deps': 'warn',
-      'react-hooks/rules-of-hooks': 'error',
-      'react/destructuring-assignment': 'off',
-      'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
-      'react/jsx-filename-extension': ['error', {
-        extensions: ['.jsx', '.tsx']
-      }],
-      'react/jsx-indent': ['error', 2, {
-        indentLogicalExpressions: true
-      }],
-      'react/jsx-indent-props': ['error', 2],
-      'react/jsx-one-expression-per-line': 'off',
-      'react/jsx-props-no-multi-spaces': 'off',
-      'react/jsx-props-no-spreading': 'off',
-      'react/no-array-index-key': 'warn',
-      'react/no-danger': 'off',
-      'react/prop-types': 'error',
-      'react/no-unescaped-entities': 'off',
-      'react/static-property-placement': 'off',
-      'react/prefer-stateless-function': 'off',
-      'react/require-default-props': 'off',
       'sonarjs/cognitive-complexity': 'off',
       'sonarjs/no-duplicate-string': 'off',
       quotes: ['error', 'single'],
@@ -265,7 +275,6 @@ module.exports = {
       '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       '@typescript-eslint/ban-ts-comment': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       '@typescript-eslint/comma-dangle': 'off',
-      'react/prop-types': 'off',
       quotes: 'off',
       'no-unused-vars': 'off',
       semi: 'off',
@@ -273,6 +282,43 @@ module.exports = {
       '@typescript-eslint/no-use-before-define': ['error']
     };
 
-    return _makeConfig(commonRules, tsCommonRules, overrideRules, customConfig, opts);
+    if (hasReact) {
+      Object.assign(commonRules, {
+        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/rules-of-hooks': 'error',
+        'react/destructuring-assignment': 'off',
+        'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
+        'react/jsx-filename-extension': ['error', {
+          extensions: ['.jsx', '.tsx']
+        }],
+        'react/jsx-indent': ['error', 2, {
+          indentLogicalExpressions: true
+        }],
+        'react/jsx-indent-props': ['error', 2],
+        'react/jsx-one-expression-per-line': 'off',
+        'react/jsx-props-no-multi-spaces': 'off',
+        'react/jsx-props-no-spreading': 'off',
+        'react/no-array-index-key': 'warn',
+        'react/no-danger': 'off',
+        'react/prop-types': 'error',
+        'react/no-unescaped-entities': 'off',
+        'react/static-property-placement': 'off',
+        'react/prefer-stateless-function': 'off',
+        'react/require-default-props': 'off',
+      });
+
+      Object.assign(tsCommonRules, {
+        'react/prop-types': 'off',
+      });
+    }
+
+    return _makeConfig(commonRules, tsCommonRules, overrideRules, customConfig, {
+      ...opts,
+      ...{
+        root,
+        packageJson,
+        hasReact
+      }
+    });
   }
 };
