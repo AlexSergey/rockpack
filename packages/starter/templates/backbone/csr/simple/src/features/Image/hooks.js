@@ -1,16 +1,12 @@
-import { useEffect } from 'react';
+import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchImage } from './actions';
 
-const useImage = () => {
+export const useImage = () => {
   const dispatch = useDispatch();
   const { url, error, loading } = useSelector((state) => state.image);
 
-  useEffect(() => {
-    dispatch(fetchImage());
-  }, []);
+  useSsrEffect(() => dispatch(fetchImage()));
 
   return [loading, error, url];
 };
-
-export default useImage;

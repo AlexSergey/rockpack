@@ -1,25 +1,15 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import styles from './styles.module.scss';
-import Image from '../../components/Image';
-import { useImage } from '../../features/Image';
+import { ImageArea } from '../../features/Image';
 
-export default (): JSX.Element => {
-  const [loading, error, url] = useImage();
+const Image = (): JSX.Element => (
+  <>
+    <Helmet>
+      <title>Image Page</title>
+      <meta name="description" content="Image page" />
+    </Helmet>
+    <ImageArea />
+  </>
+);
 
-  return (
-    <>
-      <Helmet>
-        <title>Image Page</title>
-        <meta name="description" content="Image page" />
-      </Helmet>
-      <div className={styles['image-holder']}>
-        <Image
-          loading={loading}
-          error={error}
-          url={url}
-        />
-      </div>
-    </>
-  );
-};
+export default Image;

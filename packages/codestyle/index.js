@@ -94,8 +94,8 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
       sourceType: 'module',
       ecmaFeatures: {
         modules: true,
-        jsx: true,
-        useJSXTextNode: true
+        jsx: hasReact,
+        useJSXTextNode: hasReact
       }
     },
     env: {
@@ -153,7 +153,7 @@ module.exports = {
       hasReact = true;
     }
 
-    _makeConfig({}, {}, overrideRules, customConfig, { ...opts,
+    return _makeConfig({}, {}, overrideRules, customConfig, { ...opts,
       ...{
         root,
         packageJson,
