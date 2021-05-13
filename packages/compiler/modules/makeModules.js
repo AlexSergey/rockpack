@@ -189,7 +189,7 @@ function getModules(conf = {}, mode, root) {
         {
           loader: require.resolve('file-loader'),
           options: {
-            name: 'media/[name][hash].[ext]'
+            name: 'media/[name].[hash].[ext]'
           }
         }
       ]
@@ -201,20 +201,20 @@ function getModules(conf = {}, mode, root) {
         {
           loader: require.resolve('file-loader'),
           options: {
-            name: 'images/[name][hash].[ext]'
+            name: 'images/[name].[hash].[ext]'
           }
         }
       ]
     },
 
     images: {
-      test: /\.(jpe?g|png|gif)$/i,
+      test: /\.(jpe?g|png|gif|webp)$/i,
       use: [
         {
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
-            name: 'images/[name][hash].[ext]'
+            name: 'images/[name].[hash].[ext]'
           }
         }
       ]
@@ -227,7 +227,7 @@ function getModules(conf = {}, mode, root) {
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
-            name: 'fonts/[name][hash].[ext]'
+            name: 'fonts/[name].[hash].[ext]'
           }
         }
       ]

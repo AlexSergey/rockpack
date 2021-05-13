@@ -15,7 +15,7 @@ export interface ImageServiceInterface {
 const imageService = (rest): ImageServiceInterface => ({
   fetchImage: async (): Promise<ImageRes> => {
     const response = await rest('https://picsum.photos/id/0/info');
-    // eslint-disable-next-line no-return-await
+    // eslint-disable-next-line no-return-await,@typescript-eslint/return-await
     return await response.json();
   },
 });

@@ -1,6 +1,5 @@
 import Koa from 'koa';
 import path from 'path';
-import React from 'react';
 import serve from 'koa-static';
 import fetch from 'node-fetch';
 import Router from '@koa/router';

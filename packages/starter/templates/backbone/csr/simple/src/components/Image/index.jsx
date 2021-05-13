@@ -1,4 +1,3 @@
-import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';

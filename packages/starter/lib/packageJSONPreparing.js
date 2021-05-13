@@ -17,13 +17,12 @@ const packageJSONPreparing = async (packageJSON, {
   codestyle,
   nogit
 }, currentPath) => {
-  console.log('!!!!!!!!!!!!!!!!!!!!!!', appType);
   switch (appType) {
     case 'csr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' },
+          { name: 'react', version: '17' },
+          { name: 'react-dom', version: '17' },
           { name: 'connected-react-router', version: '6' },
           { name: 'react-redux', version: '7' },
           { name: 'react-router', version: '5' },
@@ -44,8 +43,8 @@ const packageJSONPreparing = async (packageJSON, {
       if (typescript) {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: '@types/react', version: '16' },
-            { name: '@types/react-dom', version: '16' },
+            { name: '@types/react', version: '17' },
+            { name: '@types/react-dom', version: '17' },
           ]
         });
       } else {
@@ -62,8 +61,8 @@ const packageJSONPreparing = async (packageJSON, {
         dependencies: [
           { name: 'koa', version: '2' },
           { name: 'koa-static', version: '5' },
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' },
+          { name: 'react', version: '17' },
+          { name: 'react-dom', version: '17' },
           { name: 'connected-react-router', version: '6' },
           { name: 'react-redux', version: '7' },
           { name: 'react-router', version: '5' },
@@ -91,8 +90,8 @@ const packageJSONPreparing = async (packageJSON, {
       if (typescript) {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: '@types/react', version: '16' },
-            { name: '@types/react-dom', version: '16' },
+            { name: '@types/react', version: '17' },
+            { name: '@types/react-dom', version: '17' },
             { name: '@types/koa', version: '2' },
             { name: '@types/koa-router', version: '7' },
             { name: '@types/node', version: '14' }
@@ -112,14 +111,14 @@ const packageJSONPreparing = async (packageJSON, {
       if (appType === 'component') {
         packageJSON = await addDependencies(packageJSON, {
           peerDependencies: [
-            { name: 'react', version: '16' },
+            { name: 'react', version: '17' },
           ]
         });
 
         if (typescript) {
           packageJSON = await addDependencies(packageJSON, {
             devDependencies: [
-              { name: '@types/react', version: '16' },
+              { name: '@types/react', version: '17' },
             ]
           });
         }
@@ -189,8 +188,8 @@ const packageJSONPreparing = async (packageJSON, {
     if (appType === 'component') {
       packageJSONExample = await addDependencies(packageJSONExample, {
         dependencies: [
-          { name: 'react', version: '16' },
-          { name: 'react-dom', version: '16' }
+          { name: 'react', version: '17' },
+          { name: 'react-dom', version: '17' }
         ]
       });
     }
@@ -237,7 +236,7 @@ const packageJSONPreparing = async (packageJSON, {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: 'enzyme', version: '3' },
-          { name: 'enzyme-adapter-react-16', version: '1' },
+          { name: '@wojtekmaj/enzyme-adapter-react-17', version: '0.6.1' },
           { name: '@testing-library/jest-dom', version: '5' },
           { name: '@testing-library/react', version: '11' }
         ]

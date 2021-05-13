@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './styles.module.scss';
 import { useImage } from '../../hooks';
 import Image from '../../../../components/Image';
@@ -14,5 +13,5 @@ export const ImageArea = () => {
         url={url}
       />
     </div>
-  )
-}
+  );
+};

@@ -1,4 +1,3 @@
-import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { mount, ReactWrapper } from 'enzyme';
 import { Store } from '@reduxjs/toolkit';

@@ -1,4 +1,3 @@
-import React from 'react';
 import fetch from 'node-fetch';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';

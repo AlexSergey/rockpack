@@ -1,4 +1,3 @@
-import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';

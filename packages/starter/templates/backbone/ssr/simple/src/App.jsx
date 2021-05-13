@@ -1,5 +1,4 @@
 import './assets/styles/global.scss';
-import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
 import Index from './routes/Index';

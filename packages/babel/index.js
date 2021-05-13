@@ -54,7 +54,6 @@ const createBabelPresets = ({
     presets: [
       [require.resolve('@babel/preset-env'), Object.assign({
         modules,
-        loose: true,
       }, isNodejs ? {
         targets: {
           node: 'current'
