@@ -5,6 +5,47 @@ const getStylesRules = require('../utils/getStylesRules');
 function getModules(conf = {}, mode, root) {
   const { css, scss, less } = getStylesRules(conf, mode, root);
 
+  const fileLoader = conf.webview ? {
+    asyncAssets: {
+      loader: require.resolve('url-loader')
+    },
+    video: {
+      loader: require.resolve('url-loader')
+    },
+    pdf: {
+      loader: require.resolve('url-loader')
+    },
+    images: {
+      loader: require.resolve('url-loader')
+    }
+  } : {
+    asyncAssets: {
+      loader: require.resolve('file-loader'),
+      options: {
+        name: '[name].[hash].[ext]'
+      }
+    },
+    video: {
+      loader: require.resolve('file-loader'),
+      options: {
+        name: 'media/[name].[hash].[ext]'
+      }
+    },
+    pdf: {
+      loader: require.resolve('file-loader'),
+      options: {
+        name: 'images/[name].[hash].[ext]'
+      }
+    },
+    images: {
+      loader: require.resolve('url-loader'),
+      options: {
+        limit: 10000,
+        name: 'images/[name].[hash].[ext]'
+      }
+    }
+  };
+
   return {
     handlebars: {
       test: /\.(hbs|handlebars)$/,
@@ -18,12 +59,7 @@ function getModules(conf = {}, mode, root) {
     asyncAssets: {
       test: /\.async\.(html|css)$/,
       use: [
-        {
-          loader: require.resolve('file-loader'),
-          options: {
-            name: '[name].[hash].[ext]'
-          }
-        },
+        fileLoader.asyncAssets,
         {
           loader: require.resolve('extract-loader')
         },
@@ -186,37 +222,21 @@ function getModules(conf = {}, mode, root) {
     video: {
       test: /\.(mp4|webm|ogg|mp3|avi|mov|wav)$/,
       use: [
-        {
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'media/[name].[hash].[ext]'
-          }
-        }
+        fileLoader.video
       ]
     },
 
     pdf: {
       test: /\.pdf$/,
       use: [
-        {
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'images/[name].[hash].[ext]'
-          }
-        }
+        fileLoader.pdf
       ]
     },
 
     images: {
       test: /\.(jpe?g|png|gif|webp)$/i,
       use: [
-        {
-          loader: require.resolve('url-loader'),
-          options: {
-            limit: 10000,
-            name: 'images/[name].[hash].[ext]'
-          }
-        }
+        fileLoader.images
       ]
     },
 

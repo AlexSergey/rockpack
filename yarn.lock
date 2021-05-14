@@ -12976,6 +12976,18 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
+html-inline-css-webpack-plugin@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/html-inline-css-webpack-plugin/-/html-inline-css-webpack-plugin-1.11.0.tgz#45dbeae74dcc70e1f6a86fa5f594a433843f1c25"
+  integrity sha512-VOBX7DOSKTZGwJnToWYhfzq9tt3mbTV0VncCy3APA4ljME20NbkQYiixJMZu782Crpp/kEcml1HbZbYtlXQzgQ==
+  dependencies:
+    lodash "^4.17.15"
+
+html-inline-script-webpack-plugin@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/html-inline-script-webpack-plugin/-/html-inline-script-webpack-plugin-2.0.1.tgz#c8f2a3b2aa0b7e326257eb2e7a35fa1a0106f3b3"
+  integrity sha512-bEAVIZUvEx1z3GzBJrZhNnnYXqitwpLRCnF8wS4gAgyednJcJle7OkGPw1De88wIs8pXjC9hT7Mw42gjejWX2Q==
+
 html-loader@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/html-loader/-/html-loader-2.1.2.tgz#17eb111441e863a9308071ed876b4ba861f143df"

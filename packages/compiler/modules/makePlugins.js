@@ -2,6 +2,8 @@ const { existsSync } = require('fs');
 const { argv } = require('yargs');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
+const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -171,20 +173,32 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
           title: (conf.html && conf.html.title) || (getTitle(packageJson) ? getTitle(packageJson) : ''),
           code: (conf.html && conf.html.code) ? conf.html.code : null,
           favicon: (conf.html && conf.html.favicon) ? conf.html.favicon : null,
-          template: (conf.html && conf.html.template) || path.resolve(__dirname, '..', './index.ejs')
+          filename: (conf.html && conf.html.filename) ? conf.html.filename : (
+            conf.webview ? 'index.html' : false
+          ),
+          template: (conf.html && conf.html.template) || (
+            conf.webview ?
+              path.resolve(__dirname, '..', './index.webview.ejs') :
+              path.resolve(__dirname, '..', './index.ejs')
+          )
         }
       ];
     }
 
     pages = pages.map(page => {
       if (!page.template) {
-        page.template = path.resolve(__dirname, '..', './index.ejs');
+        page.template = conf.webview ?
+          path.resolve(__dirname, '..', './index.webview.ejs') :
+          path.resolve(__dirname, '..', './index.ejs');
       }
       if (!page.filename) {
         page.filename = page.template.slice(page.template.lastIndexOf(path.sep) + 1, page.template.lastIndexOf('.'));
         page.filename += '.html';
       }
-      page.inject = false;
+
+      if (!conf.webview) {
+        page.inject = false;
+      }
 
       page.minify = {
         collapseWhitespace: mode === 'production'
@@ -381,6 +395,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   if (conf.__isIsomorphic) {
     plugins.LoadablePlugin = new LoadablePlugin({ filename: 'stats.json', writeToDisk: true });
+  }
+
+  if (conf.webview) {
+    plugins.HtmlInlineScriptWebpackPlugin = new HtmlInlineScriptWebpackPlugin();
+    plugins.HtmlInlineCssWebpackPlugin = new HtmlInlineCssWebpackPlugin();
   }
 
   return plugins;

@@ -1,0 +1,13 @@
+{
+  "name": "example-react-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build"
+  },
+  "dependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "core-js": "3.6.4"
+  }
+}
