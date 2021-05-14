@@ -112,6 +112,7 @@ const packageJSONPreparing = async (packageJSON, {
         packageJSON = await addDependencies(packageJSON, {
           peerDependencies: [
             { name: 'react', version: '17' },
+            { name: 'react-dom', version: '17' }
           ]
         });
 
@@ -119,6 +120,7 @@ const packageJSONPreparing = async (packageJSON, {
           packageJSON = await addDependencies(packageJSON, {
             devDependencies: [
               { name: '@types/react', version: '17' },
+              { name: '@types/react-dom', version: '17' }
             ]
           });
         }
@@ -168,7 +170,9 @@ const packageJSONPreparing = async (packageJSON, {
 
   if (appType === 'library' || appType === 'component') {
     packageJSON = addScripts(packageJSON, {
+      start: 'cross-env NODE_ENV=development node examples/scripts.build',
       build: 'cross-env NODE_ENV=production node scripts.build',
+      'build:example': 'cross-env NODE_ENV=production node examples/scripts.build',
       analyzer: 'cross-env NODE_ENV=development node scripts.build --analyzer'
     });
 
@@ -179,10 +183,6 @@ const packageJSONPreparing = async (packageJSON, {
       devDependencies: [
         { name: 'cross-env', version: '7' }
       ]
-    });
-
-    packageJSONExample = addScripts(packageJSONExample, {
-      build: 'cross-env NODE_ENV=production node scripts.build'
     });
 
     if (appType === 'component') {

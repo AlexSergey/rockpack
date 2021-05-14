@@ -2,6 +2,7 @@ import styles from './styles.module.scss';
 import { useImage } from '../../hooks';
 import Image from '../../../../components/Image';
 
+// eslint-disable-next-line
 export const ImageArea = () => {
   const [loading, error, url] = useImage();
 

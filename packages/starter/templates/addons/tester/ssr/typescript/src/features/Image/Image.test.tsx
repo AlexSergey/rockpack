@@ -1,4 +1,4 @@
-import useImage from './hooks';
+import { useImage } from './hooks';
 import createTestWrapper from '../../tests/TestWrapper';
 
 test('Render Image from useImage()', async () => {

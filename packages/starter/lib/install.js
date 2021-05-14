@@ -13,7 +13,8 @@ const {
   readPackageJSON,
   createPackageJSON,
   writePackageJSON,
-  installDependencies
+  installDependencies,
+  installPeerDependencies
 } = require('../utils/project');
 const {
   getPM
@@ -188,6 +189,10 @@ const install = async ({
     if (state.appType === 'library' || state.appType === 'component') {
       const examplePath = path.resolve(currentPath, 'example');
       await installDependencies(examplePath);
+
+      if (state.appType === 'component' && packageJSON.peerDependencies) {
+        await installPeerDependencies(packageJSON, currentPath);
+      }
     }
   } catch (e) {
     spinner.stop();

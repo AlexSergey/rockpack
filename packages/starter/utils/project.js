@@ -104,6 +104,29 @@ const installDependencies = (cwd) => {
   });
 }
 
+const installDependency = (cwd, dependency) => {
+  return new Promise((resolve, reject) => {
+    childProcess.exec(`${getPM()} install ${dependency} --silent`, {
+      cwd
+    }, (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
+const installPeerDependencies = async (packageJSON, currentPath) => {
+  const { peerDependencies } = packageJSON;
+  for (const depName in peerDependencies) {
+    if (peerDependencies.hasOwnProperty(depName)) {
+      let depVersion = peerDependencies[depName];
+      await installDependency(currentPath, `${depName}@${depVersion}`);
+    }
+  }
+}
+
 module.exports = {
   addFields,
   addScripts,
@@ -111,5 +134,7 @@ module.exports = {
   createPackageJSON,
   readPackageJSON,
   writePackageJSON,
-  installDependencies
+  installDependencies,
+  installDependency,
+  installPeerDependencies
 }
