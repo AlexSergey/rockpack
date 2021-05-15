@@ -9,6 +9,10 @@ const makeDevtool = (mode, conf) => {
     sourceMap = 'source-map';
   }
 
+  if (mode === 'development' && conf.webview) {
+    sourceMap = 'eval';
+  }
+
   return sourceMap;
 };
 

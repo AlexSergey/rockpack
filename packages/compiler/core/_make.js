@@ -46,11 +46,6 @@ const _make = async (conf, post) => {
     externals
   };
 
-  if (mode === 'development') {
-    finalConfig.bail = true;
-    finalConfig.watch = true;
-  }
-
   finalConfig.mode = mode;
 
   if (isDefined(conf.externals)) {
@@ -59,13 +54,11 @@ const _make = async (conf, post) => {
 
   if (conf.nodejs) {
     finalConfig.target = 'node';
-
-    if (mode === 'development') {
-      finalConfig.watch = true;
-    }
   }
 
   if (mode === 'development') {
+    finalConfig.bail = true;
+    finalConfig.watch = true;
     finalConfig.cache = true;
     finalConfig.performance = {
       hints: false
