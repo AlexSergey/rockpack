@@ -1,78 +1,29 @@
 const createBabelPresets = require('@rockpack/babel');
 const Collection = require('../utils/Collection');
 const getStylesRules = require('../utils/getStylesRules');
+const createFileLoader = require('../utils/fileLoader');
 
 function getModules(conf = {}, mode, root) {
   const { css, scss, less } = getStylesRules(conf, mode, root);
-
-  const fileLoader = conf.webview ? {
-    asyncAssets: {
-      loader: require.resolve('url-loader')
-    },
-    video: {
-      loader: require.resolve('url-loader')
-    },
-    pdf: {
-      loader: require.resolve('url-loader')
-    },
-    images: {
-      loader: require.resolve('url-loader')
-    }
-  } : {
-    asyncAssets: {
-      loader: require.resolve('file-loader'),
-      options: {
-        name: '[name].[hash].[ext]'
-      }
-    },
-    video: {
-      loader: require.resolve('file-loader'),
-      options: {
-        name: 'media/[name].[hash].[ext]'
-      }
-    },
-    pdf: {
-      loader: require.resolve('file-loader'),
-      options: {
-        name: 'images/[name].[hash].[ext]'
-      }
-    },
-    images: {
-      loader: require.resolve('url-loader'),
-      options: {
-        limit: 10000,
-        name: 'images/[name].[hash].[ext]'
-      }
-    }
-  };
+  const fileLoader = createFileLoader(conf);
 
   return {
     handlebars: {
       test: /\.(hbs|handlebars)$/,
-      use: [
-        {
-          loader: require.resolve('handlebars-loader')
-        }
-      ]
+      use: require.resolve('handlebars-loader')
     },
 
     asyncAssets: {
       test: /\.async\.(html|css)$/,
       use: [
         fileLoader.asyncAssets,
-        {
-          loader: require.resolve('extract-loader')
-        },
+        require.resolve('extract-loader'),
       ]
     },
 
     jade: {
       test: /\.(pug|jade)$/,
-      use: [
-        {
-          loader: require.resolve('pug-loader')
-        }
-      ]
+      use: require.resolve('pug-loader')
     },
 
     mdx: {
@@ -87,9 +38,7 @@ function getModules(conf = {}, mode, root) {
             isomorphic: conf.__isIsomorphic
           })
         },
-        {
-          loader: require.resolve('@mdx-js/loader')
-        }
+        require.resolve('@mdx-js/loader')
       ]
     },
 
@@ -104,17 +53,7 @@ function getModules(conf = {}, mode, root) {
 
     graphql: {
       test: /\.graphql?$/,
-      use: [
-        {
-          loader: require.resolve('webpack-graphql-loader'),
-          options: {
-            // validate: true,
-            // schema: "./path/to/schema.json",
-            // removeUnusedFragments: true
-            // etc. See "Loader Options" below
-          }
-        }
-      ]
+      use: require.resolve('webpack-graphql-loader')
     },
 
     tsx: {
@@ -145,11 +84,7 @@ function getModules(conf = {}, mode, root) {
 
     shaders: {
       test: /\.(glsl|vs|fs)$/,
-      use: [
-        {
-          loader: require.resolve('shader-loader')
-        }
-      ]
+      use: require.resolve('shader-loader')
     },
 
     cssModules: {
@@ -221,55 +156,35 @@ function getModules(conf = {}, mode, root) {
 
     video: {
       test: /\.(mp4|webm|ogg|mp3|avi|mov|wav)$/,
-      use: [
-        fileLoader.video
-      ]
+      use: fileLoader.video
     },
 
     pdf: {
       test: /\.pdf$/,
-      use: [
-        fileLoader.pdf
-      ]
+      use: fileLoader.pdf
     },
 
     images: {
       test: /\.(jpe?g|png|gif|webp)$/i,
-      use: [
-        fileLoader.images
-      ]
+      use: fileLoader.images
     },
 
     fonts: {
       test: /\.(eot|ttf|woff|woff2)$/,
-      use: [
-        {
-          loader: require.resolve('url-loader'),
-          options: {
-            limit: 10000,
-            name: 'fonts/[name].[hash].[ext]'
-          }
-        }
-      ]
+      use: fileLoader.fonts
     },
 
     html: {
       test: /\.html$/,
-      use: {
-        loader: require.resolve('html-loader')
-      },
+      use: require.resolve('html-loader'),
       exclude: /\.async\.(html|css)$/
     },
 
     markdown: {
       test: /\.md$/,
       use: [
-        {
-          loader: require.resolve('html-loader')
-        },
-        {
-          loader: require.resolve('markdown-loader')
-        }
+        require.resolve('html-loader'),
+        require.resolve('markdown-loader')
       ]
     },
 
@@ -290,13 +205,7 @@ function getModules(conf = {}, mode, root) {
     svg: {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [
-        {
-          loader: require.resolve('url-loader'),
-          options: {
-            limit: 10000,
-            name: 'svg/[path][name].[ext]',
-          }
-        },
+        fileLoader.svg,
         {
           loader: require.resolve('svgo-loader'),
           options: {
