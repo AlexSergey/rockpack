@@ -24,7 +24,8 @@ const makeEntry = (conf, root, mode) => {
     if (
       !conf.__library &&
       mode === 'development' &&
-      !conf.nodejs
+      !conf.nodejs &&
+      !conf.webview
     ) {
       entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
     }
@@ -36,7 +37,8 @@ const makeEntry = (conf, root, mode) => {
       ];
       if (
         !conf.__library &&
-        !conf.nodejs
+        !conf.nodejs &&
+        !conf.webview
       ) {
         entry.push(require.resolve('webpack-plugin-serve/client'));
       }

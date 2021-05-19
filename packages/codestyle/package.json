@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "2.0.0-rc.12",
+  "version": "2.0.0-rc.13",
   "description": "The best practice for ESLint and TSLint",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
@@ -43,6 +43,6 @@
     "typescript": "4.2.4"
   },
   "devDependencies": {
-    "@rockpack/tester": "2.0.0-rc.12"
+    "@rockpack/tester": "2.0.0-rc.13"
   }
 }

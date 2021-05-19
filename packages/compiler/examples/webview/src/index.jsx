@@ -8,4 +8,3 @@ document.addEventListener("DOMContentLoaded", function (event) {
   ReactDOM.render(<App />, document.getElementById('root'));
   registerServiceWorker();
 });
-

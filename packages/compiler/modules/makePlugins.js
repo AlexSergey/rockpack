@@ -33,6 +33,7 @@ const makeResolve = require('./makeResolve');
 const pathToTSConf = require('../utils/pathToTSConf');
 const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
+const WebViewHTMLWrapper = require('../plugins/WebViewHTMLWrapper');
 const { getTitle, getRandomInt } = require('../utils/other');
 
 const getNodemonOptions = async (distFolder, distPath, conf) => {
@@ -267,7 +268,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   /**
    * DEVELOPMENT
    * */
-  if (mode === 'development') {
+  if (mode === 'development' && !conf.webview) {
     if (
       !conf.__library &&
       !conf.nodejs &&
@@ -275,7 +276,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     ) {
       const defaultFrontServePort = conf.port;
       const frontServePort = await fpPromise(defaultFrontServePort);
-      const options = {
+      plugins.WebpackPluginServe = new WebpackPluginServe({
+        hmr: 'refresh-on-failure',
         historyFallback: true,
         port: frontServePort,
         open: true,
@@ -290,13 +292,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         },
         progress: 'minimal',
         waitForBuild: true
-      };
-      if (conf.webview) {
-        options.liveReload = true;
-      } else {
-        options.hmr = 'refresh-on-failure';
-      }
-      plugins.WebpackPluginServe = new WebpackPluginServe(options);
+      });
     } else if (
       !conf.__library &&
       conf.nodejs &&
@@ -407,6 +403,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   if (conf.webview) {
     plugins.HtmlInlineScriptWebpackPlugin = new HtmlInlineScriptWebpackPlugin();
     plugins.HtmlInlineCssWebpackPlugin = new HtmlInlineCssWebpackPlugin();
+    plugins.WebViewHTMLWrapper = new WebViewHTMLWrapper({
+      dist: distPath
+    });
   }
 
   return plugins;
