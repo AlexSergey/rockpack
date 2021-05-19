@@ -199,6 +199,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       if (conf.webview) {
         page.cache = false;
+        page.inject = 'body';
       } else {
         page.inject = false;
       }
