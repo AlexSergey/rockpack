@@ -7,6 +7,7 @@ const frontendCompiler = require('./compilers/frontendCompiler');
 const backendCompiler = require('./compilers/backendCompiler');
 const isomorphicCompiler = require('./compilers/isomorphicCompiler');
 const webViewCompiler = require('./compilers/webViewCompiler');
+const multiCompiler = require('./compilers/multiCompiler');
 
 const getArgs = () => argv;
 
@@ -21,5 +22,6 @@ module.exports = {
   libraryCompiler,
   frontendCompiler,
   backendCompiler,
-  webViewCompiler
+  webViewCompiler,
+  multiCompiler
 };

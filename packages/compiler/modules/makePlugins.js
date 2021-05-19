@@ -269,7 +269,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   /**
    * DEVELOPMENT
    * */
-  if (mode === 'development' && !conf.webview) {
+  if (mode === 'development' && !conf.webview && !global.IGNORE_SERVE) {
     if (
       !conf.__library &&
       !conf.nodejs &&
