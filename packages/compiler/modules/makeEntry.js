@@ -10,44 +10,42 @@ const makeEntry = (conf, root, mode) => {
 
   let entry = {};
   let context = '';
+  const entryPoint = path.basename(conf.dist)
+    .replace(distExtension, '');
 
   if (global.ISOMORPHIC) {
     if (isArray(conf.vendor)) {
       entry.vendor = conf.vendor;
     }
-    const entryPoint = path.basename(conf.dist)
-      .replace(distExtension, '');
-
-    entry[entryPoint] = path.resolve(root, conf.src);
-    context = path.dirname(entry[entryPoint]);
 
     if (
       !conf.__library &&
       mode === 'development' &&
-      !conf.nodejs &&
-      !conf.webview
+      !conf.nodejs
     ) {
       entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
     }
+
+    entry[entryPoint] = path.resolve(root, conf.src);
+    context = path.dirname(entry[entryPoint]);
   } else {
     // eslint-disable-next-line
     if (mode === 'development') {
-      entry = [
-        path.resolve(root, conf.src)
-      ];
       if (
-        !conf.__library &&
-        !conf.nodejs &&
-        !conf.webview
+        conf.__library ||
+        conf.nodejs
       ) {
-        entry.push(require.resolve('webpack-plugin-serve/client'));
+        entry[entryPoint] = path.resolve(root, conf.src);
+      } else {
+        entry = [
+          require.resolve('webpack-plugin-serve/client'),
+          path.resolve(root, conf.src)
+        ];
       }
     } else if (mode === 'production') {
       if (isArray(conf.vendor)) {
         entry.vendor = conf.vendor;
       }
-      const entryPoint = path.basename(conf.dist)
-        .replace(distExtension, '');
 
       entry[entryPoint] = path.resolve(root, conf.src);
       context = path.dirname(entry[entryPoint]);

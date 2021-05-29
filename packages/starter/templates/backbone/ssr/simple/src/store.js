@@ -6,7 +6,7 @@ import { imageReducer, watchFetchImage } from './features/Image';
 import { isDevelopment } from './utils/environments';
 
 const createStore = ({
-  initState = {},
+  initialState,
   history,
   services,
 }) => {
@@ -32,7 +32,7 @@ const createStore = ({
     },
     devTools: isDevelopment(),
     middleware,
-    preloadedState: initState,
+    preloadedState: initialState || {},
   });
 
   function* sagas() {

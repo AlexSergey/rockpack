@@ -223,6 +223,11 @@ function getModules(conf = {}, mode, root) {
       ],
       exclude: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/
     },
+
+    wasm: {
+      test: /\.wasm(\.js)$/,
+      use: require.resolve('wasm-loader')
+    }
   };
 }
 

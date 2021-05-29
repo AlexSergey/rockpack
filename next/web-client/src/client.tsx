@@ -32,7 +32,7 @@ const rest = createRestClient(getToken);
 
 const { store } = createStore({
   logger,
-  initState: window.REDUX_DATA,
+  initialState: window.REDUX_DATA,
   history,
   services: createServices(rest)
 });

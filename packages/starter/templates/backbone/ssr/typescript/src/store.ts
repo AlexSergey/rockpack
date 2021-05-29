@@ -7,7 +7,7 @@ import { isDevelopment } from './utils/environments';
 import { RootState, StoreProps } from './types/store';
 
 const createStore = ({
-  initState = {},
+  initialState,
   history,
   services,
 }: StoreProps): { store: Store<RootState>; rootSaga: Task } => {
@@ -33,7 +33,7 @@ const createStore = ({
     },
     devTools: isDevelopment(),
     middleware,
-    preloadedState: initState,
+    preloadedState: initialState || {},
   });
 
   function* sagas(): Generator<unknown> {

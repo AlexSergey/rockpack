@@ -7,7 +7,8 @@ const makeOutput = (conf = {}, root, mode) => {
     pathinfo: mode === 'development',
     publicPath: '/',
     path: path.dirname(distPath),
-    filename: conf.webview ? 'webview-[name].js' : '[name].js'
+    filename: conf.webview ? 'webview-index.js' : '[name].js',
+    clean: true
   };
 
   if (conf.library) {

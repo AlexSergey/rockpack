@@ -54,7 +54,7 @@ router.get('(.*)', async (ctx) => {
   const rest = createRestClient(getToken);
 
   const { store, rootSaga } = createStore({
-    initState: {
+    initialState: {
       pagination: {
         current: page
       },

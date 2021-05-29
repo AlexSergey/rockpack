@@ -9,6 +9,7 @@ import { RootState, StoreProps } from './types/store';
 const createStore = ({
   history,
   services,
+  initialState,
 }: StoreProps): { store: Store<RootState>; rootSaga: Task } => {
   const sagaMiddleware = createSagaMiddleware({
     context: {
@@ -32,6 +33,7 @@ const createStore = ({
     },
     devTools: isDevelopment(),
     middleware,
+    preloadedState: initialState || {},
   });
 
   function* sagas(): Generator<unknown> {

@@ -19,7 +19,6 @@
   },
   "keywords": [
     "jest",
-    "enzyme",
     "testing-library",
     "react",
     "react-testing"

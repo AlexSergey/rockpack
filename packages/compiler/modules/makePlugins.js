@@ -8,7 +8,6 @@ const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -25,6 +24,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
@@ -93,14 +93,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
       messages: conf.messages
-    },
-    additionalTransformers: [
-      (error) => {
-        // TODO: Fix webpack serve error. Remove it after update webpack-serve-plugin
-        if (error.message === 'DefinePlugin\nConflicting values for \'ʎɐɹɔosǝʌɹǝs\'') return false;
-        return error;
-      }
-    ]
+    }
   });
 
   if (isTypeScript) {
@@ -218,6 +211,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
   }
 
+  if (mode === 'development' && !conf.nodejs) {
+    plugins.ErrorOverlayPlugin = new ErrorOverlayPlugin();
+  }
+
   const eslintRc = pathToEslintrc(root, mode);
 
   if (isString(eslintRc)) {
@@ -277,8 +274,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     ) {
       const defaultFrontServePort = conf.port;
       const frontServePort = await fpPromise(defaultFrontServePort);
-      plugins.WebpackPluginServe = new WebpackPluginServe({
-        hmr: 'refresh-on-failure',
+      const options = {
         historyFallback: true,
         port: frontServePort,
         open: true,
@@ -293,7 +289,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         },
         progress: 'minimal',
         waitForBuild: true
-      });
+      };
+      if (conf.webview) {
+        options.liveReload = true;
+      } else {
+        options.hmr = 'refresh-on-failure';
+      }
+      plugins.WebpackPluginServe = new WebpackPluginServe(options);
     } else if (
       !conf.__library &&
       conf.nodejs &&
@@ -347,8 +349,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
 
     plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
-
-    plugins.CleanWebpackPlugin = new CleanWebpackPlugin();
 
     plugins.ModuleConcatenationPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 

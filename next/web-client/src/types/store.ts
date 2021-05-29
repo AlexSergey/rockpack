@@ -10,7 +10,7 @@ import { CommentsState } from './Comments';
 import { ServicesInterface } from '../services';
 
 export interface StoreProps {
-  initState: {
+  initialState?: {
     [key: string]: unknown;
   };
   logger: LoggerInterface;

@@ -1,16 +1,16 @@
 const makeDevtool = (mode, conf) => {
-  let sourceMap = mode === 'development' ? 'source-map' : false;
+  let sourceMap = mode === 'development' ? 'cheap-module-source-map' : false;
 
   if (mode === 'development' && conf.nodejs) {
     sourceMap = 'source-map';
   }
 
   if (conf.debug) {
-    sourceMap = 'source-map';
+    sourceMap = 'cheap-module-source-map';
   }
 
   if (mode === 'development' && conf.webview) {
-    sourceMap = 'eval';
+    sourceMap = 'cheap-module-source-map';
   }
 
   return sourceMap;

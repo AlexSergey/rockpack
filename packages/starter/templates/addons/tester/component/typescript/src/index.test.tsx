@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import RockpackComponent from './index';
 
-test('Render React Component', () => {
+it('Render React Component', () => {
   const { getByText } = render(
     <RockpackComponent / >,
   );

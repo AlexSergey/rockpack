@@ -1,18 +1,20 @@
+import { renderHook } from '@testing-library/react-hooks';
 import { usePost } from './hooks';
-import { createTestWrapper } from '../../tests/TestWrapper';
+import { createAppWrapper } from '../../tests/createAppWrapper';
 
 test('Render Post from usePost()', async () => {
-  let post;
+  const { result, waitForNextUpdate } = renderHook(() => usePost(13), {
+    wrapper: createAppWrapper(),
+  });
 
-  await createTestWrapper(() => {
-    const [, , data] = usePost(13);
+  try {
+    await waitForNextUpdate();
+  } catch (err) {
+    expect(err.timeout)
+      .toBeTruthy();
+  }
 
-    if (!!data && Object.keys(data).length > 0) {
-      post = data;
-    }
-
-    return null;
-  }, {});
+  const [, , post] = result.current;
 
   expect(post.id)
     .toEqual(13);

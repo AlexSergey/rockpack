@@ -15,7 +15,7 @@ import { StoreProps, RootState } from './types/store';
 import { ServicesInterface } from './services';
 
 export const createStore = ({
-  initState = {},
+  initialState,
   logger,
   history,
   services,
@@ -56,7 +56,7 @@ export const createStore = ({
     },
     devTools: isDevelopment(),
     middleware,
-    preloadedState: initState
+    preloadedState: initialState || {}
   });
 
   function* sagas(): Generator<unknown> {

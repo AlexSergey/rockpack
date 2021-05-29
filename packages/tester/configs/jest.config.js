@@ -30,12 +30,6 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.setup.js'))) {
   setupFilesAfterEnv.push('<rootDir>/jest.setup.ts');
 }
 
-if (existsSync(path.resolve(currentProjectFolder, './enzyme.setup.js'))) {
-  setupFiles.push('<rootDir>/enzyme.setup.js');
-} else if (existsSync(path.resolve(currentProjectFolder, './enzyme.setup.ts'))) {
-  setupFiles.push('<rootDir>/enzyme.setup.ts');
-}
-
 let globalSetup;
 let globalTeardown;
 

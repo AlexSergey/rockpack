@@ -1,18 +1,20 @@
+import { renderHook } from '@testing-library/react-hooks';
 import { useUsers } from './hooks';
-import { createTestWrapper } from '../../tests/TestWrapper';
+import { createAppWrapper } from '../../tests/createAppWrapper';
 
 test('useUsers()', async () => {
-  let users;
+  const { result, waitForNextUpdate } = renderHook(() => useUsers(), {
+    wrapper: createAppWrapper(),
+  });
 
-  await createTestWrapper(() => {
-    const data = useUsers();
+  try {
+    await waitForNextUpdate({ timeout: 100 });
+  } catch (err) {
+    expect(err.timeout)
+      .toBeTruthy();
+  }
 
-    if (Array.isArray(data) && data.length > 0) {
-      users = data;
-    }
-
-    return null;
-  }, {});
+  const users = result.current;
 
   expect(users.length)
     .toEqual(3);

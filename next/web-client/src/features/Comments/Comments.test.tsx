@@ -1,18 +1,20 @@
+import { renderHook } from '@testing-library/react-hooks';
 import { useComments } from './hooks';
-import { createTestWrapper } from '../../tests/TestWrapper';
+import { createAppWrapper } from '../../tests/createAppWrapper';
 
 test('Comments test useComments()', async () => {
-  let comments;
+  const { result, waitForNextUpdate } = renderHook(() => useComments(13), {
+    wrapper: createAppWrapper(),
+  });
 
-  await createTestWrapper(() => {
-    const [, , data] = useComments(13);
+  try {
+    await waitForNextUpdate();
+  } catch (err) {
+    expect(err.timeout)
+      .toBeTruthy();
+  }
 
-    if (Array.isArray(data)) {
-      comments = data;
-    }
-
-    return null;
-  }, {});
+  const [, , comments] = result.current;
 
   expect(comments.length)
     .toEqual(2);

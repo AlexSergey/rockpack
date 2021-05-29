@@ -8,6 +8,7 @@ import { isDevelopment } from './utils/environments';
 const createStore = ({
   history,
   services,
+  initialState,
 }) => {
   const sagaMiddleware = createSagaMiddleware({
     context: {
@@ -31,6 +32,7 @@ const createStore = ({
     },
     devTools: isDevelopment(),
     middleware,
+    preloadedState: initialState || {},
   });
 
   function* sagas() {

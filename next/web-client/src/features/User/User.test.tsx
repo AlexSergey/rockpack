@@ -1,24 +1,38 @@
-import { useEffect } from 'react';
-import { useUserApi } from './hooks';
-import { createTestWrapper } from '../../tests/TestWrapper';
+import React, { createElement, useEffect } from 'react';
+import { render, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import { useUserApi, useUser } from './hooks';
+import { createAppWrapper } from '../../tests/createAppWrapper';
+import { sleep } from '../../tests/helpers';
 
 test('signup', async () => {
-  const { store } = await createTestWrapper(() => {
-    const api = useUserApi();
+  const AppWrapper = createAppWrapper();
 
+  const Inner = (): JSX.Element => {
+    const { signup } = useUserApi();
     useEffect(() => {
-      api.signup({
+      signup({
         email: 'test@user.com',
         password: '1234567'
       });
-      //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+    }, [signup]);
     return null;
-  }, {});
+  };
 
-  const state = store.getState().user;
+  render(createElement(() => (
+    <AppWrapper>
+      <Inner />
+    </AppWrapper>
+  )));
 
-  expect(state.email)
+  await act(sleep(100));
+
+  const { result } = renderHook(() => useUser(), {
+    wrapper: AppWrapper,
+  });
+
+  const { email } = result.current;
+
+  expect(email)
     .toEqual('test@user.com');
 });

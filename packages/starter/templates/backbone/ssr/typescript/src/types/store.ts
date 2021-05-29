@@ -4,7 +4,7 @@ import { ServicesInterface } from '../services';
 import { ImageState } from './Image';
 
 export interface StoreProps {
-  initState: {
+  initialState?: {
     [key: string]: unknown;
   };
   history: History;
