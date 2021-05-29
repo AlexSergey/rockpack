@@ -24,7 +24,7 @@ const history = createBrowserHistory();
 const SSR = createSsr();
 
 const { store } = createStore({
-  initState: window.REDUX_DATA,
+  initialState: window.REDUX_DATA,
   history,
   services: createServices(fetch),
 });

@@ -13,12 +13,13 @@ import { RootState } from '../types/store';
 export const createAppWrapper = ({
   url = '/',
   store,
+  initialState,
 }: {
   url?: string,
   store?: Store<RootState>,
   initialState?: { [key: string]: unknown }
 } = {}):
-({ children }: { children: ReactNode }) => JSX.Element => {
+  ({ children }: { children: ReactNode }) => JSX.Element => {
   const history = createMemoryHistory({
     initialEntries: [{
       pathname: url,

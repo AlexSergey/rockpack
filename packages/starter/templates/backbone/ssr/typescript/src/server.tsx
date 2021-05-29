@@ -32,7 +32,7 @@ app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
   const { store, rootSaga } = createStore({
-    initState: {},
+    initialState: {},
     history: createMemoryHistory(),
     services: createServices(fetch),
   });

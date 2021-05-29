@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tester",
-  "version": "2.0.0-rc.15",
+  "version": "2.0.0-rc.16",
   "description": "Small wrapper for Jest and testing best practice.",
   "main": "dist/index.js",
   "scripts": {
@@ -25,14 +25,14 @@
   ],
   "private": false,
   "dependencies": {
-    "@rockpack/babel": "2.0.0-rc.15",
+    "@rockpack/babel": "2.0.0-rc.16",
     "@testing-library/jest-dom": "5.12.0",
     "babel-jest": "26.6.3",
     "deep-extend": "0.6.0",
     "expect-more-jest": "5.2.2",
     "identity-obj-proxy": "3.0.0",
     "isomorphic-fetch": "3.0.0",
-    "jest": "26.6.3",
+    "jest": "27.0.2",
     "jest-chain": "1.1.5",
     "jest-extended": "0.11.5",
     "jest-generator": "1.0.7",
@@ -42,7 +42,7 @@
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.15",
+    "@rockpack/codestyle": "2.0.0-rc.16",
     "@types/jest": "26.0.22",
     "@types/node": "14.14.37"
   }

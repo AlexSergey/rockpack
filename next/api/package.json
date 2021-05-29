@@ -54,9 +54,9 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.15",
-    "@rockpack/compiler": "2.0.0-rc.15",
-    "@rockpack/tester": "2.0.0-rc.15",
+    "@rockpack/codestyle": "2.0.0-rc.16",
+    "@rockpack/compiler": "2.0.0-rc.16",
+    "@rockpack/tester": "2.0.0-rc.16",
     "@types/dotenv-safe": "8.1.1",
     "@types/jsonwebtoken": "8.5.0",
     "@types/koa": "2.11.7",

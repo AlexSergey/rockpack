@@ -31,12 +31,12 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'redux', version: '4' },
           { name: 'redux-saga', version: '1' },
           { name: '@redux-saga/core', version: '1' },
-          { name: 'history', version: '4' },
+          { name: 'history', version: '5' },
           { name: '@reduxjs/toolkit', version: '1' },
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.15' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.16' }
         ]
       });
 
@@ -71,7 +71,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'redux-saga', version: '1' },
           { name: '@redux-saga/core', version: '1' },
           { name: 'react-helmet-async', version: '1' },
-          { name: 'history', version: '4' },
+          { name: 'history', version: '5' },
           { name: '@issr/core', version: '1.1.0' },
           { name: 'node-fetch', version: '2' },
           { name: '@reduxjs/toolkit', version: '1' },
@@ -83,7 +83,7 @@ const packageJSONPreparing = async (packageJSON, {
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '1.1.0' },
-          { name: '@rockpack/compiler', version: '2.0.0-rc.15' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.16' }
         ]
       });
 
@@ -128,7 +128,7 @@ const packageJSONPreparing = async (packageJSON, {
 
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.15' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.16' }
         ]
       });
 
@@ -152,7 +152,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.15' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.16' }
         ]
       });
 
@@ -161,7 +161,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '2.0.0-rc.15' }
+            { name: '@rockpack/compiler', version: '2.0.0-rc.16' }
           ]
         });
       }
@@ -215,7 +215,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '2.0.0-rc.15' }
+        { name: '@rockpack/codestyle', version: '2.0.0-rc.16' }
       ]
     });
   }
@@ -228,7 +228,7 @@ const packageJSONPreparing = async (packageJSON, {
 
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '2.0.0-rc.15' }
+        { name: '@rockpack/tester', version: '2.0.0-rc.16' }
       ]
     });
 
