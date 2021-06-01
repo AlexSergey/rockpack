@@ -10,12 +10,12 @@ const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: `• ${chalk.bold('React SPA')}: Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA')}: Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'csr',
         checked: false
       },
       {
-        name: `• ${chalk.bold('React SPA + SSR')}: SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA + SSR')}: SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'ssr',
         checked: false
       },

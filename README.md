@@ -61,20 +61,20 @@ this is **create-react-app** on steroids.
 
 Supports the following types of applications:
 
-- **React SPA** - Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc.
+- **React SPA** - Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
     - React-Router
     - Redux
     - Redux Toolkit
-    - Redux-Saga
+    - Redux-Thunk
     - React-Helmet
     - @loadable/components is being used for split your code into SSR application
-- **React SPA + SSR** - SSR, SEO, Redux, Sagas, React-Router, CSS Modules, @loadable, project structure etc.
+- **React SPA + SSR** - SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
     - Koa is being used for the server
     - iSSR is being used for effect handling in the server side
     - React-Router
     - Redux
     - Redux Toolkit
-    - Redux-Saga
+    - Redux-Thunk
     - React-Helmet-Async
     - @loadable/components is being used for split your code into SSR application
 - **React Component** - Configured webpack to create React component (for NPM publishing).

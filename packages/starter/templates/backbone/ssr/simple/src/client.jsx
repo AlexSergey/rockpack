@@ -5,7 +5,7 @@ import createSsr from '@issr/core';
 import { createBrowserHistory } from 'history';
 import { loadableReady } from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
@@ -14,7 +14,7 @@ const history = createBrowserHistory();
 
 const SSR = createSsr();
 
-const { store } = createStore({
+const store = createStore({
   initialState: window.REDUX_DATA,
   history,
   services: createServices(fetch),
@@ -25,9 +25,9 @@ loadableReady(() => {
     <SSR>
       <Provider store={store}>
         <HelmetProvider>
-          <ConnectedRouter history={history}>
+          <Router history={history}>
             <App />
-          </ConnectedRouter>
+          </Router>
         </HelmetProvider>
       </Provider>
     </SSR>,

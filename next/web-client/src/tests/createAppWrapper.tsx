@@ -4,7 +4,7 @@ import { Store } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import createSsr from '@issr/core';
 import { createMemoryHistory } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import { LocalizationContainer } from '../features/Localization';
 import { createStore } from '../store';
 import { createMockServices } from './mockServices';
@@ -38,11 +38,11 @@ export const createAppWrapper = ({
   return ({ children }): JSX.Element => (
     <SSR>
       <Provider store={mockedStore}>
-        <ConnectedRouter history={history}>
+        <Router history={history}>
           <LocalizationContainer>
             {children}
           </LocalizationContainer>
-        </ConnectedRouter>
+        </Router>
       </Provider>
     </SSR>
   );

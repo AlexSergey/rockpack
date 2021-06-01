@@ -1,23 +1,23 @@
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
 
 const history = createBrowserHistory();
 
-const { store } = createStore({
+const store = createStore({
   history,
   services: createServices(fetch),
 });
 
 render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <App />
-    </ConnectedRouter>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );

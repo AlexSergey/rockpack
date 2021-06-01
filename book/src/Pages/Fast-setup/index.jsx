@@ -15,7 +15,7 @@ const Page = () => (
     <ul>
       <li>Simple Single Page application</li>
       <li>Server-Side Render</li>
-      <li>Server-Side Render + Redux + Sagas + React-Router + project structure</li>
+      <li>Server-Side Render + Redux + Thunk + React-Router + project structure</li>
       <li>UMD library or React Component</li>
     </ul>
 

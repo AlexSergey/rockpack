@@ -1,6 +1,5 @@
 import { LoggerInterface } from 'logrock';
 import { History } from 'history';
-import { RouterState } from 'connected-react-router';
 import { Localization } from './Localization';
 import { PostsState } from './Posts';
 import { PostState } from './Post';
@@ -20,7 +19,6 @@ export interface StoreProps {
 }
 
 export interface RootState {
-  router: RouterState;
   user: User;
   localization: Localization;
   posts: PostsState;

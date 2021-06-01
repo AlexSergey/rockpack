@@ -3,7 +3,6 @@ import createSagaMiddleware, { Task } from 'redux-saga';
 import { fork } from 'redux-saga/effects';
 import { createLogger } from 'redux-logger';
 import { isBackend } from '@issr/core';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { isDevelopment } from './utils/environments';
 import { localizationSaga, localizationReducer as localization } from './features/Localization';
 import { authorizationSaga, signInSaga, signUpSaga, signOutSaga, userReducer as user } from './features/User';
@@ -37,7 +36,6 @@ export const createStore = ({
   });
 
   middleware.push(sagaMiddleware);
-  middleware.push(routerMiddleware(history));
 
   if (isDevelopment() && !isBackend() && !testMode) {
     middleware.push(reduxLogger);
@@ -45,7 +43,6 @@ export const createStore = ({
 
   const store = configureStore({
     reducer: {
-      router: connectRouter(history),
       localization,
       user,
       posts,

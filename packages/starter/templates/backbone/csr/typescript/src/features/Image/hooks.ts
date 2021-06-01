@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchImage } from './actions';
+import { fetchImage } from './thunk';
 import { ImageState } from '../../types/Image';
 
 // eslint-disable-next-line import/prefer-default-export

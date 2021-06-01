@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { LoggerInterface } from 'logrock';
-import { push } from 'connected-react-router';
+//import { push } from 'connected-react-router';
 import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects';
 import { fetchPosts, requestPosts, requestPostsError, requestPostsSuccess, createPost, deletePost, postDeleted, paginationSetCount, paginationSetCurrent, settingPage } from './actions';
 import { increasePost, decreasePost, decreaseComment } from '../User';
@@ -23,7 +23,8 @@ function* setPageHandler(logger: LoggerInterface, { payload: { currentLanguage, 
 ReturnType<typeof settingPage>) {
   try {
     yield put(paginationSetCurrent(page));
-    yield put(push(`/${currentLanguage}/?page=${page}`));
+    // TODO: replace connect-react-router to history redirect
+    //yield put(push(`/${currentLanguage}/?page=${page}`));
   } catch (error) {
     logger.error(error, false);
   }

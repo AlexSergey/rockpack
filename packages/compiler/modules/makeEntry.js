@@ -36,6 +36,10 @@ const makeEntry = (conf, root, mode) => {
         conf.nodejs
       ) {
         entry[entryPoint] = path.resolve(root, conf.src);
+      } else if (conf.webview) {
+        entry = [
+          path.resolve(root, conf.src)
+        ];
       } else {
         entry = [
           require.resolve('webpack-plugin-serve/client'),

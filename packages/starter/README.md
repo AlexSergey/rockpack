@@ -8,18 +8,24 @@
 
 **@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
 
-- **React CSR** - React Client Side Render. Application skeleton in **create-react-app** style.
-- **React SSR Light Pack** - React Server Side Render. Customized application for Server Side Render.
-    - Koa is being used for the server
-    - @loadable/components
-- **React SSR Full Pack** - React Server Side Render. Application skeleton using best practices for project structure and a set of libraries
-    - Koa is being used for the server
+- **React SPA** - Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
     - React-Router
     - Redux
-    - Redux-Saga
+    - Redux Toolkit
+    - Redux-Thunk
+    - React-Helmet
+    - @loadable/components is being used for split your code into SSR application
+- **React SPA + SSR** - SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
+    - Koa is being used for the server
+    - iSSR is being used for effect handling in the server side
+    - React-Router
+    - Redux
+    - Redux Toolkit
+    - Redux-Thunk
     - React-Helmet-Async
-    - @loadable/components
-- **Library** - Configured webpack to create UMD library, both React Component and Vanilla JS
+    - @loadable/components is being used for split your code into SSR application
+- **React Component** - Configured webpack to create React component (for NPM publishing).
+- **UMD Library** - Configured webpack to create UMD library (vanilla JS, for NPM publishing).
 
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)

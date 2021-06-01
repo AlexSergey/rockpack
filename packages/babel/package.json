@@ -1,8 +1,8 @@
 {
   "name": "@rockpack/babel",
-  "version": "2.0.0-rc.16",
+  "version": "2.0.0-rc.17",
   "description": "Babel presets module for Rockpack",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
     "production": "npm run lint && npm publish --access public"
@@ -52,6 +52,6 @@
     "valid-types": "2.0.5"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.16"
+    "@rockpack/codestyle": "2.0.0-rc.17"
   }
 }

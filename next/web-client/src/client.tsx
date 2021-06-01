@@ -5,7 +5,7 @@ import { hydrate } from 'react-dom';
 import logger from 'logrock';
 import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { LocalizationContainer } from './features/Localization';
@@ -41,11 +41,11 @@ loadableReady(() => {
   hydrate(
     <SSR>
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <Router history={history}>
           <LocalizationContainer>
             <App />
           </LocalizationContainer>
-        </ConnectedRouter>
+        </Router>
       </Provider>
     </SSR>,
     document.getElementById('root')

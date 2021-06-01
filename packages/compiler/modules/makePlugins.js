@@ -24,7 +24,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const fpPromise = require('../utils/findFreePort');
 const pathToEslintrc = require('../utils/pathToEslintrc');
 const Collection = require('../utils/Collection');
@@ -209,10 +208,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
       plugins[q] = new HtmlWebpackPlugin(page);
     });
-  }
-
-  if (mode === 'development' && !conf.nodejs) {
-    plugins.ErrorOverlayPlugin = new ErrorOverlayPlugin();
   }
 
   const eslintRc = pathToEslintrc(root, mode);

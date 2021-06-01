@@ -1,6 +1,6 @@
 import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchImage } from './actions';
+import { fetchImage } from './thunk';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useImage = () => {

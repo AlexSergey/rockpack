@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/book",
-  "version": "2.0.0-rc.16",
+  "version": "2.0.0-rc.17",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -34,12 +34,12 @@
     "scroll-to-element": "2.0.3",
     "unified-ui": "0.0.3",
     "url-join": "4.0.1",
-    "url-parse": "1.4.7",
+    "url-parse": "1.5.1",
     "valid-types": "2.0.3",
     "react-share": "4.3.1"
   },
   "devDependencies": {
-    "@rockpack/compiler": "2.0.0-rc.16",
+    "@rockpack/compiler": "2.0.0-rc.17",
     "@localazer/webpack-plugin": "3.1.0",
     "@localazer/po2json": "3.1.0",
     "@types/history": "4.7.3",

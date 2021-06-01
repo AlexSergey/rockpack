@@ -5,6 +5,7 @@ const latestVersion = require('latest-version');
 const merge = require('merge-package-json');
 const sortPackageJson = require('sort-package-json');
 const {
+  isNpm7,
   getPM
 } = require('../utils/other');
 
@@ -93,7 +94,7 @@ const createPackageJSON = (cwd) => {
 
 const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install --silent`, {
+    childProcess.exec(`${getPM()} install --silent ${isNpm7() ? '--legacy-peer-deps' : ''}`, {
       cwd
     }, (err) => {
       if (err) {
@@ -106,7 +107,7 @@ const installDependencies = (cwd) => {
 
 const installDependency = (cwd, dependency) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install ${dependency} --silent`, {
+    childProcess.exec(`${getPM()} install ${dependency} --silent ${isNpm7() ? '--legacy-peer-deps' : ''}`, {
       cwd
     }, (err) => {
       if (err) {

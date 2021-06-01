@@ -29,8 +29,18 @@ const getPM = () => {
   return 'npm';
 }
 
+const getMajorVersion = (version) => Number(version.split('.')[0]);
+
+const isNpm7 = () => {
+  const pm = getPM();
+  const pmVersion = getMajorVersion(getPMVersion());
+
+  return pm === 'npm' && pmVersion === 7;
+}
+
 module.exports = {
   yarnIsAvailable,
   getPMVersion,
-  getPM
+  getPM,
+  isNpm7
 }

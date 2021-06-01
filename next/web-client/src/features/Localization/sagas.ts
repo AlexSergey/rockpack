@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type  */
 import { LoggerInterface } from 'logrock';
-import { push } from 'connected-react-router';
 import { call, getContext, put, takeEvery } from 'redux-saga/effects';
 import { getDefaultLocale, LocaleData } from '@localazer/component';
 import { fetchLocalization, setLocale } from './actions';
@@ -23,7 +22,8 @@ ReturnType<typeof fetchLocalization>) {
         locale: getDefaultLocale(getDefaultLanguage()),
         language: getDefaultLanguage()
       }));
-      yield put(push(`/${language}`));
+      // TODO: replace connect-react-router to history redirect
+      //yield put(push(`/${language}`));
       return;
     }
 
@@ -34,7 +34,8 @@ ReturnType<typeof fetchLocalization>) {
       locale,
       language
     }));
-    yield put(push(`/${language}`));
+    // TODO: replace connect-react-router to history redirect
+    //yield put(push(`/${language}`));
   } catch (error) {
     logger.error('This is error', true);
   }

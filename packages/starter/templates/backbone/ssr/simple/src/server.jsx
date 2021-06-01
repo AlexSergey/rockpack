@@ -3,7 +3,6 @@ import path from 'path';
 import serve from 'koa-static';
 import fetch from 'node-fetch';
 import Router from '@koa/router';
-import { END } from 'redux-saga';
 import { readFileSync } from 'fs';
 import PrettyError from 'pretty-error';
 import { Provider } from 'react-redux';
@@ -30,7 +29,7 @@ const stats = JSON.parse(
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
-  const { store, rootSaga } = createStore({
+  const store = createStore({
     initialState: {},
     history: createMemoryHistory(),
     services: createServices(fetch),
@@ -53,10 +52,7 @@ router.get('/*', async (ctx) => {
         </HelmetProvider>
       </Provider>,
     )
-  ), async () => {
-    store.dispatch(END);
-    await rootSaga.toPromise();
-  });
+  ));
 
   const { helmet } = helmetContext;
 

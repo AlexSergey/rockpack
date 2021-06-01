@@ -1,4 +1,3 @@
-import watchFetchImage from './sagas';
 import imageReducer from './reducer';
 import imageService from './service';
 
@@ -7,7 +6,6 @@ export * from './hooks';
 export * from './components/ImageArea';
 
 export {
-  watchFetchImage,
   imageReducer,
   imageService,
 };

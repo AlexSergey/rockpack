@@ -1,43 +1,37 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ReactNode } from 'react';
-import { Store } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import createStore from '../store';
 import createMockServices from './mockServices';
-import { RootState } from '../types/store';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createAppWrapper = ({
   url = '/',
-  store,
   initialState,
 }: {
   url?: string,
-  store?: Store<RootState>,
   initialState?: { [key: string]: unknown }
 } = {}):
   ({ children }: { children: ReactNode }) => JSX.Element => {
   const history = createMemoryHistory({
-    initialEntries: [{
-      pathname: url,
-      key: 'test_key',
-    }],
+    initialEntries: [url],
+    keyLength: 0,
   });
 
-  const mockedStore = store || createStore({
+  const store = createStore({
     initialState,
     history,
     services: createMockServices(),
-  }).store;
+  });
 
   // eslint-disable-next-line react/display-name,react/prop-types
   return ({ children }): JSX.Element => (
-    <Provider store={mockedStore}>
-      <ConnectedRouter history={history}>
+    <Provider store={store}>
+      <Router history={history}>
         {children}
-      </ConnectedRouter>
+      </Router>
     </Provider>
   );
 };

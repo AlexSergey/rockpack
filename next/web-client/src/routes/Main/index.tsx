@@ -4,7 +4,7 @@ import { Content } from './Content';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
-export const Index = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => (
+export const Main = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => (
   <>
     <Layout className="main-content-layout">
       <Header />

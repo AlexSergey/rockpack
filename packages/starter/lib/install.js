@@ -17,7 +17,8 @@ const {
   installPeerDependencies
 } = require('../utils/project');
 const {
-  getPM
+  getPM,
+  isNpm7
 } = require('../utils/other');
 
 const timeouts = {
@@ -191,7 +192,9 @@ const install = async ({
       await installDependencies(examplePath);
 
       if (state.appType === 'component' && packageJSON.peerDependencies) {
-        await installPeerDependencies(packageJSON, currentPath);
+        if (!isNpm7()) {
+          await installPeerDependencies(packageJSON, currentPath);
+        }
       }
     }
   } catch (e) {
@@ -230,12 +233,6 @@ const install = async ({
     console.log(chalk.magenta('  Testing project:'));
     console.log(`${chalk.blue(`${getPM()} test`)} - run tests`);
     console.log(`${chalk.blue(`${getPM()} run test:watch`)} - run tests in dev mode`);
-  }
-
-  if (state.typescript) {
-    console.log();
-    console.log(chalk.magenta('  Typescript checking:'));
-    console.log(`${chalk.blue(`${getPM()} run typing`)} - check types`);
   }
 
   if (state.codestyle) {
