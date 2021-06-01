@@ -16,7 +16,7 @@ import { ServicesInterface } from './services';
 export const createStore = ({
   initialState,
   logger,
-  history,
+  //history,
   services,
   testMode }: StoreProps): { store: Store<RootState>; rootSaga: Task } => {
   const reduxLogger = createLogger({

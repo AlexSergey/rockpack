@@ -19,7 +19,7 @@ function* fetchPostsHandler(logger: LoggerInterface, { payload: { page } }: Retu
   }
 }
 
-function* setPageHandler(logger: LoggerInterface, { payload: { currentLanguage, page } }:
+function* setPageHandler(logger: LoggerInterface, { payload: { /*currentLanguage,*/ page } }:
 ReturnType<typeof settingPage>) {
   try {
     yield put(paginationSetCurrent(page));
