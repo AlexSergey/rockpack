@@ -13,7 +13,6 @@ import { getDefaultLocale } from '@localazer/component';
 import { StaticRouter } from 'react-router';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
-import { END } from 'redux-saga';
 import { Provider } from 'react-redux';
 import { serverRender } from '@issr/core';
 import { ChunkExtractor } from '@loadable/server';
@@ -53,7 +52,7 @@ router.get('(.*)', async (ctx) => {
 
   const rest = createRestClient(getToken);
 
-  const { store, rootSaga } = createStore({
+  const store = createStore({
     initialState: {
       pagination: {
         current: page
@@ -94,10 +93,7 @@ router.get('(.*)', async (ctx) => {
         </MetaTagsContext>
       </Provider>
     )
-  ), async () => {
-    store.dispatch(END);
-    await rootSaga.toPromise();
-  });
+  ));
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();

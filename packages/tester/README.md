@@ -51,17 +51,6 @@ or DEV mode
 node tests.js --watch
 ```
 
-To set the settings for enzyme, you need to create a file **enzyme.setup.js** with the code in the root of the project:
-
-```js
-const enzyme = require('enzyme');
-const Adapter = require('enzyme-adapter-react-16');
-
-enzyme.configure({
-  adapter: new Adapter()
-});
-```
-
 **Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
 ## The MIT License

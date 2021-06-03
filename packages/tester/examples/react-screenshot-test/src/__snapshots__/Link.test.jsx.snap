@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Link should render correctly 1`] = `
-<a
-  href="mockUrl"
->
-  mockTitle
-</a>
-`;

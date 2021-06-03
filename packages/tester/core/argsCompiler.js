@@ -27,8 +27,6 @@ module.exports = function argsCompilers(opts = {}, mode) {
     argv.push('--watchAll');
     argv.push('--runInBand');
     argv.push('--no-cache');
-  } else if (mode === 'run') {
-    argv.push('--forceExit');
   }
 
   if (Array.isArray(extraArgs) && extraArgs.length > 0) {

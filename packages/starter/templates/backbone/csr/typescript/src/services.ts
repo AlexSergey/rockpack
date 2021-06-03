@@ -1,4 +1,4 @@
-import { imageService, ImageServiceInterface } from './features/Image';
+import imageService, { ImageServiceInterface } from './features/Image/service';
 
 export interface ServicesInterface {
   image: ImageServiceInterface;

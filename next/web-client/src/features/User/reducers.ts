@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setUser, clearUserState, increaseComment, decreaseComment, increasePost, decreasePost } from './actions';
+import { setUser, clearUserState } from './actions';
+import { increaseComment, decreaseComment, increasePost, decreasePost } from '../__shared/actions';
 import { User, Roles } from '../../types/User';
 
 export const userReducer = createReducer<User>({

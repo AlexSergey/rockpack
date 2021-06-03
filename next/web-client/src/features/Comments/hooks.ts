@@ -1,6 +1,6 @@
 import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchComments, createComment, deleteComment } from './actions';
+import { fetchComments, createComment, deleteComment } from './thunks';
 import { CommentsState, Comment } from '../../types/Comments';
 import { User } from '../../types/User';
 
@@ -8,7 +8,7 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
   const dispatch = useDispatch();
   const { data, error, loading } = useSelector<{ comments: CommentsState }, CommentsState>(state => state.comments);
 
-  useSsrEffect(() => dispatch(fetchComments({ postId })));
+  useSsrEffect(() => dispatch(fetchComments(postId)));
 
   return [loading, error, data];
 };

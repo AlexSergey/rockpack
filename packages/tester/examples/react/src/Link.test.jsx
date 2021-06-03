@@ -1,14 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
+import renderer, { act } from 'react-test-renderer';
 import Link from './Link';
 
 describe('Link', () => {
   test('should render correctly', () => {
-    const output = shallow(
-      <Link title="mockTitle" url="mockUrl" />
-    );
-    expect(shallowToJson(output))
+    const tree = renderer
+      .create(
+        <Link title="mockTitle" url="mockUrl" />
+      ).toJSON();
+
+    expect(tree)
       .toMatchSnapshot();
   });
 });

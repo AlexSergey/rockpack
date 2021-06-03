@@ -2,7 +2,7 @@
   "name": "@rockpack/codestyle",
   "version": "2.0.0-rc.17",
   "description": "The best practice for ESLint and TSLint",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
     "lint": "cross-env NODE_ENV=production eslint \"**\"",
     "test": "node tests.js",

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useSsrEffect } from '@issr/core';
-import { signin, signup, signout, authorization } from './actions';
+import { signIn, signOut, signUp, authorization } from './thunks';
 import { User, UserStatistic, Roles } from '../../types/User';
 import { RootState } from '../../types/store';
 
@@ -38,13 +38,13 @@ export const useUserApi = (): {
 
   return {
     signin: (user): void => {
-      dispatch(signin(user));
+      dispatch(signIn(user));
     },
     signup: (user): void => {
-      dispatch(signup(user));
+      dispatch(signUp(user));
     },
     signout: (): void => {
-      dispatch(signout());
+      dispatch(signOut());
     }
   };
 };

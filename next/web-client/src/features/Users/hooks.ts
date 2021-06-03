@@ -1,6 +1,6 @@
 import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers, deleteUser } from './actions';
+import { fetchUsers, deleteUser } from './thunks';
 import { User } from '../../types/User';
 
 export const useUsers = (): User[] => {
@@ -20,7 +20,7 @@ export const useUsersApi = (): UseUserApiInterface => {
   const dispatch = useDispatch();
   return {
     deleteUser: (id: number): void => {
-      dispatch(deleteUser({ id }));
+      dispatch(deleteUser(id));
     }
   };
 };

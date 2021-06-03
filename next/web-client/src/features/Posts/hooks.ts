@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts, createPost, deletePost, settingPage } from './actions';
+import { fetchPosts, setPage, createPost, deletePost } from './thunks';
 import { PostsState, Post } from '../../types/Posts';
-import { Languages } from '../../types/Localization';
 
 export const usePagination = (): { current: number; count: number } => {
   const { count, current } = useSelector<{ pagination: { current: number; count: number } },
@@ -16,17 +15,19 @@ export const usePagination = (): { current: number; count: number } => {
 };
 
 export const usePosts = (): [boolean, boolean, Post[]] => {
+  const init = useRef(true);
   const dispatch = useDispatch();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
 
-  useSsrEffect(() => dispatch(fetchPosts({ page: current })));
+  useSsrEffect(() => dispatch(fetchPosts(current)));
 
   // Pagination changed
   useEffect(() => {
-    if (current > 1) {
-      dispatch(fetchPosts({ page: current }));
+    if (!init.current) {
+      dispatch(fetchPosts(current));
     }
+    init.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
@@ -34,13 +35,13 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
 };
 
 export const usePaginationApi = (): {
-  setCurrent: (currentLanguage: Languages, page: number) => void;
+  setCurrent: (page: number) => void;
 } => {
   const dispatch = useDispatch();
 
   return {
-    setCurrent: (currentLanguage, page) => {
-      dispatch(settingPage({ currentLanguage, page }));
+    setCurrent: (page) => {
+      dispatch(setPage(page));
     }
   };
 };

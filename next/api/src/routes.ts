@@ -25,7 +25,7 @@ export const routes = (app: Application): void => {
   router.get('/v1/users/signout', userController.signout);
   router.get('/v1/users/authorization', protectedRoute, userController.authorization);
   router.delete('/v1/users/:id', protectedRoute, accessRoute(config.roles.admin), userController.delete);
-  router.get('/v1/users/', protectedRoute, accessRoute(config.roles.admin), userController.userList);
+  router.get('/v1/users', protectedRoute, accessRoute(config.roles.admin), userController.userList);
 
   router.get('/v1/posts', postController.fetch);
   router.get('/v1/posts/:id', postController.details);

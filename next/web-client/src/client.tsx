@@ -30,7 +30,7 @@ const getToken = (): string | undefined => Cookies.get('token');
 
 const rest = createRestClient(getToken);
 
-const { store } = createStore({
+const store = createStore({
   logger,
   initialState: window.REDUX_DATA,
   history,

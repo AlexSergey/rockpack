@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { LocalizationObserver } from '@localazer/component';
-import { fetchLocalization } from './actions';
+import { fetchLocalization } from './thunks';
 import { Localization, Languages } from '../../types/Localization';
 import { RootState } from '../../types/store';
 import { getDefaultLanguage } from './utils';
