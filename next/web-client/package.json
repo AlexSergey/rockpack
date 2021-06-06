@@ -2,9 +2,9 @@
   "name": "react-starter",
   "version": "1.0.0",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node scripts.build",
-    "build": "cross-env NODE_ENV=production node scripts.build",
-    "analyzer": "cross-env NODE_ENV=development node scripts.build --analyzer",
+    "start": "node scripts.build",
+    "build": "node scripts.build --mode=production",
+    "analyzer": "node scripts.build --analyzer",
     "localization:makePot": "cross-env NODE_ENV=production node scripts.makePot",
     "localization:po2json": "node scripts.po2json",
     "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",

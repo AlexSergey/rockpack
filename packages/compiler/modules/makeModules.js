@@ -75,7 +75,6 @@ function getModules(conf = {}, mode, root) {
         loader: require.resolve('babel-loader'),
         options: createBabelPresets({
           isNodejs: !!conf.nodejs,
-          framework: false,
           isomorphic: true,
           typescript: true
         })

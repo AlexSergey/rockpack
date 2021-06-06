@@ -1,12 +1,15 @@
 import { PostRepositoryInterface } from './interface';
 import { PostRepositoryDIType } from './di.type';
 import { container } from '../../container';
+import { PostModel } from '../../models/Post';
 
 let postRepository;
 
 beforeAll(() => {
   postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
 });
+
+afterAll(() => PostModel.sequelize.close());
 
 describe('PostRepository tests', () => {
   test('Fetching posts with offset 0 and limit 10', async () => {

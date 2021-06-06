@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node build",
-    "build": "cross-env NODE_ENV=production node build",
+    "start": "node build",
+    "build": "node build --mode=production",
     "makePot": "node makePot",
     "po2json": "node po2json",
-    "typing": "cross-env NODE_ENV=production tsc -p . --noEmit",
     "lint": "cross-env NODE_ENV=production eslint \"**\""
   },
   "keywords": [],

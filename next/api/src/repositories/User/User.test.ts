@@ -1,12 +1,14 @@
 import { UserRepositoryInterface } from './interface';
 import { UserRepositoryDIType } from './di.type';
 import { container } from '../../container';
+import { UserModel } from '../../models/User';
 
 let userRepository;
 
 beforeAll(() => {
   userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
 });
+afterAll(() => UserModel.sequelize.close());
 
 describe('UserRepository tests', () => {
   test('Test method getUserByEmail', async () => {

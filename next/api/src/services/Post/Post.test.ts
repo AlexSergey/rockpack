@@ -5,8 +5,8 @@ import { PostServiceDIType } from './di.type';
 import { PostServiceInterface } from './interface';
 import { UserServiceDIType, UserServiceInterface } from '../User';
 import { container } from '../../container';
-import { PostInterface } from '../../models/Post';
-import { UserInterface } from '../../models/User';
+import { PostInterface, PostModel } from '../../models/Post';
+import { UserInterface, UserModel } from '../../models/User';
 import { config } from '../../config';
 
 interface UserFull extends UserInterface {
@@ -50,6 +50,8 @@ afterAll(async () => {
   await newuser.destroy({
     individualHooks: true
   });
+  PostModel.sequelize.close();
+  UserModel.sequelize.close();
 });
 
 describe('PostService tests', () => {

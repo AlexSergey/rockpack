@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const { isUndefined } = require('valid-types');
+const { setMode } = require('../utils/setMode');
 const createSSRObserver = require('../plugins/SSRDevelopment');
 const errors = require('../errors/isomorphicCompiler');
 const getMode = require('../utils/getMode');
@@ -7,11 +8,10 @@ const errorHandler = require('../errorHandler');
 const _run = require('../core/_run');
 
 async function isomorphicCompiler(...props) {
+  setMode();
   errorHandler();
   createSSRObserver();
   const mode = getMode();
-  process.env.NODE_ENV = mode;
-  process.env.BABEL_ENV = mode;
   global.ISOMORPHIC = true;
   global.CONFIG_ONLY = true;
 

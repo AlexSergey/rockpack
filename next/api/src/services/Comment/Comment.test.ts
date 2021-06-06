@@ -5,6 +5,9 @@ import { CommentServiceDIType } from './di.type';
 import { CommentServiceInterface } from './interface';
 import { UserServiceDIType, UserServiceInterface } from '../User';
 import { PostServiceDIType, PostServiceInterface } from '../Post';
+import { PostModel } from '../../models/Post';
+import { UserModel } from '../../models/User';
+import { CommentModel } from '../../models/Comment';
 import { container } from '../../container';
 
 let newuser;
@@ -38,6 +41,9 @@ afterAll(async () => {
   await newuser.destroy({
     individualHooks: true
   });
+  PostModel.sequelize.close();
+  UserModel.sequelize.close();
+  CommentModel.sequelize.close();
 });
 
 describe('CommentService tests', () => {

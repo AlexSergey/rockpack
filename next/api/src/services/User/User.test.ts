@@ -1,16 +1,19 @@
 import { UserServiceDIType } from './di.type';
 import { UserServiceInterface } from './interface';
 import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { UserModel } from '../../models/User';
 import { container } from '../../container';
 
 let newuser;
 let userRepository;
 let userService;
 
-beforeAll(async () => {
+beforeAll(() => {
   userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
   userService = container.get<UserServiceInterface>(UserServiceDIType);
 });
+
+afterAll(() => UserModel.sequelize.close());
 
 describe('UserService tests', () => {
   test('signup', async () => {

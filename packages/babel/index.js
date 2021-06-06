@@ -11,13 +11,12 @@ function getMajorVersion(version) {
 
 const createBabelPresets = ({
   isNodejs = false,
-  framework = false,
+  framework = 'none',
   isomorphic = false,
   modules = false,
   isTest = false,
   typescript = false
 }) => {
-  const isProduction = process.env.NODE_ENV === 'production';
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
   const babelMerge = path.resolve(root, 'rockpack.babel.js');
@@ -115,16 +114,14 @@ const createBabelPresets = ({
       }]
     );
 
-    if (isProduction) {
-      opts.env.production = Object.assign({}, opts.env.production, {
-        plugins: [
-          require.resolve('@babel/plugin-transform-react-constant-elements'),
-          require.resolve('@babel/plugin-transform-react-inline-elements'),
-          require.resolve('babel-plugin-transform-react-pure-class-to-function'),
-          require.resolve('babel-plugin-transform-react-remove-prop-types')
-        ]
-      });
-    }
+    opts.env.production = Object.assign({}, opts.env.production, {
+      plugins: [
+        require.resolve('@babel/plugin-transform-react-constant-elements'),
+        require.resolve('@babel/plugin-transform-react-inline-elements'),
+        require.resolve('babel-plugin-transform-react-pure-class-to-function'),
+        require.resolve('babel-plugin-transform-react-remove-prop-types')
+      ]
+    });
   }
 
   if (isomorphic) {
@@ -152,7 +149,6 @@ const createBabelPresets = ({
           framework,
           isomorphic,
           modules,
-          isProduction,
           isTest,
           typescript
         }, opts, deepmerge);

@@ -8,7 +8,16 @@ function getMajorVersion(version) {
     false;
 }
 
+function getMode() {
+  let mode = process.env.NODE_ENV;
+
+  mode = ['development', 'production'].indexOf(mode) >= 0 ? mode : 'production';
+
+  return mode;
+}
+
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
+  const mode = getMode();
   const { root, packageJson, hasReact } = opts;
   let tsConfig = false;
 
@@ -34,10 +43,10 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
     }
   }
 
-  if (existsSync(path.resolve(root, './tsconfig.development.js')) && process.env.NODE_ENV === 'development') {
+  if (existsSync(path.resolve(root, './tsconfig.development.js')) && mode === 'development') {
     tsConfig = path.resolve(root, './tsconfig.development.js');
   }
-  if (existsSync(path.resolve(root, './tsconfig.production.js')) && process.env.NODE_ENV === 'production') {
+  if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
     tsConfig = path.resolve(root, './tsconfig.production.js');
   }
 
@@ -163,6 +172,7 @@ module.exports = {
   },
 
   rockConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
+    const mode = getMode();
     const root = process.cwd();
     const packageJsonPath = path.resolve(root, 'package.json');
     // eslint-disable-next-line global-require
@@ -186,9 +196,9 @@ module.exports = {
       'no-return-await': 'off',
       'no-await-in-loop': 'off',
       'no-continue': 'off',
-      'no-alert': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-alert': mode === 'production' ? 'error' : 'off',
+      'no-console': mode === 'production' ? 'error' : 'off',
+      'no-debugger': mode === 'production' ? 'error' : 'off',
       'no-loop-func': 'off',
       'spaced-comment': 'off',
       'default-case': 'off',
@@ -229,7 +239,7 @@ module.exports = {
       'no-undef': ['error', {
         typeof: true
       }],
-      'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-unused-vars': mode === 'production' ? 'error' : 'off',
       'babel/no-unused-expressions': 'error',
       'no-unused-expressions': 'off',
       'no-use-before-define': ['error', {
@@ -272,8 +282,8 @@ module.exports = {
           format: ['PascalCase'],
         },
       ],
-      '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      '@typescript-eslint/ban-ts-comment': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      '@typescript-eslint/no-unused-vars': mode === 'production' ? 'error' : 'off',
+      '@typescript-eslint/ban-ts-comment': mode === 'production' ? 'error' : 'off',
       '@typescript-eslint/comma-dangle': 'off',
       quotes: 'off',
       'no-unused-vars': 'off',

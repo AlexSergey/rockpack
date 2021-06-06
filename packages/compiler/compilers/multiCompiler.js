@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const { isNumber } = require('valid-types');
+const { setMode } = require('../utils/setMode');
 const fpPromise = require('../utils/findFreePort');
 const _compile = require('../core/_compile');
 const defaultProps = require('../defaultProps');
@@ -10,10 +11,9 @@ const commonMultiValidator = require('../utils/commonMultiValidators');
 const errorHandler = require('../errorHandler');
 
 async function multiCompiler(...props) {
+  setMode();
   errorHandler();
   const mode = getMode();
-  process.env.NODE_ENV = mode;
-  process.env.BABEL_ENV = mode;
 
   global.CONFIG_ONLY = true;
   global.IGNORE_SERVE = true;
