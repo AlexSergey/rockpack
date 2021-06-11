@@ -37,6 +37,7 @@
     "@statoscope/ui-webpack": "3.5.0",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
+    "arraybuffer-loader": "1.0.8",
     "antd-dayjs-webpack-plugin": "1.0.6",
     "async": "3.2.0",
     "autoprefixer": "10.2.5",

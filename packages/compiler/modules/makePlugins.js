@@ -269,7 +269,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     ) {
       const defaultFrontServePort = conf.port;
       const frontServePort = await fpPromise(defaultFrontServePort);
-      const options = {
+      plugins.WebpackPluginServe = new WebpackPluginServe({
+        liveReload: true,
         historyFallback: true,
         port: frontServePort,
         open: true,
@@ -284,13 +285,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         },
         progress: 'minimal',
         waitForBuild: true
-      };
-      if (conf.webview) {
-        options.liveReload = true;
-      } else {
-        options.hmr = 'refresh-on-failure';
-      }
-      plugins.WebpackPluginServe = new WebpackPluginServe(options);
+      });
     } else if (
       !conf.__library &&
       conf.nodejs &&
