@@ -1,9 +1,10 @@
 const { existsSync } = require('fs');
 const path = require('path');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 const rootFolder = path.resolve(__dirname, '..');
 
-const currentProjectFolder = path.dirname(require.main.filename);
+const currentProjectFolder = getRootRequireDir();
 
 let tsConfig = path.resolve(__dirname, 'tsconfig.json');
 

@@ -1,4 +1,5 @@
 const path = require('path');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 const currentPath = process.cwd();
 
@@ -11,7 +12,7 @@ const folderNames = {
   dummies: 'dummies'
 }
 
-const bin = path.dirname(require.main.filename);
+const bin = getRootRequireDir();
 
 const root = path.resolve(bin, '..');
 

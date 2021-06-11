@@ -11,9 +11,10 @@ const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { capitalize } = require('./other');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 module.exports = async function sourceCompile(conf) {
-  const root = path.dirname(require.main.filename);
+  const root = getRootRequireDir();
   const mode = getMode();
 
   console.log('=========Source compile is starting....=========');

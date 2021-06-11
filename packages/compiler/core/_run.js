@@ -1,9 +1,9 @@
-const path = require('path');
 const { isDefined, isString } = require('valid-types');
 const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
 const generateDts = require('../utils/generateDts');
 const pathToTSConf = require('../utils/pathToTSConf');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
   webpack(webpackConfig, async (err, stats) => {
@@ -20,7 +20,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
         }
 
         if (conf.library) {
-          const root = path.dirname(require.main.filename);
+          const root = getRootRequireDir();
           const tsConfig = pathToTSConf(root, mode, false);
           const isTypeScript = isString(tsConfig);
 

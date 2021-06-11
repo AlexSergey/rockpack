@@ -1,9 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 const { isArray } = require('valid-types');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 module.exports = (options) => {
-  const currentProjectFolder = path.dirname(require.main.filename);
+  const currentProjectFolder = getRootRequireDir();
   let src = isArray(options.src) ? options.src : [options.src];
 
   src = src.filter(s => fs.existsSync(path.resolve(currentProjectFolder, s)));
