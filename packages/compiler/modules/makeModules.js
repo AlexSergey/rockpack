@@ -5,6 +5,11 @@ const createFileLoader = require('../utils/fileLoader');
 
 function getModules(conf = {}, mode, root) {
   const { css, scss, less } = getStylesRules(conf, mode, root);
+  let presetsAdditionalOptions = {};
+  if (conf.babelPresetsAdditionalOptions) {
+    presetsAdditionalOptions = conf.babelPresetsAdditionalOptions;
+  }
+
   const fileLoader = createFileLoader(conf);
 
   return {
@@ -35,7 +40,8 @@ function getModules(conf = {}, mode, root) {
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
-            isomorphic: conf.__isIsomorphic
+            isomorphic: conf.__isIsomorphic,
+            presetsAdditionalOptions
           })
         },
         require.resolve('@mdx-js/loader')
@@ -64,7 +70,8 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
-          typescript: true
+          typescript: true,
+          presetsAdditionalOptions
         })
       },
     },
@@ -76,7 +83,8 @@ function getModules(conf = {}, mode, root) {
         options: createBabelPresets({
           isNodejs: !!conf.nodejs,
           isomorphic: true,
-          typescript: true
+          typescript: true,
+          presetsAdditionalOptions
         })
       }
     },
@@ -130,6 +138,7 @@ function getModules(conf = {}, mode, root) {
             isNodejs: !!conf.nodejs,
             framework: 'react',
             isomorphic: conf.__isIsomorphic,
+            presetsAdditionalOptions
           })
         }
       ]
@@ -143,6 +152,7 @@ function getModules(conf = {}, mode, root) {
           loader: require.resolve('babel-loader'),
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
+            presetsAdditionalOptions
           })
         }
       ]
@@ -195,6 +205,7 @@ function getModules(conf = {}, mode, root) {
           isNodejs: !!conf.nodejs,
           framework: 'react',
           isomorphic: conf.__isIsomorphic,
+          presetsAdditionalOptions
         })
       }, {
         loader: require.resolve('@svgr/webpack')
