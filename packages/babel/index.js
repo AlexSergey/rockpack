@@ -5,7 +5,7 @@ const deepmerge = require('deepmerge');
 const semver = require('semver');
 
 function getMajorVersion(version) {
-  return semver.minSatisfying(version).major;
+  return semver.minVersion(version).major;
 }
 
 const createBabelPresets = ({
