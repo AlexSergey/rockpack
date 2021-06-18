@@ -14,10 +14,11 @@ const makeExternals = require('../modules/makeExternals');
 const makeDevServer = require('../modules/makeDevServer');
 const compileWebpackConfig = require('../utils/compileWebpackConfig');
 const makeOptimization = require('../modules/makeOptimization');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 const _make = async (conf, post) => {
   const mode = getMode();
-  const root = path.dirname(require.main.filename);
+  const root = getRootRequireDir();
 
   const packageJson = existsSync(path.resolve(root, 'package.json')) ?
     // eslint-disable-next-line global-require

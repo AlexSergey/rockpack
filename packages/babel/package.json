@@ -49,7 +49,8 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "babel-plugin-transform-typescript-metadata": "0.3.2",
     "deepmerge": "4.2.2",
-    "valid-types": "2.0.5"
+    "valid-types": "2.0.5",
+    "semver": "^7.3.5"
   },
   "devDependencies": {
     "@rockpack/codestyle": "2.0.0-rc.17"

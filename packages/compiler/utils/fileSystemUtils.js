@@ -2,10 +2,11 @@ const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 const mkdirp = require('mkdirp');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 function getFiles(srcFolder, query = '*', ignore = []) {
   return new Promise((resolve, reject) => {
-    const root = path.dirname(require.main.filename);
+    const root = getRootRequireDir();
 
     glob(`${path.resolve(root, srcFolder)}/**/${query}`, {
       ignore
@@ -25,7 +26,7 @@ function getFiles(srcFolder, query = '*', ignore = []) {
 
 function getTypeScript(srcFolder) {
   return new Promise((resolve, reject) => {
-    const root = path.dirname(require.main.filename);
+    const root = getRootRequireDir();
 
     glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`, (err, files) => {
       if (err) {

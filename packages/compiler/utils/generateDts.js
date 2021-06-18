@@ -10,10 +10,11 @@ const { getFiles, getTypeScript } = require('./fileSystemUtils');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { moduleFormats } = require('../constants');
 const makeResolve = require('../modules/makeResolve');
+const { getRootRequireDir } = require('@rockpack/utils');
 
 module.exports = async function generateDts(conf) {
   const { extensions } = makeResolve();
-  const root = path.dirname(require.main.filename);
+  const root = getRootRequireDir();
   const mode = getMode();
   const tsConfig = pathToTSConf(root, mode, false);
   const isTypeScript = isString(tsConfig);

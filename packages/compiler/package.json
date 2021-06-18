@@ -34,6 +34,7 @@
     "@loadable/webpack-plugin": "5.15.0",
     "@mdx-js/loader": "1.6.22",
     "@rockpack/babel": "2.0.0-rc.17",
+    "@rockpack/utils": "2.0.0-rc.17",
     "@statoscope/ui-webpack": "3.5.0",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",

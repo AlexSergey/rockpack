@@ -2,11 +2,10 @@ const { existsSync } = require('fs');
 const path = require('path');
 const { isString, isObject } = require('valid-types');
 const deepmerge = require('deepmerge');
+const semver = require('semver');
 
 function getMajorVersion(version) {
-  return typeof version === 'string' && version.includes('.') ?
-    version.split('.')[0] :
-    false;
+  return semver.minVersion(version).major;
 }
 
 const createBabelPresets = ({
@@ -15,7 +14,8 @@ const createBabelPresets = ({
   isomorphic = false,
   modules = false,
   isTest = false,
-  typescript = false
+  typescript = false,
+  presetsAdditionalOptions = {}
 }) => {
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
@@ -24,6 +24,15 @@ const createBabelPresets = ({
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
   let reactNewSyntax = false;
+
+  const getPresetAdditionalOptions = presetName => {
+    if (presetsAdditionalOptions[presetName]) return presetsAdditionalOptions[presetName];
+    return {};
+  };
+
+  const getPreset = (presetName, options = {}) => {
+    return [require.resolve(presetName), Object.assign({}, options, getPresetAdditionalOptions(presetName))];
+  };
 
   if (packageJson &&
     isObject(packageJson.dependencies) &&
@@ -42,7 +51,7 @@ const createBabelPresets = ({
   let opts = typescript ? {
     babelrc: false,
     presets: [
-      require.resolve('@babel/preset-typescript')
+      getPreset('@babel/preset-typescript')
     ],
     plugins: [],
     env: {
@@ -51,7 +60,7 @@ const createBabelPresets = ({
   } : {
     babelrc: false,
     presets: [
-      [require.resolve('@babel/preset-env'), Object.assign({
+      getPreset('@babel/preset-env', Object.assign({
         modules,
       }, isNodejs ? {
         targets: {
@@ -66,7 +75,7 @@ const createBabelPresets = ({
       }, isString(corejs) ? {
         corejs,
         useBuiltIns: 'usage'
-      } : {})]
+      } : {}))
     ],
     plugins: [],
     env: {
@@ -75,27 +84,21 @@ const createBabelPresets = ({
   };
 
   opts.plugins = [
-    [
-      require.resolve('@babel/plugin-proposal-pipeline-operator'),
-      { proposal: 'minimal' }
-    ],
-    require.resolve('@babel/plugin-proposal-do-expressions'),
-    require.resolve('@babel/plugin-proposal-logical-assignment-operators'),
-    [
-      require.resolve('@babel/plugin-proposal-optional-chaining'),
-      { loose: false }
-    ],
-    require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
-    [
-      require.resolve('@babel/plugin-proposal-decorators'),
-      { legacy: true }
-    ],
-    require.resolve('babel-plugin-parameter-decorator'),
-    require.resolve('@babel/plugin-proposal-class-properties'),
-    require.resolve('@babel/plugin-proposal-object-rest-spread'),
-    [require.resolve('babel-plugin-import'),
-      { libraryName: 'antd', style: true }
-    ]
+    getPreset('@babel/plugin-proposal-pipeline-operator', {
+      proposal: 'minimal'
+    }),
+    getPreset('@babel/plugin-proposal-do-expressions'),
+    getPreset('@babel/plugin-proposal-logical-assignment-operators'),
+    getPreset('@babel/plugin-proposal-optional-chaining', { loose: false }),
+    getPreset('@babel/plugin-proposal-nullish-coalescing-operator'),
+    getPreset('@babel/plugin-proposal-decorators', { legacy: true }),
+    getPreset('babel-plugin-parameter-decorator'),
+    getPreset('@babel/plugin-proposal-class-properties'),
+    getPreset('@babel/plugin-proposal-object-rest-spread'),
+    getPreset('babel-plugin-import', {
+      libraryName: 'antd',
+      style: true
+    })
   ];
 
   if (typescript) {
@@ -106,13 +109,12 @@ const createBabelPresets = ({
 
   if (framework === 'react') {
     opts.presets.push(
-      [require.resolve('@babel/preset-react'), reactNewSyntax ? {
+      getPreset('@babel/preset-react', reactNewSyntax ? {
         runtime: 'automatic',
         useBuiltIns: true
       } : {
         useBuiltIns: true
-      }]
-    );
+      }));
 
     opts.env.production = Object.assign({}, opts.env.production, {
       plugins: [
