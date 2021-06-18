@@ -10,7 +10,6 @@ const packageJSONPreparing = require('./packageJSONPreparing');
 const { showError } = require('../utils/error');
 const { dummies } = require('../utils/pathes');
 const {
-  readPackageJSON,
   createPackageJSON,
   writePackageJSON,
   installDependencies,
@@ -56,11 +55,14 @@ const install = async ({
     }
   }
 
+  let packageJSON;
+
   try {
-    await createPackageJSON(currentPath);
+    packageJSON = createPackageJSON(projectName);
 
     if (state.appType === 'library' || state.appType === 'component') {
-      await createPackageJSON(path.resolve(currentPath, 'example'));
+      const packageJSONExample = createPackageJSON(`${projectName}-example`);
+      await writePackageJSON(currentPath, packageJSONExample);
     }
   } catch (e) {
     showError(e, () => {
@@ -89,16 +91,6 @@ const install = async ({
   }
 
   console.log(`${chalk.green('src')} folder created\n`);
-
-  let packageJSON;
-
-  try {
-    packageJSON = await readPackageJSON(currentPath);
-  } catch (e) {
-    showError(e, () => {
-      console.error('Step: 4. package.json reading');
-    });
-  }
 
   if (!state.nogit) {
     try {

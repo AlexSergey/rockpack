@@ -79,18 +79,20 @@ const writePackageJSON = (currentPath, packageJSON) => {
   });
 }
 
-const createPackageJSON = (cwd) => {
-  return new Promise((resolve, reject) => {
-    childProcess.exec('npm init -y --silent', {
-      cwd
-    }, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
-  });
-}
+const createPackageJSON = (projectName) => (
+  {
+    name: projectName,
+    version: '1.0.0',
+    description: '',
+    main: 'index.js',
+    scripts: {
+      'test': 'echo \"Error: no test specified\" && exit 1'
+    },
+    keywords: [],
+    author: '',
+    license: 'ISC'
+  }
+)
 
 const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {

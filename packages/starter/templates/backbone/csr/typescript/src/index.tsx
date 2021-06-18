@@ -17,7 +17,7 @@ declare global {
 
 const history = createBrowserHistory();
 
-const { store } = createStore({
+const store = createStore({
   history,
   services: createServices(fetch),
 });
