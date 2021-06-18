@@ -1,4 +1,5 @@
 const { argv } = require('yargs');
+const { getMajorVersion } = require('@rockpack/utils');
 const child_process = require('child_process');
 
 const yarnIsAvailable = () => {
@@ -28,8 +29,6 @@ const getPM = () => {
   }
   return 'npm';
 }
-
-const getMajorVersion = (version) => Number(version.split('.')[0]);
 
 const isNpm7 = () => {
   const pm = getPM();

@@ -23,6 +23,7 @@
   ],
   "private": false,
   "dependencies": {
+    "@rockpack/utils": "2.0.0-rc.17",
     "@babel/core": "7.14.0",
     "@babel/generator": "7.14.1",
     "@babel/parser": "7.14.1",
@@ -49,8 +50,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "babel-plugin-transform-typescript-metadata": "0.3.2",
     "deepmerge": "4.2.2",
-    "valid-types": "2.0.5",
-    "semver": "^7.3.5"
+    "valid-types": "2.0.5"
   },
   "devDependencies": {
     "@rockpack/codestyle": "2.0.0-rc.17"

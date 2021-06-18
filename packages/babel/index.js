@@ -1,12 +1,8 @@
 const { existsSync } = require('fs');
 const path = require('path');
+const { getMajorVersion } = require('@rockpack/utils');
 const { isString, isObject } = require('valid-types');
 const deepmerge = require('deepmerge');
-const semver = require('semver');
-
-function getMajorVersion(version) {
-  return semver.minVersion(version).major;
-}
 
 const createBabelPresets = ({
   isNodejs = false,
