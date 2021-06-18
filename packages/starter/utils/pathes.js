@@ -1,9 +1,12 @@
 const path = require('path');
 const { getRootRequireDir } = require('@rockpack/utils');
+const { here } = require('../constants/paths');
 
 const currentPath = process.cwd();
 
-const getCurrentPath = projectName => path.join(currentPath, projectName);
+const getCurrentPath = projectName => (
+  projectName === here ? currentPath : path.join(currentPath, projectName)
+);
 
 const folderNames = {
   templates: 'templates',

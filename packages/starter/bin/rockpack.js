@@ -1,6 +1,8 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const { getCurrentPath } = require('../utils/pathes');
+const { here } = require('../constants/paths');
+const { defaultApp } = require('../constants/names');
 const install = require('../lib/install');
 const packageJSON = require('../package.json');
 const latestVersion = require('latest-version');
@@ -54,16 +56,20 @@ const { argv } = require('yargs');
     console.log();
   }
 
-  const projectName = String(_[0]);
+  let projectName = String(_[0]);
 
   const currentPath = getCurrentPath(projectName);
 
-  if (fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
+  if (projectName !== here && fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
     console.error(chalk.red(`Project "${projectName}" has already created. Please use manual installation:\n`));
     console.log(`${chalk.green('@rockpack/compiler')} - https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md`);
     console.log(`${chalk.green('@rockpack/tester')} - https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md`);
     console.log(`${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`);
     return process.exit(1);
+  }
+
+  if (projectName === here) {
+    projectName = defaultApp;
   }
 
   await install({
