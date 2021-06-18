@@ -4,7 +4,7 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 
 async function backendCompiler(conf = {}, cb, configOnly = false) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   if (!conf) {
     conf = {};
   }

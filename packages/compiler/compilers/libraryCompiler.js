@@ -7,7 +7,7 @@ const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
 
 async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   if (!conf) {
     conf = {};
   }

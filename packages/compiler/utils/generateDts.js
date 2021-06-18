@@ -4,13 +4,13 @@ const ts = require('typescript');
 const { existsSync } = require('fs');
 const { copySync } = require('fs-extra');
 const { isArray, isString } = require('valid-types');
+const { getRootRequireDir } = require('@rockpack/utils');
 const getMode = require('./getMode');
 const pathToTSConf = require('./pathToTSConf');
 const { getFiles, getTypeScript } = require('./fileSystemUtils');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { moduleFormats } = require('../constants');
 const makeResolve = require('../modules/makeResolve');
-const { getRootRequireDir } = require('@rockpack/utils');
 
 module.exports = async function generateDts(conf) {
   const { extensions } = makeResolve();

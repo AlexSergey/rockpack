@@ -6,7 +6,7 @@ const errorHandler = require('../errorHandler');
 const findHTML = require('../utils/findHTML');
 
 async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   if (!conf) {
     conf = {};
   }

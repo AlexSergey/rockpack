@@ -6,12 +6,12 @@ const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
 const ts = require('typescript');
 const { copySync } = require('fs-extra');
+const { getRootRequireDir } = require('@rockpack/utils');
 const getMode = require('./getMode');
 const { getFiles, getTypeScript, writeFile } = require('./fileSystemUtils');
 const pathToTSConf = require('./pathToTSConf');
 const makeCompilerOptions = require('./makeCompilerOptions');
 const { capitalize } = require('./other');
-const { getRootRequireDir } = require('@rockpack/utils');
 
 module.exports = async function sourceCompile(conf) {
   const root = getRootRequireDir();

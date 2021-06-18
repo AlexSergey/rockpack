@@ -3,7 +3,7 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 
 async function webViewCompiler(conf = {}, cb, configOnly = false) {
-  setMode();
+  setMode('development');
   if (!conf) {
     conf = {};
   }

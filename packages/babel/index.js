@@ -30,9 +30,15 @@ const createBabelPresets = ({
     return {};
   };
 
-  const getPreset = (presetName, options = {}) => {
-    return [require.resolve(presetName), Object.assign({}, options, getPresetAdditionalOptions(presetName))];
-  };
+  const getPreset = (presetName, options = {}) => (
+    [
+      require.resolve(presetName),
+      {
+        ...options,
+        ...getPresetAdditionalOptions(presetName)
+      }
+    ]
+  );
 
   if (packageJson &&
     isObject(packageJson.dependencies) &&
@@ -114,7 +120,8 @@ const createBabelPresets = ({
         useBuiltIns: true
       } : {
         useBuiltIns: true
-      }));
+      })
+    );
 
     opts.env.production = Object.assign({}, opts.env.production, {
       plugins: [

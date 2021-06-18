@@ -8,7 +8,7 @@ const errorHandler = require('../errorHandler');
 const _run = require('../core/_run');
 
 async function isomorphicCompiler(...props) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   errorHandler();
   createSSRObserver();
   const mode = getMode();

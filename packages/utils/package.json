@@ -18,8 +18,7 @@
     "url": "https://github.com/AlexSergey/rockpack/issues"
   },
   "keywords": [
-    "babel",
-    "babel-presets"
+    "rockpack"
   ],
   "private": false,
   "dependencies": {

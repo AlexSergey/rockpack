@@ -1,10 +1,10 @@
 const { argv } = require('yargs');
+const { setMode } = require('@rockpack/utils');
 const run = require('./core/run');
 const watch = require('./core/watch');
-const { setMode } = require('./utils/setMode');
 
 module.exports = function test(...args) {
-  setMode();
+  setMode(['development', 'production', 'test'], 'test');
   if (argv.watch) {
     watch.apply(this, args);
   } else {

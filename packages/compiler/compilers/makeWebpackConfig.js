@@ -2,7 +2,7 @@ const { setMode } = require('../utils/setMode');
 const _compile = require('../core/_compile');
 
 async function makeWebpackConfig(options = {}, cb) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   const { webpackConfig } = await _compile(options, cb, true);
   return webpackConfig;
 }

@@ -3,7 +3,7 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 
 async function frontendCompiler(conf = {}, cb, configOnly = false) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   if (!conf) {
     conf = {};
   }

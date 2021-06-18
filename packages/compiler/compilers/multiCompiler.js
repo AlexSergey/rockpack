@@ -11,7 +11,7 @@ const commonMultiValidator = require('../utils/commonMultiValidators');
 const errorHandler = require('../errorHandler');
 
 async function multiCompiler(...props) {
-  setMode();
+  setMode(['development', 'production'], 'development');
   errorHandler();
   const mode = getMode();
 
