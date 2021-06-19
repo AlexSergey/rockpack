@@ -22,9 +22,7 @@
   ],
   "private": false,
   "dependencies": {
-    "require-main-filename": "2.0.0"
-  },
-  "devDependencies": {
+    "require-main-filename": "2.0.0",
     "semver": "7.3.5"
   }
 }
