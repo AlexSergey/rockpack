@@ -1,12 +1,11 @@
 const webpack = require('webpack');
 const { isNumber } = require('valid-types');
-const { setMode } = require('../utils/setMode');
+const { setMode, getMode } = require('@rockpack/utils');
 const fpPromise = require('../utils/findFreePort');
 const _compile = require('../core/_compile');
 const defaultProps = require('../defaultProps');
 const _run = require('../core/_run');
 const getRandom = require('../utils/getRandom');
-const getMode = require('../utils/getMode');
 const commonMultiValidator = require('../utils/commonMultiValidators');
 const errorHandler = require('../errorHandler');
 

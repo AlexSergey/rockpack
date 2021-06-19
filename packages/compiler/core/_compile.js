@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const getMode = require('../utils/getMode');
+const { getMode } = require('@rockpack/utils');
 const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
 const _make = require('./_make');
 const _innerProps = require('./_innerProps');

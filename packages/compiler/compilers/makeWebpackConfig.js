@@ -1,4 +1,4 @@
-const { setMode } = require('../utils/setMode');
+const { setMode } = require('@rockpack/utils');
 const _compile = require('../core/_compile');
 
 async function makeWebpackConfig(options = {}, cb) {

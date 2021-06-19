@@ -1,10 +1,10 @@
 {
   "name": "@rockpack/utils",
-  "version": "2.0.0-rc.17",
+  "version": "2.0.0-rc.18",
   "description": "Rockpack specific utils",
   "main": "index.js",
   "scripts": {
-    "lint": "cross-env NODE_ENV=production eslint \"**\"",
+    "lint": "eslint \"**\"",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {
@@ -25,7 +25,6 @@
     "require-main-filename": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.17",
     "semver": "7.3.5"
   }
 }

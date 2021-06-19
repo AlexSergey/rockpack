@@ -1,23 +1,10 @@
 const path = require('path');
 const { existsSync } = require('fs');
+const { getMajorVersion, getMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
 
-function getMajorVersion(version) {
-  return typeof version === 'string' && version.includes('.') ?
-    version.split('.')[0] :
-    false;
-}
-
-function getMode() {
-  let mode = process.env.NODE_ENV;
-
-  mode = ['development', 'production'].indexOf(mode) >= 0 ? mode : 'production';
-
-  return mode;
-}
-
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
-  const mode = getMode();
+  const mode = getMode(['development', 'production'], 'production');
   const { root, packageJson, hasReact } = opts;
   let tsConfig = false;
 

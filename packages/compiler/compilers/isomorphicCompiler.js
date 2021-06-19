@@ -1,9 +1,8 @@
 const webpack = require('webpack');
 const { isUndefined } = require('valid-types');
-const { setMode } = require('../utils/setMode');
+const { setMode, getMode } = require('@rockpack/utils');
 const createSSRObserver = require('../plugins/SSRDevelopment');
 const errors = require('../errors/isomorphicCompiler');
-const getMode = require('../utils/getMode');
 const errorHandler = require('../errorHandler');
 const _run = require('../core/_run');
 

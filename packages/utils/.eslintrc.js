@@ -1,3 +1,3 @@
-const { rockConfig } = require('@rockpack/codestyle');
+const { rockConfig } = require('../codestyle');
 
 module.exports = rockConfig();

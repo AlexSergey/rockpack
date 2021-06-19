@@ -1,6 +1,6 @@
 const deepExtend = require('deep-extend');
 const { isString, isObject, isArray } = require('valid-types');
-const { setMode } = require('../utils/setMode');
+const { setMode } = require('@rockpack/utils');
 const frontendCompiler = require('./frontendCompiler');
 const backendCompiler = require('./backendCompiler');
 const errors = require('../errors/libraryCompiler');

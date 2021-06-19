@@ -33,7 +33,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.17' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.18' }
         ]
       });
 
@@ -77,7 +77,7 @@ const packageJSONPreparing = async (packageJSON, {
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '1.1.0' },
-          { name: '@rockpack/compiler', version: '2.0.0-rc.17' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.18' }
         ]
       });
 
@@ -122,7 +122,7 @@ const packageJSONPreparing = async (packageJSON, {
 
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.17' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.18' }
         ]
       });
 
@@ -146,7 +146,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.17' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.18' }
         ]
       });
 
@@ -155,7 +155,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '2.0.0-rc.17' }
+            { name: '@rockpack/compiler', version: '2.0.0-rc.18' }
           ]
         });
       }
@@ -164,20 +164,14 @@ const packageJSONPreparing = async (packageJSON, {
 
   if (appType === 'library' || appType === 'component') {
     packageJSON = addScripts(packageJSON, {
-      start: 'cross-env NODE_ENV=development node examples/scripts.build',
-      build: 'cross-env NODE_ENV=production node scripts.build',
-      'build:example': 'cross-env NODE_ENV=production node examples/scripts.build',
-      analyzer: 'cross-env NODE_ENV=development node scripts.build --analyzer'
+      start: 'node examples/scripts.build',
+      build: 'node scripts.build --mode=production',
+      'build:example': 'node examples/scripts.build --mode=production',
+      analyzer: 'node scripts.build --analyzer'
     });
 
     const examplePath = path.resolve(currentPath, 'example');
     let packageJSONExample = await readPackageJSON(examplePath);
-
-    packageJSONExample = await addDependencies(packageJSONExample, {
-      devDependencies: [
-        { name: 'cross-env', version: '7' }
-      ]
-    });
 
     if (appType === 'component') {
       packageJSONExample = await addDependencies(packageJSONExample, {
@@ -191,19 +185,19 @@ const packageJSONPreparing = async (packageJSON, {
     await writePackageJSON(examplePath, packageJSONExample);
   } else {
     packageJSON = addScripts(packageJSON, {
-      start: 'cross-env NODE_ENV=development node scripts.build',
-      build: 'cross-env NODE_ENV=production node scripts.build',
-      analyzer: 'cross-env NODE_ENV=development node scripts.build --analyzer'
+      start: 'node scripts.build',
+      build: 'node scripts.build --mode=production',
+      analyzer: 'node scripts.build --analyzer'
     });
   }
 
   if (codestyle) {
     packageJSON = addScripts(packageJSON, {
-      lint: "cross-env NODE_ENV=production eslint \"src/**\"",
+      lint: "eslint \"src/**\"",
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '2.0.0-rc.17' }
+        { name: '@rockpack/codestyle', version: '2.0.0-rc.18' }
       ]
     });
   }
@@ -216,7 +210,7 @@ const packageJSONPreparing = async (packageJSON, {
 
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '2.0.0-rc.17' }
+        { name: '@rockpack/tester', version: '2.0.0-rc.18' }
       ]
     });
 

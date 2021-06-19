@@ -1,5 +1,5 @@
 const deepExtend = require('deep-extend');
-const { setMode } = require('../utils/setMode');
+const { setMode } = require('@rockpack/utils');
 const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 
