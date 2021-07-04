@@ -45,9 +45,11 @@ const install = async ({
     fs.mkdirSync(currentPath);
   }
 
+  const examplePath = path.resolve(currentPath, 'example');
+
   if (state.appType === 'library' || state.appType === 'component') {
     try {
-      fs.mkdirSync(path.resolve(currentPath, 'example'));
+      fs.mkdirSync(examplePath);
     } catch (e) {
       showError(e, () => {
         console.error(`Step: 0.1. example folder for app type ${state.appType} creating`);
@@ -62,7 +64,7 @@ const install = async ({
 
     if (state.appType === 'library' || state.appType === 'component') {
       const packageJSONExample = createPackageJSON(`${projectName}-example`);
-      await writePackageJSON(currentPath, packageJSONExample);
+      await writePackageJSON(examplePath, packageJSONExample);
     }
   } catch (e) {
     showError(e, () => {
@@ -75,7 +77,11 @@ const install = async ({
   const src = path.resolve(currentPath, 'src');
 
   try {
-    await gitInit(currentPath, state);
+    if (!fs.existsSync(path.join(currentPath, '.git'))) {
+      await gitInit(currentPath, state);
+    } else {
+      console.log('GIT is already initialized');
+    }
   } catch (e) {
     showError(e, () => {
       console.error('Step: 2. GIT init fail');

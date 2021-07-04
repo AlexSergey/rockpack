@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "2.0.0-rc.19",
+  "version": "2.0.0-rc.20",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -33,13 +33,14 @@
   "dependencies": {
     "@loadable/webpack-plugin": "5.15.0",
     "@mdx-js/loader": "1.6.22",
-    "@rockpack/babel": "2.0.0-rc.19",
-    "@rockpack/utils": "2.0.0-rc.19",
+    "@nuxtjs/friendly-errors-webpack-plugin": "2.1.0",
+    "@rockpack/babel": "2.0.0-rc.20",
+    "@rockpack/utils": "2.0.0-rc.20",
     "@statoscope/ui-webpack": "3.5.0",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
-    "arraybuffer-loader": "1.0.8",
     "antd-dayjs-webpack-plugin": "1.0.6",
+    "arraybuffer-loader": "1.0.8",
     "async": "3.2.0",
     "autoprefixer": "10.2.5",
     "babel-loader": "8.2.2",
@@ -60,7 +61,6 @@
     "find-free-port": "2.0.0",
     "find-package-json": "1.2.0",
     "fork-ts-checker-webpack-plugin": "6.2.6",
-    "friendly-errors-webpack-plugin": "1.7.0",
     "fs-extra": "10.0.0",
     "get-port-sync": "1.0.1",
     "glob": "7.1.7",
@@ -68,16 +68,16 @@
     "gutil": "1.6.4",
     "handlebars": "4.7.7",
     "handlebars-loader": "1.7.1",
+    "html-inline-css-webpack-plugin": "1.11.0",
+    "html-inline-script-webpack-plugin": "2.0.1",
     "html-loader": "2.1.2",
     "html-webpack-plugin": "5.3.1",
-    "html-inline-script-webpack-plugin": "2.0.1",
-    "html-inline-css-webpack-plugin": "1.11.0",
+    "image-minimizer-webpack-plugin": "2.2.0",
     "imagemin-gifsicle": "7.0.0",
-    "imagemin-pngquant": "9.0.2",
     "imagemin-mozjpeg": "9.0.0",
     "imagemin-optipng": "8.0.0",
+    "imagemin-pngquant": "9.0.2",
     "imagemin-webp": "6.0.0",
-    "image-minimizer-webpack-plugin": "2.2.0",
     "imports-loader": "2.0.0",
     "inspectpack": "4.7.1",
     "less": "4.1.1",
@@ -123,6 +123,6 @@
     "yargs": "17.0.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.19"
+    "@rockpack/codestyle": "2.0.0-rc.20"
   }
 }

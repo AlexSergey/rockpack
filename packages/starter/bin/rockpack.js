@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const chalk = require('chalk');
 const { getCurrentPath } = require('../utils/pathes');
 const { here } = require('../constants/paths');
@@ -69,7 +70,15 @@ const { argv } = require('yargs');
   }
 
   if (projectName === here) {
-    projectName = defaultApp;
+    if (fs.existsSync(path.join(currentPath, '.git'))) {
+      const folderName = path.basename(currentPath);
+      const appName = folderName.replace(/\s/g, '_');
+      if (typeof appName === 'string' && appName.length > 0) {
+        projectName = appName;
+      }
+    } else {
+      projectName = defaultApp;
+    }
   }
 
   await install({

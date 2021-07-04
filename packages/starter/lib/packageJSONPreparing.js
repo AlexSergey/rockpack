@@ -33,7 +33,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.19' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.20' }
         ]
       });
 
@@ -77,7 +77,7 @@ const packageJSONPreparing = async (packageJSON, {
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '1.1.0' },
-          { name: '@rockpack/compiler', version: '2.0.0-rc.19' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.20' }
         ]
       });
 
@@ -122,7 +122,7 @@ const packageJSONPreparing = async (packageJSON, {
 
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.19' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.20' }
         ]
       });
 
@@ -146,7 +146,7 @@ const packageJSONPreparing = async (packageJSON, {
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.0-rc.19' }
+          { name: '@rockpack/compiler', version: '2.0.0-rc.20' }
         ]
       });
 
@@ -155,7 +155,7 @@ const packageJSONPreparing = async (packageJSON, {
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '14' },
-            { name: '@rockpack/compiler', version: '2.0.0-rc.19' }
+            { name: '@rockpack/compiler', version: '2.0.0-rc.20' }
           ]
         });
       }
@@ -164,9 +164,9 @@ const packageJSONPreparing = async (packageJSON, {
 
   if (appType === 'library' || appType === 'component') {
     packageJSON = addScripts(packageJSON, {
-      start: 'node examples/scripts.build',
+      start: 'node example/scripts.build',
       build: 'node scripts.build --mode=production',
-      'build:example': 'node examples/scripts.build --mode=production',
+      'build:example': 'node example/scripts.build --mode=production',
       analyzer: 'node scripts.build --analyzer'
     });
 
@@ -197,7 +197,7 @@ const packageJSONPreparing = async (packageJSON, {
     });
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '2.0.0-rc.19' }
+        { name: '@rockpack/codestyle', version: '2.0.0-rc.20' }
       ]
     });
   }
@@ -210,7 +210,7 @@ const packageJSONPreparing = async (packageJSON, {
 
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tester', version: '2.0.0-rc.19' }
+        { name: '@rockpack/tester', version: '2.0.0-rc.20' }
       ]
     });
 
