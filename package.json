@@ -10,14 +10,13 @@
   ],
   "scripts": {
     "lint": "lerna run lint",
-    "typing": "lerna run typing",
     "production": "lerna run production",
     "test": "lerna run test --stream",
     "postinstall": "cpy node_modules/@types/koa-bodyparser next/api/node_modules/@types/koa-bodyparser"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run lint && npm run typing",
-    "pre-push": "npm run lint && npm run typing && npm test"
+    "pre-commit": "npm run lint",
+    "pre-push": "npm run lint && npm test"
   },
   "devDependencies": {
     "cpy-cli": "3.1.1",
