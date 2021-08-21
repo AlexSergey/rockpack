@@ -1,4 +1,4 @@
-import { CommentRepositoryInterface } from './interface';
+import type { CommentRepositoryInterface } from './interface';
 import { CommentRepositoryDIType } from './di.type';
 import { container } from '../../container';
 import { CommentModel } from '../../models/Comment';

@@ -5,7 +5,7 @@ import styles from './style.module.scss';
 import config from '../../../config';
 
 export const Images = ({ images }: { images: { uri: string; thumbnail: string }[] }): JSX.Element => {
-  const [full, setFull] = useState<string|false>(false);
+  const [full, setFull] = useState<string | false>(false);
 
   return (
     <div className={styles.images}>

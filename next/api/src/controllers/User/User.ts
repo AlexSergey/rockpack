@@ -1,9 +1,11 @@
 import { injectable, inject } from 'inversify';
 import { ErrorProxy } from '../../errors';
 import { ok } from '../../utils/response';
-import { UserServiceDIType, UserServiceInterface } from '../../services/User';
+import { UserServiceDIType } from '../../services/User';
+import type { UserServiceInterface } from '../../services/User';
 import { UserControllerInterface } from './interface';
-import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { UserRepositoryDIType } from '../../repositories/User';
+import type { UserRepositoryInterface } from '../../repositories/User';
 import { KoaContext } from '../../types/koa.context';
 
 @injectable()

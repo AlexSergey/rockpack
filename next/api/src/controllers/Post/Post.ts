@@ -1,11 +1,13 @@
 import { injectable, inject } from 'inversify';
-import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/Post';
-import { PostServiceDIType, PostServiceInterface } from '../../services/Post';
+import { PostRepositoryDIType } from '../../repositories/Post';
+import type { PostRepositoryInterface } from '../../repositories/Post';
+import { PostServiceDIType } from '../../services/Post';
+import type { PostServiceInterface } from '../../services/Post';
 import { SequelizeError, ErrorProxy } from '../../errors';
 import { config } from '../../config';
 import { ok } from '../../utils/response';
 import { logger } from '../../logger';
-import { PostControllerInterface } from './interface';
+import type { PostControllerInterface } from './interface';
 import { KoaContext } from '../../types/koa.context';
 
 @injectable()

@@ -1,12 +1,12 @@
 import { injectable } from 'inversify';
 import { logger } from '../../logger';
 import { StatisticTypeModel } from '../../models/StatisticType';
-import { InternalError, SequelizeError } from '../../errors/errors';
+import { InternalError, SequelizeError } from '../../errors';
 import { CommentModel } from '../../models/Comment';
 import { UserModel } from '../../models/User';
 import { StatisticModel } from '../../models/Statistic';
 import { RoleModel } from '../../models/Role';
-import { CommentRepositoryInterface } from './interface';
+import type { CommentRepositoryInterface } from './interface';
 import {
   USER_MODEL_NAME,
   ROLE_MODEL_NAME,

@@ -68,7 +68,7 @@
   .post {
     .preview-holder {
       width: 100%;
-      height: $postPreviewHeight / 2;
+      height: $postPreviewHeight * 0.5;
       float: none;
       margin: 0 0 10px;
     }

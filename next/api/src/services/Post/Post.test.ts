@@ -1,6 +1,7 @@
 import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
 import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/Post';
-import { CommentServiceDIType, CommentServiceInterface } from '../Comment';
+import { CommentServiceDIType } from '../Comment';
+import type { CommentServiceInterface } from '../Comment';
 import { PostServiceDIType } from './di.type';
 import { PostServiceInterface } from './interface';
 import { UserServiceDIType, UserServiceInterface } from '../User';

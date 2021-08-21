@@ -1,50 +1,50 @@
 import { Container } from 'inversify';
 
 import {
-  CommentRepositoryInterface,
   CommentRepositoryDIType,
   CommentRepository
 } from './repositories/Comment';
+import type { CommentRepositoryInterface } from './repositories/Comment';
 import {
-  PostRepositoryInterface,
   PostRepositoryDIType,
   PostRepository
 } from './repositories/Post';
+import type { PostRepositoryInterface } from './repositories/Post';
 import {
-  UserRepositoryInterface,
   UserRepositoryDIType,
   UserRepository
 } from './repositories/User';
+import type { UserRepositoryInterface } from './repositories/User';
 import {
-  CommentServiceInterface,
   CommentServiceDIType,
   CommentService
 } from './services/Comment';
+import type { CommentServiceInterface } from './services/Comment';
 import {
-  PostServiceInterface,
   PostServiceDIType,
   PostService
 } from './services/Post';
+import type { PostServiceInterface } from './services/Post';
 import {
-  UserServiceInterface,
   UserServiceDIType,
   UserService
 } from './services/User';
+import type { UserServiceInterface } from './services/User';
 import {
-  CommentControllerInterface,
   CommentControllerDIType,
   CommentController
 } from './controllers/Comment';
+import type { CommentControllerInterface } from './controllers/Comment';
 import {
-  PostControllerInterface,
   PostControllerDIType,
   PostController
 } from './controllers/Post';
+import type { PostControllerInterface } from './controllers/Post';
 import {
-  UserControllerInterface,
   UserControllerDIType,
   UserController
 } from './controllers/User';
+import type { UserControllerInterface } from './controllers/User';
 
 const container = new Container();
 

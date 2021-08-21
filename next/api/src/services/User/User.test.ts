@@ -1,6 +1,7 @@
 import { UserServiceDIType } from './di.type';
-import { UserServiceInterface } from './interface';
-import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import type { UserServiceInterface } from './interface';
+import { UserRepositoryDIType } from '../../repositories/User';
+import type { UserRepositoryInterface } from '../../repositories/User';
 import { UserModel } from '../../models/User';
 import { container } from '../../container';
 

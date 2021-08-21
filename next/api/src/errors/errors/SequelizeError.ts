@@ -1,6 +1,6 @@
 import { BaseError as SequelizeBaseError } from 'sequelize';
 import { BaseError } from './_BaseError';
-import { ErrorInterface } from './_types';
+import type { ErrorInterface } from './_types';
 import { DATABASE_ERROR } from '../constants/messages';
 import { Statuses } from '../utils/getStatus';
 import { sequelizeMessage } from '../utils/sequelizeMessage';

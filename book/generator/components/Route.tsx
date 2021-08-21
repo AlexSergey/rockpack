@@ -11,6 +11,7 @@ const _Route = (props: InnerInterface): JSX.Element => {
       return output;
     }
     if (Array.isArray(route)) {
+      // eslint-disable-next-line sonarjs/no-ignored-return
       route.map(s => TreeRouteRender(s, output, prefix));
       return output;
     }
@@ -61,6 +62,7 @@ const _Route = (props: InnerInterface): JSX.Element => {
     );
 
     if (renderInAnotherRoute.length > 0) {
+      // eslint-disable-next-line sonarjs/no-ignored-return
       renderInAnotherRoute.map(r => TreeRouteRender(r, output, prefix));
     }
 

@@ -28,7 +28,7 @@ import { DocgenRouteInterface, LayoutInterface } from '../types';
 
 const useStylesPage = makeStyles(stylesHeader);
 
-const renderInside = (content, index: number|null, props): JSX.Element => {
+const renderInside = (content, index: number | null, props): JSX.Element => {
   if (!content) {
     return null;
   }

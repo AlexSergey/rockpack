@@ -9,9 +9,12 @@ import { accessRoute } from './middlewares/accessRoute';
 import { upload } from './middlewares/upload';
 import { resizeImage } from './middlewares/resizeImage';
 
-import { UserControllerDIType, UserControllerInterface } from './controllers/User';
-import { PostControllerDIType, PostControllerInterface } from './controllers/Post';
-import { CommentControllerDIType, CommentControllerInterface } from './controllers/Comment';
+import { UserControllerDIType } from './controllers/User';
+import type { UserControllerInterface } from './controllers/User';
+import { PostControllerDIType } from './controllers/Post';
+import type { PostControllerInterface } from './controllers/Post';
+import { CommentControllerDIType } from './controllers/Comment';
+import type { CommentControllerInterface } from './controllers/Comment';
 
 const router = new Router();
 

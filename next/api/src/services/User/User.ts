@@ -2,11 +2,12 @@ import { injectable, inject } from 'inversify';
 import { BadRequest, SequelizeError, UserAlreadyExists, UserNotFound, WrongPassword } from '../../errors';
 import { UserModel } from '../../models/User';
 import { RoleModel } from '../../models/Role';
-import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/User';
+import { UserRepositoryDIType } from '../../repositories/User';
+import type { UserRepositoryInterface } from '../../repositories/User';
 import { createToken } from '../../utils/auth';
 import { config } from '../../config';
 import { logger } from '../../logger';
-import { UserServiceInterface } from './interface';
+import type { UserServiceInterface } from './interface';
 
 @injectable()
 export class UserService implements UserServiceInterface {

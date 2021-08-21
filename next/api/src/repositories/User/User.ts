@@ -4,7 +4,7 @@ import { StatisticModel } from '../../models/Statistic';
 import { RoleModel } from '../../models/Role';
 import { StatisticTypeModel } from '../../models/StatisticType';
 import { BadRequest, InternalError, SequelizeError } from '../../errors';
-import { UserRepositoryInterface } from './interface';
+import type { UserRepositoryInterface } from './interface';
 import {
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME

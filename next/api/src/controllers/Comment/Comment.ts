@@ -1,8 +1,10 @@
 import { injectable, inject } from 'inversify';
 import { ErrorProxy } from '../../errors';
 import { ok } from '../../utils/response';
-import { CommentRepositoryDIType, CommentRepositoryInterface } from '../../repositories/Comment';
-import { CommentServiceDIType, CommentServiceInterface } from '../../services/Comment';
+import { CommentRepositoryDIType } from '../../repositories/Comment';
+import type { CommentRepositoryInterface } from '../../repositories/Comment';
+import { CommentServiceDIType } from '../../services/Comment';
+import type { CommentServiceInterface } from '../../services/Comment';
 import { CommentControllerInterface } from './interface';
 import { KoaContext } from '../../types/koa.context';
 

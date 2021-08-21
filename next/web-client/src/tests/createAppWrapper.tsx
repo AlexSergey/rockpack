@@ -30,6 +30,7 @@ export const createAppWrapper = ({
     services: createMockServices(),
   });
 
+  // eslint-disable-next-line react/display-name
   return ({ children }): JSX.Element => (
     <SSR>
       <Provider store={store}>

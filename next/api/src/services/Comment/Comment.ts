@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { BadRequest, CommentNotFound, SequelizeError } from '../../errors';
 import { CommentModel } from '../../models/Comment';
 import { logger } from '../../logger';
-import { CommentServiceInterface } from './interface';
+import type { CommentServiceInterface } from './interface';
 
 @injectable()
 export class CommentService implements CommentServiceInterface {

@@ -1,5 +1,5 @@
 import { BaseError } from './_BaseError';
-import { ErrorInterface } from './_types';
+import type { ErrorInterface } from './_types';
 import { getStatus } from '../utils/getStatus';
 import { FILE_FORMAT_ERROR } from '../constants/messages';
 

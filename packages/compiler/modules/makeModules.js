@@ -219,15 +219,18 @@ function getModules(conf = {}, mode, root) {
         {
           loader: require.resolve('svgo-loader'),
           options: {
-            plugins: [{
-              removeTitle: true
-            }, {
-              convertColors: {
-                shorthex: false
+            name: 'preset-default',
+            params: {
+              overrides: {
+                removeTitle: true,
+                convertColors: {
+                  params: {
+                    shorthex: false
+                  }
+                },
+                convertPathData: false
               }
-            }, {
-              convertPathData: false
-            }]
+            }
           }
         }
       ],
