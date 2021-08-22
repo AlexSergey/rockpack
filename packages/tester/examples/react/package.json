@@ -16,6 +16,7 @@
     "react": "^16.7.0"
   },
   "devDependencies": {
-    "@testing-library/react": "9.3.2"
+    "@testing-library/react": "9.3.2",
+    "react-test-renderer": "16.14.0"
   }
 }

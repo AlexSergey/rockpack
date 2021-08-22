@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { renderHook } from '@testing-library/react-hooks';
 import { useComments } from './hooks';
 import { createAppWrapper } from '../../tests/createAppWrapper';

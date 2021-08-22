@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import { stub } from 'sinon';
 import * as userApi from './userApi';
 import * as users from './userUtils';
 
@@ -15,7 +15,7 @@ function aUser(id) {
 let getPageOfUsersStub;
 
 beforeAll(() => {
-  getPageOfUsersStub = sinon.stub(userApi, 'getPageOfUsers');
+  getPageOfUsersStub = stub(userApi, 'getPageOfUsers');
 
   const pageOfUsers = {
     page: 1,

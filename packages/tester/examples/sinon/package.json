@@ -13,6 +13,7 @@
     "axios": "0.21.1"
   },
   "devDependencies": {
+    "@types/sinon": "9.0.11",
     "sinon": "9.0.2"
   }
 }

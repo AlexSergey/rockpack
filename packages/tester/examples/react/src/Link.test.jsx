@@ -1,5 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from 'react';
-import renderer, { act } from 'react-test-renderer';
+import renderer from 'react-test-renderer';
 import Link from './Link';
 
 describe('Link', () => {
