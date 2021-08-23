@@ -1,0 +1,10 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node tests.js",
+    "test:watch": "node tests.js --watch"
+  },
+  "dependencies": {
+  }
+}

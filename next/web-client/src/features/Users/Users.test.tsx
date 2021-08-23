@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { renderHook } from '@testing-library/react-hooks';
 import { useUsers } from './hooks';
 import { createAppWrapper } from '../../tests/createAppWrapper';

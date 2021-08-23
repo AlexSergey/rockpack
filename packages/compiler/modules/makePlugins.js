@@ -92,7 +92,14 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
       messages: conf.messages
-    }
+    },
+    additionalTransformers: [
+      (error) => {
+        // TODO: Fix webpack serve error. Remove it after update webpack-serve-plugin
+        if (error.message === 'DefinePlugin\nConflicting values for \'ʎɐɹɔosǝʌɹǝs\'') return false;
+        return error;
+      }
+    ]
   });
 
   if (isTypeScript) {

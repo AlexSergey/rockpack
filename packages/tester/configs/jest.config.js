@@ -1,12 +1,20 @@
 const { existsSync } = require('fs');
 const path = require('path');
 const { getRootRequireDir } = require('@rockpack/utils');
+const { name } = require('../package.json');
 
 const rootFolder = path.resolve(__dirname, '..');
 
 const currentProjectFolder = getRootRequireDir();
 
 let tsConfig = path.resolve(__dirname, 'tsconfig.json');
+
+let jestConfig = {};
+
+if (existsSync(path.resolve(currentProjectFolder, './jest.extend.js'))) {
+  // eslint-disable-next-line global-require
+  jestConfig = require(path.resolve(currentProjectFolder, './jest.extend.js'));
+}
 
 if (existsSync(path.resolve(currentProjectFolder, './tsconfig.js'))) {
   tsConfig = path.resolve(currentProjectFolder, './tsconfig.js');
@@ -46,7 +54,9 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
   globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.ts');
 }
 
-module.exports = {
+module.exports = Object.assign({
+  displayName: `${name}`,
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babelJestTS.js`,
     '^.+\\.(js|jsx|ts|tsx)$': `${rootFolder}/modules/babelJest.js`,
@@ -91,4 +101,4 @@ module.exports = {
       tsConfig
     }
   }
-};
+}, jestConfig);

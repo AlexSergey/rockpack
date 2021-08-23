@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React, { useEffect, createElement } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import Localization, { l } from '@localazer/component';

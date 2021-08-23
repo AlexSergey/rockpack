@@ -15,11 +15,8 @@ module.exports = function argsCompilers(opts = {}, mode) {
 
   let argv = [];
   argv.push(`--rootDir="${rootProjectFolder}"`);
-  if (isString(options.configPath)) {
-    argv.push(`--config="${options.configPath}"`);
-  } else {
-    argv.push(`--config="${rootFolder}/configs/jest.config.js"`);
-  }
+  argv.push(`--config="${rootFolder}/configs/jest.projects.js"`);
+
   compileSrc(argv, src, options);
   argv.push('--runInBand');
 

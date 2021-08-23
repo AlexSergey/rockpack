@@ -3,7 +3,6 @@ const defaultProps = {
   prefix: 'test'
   /*
   * Other Props:
-  * configPath: String
   * */
 };
 

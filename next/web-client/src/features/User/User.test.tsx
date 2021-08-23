@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React, { createElement, useEffect } from 'react';
 import { render, act } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
