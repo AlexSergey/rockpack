@@ -1,6 +1,6 @@
 const { existsSync } = require('fs');
 const path = require('path');
-const { getMajorVersion } = require('@rockpack/utils');
+const { checkReact } = require('@rockpack/utils');
 const { isString, isObject } = require('valid-types');
 const deepmerge = require('deepmerge');
 
@@ -19,7 +19,6 @@ const createBabelPresets = ({
   // eslint-disable-next-line global-require
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
-  let reactNewSyntax = false;
 
   const getPresetAdditionalOptions = presetName => {
     if (presetsAdditionalOptions[presetName]) return presetsAdditionalOptions[presetName];
@@ -43,12 +42,7 @@ const createBabelPresets = ({
     corejs = packageJson.dependencies['core-js'];
   }
 
-  if (packageJson &&
-    isObject(packageJson.dependencies) &&
-    isString(packageJson.dependencies.react)
-  ) {
-    reactNewSyntax = getMajorVersion(packageJson.dependencies.react) >= 17;
-  }
+  const { reactNewSyntax } = checkReact(packageJson);
 
   let opts = typescript ? {
     babelrc: false,

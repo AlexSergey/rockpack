@@ -15,10 +15,7 @@ const {
   installDependencies,
   installPeerDependencies
 } = require('../utils/project');
-const {
-  getPM,
-  isNpm7
-} = require('../utils/other');
+const { getPM } = require('../utils/other');
 
 const timeouts = {
   $el1: null,
@@ -190,9 +187,7 @@ const install = async ({
       await installDependencies(examplePath);
 
       if (state.appType === 'component' && packageJSON.peerDependencies) {
-        if (!isNpm7()) {
-          await installPeerDependencies(packageJSON, currentPath);
-        }
+        await installPeerDependencies(packageJSON, currentPath);
       }
     }
   } catch (e) {

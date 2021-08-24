@@ -33,7 +33,7 @@
   "dependencies": {
     "@loadable/webpack-plugin": "5.15.1",
     "@mdx-js/loader": "1.6.22",
-    "@nuxtjs/friendly-errors-webpack-plugin": "2.1.0",
+    "@nuxt/friendly-errors-webpack-plugin": "2.5.1",
     "@rockpack/babel": "2.0.0-rc.21",
     "@rockpack/utils": "2.0.0-rc.21",
     "@statoscope/webpack-plugin": "5.6.2",
@@ -94,7 +94,7 @@
     "postcss-loader": "6.1.1",
     "progress-bar-webpack-plugin": "2.1.0",
     "pug": "3.0.2",
-    "pug-loader": "2.4.0",
+    "pug-plain-loader": "1.1.0",
     "ramda": "0.27.1",
     "rimraf": "3.0.2",
     "sass": "1.38.0",

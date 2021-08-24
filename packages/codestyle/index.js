@@ -1,11 +1,11 @@
 const path = require('path');
 const { existsSync } = require('fs');
-const { getMajorVersion, getMode } = require('@rockpack/utils');
+const { checkReact, getMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
 
 const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
   const mode = getMode(['development', 'production'], 'production');
-  const { root, packageJson, hasReact } = opts;
+  const { root, hasReact, reactNewSyntax } = opts;
   let tsConfig = false;
 
   if (existsSync(path.resolve(root, './tsconfig.js'))) {
@@ -35,12 +35,6 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   }
   if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
     tsConfig = path.resolve(root, './tsconfig.production.js');
-  }
-
-  let reactNewSyntax = false;
-
-  if (hasReact) {
-    reactNewSyntax = getMajorVersion(packageJson.dependencies.react) >= 17;
   }
 
   if (reactNewSyntax) {
@@ -140,20 +134,14 @@ module.exports = {
     // eslint-disable-next-line global-require
     const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
 
-    let hasReact = false;
-
-    if (packageJson &&
-      packageJson.dependencies &&
-      packageJson.dependencies.react
-    ) {
-      hasReact = true;
-    }
+    const { hasReact, reactNewSyntax } = checkReact(packageJson);
 
     return _makeConfig({}, {}, overrideRules, customConfig, { ...opts,
       ...{
         root,
         packageJson,
-        hasReact
+        hasReact,
+        reactNewSyntax
       }
     });
   },
@@ -165,14 +153,7 @@ module.exports = {
     // eslint-disable-next-line global-require
     const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
 
-    let hasReact = false;
-
-    if (packageJson &&
-      packageJson.dependencies &&
-      packageJson.dependencies.react
-    ) {
-      hasReact = true;
-    }
+    const { hasReact, reactNewSyntax } = checkReact(packageJson);
 
     const commonRules = {
       indent: ['error', 2, {
@@ -314,7 +295,8 @@ module.exports = {
       ...{
         root,
         packageJson,
-        hasReact
+        hasReact,
+        reactNewSyntax
       }
     });
   }

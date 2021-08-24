@@ -28,7 +28,7 @@ function getModules(conf = {}, mode, root) {
 
     jade: {
       test: /\.(pug|jade)$/,
-      use: require.resolve('pug-loader')
+      use: require.resolve('pug-plain-loader')
     },
 
     mdx: {
