@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "2.0.0-rc.21",
+  "version": "2.0.0-rc.22",
   "description": "The best practice for ESLint and TSLint",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   ],
   "private": false,
   "dependencies": {
-    "@rockpack/utils": "2.0.0-rc.21",
+    "@rockpack/utils": "2.0.0-rc.22",
     "@typescript-eslint/eslint-plugin": "4.29.2",
     "@typescript-eslint/parser": "4.29.2",
     "babel-eslint": "10.1.0",
@@ -46,6 +46,6 @@
     "yargs": "17.0.1"
   },
   "devDependencies": {
-    "@rockpack/tester": "2.0.0-rc.21"
+    "@rockpack/tester": "2.0.0-rc.22"
   }
 }
