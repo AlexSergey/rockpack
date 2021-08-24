@@ -105,8 +105,8 @@ const packageJSONPreparing = async (packageJSON, {
       if (appType === 'component') {
         packageJSON = await addDependencies(packageJSON, {
           peerDependencies: [
-            { name: 'react', version: '17.0.2' },
-            { name: 'react-dom', version: '17.0.2' }
+            { name: 'react', version: '^17.0.0' },
+            { name: 'react-dom', version: '^17.0.0' }
           ]
         });
 
