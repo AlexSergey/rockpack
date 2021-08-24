@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
-// eslint-disable-next-line no-unused-vars
-import RockpackComponent from './index.jsx';
+import RockpackComponent from './index';
 
 it('Render React Component', () => {
   const { getByText } = render(<RockpackComponent />);
