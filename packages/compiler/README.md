@@ -62,13 +62,6 @@ npm install @rockpack/compiler --save-dev
 yarn add @rockpack/compiler --dev
 ```
 
-*If you have NPM 7 use command below instead, please:*
-```sh
-# NPM
-npm install @rockpack/compiler --save-dev --legacy-peer-deps
-```
-
-
 2. Make **build.js** in the root of project
 
 3. Put the code:

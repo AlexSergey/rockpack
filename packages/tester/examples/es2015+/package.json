@@ -1,0 +1,12 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests.js",
+    "test:watch": "node tests.js --watch"
+  },
+  "author": "",
+  "license": "ISC"
+}
