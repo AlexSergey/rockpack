@@ -4,7 +4,6 @@ const log = require('../utils/log');
 const sourceCompile = require('../utils/sourceCompile');
 const generateDts = require('../utils/generateDts');
 const pathToTSConf = require('../utils/pathToTSConf');
-const _devServer = require('./_devServer');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
   const compiler = webpack(webpackConfig, async (err, stats) => {

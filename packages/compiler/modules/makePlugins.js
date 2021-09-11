@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
 const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -266,12 +265,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * */
   if (mode === 'development' && !conf.webview) {
     if (
-      !conf.__library &&
-      !conf.nodejs &&
-      !global.ISOMORPHIC
-    ) {
-      plugins.ErrorOverlayPlugin = new ErrorOverlayPlugin();
-    } else if (
       !conf.__library &&
       conf.nodejs &&
       !global.ISOMORPHIC

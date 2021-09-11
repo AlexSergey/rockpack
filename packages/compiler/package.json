@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "2.0.0-rc.24",
+  "version": "2.0.0-rc.25",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -34,8 +34,8 @@
     "@loadable/webpack-plugin": "5.15.1",
     "@mdx-js/loader": "1.6.22",
     "@nuxt/friendly-errors-webpack-plugin": "2.5.1",
-    "@rockpack/babel": "2.0.0-rc.24",
-    "@rockpack/utils": "2.0.0-rc.24",
+    "@rockpack/babel": "2.0.0-rc.25",
+    "@rockpack/utils": "2.0.0-rc.25",
     "@statoscope/webpack-plugin": "5.6.2",
     "@svgr/webpack": "5.5.0",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",
@@ -55,7 +55,6 @@
     "deep-extend": "0.6.0",
     "dotenv-webpack": "7.0.3",
     "dts-generator": "3.0.0",
-    "error-overlay-webpack-plugin": "1.0.0",
     "eslint-webpack-plugin": "3.0.1",
     "extract-loader": "5.1.0",
     "file-loader": "6.2.0",
@@ -117,7 +116,7 @@
     "wasm-loader": "1.3.0",
     "webpack": "5.52.1",
     "webpack-bundle-analyzer": "4.4.2",
-    "webpack-dev-server": "4.1.1",
+    "webpack-dev-server": "4.2.0",
     "webpack-format-messages": "3.0.1",
     "webpack-graphql-loader": "1.0.2",
     "webpack-node-externals": "3.0.0",
@@ -125,6 +124,6 @@
     "yargs": "17.1.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "2.0.0-rc.24"
+    "@rockpack/codestyle": "2.0.0-rc.25"
   }
 }

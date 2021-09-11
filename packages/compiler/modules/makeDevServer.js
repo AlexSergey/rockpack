@@ -8,7 +8,7 @@ const makeDevServer = async (conf) => ({
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
   },
   port: conf.port || await fpPromise(3000),
-  //hot: true,
+  hot: true,
   open: !argv._rockpack_testing,
   historyApiFallback: true,
   host: 'localhost'
