@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const { isUndefined } = require('valid-types');
+const livereload = require('livereload');
 const { setMode, getMode } = require('@rockpack/utils');
-const createSSRObserver = require('../plugins/SSRDevelopment');
 const errors = require('../errors/isomorphicCompiler');
 const errorHandler = require('../errorHandler');
 const _run = require('../core/_run');
@@ -9,10 +9,12 @@ const _run = require('../core/_run');
 async function isomorphicCompiler(...props) {
   setMode(['development', 'production'], 'development');
   errorHandler();
-  createSSRObserver();
   const mode = getMode();
   global.ISOMORPHIC = true;
   global.CONFIG_ONLY = true;
+  const lrserver = livereload.createServer();
+  global.LIVE_RELOAD_PORT = lrserver.config.port;
+  global.LIVE_RELOAD_SERVER = lrserver;
 
   for (let i = 0, l = props.length; i < l; i++) {
     props[i] = await props[i];
@@ -50,7 +52,7 @@ async function isomorphicCompiler(...props) {
     });
   });
 
-  return await _run(webpackConfigs, mode, webpack, configs);
+  await _run(webpackConfigs, mode, webpack, configs);
 }
 
 module.exports = isomorphicCompiler;

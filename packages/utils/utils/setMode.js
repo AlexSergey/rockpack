@@ -10,6 +10,7 @@ const setMode = (modes, defaultMode) => {
   mode = modes.indexOf(mode) >= 0 ? mode : defaultMode;
   process.env.NODE_ENV = mode;
   process.env.BABEL_ENV = mode;
+  return mode;
 };
 
 module.exports = {

@@ -20,7 +20,7 @@ const _compile = async (conf = {}, post, withoutRun = false) => {
     };
   }
 
-  await _run(finalConfig.webpackConfig, mode, webpack, finalConfig.conf);
+  return await _run(finalConfig.webpackConfig, mode, webpack, finalConfig.conf);
 };
 
 module.exports = _compile;

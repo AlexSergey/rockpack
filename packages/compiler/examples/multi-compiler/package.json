@@ -2,12 +2,17 @@
   "name": "example-react-app",
   "version": "1.0.0",
   "scripts": {
-    "start": "cross-env NODE_ENV=development node build",
+    "start": "stmux -w always -e ERROR -m beep,system -- [ \"npm run start:front\" .. \"npm run start:webview\" ]",
+    "start:front": "cross-env NODE_ENV=development node build.front",
+    "start:webview": "cross-env NODE_ENV=development node build.webview",
     "build": "cross-env NODE_ENV=production node build"
   },
   "dependencies": {
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "core-js": "3.6.4"
+  },
+  "devDependencies": {
+    "stmux": "1.8.1"
   }
 }

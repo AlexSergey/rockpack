@@ -19,13 +19,13 @@
 
 ## Features:
 
-- Webpack 4+, Webpack-dev-server
+- Webpack 5+, Webpack-dev-server 4+
 - TypeScript support
 - Babel 7, Babel-preset-env (> 5%)
 - Support build nodejs scripts with nodemon, livereload, source maps
 - Dotenv support and Dotenv safe support
 - React optimizations
-- Monorepo supported
+- Monorepo support
 - Write file webpack plugin (in dev mode)
 - Copy Webpack Plugin
 - ESLint support
@@ -40,9 +40,8 @@
 - Terser minification
 - Generate stats.json (in production mode)
 - SEO Optimizations
-- Bundle Analyze
+- Bundle Analyze (webpack-bundle-analyzer, Statoscope)
 - Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports - **@loadable**)
-- Multi compile support
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
 - MD/MDX support
 - GraphQL support (webpack-graphql-loader)

@@ -17,7 +17,7 @@ async function backendCompiler(conf = {}, cb, configOnly = false) {
     __isBackend: true,
     compilerName: backendCompiler.name
   });
-
+  conf.name = backendCompiler.name;
   return await _compile(conf, cb, configOnly);
 }
 

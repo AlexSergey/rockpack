@@ -9,6 +9,7 @@ async function webViewCompiler(conf = {}, cb, configOnly = false) {
   }
   errorHandler();
   conf.webview = true;
+  conf.name = webViewCompiler.name;
   conf.compilerName = webViewCompiler.name;
   return await _compile(conf, cb, configOnly);
 }

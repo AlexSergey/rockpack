@@ -29,7 +29,7 @@ const _make = async (conf, post) => {
   const { entry, context } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root, mode);
   const devtool = makeDevtool(mode, conf);
-  const devServer = makeDevServer(conf, root);
+  const devServer = await makeDevServer(conf);
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
   const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
@@ -45,7 +45,12 @@ const _make = async (conf, post) => {
     optimization,
     externals
   };
-
+  finalConfig.infrastructureLogging = {
+    level: 'error',
+  };
+  if (typeof conf.name === 'string') {
+    finalConfig.name = conf.name;
+  }
   finalConfig.mode = mode;
 
   if (isDefined(conf.externals)) {

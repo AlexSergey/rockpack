@@ -4,9 +4,10 @@ const _compile = require('../core/_compile');
 const errors = require('../errors/markupCompiler');
 const errorHandler = require('../errorHandler');
 const findHTML = require('../utils/findHTML');
+const _devServer = require('../core/_devServer');
 
 async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
-  setMode(['development', 'production'], 'development');
+  const mode = setMode(['development', 'production'], 'development');
   if (!conf) {
     conf = {};
   }
@@ -20,13 +21,25 @@ async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
 
   try {
     const html = await findHTML(pth, conf.html);
-
+    console.log('html', html);
     conf = deepExtend({}, conf, {
       html
     });
 
+    conf.name = markupCompiler.name;
     conf.compilerName = markupCompiler.name;
-    return await _compile(conf, cb, configOnly);
+    const result = await _compile(conf, cb, configOnly);
+
+    if (configOnly) {
+      return result;
+    }
+    if (global.ISOMORPHIC) {
+      return result;
+    }
+
+    if (mode === 'development') {
+      _devServer(result);
+    }
   } catch (err) {
     console.error(err);
     return process.exit(1);

@@ -1,15 +1,15 @@
 const { existsSync } = require('fs');
 const { argv } = require('yargs');
+const path = require('path');
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
 const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
-const path = require('path');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugin');
@@ -30,8 +30,8 @@ const Collection = require('../utils/Collection');
 const makeBanner = require('./makeBanner');
 const makeResolve = require('./makeResolve');
 const pathToTSConf = require('../utils/pathToTSConf');
-const { SSRBackend, SSRFrontend } = require('../plugins/SSRDevelopment');
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
+const SSRDevelopment = require('../plugins/SSRDevelopment');
 const WebViewHTMLWrapper = require('../plugins/WebViewHTMLWrapper');
 const { getTitle, getRandomInt } = require('../utils/other');
 
@@ -92,14 +92,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
       messages: conf.messages
-    },
-    additionalTransformers: [
-      (error) => {
-        // TODO: Fix webpack serve error. Remove it after update webpack-serve-plugin
-        if (error.message === 'DefinePlugin\nConflicting values for \'ʎɐɹɔosǝʌɹǝs\'') return false;
-        return error;
-      }
-    ]
+    }
   });
 
   if (isTypeScript) {
@@ -130,7 +123,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.Dotenv = dotenv;
   }
 
-  if (conf.write && mode !== 'production') {
+  if (mode !== 'production') {
     plugins.WriteFilePlugin = new WriteFilePlugin();
   }
 
@@ -233,6 +226,9 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   if (conf.__isBackend) {
     env.ROOT_DIRNAME = root;
   }
+  if (typeof global.LIVE_RELOAD_PORT === 'number') {
+    env.LIVE_RELOAD_PORT = global.LIVE_RELOAD_PORT;
+  }
 
   const definePluginOpts = Object.assign(
     {},
@@ -268,31 +264,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   /**
    * DEVELOPMENT
    * */
-  if (mode === 'development' && !conf.webview && !global.IGNORE_SERVE) {
+  if (mode === 'development' && !conf.webview) {
     if (
       !conf.__library &&
       !conf.nodejs &&
       !global.ISOMORPHIC
     ) {
-      const defaultFrontServePort = conf.port;
-      const frontServePort = await fpPromise(defaultFrontServePort);
-      plugins.WebpackPluginServe = new WebpackPluginServe({
-        liveReload: true,
-        historyFallback: true,
-        port: frontServePort,
-        open: true,
-        host: 'localhost',
-        static: [
-          path.isAbsolute(conf.distContext) ?
-            conf.distContext :
-            path.resolve(root, conf.distContext)
-        ],
-        client: {
-          address: `localhost:${frontServePort}`,
-        },
-        progress: 'minimal',
-        waitForBuild: true
-      });
+      plugins.ErrorOverlayPlugin = new ErrorOverlayPlugin();
     } else if (
       !conf.__library &&
       conf.nodejs &&
@@ -301,28 +279,10 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
       plugins.NodemonPlugin = new NodemonPlugin(opts);
-    } else if (global.ISOMORPHIC) {
-      const defaultFrontReloaderPort = 8767;
-      const frontReloaderPort = await fpPromise(defaultFrontReloaderPort);
-
+    } else if (global.ISOMORPHIC && conf.__isIsomorphicBackend) {
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
-      plugins.SSRDevelopmentWebpackPlugin = conf.__isIsomorphicBackend ?
-        new SSRBackend(opts) :
-        new SSRFrontend({
-          port: frontReloaderPort,
-          host: 'localhost',
-          log: { level: 'warn' },
-          static: [
-            path.isAbsolute(conf.distContext) ?
-              conf.distContext :
-              path.resolve(root, conf.distContext)
-          ],
-          progress: 'minimal',
-          client: {
-            address: `localhost:${frontReloaderPort}`,
-          }
-        });
+      plugins.SSRDevelopment = new SSRDevelopment(opts);
     }
 
     plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin({

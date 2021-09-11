@@ -14,8 +14,6 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
 
   conf.__library = true;
 
-  conf.write = true;
-
   errorHandler();
   let libraryName = false;
 
@@ -54,6 +52,7 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
     html: !conf.html ? false : conf.html
   });
 
+  conf.name = libraryCompiler.name;
   conf.compilerName = libraryCompiler.name;
 
   if (conf.nodejs) {

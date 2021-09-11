@@ -17,9 +17,6 @@ const _innerProps = async (conf, mode) => {
           conf.__isIsomorphicStyles = true;
         }
         conf.__isIsomorphicFrontend = true;
-        conf.write = isDefined(conf.write) ?
-          conf.write :
-          true;
         conf.html = isDefined(conf.html) ?
           conf.html :
           false;

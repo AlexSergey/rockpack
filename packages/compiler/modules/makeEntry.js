@@ -8,53 +8,21 @@ const makeEntry = (conf, root, mode) => {
     process.exit(1);
   }
 
-  let entry = {};
-  let context = '';
+  const entry = {};
+
   const entryPoint = path.basename(conf.dist)
     .replace(distExtension, '');
 
-  if (global.ISOMORPHIC) {
-    if (isArray(conf.vendor)) {
-      entry.vendor = conf.vendor;
-    }
-
-    if (
-      !conf.__library &&
-      mode === 'development' &&
-      !conf.nodejs
-    ) {
-      entry['dev-server'] = require.resolve('webpack-plugin-serve/client');
-    }
-
-    entry[entryPoint] = path.resolve(root, conf.src);
-    context = path.dirname(entry[entryPoint]);
-  } else {
-    // eslint-disable-next-line
-    if (mode === 'development') {
-      if (
-        conf.__library ||
-        conf.nodejs
-      ) {
-        entry[entryPoint] = path.resolve(root, conf.src);
-      } else if (conf.webview) {
-        entry = [
-          path.resolve(root, conf.src)
-        ];
-      } else {
-        entry = [
-          require.resolve('webpack-plugin-serve/client'),
-          path.resolve(root, conf.src)
-        ];
-      }
-    } else if (mode === 'production') {
-      if (isArray(conf.vendor)) {
-        entry.vendor = conf.vendor;
-      }
-
-      entry[entryPoint] = path.resolve(root, conf.src);
-      context = path.dirname(entry[entryPoint]);
-    }
+  if (isArray(conf.vendor)) {
+    entry.vendor = conf.vendor;
   }
+
+  if (conf.__isIsomorphicFrontend && mode === 'development') {
+    entry['dev-server'] = require.resolve('../plugins/Reloader/ssr');
+  }
+
+  entry[entryPoint] = path.resolve(root, conf.src);
+  const context = path.dirname(entry[entryPoint]);
 
   return { entry, context };
 };
