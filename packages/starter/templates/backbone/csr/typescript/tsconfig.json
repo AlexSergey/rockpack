@@ -10,7 +10,8 @@
     "baseUrl": ".",
     "importsNotUsedAsValues": "preserve",
     "types": [
-      "node"
+      "node",
+      "webpack-env"
     ],
     "lib": [
       "esnext",
