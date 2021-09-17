@@ -1,1 +1,0 @@
-logger.log('Something was wrong', true);

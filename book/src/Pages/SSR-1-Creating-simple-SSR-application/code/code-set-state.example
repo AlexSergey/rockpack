@@ -1,5 +1,0 @@
-import { useUssrState, useUssrEffect } from '@rockpack/ussr';
-
-...
-
-const [state, setState] = useUssrState({ text: 'text here' });

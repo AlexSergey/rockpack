@@ -1,9 +1,0 @@
-const MakePotPlugin = require('@localazer/webpack-plugin');
-
-// webpack.config
-
-plugins: [
-...
-  new MakePotPlugin()
-...
-]

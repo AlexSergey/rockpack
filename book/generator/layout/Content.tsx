@@ -12,7 +12,7 @@ const Content = ({ children }: ContentInterface): JSX.Element => {
   const classesContent = useStylesContent();
 
   return (
-    <div className={classesContent.content} style={{ minHeight: 'auto', float: 'left', width: '100%' }}>
+    <div className={`${classesContent.content} content-section`} style={{ minHeight: 'auto', float: 'left', width: '100%' }}>
       <div className={classesContent.container}>
         {children}
       </div>

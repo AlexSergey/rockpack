@@ -1,9 +1,0 @@
-<LoggerContainer
-    active={true|false}
-    limit={20}
-    onError={stack => {
-        sendToServer(stack);
-    }}
->
-    <App />
-</LoggerContainer>

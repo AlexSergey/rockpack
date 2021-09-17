@@ -3,6 +3,7 @@ const { frontendCompiler } = require('@rockpack/compiler');
 const prerenderDocgen = require('./postrender');
 
 frontendCompiler({
+  dist: path.resolve(__dirname, '../docs'),
   html: {
     template: path.resolve(__dirname, './index.ejs'),
     favicon: path.resolve(__dirname, './favicon.ico')
@@ -15,12 +16,6 @@ frontendCompiler({
     prerenderDocgen(plugins, finalConfig, {
       sections: [
         { url: '/' },
-        { url: '/fast-setup' },
-        //{ url: '/log-driven-development' },
-        //{ url: '/localization-true-way' },
-        //{ url: '/ssr-1-creating-simple-ssr-application' },
-        //{ url: '/ssr-2-migration-legacy-app-to-ssr' },
-        //{ url: '/ssr-3-advanced-techniques' }
       ],
       languages: {}
     });

@@ -665,3 +665,13 @@ footer ul li a:hover {
     float: none;
   }
 }
+
+.without-sidebar .makeStyles-mainPanel-2 {
+  width: auto;
+  float: none;
+}
+
+.without-sidebar .content-section {
+  float: none !important;
+  margin: 70px auto 10px;
+}

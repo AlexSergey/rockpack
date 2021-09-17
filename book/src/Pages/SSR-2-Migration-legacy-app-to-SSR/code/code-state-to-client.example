@@ -1,1 +1,0 @@
-window.REDUX_DATA = ${serialize(store.getState(), { isJSON: true })}

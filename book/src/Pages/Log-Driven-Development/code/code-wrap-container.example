@@ -1,5 +1,0 @@
-import { LoggerContainer } from "logrock";
-
-<LoggerContainer>
-    <App />
-</LoggerContainer>

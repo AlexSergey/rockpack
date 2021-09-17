@@ -1,11 +1,11 @@
 import About from './About-Rockpack';
 import GettingStarted from './Getting-started';
-//import HistoryOfCreation from './History-of-creation';
+import FastSetup from './Fast-setup';
 
 const pages = [
   About,
   GettingStarted,
-  //HistoryOfCreation
+  FastSetup
 ];
 
 export default pages;

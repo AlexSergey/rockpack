@@ -1,2 +1,0 @@
-store.dispatch(END);
-await rootSaga.toPromise();

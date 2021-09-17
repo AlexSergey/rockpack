@@ -1,3 +1,0 @@
-const { getStackData, triggerError } = useLoggerApi();
-
-triggerError(getStackData());

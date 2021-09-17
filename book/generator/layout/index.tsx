@@ -14,7 +14,7 @@ import { LayoutInterface } from '../types';
 const useStyles = makeStyles(styles);
 
 const Layout = (props: LayoutInterface): JSX.Element => {
-  const { hasRoutes } = props;
+  const { hasRoutes, noSidebar } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = (): void => {
@@ -30,13 +30,15 @@ const Layout = (props: LayoutInterface): JSX.Element => {
   }, []);
 
   return (
-    <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'}`}>
+    <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'} ${noSidebar && ' without-sidebar'}`}>
       {hasRoutes ? (
-        <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
-          {(isMobile): JSX.Element => (
-            <MenuItems {...props} handleDrawerToggle={(): void => isMobile && handleDrawerToggle()} />
-          )}
-        </MenuBar>
+        !noSidebar && (
+          <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
+            {(isMobile): JSX.Element => (
+              <MenuItems {...props} handleDrawerToggle={(): void => isMobile && handleDrawerToggle()} />
+            )}
+          </MenuBar>
+        )
       ) : null}
       <div className={classes.mainPanel} style={{ overflow: 'hidden', maxHeight: 'none' }}>
         <Header {...props} handleDrawerToggle={handleDrawerToggle} />

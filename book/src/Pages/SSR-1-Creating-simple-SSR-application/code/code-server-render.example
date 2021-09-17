@@ -1,5 +1,0 @@
-import { serverRender } from '@rockpack/ussr';
-
-...
-
-const { html } = await serverRender(() => <App />);

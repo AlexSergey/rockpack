@@ -1,3 +1,0 @@
-let fetch = axios.create({...});
-
-fetch.defaults.headers.common.sessionId = window.SESSION_ID;

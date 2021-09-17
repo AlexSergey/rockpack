@@ -1,5 +1,4 @@
 import React from 'react';
-import LearnMore from '../../../../components/LearnMore';
 
 const Page = () => (
   <div>
@@ -35,7 +34,6 @@ const Page = () => (
         </p>
       </li>
     </ul>
-    <p><LearnMore url="/fast-setup" /></p>
     <br />
     <ul>
       <li>

@@ -22,6 +22,7 @@ export interface ExternalPropsInterface {
   title?: string;
   logo?: string;
   logoAlt?: string;
+  noSidebar?: boolean;
   github?: string;
   docgen: DocgenRouteInterface | DocgenRouteInterface[];
   footer: JSX.Element;
@@ -48,6 +49,7 @@ export interface InnerInterface extends ExternalPropsInterface {
 export interface LayoutInterface extends ExternalPropsInterface {
   openIds: string[];
   hasRoutes: boolean;
+  noSidebar?: boolean;
   isLocalized: boolean;
   activeLang: string;
   changeLocal: (lang: string) => void;
