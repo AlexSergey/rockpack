@@ -12,6 +12,7 @@ frontendCompiler({
     { from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }
   ]
 }, (finalConfig, modules, plugins) => {
+  finalConfig.output.publicPath = '/rockpack/';
   if (process.env.NODE_ENV === 'production') {
     prerenderDocgen(plugins, finalConfig, {
       sections: [
