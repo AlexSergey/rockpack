@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
-import codeInstallationExample from 'raw-loader!./code/code-isntallation.example';
+import codeInstallationExample from 'raw-loader!./code/code-installation.example';
 // eslint-disable-next-line import/no-webpack-loader-syntax,import/order
 import codeCreateExample from 'raw-loader!./code/code-create.example';
 import Code from '../../../../components/Code';
@@ -8,7 +8,9 @@ import img from '../../../../../readme_assets/rockpack_starter_1.v4.jpg';
 
 const Page = () => (
   <div>
-    <p>The easiest way to start is using <a href="https://github.com/AlexSergey/rockpack/tree/master/packages/starter">@rockpack/starter</a> module. This module can help you to create the backbone of an
+    <p>The easiest way to start is
+      using <a href="https://github.com/AlexSergey/rockpack/tree/master/packages/starter">@rockpack/starter</a> module.
+      This module can help you to create the backbone of an
       application. It supports different types of applications:
     </p>
 
@@ -35,5 +37,6 @@ const Page = () => (
 
 export default {
   title: 'Fast Setup',
+  url: '/fast-setup',
   component: Page
 };
