@@ -61,7 +61,7 @@ const _make = async (conf, post) => {
     finalConfig.target = 'node';
   }
 
-  if (mode === 'development') {
+  if (mode === 'development' || conf.debug) {
     finalConfig.watch = true;
     finalConfig.cache = true;
     finalConfig.performance = {
@@ -69,7 +69,7 @@ const _make = async (conf, post) => {
     };
   }
 
-  if (mode === 'production') {
+  if (mode === 'production' && !conf.debug) {
     finalConfig.performance = {
       hints: 'warning'
     };

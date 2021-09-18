@@ -3,6 +3,9 @@
 <html>
 <head>
     <% if (htmlWebpackPlugin.options.code) { %><script><%= htmlWebpackPlugin.options.code %></script><% } %>
+    <!-- Jekyll github pages trick -->
+    <base href="{{site.baseurl}}" />
+    <!-- Jekyll github pages trick END -->
     <meta charset="utf-8" />
     <meta name="description" content="Rockpack is a complex approach for bundling, logging, testing, SEO, SSR and more, for React application.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">

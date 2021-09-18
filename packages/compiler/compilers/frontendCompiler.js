@@ -20,7 +20,7 @@ async function frontendCompiler(conf = {}, cb, configOnly = false) {
     return result;
   }
 
-  if (mode === 'development') {
+  if (mode === 'development' || conf.debug) {
     _devServer(result);
   }
 }

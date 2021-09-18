@@ -215,7 +215,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({
       extensions,
       context,
-      failOnError: mode === 'production',
+      failOnError: mode === 'production' && !conf.debug,
       eslintPath: require.resolve('eslint')
     });
   }
@@ -299,8 +299,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
 
     plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
-
-    plugins.ModuleConcatenationPlugin = new webpack.optimize.ModuleConcatenationPlugin();
 
     const styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ?
       conf.styles :

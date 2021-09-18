@@ -50,6 +50,7 @@
     "prerender-spa-plugin": "3.4.0",
     "strip-comments": "2.0.1",
     "raw-loader": "2.0.0",
-    "url-join": "4.0.1"
+    "url-join": "4.0.1",
+    "webpack-shell-plugin-next": "2.2.2"
   }
 }

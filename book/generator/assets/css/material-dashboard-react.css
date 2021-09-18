@@ -675,3 +675,6 @@ footer ul li a:hover {
   float: none !important;
   margin: 70px auto 10px;
 }
+.without-sidebar .site-section {
+  width: 100% !important;
+}

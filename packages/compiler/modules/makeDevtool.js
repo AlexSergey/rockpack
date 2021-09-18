@@ -6,7 +6,7 @@ const makeDevtool = (mode, conf) => {
   }
 
   if (conf.debug) {
-    sourceMap = 'cheap-module-source-map';
+    sourceMap = 'source-map';
   }
 
   if (mode === 'development' && conf.webview) {

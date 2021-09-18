@@ -30,6 +30,7 @@ test-reports/**
 *.hbs
 *.jade
 *.html
+*.yml
 *.example
 docs/
 public/

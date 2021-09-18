@@ -30,7 +30,7 @@ const Layout = (props: LayoutInterface): JSX.Element => {
   }, []);
 
   return (
-    <div className={`${classes.wrapper} ${!hasRoutes && ' without-routes'} ${noSidebar && ' without-sidebar'}`}>
+    <div className={`${classes.wrapper} ${!hasRoutes ? ' without-routes' : ''} ${noSidebar && ' without-sidebar'}`}>
       {hasRoutes ? (
         !noSidebar && (
           <MenuBar handleDrawerToggle={handleDrawerToggle} open={mobileOpen}>
@@ -40,7 +40,7 @@ const Layout = (props: LayoutInterface): JSX.Element => {
           </MenuBar>
         )
       ) : null}
-      <div className={classes.mainPanel} style={{ overflow: 'hidden', maxHeight: 'none' }}>
+      <div className={`${classes.mainPanel} site-section`} style={{ overflow: 'hidden', maxHeight: 'none' }}>
         <Header {...props} handleDrawerToggle={handleDrawerToggle} />
         <Content>
           {hasRoutes ? (

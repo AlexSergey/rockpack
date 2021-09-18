@@ -37,6 +37,5 @@ const Page = () => (
 
 export default {
   title: 'Fast Setup',
-  url: '/fast-setup',
   component: Page
 };

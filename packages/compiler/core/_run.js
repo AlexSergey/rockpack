@@ -43,7 +43,9 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
 
         log(stats);
 
-        return process.exit(0);
+        if (!conf.debug) {
+          return process.exit(0);
+        }
     }
   });
 
