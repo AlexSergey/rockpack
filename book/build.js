@@ -10,10 +10,10 @@ frontendCompiler({
     favicon: path.resolve(__dirname, './favicon.ico')
   },
   copy: [
-    { from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' },
-    { from: path.resolve(__dirname, './_config.yml'), to: './' }
+    { from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }
   ]
 }, (finalConfig, modules, plugins) => {
+  finalConfig.output.publicPath = '';
   if (process.env.NODE_ENV === 'production') {
     plugins.set('WebpackShellPluginNext', new WebpackShellPluginNext({
       onBuildExit: {
