@@ -15,9 +15,7 @@
     <meta name="google" value="notranslate" />
 
     <script>
-      var base = document.createElement('base');
-      base.href = location.hostname === 'alexsergey.github.io' ? '/rockpack' : '/';
-      document.getElementsByTagName('head')[0].appendChild(base);
+      document.write('<base href="' + (location.hostname === 'alexsergey.github.io' ? '/rockpack/' : '/') + '" />')
     </script>
 
     <% if (Array.isArray(htmlWebpackPlugin.files.css)) { %>
