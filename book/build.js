@@ -24,7 +24,7 @@ frontendCompiler({
     }));
     prerenderDocgen(plugins, finalConfig, {
       sections: [
-        { url: '/' },
+        { url: '/rockpack' },
       ],
       languages: {}
     });
