@@ -3,7 +3,7 @@ import children from './SubArticles';
 
 const page = {
   title: 'Rockpack',
-  url: '/rockpack',
+  url: '/',
   menuOnly: true,
   meta: [
     <meta name="description" content="Rockpack ..." key="description" />

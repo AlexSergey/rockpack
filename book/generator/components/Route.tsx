@@ -81,7 +81,7 @@ const _Route = (props: InnerInterface): JSX.Element => {
 
       {props.isLocalized && Array.isArray(props.languages) ?
         <Redirect from="/" to={`/${props.activeLang}`} /> :
-        <Redirect from="/" to="/" />}
+        null}
     </Switch>
   );
 };
