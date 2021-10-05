@@ -122,7 +122,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.Dotenv = dotenv;
   }
 
-  if (mode !== 'production') {
+  if (mode !== 'production' || conf.debug) {
     plugins.WriteFilePlugin = new WriteFilePlugin();
   }
 

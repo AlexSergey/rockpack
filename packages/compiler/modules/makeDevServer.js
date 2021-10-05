@@ -7,6 +7,9 @@ const makeDevServer = async (conf) => ({
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Authorization, Accept'
   },
+  devMiddleware: {
+    writeToDisk: true
+  },
   port: conf.port || await fpPromise(3000),
   hot: true,
   open: !argv._rockpack_testing,

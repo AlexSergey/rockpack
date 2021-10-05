@@ -5,6 +5,7 @@ const frontendCompiler = require('./frontendCompiler');
 const backendCompiler = require('./backendCompiler');
 const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
+const _compile = require('../core/_compile');
 
 async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   setMode(['development', 'production'], 'development');
@@ -56,9 +57,14 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   conf.compilerName = libraryCompiler.name;
 
   if (conf.nodejs) {
-    return await backendCompiler(conf, cb, configOnly);
+    conf = deepExtend({}, conf, {
+      html: false,
+      nodejs: true,
+      __isBackend: true
+    });
+    return await _compile(conf, cb, configOnly);
   }
-  return await frontendCompiler(conf, cb, configOnly);
+  return await _compile(conf, cb, configOnly);
 }
 
 module.exports = libraryCompiler;
