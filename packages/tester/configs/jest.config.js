@@ -76,7 +76,7 @@ module.exports = Object.assign({
   globalTeardown,
   setupFiles,
   setupFilesAfterEnv: [
-    require.resolve('jest-extended'),
+    require.resolve('jest-extended/all'),
     require.resolve('expect-more-jest'),
     require.resolve('jest-generator'),
     require.resolve('jest-chain'),

@@ -107,7 +107,7 @@ const {
 | Prop | Value[<i>Default value</i>] | Description |
 | --- | --- | --- |
 | dist | String['./dist'] | The path for compiled app, by default **dist** |
-| src | String['./src'] | The path for application source. By default "src", where will be find index.{jx\|jsx\|ts\|tsx} |
+| src | String['./src'] | The path for application source. By default "src", where will be find index.{js\|jsx\|ts\|tsx} |
 | debug | Boolean[false] | Debug option. Save source maps. It helps to find difficult bugs in minified code in production mode |
 | html | Boolean/Object[undefined] | This setting will activate Html webpack plugin. You can override the default index.ejs template. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
 | port | Number[3000] | webpack-dev-server's port |
