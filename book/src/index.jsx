@@ -12,6 +12,6 @@ createDocumentation({
   ],
   title: 'Rockpack',
   github: 'https://github.com/AlexSergey/rockpack',
-  footer: <div>License MIT, 2020</div>,
+  footer: <div>License MIT, {new Date().getFullYear()}</div>,
   ga: 'UA-155200418-1',
 }, document.getElementById('root'));
