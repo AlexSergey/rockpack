@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build",
-    "build": "node build --mode=production",
+    "build": "node build --mode=production && node base.modify.js",
     "makePot": "node makePot",
     "po2json": "node po2json",
     "lint": "eslint \"**\""
@@ -51,6 +51,7 @@
     "strip-comments": "2.0.1",
     "raw-loader": "2.0.0",
     "url-join": "4.0.1",
-    "webpack-shell-plugin-next": "2.2.2"
+    "webpack-shell-plugin-next": "2.2.2",
+    "node-html-parser": "5.1.0"
   }
 }

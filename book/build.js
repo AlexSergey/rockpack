@@ -19,7 +19,7 @@ frontendCompiler({
       onBuildExit: {
         scripts: ['echo "Pre-render docs was ended"'],
         blocking: false,
-        parallel: true
+        parallel: false
       }
     }));
     prerenderDocgen(plugins, finalConfig, {

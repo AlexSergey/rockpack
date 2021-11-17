@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+  <img alt="Rockpack" src="https://www.natrube.net/rockpack/readme_assets/rockpack_logo_without_text.png">
 </p>
 
 # @rockpack/starter
@@ -60,7 +60,7 @@ rockpack <project name>
 
 3. Select the type of application.
 
-![Rockpack Starter](https://www.rockpack.io/readme_assets/rockpack_starter_1.v3.jpg)
+![Rockpack Starter](https://www.natrube.net/rockpack/readme_assets/rockpack_starter_1.v3.jpg)
 ***
 
 ## Arguments

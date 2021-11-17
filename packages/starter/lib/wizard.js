@@ -40,7 +40,7 @@ const wizard = async () => {
   const { typescript } = await prompt({
     type: 'confirm',
     name: 'typescript',
-    message: 'Do you want typescript support?'
+    message: 'Do you want Typescript support?'
   });
 
   const { tester } = await prompt({

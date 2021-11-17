@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_without_text.png">
+  <img alt="Rockpack" src="https://www.natrube.net/rockpack/readme_assets/rockpack_logo_without_text.png">
 </p>
 
 # @rockpack/codestyle

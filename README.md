@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Rockpack" src="https://www.rockpack.io/readme_assets/rockpack_logo_v2.0.png">
+  <img alt="Rockpack" src="https://www.natrube.net/rockpack/readme_assets/rockpack_logo_v2.0.png">
 </p>
 
 *This is beta. Official release coming soon*
@@ -40,13 +40,13 @@ Working on many React projects, we are faced with the same type of routine tasks
 Every time we spend weeks on these routine tasks.
 
 <p align="center">
-  <img width="500px" alt="Usual flow" src="https://www.rockpack.io/readme_assets/rockpack_main_1.v2.0.png">
+  <img width="500px" alt="Usual flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_1.v2.0.png">
 </p>
 
 Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
 
 <p align="center">
-  <img width="500px" alt="Rockpack flow" src="https://www.rockpack.io/readme_assets/rockpack_main_2.png">
+  <img width="500px" alt="Rockpack flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_2.png">
 </p>
 
 ## Rockpack modules overview
