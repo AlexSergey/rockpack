@@ -3,7 +3,7 @@ import children from './SubArticles';
 
 const page = {
   title: 'Rockpack',
-  url: '/',
+  url: window.location.pathname.includes('rockpack') ? '/rockpack/' : '/',
   menuOnly: true,
   meta: [
     <meta name="description" content="Rockpack ..." key="description" />
