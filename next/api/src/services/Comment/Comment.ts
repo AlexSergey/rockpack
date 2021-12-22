@@ -48,15 +48,13 @@ export class CommentService implements CommentServiceInterface {
     }
 
     try {
-      return await CommentModel.update<CommentModel>(
-        {
-          text
-        }, {
-          where: {
-            id: commentId
-          }
+      return await CommentModel.update<CommentModel>({
+        text
+      }, {
+        where: {
+          id: commentId
         }
-      );
+      });
     } catch (e) {
       logger.error(e.message);
       throw new SequelizeError(e);

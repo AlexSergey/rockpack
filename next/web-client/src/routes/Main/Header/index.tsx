@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import Localization, { l } from '@localazer/component';
 import { Layout, Menu, Dropdown, Button } from 'antd';

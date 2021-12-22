@@ -46,7 +46,7 @@ const makeOptimization = (mode, conf) => {
           terserOptions: {
             mangle: true,
             output: {
-              comments: new RegExp('banner')
+              comments: /banner/
             },
             compress: {
               drop_console: !conf.debug,

@@ -93,29 +93,32 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
     });
   };
 
-  render((
-    <Router history={history}>
-      <LangWrapper {...props}>
-        {(isLocalized, activeLang, changeLocal): JSX.Element => (
-          <OpenIds {...props} openIds={openIds}>
-            {/* eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow */}
-            {(openIds, setOpenIds): JSX.Element => (
-              <Layout {...Object.assign({}, props, {
-                openIds,
-                hasRoutes,
-                isLocalized,
-                activeLang,
-                changeLocal,
-                languages,
-                toggleOpenId: () => {
-                  handleOpen(setOpenIds);
-                }
-              })}
-              />
-            )}
-          </OpenIds>
-        )}
-      </LangWrapper>
-    </Router>
-  ), el);
+  render(
+    (
+      <Router history={history}>
+        <LangWrapper {...props}>
+          {(isLocalized, activeLang, changeLocal): JSX.Element => (
+            <OpenIds {...props} openIds={openIds}>
+              {/* eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow */}
+              {(openIds, setOpenIds): JSX.Element => (
+                <Layout {...Object.assign({}, props, {
+                  openIds,
+                  hasRoutes,
+                  isLocalized,
+                  activeLang,
+                  changeLocal,
+                  languages,
+                  toggleOpenId: () => {
+                    handleOpen(setOpenIds);
+                  }
+                })}
+                />
+              )}
+            </OpenIds>
+          )}
+        </LangWrapper>
+      </Router>
+    ),
+    el
+  );
 };

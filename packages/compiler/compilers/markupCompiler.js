@@ -6,6 +6,7 @@ const errorHandler = require('../errorHandler');
 const findHTML = require('../utils/findHTML');
 const _devServer = require('../core/_devServer');
 
+// eslint-disable-next-line default-param-last
 async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
   const mode = setMode(['development', 'production'], 'development');
   if (!conf) {

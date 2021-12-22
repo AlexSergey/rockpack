@@ -14,6 +14,7 @@ export const Owner = ({ children, forUser }: OwnerInterface): JSX.Element | null
   }
 
   return email === forUser ? (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {children}
     </>

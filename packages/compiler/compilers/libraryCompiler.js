@@ -1,12 +1,11 @@
 const deepExtend = require('deep-extend');
 const { isString, isObject, isArray } = require('valid-types');
 const { setMode } = require('@rockpack/utils');
-const frontendCompiler = require('./frontendCompiler');
-const backendCompiler = require('./backendCompiler');
 const errors = require('../errors/libraryCompiler');
 const errorHandler = require('../errorHandler');
 const _compile = require('../core/_compile');
 
+// eslint-disable-next-line default-param-last
 async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   setMode(['development', 'production'], 'development');
   if (!conf) {

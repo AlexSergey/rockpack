@@ -1,13 +1,13 @@
 const path = require('path');
 const yargs = require('yargs');
-const { isString } = require('valid-types');
 const unparse = require('yargs-unparser');
 const deepExtend = require('deep-extend');
 const defaultProps = require('../defaultProps');
 const createPaths = require('../modules/createPaths');
 const compileSrc = require('../modules/mergeSrc');
 
-module.exports = function argsCompilers(opts = {}, mode) {
+// eslint-disable-next-line default-param-last
+module.exports = function argsCompiler(opts = {}, mode) {
   const options = deepExtend({}, defaultProps, opts);
   const rootFolder = path.resolve(__dirname, '..');
   const { rootProjectFolder, src } = createPaths(options);

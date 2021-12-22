@@ -1,5 +1,6 @@
 const path = require('path');
 const { existsSync } = require('fs');
+const createBabelPresets = require('@rockpack/babel');
 const { checkReact, getMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
 
@@ -78,10 +79,14 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
 
   return deepExtend({}, {
     extends: extendsRules,
-    parser: require.resolve('babel-eslint'),
+    parser: require.resolve('@babel/eslint-parser'),
     parserOptions: {
       ecmaVersion: 2018,
       sourceType: 'module',
+      requireConfigFile: false,
+      babelOptions: createBabelPresets({
+        framework: 'react'
+      }),
       ecmaFeatures: {
         modules: true,
         jsx: hasReact,

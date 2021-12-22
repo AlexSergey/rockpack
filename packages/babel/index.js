@@ -83,6 +83,7 @@ const createBabelPresets = ({
     getPreset('@babel/plugin-proposal-pipeline-operator', {
       proposal: 'minimal'
     }),
+    getPreset('@babel/plugin-proposal-numeric-separator'),
     getPreset('@babel/plugin-proposal-do-expressions'),
     getPreset('@babel/plugin-proposal-logical-assignment-operators'),
     getPreset('@babel/plugin-proposal-optional-chaining', { loose: false }),

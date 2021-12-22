@@ -1,3 +1,4 @@
+/* eslint import/no-import-module-exports:0 */
 import 'reflect-metadata';
 
 import { bootstrapper } from './bootstrapper';

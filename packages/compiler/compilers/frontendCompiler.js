@@ -3,6 +3,7 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../errorHandler');
 const _devServer = require('../core/_devServer');
 
+// eslint-disable-next-line default-param-last
 async function frontendCompiler(conf = {}, cb, configOnly = false) {
   const mode = setMode(['development', 'production'], 'development');
   if (!conf) {

@@ -20,12 +20,10 @@ class WebViewHTMLWrapper {
       if (HtmlWebpackPlugin.getHooks) {
         HtmlWebpackPlugin.getHooks(compilation)
           .beforeEmit
-          .tapAsync(
-            'WebViewHTMLWrapperPlugin', (data, callback) => {
-              webviewHTML = data.html;
-              callback(null, data);
-            }
-          );
+          .tapAsync('WebViewHTMLWrapperPlugin', (data, callback) => {
+            webviewHTML = data.html;
+            callback(null, data);
+          });
       }
     });
     compiler.hooks.afterEmit.tapAsync('WebViewHTMLWrapperPlugin', (compilation, callback) => {

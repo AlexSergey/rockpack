@@ -28,7 +28,7 @@ object-assign
 
 /*!
  * banner:
- * @rockpack/book: 2.0.0-rc.29
+ * @rockpack/book: 2.0.0-rc.30
  * ISC
  */
 

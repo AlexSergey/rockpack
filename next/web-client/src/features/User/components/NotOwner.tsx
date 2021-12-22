@@ -14,6 +14,7 @@ export const NotOwner = ({ children, forUser }: NotOwnerInterface): JSX.Element 
   }
 
   return email !== forUser ? (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {children}
     </>

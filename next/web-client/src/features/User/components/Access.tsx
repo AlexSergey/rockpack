@@ -22,6 +22,7 @@ export const Access = ({ children, forRoles, fallback }: AccessInterface): JSX.E
   }
 
   return forRoles.includes(role) ? (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {children}
     </>

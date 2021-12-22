@@ -38,7 +38,8 @@ export const routes = (app: Application): void => {
     {
       name: 'preview',
       maxCount: config.files.preview
-    }, {
+    },
+    {
       name: 'photos',
       maxCount: config.files.photos
     }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { Fragment } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import loadable from '@loadable/component';

@@ -1,5 +1,6 @@
 const path = require('path');
 
+// eslint-disable-next-line default-param-last
 const makeOutput = (conf = {}, root, mode) => {
   const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
 

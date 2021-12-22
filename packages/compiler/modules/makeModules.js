@@ -3,6 +3,7 @@ const Collection = require('../utils/Collection');
 const getStylesRules = require('../utils/getStylesRules');
 const createFileLoader = require('../utils/fileLoader');
 
+// eslint-disable-next-line default-param-last
 function getModules(conf = {}, mode, root) {
   const { css, scss, less } = getStylesRules(conf, mode, root);
   let presetsAdditionalOptions = {};
