@@ -54,7 +54,7 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
 
 module.exports = Object.assign({
   displayName: `${name}`,
-  testEnvironment: 'jsdom',
+  testEnvironment: require.resolve('jest-environment-jsdom'),
   transform: {
     '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babelJestTS.js`,
     '^.+\\.(js|jsx|ts|tsx)$': `${rootFolder}/modules/babelJest.js`,
