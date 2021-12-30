@@ -11,6 +11,7 @@ export const fetchImage = (): ThunkResult => async (dispatch, getState, { servic
     dispatch(requestImage());
     // eslint-disable-next-line camelcase,@typescript-eslint/naming-convention
     const { download_url } = await services.image.fetchImage();
+    // eslint-disable-next-line camelcase
     dispatch(requestImageSuccess({ url: download_url }));
   } catch (error) {
     dispatch(requestImageError());

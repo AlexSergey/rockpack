@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/book",
-  "version": "2.0.0-rc.30",
+  "version": "2.0.0-rc.31",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "react-share": "4.3.1"
   },
   "devDependencies": {
-    "@rockpack/compiler": "2.0.0-rc.30",
+    "@rockpack/compiler": "2.0.0-rc.31",
     "@localazer/webpack-plugin": "3.1.0",
     "@localazer/po2json": "3.1.0",
     "@types/history": "4.7.3",

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-import-module-exports */
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';

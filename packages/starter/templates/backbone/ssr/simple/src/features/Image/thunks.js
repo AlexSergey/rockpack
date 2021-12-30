@@ -10,6 +10,7 @@ export const fetchImage = () => async (dispatch, getState, { services }) => {
     dispatch(requestImage());
     // eslint-disable-next-line camelcase
     const { download_url } = await services.image.fetchImage();
+    // eslint-disable-next-line camelcase
     dispatch(requestImageSuccess({ url: download_url }));
   } catch (error) {
     dispatch(requestImageError());

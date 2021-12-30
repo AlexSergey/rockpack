@@ -1,3 +1,4 @@
+/* eslint-disable import/no-import-module-exports */
 import './types/global';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
