@@ -288,6 +288,10 @@ module.exports = {
         'react/static-property-placement': 'off',
         'react/prefer-stateless-function': 'off',
         'react/require-default-props': 'off',
+        'react/function-component-definition': [2, {
+          namedComponents: 'arrow-function',
+          unnamedComponents: 'arrow-function',
+        }],
       });
 
       Object.assign(tsCommonRules, {

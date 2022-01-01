@@ -1,8 +1,6 @@
 const { rockConfig } = require('@rockpack/codestyle');
 
-module.exports = rockConfig({
-  'react/function-component-definition': 0
-}, {
+module.exports = rockConfig({}, {
   globals: {
     JSX: true,
     NodeJS: true
