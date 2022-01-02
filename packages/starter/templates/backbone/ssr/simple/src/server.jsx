@@ -6,10 +6,9 @@ import Router from '@koa/router';
 import { readFileSync } from 'fs';
 import PrettyError from 'pretty-error';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
 import { serverRender } from '@issr/core';
-import { createMemoryHistory } from 'history';
 import { ChunkExtractor } from '@loadable/server';
 import { HelmetProvider } from 'react-helmet-async';
 import { isDevelopment } from './utils/environments';
@@ -31,7 +30,6 @@ app.use(serve(publicFolder));
 router.get('/*', async (ctx) => {
   const store = createStore({
     initialState: {},
-    history: createMemoryHistory(),
     services: createServices(fetch),
   });
 
@@ -46,7 +44,7 @@ router.get('/*', async (ctx) => {
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
-          <StaticRouter location={ctx.request.url} context={{}}>
+          <StaticRouter location={ctx.request.url}>
             <App />
           </StaticRouter>
         </HelmetProvider>

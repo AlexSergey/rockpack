@@ -5,7 +5,6 @@ import { RootState, StoreProps } from './types/store';
 
 const createStore = ({
   initialState,
-  history,
   services,
 }: StoreProps): Store<RootState> => {
   const middleware = getDefaultMiddleware({
@@ -13,7 +12,6 @@ const createStore = ({
     serializableCheck: false,
     thunk: {
       extraArgument: {
-        history,
         services,
       },
     },

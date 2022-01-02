@@ -2,8 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import GoogleAnalytics from 'react-ga';
 import { isObject, isString } from 'valid-types';
-import { createBrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Layout from '../layout';
 import findPathToActiveRoute from '../utils/findPathToActiveRoute';
 import openIdGenerate from '../utils/openIdGenerate';
@@ -12,8 +11,6 @@ import validation from '../utils/validation';
 import { LangWrapper } from './LangWrapper';
 import { OpenIds } from './OpenIds';
 import { ExternalPropsInterface } from '../types';
-
-const history = createBrowserHistory();
 
 export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivElement): JSX.Element => {
   if (!(el instanceof HTMLElement)) {
@@ -95,7 +92,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
 
   render(
     (
-      <Router history={history}>
+      <BrowserRouter>
         <LangWrapper {...props}>
           {(isLocalized, activeLang, changeLocal): JSX.Element => (
             <OpenIds {...props} openIds={openIds}>
@@ -117,7 +114,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
             </OpenIds>
           )}
         </LangWrapper>
-      </Router>
+      </BrowserRouter>
     ),
     el
   );

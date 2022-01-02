@@ -4,16 +4,18 @@ import { getDefaultLanguage } from './utils';
 import { ThunkResult } from '../../types/thunk';
 import { LanguageList, Languages } from '../../types/Localization';
 
-export const fetchLocalization = ({
-  language,
-  languages
-} : {
+export type FetchLocalization = (args: {
   language: Languages;
   languages: LanguageList
-}): ThunkResult => async (
+}) => ThunkResult<boolean>;
+
+export const fetchLocalization: FetchLocalization = ({
+  language,
+  languages
+}) => async (
   dispatch,
   getState,
-  { services, logger, history }
+  { services, logger }
 ) => {
   try {
     if (languages[language]) {
@@ -21,7 +23,7 @@ export const fetchLocalization = ({
         locale: languages[language],
         language
       }));
-      return;
+      return false;
     }
 
     if (getDefaultLanguage() === language) {
@@ -29,8 +31,7 @@ export const fetchLocalization = ({
         locale: getDefaultLocale(getDefaultLanguage()),
         language: getDefaultLanguage()
       }));
-      history.push(`/${language}`);
-      return;
+      return true;
     }
     const locale: LocaleData = await services.localization.fetchLocalization(language);
 
@@ -38,8 +39,9 @@ export const fetchLocalization = ({
       locale,
       language
     }));
-    history.push(`/${language}`);
+    return true;
   } catch (error) {
     logger.error('Cant change the language', true);
   }
+  return false;
 };

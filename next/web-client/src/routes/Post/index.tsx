@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import MetaTags from 'react-meta-tags';
-import { withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { useParams } from 'react-router-dom';
 import Localization, { l, sprintf } from '@localazer/component';
 import { Comments } from './Comments';
 import { UpdateMode } from './UpdateMode';
@@ -20,14 +19,9 @@ type PathParamsType = {
   postId: string;
 };
 
-type PropsType = RouteComponentProps<PathParamsType> & {
-  // Your component own properties
-};
-
-const PostDetails = ({
-  match
-}: PropsType): JSX.Element => {
-  const postId = Number(match.params.postId);
+const PostDetails = (): JSX.Element => {
+  const params = useParams<PathParamsType>();
+  const postId = Number(params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);
 
@@ -94,4 +88,4 @@ const PostDetails = ({
   );
 };
 
-export default withRouter(PostDetails);
+export default PostDetails;

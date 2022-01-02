@@ -13,7 +13,6 @@ import { StoreProps, RootState } from './types/store';
 export const createStore = ({
   initialState,
   logger,
-  history,
   services,
   testMode }: StoreProps): Store<RootState> => {
   const reduxLogger = createLogger({
@@ -25,7 +24,6 @@ export const createStore = ({
     serializableCheck: false,
     thunk: {
       extraArgument: {
-        history,
         services,
         logger
       }

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { Fragment } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React, { createElement, Fragment } from 'react';
+import { Navigate, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { Access } from '../features/User';
 import { Roles } from '../types/User';
@@ -19,19 +19,22 @@ export const Routes = ({ currentLanguage }: { currentLanguage: Languages }): JSX
 
       return (
         <Fragment key={prefix}>
-          <Route path={prefix} component={Posts} exact />
-          <Route path={`${prefix}/posts/:postId`} component={Post} />
+          <Route path={prefix} element={<Posts />} />
+          <Route path={`${prefix}/posts/:postId`} element={<Post />} />
           <Route
             path={`${prefix}/users`}
-            component={(): JSX.Element => (
-              <Access forRoles={[Roles.admin]} fallback={(): JSX.Element => <Redirect to={`/${currentLanguage}`} />}>
+            element={createElement((): JSX.Element => (
+              <Access forRoles={[Roles.admin]} fallback={(): JSX.Element => <Navigate to={`/${currentLanguage}`} />}>
                 <Users />
               </Access>
-            )}
+            ))}
           />
         </Fragment>
       );
     })}
-    <Redirect to={`/${currentLanguage}`} />
+    <Route
+      path="*"
+      element={<Navigate to={`/${currentLanguage}`} />}
+    />
   </Switch>
 );

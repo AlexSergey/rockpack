@@ -1,5 +1,5 @@
 import React, { isValidElement, createElement } from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, useLocation, useMatch, useRoutes } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -110,18 +110,20 @@ const renderInside = (content, index: number | null, props): JSX.Element => {
   );
 };
 
-interface PageAndRouterInterface extends LayoutInterface, RouteComponentProps {
+interface PageAndRouterInterface extends LayoutInterface {
   toggleOpenId: () => void;
   content: unknown;
   docgen: DocgenRouteInterface | DocgenRouteInterface[];
 }
 
-const InnerPage = withRouter((props: PageAndRouterInterface) => {
+const InnerPage = (props: PageAndRouterInterface): JSX.Element => {
+  const { pathname } = useLocation();
+  const { pattern } = useMatch(pathname);
   const classesPage = useStylesPage();
 
   const current = typeof props.activeLang === 'string' ?
-    props.match.path.replace(`/${props.activeLang}`, '') :
-    props.match.path;
+    pattern.path.replace(`/${props.activeLang}`, '') :
+    pattern.path;
 
   const { prev, next } = findRoutes(current, props.docgen);
 
@@ -162,7 +164,7 @@ const InnerPage = withRouter((props: PageAndRouterInterface) => {
       </Toolbar>
     </Paper>
   );
-});
+};
 
 const Page = (content: unknown, props: LayoutInterface): JSX.Element => <InnerPage content={content} {...props} />;
 

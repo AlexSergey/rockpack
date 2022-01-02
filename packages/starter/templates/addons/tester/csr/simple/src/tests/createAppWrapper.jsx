@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Provider } from 'react-redux';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import createStore from '../store';
 import createMockServices from './mockServices';
 
@@ -10,11 +9,6 @@ export const createAppWrapper = ({
   url = '/',
   initialState,
 } = {}) => {
-  const history = createMemoryHistory({
-    initialEntries: [url],
-    keyLength: 0,
-  });
-
   const store = createStore({
     initialState,
     history,
@@ -24,9 +18,9 @@ export const createAppWrapper = ({
   // eslint-disable-next-line react/display-name,react/prop-types
   return ({ children }) => (
     <Provider store={store}>
-      <Router history={history}>
+      <MemoryRouter initialEntries={[url]} initialIndex={0}>
         {children}
-      </Router>
+      </MemoryRouter>
     </Provider>
   );
 };

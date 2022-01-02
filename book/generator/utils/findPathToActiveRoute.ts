@@ -18,11 +18,7 @@ const findPathToActiveRoute = (
     pathToRoute.push(route.nodeId);
   }
 
-  if (matchPath(currentUrl, {
-    path: route.url,
-    exact: true,
-    strict: false
-  })) {
+  if (matchPath(route.url, currentUrl)) {
     isFound = true;
   }
   if (Array.isArray(route)) {

@@ -37,11 +37,7 @@ const findRoutes = (current: string, route: DocgenRouteInterface | DocgenRouteIn
   next: Url | null;
 } => {
   const allRoutes = getRoutes(route, []);
-  const currentIndex = allRoutes.findIndex(r => matchPath(current, {
-    path: r.url,
-    exact: true,
-    strict: false
-  }));
+  const currentIndex = allRoutes.findIndex(r => matchPath(r.url, current));
 
   const prev = allRoutes[currentIndex - 1] ? {
     url: allRoutes[currentIndex - 1].url,

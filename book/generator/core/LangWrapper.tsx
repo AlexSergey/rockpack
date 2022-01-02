@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { detectBrowserLanguage, LocalizationObserver, LanguagesInterface } from '@localazer/component';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { isObject, isString } from 'valid-types';
 import parseLanguageFromUrl from '../utils/parseLanguageFromUrl';
 import { Localization } from '../types';
@@ -13,13 +13,14 @@ const Wrapper = ({
   active?: string;
 }): JSX.Element => children;
 
-interface LangWrapperInterface extends RouteComponentProps {
+interface LangWrapperInterface {
   activeLang?: string;
   localization?: Localization;
   children: (isLocalized?: boolean, languageState?: string, handler?: (lang: string) => void) => JSX.Element;
 }
 
-export const LangWrapper = withRouter((props: LangWrapperInterface) => {
+export const LangWrapper = (props: LangWrapperInterface): JSX.Element => {
+  const navigate = useNavigate();
   const isLocalized = isObject(props.localization);
   const LocalizationWrapper = isLocalized ? LocalizationObserver : Wrapper;
 
@@ -49,6 +50,7 @@ export const LangWrapper = withRouter((props: LangWrapperInterface) => {
     );
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [languageState, localization] = useState(activeLanguage);
 
   const languages = Object.keys(props.localization)
@@ -69,7 +71,7 @@ export const LangWrapper = withRouter((props: LangWrapperInterface) => {
           false;
 
         if (typeof newUrl === 'string') {
-          props.history.push(newUrl);
+          navigate(newUrl);
         }
 
         if (props.localization[lang]) {
@@ -81,4 +83,4 @@ export const LangWrapper = withRouter((props: LangWrapperInterface) => {
       })}
     </LocalizationWrapper>
   );
-});
+};

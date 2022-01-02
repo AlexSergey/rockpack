@@ -8,9 +8,8 @@ import serve from 'koa-static';
 import Router from '@koa/router';
 import logger from 'logrock';
 import PrettyError from 'pretty-error';
-import { createMemoryHistory } from 'history';
 import { getDefaultLocale } from '@localazer/component';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
 import { Provider } from 'react-redux';
@@ -65,14 +64,8 @@ router.get('(.*)', async (ctx) => {
       }
     },
     logger,
-    history: createMemoryHistory(),
     services: createServices(rest)
   });
-
-  const routerParams = {
-    location: ctx.request.url,
-    context: {}
-  };
 
   const metaTagsInstance = MetaTagsServer();
 
@@ -85,7 +78,7 @@ router.get('(.*)', async (ctx) => {
     extractor.collectChunks(
       <Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>
-          <StaticRouter {...routerParams}>
+          <StaticRouter location={ctx.request.url}>
             <LocalizationContainer>
               <App />
             </LocalizationContainer>

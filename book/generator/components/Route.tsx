@@ -1,5 +1,5 @@
-import React, { cloneElement, isValidElement } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { createElement, cloneElement, isValidElement } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { isString } from 'valid-types';
 import withTracker from '../utils/tracker';
@@ -35,9 +35,8 @@ const _Route = (props: InnerInterface): JSX.Element => {
 
     output.push(
       <Route
-        exact
         path={typeof prefix === 'string' ? `/${prefix}${route.url}` : route.url}
-        component={(): JSX.Element => (
+        element={createElement((): JSX.Element => (
           <>
             {route.meta && (
               <MetaTags>
@@ -57,7 +56,7 @@ const _Route = (props: InnerInterface): JSX.Element => {
               withTracker(props.children(renderInside)) :
               props.children(renderInside)}
           </>
-        )}
+        ))}
       />
     );
 
@@ -69,7 +68,7 @@ const _Route = (props: InnerInterface): JSX.Element => {
     return output;
   };
   return (
-    <Switch>
+    <Routes>
       {props.isLocalized && Array.isArray(props.languages) ?
         props.languages.map(lang => (
           TreeRouteRender(props.docgen, [], lang)
@@ -79,10 +78,14 @@ const _Route = (props: InnerInterface): JSX.Element => {
             .map((route, index) => isValidElement(route) && cloneElement(route, { key: index }))
         )}
 
-      {props.isLocalized && Array.isArray(props.languages) ?
-        <Redirect from="/" to={`/${props.activeLang}`} /> :
+      {props.isLocalized && Array.isArray(props.languages) ? (
+        <Route
+          path="/"
+          element={<Navigate to={`/${props.activeLang}`} />}
+        />
+      ) :
         null}
-    </Switch>
+    </Routes>
   );
 };
 

@@ -5,8 +5,7 @@ import { hydrate } from 'react-dom';
 import logger from 'logrock';
 import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { LocalizationContainer } from './features/Localization';
 import { App } from './App';
@@ -22,8 +21,6 @@ declare global {
   }
 }
 
-const history = createBrowserHistory();
-
 const SSR = createSsr();
 
 const getToken = (): string | undefined => Cookies.get('token');
@@ -33,7 +30,6 @@ const rest = createRestClient(getToken);
 const store = createStore({
   logger,
   initialState: window.REDUX_DATA,
-  history,
   services: createServices(rest)
 });
 
@@ -41,11 +37,11 @@ loadableReady(() => {
   hydrate(
     <SSR>
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <LocalizationContainer>
             <App />
           </LocalizationContainer>
-        </Router>
+        </BrowserRouter>
       </Provider>
     </SSR>,
     document.getElementById('root')

@@ -1,5 +1,5 @@
 import './assets/styles/global.scss';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Routes, Navigate, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
 import Index from './routes/Index';
 
@@ -8,11 +8,14 @@ const Image = loadable(() => import('./routes/Image'));
 
 const App = (): JSX.Element => (
   <Index>
-    <Switch>
-      <Route path="/" component={Home} exact />
-      <Route path="/image" component={Image} />
-      <Redirect to="/" />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/image" element={<Image />} />
+      <Route
+        path="*"
+        element={<Navigate to="/" />}
+      />
+    </Routes>
   </Index>
 );
 

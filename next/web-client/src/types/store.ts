@@ -1,5 +1,4 @@
 import { LoggerInterface } from 'logrock';
-import { History } from 'history';
 import { Localization } from './Localization';
 import { PostsState } from './Posts';
 import { PostState } from './Post';
@@ -8,14 +7,16 @@ import { UsersState } from './Users';
 import { CommentsState } from './Comments';
 import { ServicesInterface } from '../services';
 
-export interface StoreProps {
+export interface ThunkExtras {
+  logger: LoggerInterface;
+  services: ServicesInterface;
+}
+
+export interface StoreProps extends ThunkExtras {
   initialState?: {
     [key: string]: unknown;
   };
-  logger: LoggerInterface;
   testMode?: boolean;
-  history: History;
-  services: ServicesInterface;
 }
 
 export interface RootState {

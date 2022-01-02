@@ -1,6 +1,6 @@
 import React from 'react';
 import { matchPath } from 'react-router';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -8,14 +8,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { makeStyles } from '@material-ui/core';
 import { Localization, DocgenRouteInterface } from '../types';
 
-interface MenuItemsInterface extends RouteComponentProps {
+interface MenuItemsInterface {
   toggleOpenId: (openIds: string[]) => void;
   openIds: string[];
   activeLang?: string;
   docgen: DocgenRouteInterface | DocgenRouteInterface[];
-  localization?: Localization;
   handleDrawerToggle?: () => void;
-  children?: (isLocalized?: boolean, languageState?: string, handler?: (lang: string) => void) => JSX.Element;
 }
 
 const useStylesTreeView = makeStyles({
@@ -27,19 +25,16 @@ const useStylesTreeView = makeStyles({
 });
 
 const setActive = (currentUrl, pth, activeLang): string => (
-  matchPath(currentUrl, {
-    path: typeof activeLang === 'string' ? `/${activeLang}${pth}` : pth,
-    exact: true,
-    strict: false
-  }) ? 'active' : ''
+  matchPath(typeof activeLang === 'string' ? `/${activeLang}${pth}` : pth, currentUrl) ? 'active' : ''
 );
 
-const MenuItems = withRouter((props: MenuItemsInterface) => {
+const MenuItems = (props: MenuItemsInterface): JSX.Element => {
   const classesTreeView = useStylesTreeView();
+  const navigate = useNavigate();
 
   const goTo = (url, name): void => {
     if (url) {
-      props.history.push(typeof props.activeLang === 'string' ?
+      navigate(typeof props.activeLang === 'string' ?
         `/${props.activeLang}${url}` :
         url);
     }
@@ -55,6 +50,7 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
     }
   };
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   const TreeRender = (data: DocgenRouteInterface | DocgenRouteInterface[]): unknown => {
     if (!data) {
       return null;
@@ -144,6 +140,6 @@ const MenuItems = withRouter((props: MenuItemsInterface) => {
       {TreeRender(props.docgen)}
     </TreeView>
   );
-});
+};
 
 export default MenuItems;
