@@ -6,6 +6,7 @@ import { RootState, StoreProps } from './types/store';
 const createStore = ({
   services,
   initialState,
+  history,
 }: StoreProps): Store<RootState> => (
   configureStore({
     reducer: {
@@ -17,6 +18,7 @@ const createStore = ({
       serializableCheck: false,
       thunk: {
         extraArgument: {
+          history,
           services,
         },
       },

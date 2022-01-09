@@ -26,19 +26,18 @@ export const fetchPosts = (page: number): ThunkResult => async (
   }
 };
 
-export const setPage = (page: number): ThunkResult<string | false> => async (
+export const setPage = (page: number): ThunkResult => async (
   dispatch,
   getState,
-  { logger }
+  { logger, history }
 ) => {
   const { currentLanguage } = getState().localization;
   try {
     dispatch(paginationSetCurrent(page));
-    return currentLanguage;
+    history.push(`/${currentLanguage}/?page=${page}`);
   } catch (error) {
     logger.error(error, false);
   }
-  return false;
 };
 
 export const createPost = ({

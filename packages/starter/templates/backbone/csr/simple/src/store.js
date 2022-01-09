@@ -3,6 +3,7 @@ import { imageReducer } from './features/Image';
 import { isDevelopment } from './utils/environments';
 
 const createStore = ({
+  history,
   services,
   initialState,
 }) => (
@@ -16,6 +17,7 @@ const createStore = ({
       serializableCheck: false,
       thunk: {
         extraArgument: {
+          history,
           services,
         },
       },

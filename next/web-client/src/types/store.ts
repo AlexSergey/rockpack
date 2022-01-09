@@ -1,4 +1,7 @@
+import { Action } from 'redux';
+import { History } from 'history';
 import { LoggerInterface } from 'logrock';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Localization } from './Localization';
 import { PostsState } from './Posts';
 import { PostState } from './Post';
@@ -10,12 +13,16 @@ import { ServicesInterface } from '../services';
 export interface ThunkExtras {
   logger: LoggerInterface;
   services: ServicesInterface;
+  history: History;
 }
+
+export type Dispatcher = ThunkDispatch<RootState, ThunkExtras, Action>;
 
 export interface StoreProps extends ThunkExtras {
   initialState?: {
     [key: string]: unknown;
   };
+  history: History;
   testMode?: boolean;
 }
 

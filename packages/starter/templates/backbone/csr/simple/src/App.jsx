@@ -1,10 +1,10 @@
 import './assets/styles/global.scss';
 import { Routes, Navigate, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
-import Index from './routes/Index';
+import Index from './pages/Index';
 
-const Home = loadable(() => import('./routes/Home'));
-const Image = loadable(() => import('./routes/Image'));
+const Home = loadable(() => import('./pages/Home'));
+const Image = loadable(() => import('./pages/Image'));
 
 const App = () => (
   <Index>

@@ -4,14 +4,18 @@ import { Provider } from 'react-redux';
 import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { Router } from './components/Router';
 import App from './App';
 import createStore from './store';
 import createServices from './services';
 
+const history = createBrowserHistory();
+
 const SSR = createSsr();
 
 const store = createStore({
+  history,
   initialState: window.REDUX_DATA,
   services: createServices(fetch),
 });
@@ -21,9 +25,9 @@ loadableReady(() => {
     <SSR>
       <Provider store={store}>
         <HelmetProvider>
-          <BrowserRouter>
+          <Router history={history}>
             <App />
-          </BrowserRouter>
+          </Router>
         </HelmetProvider>
       </Provider>
     </SSR>,

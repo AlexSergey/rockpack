@@ -5,6 +5,7 @@ import { isDevelopment } from './utils/environments';
 const createStore = ({
   initialState,
   services,
+  history,
 }) => (
   configureStore({
     reducer: {
@@ -17,6 +18,7 @@ const createStore = ({
       thunk: {
         extraArgument: {
           services,
+          history,
         },
       },
     }),

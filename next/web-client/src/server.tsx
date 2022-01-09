@@ -10,6 +10,7 @@ import logger from 'logrock';
 import PrettyError from 'pretty-error';
 import { getDefaultLocale } from '@localazer/component';
 import { StaticRouter } from 'react-router-dom/server';
+import { createMemoryHistory } from 'history';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
 import { Provider } from 'react-redux';
@@ -64,6 +65,7 @@ router.get('(.*)', async (ctx) => {
       }
     },
     logger,
+    history: createMemoryHistory(),
     services: createServices(rest)
   });
 

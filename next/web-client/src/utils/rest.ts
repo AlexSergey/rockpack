@@ -31,11 +31,17 @@ export const createRestClient = (getToken: () => string): RestInterface => (
         credentials: 'include',
       })
         .then(res => res.json())
-        .then(res => (
-          res.statusCode !== 200 ?
-            Promise.reject(res.message) :
-            Promise.resolve(res)
-        ))
+        .then(res => {
+          if (res.domain) {
+            // eslint-disable-next-line promise/no-return-wrap
+            return Promise.resolve(res);
+          }
+          return (
+            res.statusCode !== 200 ?
+              Promise.reject(res.message) :
+              Promise.resolve(res)
+          );
+        })
     ),
 
     post: (url, body?, options?) => {

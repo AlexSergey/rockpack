@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import createSsr from '@issr/core';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router } from '../components/Router';
 import createStore from '../store';
 import createMockServices from './mockServices';
 
@@ -18,7 +18,6 @@ export const createAppWrapper = ({
   ({ children }: { children: ReactNode }) => JSX.Element => {
   const history = createMemoryHistory({
     initialEntries: [url],
-    keyLength: 0,
   });
 
   const SSR = createSsr({}, {
