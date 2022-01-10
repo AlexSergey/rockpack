@@ -30,7 +30,7 @@ export const App = (): JSX.Element => {
 
             return (
               <Fragment key={prefix}>
-                <Route path={prefix} element={<Posts />} />
+                <Route path={prefix} index element={<Posts />} />
                 <Route path={`${prefix}/posts/:postId`} element={<Post />} />
                 <Route
                   path={`${prefix}/users`}

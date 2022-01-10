@@ -6,7 +6,7 @@
 
 **@rockpack/starter** this is **create-react-app** on steroids. Supports the following types of applications:
 
-**@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+**@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 - **React SPA** - Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
     - React-Router

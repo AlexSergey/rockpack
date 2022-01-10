@@ -8,7 +8,7 @@
 
 **@rockpack/tester** includes several recommended modules and a test report generator.
 
-**@rockpack/tester** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+**@rockpack/tester** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 ### Add-ons:
 - [jest-extended](https://github.com/jest-community/jest-extended)

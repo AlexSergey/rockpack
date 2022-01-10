@@ -9,7 +9,7 @@ const Image = loadable(() => import('./pages/Image'));
 const App = () => (
   <Index>
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route index path="/" element={<Home />} />
       <Route path="/image" element={<Image />} />
       <Route
         path="*"

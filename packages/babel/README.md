@@ -6,7 +6,7 @@
 
 **@rockpack/babel** is Babel settings that provide modern JS syntax support for **@rockpack/compiler**, **@rockpack/tester**.
 
-**@rockpack/babel** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+**@rockpack/babel** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 **@rockpack/babel** includes support for React, Jest, contains a number of optimizing plugins for React, and more. See below for a complete list of included features:
 

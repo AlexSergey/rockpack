@@ -16,7 +16,7 @@ const Home = (): JSX.Element => (
         . Please read official
         {' '}
         <a
-          href="https://www.rockpack.io/"
+          href="https://alexsergey.github.io/rockpack/"
           target="_blank"
           rel="noopener noreferrer"
         >

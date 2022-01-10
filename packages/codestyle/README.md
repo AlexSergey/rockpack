@@ -6,7 +6,7 @@
 
 **@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
 
-**@rockpack/codestyle** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+**@rockpack/codestyle** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 ## Features:
 

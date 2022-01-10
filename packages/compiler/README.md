@@ -6,7 +6,7 @@
 
 **@rockpack/compiler** is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
-**@rockpack/compiler** this module is part of the **Rockpack** project. See more details on [the official site](https://www.rockpack.io/).
+**@rockpack/compiler** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 **@rockpack/compiler** can help you with:
 

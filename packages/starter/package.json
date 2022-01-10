@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "2.0.0-rc.33",
+  "version": "2.0.0-rc.34",
   "main": "lib/index.js",
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
-  "homepage": "https://www.rockpack.io/",
+  "homepage": "https://alexsergey.github.io/rockpack/",
   "bugs": {
     "url": "https://github.com/AlexSergey/rockpack/issues"
   },
@@ -28,7 +28,7 @@
   },
   "private": false,
   "dependencies": {
-    "@rockpack/utils": "2.0.0-rc.33",
+    "@rockpack/utils": "2.0.0-rc.34",
     "chalk": "4.1.2",
     "inquirer": "8.2.0",
     "latest-version": "5.1.0",
