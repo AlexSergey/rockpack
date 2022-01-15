@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0]
+- A lot of fixes and optimizations
+- All dependencies were updated
+- The new React application templates
+- webpack-plugin-serve -> webpack-dev-server4
+- [the new official site](https://alexsergey.github.io/rockpack/)
+
 ## [1.9.0]
 - babel config extend added
 
