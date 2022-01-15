@@ -23,12 +23,21 @@ const createAssetType = conf => (
   } : {
     asyncAssets: {
       type: 'asset/resource',
+      generator: {
+        filename: 'static/html/[name].[hash].[ext]'
+      }
     },
     video: {
-      type: 'asset/resource'
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/media/[name].[hash].[ext]'
+      }
     },
     pdf: {
-      type: 'asset/resource'
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/pdf/[name].[hash].[ext]'
+      }
     },
     images: {
       type: 'asset',
@@ -36,6 +45,9 @@ const createAssetType = conf => (
         dataUrlCondition: {
           maxSize: _4kb
         }
+      },
+      generator: {
+        filename: 'static/images/[name].[hash].[ext]'
       }
     },
     fonts: {
@@ -44,6 +56,9 @@ const createAssetType = conf => (
         dataUrlCondition: {
           maxSize: _4kb
         }
+      },
+      generator: {
+        filename: 'static/fonts/[name].[hash].[ext]'
       }
     },
     svg: {
@@ -52,6 +67,9 @@ const createAssetType = conf => (
         dataUrlCondition: {
           maxSize: _4kb
         }
+      },
+      generator: {
+        filename: 'static/svg/[name].[hash].[ext]'
       }
     }
   }
