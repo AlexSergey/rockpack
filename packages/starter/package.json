@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "2.0.0-rc.35",
+  "version": "2.0.0-rc.36",
   "main": "lib/index.js",
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "repository": {
@@ -28,7 +28,7 @@
   },
   "private": false,
   "dependencies": {
-    "@rockpack/utils": "2.0.0-rc.35",
+    "@rockpack/utils": "2.0.0-rc.36",
     "chalk": "4.1.2",
     "inquirer": "8.2.0",
     "latest-version": "5.1.0",

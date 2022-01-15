@@ -1,7 +1,7 @@
 const createBabelPresets = require('@rockpack/babel');
 const Collection = require('../utils/Collection');
 const getStylesRules = require('../utils/getStylesRules');
-const createFileLoader = require('../utils/fileLoader');
+const createAssetType = require('../utils/assetType');
 
 // eslint-disable-next-line default-param-last
 function getModules(conf = {}, mode, root) {
@@ -11,7 +11,7 @@ function getModules(conf = {}, mode, root) {
     presetsAdditionalOptions = conf.babelPresetsAdditionalOptions;
   }
 
-  const fileLoader = createFileLoader(conf);
+  const assetType = createAssetType(conf);
 
   return {
     handlebars: {
@@ -20,11 +20,13 @@ function getModules(conf = {}, mode, root) {
     },
 
     asyncAssets: {
-      test: /\.async\.(html|css)$/,
-      use: [
-        fileLoader.asyncAssets,
-        require.resolve('extract-loader'),
-      ]
+      ...{
+        test: /\.async\.(html|css)$/,
+        use: [
+          require.resolve('extract-loader'),
+        ]
+      },
+      ...assetType.asyncAssets
     },
 
     jade: {
@@ -168,23 +170,31 @@ function getModules(conf = {}, mode, root) {
     },
 
     video: {
-      test: /\.(mp4|webm|ogg|mp3|avi|mov|wav)$/,
-      use: fileLoader.video
+      ...{
+        test: /\.(mp4|webm|ogg|mp3|avi|mov|wav)$/,
+      },
+      ...assetType.video
     },
 
     pdf: {
-      test: /\.pdf$/,
-      use: fileLoader.pdf
+      ...{
+        test: /\.pdf$/,
+      },
+      ...assetType.pdf
     },
 
     images: {
-      test: /\.(jpe?g|png|gif|webp)$/i,
-      use: fileLoader.images
+      ...{
+        test: /\.(jpe?g|png|gif|webp)$/i
+      },
+      ...assetType.images
     },
 
     fonts: {
-      test: /\.(eot|ttf|woff|woff2)$/,
-      use: fileLoader.fonts
+      ...{
+        test: /\.(eot|ttf|woff|woff2)$/
+      },
+      ...assetType.fonts
     },
 
     html: {
@@ -217,28 +227,30 @@ function getModules(conf = {}, mode, root) {
     },
 
     svg: {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      use: [
-        fileLoader.svg,
-        {
-          loader: require.resolve('svgo-loader'),
-          options: {
-            name: 'preset-default',
-            params: {
-              overrides: {
-                removeTitle: true,
-                convertColors: {
-                  params: {
-                    shorthex: false
-                  }
-                },
-                convertPathData: false
+      ...{
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: require.resolve('svgo-loader'),
+            options: {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  removeTitle: true,
+                  convertColors: {
+                    params: {
+                      shorthex: false
+                    }
+                  },
+                  convertPathData: false
+                }
               }
             }
           }
-        }
-      ],
-      exclude: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/
+        ],
+        exclude: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/
+      },
+      ...assetType.svg
     },
 
     wasm: {
