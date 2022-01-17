@@ -24,19 +24,19 @@ const createAssetType = conf => (
     asyncAssets: {
       type: 'asset/resource',
       generator: {
-        filename: 'static/html/[name].[hash].[ext]'
+        filename: 'static/html/[name].[hash][ext]'
       }
     },
     video: {
       type: 'asset/resource',
       generator: {
-        filename: 'static/media/[name].[hash].[ext]'
+        filename: 'static/media/[name].[hash][ext]'
       }
     },
     pdf: {
       type: 'asset/resource',
       generator: {
-        filename: 'static/pdf/[name].[hash].[ext]'
+        filename: 'static/pdf/[name].[hash][ext]'
       }
     },
     images: {
@@ -47,7 +47,7 @@ const createAssetType = conf => (
         }
       },
       generator: {
-        filename: 'static/images/[name].[hash].[ext]'
+        filename: 'static/images/[name].[hash][ext]'
       }
     },
     fonts: {
@@ -58,7 +58,7 @@ const createAssetType = conf => (
         }
       },
       generator: {
-        filename: 'static/fonts/[name].[hash].[ext]'
+        filename: 'static/fonts/[name].[hash][ext]'
       }
     },
     svg: {
@@ -69,7 +69,7 @@ const createAssetType = conf => (
         }
       },
       generator: {
-        filename: 'static/svg/[name].[hash].[ext]'
+        filename: 'static/svg/[name].[hash][ext]'
       }
     }
   }

@@ -6,7 +6,8 @@ isomorphicCompiler(
     src: 'src/client.jsx',
     dist: 'public',
     copy: [
-      { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' }
+      { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
+      { from: path.resolve(__dirname, './robots.txt'), to: './' }
     ]
   }),
   backendCompiler({

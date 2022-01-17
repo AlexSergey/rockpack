@@ -310,13 +310,22 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     plugins.ImageminPlugin = new ImageMinimizerPlugin({
       test: /\.(jpe?g|png|gif|webp)$/i,
+      generator: [
+        {
+          // You can apply generator using `?as=webp`, you can use any name and provide more options
+          preset: 'webp',
+          implementation: ImageMinimizerPlugin.imageminGenerate,
+          options: {
+            plugins: ['imagemin-webp'],
+          },
+        },
+      ],
       minimizer: {
         implementation: ImageMinimizerPlugin.imageminMinify,
         options: {
           plugins: [
             ['gifsicle', { interlaced: false, optimizationLevel: 9 }],
             ['mozjpeg', { progressive: true, quality: 73 }],
-            ['webp', { quality: 75 }],
             ['pngquant', { quality: [0.7, 0.8] }],
           ]
         }

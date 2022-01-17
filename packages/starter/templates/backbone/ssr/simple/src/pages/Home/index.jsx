@@ -5,6 +5,7 @@ const Home = () => (
   <>
     <Helmet>
       <title>Home Page</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="description" content="Home page" />
     </Helmet>
     <div>

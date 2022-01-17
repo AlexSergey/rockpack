@@ -37,9 +37,9 @@
 - Postcss, Autoprefixer
 - CSS Modules support
 - Imagemin
-- File import support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
-- SVG + SVGO, SVGR
-- Antd optimizations (With optimizations: momentjs to dayjs, import antd)
+- Formats support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
+- SVG + SVGO, SVGR (import SVG like React Component)
+- Antd optimizations (With optimizations: auto replace momentjs to dayjs, import antd)
 - Terser minification
 - Generate stats.json (in production mode)
 - SEO Optimizations
