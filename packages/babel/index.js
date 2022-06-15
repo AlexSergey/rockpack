@@ -118,7 +118,7 @@ const createBabelPresets = ({
       plugins: [
         require.resolve('@babel/plugin-transform-react-constant-elements'),
         require.resolve('@babel/plugin-transform-react-inline-elements'),
-        require.resolve('babel-plugin-transform-react-pure-class-to-function'),
+        require.resolve('babel-plugin-transform-react-class-to-function'),
         require.resolve('babel-plugin-transform-react-remove-prop-types')
       ]
     });
