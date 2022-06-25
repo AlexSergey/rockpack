@@ -8,6 +8,7 @@ const install = require('../lib/install');
 const packageJSON = require('../package.json');
 const latestVersion = require('latest-version');
 const { argv } = require('yargs');
+const semverParse = require('semver/functions/parse');
 
 (async () => {
   const { _, h, help, v, version } = argv;
@@ -44,7 +45,10 @@ const { argv } = require('yargs');
 
   const rockpackLatestVersion = await latestVersion(packageJSON.name);
 
-  if (packageJSON.version !== rockpackLatestVersion) {
+  if (
+    semverParse(rockpackLatestVersion).prerelease.length === 0 &&
+    packageJSON.version !== rockpackLatestVersion
+  ) {
     console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
     console.log();
     console.log(

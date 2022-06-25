@@ -1,4 +1,3 @@
 ## Roadmap
 
-- Book
-- CI/CD Book
+- TODO: remove test:skip postfix
