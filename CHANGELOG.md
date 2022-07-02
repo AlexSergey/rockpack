@@ -1,5 +1,7 @@
 # Changelog
 
+## [3.0.0]
+
 ## [2.0.0]
 - A lot of fixes and optimizations
 - All dependencies were updated
