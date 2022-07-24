@@ -33,7 +33,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '2.0.1' }
+          { name: '@rockpack/compiler', version: '2.0.1' },
         ]
       });
 
@@ -42,6 +42,8 @@ const packageJSONPreparing = async (packageJSON, {
           devDependencies: [
             { name: '@types/react', version: '17.0.8' },
             { name: '@types/react-dom', version: '17.0.5' },
+            { name: '@types/react-helmet', version: '6' },
+            { name: '@types/loadable__component', version: '5' },
             { name: '@types/node', version: '16' },
             { name: '@types/webpack-env', version: '1.16.2' }
           ]
@@ -88,6 +90,7 @@ const packageJSONPreparing = async (packageJSON, {
           devDependencies: [
             { name: '@types/react', version: '17.0.8' },
             { name: '@types/react-dom', version: '17.0.5' },
+            { name: '@types/loadable__component', version: '5' },
             { name: '@types/koa', version: '2' },
             { name: '@types/koa-router', version: '7' },
             { name: '@types/node', version: '16' }
