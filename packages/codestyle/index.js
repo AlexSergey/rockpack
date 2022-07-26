@@ -90,11 +90,11 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
       ];
 
-  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react'] : ['import', 'unicorn', 'sort-keys-fix'];
+  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'check-file'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react']
-    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix'];
+    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'check-file']
+    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'check-file'];
 
   const reactRules = {
     'react/function-component-definition': [
@@ -239,7 +239,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
             ],
             'import/prefer-default-export': 'off',
             'import/no-default-export': 'error',
-            'import/no-unresolved': 'error',
+            'import/no-unresolved': ['error', { caseSensitiveStrict: true }],
 
             'unicorn/custom-error-definition': 'error',
             'unicorn/empty-brace-spaces': 'error',
@@ -254,6 +254,13 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
             'unicorn/prefer-keyboard-event-key': 'error',
             'unicorn/prefer-node-protocol': 'error',
             'unicorn/throw-new-error': 'error',
+
+            'check-file/folder-naming-convention': [
+              'error',
+              {
+                'src/**/': 'KEBAB_CASE'
+              }
+            ]
           },
         },
         /*

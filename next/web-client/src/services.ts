@@ -1,9 +1,9 @@
-import { commentsService, ICommentsService } from './features/Comments/service';
-import { localizationService, ILocalizationService } from './features/Localization/service';
-import { postService, IPostService } from './features/Post/service';
-import { postsService, IPostsService } from './features/Posts/service';
-import { userService, IUserService } from './features/User/service';
-import { usersService, IUsersService } from './features/Users/service';
+import { commentsService, ICommentsService } from './features/comments/service';
+import { localizationService, ILocalizationService } from './features/localization/service';
+import { postService, IPostService } from './features/post/service';
+import { postsService, IPostsService } from './features/posts/service';
+import { userService, IUserService } from './features/user/service';
+import { usersService, IUsersService } from './features/users/service';
 import { IRest } from './utils/rest';
 
 export interface IServices {

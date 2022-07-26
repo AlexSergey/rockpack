@@ -1,9 +1,9 @@
-import { mockCommentsService } from '../features/Comments/service.mock';
-import { mockLocalizationService } from '../features/Localization/service.mock';
-import { mockPostService } from '../features/Post/service.mock';
-import { mockPostsService } from '../features/Posts/service.mock';
-import { mockUserService } from '../features/User/service.mock';
-import { mockUsersService } from '../features/Users/service.mock';
+import { mockCommentsService } from '../features/comments/service.mock';
+import { mockLocalizationService } from '../features/localization/service.mock';
+import { mockPostService } from '../features/post/service.mock';
+import { mockPostsService } from '../features/posts/service.mock';
+import { mockUserService } from '../features/user/service.mock';
+import { mockUsersService } from '../features/users/service.mock';
 import { IServices } from '../services';
 
 export const createMockServices = (): IServices => ({

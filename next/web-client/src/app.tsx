@@ -7,15 +7,15 @@ import React, { Fragment } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { config } from './config';
-import { useCurrentLanguage } from './features/Localization';
-import { useAuthorization, Access } from './features/User';
-import { Main } from './pages/Main';
+import { useCurrentLanguage } from './features/localization';
+import { useAuthorization, Access } from './features/user';
+import { Main } from './pages/main';
 import { Roles } from './types/user';
 import { notify } from './utils/notifier';
 
-const Posts = loadable(() => import('./pages/Posts/posts.loadable'));
-const Post = loadable(() => import('./pages/Post/post.loadable'));
-const Users = loadable(() => import('./pages/Users/users.loadable'));
+const Posts = loadable(() => import('./pages/posts/posts.loadable'));
+const Post = loadable(() => import('./pages/post/post.loadable'));
+const Users = loadable(() => import('./pages/users/users.loadable'));
 
 export const App = (): JSX.Element => {
   const currentLanguage = useCurrentLanguage();

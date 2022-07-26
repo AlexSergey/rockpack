@@ -2,12 +2,12 @@ import { isBackend } from '@issr/core';
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
-import { commentsReducer as comments } from './features/Comments';
-import { localizationReducer as localization } from './features/Localization';
-import { postReducer as post } from './features/Post';
-import { postsReducer as posts, paginationReducer as pagination } from './features/Posts';
-import { userReducer as user } from './features/User';
-import { usersReducer as users } from './features/Users';
+import { commentsReducer as comments } from './features/comments';
+import { localizationReducer as localization } from './features/localization';
+import { postReducer as post } from './features/post';
+import { postsReducer as posts, paginationReducer as pagination } from './features/posts';
+import { userReducer as user } from './features/user';
+import { usersReducer as users } from './features/users';
 import { IStoreProps, IRootState } from './types/store';
 import { isDevelopment } from './utils/environments';
 

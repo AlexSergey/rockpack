@@ -4,8 +4,8 @@ import logger from 'logrock';
 import React, { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
-import { Router } from '../components/Router';
-import { LocalizationContainer } from '../features/Localization';
+import { Router } from '../components/router';
+import { LocalizationContainer } from '../features/localization';
 import { createStore } from '../store';
 
 import { createMockServices } from './mock-services';

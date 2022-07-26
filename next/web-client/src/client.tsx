@@ -9,8 +9,8 @@ import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import { App } from './app';
-import { Router } from './components/Router';
-import { LocalizationContainer } from './features/Localization';
+import { Router } from './components/router';
+import { LocalizationContainer } from './features/localization';
 import { createServices } from './services';
 import { createStore } from './store';
 import { createRestClient } from './utils/rest';

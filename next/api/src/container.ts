@@ -1,23 +1,23 @@
 import { Container } from 'inversify';
 
-import { CommentControllerDIType, CommentController } from './controllers/Comment';
-import type { ICommentController } from './controllers/Comment';
-import { PostControllerDIType, PostController } from './controllers/Post';
-import type { IPostController } from './controllers/Post';
-import { UserControllerDIType, UserController } from './controllers/User';
-import type { IUserController } from './controllers/User';
-import { CommentRepositoryDIType, CommentRepository } from './repositories/Comment';
-import type { ICommentRepository } from './repositories/Comment';
-import { PostRepositoryDIType, PostRepository } from './repositories/Post';
-import type { IPostRepository } from './repositories/Post';
-import { UserRepositoryDIType, UserRepository } from './repositories/User';
-import type { IUserRepository } from './repositories/User';
-import { CommentServiceDIType, CommentService } from './services/Comment';
-import type { ICommentService } from './services/Comment';
-import { PostServiceDIType, PostService } from './services/Post';
-import type { IPostService } from './services/Post';
-import { UserServiceDIType, UserService } from './services/User';
-import type { IUserService } from './services/User';
+import { CommentControllerDIType, CommentController } from './controllers/comment';
+import type { ICommentController } from './controllers/comment';
+import { PostControllerDIType, PostController } from './controllers/post';
+import type { IPostController } from './controllers/post';
+import { UserControllerDIType, UserController } from './controllers/user';
+import type { IUserController } from './controllers/user';
+import { CommentRepositoryDIType, CommentRepository } from './repositories/comment';
+import type { ICommentRepository } from './repositories/comment';
+import { PostRepositoryDIType, PostRepository } from './repositories/post';
+import type { IPostRepository } from './repositories/post';
+import { UserRepositoryDIType, UserRepository } from './repositories/user';
+import type { IUserRepository } from './repositories/user';
+import { CommentServiceDIType, CommentService } from './services/comment';
+import type { ICommentService } from './services/comment';
+import { PostServiceDIType, PostService } from './services/post';
+import type { IPostService } from './services/post';
+import { UserServiceDIType, UserService } from './services/user';
+import type { IUserService } from './services/user';
 
 const container = new Container();
 

@@ -21,7 +21,7 @@ import serialize from 'serialize-javascript';
 
 import { App } from './app';
 import { googleFontsInstall } from './assets/fonts';
-import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
+import { LocalizationContainer, getCurrentLanguageFromURL } from './features/localization';
 import ru from './locales/ru.json';
 import { createServices } from './services';
 import { createStore } from './store';

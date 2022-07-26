@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Action } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 
