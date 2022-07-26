@@ -1,12 +1,12 @@
-import React, { isValidElement, createElement } from 'react';
-import { Link, useLocation, useMatch, useRoutes } from 'react-router-dom';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import React, { isValidElement, createElement } from 'react';
+import { Link, useLocation, useMatch, useRoutes } from 'react-router-dom';
 import {
   EmailShareButton,
   EmailIcon,
@@ -19,12 +19,14 @@ import {
   TelegramShareButton,
   TelegramIcon,
   TwitterShareButton,
-  TwitterIcon
+  TwitterIcon,
 } from 'react-share';
+
 import stylesHeader from '../assets/jss/material-dashboard-react/components/headerStyle';
-import findRoutes from '../utils/findRoutes';
-import MDXLayout from './MDXLayout';
 import { DocgenRouteInterface, LayoutInterface } from '../types';
+import findRoutes from '../utils/findRoutes';
+
+import MDXLayout from './MDXLayout';
 
 const useStylesPage = makeStyles(stylesHeader);
 
@@ -42,12 +44,12 @@ const renderInside = (content, index: number | null, props): JSX.Element => {
   } else if (content.component) {
     component = content.component;
   }
-  const name = content.name;
-  const title = content.title;
+  const { name } = content;
+  const { title } = content;
 
   const opt = {
+    id: null,
     key: null,
-    id: null
   };
   if (typeof index === 'number') {
     opt.key = index;
@@ -55,21 +57,21 @@ const renderInside = (content, index: number | null, props): JSX.Element => {
   if (typeof name === 'string') {
     opt.id = name;
   }
-  const block = (
+  const block =
     component && component.isMDXComponent ? (
       <MDXLayout key={index} {...props}>
         {createElement(component)}
       </MDXLayout>
-    ) :
-      isValidElement(component) ?
-        component :
-        typeof component === 'function' ?
-          component() :
-          component
-  );
+    ) : isValidElement(component) ? (
+      component
+    ) : typeof component === 'function' ? (
+      component()
+    ) : (
+      component
+    );
 
   return (
-    <div {...Object.assign({}, opt)}>
+    <div {...{ ...opt }}>
       {!content.menuOnly && title && <h2>{title}</h2>}
       {block}
       {content.share && (
@@ -121,18 +123,17 @@ const InnerPage = (props: PageAndRouterInterface): JSX.Element => {
   const { pattern } = useMatch(pathname);
   const classesPage = useStylesPage();
 
-  const current = typeof props.activeLang === 'string' ?
-    pattern.path.replace(`/${props.activeLang}`, '') :
-    pattern.path;
+  const current =
+    typeof props.activeLang === 'string' ? pattern.path.replace(`/${props.activeLang}`, '') : pattern.path;
 
   const { prev, next } = findRoutes(current, props.docgen);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <div className="page-content">
-        {props.content && Array.isArray(props.content) ?
-          props.content.map((c, index) => renderInside(c, index, props)) :
-          renderInside(props.content, null, props)}
+        {props.content && Array.isArray(props.content)
+          ? props.content.map((c, index) => renderInside(c, index, props))
+          : renderInside(props.content, null, props)}
       </div>
       <Toolbar className={classesPage.container} style={{ justifyContent: 'space-between', marginTop: '20px' }}>
         {!prev && <span />}

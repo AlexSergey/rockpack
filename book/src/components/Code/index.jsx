@@ -1,9 +1,9 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import dracula from 'prism-react-renderer/themes/dracula';
 import Highlight, { defaultProps } from 'prism-react-renderer';
+import dracula from 'prism-react-renderer/themes/dracula';
+import propTypes from 'prop-types';
+import React from 'react';
 
-const Code = ({ code, language }) => (
+export const Code = ({ code, language }) => (
   <Highlight {...defaultProps} theme={dracula} code={code} language={language}>
     {({ className, style, tokens, getLineProps, getTokenProps }) => (
       <pre className={className} style={style}>
@@ -23,7 +23,5 @@ const Code = ({ code, language }) => (
 
 Code.propTypes = {
   code: propTypes.string.isRequired,
-  language: propTypes.string.isRequired
+  language: propTypes.string.isRequired,
 };
-
-export default Code;

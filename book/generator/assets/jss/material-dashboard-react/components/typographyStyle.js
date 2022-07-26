@@ -5,52 +5,52 @@ import {
   successColor,
   warningColor,
   dangerColor,
-  grayColor
+  grayColor,
 } from '../../material-dashboard-react.js';
 
 const typographyStyle = {
+  dangerText: {
+    color: dangerColor[0]
+  },
   defaultFontStyle: {
     ...defaultFont,
-    fontSize: '14px'
+    fontSize: '14px',
   },
   defaultHeaderMargins: {
+    marginBottom: '10px',
     marginTop: '20px',
-    marginBottom: '10px'
+  },
+  infoText: {
+    color: infoColor[0],
+  },
+  mutedText: {
+    color: grayColor[1],
+  },
+  primaryText: {
+    color: primaryColor[0],
   },
   quote: {
-    padding: '10px 20px',
-    margin: '0 0 20px',
+    borderLeft: `5px solid ${grayColor[10]}`,
     fontSize: '17.5px',
-    borderLeft: `5px solid ${grayColor[10]}`
-  },
-  quoteText: {
-    margin: '0 0 10px',
-    fontStyle: 'italic'
+    margin: '0 0 20px',
+    padding: '10px 20px',
   },
   quoteAuthor: {
+    color: grayColor[1],
     display: 'block',
     fontSize: '80%',
     lineHeight: '1.42857143',
-    color: grayColor[1]
   },
-  mutedText: {
-    color: grayColor[1]
-  },
-  primaryText: {
-    color: primaryColor[0]
-  },
-  infoText: {
-    color: infoColor[0]
+  quoteText: {
+    fontStyle: 'italic',
+    margin: '0 0 10px',
   },
   successText: {
-    color: successColor[0]
+    color: successColor[0],
   },
   warningText: {
-    color: warningColor[0]
+    color: warningColor[0],
   },
-  dangerText: {
-    color: dangerColor[0]
-  }
 };
 
 export default typographyStyle;

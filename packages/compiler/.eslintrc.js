@@ -1,5 +1,3 @@
-const { rockConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle');
 
-module.exports = rockConfig({
-  'no-console': 'off'
-});
+module.exports = makeConfig();

@@ -1,6 +1,6 @@
-import { UserModel } from '../../models/User';
+import { UserModel } from '../../models/user';
 
-export interface UserRepositoryInterface {
+export interface IUserRepository {
   getUserByEmail(email: string): Promise<UserModel>;
 
   getUserById(id: number): Promise<UserModel>;

@@ -1,9 +1,10 @@
 const jest = require('jest');
-const argsCompiler = require('./argsCompiler');
+
+const argsCompiler = require('./args-compiler');
 
 function watch(opts = {}) {
   const argv = argsCompiler(opts, 'watch');
-  
+
   jest.run(argv);
 }
 

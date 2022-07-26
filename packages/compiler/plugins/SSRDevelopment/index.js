@@ -2,6 +2,7 @@
 
 const nodemon = require('nodemon');
 const R = require('ramda');
+
 const { getOutputFileMeta } = require('./webpack-utils');
 
 module.exports = class {
@@ -17,10 +18,7 @@ module.exports = class {
         if (compilation.errors.length > 0) {
           console.log('[nodemon-webpack-plugin]: Compilation error.');
         } else if (!this.isNodemonRunning) {
-          const outputFile = getOutputFileMeta(
-            compilation,
-            compiler.outputPath
-          );
+          const outputFile = getOutputFileMeta(compilation, compiler.outputPath);
           this.startMonitoring(outputFile);
         }
       }
@@ -49,10 +47,7 @@ module.exports = class {
       watch: relativeFileName,
     };
 
-    const nodemonOptions = R.merge(
-      nodemonOptionsDefaults,
-      this.nodemonOptions
-    );
+    const nodemonOptions = R.merge(nodemonOptionsDefaults, this.nodemonOptions);
 
     const monitor = nodemon(nodemonOptions);
 

@@ -1,4 +1,4 @@
-export * from './Container';
+export * from './container';
 export * from './actions';
 export * from './hooks';
 export * from './reducers';

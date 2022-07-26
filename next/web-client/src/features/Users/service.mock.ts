@@ -1,48 +1,48 @@
-import { UsersServiceInterface } from './service';
-import { Roles } from '../../types/User';
+import { Roles } from '../../types/user';
 
-export const mockUsersService = (): UsersServiceInterface => ({
-  fetchUsers: () => (
+import { IUsersService } from './service';
+
+export const mockUsersService = (): IUsersService => ({
+  deleteUser: () => Promise.resolve(),
+
+  fetchUsers: () =>
     Promise.resolve({
       data: {
         users: [
           {
-            id: 1,
-            email: 'admin@rock.com',
+            Role: {
+              role: Roles.admin,
+            },
             Statistic: {
+              comments: 0,
               posts: 0,
-              comments: 0
             },
-            Role: {
-              role: Roles.admin
-            }
+            email: 'admin@rock.com',
+            id: 1,
           },
           {
-            id: 2,
-            email: 'second_admin@rock.com',
+            Role: {
+              role: Roles.admin,
+            },
             Statistic: {
+              comments: 4,
               posts: 10,
-              comments: 4
             },
-            Role: {
-              role: Roles.admin
-            }
+            email: 'second_admin@rock.com',
+            id: 2,
           },
           {
-            id: 3,
-            email: 'simple_user@rock.com',
-            Statistic: {
-              posts: 3,
-              comments: 4
-            },
             Role: {
-              role: Roles.user
-            }
-          }
-        ]
-      }
-    })
-  ),
-
-  deleteUser: () => Promise.resolve()
+              role: Roles.user,
+            },
+            Statistic: {
+              comments: 4,
+              posts: 3,
+            },
+            email: 'simple_user@rock.com',
+            id: 3,
+          },
+        ],
+      },
+    }),
 });

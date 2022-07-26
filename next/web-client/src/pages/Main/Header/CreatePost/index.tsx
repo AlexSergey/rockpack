@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { Button, Modal, Input, Form } from 'antd';
-import Localization, { l } from '@localazer/component';
 import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
-import { PreviewUpload } from '../../../../components/PreviewUpload';
+import Localization, { l } from '@localazer/component';
+import { Button, Modal, Input, Form } from 'antd';
+import React, { useState, useRef } from 'react';
+
 import { PhotosUpload } from '../../../../components/PhotosUpload';
+import { PreviewUpload } from '../../../../components/PreviewUpload';
 import { usePagination, usePostsApi } from '../../../../features/Posts';
 
 const Wysiwyg = loadable(() => import('../../../../components/Wysiwyg'));
@@ -40,7 +41,7 @@ export const CreatePost = (): JSX.Element => {
     if (formData.current instanceof FormData) {
       formData.current.delete('photos');
 
-      files.forEach(file => {
+      files.forEach((file) => {
         if (formData.current instanceof FormData) {
           formData.current.append('photos', file.originFileObj);
         }
@@ -69,7 +70,7 @@ export const CreatePost = (): JSX.Element => {
               if (formData.current instanceof FormData) {
                 formData.current.append('title', store.title);
                 formData.current.append('text', text);
-                createPost({ postData: formData.current, page: current });
+                createPost({ page: current, postData: formData.current });
               }
               cleanState();
               postCreateModal(false);
@@ -80,7 +81,7 @@ export const CreatePost = (): JSX.Element => {
               name="title"
               rules={[
                 {
-                  required: true
+                  required: true,
                 },
               ]}
             >

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type Params = {
   children: (openIdsState: string[], setOpenIds: (openIds: string[]) => void) => JSX.Element;
-  openIds: string[]
+  openIds: string[];
 };
 
 export const OpenIds = ({ children, openIds }: Params): JSX.Element => {

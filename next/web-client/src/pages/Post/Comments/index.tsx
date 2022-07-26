@@ -1,9 +1,11 @@
-import React from 'react';
 import Localization, { nl, sprintf } from '@localazer/component';
-import { Comment } from './Comment';
-import { useComments } from '../../../features/Comments';
+import React from 'react';
+
 import { Error } from '../../../components/Error';
 import { Loader } from '../../../components/Loader';
+import { useComments } from '../../../features/Comments';
+
+import { Comment } from './Comment';
 
 export const Comments = ({ postId, commentsCount }: { postId: number; commentsCount: number }): JSX.Element => {
   const [loading, error, comments] = useComments(postId);
@@ -12,22 +14,13 @@ export const Comments = ({ postId, commentsCount }: { postId: number; commentsCo
     <>
       <h4>
         <Localization>
-          {
-            sprintf(
-              nl(
-                'This post has %d comment',
-                'This post has %d comments',
-                commentsCount
-              ),
-              commentsCount
-            )
-          }
+          {sprintf(nl('This post has %d comment', 'This post has %d comments', commentsCount), commentsCount)}
         </Localization>
       </h4>
       <div>
         {loading && <Loader />}
         {error && <Error />}
-        {comments.map(comment => (
+        {comments.map((comment) => (
           <Comment
             key={comment.id}
             id={comment.id}

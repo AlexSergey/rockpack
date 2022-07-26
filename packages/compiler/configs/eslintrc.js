@@ -1,25 +1,22 @@
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    },
-  },
-  plugins: [
-    'react',
-    'react-hooks'
-  ],
   env: {
     browser: true,
-    node: true,
+    commonjs: true,
     es6: true,
     mocha: true,
-    commonjs: true
+    node: true,
   },
   parser: require.resolve('babel-eslint'),
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 6,
+    sourceType: 'module',
+  },
+  plugins: ['react', 'react-hooks'],
   rules: {
+    'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
-  }
+  },
 };

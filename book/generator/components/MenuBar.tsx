@@ -1,7 +1,8 @@
-import React from 'react';
-import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+
 import styles from '../assets/jss/material-dashboard-react/components/sidebarStyle';
 
 const useStyles = makeStyles(styles);
@@ -23,16 +24,14 @@ const MenuBar = (props: MenuBarInterface): JSX.Element => {
           variant="temporary"
           open={props.open}
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
           onClose={props.handleDrawerToggle}
           ModalProps={{
-            keepMounted: true
+            keepMounted: true,
           }}
         >
-          <div className={`app-sidebar ${classes.sidebarWrapper}`}>
-            {props.children(true)}
-          </div>
+          <div className={`app-sidebar ${classes.sidebarWrapper}`}>{props.children(true)}</div>
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
@@ -41,12 +40,10 @@ const MenuBar = (props: MenuBarInterface): JSX.Element => {
           variant="permanent"
           open
           classes={{
-            paper: classes.drawerPaper
+            paper: classes.drawerPaper,
           }}
         >
-          <div className={`app-sidebar ${classes.sidebarWrapper}`}>
-            {props.children(false)}
-          </div>
+          <div className={`app-sidebar ${classes.sidebarWrapper}`}>{props.children(false)}</div>
         </Drawer>
       </Hidden>
     </>

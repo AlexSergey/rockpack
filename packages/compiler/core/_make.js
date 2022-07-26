@@ -1,28 +1,30 @@
-const webpack = require('webpack');
-const path = require('path');
-const { existsSync } = require('fs');
-const { isFunction, isDefined } = require('valid-types');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
+
 const { getRootRequireDir, getMode } = require('@rockpack/utils');
-const makeEntry = require('../modules/makeEntry');
-const makeOutput = require('../modules/makeOutput');
-const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
-const makeDevtool = require('../modules/makeDevtool');
-const { makeModules } = require('../modules/makeModules');
-const makePlugins = require('../modules/makePlugins');
-const makeResolve = require('../modules/makeResolve');
-const makeExternals = require('../modules/makeExternals');
-const makeDevServer = require('../modules/makeDevServer');
-const compileWebpackConfig = require('../utils/compileWebpackConfig');
-const makeOptimization = require('../modules/makeOptimization');
+const { isFunction, isDefined } = require('valid-types');
+const webpack = require('webpack');
+
+const makeDevServer = require('../modules/make-dev-server');
+const makeDevtool = require('../modules/make-devtool');
+const makeEntry = require('../modules/make-entry');
+const makeExternals = require('../modules/make-externals');
+const { makeModules } = require('../modules/make-modules');
+const makeOptimization = require('../modules/make-optimization');
+const makeOutput = require('../modules/make-output');
+const makePlugins = require('../modules/make-plugins');
+const makeResolve = require('../modules/make-resolve');
+const compileWebpackConfig = require('../utils/compile-webpack-config');
+const mergeConfWithDefault = require('../utils/merge-conf-with-default');
 
 const _make = async (conf, post) => {
   const mode = getMode();
   const root = getRootRequireDir();
 
-  const packageJson = existsSync(path.resolve(root, 'package.json')) ?
-    // eslint-disable-next-line global-require
-    require(path.resolve(root, 'package.json')) :
-    {};
+  const packageJson = existsSync(path.resolve(root, 'package.json'))
+    ? // eslint-disable-next-line global-require,import/no-dynamic-require
+      require(path.resolve(root, 'package.json'))
+    : {};
 
   conf = await mergeConfWithDefault(conf, mode);
 
@@ -37,13 +39,13 @@ const _make = async (conf, post) => {
   const externals = makeExternals(conf, root);
 
   const finalConfig = {
-    entry,
-    output,
-    devtool,
     devServer,
-    resolve,
+    devtool,
+    entry,
+    externals,
     optimization,
-    externals
+    output,
+    resolve,
   };
   finalConfig.infrastructureLogging = {
     level: 'error',
@@ -65,13 +67,13 @@ const _make = async (conf, post) => {
     finalConfig.watch = true;
     finalConfig.cache = true;
     finalConfig.performance = {
-      hints: false
+      hints: false,
     };
   }
 
   if (mode === 'production' && !conf.debug) {
     finalConfig.performance = {
-      hints: 'warning'
+      hints: 'warning',
     };
     if (!finalConfig.output) {
       finalConfig.output = {};
@@ -83,16 +85,9 @@ const _make = async (conf, post) => {
     post(finalConfig, modules, plugins);
   }
 
-  const webpackConfig = compileWebpackConfig(
-    finalConfig,
-    conf,
-    mode,
-    root,
-    modules,
-    plugins
-  );
+  const webpackConfig = compileWebpackConfig(finalConfig, conf, mode, root, modules, plugins);
 
-  return { webpackConfig, conf };
+  return { conf, webpackConfig };
 };
 
 module.exports = _make;

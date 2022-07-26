@@ -1,265 +1,259 @@
-import { PostsServiceInterface } from './service';
-import { Roles } from '../../types/User';
+import { Roles } from '../../types/user';
 
-export const mockPostsService = (): PostsServiceInterface => ({
-  fetchPosts: () => (
-    Promise.resolve({
-      data: {
-        posts: [
-          {
-            id: 13,
-            title: 'The Shawshank Redemption',
-            createdAt: '2020-06-13T03:19:59.000Z',
-            updatedAt: '2020-06-13T03:19:59.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 2
-            },
-            Preview: {
-              uri: 'storage/preview-1592029199206.jpg',
-              thumbnail: 'storage/thumb-preview-1592029199206.jpg'
-            }
-          },
-          {
-            id: 12,
-            title: 'The Lord of the Rings - The Return of the King',
-            createdAt: '2020-06-13T03:19:25.000Z',
-            updatedAt: '2020-06-13T03:19:25.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 1
-            },
-            Preview: {
-              uri: 'storage/preview-1592029164815.jpg',
-              thumbnail: 'storage/thumb-preview-1592029164815.jpg'
-            }
-          },
-          {
-            id: 11,
-            title: 'The Lord of the Rings - The Fellowship of the Ring',
-            createdAt: '2020-06-13T03:15:13.000Z',
-            updatedAt: '2020-06-13T03:15:13.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028913742.jpg',
-              thumbnail: 'storage/thumb-preview-1592028913742.jpg'
-            }
-          },
-          {
-            id: 10,
-            title: 'The Godfather - Part II',
-            createdAt: '2020-06-13T03:14:26.000Z',
-            updatedAt: '2020-06-13T03:14:26.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028866815.jpg',
-              thumbnail: 'storage/thumb-preview-1592028866815.jpg'
-            }
-          },
-          {
-            id: 9,
-            title: 'The Godfather',
-            createdAt: '2020-06-13T03:13:53.000Z',
-            updatedAt: '2020-06-13T03:13:53.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028833335.jpg',
-              thumbnail: 'storage/thumb-preview-1592028833335.jpg'
-            }
-          },
-          {
-            id: 8,
-            title: 'The Dark Knight',
-            createdAt: '2020-06-13T03:13:15.000Z',
-            updatedAt: '2020-06-13T03:13:15.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 3
-            },
-            Preview: {
-              uri: 'storage/preview-1592028795404.jpg',
-              thumbnail: 'storage/thumb-preview-1592028795404.jpg'
-            }
-          },
-          {
-            id: 7,
-            title: "Schindler's List",
-            createdAt: '2020-06-13T03:12:16.000Z',
-            updatedAt: '2020-06-13T03:12:16.000Z',
-            User: {
-              id: 3,
-              email: 'simple_user@rock.com',
-              Statistic: {
-                posts: 3,
-                comments: 4
-              },
-              Role: {
-                role: Roles.user
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028736434.jpg',
-              thumbnail: 'storage/thumb-preview-1592028736434.jpg'
-            }
-          },
-          {
-            id: 6,
-            title: 'Pulp Fiction',
-            createdAt: '2020-06-13T03:11:46.000Z',
-            updatedAt: '2020-06-13T03:11:46.000Z',
-            User: {
-              id: 3,
-              email: 'simple_user@rock.com',
-              Statistic: {
-                posts: 3,
-                comments: 4
-              },
-              Role: {
-                role: Roles.user
-              }
-            },
-            Statistic: {
-              comments: 2
-            },
-            Preview: {
-              uri: 'storage/preview-1592028705929.jpg',
-              thumbnail: 'storage/thumb-preview-1592028705929.jpg'
-            }
-          },
-          {
-            id: 5,
-            title: 'Inception',
-            createdAt: '2020-06-13T03:11:13.000Z',
-            updatedAt: '2020-06-13T03:11:13.000Z',
-            User: {
-              id: 3,
-              email: 'simple_user@rock.com',
-              Statistic: {
-                posts: 3,
-                comments: 4
-              },
-              Role: {
-                role: Roles.user
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028673580.jpg',
-              thumbnail: 'storage/thumb-preview-1592028673580.jpg'
-            }
-          },
-          {
-            id: 4,
-            title: 'test',
-            createdAt: '2020-06-13T03:08:37.000Z',
-            updatedAt: '2020-06-13T03:08:37.000Z',
-            User: {
-              id: 2,
-              email: 'second_admin@rock.com',
-              Statistic: {
-                posts: 10,
-                comments: 4
-              },
-              Role: {
-                role: Roles.admin
-              }
-            },
-            Statistic: {
-              comments: 0
-            },
-            Preview: {
-              uri: 'storage/preview-1592028517207.jpg',
-              thumbnail: 'storage/thumb-preview-1592028517207.jpg'
-            }
-          }
-        ],
-        count: 15
-      }
-    })
-  ),
+import { IPostsService } from './service';
 
-  createPost: () => (
-    Promise.resolve()
-  ),
+export const mockPostsService = (): IPostsService => ({
+  createPost: () => Promise.resolve(),
 
   // postId 13 has comments: id 1, 5
-  deletePost: () => (
-    Promise.resolve(
-      { data: { deleteComments: [1, 5] } }
-    )
-  )
+  deletePost: () => Promise.resolve({ data: { deleteComments: [1, 5] } }),
+
+  fetchPosts: () =>
+    Promise.resolve({
+      data: {
+        count: 15,
+        posts: [
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592029199206.jpg',
+              uri: 'storage/preview-1592029199206.jpg',
+            },
+            Statistic: {
+              comments: 2,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:19:59.000Z',
+            id: 13,
+            title: 'The Shawshank Redemption',
+            updatedAt: '2020-06-13T03:19:59.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592029164815.jpg',
+              uri: 'storage/preview-1592029164815.jpg',
+            },
+            Statistic: {
+              comments: 1,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:19:25.000Z',
+            id: 12,
+            title: 'The Lord of the Rings - The Return of the King',
+            updatedAt: '2020-06-13T03:19:25.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028913742.jpg',
+              uri: 'storage/preview-1592028913742.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:15:13.000Z',
+            id: 11,
+            title: 'The Lord of the Rings - The Fellowship of the Ring',
+            updatedAt: '2020-06-13T03:15:13.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028866815.jpg',
+              uri: 'storage/preview-1592028866815.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:14:26.000Z',
+            id: 10,
+            title: 'The Godfather - Part II',
+            updatedAt: '2020-06-13T03:14:26.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028833335.jpg',
+              uri: 'storage/preview-1592028833335.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:13:53.000Z',
+            id: 9,
+            title: 'The Godfather',
+            updatedAt: '2020-06-13T03:13:53.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028795404.jpg',
+              uri: 'storage/preview-1592028795404.jpg',
+            },
+            Statistic: {
+              comments: 3,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:13:15.000Z',
+            id: 8,
+            title: 'The Dark Knight',
+            updatedAt: '2020-06-13T03:13:15.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028736434.jpg',
+              uri: 'storage/preview-1592028736434.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.user,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 3,
+              },
+              email: 'simple_user@rock.com',
+              id: 3,
+            },
+            createdAt: '2020-06-13T03:12:16.000Z',
+            id: 7,
+            title: "Schindler's List",
+            updatedAt: '2020-06-13T03:12:16.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028705929.jpg',
+              uri: 'storage/preview-1592028705929.jpg',
+            },
+            Statistic: {
+              comments: 2,
+            },
+            User: {
+              Role: {
+                role: Roles.user,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 3,
+              },
+              email: 'simple_user@rock.com',
+              id: 3,
+            },
+            createdAt: '2020-06-13T03:11:46.000Z',
+            id: 6,
+            title: 'Pulp Fiction',
+            updatedAt: '2020-06-13T03:11:46.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028673580.jpg',
+              uri: 'storage/preview-1592028673580.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.user,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 3,
+              },
+              email: 'simple_user@rock.com',
+              id: 3,
+            },
+            createdAt: '2020-06-13T03:11:13.000Z',
+            id: 5,
+            title: 'Inception',
+            updatedAt: '2020-06-13T03:11:13.000Z',
+          },
+          {
+            Preview: {
+              thumbnail: 'storage/thumb-preview-1592028517207.jpg',
+              uri: 'storage/preview-1592028517207.jpg',
+            },
+            Statistic: {
+              comments: 0,
+            },
+            User: {
+              Role: {
+                role: Roles.admin,
+              },
+              Statistic: {
+                comments: 4,
+                posts: 10,
+              },
+              email: 'second_admin@rock.com',
+              id: 2,
+            },
+            createdAt: '2020-06-13T03:08:37.000Z',
+            id: 4,
+            title: 'test',
+            updatedAt: '2020-06-13T03:08:37.000Z',
+          },
+        ],
+      },
+    }),
 });

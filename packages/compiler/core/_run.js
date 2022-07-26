@@ -1,21 +1,27 @@
-const { isDefined, isString } = require('valid-types');
 const { getRootRequireDir } = require('@rockpack/utils');
+const { isDefined, isString } = require('valid-types');
+
+const generateDts = require('../utils/generate-dts');
 const log = require('../utils/log');
-const sourceCompile = require('../utils/sourceCompile');
-const generateDts = require('../utils/generateDts');
-const pathToTSConf = require('../utils/pathToTSConf');
+const pathToTSConf = require('../utils/path-to-ts-conf');
+const sourceCompile = require('../utils/source-compile');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
+  // eslint-disable-next-line consistent-return
   const compiler = webpack(webpackConfig, async (err, stats) => {
+    // eslint-disable-next-line default-case
     switch (mode) {
       case 'development':
         if (err) {
+          // eslint-disable-next-line no-console
           console.error(err.message);
         }
         break;
       case 'production':
         if (err) {
+          // eslint-disable-next-line no-console
           console.error(err.message);
+
           return process.exit(1);
         }
 
@@ -28,6 +34,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
             try {
               await generateDts(conf);
             } catch (e) {
+              // eslint-disable-next-line no-console
               console.error(e.message);
             }
           }
@@ -36,6 +43,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
             try {
               await sourceCompile(conf);
             } catch (e) {
+              // eslint-disable-next-line no-console
               console.error(e.message);
             }
           }
@@ -49,7 +57,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
     }
   });
 
-  return { compiler, webpackConfig, conf };
+  return { compiler, conf, webpackConfig };
 };
 
 module.exports = _run;

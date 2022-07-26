@@ -1,6 +1,8 @@
-const { existsSync } = require('fs');
-const path = require('path');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
+
 const { getRootRequireDir } = require('@rockpack/utils');
+
 const { name } = require('../package.json');
 
 const rootFolder = path.resolve(__dirname, '..');
@@ -12,7 +14,7 @@ let tsConfig = path.resolve(__dirname, 'tsconfig.json');
 let jestConfig = {};
 
 if (existsSync(path.resolve(currentProjectFolder, './jest.extend.js'))) {
-  // eslint-disable-next-line global-require
+  // eslint-disable-next-line global-require,import/no-dynamic-require
   jestConfig = require(path.resolve(currentProjectFolder, './jest.extend.js'));
 }
 
@@ -52,51 +54,49 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
   globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.ts');
 }
 
-module.exports = Object.assign({
+module.exports = {
+  collectCoverage: true,
+  coverageReporters: ['json', 'html'],
   displayName: `${name}`,
-  testEnvironment: require.resolve('jest-environment-jsdom'),
-  transform: {
-    '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babelJestTS.js`,
-    '^.+\\.(js|jsx|ts|tsx)$': `${rootFolder}/modules/babelJest.js`,
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/fileTransformer.js`
-  },
-  moduleNameMapper: {
-    '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identityObjProxy.js`
-  },
-  transformIgnorePatterns: [
-    'node_modules/'
-  ],
-  moduleFileExtensions: [
-    'js', 'jsx', 'json', 'ts', 'tsx'
-  ],
-  testPathIgnorePatterns: [
-    '<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'
-  ],
   globalSetup,
   globalTeardown,
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+      tsConfig,
+    },
+  },
+  moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy.js`,
+  },
+  reporters: [
+    'default',
+    [
+      require.resolve('jest-html-reporters'),
+      {
+        expand: true,
+        filename: 'jest_reporter.html',
+        pageTitle: 'Tests Report',
+        publicPath: './test-reports',
+      },
+    ],
+  ],
   setupFiles,
   setupFilesAfterEnv: [
     require.resolve('jest-extended/all'),
     require.resolve('expect-more-jest'),
     require.resolve('jest-generator'),
     require.resolve('jest-chain'),
-    require.resolve('@testing-library/jest-dom/extend-expect')
+    require.resolve('@testing-library/jest-dom/extend-expect'),
   ].concat(setupFilesAfterEnv),
-  collectCoverage: true,
-  coverageReporters: ['json', 'html'],
-  reporters: [
-    'default',
-    [require.resolve('jest-html-reporters'), {
-      pageTitle: 'Tests Report',
-      publicPath: './test-reports',
-      filename: 'jest_reporter.html',
-      expand: true
-    }]
-  ],
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-      tsConfig
-    }
-  }
-}, jestConfig);
+  testEnvironment: require.resolve('jest-environment-jsdom'),
+  testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
+  transform: {
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/file-transformer.js`,
+    '^.+\\.(js|jsx)$': `${rootFolder}/modules/babel-jest.js`,
+    '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babel-jest-ts.js`,
+  },
+  transformIgnorePatterns: ['node_modules/'],
+  ...jestConfig,
+};

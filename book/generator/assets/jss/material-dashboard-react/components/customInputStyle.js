@@ -1,70 +1,64 @@
-import {
-  primaryColor,
-  dangerColor,
-  successColor,
-  grayColor,
-  defaultFont
-} from '../../material-dashboard-react.js';
+import { primaryColor, dangerColor, successColor, grayColor, defaultFont } from '../../material-dashboard-react.js';
 
 const customInputStyle = {
   disabled: {
     '&:before': {
-      backgroundColor: 'transparent !important'
-    }
-  },
-  underline: {
-    '&:hover:not($disabled):before,&:before': {
-      borderColor: `${grayColor[4]} !important`,
-      borderWidth: '1px !important'
+      backgroundColor: 'transparent !important',
     },
-    '&:after': {
-      borderColor: primaryColor[0]
-    }
   },
-  underlineError: {
-    '&:after': {
-      borderColor: dangerColor[0]
-    }
+  feedback: {
+    display: 'block',
+    position: 'absolute',
+    height: '24px',
+    right: '0',
+    pointerEvents: 'none',
+    top: '18px',
+    textAlign: 'center',
+    zIndex: '2',
+    width: '24px',
   },
-  underlineSuccess: {
-    '&:after': {
-      borderColor: successColor[0]
-    }
+  formControl: {
+    margin: '27px 0 0 0',
+    paddingBottom: '10px',
+    position: 'relative',
+    verticalAlign: 'unset',
   },
   labelRoot: {
     ...defaultFont,
     color: `${grayColor[3]} !important`,
-    fontWeight: '400',
     fontSize: '14px',
+    fontWeight: '400',
+    letterSpacing: 'unset',
     lineHeight: '1.42857',
-    letterSpacing: 'unset'
   },
   labelRootError: {
-    color: dangerColor[0]
+    color: dangerColor[0],
   },
   labelRootSuccess: {
-    color: successColor[0]
-  },
-  feedback: {
-    position: 'absolute',
-    top: '18px',
-    right: '0',
-    zIndex: '2',
-    display: 'block',
-    width: '24px',
-    height: '24px',
-    textAlign: 'center',
-    pointerEvents: 'none'
+    color: successColor[0],
   },
   marginTop: {
-    marginTop: '16px'
+    marginTop: '16px',
   },
-  formControl: {
-    paddingBottom: '10px',
-    margin: '27px 0 0 0',
-    position: 'relative',
-    verticalAlign: 'unset'
-  }
+  underline: {
+    '&:after': {
+      borderColor: primaryColor[0],
+    },
+    '&:hover:not($disabled):before,&:before': {
+      borderColor: `${grayColor[4]} !important`,
+      borderWidth: '1px !important',
+    },
+  },
+  underlineError: {
+    '&:after': {
+      borderColor: dangerColor[0],
+    },
+  },
+  underlineSuccess: {
+    '&:after': {
+      borderColor: successColor[0],
+    },
+  },
 };
 
 export default customInputStyle;

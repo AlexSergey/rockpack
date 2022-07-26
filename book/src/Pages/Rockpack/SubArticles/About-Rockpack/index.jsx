@@ -1,4 +1,5 @@
 import React from 'react';
+
 import LogoComponent from './assets/logo.component.svg';
 
 const Page = () => (
@@ -13,8 +14,8 @@ const Page = () => (
 );
 
 export default {
-  title: 'About Rockpack',
-  name: 'about-rockpack',
+  component: Page,
   menuOnly: true,
-  component: Page
+  name: 'about-rockpack',
+  title: 'About Rockpack',
 };

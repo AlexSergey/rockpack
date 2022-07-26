@@ -1,21 +1,21 @@
-import config from '../../config';
-import { Post } from '../../types/Posts';
-import { RestInterface } from '../../utils/rest';
+import { config } from '../../config';
+import { Post } from '../../types/posts';
+import { IRest } from '../../utils/rest';
 
 export type PostsRes = { data: { posts: Post[]; count: number } };
 
 export type DeletePostRes = { data: { deleteComments: number[] } };
 
-export interface PostsServiceInterface {
+export interface IPostsService {
   fetchPosts: (page: number) => Promise<PostsRes>;
   createPost: (postData: FormData) => Promise<void>;
   deletePost: (id: number) => Promise<DeletePostRes>;
 }
 
-export const postsService = (rest: RestInterface): PostsServiceInterface => ({
-  fetchPosts: (page) => rest.get(`${config.api}/v1/posts?page=${page}`),
-
+export const postsService = (rest: IRest): IPostsService => ({
   createPost: (postData) => rest.post(`${config.api}/v1/posts`, postData),
 
-  deletePost: (id) => rest.delete(`${config.api}/v1/posts/${id}`)
+  deletePost: (id) => rest.delete(`${config.api}/v1/posts/${id}`),
+
+  fetchPosts: (page) => rest.get(`${config.api}/v1/posts?page=${page}`),
 });

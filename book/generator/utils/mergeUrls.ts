@@ -1,4 +1,5 @@
 import ulrJoin from 'url-join';
+
 import { DocgenRouteInterface } from '../types';
 
 const mergeUrls = (route: DocgenRouteInterface | DocgenRouteInterface[], parent?: DocgenRouteInterface): void => {
@@ -7,7 +8,8 @@ const mergeUrls = (route: DocgenRouteInterface | DocgenRouteInterface[], parent?
   }
 
   if (Array.isArray(route)) {
-    route.forEach(r => mergeUrls(r, parent || {}));
+    route.forEach((r) => mergeUrls(r, parent || {}));
+
     return;
   }
 
@@ -18,7 +20,7 @@ const mergeUrls = (route: DocgenRouteInterface | DocgenRouteInterface[], parent?
   }
 
   if (route.children) {
-    (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
+    (Array.isArray(route.children) ? route.children : [route.children]).forEach((r) => {
       mergeUrls(r, route);
     });
   }

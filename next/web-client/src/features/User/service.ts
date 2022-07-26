@@ -1,15 +1,15 @@
-import config from '../../config';
-import { User } from '../../types/User';
-import { RestInterface } from '../../utils/rest';
+import { config } from '../../config';
+import { IUser } from '../../types/user';
+import { IRest } from '../../utils/rest';
 
 type UserData = {
   email: string;
   password: string;
 };
 
-type UserRes = { data: User };
+type UserRes = { data: IUser };
 
-export interface UserServiceInterface {
+export interface IUserService {
   signIn: (user: UserData) => Promise<UserRes>;
 
   authorization: () => Promise<UserRes>;
@@ -19,12 +19,12 @@ export interface UserServiceInterface {
   signOut: () => Promise<void>;
 }
 
-export const userService = (rest: RestInterface): UserServiceInterface => ({
-  signIn: (user) => rest.post(`${config.api}/v1/users/signin`, user),
-
+export const userService = (rest: IRest): IUserService => ({
   authorization: () => rest.get(`${config.api}/v1/users/authorization`),
 
-  signUp: (user) => rest.post(`${config.api}/v1/users/signup`, user),
+  signIn: (user) => rest.post(`${config.api}/v1/users/signin`, user),
 
-  signOut: () => rest.get(`${config.api}/v1/users/signout`)
+  signOut: () => rest.get(`${config.api}/v1/users/signout`),
+
+  signUp: (user) => rest.post(`${config.api}/v1/users/signup`, user),
 });

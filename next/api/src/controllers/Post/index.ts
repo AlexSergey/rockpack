@@ -1,3 +1,3 @@
 export * from './interface';
-export * from './Post';
+export * from './post';
 export * from './di.type';

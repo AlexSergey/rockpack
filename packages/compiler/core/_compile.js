@@ -1,9 +1,11 @@
-const webpack = require('webpack');
 const { getMode } = require('@rockpack/utils');
-const mergeConfWithDefault = require('../utils/mergeConfWithDefault');
-const _make = require('./_make');
-const _innerProps = require('./_innerProps');
+const webpack = require('webpack');
+
+const mergeConfWithDefault = require('../utils/merge-conf-with-default');
+
 const _args = require('./_args');
+const _innerProps = require('./_inner-props');
+const _make = require('./_make');
 const _run = require('./_run');
 
 // eslint-disable-next-line default-param-last
@@ -14,10 +16,10 @@ const _compile = async (conf = {}, post, withoutRun = false) => {
   conf = await _args(conf, mode);
   const finalConfig = await _make(conf, post);
 
-  if ((typeof global.CONFIG_ONLY === 'boolean' ? global.CONFIG_ONLY : withoutRun)) {
+  if (typeof global.CONFIG_ONLY === 'boolean' ? global.CONFIG_ONLY : withoutRun) {
     return {
+      conf: finalConfig.conf,
       webpackConfig: finalConfig.webpackConfig,
-      conf: finalConfig.conf
     };
   }
 

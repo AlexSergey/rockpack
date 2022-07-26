@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
 import { detectBrowserLanguage, LocalizationObserver, LanguagesInterface } from '@localazer/component';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isObject, isString } from 'valid-types';
-import parseLanguageFromUrl from '../utils/parseLanguageFromUrl';
+
 import { Localization } from '../types';
+import parseLanguageFromUrl from '../utils/parseLanguageFromUrl';
 
 const Wrapper = ({
-  children
+  children,
 }: {
   children: JSX.Element;
   languages?: LanguagesInterface;
@@ -32,7 +33,7 @@ export const LangWrapper = (props: LangWrapperInterface): JSX.Element => {
     if (!activeLanguage && Object.keys(props.localization).length > 0) {
       const lang = detectBrowserLanguage();
       const langs = Array.isArray(lang) ? lang : [lang];
-      const defaultLang = langs.map(e => (e.indexOf('-') ? e.split('-')[0] : e))[0];
+      const defaultLang = langs.map((e) => (e.indexOf('-') ? e.split('-')[0] : e))[0];
 
       if (props.localization && props.localization[defaultLang]) {
         activeLanguage = defaultLang;
@@ -43,32 +44,33 @@ export const LangWrapper = (props: LangWrapperInterface): JSX.Element => {
   }
 
   if (!isString(activeLanguage)) {
-    return (
-      <Wrapper>
-        {props.children()}
-      </Wrapper>
-    );
+    return <Wrapper>{props.children()}</Wrapper>;
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [languageState, localization] = useState(activeLanguage);
 
-  const languages = Object.keys(props.localization)
-    .reduce((a, b) => {
-      a[b] = props.localization[b].language ? props.localization[b].language : props.localization[b];
-      return a;
-    }, {});
+  const languages = Object.keys(props.localization).reduce((a, b) => {
+    a[b] = props.localization[b].language ? props.localization[b].language : props.localization[b];
+
+    return a;
+  }, {});
 
   return (
-    <LocalizationWrapper {...Object.assign({}, isLocalized ? {
-      languages,
-      currentLanguage: activeLanguage
-    } : {})}
+    <LocalizationWrapper
+      {...{
+        ...(isLocalized
+          ? {
+              currentLanguage: activeLanguage,
+              languages,
+            }
+          : {}),
+      }}
     >
       {props.children(isLocalized, languageState, (lang) => {
-        const newUrl = isString(activeLanguage) ?
-          document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`) :
-          false;
+        const newUrl = isString(activeLanguage)
+          ? document.location.pathname.replace(`/${activeLanguage}`, `/${lang}`)
+          : false;
 
         if (typeof newUrl === 'string') {
           navigate(newUrl);

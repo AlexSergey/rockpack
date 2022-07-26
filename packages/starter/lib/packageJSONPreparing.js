@@ -22,6 +22,8 @@ const packageJSONPreparing = async (packageJSON, {
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'react', version: '17' },
+          { name: 'redux-thunk', version: '2' },
+          { name: 'history', version: '5' },
           { name: 'react-dom', version: '17' },
           { name: 'react-redux', version: '7' },
           { name: 'react-router', version: '6' },
@@ -61,6 +63,8 @@ const packageJSONPreparing = async (packageJSON, {
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'koa', version: '2' },
+          { name: 'redux-thunk', version: '2' },
+          { name: 'history', version: '5' },
           { name: 'koa-static', version: '5' },
           { name: 'react', version: '17' },
           { name: 'react-dom', version: '17' },

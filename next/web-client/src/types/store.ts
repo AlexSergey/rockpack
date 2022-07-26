@@ -1,24 +1,26 @@
-import { Action } from 'redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { History } from 'history';
 import { LoggerInterface } from 'logrock';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { Localization } from './Localization';
-import { PostsState } from './Posts';
-import { PostState } from './Post';
-import { User } from './User';
-import { UsersState } from './Users';
-import { CommentsState } from './Comments';
-import { ServicesInterface } from '../services';
+import { Action } from 'redux';
 
-export interface ThunkExtras {
+import { IServices } from '../services';
+
+import { ICommentsState } from './comments';
+import { ILocalization } from './localization';
+import { IPostState } from './post';
+import { IPostsState } from './posts';
+import { User } from './user';
+import { IUsersState } from './users';
+
+export interface IThunkExtras {
   logger: LoggerInterface;
-  services: ServicesInterface;
+  services: IServices;
   history: History;
 }
 
-export type Dispatcher = ThunkDispatch<RootState, ThunkExtras, Action>;
+export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
 
-export interface StoreProps extends ThunkExtras {
+export interface IStoreProps extends IThunkExtras {
   initialState?: {
     [key: string]: unknown;
   };
@@ -26,13 +28,13 @@ export interface StoreProps extends ThunkExtras {
   testMode?: boolean;
 }
 
-export interface RootState {
+export interface IRootState {
   user: User;
-  localization: Localization;
-  posts: PostsState;
-  comments: CommentsState;
-  post: PostState;
-  users: UsersState;
+  localization: ILocalization;
+  posts: IPostsState;
+  comments: ICommentsState;
+  post: IPostState;
+  users: IUsersState;
   pagination: {
     current: number;
     count: number;

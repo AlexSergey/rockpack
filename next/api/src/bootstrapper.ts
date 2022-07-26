@@ -1,21 +1,21 @@
 import { config } from './config';
 import { logger } from './logger';
 
-process.on('unhandledRejection', reason => {
+process.on('unhandledRejection', (reason) => {
   logger.fatal({ error: reason }, 'Unhandled Rejection');
   process.exit(1);
 });
 
-process.on('uncaughtException', error => {
+process.on('uncaughtException', (error) => {
   logger.fatal(error, 'Unhandled Exception');
   process.exit(1);
 });
 
-process.on('warning', error => {
+process.on('warning', (error) => {
   logger.error(error, 'Warning detected');
 });
 
-process.on('exit', code => {
+process.on('exit', (code) => {
   logger.info(`Stopped with code: ${code}`);
 });
 
@@ -41,7 +41,7 @@ export const bootstrapper = async (start: () => Promise<void>, stop: () => Promi
 
   logger.info('Starting...');
   const signals: NodeJS.Signals[] = ['SIGTERM', 'SIGINT', 'SIGHUP'];
-  signals.forEach(sigEvent => process.on(sigEvent, shutdown));
+  signals.forEach((sigEvent) => process.on(sigEvent, shutdown));
 
   try {
     await start();

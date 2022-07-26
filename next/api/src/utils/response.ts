@@ -1,6 +1,6 @@
 type Data = unknown;
 
-interface Response {
+interface IResponse {
   code: number;
   status: number;
   statusCode: number;
@@ -8,11 +8,16 @@ interface Response {
   data?: Data;
 }
 
-export const ok = (message = 'ok', data?: Data): Response => (
-  Object.assign({}, {
+export const ok = (message = 'ok', data?: Data): IResponse => {
+  const response: IResponse = {
     code: 200,
+    message,
     status: 200,
     statusCode: 200,
-    message,
-  }, { ...typeof data === 'object' ? { data } : {} })
-);
+  };
+  if (typeof data === 'object') {
+    response.data = data;
+  }
+
+  return response;
+};

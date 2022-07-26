@@ -7,30 +7,29 @@ const Page = () => (
         {/* eslint-disable-next-line max-len */}
         <p>
           <strong>Beginners.</strong> With the help of Rockpack, any newbie to React can deploy a project of any
-          complexity in a few
-          minutes, with configured webpack, eslint, jest, etc. Applications can be either
-          regular Single Page or with a
-          project structure, Server Side Render, etc.
+          complexity in a few minutes, with configured webpack, eslint, jest, etc. Applications can be either regular
+          Single Page or with a project structure, Server Side Render, etc.
         </p>
       </li>
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Large projects from scratch.</strong> Rockpack supports most of the webpack best practices configurations, eslint rules, jest, typescript and will
-          work great even on large projects
+          <strong>Large projects from scratch.</strong> Rockpack supports most of the webpack best practices
+          configurations, eslint rules, jest, typescript and will work great even on large projects
         </p>
       </li>
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Startup.</strong> If you need to quickly check an idea without wasting time on unfolding and setting up the project.
+          <strong>Startup.</strong> If you need to quickly check an idea without wasting time on unfolding and setting
+          up the project.
         </p>
       </li>
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Library or React component.</strong> If you want to write a UMD library or React component, with support for the esm/cjs
-          build as well as the minified version.
+          <strong>Library or React component.</strong> If you want to write a UMD library or React component, with
+          support for the esm/cjs build as well as the minified version.
         </p>
       </li>
     </ul>
@@ -39,7 +38,8 @@ const Page = () => (
       <li>
         <p>
           {/* eslint-disable-next-line max-len */}
-          <strong>Legacy projects or modular use.</strong> Rockpack is a modular platform, you can only use what you need. Please, read articles to learn more:
+          <strong>Legacy projects or modular use.</strong> Rockpack is a modular platform, you can only use what you
+          need. Please, read articles to learn more:
         </p>
         <p>
           <i>
@@ -49,14 +49,13 @@ const Page = () => (
         </p>
         <ul>
           <li>
-            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">ENG: Server-Side
-              Rendering from zero to
-              hero
+            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">
+              ENG: Server-Side Rendering from zero to hero
             </a>
           </li>
           <li>
-            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">RU: Server-Side Rendering с
-              нуля до профи
+            <a href="https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610">
+              RU: Server-Side Rendering с нуля до профи
             </a>
           </li>
         </ul>
@@ -66,7 +65,7 @@ const Page = () => (
 );
 
 export default {
-  title: 'Getting Started',
+  component: Page,
   name: 'getting-started',
-  component: Page
+  title: 'Getting Started',
 };

@@ -1,18 +1,19 @@
-import './types/global';
-import React from 'react';
-import Cookies from 'js-cookie';
-import { hydrate } from 'react-dom';
-import logger from 'logrock';
+import './types/global.declaration';
 import createSsr from '@issr/core';
-import { createBrowserHistory } from 'history';
 import { loadableReady } from '@loadable/component';
+import { createBrowserHistory } from 'history';
+import Cookies from 'js-cookie';
+import logger from 'logrock';
+import React from 'react';
+import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
+
+import { App } from './app';
+import { Router } from './components/Router';
 import { LocalizationContainer } from './features/Localization';
-import { App } from './App';
+import { createServices } from './services';
 import { createStore } from './store';
 import { createRestClient } from './utils/rest';
-import { createServices } from './services';
-import { Router } from './components/Router';
 
 declare global {
   interface Window {
@@ -31,10 +32,10 @@ const getToken = (): string | undefined => Cookies.get('token');
 const rest = createRestClient(getToken);
 
 const store = createStore({
-  logger,
   history,
   initialState: window.REDUX_DATA,
-  services: createServices(rest)
+  logger,
+  services: createServices(rest),
 });
 
 loadableReady(() => {
@@ -48,6 +49,6 @@ loadableReady(() => {
         </Router>
       </Provider>
     </SSR>,
-    document.getElementById('root')
+    document.getElementById('root'),
   );
 });

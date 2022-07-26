@@ -1,48 +1,47 @@
-import path from 'path';
+import path from 'node:path';
+
 import dotenvSafe from 'dotenv-safe';
 
 dotenvSafe.config({
-  path: process.env.NODE_ENV === 'test' ?
-    path.resolve('./.env.test') :
-    path.resolve('./.env'),
+  allowEmptyValues: true,
   example: path.resolve(path.resolve('./'), './.env.example'),
-  allowEmptyValues: true
+  path: process.env.NODE_ENV === 'test' ? path.resolve('./.env.test') : path.resolve('./.env'),
 });
 
 // eslint-disable-next-line no-shadow
 export enum Roles {
   user = 'user',
-  admin = 'admin'
+  admin = 'admin',
 }
 
 export const config = {
-  roles: {
-    [Roles.user]: Roles.user,
-    [Roles.admin]: Roles.admin,
+  files: {
+    maxSize: 3 * 1024 * 1024,
+    photos: 10,
+    preview: 1,
+    thumbnail: {
+      photos: 200,
+      preview: {
+        width: 700,
+      },
+    },
+    thumbnailPrefix: 'thumb',
+    types: ['image/jpeg', 'image/jpg', 'image/png'],
+  },
+  http: {
+    host: process.env.HOST,
+    port: process.env.PORT,
   },
   jwtExpiresIn: '7d',
   logLevel: 'info',
   postsLimit: 10,
-  storage: 'storage',
-  files: {
-    maxSize: 3 * 1024 * 1024,
-    preview: 1,
-    photos: 10,
-    thumbnail: {
-      preview: {
-        width: 700
-      },
-      photos: 200
-    },
-    thumbnailPrefix: 'thumb',
-    types: ['image/jpeg', 'image/jpg', 'image/png']
-  },
-  workers: {
-    removeImages: `${path.resolve('./')}/workers/removeImages.js`
+  roles: {
+    [Roles.user]: Roles.user,
+    [Roles.admin]: Roles.admin,
   },
   shutdownTimeout: 1000,
-  http: {
-    host: process.env.HOST,
-    port: process.env.PORT
-  }
+  storage: 'storage',
+  workers: {
+    removeImages: `${path.resolve('./')}/workers/remove-images.js`,
+  },
 };

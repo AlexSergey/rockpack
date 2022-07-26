@@ -1,5 +1,6 @@
-import React from 'react';
 import { UserOutlined } from '@ant-design/icons';
+import React from 'react';
+
 import { useRole, useUser } from '../../../../features/User';
 
 import styles from './style.module.scss';

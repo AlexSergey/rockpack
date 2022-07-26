@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+
+import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
-import config from '../../config';
+
 import styles from './style.module.scss';
 
-export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<Record<string, unknown>> | false)
-=> void }): JSX.Element => {
+export const PreviewUpload = ({
+  onChange,
+}: {
+  onChange: (file: UploadFile<Record<string, unknown>> | false) => void;
+}): JSX.Element => {
   const [preview, setPreview] = useState('');
   const [fileList, setFileList] = useState([]);
 
@@ -32,6 +37,7 @@ export const PreviewUpload = ({ onChange }: { onChange: (file: UploadFile<Record
             handlePreview(file);
             setFileList([file]);
           }
+
           return false;
         }}
         onChange={(info): void => {

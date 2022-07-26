@@ -1,6 +1,6 @@
-import { Statuses } from '../utils/getStatus';
+import { Statuses } from '../utils/get-status';
 
-export interface ErrorInterface {
+export interface IError {
   statusCode: number;
   message: string;
   code: string;

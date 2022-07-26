@@ -1,61 +1,64 @@
-import { UserServiceInterface } from './service';
-import { Roles } from '../../types/User';
+import { Roles } from '../../types/user';
 
-export const mockUserService = (): UserServiceInterface => ({
-  signIn: () => (
+import { IUserService } from './service';
+
+export const mockUserService = (): IUserService => ({
+  authorization: () =>
     Promise.resolve({
       data: {
-        id: 1,
+        Role: {
+          role: Roles.admin,
+        },
+        Statistic: {
+          comments: 0,
+          posts: 0,
+        },
+
         email: 'admin@rock.com',
+
+        id: 1,
         // eslint-disable-next-line camelcase
         role_id: 2,
-        Statistic: {
-          posts: 0,
-          comments: 0
-        },
-        Role: {
-          role: Roles.admin
-        }
-      }
-    })
-  ),
+      },
+    }),
 
-  // eslint-disable-next-line sonarjs/no-identical-functions
-  authorization: () => (
+  signIn: () =>
     Promise.resolve({
       data: {
-        id: 1,
+        Role: {
+          role: Roles.admin,
+        },
+        Statistic: {
+          comments: 0,
+          posts: 0,
+        },
+
         email: 'admin@rock.com',
+
+        id: 1,
         // eslint-disable-next-line camelcase
         role_id: 2,
-        Statistic: {
-          posts: 0,
-          comments: 0
-        },
-        Role: {
-          role: Roles.admin
-        }
-      }
-    })
-  ),
+      },
+    }),
 
-  signUp: (user) => (
+  signOut: () => Promise.resolve(),
+
+  signUp: (user) =>
     Promise.resolve({
       data: {
-        id: 10,
+        Role: {
+          role: Roles.user,
+        },
+        Statistic: {
+          comments: 0,
+          posts: 0,
+        },
+
         email: user.email,
+
+        id: 10,
         // eslint-disable-next-line camelcase
         role_id: 2,
-        Statistic: {
-          posts: 0,
-          comments: 0
-        },
-        Role: {
-          role: Roles.user
-        }
-      }
-    })
-  ),
-
-  signOut: () => Promise.resolve()
+      },
+    }),
 });

@@ -1,11 +1,12 @@
 import { matchPath } from 'react-router';
+
 import { DocgenRouteInterface } from '../types';
 
 const findPathToActiveRoute = (
   currentUrl: string,
   route: DocgenRouteInterface,
   pathToRoute: string[],
-  isFound = false
+  isFound = false,
 ): string[] | [] => {
   if (!route) {
     return isFound ? pathToRoute : [];
@@ -22,13 +23,13 @@ const findPathToActiveRoute = (
     isFound = true;
   }
   if (Array.isArray(route)) {
-    route.forEach(r => {
+    route.forEach((r) => {
       findPathToActiveRoute(currentUrl, r, pathToRoute, isFound);
     });
   }
 
   if (route.children) {
-    (Array.isArray(route.children) ? route.children : [route.children]).forEach(r => {
+    (Array.isArray(route.children) ? route.children : [route.children]).forEach((r) => {
       findPathToActiveRoute(currentUrl, r, pathToRoute, isFound);
     });
   }

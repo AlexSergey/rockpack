@@ -30,3 +30,5 @@ test-reports/**
 *.hbs
 *.jade
 *.html
+
+index.js

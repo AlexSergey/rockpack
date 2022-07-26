@@ -1,5 +1,6 @@
-const { argv } = require('yargs');
 const { setMode } = require('@rockpack/utils');
+const { argv } = require('yargs');
+
 const run = require('./core/run');
 const watch = require('./core/watch');
 

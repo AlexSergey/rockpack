@@ -1,113 +1,108 @@
-import {
-  defaultFont,
-  dangerColor,
-  whiteColor
-} from '../../material-dashboard-react.js';
-
+import { defaultFont, dangerColor, whiteColor } from '../../material-dashboard-react.js';
 import dropdownStyle from '../dropdownStyle.js';
 
-const headerLinksStyle = theme => ({
+const headerLinksStyle = (theme) => ({
   ...dropdownStyle(theme),
-  search: {
-    '& > div': {
-      marginTop: '0'
-    },
+  buttonLink: {
     [theme.breakpoints.down('sm')]: {
-      margin: '10px 15px !important',
-      float: 'none !important',
-      paddingTop: '1px',
-      paddingBottom: '1px',
-      padding: '0!important',
-      width: '60%',
-      marginTop: '40px',
-      '& input': {
-        color: whiteColor
-      }
-    }
+      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
+        fontSize: '24px',
+        height: '30px',
+        lineHeight: '30px',
+        marginLeft: '-15px',
+        marginRight: '15px',
+        width: '24px',
+      },
+      '& > span': {
+        justifyContent: 'flex-start',
+        width: '100%',
+      },
+      '& svg': {
+        height: '30px',
+        marginLeft: '-15px',
+        marginRight: '15px',
+        width: '24px',
+      },
+      display: 'flex',
+      margin: '10px 15px 0',
+      width: '-webkit-fill-available',
+    },
   },
   linkText: {
     zIndex: '4',
     ...defaultFont,
     fontSize: '14px',
-    margin: '0px'
+    margin: '0px',
   },
-  buttonLink: {
+  manager: {
     [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      margin: '10px 15px 0',
-      width: '-webkit-fill-available',
-      '& svg': {
-        width: '24px',
-        height: '30px',
-        marginRight: '15px',
-        marginLeft: '-15px'
-      },
-      '& .fab,& .fas,& .far,& .fal,& .material-icons': {
-        fontSize: '24px',
-        lineHeight: '30px',
-        width: '24px',
-        height: '30px',
-        marginRight: '15px',
-        marginLeft: '-15px'
-      },
-      '& > span': {
-        justifyContent: 'flex-start',
-        width: '100%'
-      }
-    }
-  },
-  searchButton: {
-    [theme.breakpoints.down('sm')]: {
-      top: '-50px !important',
-      marginRight: '22px',
-      float: 'right'
-    }
+      width: '100%',
+    },
+    display: 'inline-block',
   },
   margin: {
+    margin: '0',
     zIndex: '4',
-    margin: '0'
-  },
-  searchIcon: {
-    width: '17px',
-    zIndex: '4'
   },
   notifications: {
     zIndex: '4',
     [theme.breakpoints.up('md')]: {
-      position: 'absolute',
-      top: '2px',
-      border: `1px solid ${whiteColor}`,
-      right: '4px',
-      fontSize: '9px',
       background: dangerColor[0],
+      border: `1px solid ${whiteColor}`,
       color: whiteColor,
-      minWidth: '16px',
-      height: '16px',
+      fontSize: '9px',
       borderRadius: '10px',
-      textAlign: 'center',
+      position: 'absolute',
+      height: '16px',
+      top: '2px',
+      display: 'block',
+      right: '4px',
       lineHeight: '16px',
+      minWidth: '16px',
+      textAlign: 'center',
       verticalAlign: 'middle',
-      display: 'block'
     },
     [theme.breakpoints.down('sm')]: {
       ...defaultFont,
       fontSize: '14px',
-      marginRight: '8px'
-    }
-  },
-  manager: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
+      marginRight: '8px',
     },
-    display: 'inline-block'
+  },
+  search: {
+    '& > div': {
+      marginTop: '0',
+    },
+    [theme.breakpoints.down('sm')]: {
+      float: 'none !important',
+      margin: '10px 15px !important',
+      marginTop: '40px',
+      padding: '0!important',
+      '& input': {
+        color: whiteColor,
+      },
+      paddingBottom: '1px',
+      paddingTop: '1px',
+      width: '60%',
+    },
+  },
+  searchButton: {
+    [theme.breakpoints.down('sm')]: {
+      float: 'right',
+      marginRight: '22px',
+      top: '-50px !important',
+    },
+  },
+  searchIcon: {
+    width: '17px',
+    zIndex: '4',
   },
   searchWrapper: {
     [theme.breakpoints.down('sm')]: {
+      margin: '10px 15px 0',
       width: '-webkit-fill-available',
-      margin: '10px 15px 0'
     },
-    display: 'inline-block'
-  }
+    display: 'inline-block',
+  },
 });
 
 export default headerLinksStyle;

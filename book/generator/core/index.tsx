@@ -1,21 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
 import GoogleAnalytics from 'react-ga';
-import { isObject, isString } from 'valid-types';
 import { BrowserRouter } from 'react-router-dom';
+import { isObject, isString } from 'valid-types';
+
 import Layout from '../layout';
+import { ExternalPropsInterface } from '../types';
 import findPathToActiveRoute from '../utils/findPathToActiveRoute';
-import openIdGenerate from '../utils/openIdGenerate';
 import mergeUrls from '../utils/mergeUrls';
+import openIdGenerate from '../utils/openIdGenerate';
 import validation from '../utils/validation';
+
 import { LangWrapper } from './LangWrapper';
 import { OpenIds } from './OpenIds';
-import { ExternalPropsInterface } from '../types';
 
 export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivElement): JSX.Element => {
   if (!(el instanceof HTMLElement)) {
     // eslint-disable-next-line no-console
     console.error('DOM element is invalid');
+
     return;
   }
   const isValid = validation(props);
@@ -23,6 +26,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
   if (!isValid) {
     // eslint-disable-next-line no-console
     console.error('props is invalid');
+
     return;
   }
 
@@ -42,7 +46,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
   }
 
   if (Array.isArray(props.docgen)) {
-    props.docgen.forEach(section => {
+    props.docgen.forEach((section) => {
       const pathToRoute = findPathToActiveRoute(document.location.pathname, section, []);
 
       if (pathToRoute.length > 0) {
@@ -69,7 +73,7 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
       let found = false;
 
       if (Array.isArray(props.docgen)) {
-        props.docgen.forEach(section => {
+        props.docgen.forEach((section) => {
           const pathToRoute = findPathToActiveRoute(document.location.pathname, section, []);
 
           if (pathToRoute.length > 0 && !found) {
@@ -91,31 +95,31 @@ export const createDocumentation = (props: ExternalPropsInterface, el: HTMLDivEl
   };
 
   render(
-    (
-      <BrowserRouter>
-        <LangWrapper {...props}>
-          {(isLocalized, activeLang, changeLocal): JSX.Element => (
-            <OpenIds {...props} openIds={openIds}>
-              {/* eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow */}
-              {(openIds, setOpenIds): JSX.Element => (
-                <Layout {...Object.assign({}, props, {
-                  openIds,
-                  hasRoutes,
-                  isLocalized,
+    <BrowserRouter>
+      <LangWrapper {...props}>
+        {(isLocalized, activeLang, changeLocal): JSX.Element => (
+          <OpenIds {...props} openIds={openIds}>
+            {/* eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow */}
+            {(openIds, setOpenIds): JSX.Element => (
+              <Layout
+                {...{
+                  ...props,
                   activeLang,
                   changeLocal,
+                  hasRoutes,
+                  isLocalized,
                   languages,
+                  openIds,
                   toggleOpenId: () => {
                     handleOpen(setOpenIds);
-                  }
-                })}
-                />
-              )}
-            </OpenIds>
-          )}
-        </LangWrapper>
-      </BrowserRouter>
-    ),
-    el
+                  },
+                }}
+              />
+            )}
+          </OpenIds>
+        )}
+      </LangWrapper>
+    </BrowserRouter>,
+    el,
   );
 };

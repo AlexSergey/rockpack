@@ -1,5 +1,5 @@
-import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
+import React from 'react';
 import { Container, baseStyles } from 'unified-ui';
 
 import CodeBlock from './CodeBlock';
@@ -11,13 +11,13 @@ interface StyleInterface {
 const Style = ({ children }: StyleInterface): JSX.Element => (
   <style
     dangerouslySetInnerHTML={{
-      __html: children
+      __html: children,
     }}
   />
 );
 
 const defaultComponents = {
-  code: CodeBlock
+  code: CodeBlock,
 };
 
 interface MDXLayoutInterface {
@@ -32,7 +32,7 @@ interface MDXLayoutInterface {
 }
 
 const MDXLayout = (props: MDXLayoutInterface): JSX.Element => (
-  <MDXProvider components={Object.assign({}, defaultComponents, props.components)} className="mdx-provider">
+  <MDXProvider components={{ ...defaultComponents, ...props.components }} className="mdx-provider">
     <>
       <Style>{baseStyles}</Style>
       <Container {...props} />

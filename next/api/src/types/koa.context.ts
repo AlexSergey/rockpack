@@ -1,6 +1,7 @@
 import { Context } from 'koa';
-import { UserModel } from '../models/User';
 
-export interface KoaContext extends Context {
+import { UserModel } from '../models/user';
+
+export interface IKoaContext extends Context {
   user: UserModel;
 }

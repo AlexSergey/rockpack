@@ -15,8 +15,7 @@ const parseLanguageFromUrl = (url: string, languages: string[]): string | false 
       return l;
     }
     if (isObject(languages)) {
-      return Object.keys(languages)
-        .indexOf(l) >= 0 ? l : false;
+      return Object.keys(languages).indexOf(l) >= 0 ? l : false;
     }
   }
 

@@ -1,11 +1,7 @@
 import About from './About-Rockpack';
-import GettingStarted from './Getting-started';
 import FastSetup from './Fast-setup';
+import GettingStarted from './Getting-started';
 
-const pages = [
-  About,
-  GettingStarted,
-  FastSetup
-];
+const pages = [About, GettingStarted, FastSetup];
 
 export default pages;

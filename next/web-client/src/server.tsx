@@ -1,30 +1,32 @@
-import './types/global';
-import { readFileSync } from 'fs';
-import path from 'path';
-import React from 'react';
+import './types/global.declaration';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { serverRender } from '@issr/core';
+import Router from '@koa/router';
+import { ChunkExtractor } from '@loadable/server';
+import { getDefaultLocale } from '@localazer/component';
+import { createMemoryHistory } from 'history';
 import Koa from 'koa';
 import noCache from 'koa-no-cache';
 import serve from 'koa-static';
-import Router from '@koa/router';
 import logger from 'logrock';
 import PrettyError from 'pretty-error';
-import { getDefaultLocale } from '@localazer/component';
-import { StaticRouter } from 'react-router-dom/server';
-import { createMemoryHistory } from 'history';
-import MetaTagsServer from 'react-meta-tags/server';
+import React from 'react';
 import { MetaTagsContext } from 'react-meta-tags';
+import MetaTagsServer from 'react-meta-tags/server';
 import { Provider } from 'react-redux';
-import { serverRender } from '@issr/core';
-import { ChunkExtractor } from '@loadable/server';
+import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
+
+import { App } from './app';
 import { googleFontsInstall } from './assets/fonts';
-import { App } from './App';
-import { createStore } from './store';
-import ru from './locales/ru.json';
 import { LocalizationContainer, getCurrentLanguageFromURL } from './features/Localization';
-import { createRestClient } from './utils/rest';
-import { isDevelopment } from './utils/environments';
+import ru from './locales/ru.json';
 import { createServices } from './services';
+import { createStore } from './store';
+import { isDevelopment } from './utils/environments';
+import { createRestClient } from './utils/rest';
 
 const app = new Koa();
 const router = new Router();
@@ -32,13 +34,13 @@ const pe = new PrettyError();
 const publicFolder = path.resolve(__dirname, '../public');
 const languages = { ru };
 
-const stats = JSON.parse(
-  readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8')
-);
+const stats = JSON.parse(readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'));
 
-app.use(noCache({
-  global: true
-}));
+app.use(
+  noCache({
+    global: true,
+  }),
+);
 
 app.use(serve(publicFolder));
 
@@ -46,37 +48,35 @@ router.get('(.*)', async (ctx) => {
   const page = Number(ctx.request.query.page) || 1;
   const getToken = (): string | undefined => ctx.cookies.get('token');
   const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages.bind(ctx));
-  const locale = typeof languages[currentLanguage] === 'object' ?
-    languages[currentLanguage] :
-    getDefaultLocale();
+  const locale = typeof languages[currentLanguage] === 'object' ? languages[currentLanguage] : getDefaultLocale();
 
   const rest = createRestClient(getToken);
 
   const store = createStore({
+    history: createMemoryHistory(),
     initialState: {
-      pagination: {
-        current: page
-      },
       localization: {
         currentLanguage,
         languages: {
-          [currentLanguage]: locale
-        }
-      }
+          [currentLanguage]: locale,
+        },
+      },
+      pagination: {
+        current: page,
+      },
     },
     logger,
-    history: createMemoryHistory(),
-    services: createServices(rest)
+    services: createServices(rest),
   });
 
   const metaTagsInstance = MetaTagsServer();
 
   const extractor = new ChunkExtractor({
+    entrypoints: ['index'],
     stats,
-    entrypoints: ['index']
   });
 
-  const { html } = await serverRender(() => (
+  const { html } = await serverRender(() =>
     extractor.collectChunks(
       <Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>
@@ -86,9 +86,9 @@ router.get('(.*)', async (ctx) => {
             </LocalizationContainer>
           </StaticRouter>
         </MetaTagsContext>
-      </Provider>
-    )
-  ));
+      </Provider>,
+    ),
+  );
 
   const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
@@ -127,9 +127,7 @@ router.get('(.*)', async (ctx) => {
   /* eslint-enable */
 });
 
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console

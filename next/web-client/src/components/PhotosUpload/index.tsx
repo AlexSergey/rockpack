@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
 import { Upload, Modal, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
-import { PlusOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+
+import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
-import config from '../../config';
 
 export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
   const [uploadList, setFileList] = useState([]);
@@ -33,6 +34,7 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
       <div className="ant-upload-text">Upload</div>
     </div>
   );
+
   return (
     <div className="clearfix">
       <Upload
@@ -48,17 +50,13 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
           } else {
             setFileList([file]);
           }
+
           return false;
         }}
       >
         {uploadList.length >= config.maxPhotos ? null : uploadButton}
       </Upload>
-      <Modal
-        visible={previewVisible}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
+      <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </div>

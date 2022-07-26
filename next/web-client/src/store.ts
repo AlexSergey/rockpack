@@ -1,23 +1,19 @@
+import { isBackend } from '@issr/core';
 import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
-import { isBackend } from '@issr/core';
-import { isDevelopment } from './utils/environments';
-import { localizationReducer as localization } from './features/Localization';
-import { userReducer as user } from './features/User';
-import { postsReducer as posts, paginationReducer as pagination } from './features/Posts';
-import { commentsReducer as comments } from './features/Comments';
-import { postReducer as post } from './features/Post';
-import { usersReducer as users } from './features/Users';
-import { StoreProps, RootState } from './types/store';
 
-export const createStore = ({
-  initialState,
-  logger,
-  history,
-  services,
-  testMode }: StoreProps): Store<RootState> => {
+import { commentsReducer as comments } from './features/Comments';
+import { localizationReducer as localization } from './features/Localization';
+import { postReducer as post } from './features/Post';
+import { postsReducer as posts, paginationReducer as pagination } from './features/Posts';
+import { userReducer as user } from './features/User';
+import { usersReducer as users } from './features/Users';
+import { IStoreProps, IRootState } from './types/store';
+import { isDevelopment } from './utils/environments';
+
+export const createStore = ({ initialState, logger, history, services, testMode }: IStoreProps): Store<IRootState> => {
   const reduxLogger = createLogger({
-    collapsed: true
+    collapsed: true,
   });
 
   const middleware = getDefaultMiddleware({
@@ -25,10 +21,10 @@ export const createStore = ({
     serializableCheck: false,
     thunk: {
       extraArgument: {
-        services,
+        history,
         logger,
-        history
-      }
+        services,
+      },
     },
   });
 
@@ -37,17 +33,17 @@ export const createStore = ({
   }
 
   return configureStore({
-    reducer: {
-      localization,
-      user,
-      posts,
-      comments,
-      post,
-      users,
-      pagination
-    },
     devTools: isDevelopment(),
     middleware,
-    preloadedState: initialState || {}
+    preloadedState: initialState || {},
+    reducer: {
+      comments,
+      localization,
+      pagination,
+      post,
+      posts,
+      user,
+      users,
+    },
   });
 };

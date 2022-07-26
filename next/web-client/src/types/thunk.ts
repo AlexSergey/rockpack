@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ThunkAction } from 'redux-thunk';
 import { Action } from '@reduxjs/toolkit';
-import { RootState, ThunkExtras } from './store';
+import { ThunkAction } from 'redux-thunk';
 
-export type ThunkResult<R = void> = ThunkAction<Promise<R>, RootState, ThunkExtras, Action>;
+import { IRootState, IThunkExtras } from './store';
+
+export type ThunkResult<R = void> = ThunkAction<Promise<R>, IRootState, IThunkExtras, Action>;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
 import Localization, { l } from '@localazer/component';
 import { Modal, Button, Form, Input } from 'antd';
+import React, { useState } from 'react';
+
 import { useUserApi } from '../../../../features/User';
 
 type Store = {
@@ -18,12 +19,7 @@ export const Signup = (): JSX.Element => {
         <Localization>{l('Sign Up')}</Localization>
       </Button>
 
-      <Modal
-        title={l('Sign Up')()}
-        visible={signupState}
-        onCancel={(): void => signupModal(false)}
-        footer={null}
-      >
+      <Modal title={l('Sign Up')()} visible={signupState} onCancel={(): void => signupModal(false)} footer={null}>
         <Form
           name="signup"
           onFinish={(store: Store): void => {
@@ -35,8 +31,8 @@ export const Signup = (): JSX.Element => {
             name="email"
             rules={[
               {
-                required: true,
                 message: l('Please input your e-mail!')(),
+                required: true,
               },
             ]}
           >
@@ -48,8 +44,8 @@ export const Signup = (): JSX.Element => {
             name="password"
             rules={[
               {
-                required: true,
                 message: l('Please input your password!')(),
+                required: true,
               },
             ]}
           >

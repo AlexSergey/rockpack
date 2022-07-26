@@ -1,14 +1,16 @@
-const path = require('path');
+const path = require('node:path');
+
 const { run } = require('./core/run');
 
 (async () => {
   try {
     await run({
-      cwd: path.join(__dirname, '../examples/', 'react-app'),
       cmd: 'npm run build',
-      strategy: 'cra-build'
+      cwd: path.join(__dirname, '../examples/', 'react-app'),
+      strategy: 'cra-build',
     });
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
   }
 })();

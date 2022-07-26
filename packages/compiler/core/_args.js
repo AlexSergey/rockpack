@@ -8,6 +8,7 @@ const addArgs = (conf) => {
       conf.analyzer = true;
     }
   }
+
   return conf;
 };
 

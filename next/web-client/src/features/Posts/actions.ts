@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Post } from '../../types/Posts';
+
+import { Post } from '../../types/posts';
 
 export const requestPosts = createAction('Posts are fetching...');
 

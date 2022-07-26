@@ -1,17 +1,19 @@
 import { useContext } from 'react';
+
+import { Languages } from '../../types/localization';
+
 import { LocalizationContext } from './context';
-import { Languages } from '../../types/Localization';
 
 export const useCurrentLanguage = (): Languages => useContext(LocalizationContext).currentLanguage;
 
-interface LocalizationAPIInterface {
+interface ILocalizationApi {
   changeLanguage: (lang: Languages) => void;
 }
 
-export const useLocalizationAPI = (): LocalizationAPIInterface => {
+export const useLocalizationAPI = (): ILocalizationApi => {
   const ctx = useContext(LocalizationContext);
 
   return {
-    changeLanguage: ctx.changeLanguage
+    changeLanguage: ctx.changeLanguage,
   };
 };

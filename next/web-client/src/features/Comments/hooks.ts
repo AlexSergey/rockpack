@@ -1,12 +1,14 @@
 import { useSsrEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchComments, createComment, deleteComment } from './thunks';
-import { CommentsState, Comment } from '../../types/Comments';
-import { User } from '../../types/User';
 
-export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
+import { ICommentsState, IComment } from '../../types/comments';
+import { IUser } from '../../types/user';
+
+import { fetchComments, createComment, deleteComment } from './thunks';
+
+export const useComments = (postId: number): [boolean, boolean, IComment[]] => {
   const dispatch = useDispatch();
-  const { data, error, loading } = useSelector<{ comments: CommentsState }, CommentsState>(state => state.comments);
+  const { data, error, loading } = useSelector<{ comments: ICommentsState }, ICommentsState>((state) => state.comments);
 
   useSsrEffect(() => dispatch(fetchComments(postId)));
 
@@ -14,18 +16,18 @@ export const useComments = (postId: number): [boolean, boolean, Comment[]] => {
 };
 
 export const useCommentsApi = (): {
-  createComment: (props: { postId: number; text: string; user: User }) => void;
+  createComment: (props: { postId: number; text: string; user: IUser }) => void;
   deleteComment: (id: number, owner?: boolean) => void;
 } => {
   const dispatch = useDispatch();
 
   return {
-    createComment: ({ postId, text, user }) => {
+    createComment: ({ postId, text, user }): void => {
       dispatch(createComment({ postId, text, user }));
     },
 
-    deleteComment: (id, owner) => {
+    deleteComment: (id, owner): void => {
       dispatch(deleteComment({ id, owner }));
-    }
+    },
   };
 };

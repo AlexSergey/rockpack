@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"**\"",
+    "format:eslint": "eslint \"**\" --fix",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {
@@ -31,6 +32,7 @@
   ],
   "private": false,
   "dependencies": {
+    "@babel/core": "7.16.5",
     "@loadable/webpack-plugin": "5.15.2",
     "@mdx-js/loader": "1.6.22",
     "@nuxt/friendly-errors-webpack-plugin": "2.5.2",

@@ -1,12 +1,8 @@
-const { rockConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle');
 
-module.exports = rockConfig({
-  '@typescript-eslint/return-await': 'off',
-  '@typescript-eslint/camelcase': 'off',
-  'no-console': 'off'
-}, {
-  globals: {
-    JSX: true,
-    NodeJS: true
-  }
-});
+module.exports = makeConfig(
+  {},
+  {
+    camelCaseAllow: ['role_id', 'user_id', 'post_id', 'type_id', 'entity_id'],
+  },
+);

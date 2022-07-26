@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"**\"",
+    "format:eslint": "eslint \"**\" --fix",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {

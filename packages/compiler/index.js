@@ -1,25 +1,26 @@
 const webpack = require('webpack');
 const { argv } = require('yargs');
-const makeWebpackConfig = require('./compilers/makeWebpackConfig');
-const markupCompiler = require('./compilers/markupCompiler');
-const libraryCompiler = require('./compilers/libraryCompiler');
-const frontendCompiler = require('./compilers/frontendCompiler');
-const backendCompiler = require('./compilers/backendCompiler');
-const isomorphicCompiler = require('./compilers/isomorphicCompiler');
-const webViewCompiler = require('./compilers/webViewCompiler');
+
+const backendCompiler = require('./compilers/backend-compiler');
+const frontendCompiler = require('./compilers/frontend-compiler');
+const isomorphicCompiler = require('./compilers/isomorphic-compiler');
+const libraryCompiler = require('./compilers/library-compiler');
+const makeWebpackConfig = require('./compilers/make-webpack-config');
+const markupCompiler = require('./compilers/markup-compiler');
+const webViewCompiler = require('./compilers/web-view-compiler');
 
 const getArgs = () => argv;
 
 const getWebpack = () => webpack;
 
 module.exports = {
-  getWebpack,
-  getArgs,
-  makeWebpackConfig,
-  isomorphicCompiler,
-  markupCompiler,
-  libraryCompiler,
-  frontendCompiler,
   backendCompiler,
-  webViewCompiler
+  frontendCompiler,
+  getArgs,
+  getWebpack,
+  isomorphicCompiler,
+  libraryCompiler,
+  makeWebpackConfig,
+  markupCompiler,
+  webViewCompiler,
 };

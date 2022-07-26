@@ -1,26 +1,29 @@
-import { useEffect, useRef } from 'react';
 import { useSsrEffect } from '@issr/core';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts, setPage, createPost, deletePost } from './thunks';
-import { PostsState, Post } from '../../types/Posts';
+
+import { IPostsState, IPost } from '../../types/posts';
 import { Dispatcher } from '../../types/store';
 
+import { fetchPosts, setPage, createPost, deletePost } from './thunks';
+
 export const usePagination = (): { current: number; count: number } => {
-  const { count, current } = useSelector<{ pagination: { current: number; count: number } },
-  { current: number; count: number }>(state => state.pagination);
+  const { count, current } = useSelector<
+    { pagination: { current: number; count: number } },
+    { current: number; count: number }
+  >((state) => state.pagination);
 
   return {
     count,
-    current
+    current,
   };
 };
 
-export const usePosts = (): [boolean, boolean, Post[]] => {
+export const usePosts = (): [boolean, boolean, IPost[]] => {
   const init = useRef(true);
   const dispatch = useDispatch();
   const { current } = usePagination();
-  const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>(state => state.posts);
+  const { data, error, loading } = useSelector<{ posts: IPostsState }, IPostsState>((state) => state.posts);
 
   useSsrEffect(() => dispatch(fetchPosts(current)));
 
@@ -30,7 +33,6 @@ export const usePosts = (): [boolean, boolean, Post[]] => {
       dispatch(fetchPosts(current));
     }
     init.current = false;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
   return [loading, error, data];
@@ -42,9 +44,9 @@ export const usePaginationApi = (): {
   const dispatch = useDispatch<Dispatcher>();
 
   return {
-    setCurrent: (page) => {
+    setCurrent: (page): void => {
       dispatch(setPage(page));
-    }
+    },
   };
 };
 
@@ -55,11 +57,11 @@ export const usePostsApi = (): {
   const dispatch = useDispatch();
 
   return {
-    createPost: (data) => {
+    createPost: (data): void => {
       dispatch(createPost(data));
     },
-    deletePost: (id, owner) => {
+    deletePost: (id, owner): void => {
       dispatch(deletePost({ id, owner }));
-    }
+    },
   };
 };

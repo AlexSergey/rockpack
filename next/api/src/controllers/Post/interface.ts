@@ -1,13 +1,13 @@
-import { KoaContext } from '../../types/koa.context';
+import { IKoaContext } from '../../types/koa.context';
 
-export interface PostControllerInterface {
-  fetch(ctx: KoaContext): Promise<void>;
+export interface IPostController {
+  fetch(ctx: IKoaContext): Promise<void>;
 
-  details(ctx: KoaContext): Promise<void>;
+  details(ctx: IKoaContext): Promise<void>;
 
-  create(ctx: KoaContext): Promise<void>;
+  create(ctx: IKoaContext): Promise<void>;
 
-  delete(ctx: KoaContext): Promise<void>;
+  delete(ctx: IKoaContext): Promise<void>;
 
-  update(ctx: KoaContext): Promise<void>;
+  update(ctx: IKoaContext): Promise<void>;
 }

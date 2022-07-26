@@ -2,10 +2,10 @@
 import 'reflect-metadata';
 
 import { bootstrapper } from './bootstrapper';
-import * as http from './boundaries/http';
 import * as database from './boundaries/database';
-import { installMappings } from './mappings';
+import * as http from './boundaries/http';
 import { logger } from './logger';
+import { installMappings } from './mappings';
 
 export const start = async (): Promise<void> => {
   try {

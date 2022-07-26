@@ -1,9 +1,11 @@
-import path from 'path';
-import { Next } from 'koa';
+import path from 'node:path';
+
 import multer from '@koa/multer';
+import { Next } from 'koa';
+
 import { config } from '../config';
-import { BadFileFormat, MulterError } from '../errors';
-import { KoaContext } from '../types/koa.context';
+import { BadFileFormatError, MulterError } from '../errors';
+import { IKoaContext } from '../types/koa.context';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -11,38 +13,40 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  }
+  },
 });
 
+// eslint-disable-next-line consistent-return
 const fileFilter = (req, file, cb): void => {
-  if (config.files.types.find(f => f === file.mimetype)) {
+  if (config.files.types.find((f) => f === file.mimetype)) {
     cb(null, true);
   } else {
     cb(null, false);
-    return cb(new BadFileFormat());
+
+    return cb(new BadFileFormatError());
   }
 };
 
 const uploader = multer({
-  storage,
   fileFilter,
   limits: {
-    fileSize: config.files.maxSize
-  }
+    fileSize: config.files.maxSize,
+  },
+  storage,
 });
 
-interface UploadInterface {
+interface IUpload {
   name: string;
   maxCount?: number;
 }
 
-export const upload = (...fields: (string | UploadInterface)[]) => (
-  async (ctx: KoaContext, next: Next): Promise<void> => {
+export const upload =
+  (...fields: (string | IUpload)[]) =>
+  async (ctx: IKoaContext, next: Next): Promise<void> => {
     try {
       await uploader.fields(fields)(ctx);
     } catch (e) {
       throw new MulterError(e);
     }
     await next();
-  }
-);
+  };

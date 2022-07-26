@@ -1,51 +1,47 @@
-import {
-  primaryColor,
-  blackColor,
-  hexToRgb
-} from '../material-dashboard-react.js';
+import { primaryColor, blackColor, hexToRgb } from '../material-dashboard-react.js';
 
 const checkboxAdnRadioStyle = {
-  root: {
-    padding: '13px',
-    '&:hover': {
-      backgroundColor: 'unset'
-    }
-  },
-  labelRoot: {
-    marginLeft: '-14px'
-  },
   checked: {
-    color: `${primaryColor[0]}!important`
+    color: `${primaryColor[0]}!important`,
   },
   checkedIcon: {
-    width: '20px',
+    border: `1px solid rgba(${hexToRgb(blackColor)}, .54)`,
+    borderRadius: '3px',
     height: '20px',
-    border: `1px solid rgba(${hexToRgb(blackColor)}, .54)`,
-    borderRadius: '3px'
+    width: '20px',
   },
-  uncheckedIcon: {
-    width: '0px',
-    height: '0px',
-    padding: '10px',
-    border: `1px solid rgba(${hexToRgb(blackColor)}, .54)`,
-    borderRadius: '3px'
+  labelRoot: {
+    marginLeft: '-14px',
   },
   radio: {
-    color: `${primaryColor[0]}!important`
+    color: `${primaryColor[0]}!important`,
   },
   radioChecked: {
-    width: '20px',
-    height: '20px',
     border: `1px solid ${primaryColor[0]}`,
-    borderRadius: '50%'
+    borderRadius: '50%',
+    height: '20px',
+    width: '20px',
   },
   radioUnchecked: {
-    width: '0px',
+    border: `1px solid rgba(${hexToRgb(blackColor)}, .54)`,
+    borderRadius: '50%',
     height: '0px',
     padding: '10px',
+    width: '0px',
+  },
+  root: {
+    '&:hover': {
+      backgroundColor: 'unset',
+    },
+    padding: '13px',
+  },
+  uncheckedIcon: {
     border: `1px solid rgba(${hexToRgb(blackColor)}, .54)`,
-    borderRadius: '50%'
-  }
+    borderRadius: '3px',
+    height: '0px',
+    padding: '10px',
+    width: '0px',
+  },
 };
 
 export default checkboxAdnRadioStyle;

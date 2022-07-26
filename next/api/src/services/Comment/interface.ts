@@ -1,6 +1,6 @@
-import { CommentModel } from '../../models/Comment';
+import { CommentModel } from '../../models/comment';
 
-export interface CommentServiceInterface {
+export interface ICommentService {
   createComment(userId: number, postId: number, text: string): Promise<CommentModel>;
 
   deleteComment(id: number): Promise<void>;

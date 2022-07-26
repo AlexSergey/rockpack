@@ -8,7 +8,8 @@
     "build": "node build --mode=production && node base.modify.js",
     "makePot": "node makePot",
     "po2json": "node po2json",
-    "lint": "eslint \"**\""
+    "// lint": "eslint \"**\"",
+    "format:eslint": "eslint \"src/**\" \"generator/**\" --fix"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "react-share": "4.3.1"
   },
   "devDependencies": {
+    "@rockpack/codestyle": "3.0.0-next.1",
     "@rockpack/compiler": "3.0.0-next.1",
     "@localazer/webpack-plugin": "3.1.0",
     "@localazer/po2json": "3.1.0",

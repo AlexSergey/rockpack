@@ -1,3 +1,3 @@
-export * from './utils/errorsHandler';
+export * from './utils/errors-handler';
 
 export * from './errors';

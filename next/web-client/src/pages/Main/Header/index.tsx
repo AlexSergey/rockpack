@@ -1,20 +1,21 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
 import Localization, { l } from '@localazer/component';
 import { Layout, Menu, Dropdown, Button } from 'antd';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Signin } from './Signin';
-import { Signup } from './Signup';
-import { User } from './User';
-import { Signout } from './Signout';
-import { Logo } from './Logo';
+
+import { useCurrentLanguage } from '../../../features/Localization';
+import { Access } from '../../../features/User';
+import { Roles } from '../../../types/user';
+
 import { CreatePost } from './CreatePost';
 import { LocalizationChange } from './LocalizationChange';
+import { Logo } from './Logo';
+import { Signin } from './Signin';
+import { Signout } from './Signout';
+import { Signup } from './Signup';
+import { User } from './User';
 import { UserStatistic } from './UserStatistic';
-import { Access } from '../../../features/User';
-import { useCurrentLanguage } from '../../../features/Localization';
-import { Roles } from '../../../types/User';
-
 import styles from './style.module.scss';
 
 export const Header = (): JSX.Element => {

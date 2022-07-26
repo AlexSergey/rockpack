@@ -1,12 +1,13 @@
-import React from 'react';
-import { Button, Form, Input } from 'antd';
 import Localization, { l } from '@localazer/component';
-import { useUser } from '../../../features/User';
+import { Button, Form, Input } from 'antd';
+import React from 'react';
+
 import { useCommentsApi } from '../../../features/Comments';
+import { useUser } from '../../../features/User';
 
 import styles from './style.module.scss';
 
-interface AddCommentInterface {
+interface IAddComment {
   postId: number;
 }
 
@@ -14,14 +15,16 @@ type Store = {
   text: string;
 };
 
-export const AddComment = ({ postId }: AddCommentInterface): JSX.Element => {
+export const AddComment = ({ postId }: IAddComment): JSX.Element => {
   const [form] = Form.useForm();
   const user = useUser();
   const { createComment } = useCommentsApi();
 
   return (
     <div className={styles['add-comment']}>
-      <h4><Localization>{l('Add comment')}</Localization></h4>
+      <h4>
+        <Localization>{l('Add comment')}</Localization>
+      </h4>
       <Form
         form={form}
         name="comment"
@@ -29,7 +32,7 @@ export const AddComment = ({ postId }: AddCommentInterface): JSX.Element => {
           createComment({
             postId,
             text: store.text,
-            user
+            user,
           });
           form.resetFields();
         }}
@@ -38,7 +41,7 @@ export const AddComment = ({ postId }: AddCommentInterface): JSX.Element => {
           name="text"
           rules={[
             {
-              required: true
+              required: true,
             },
           ]}
         >

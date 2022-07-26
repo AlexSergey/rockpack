@@ -1,5 +1,6 @@
 const jest = require('jest');
-const argsCompiler = require('./argsCompiler');
+
+const argsCompiler = require('./args-compiler');
 
 function run(opts = {}) {
   const argv = argsCompiler(opts, 'run');

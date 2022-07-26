@@ -1,8 +1,8 @@
 module.exports = {
-  distExtension: '.js',
   defaultDistFile: 'index',
+  distExtension: '.js',
   moduleFormats: {
     cjs: 'cjs',
-    esm: 'esm'
-  }
+    esm: 'esm',
+  },
 };

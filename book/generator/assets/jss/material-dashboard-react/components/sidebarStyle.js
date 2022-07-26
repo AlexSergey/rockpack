@@ -12,197 +12,133 @@ import {
   whiteColor,
   grayColor,
   blackColor,
-  hexToRgb
+  hexToRgb,
 } from '../../material-dashboard-react.js';
 
-const sidebarStyle = theme => ({
+const sidebarStyle = (theme) => ({
+  background: {
+    height: '100%',
+    display: 'block',
+    position: 'absolute',
+    left: '0',
+    zIndex: '1',
+    backgroundPosition: 'center center',
+    width: '100%',
+    '&:after': {
+      position: 'absolute',
+      width: '100%',
+      zIndex: '3',
+      content: '""',
+      height: '100%',
+      background: blackColor,
+      display: 'block',
+      opacity: '.8',
+    },
+    top: '0',
+    backgroundSize: 'cover',
+  },
   drawerPaper: {
     border: 'none',
-    position: 'fixed',
-    top: '0',
     bottom: '0',
     left: '0',
+    position: 'fixed',
+    top: '0',
     zIndex: '1',
     ...boxShadow,
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
+      height: '100%',
       position: 'fixed',
-      height: '100%'
+      width: drawerWidth,
     },
     [theme.breakpoints.down('sm')]: {
       width: drawerWidth,
       ...boxShadow,
-      position: 'fixed',
-      display: 'block',
-      top: '0',
-      height: '100vh',
-      right: '0',
-      left: 'auto',
-      zIndex: '1032',
-      visibility: 'visible',
-      overflowY: 'visible',
       borderTop: 'none',
-      textAlign: 'left',
-      paddingRight: '0px',
+      display: 'block',
+      height: '100vh',
+      left: 'auto',
+      overflowY: 'visible',
       paddingLeft: '0',
+      paddingRight: '0px',
+      position: 'fixed',
+      right: '0',
+      textAlign: 'left',
+      top: '0',
       transform: `translate3d(${drawerWidth}px, 0, 0)`,
-      ...transition
-    }
+      visibility: 'visible',
+      zIndex: '1032',
+      ...transition,
+    },
   },
   drawerPaperRTL: {
     [theme.breakpoints.up('md')]: {
       left: 'auto !important',
-      right: '0 !important'
+      right: '0 !important',
     },
     [theme.breakpoints.down('sm')]: {
       left: '0  !important',
-      right: 'auto !important'
-    }
-  },
-  logo: {
-    position: 'relative',
-    padding: '15px 15px',
-    zIndex: '4',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      bottom: '0',
-
-      height: '1px',
-      right: '15px',
-      width: 'calc(100% - 30px)',
-      backgroundColor: `rgba(${hexToRgb(grayColor[6])}, 0.3)`
-    }
-  },
-  logoLink: {
-    ...defaultFont,
-    textTransform: 'uppercase',
-    padding: '5px 0',
-    display: 'block',
-    fontSize: '18px',
-    textAlign: 'left',
-    fontWeight: '400',
-    lineHeight: '30px',
-    textDecoration: 'none',
-    backgroundColor: 'transparent',
-    '&,&:hover': {
-      color: whiteColor
-    }
-  },
-  logoLinkRTL: {
-    textAlign: 'right'
-  },
-  logoImage: {
-    width: '30px',
-    display: 'inline-block',
-    maxHeight: '30px',
-    marginLeft: '10px',
-    marginRight: '15px'
+      right: 'auto !important',
+    },
   },
   img: {
-    width: '35px',
+    border: '0',
+    position: 'absolute',
     top: '22px',
-    position: 'absolute',
     verticalAlign: 'middle',
-    border: '0'
-  },
-  background: {
-    position: 'absolute',
-    zIndex: '1',
-    height: '100%',
-    width: '100%',
-    display: 'block',
-    top: '0',
-    left: '0',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-    '&:after': {
-      position: 'absolute',
-      zIndex: '3',
-      width: '100%',
-      height: '100%',
-      content: '""',
-      display: 'block',
-      background: blackColor,
-      opacity: '.8'
-    }
-  },
-  list: {
-    marginTop: '20px',
-    paddingLeft: '0',
-    paddingTop: '0',
-    paddingBottom: '0',
-    marginBottom: '0',
-    listStyle: 'none',
-    position: 'unset'
+    width: '35px',
   },
   item: {
-    position: 'relative',
-    display: 'block',
-    textDecoration: 'none',
     '&:hover,&:focus,&:visited,&': {
-      color: whiteColor
-    }
-  },
-  itemLink: {
-    width: 'auto',
-    transition: 'all 300ms linear',
-    margin: '10px 15px 0',
-    borderRadius: '3px',
-    position: 'relative',
+      color: whiteColor,
+    },
     display: 'block',
-    padding: '10px 15px',
-    backgroundColor: 'transparent',
-    ...defaultFont
+    position: 'relative',
+    textDecoration: 'none',
   },
   itemIcon: {
-    width: '24px',
-    height: '30px',
     fontSize: '24px',
-    lineHeight: '30px',
     float: 'left',
+    height: '30px',
+    lineHeight: '30px',
+    width: '24px',
+    color: `rgba(${hexToRgb(whiteColor)}, 0.8)`,
     marginRight: '15px',
     textAlign: 'center',
     verticalAlign: 'middle',
-    color: `rgba(${hexToRgb(whiteColor)}, 0.8)`
   },
   itemIconRTL: {
-    marginRight: '3px',
+    float: 'right',
     marginLeft: '15px',
-    float: 'right'
+    marginRight: '3px',
   },
-  itemText: {
+  itemLink: {
+    borderRadius: '3px',
+    transition: 'all 300ms linear',
+    display: 'block',
+    width: 'auto',
+    backgroundColor: 'transparent',
+    margin: '10px 15px 0',
+    padding: '10px 15px',
+    position: 'relative',
     ...defaultFont,
-    margin: '0',
-    lineHeight: '30px',
-    fontSize: '14px',
-    color: whiteColor
   },
-  itemTextRTL: {
-    textAlign: 'right'
-  },
-  whiteFont: {
-    color: whiteColor
-  },
-  purple: {
-    backgroundColor: primaryColor[0],
-    ...primaryBoxShadow,
-    '&:hover,&:focus': {
-      backgroundColor: primaryColor[0],
-      ...primaryBoxShadow
-    }
+  logo: {
+    '&:after': {
+      content: '""',
+      bottom: '0',
+      position: 'absolute',
+
+      height: '1px',
+      right: '15px',
+      backgroundColor: `rgba(${hexToRgb(grayColor[6])}, 0.3)`,
+      width: 'calc(100% - 30px)'
+    },
+    padding: '15px 15px',
+    position: 'relative',
+    zIndex: '4',
   },
   blue: {
-    backgroundColor: infoColor[0],
-    boxShadow:
-      `0 12px 20px -10px rgba(${ 
-        hexToRgb(infoColor[0]) 
-      },.28), 0 4px 20px 0 rgba(${ 
-        hexToRgb(blackColor) 
-      },.12), 0 7px 8px -5px rgba(${ 
-        hexToRgb(infoColor[0]) 
-      },.2)`,
     '&:hover,&:focus': {
       backgroundColor: infoColor[0],
       boxShadow:
@@ -213,89 +149,118 @@ const sidebarStyle = theme => ({
         },.12), 0 7px 8px -5px rgba(${ 
           hexToRgb(infoColor[0]) 
         },.2)`
-    }
+    },
+    backgroundColor: infoColor[0],
+    boxShadow: `0 12px 20px -10px rgba(${hexToRgb(infoColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+      blackColor,
+    )},.12), 0 7px 8px -5px rgba(${hexToRgb(infoColor[0])},.2)`,
+  },
+  logoImage: {
+    display: 'inline-block',
+    width: '30px',
+    marginLeft: '10px',
+    maxHeight: '30px',
+    marginRight: '15px',
   },
   green: {
-    backgroundColor: successColor[0],
-    boxShadow:
-      `0 12px 20px -10px rgba(${ 
-        hexToRgb(successColor[0]) 
-      },.28), 0 4px 20px 0 rgba(${ 
-        hexToRgb(blackColor) 
-      },.12), 0 7px 8px -5px rgba(${ 
-        hexToRgb(successColor[0]) 
-      },.2)`,
     '&:hover,&:focus': {
       backgroundColor: successColor[0],
-      boxShadow:
-        `0 12px 20px -10px rgba(${ 
-          hexToRgb(successColor[0]) 
-        },.28), 0 4px 20px 0 rgba(${ 
-          hexToRgb(blackColor) 
-        },.12), 0 7px 8px -5px rgba(${ 
-          hexToRgb(successColor[0]) 
-        },.2)`
-    }
+      boxShadow: `0 12px 20px -10px rgba(${hexToRgb(successColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+        blackColor,
+      )},.12), 0 7px 8px -5px rgba(${hexToRgb(successColor[0])},.2)`,
+    },
+    backgroundColor: successColor[0],
+    boxShadow: `0 12px 20px -10px rgba(${hexToRgb(successColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+      blackColor,
+    )},.12), 0 7px 8px -5px rgba(${hexToRgb(successColor[0])},.2)`,
   },
-  orange: {
-    backgroundColor: warningColor[0],
-    boxShadow:
-      `0 12px 20px -10px rgba(${ 
-        hexToRgb(warningColor[0]) 
-      },.28), 0 4px 20px 0 rgba(${ 
-        hexToRgb(blackColor) 
-      },.12), 0 7px 8px -5px rgba(${ 
-        hexToRgb(warningColor[0]) 
-      },.2)`,
-    '&:hover,&:focus': {
-      backgroundColor: warningColor[0],
-      boxShadow:
-        `0 12px 20px -10px rgba(${ 
-          hexToRgb(warningColor[0]) 
-        },.28), 0 4px 20px 0 rgba(${ 
-          hexToRgb(blackColor) 
-        },.12), 0 7px 8px -5px rgba(${ 
-          hexToRgb(warningColor[0]) 
-        },.2)`
-    }
-  },
-  red: {
-    backgroundColor: dangerColor[0],
-    boxShadow:
-      `0 12px 20px -10px rgba(${ 
-        hexToRgb(dangerColor[0]) 
-      },.28), 0 4px 20px 0 rgba(${ 
-        hexToRgb(blackColor) 
-      },.12), 0 7px 8px -5px rgba(${ 
-        hexToRgb(dangerColor[0]) 
-      },.2)`,
-    '&:hover,&:focus': {
-      backgroundColor: dangerColor[0],
-      boxShadow:
-        `0 12px 20px -10px rgba(${ 
-          hexToRgb(dangerColor[0]) 
-        },.28), 0 4px 20px 0 rgba(${ 
-          hexToRgb(blackColor) 
-        },.12), 0 7px 8px -5px rgba(${ 
-          hexToRgb(dangerColor[0]) 
-        },.2)`
-    }
-  },
-  sidebarWrapper: {
-    position: 'relative',
-    height: '100vh',
-    overflow: 'auto',
-    width: '260px',
-    zIndex: '4',
-    overflowScrolling: 'touch'
+  logoLink: {
+    ...defaultFont,
+    padding: '5px 0',
+    textTransform: 'uppercase',
+    display: 'block',
+    fontSize: '18px',
+    fontWeight: '400',
+    textAlign: 'left',
+    lineHeight: '30px',
+    backgroundColor: 'transparent',
+    textDecoration: 'none',
+    '&,&:hover': {
+      color: whiteColor,
+    },
   },
   activePro: {
     [theme.breakpoints.up('md')]: {
       position: 'absolute',
-      width: '100%',
-      bottom: '13px'
-    }
-  }
+      bottom: '13px',
+      width: '100%'
+    },
+  },
+  logoLinkRTL: {
+    textAlign: 'right'
+  },
+  itemText: {
+    ...defaultFont,
+    color: whiteColor,
+    fontSize: '14px',
+    lineHeight: '30px',
+    margin: '0',
+  },
+  itemTextRTL: {
+    textAlign: 'right',
+  },
+  list: {
+    marginTop: '20px',
+    paddingLeft: '0',
+    paddingBottom: '0',
+    paddingTop: '0',
+    listStyle: 'none',
+    marginBottom: '0',
+    position: 'unset',
+  },
+  orange: {
+    '&:hover,&:focus': {
+      backgroundColor: warningColor[0],
+      boxShadow: `0 12px 20px -10px rgba(${hexToRgb(warningColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+        blackColor,
+      )},.12), 0 7px 8px -5px rgba(${hexToRgb(warningColor[0])},.2)`,
+    },
+    backgroundColor: warningColor[0],
+    boxShadow: `0 12px 20px -10px rgba(${hexToRgb(warningColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+      blackColor,
+    )},.12), 0 7px 8px -5px rgba(${hexToRgb(warningColor[0])},.2)`,
+  },
+  purple: {
+    backgroundColor: primaryColor[0],
+    ...primaryBoxShadow,
+    '&:hover,&:focus': {
+      backgroundColor: primaryColor[0],
+      ...primaryBoxShadow,
+    },
+  },
+  red: {
+    '&:hover,&:focus': {
+      backgroundColor: dangerColor[0],
+      boxShadow: `0 12px 20px -10px rgba(${hexToRgb(dangerColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+        blackColor,
+      )},.12), 0 7px 8px -5px rgba(${hexToRgb(dangerColor[0])},.2)`,
+    },
+    backgroundColor: dangerColor[0],
+    boxShadow: `0 12px 20px -10px rgba(${hexToRgb(dangerColor[0])},.28), 0 4px 20px 0 rgba(${hexToRgb(
+      blackColor,
+    )},.12), 0 7px 8px -5px rgba(${hexToRgb(dangerColor[0])},.2)`,
+  },
+  sidebarWrapper: {
+    height: '100vh',
+    overflow: 'auto',
+    overflowScrolling: 'touch',
+    position: 'relative',
+    width: '260px',
+    zIndex: '4',
+  },
+  whiteFont: {
+    color: whiteColor,
+  },
 });
 
 export default sidebarStyle;

@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
-import Localization, { l } from '@localazer/component';
 import loadable from '@loadable/component';
+import Localization, { l } from '@localazer/component';
+import { Form, Input, Button } from 'antd';
+import React, { useState } from 'react';
+
 import { usePostApi } from '../../../features/Post';
 
 const Wysiwyg = loadable(() => import('../../../components/Wysiwyg'));
 
-interface UpdateModeInterface {
+interface IUpdateMode {
   postId: number;
   title: string;
   text: string;
@@ -17,9 +18,10 @@ type Store = {
   title: string;
 };
 
-export const UpdateMode = ({ postId, title, text, onFinish }: UpdateModeInterface): JSX.Element => {
+export const UpdateMode = ({ postId, title, text, onFinish }: IUpdateMode): JSX.Element => {
   const [postText, setText] = useState(text);
   const { updatePost } = usePostApi();
+
   return (
     <div>
       <Form
@@ -27,8 +29,8 @@ export const UpdateMode = ({ postId, title, text, onFinish }: UpdateModeInterfac
         onFinish={(store: Store): void => {
           updatePost({
             postId,
+            text: postText,
             title: store.title,
-            text: postText
           });
           onFinish();
         }}
@@ -39,7 +41,7 @@ export const UpdateMode = ({ postId, title, text, onFinish }: UpdateModeInterfac
           initialValue={title}
           rules={[
             {
-              required: true
+              required: true,
             },
           ]}
         >

@@ -1,11 +1,11 @@
-import { KoaContext } from '../../types/koa.context';
+import { IKoaContext } from '../../types/koa.context';
 
-export interface CommentControllerInterface {
-  fetch(ctx: KoaContext): Promise<void>;
+export interface ICommentController {
+  fetch(ctx: IKoaContext): Promise<void>;
 
-  create(ctx: KoaContext): Promise<void>;
+  create(ctx: IKoaContext): Promise<void>;
 
-  delete(ctx: KoaContext): Promise<void>;
+  delete(ctx: IKoaContext): Promise<void>;
 
-  update(ctx: KoaContext): Promise<void>;
+  update(ctx: IKoaContext): Promise<void>;
 }

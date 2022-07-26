@@ -1,13 +1,10 @@
-import { Languages } from './types/Localization';
+import { Languages } from './types/localization';
 
-export default {
+export const config = {
   api: process.env.API,
-  languages: [
-    Languages.ru,
-    Languages.en
-  ],
   defaultLanguage: Languages.en,
+  fileFormats: ['image/jpeg', 'image/png', 'image/jpg'],
+  languages: [Languages.ru, Languages.en],
   maxPhotos: 10,
   postsLimit: 10,
-  fileFormats: ['image/jpeg', 'image/png', 'image/jpg']
 };

@@ -1,21 +1,30 @@
-const path = require('path');
-const { existsSync } = require('fs');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
+
 const createBabelPresets = require('@rockpack/babel');
 const { checkReact, getMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
 
-const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, customConfig = {}, opts = {}) => {
+module.exports.makeConfig = (customConfig = {}, opts = {}) => {
+  if (!customConfig) {
+    customConfig = {};
+  }
   const mode = getMode(['development', 'production'], 'production');
-  const { root, hasReact, reactNewSyntax } = opts;
+  const isDevelopment = mode === 'development';
+  const root = process.cwd();
+  const packageJsonPath = path.resolve(root, 'package.json');
+  // eslint-disable-next-line global-require,import/no-dynamic-require
+  const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+  const ignoredPropNames = opts.ignoredPropNames || `^(${['Window'].join('|')})$`;
+  const camelCaseAllow = opts.camelCaseAllow || [];
+  const { hasReact, reactNewSyntax } = checkReact(packageJson);
+
   let tsConfig = false;
 
   if (existsSync(path.resolve(root, './tsconfig.js'))) {
     tsConfig = path.resolve(root, './tsconfig.js');
 
-    if (
-      opts.debug &&
-      existsSync(path.resolve(root, './tsconfig.debug.js'))
-    ) {
+    if (opts.debug && existsSync(path.resolve(root, './tsconfig.debug.js'))) {
       tsConfig = path.resolve(root, './tsconfig.debug.js');
     }
   }
@@ -23,10 +32,7 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
   if (existsSync(path.resolve(root, './tsconfig.json'))) {
     tsConfig = path.resolve(root, './tsconfig.json');
 
-    if (
-      opts.debug &&
-      existsSync(path.resolve(root, './tsconfig.debug.json'))
-    ) {
+    if (opts.debug && existsSync(path.resolve(root, './tsconfig.debug.json'))) {
       tsConfig = path.resolve(root, './tsconfig.debug.json');
     }
   }
@@ -38,275 +44,320 @@ const _makeConfig = (commonRules = {}, tsCommonRules = {}, overrideRules = {}, c
     tsConfig = path.resolve(root, './tsconfig.production.js');
   }
 
-  if (reactNewSyntax) {
-    commonRules['react/jsx-uses-react'] = 'off';
-    commonRules['react/react-in-jsx-scope'] = 'off';
-  }
+  const jsExtends = hasReact
+    ? [
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+        'airbnb-base',
+        'plugin:import/recommended',
+        'plugin:import/typescript',
+        'prettier',
+        'plugin:prettier/recommended',
+      ]
+    : [
+        'eslint:recommended',
+        'airbnb-base',
+        'plugin:import/recommended',
+        'plugin:import/typescript',
+        'prettier',
+        'plugin:prettier/recommended',
+      ];
 
-  if (!overrideRules) {
-    overrideRules = {};
-  }
-  if (!customConfig) {
-    customConfig = {};
-  }
+  const tsExtends = hasReact
+    ? [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+        'airbnb-base',
+        'airbnb-typescript/base',
+        'plugin:import/recommended',
+        'plugin:import/typescript',
+        'prettier',
+        'plugin:prettier/recommended',
+      ]
+    : [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'airbnb-base',
+        'airbnb-typescript/base',
+        'plugin:import/recommended',
+        'plugin:import/typescript',
+        'prettier',
+        'plugin:prettier/recommended',
+      ];
 
-  const isNodejs = !!opts.nodejs;
+  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react'] : ['import', 'unicorn', 'sort-keys-fix'];
 
-  const extendsRules = [
-    'plugin:sonarjs/recommended',
-    'eslint:recommended',
-    'plugin:promise/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    hasReact ? 'airbnb' : 'airbnb/base'
-  ];
+  const tsPlugins = hasReact
+    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react']
+    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix'];
 
-  if (isNodejs) {
-    extendsRules.push('plugin:node/recommended');
-  }
-
-  const plugins = [
-    'babel',
-    'jest',
-    'promise'
-  ];
-
-  if (hasReact) {
-    extendsRules.push('plugin:react/recommended');
-    plugins.push('react');
-    plugins.push('react-hooks');
-  }
-
-  return deepExtend({}, {
-    extends: extendsRules,
-    parser: require.resolve('@babel/eslint-parser'),
-    parserOptions: {
-      ecmaVersion: 2018,
-      sourceType: 'module',
-      requireConfigFile: false,
-      babelOptions: createBabelPresets({
-        framework: 'react'
-      }),
-      ecmaFeatures: {
-        modules: true,
-        jsx: hasReact,
-        useJSXTextNode: hasReact
-      }
-    },
-    env: {
-      browser: true,
-      'jest/globals': true,
-      es6: true
-    },
-    overrides: [
+  const reactRules = {
+    'react/function-component-definition': [
+      2,
       {
-        files: ['*.ts', '*.tsx'],
-        parser: require.resolve('@typescript-eslint/parser'),
-        parserOptions: {
-          project: tsConfig || './tsconfig.json'
-        },
-        extends: [
-          'plugin:@typescript-eslint/recommended',
-          'plugin:@typescript-eslint/eslint-recommended',
-          hasReact ? 'airbnb-typescript' : 'airbnb-typescript/base'
-        ],
-        plugins: [
-          '@typescript-eslint'
-        ],
-        rules: deepExtend({}, commonRules, tsCommonRules, overrideRules)
-      }
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
     ],
-    plugins,
-    globals: {
-      global: true,
-      globalThis: true,
-      shallow: true,
-      render: true,
-      mount: true,
-      mountToJson: true,
-      shallowToJson: true,
-      renderToJson: true,
-      createSerializer: true
-    },
-    rules: deepExtend({}, commonRules, overrideRules),
-  }, customConfig);
-};
+  };
 
-module.exports = {
-  cleanConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
-    const root = process.cwd();
-    const packageJsonPath = path.resolve(root, 'package.json');
-    // eslint-disable-next-line global-require
-    const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+  if (hasReact && reactNewSyntax) {
+    reactRules['react/jsx-uses-react'] = 'off';
+    reactRules['react/react-in-jsx-scope'] = 'off';
+  }
+  if (hasReact && !reactNewSyntax) {
+    reactRules['@typescript-eslint/no-unused-vars'] = 'off';
+    reactRules['no-unused-vars'] = 'off';
+  }
 
-    const { hasReact, reactNewSyntax } = checkReact(packageJson);
-
-    return _makeConfig({}, {}, overrideRules, customConfig, { ...opts,
-      ...{
-        root,
-        packageJson,
-        hasReact,
-        reactNewSyntax
-      }
-    });
-  },
-
-  rockConfig: (overrideRules = {}, customConfig = {}, opts = {}) => {
-    const mode = getMode();
-    const root = process.cwd();
-    const packageJsonPath = path.resolve(root, 'package.json');
-    // eslint-disable-next-line global-require
-    const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
-
-    const { hasReact, reactNewSyntax } = checkReact(packageJson);
-
-    const commonRules = {
-      indent: ['error', 2, {
-        SwitchCase: 1
-      }],
-      'no-trailing-spaces': 'off',
-      'object-curly-newline': 'off',
-      'no-return-await': 'off',
-      'no-await-in-loop': 'off',
-      'no-continue': 'off',
-      'no-alert': mode === 'production' ? 'error' : 'off',
-      'no-console': mode === 'production' ? 'error' : 'off',
-      'no-debugger': mode === 'production' ? 'error' : 'off',
-      'no-loop-func': 'off',
-      'spaced-comment': 'off',
-      'default-case': 'off',
-      'no-implicit-coercion': 'error',
-      'arrow-parens': 'off',
-      'class-methods-use-this': 'off',
-      'comma-dangle': 'off',
-      'consistent-return': 'off',
-      'no-nested-ternary': 'off',
-      'no-param-reassign': 'off',
-      'no-plusplus': 'off',
-      'no-underscore-dangle': 'off',
-      'prefer-spread': 'off',
-      'prefer-destructuring': 'off',
-      'prefer-object-spread': 'off',
-      'import/extensions': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'import/no-unresolved': 'off',
-      'import/no-dynamic-require': 'off',
-      'import/prefer-default-export': 'off',
-      'jsx-a11y/click-events-have-key-events': 'off',
-      'jsx-a11y/no-static-element-interactions': 'off',
-      'jsx-a11y/heading-has-content': 'off',
-      'jsx-quotes': ['error', 'prefer-double'],
-      'max-len': ['warn', 120, {
-        ignoreComments: true,
-        ignoreStrings: true,
-        ignoreUrls: true,
-        ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true,
-        ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
-      }],
-      'newline-per-chained-call': 'error',
-      'no-else-return': ['error', {
-        allowElseIf: true
-      }],
-      'no-shadow': 'warn',
-      'no-undef': ['error', {
-        typeof: true
-      }],
-      'no-unused-vars': mode === 'production' ? 'error' : 'off',
-      'babel/no-unused-expressions': 'error',
-      'no-unused-expressions': 'off',
-      'no-use-before-define': ['error', {
-        functions: false,
-        classes: true
-      }],
-      'operator-linebreak': ['error', 'after'],
-      'promise/no-nesting': 'off',
-      'promise/always-return': 'warn',
-      'promise/catch-or-return': 'warn',
-      'sonarjs/cognitive-complexity': 'off',
-      'sonarjs/no-duplicate-string': 'off',
-      quotes: ['error', 'single'],
-    };
-
-    const tsCommonRules = {
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/ban-ts-ignore': 'off',
-      '@typescript-eslint/explicit-function-return-type': ['error', {
-        allowExpressions: true
-      }],
-      '@typescript-eslint/naming-convention': [
-        'error',
+  return deepExtend(
+    {},
+    {
+      root: true,
+      env: {
+        browser: true,
+        es6: true,
+        jest: true,
+        node: true,
+      },
+      globals: {
+        createSerializer: true,
+        global: true,
+        globalThis: true,
+        mount: true,
+        mountToJson: true,
+        render: true,
+        renderToJson: true,
+        shallow: true,
+        shallowToJson: true,
+      },
+      settings: {
+        'import/resolver': {
+          node: {
+            extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+            moduleDirectory: [ 'node_modules', 'src' ],
+          },
+        },
+        react: {
+          version: 'detect',
+        },
+      },
+      overrides: [
+        /*
+          <-------------JS CONFIG------------->
+        */
         {
-          selector: 'variable',
-          leadingUnderscore: 'allow',
-          trailingUnderscore: 'allow',
-          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          extends: jsExtends,
+          files: [ '*.js', '*.jsx' ],
+          parser: require.resolve('@babel/eslint-parser'),
+          parserOptions: {
+            babelOptions: createBabelPresets({
+              framework: 'react',
+            }),
+            ecmaFeatures: {
+              jsx: hasReact,
+              modules: true,
+              useJSXTextNode: hasReact,
+            },
+            ecmaVersion: 2018,
+            requireConfigFile: false,
+            sourceType: 'module',
+          },
+          plugins: jsPlugins,
+        },
+        /*
+          <-------------TYPESCRIPT CONFIG------------->
+        */
+        {
+          extends: tsExtends,
+          files: [ '*.ts', '*.tsx' ],
+          parser: require.resolve('@typescript-eslint/parser'),
+          parserOptions: {
+            ecmaFeatures: {
+              jsx: true,
+            },
+            project: tsConfig || './tsconfig.json',
+            sourceType: 'module',
+            tsconfigRootDir: root,
+          },
+          plugins: tsPlugins,
+        },
+        /*
+          <-------------JS, JSX, TS, TSX, COMMON RULES------------->
+        */
+        {
+          files: [ '*.js', '*.jsx', '*.ts', '*.tsx' ],
+          rules: {
+            'no-plusplus': 'off',
+            'no-return-await': 'off',
+            camelcase: [ 'error', { properties: 'always', allow: camelCaseAllow } ],
+            'class-methods-use-this': 'off',
+            'no-await-in-loop': 'off',
+            'no-alert': isDevelopment ? 'off' : 'error',
+            'no-console': isDevelopment ? 'off' : 'error',
+            'no-debugger': isDevelopment ? 'off' : 'error',
+            'no-param-reassign': 'off',
+            'newline-before-return': 'error',
+            'no-underscore-dangle': 'off',
+
+            'prettier/prettier': [
+              'error',
+              {
+                bracketSpacing: true,
+                endOfLine: 'lf',
+                printWidth: 120,
+                semi: true,
+                singleQuote: true,
+                trailingComma: 'all',
+                useTabs: false,
+              },
+            ],
+
+            'sort-keys-fix/sort-keys-fix': 'warn',
+
+            'import/order': [
+              'error',
+              {
+                alphabetize: {
+                  order: 'asc',
+                },
+                groups: [ 'builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object' ],
+                'newlines-between': 'always',
+                pathGroups: [
+                  {
+                    group: 'internal',
+                    pattern: '@',
+                    position: 'after',
+                  },
+                ],
+              },
+            ],
+            'import/prefer-default-export': 'off',
+            'import/no-default-export': 'error',
+            'import/no-unresolved': 'error',
+
+            'unicorn/custom-error-definition': 'error',
+            'unicorn/empty-brace-spaces': 'error',
+            'unicorn/error-message': 'error',
+            'unicorn/filename-case': [
+              'error',
+              {
+                case: 'kebabCase',
+              },
+            ],
+            'unicorn/no-instanceof-array': 'error',
+            'unicorn/prefer-keyboard-event-key': 'error',
+            'unicorn/prefer-node-protocol': 'error',
+            'unicorn/throw-new-error': 'error',
+          },
+        },
+        /*
+          <-------------TS, TSX, COMMON RULES------------->
+        */
+        {
+          files: ['*.ts', '*.tsx'],
+          rules: {
+            '@typescript-eslint/ban-ts-comment': isDevelopment ? 'off' : 'error',
+            '@typescript-eslint/ban-types': 'off',
+            '@typescript-eslint/explicit-function-return-type': 'warn',
+            '@typescript-eslint/naming-convention': [
+              'error',
+              {
+                filter: {
+                  match: false,
+                  regex: ignoredPropNames,
+                },
+                format: [ 'UPPER_CASE', 'StrictPascalCase' ],
+                prefix: [ 'I' ],
+                selector: 'interface',
+              },
+            ],
+            '@typescript-eslint/no-empty-interface': [
+              'error',
+              {
+                allowSingleExtends: true,
+              },
+            ],
+            '@typescript-eslint/no-unused-vars': isDevelopment
+              ? 'off'
+              : [
+                'error',
+                {
+                  args: 'after-used',
+                  ignoreRestSiblings: false,
+                  vars: 'all',
+                },
+              ],
+            '@typescript-eslint/return-await': 'off',
+            'no-unused-vars': 'off',
+          }
+        },
+        /*
+          <-------------REACT RULES------------->
+        */
+        {
+          files: [ '*.tsx', '*.jsx' ],
+          rules: reactRules,
         },
         {
-          selector: 'function',
-          leadingUnderscore: 'allow',
-          trailingUnderscore: 'allow',
-          format: ['camelCase', 'PascalCase'],
+          files: [ '*.tsx' ],
+          rules: {
+            'react/prop-types': 'off'
+          }
         },
+        /*
+          <-------------JSON RULES------------->
+        */
         {
-          selector: 'typeLike',
-          leadingUnderscore: 'allow',
-          trailingUnderscore: 'allow',
-          format: ['PascalCase'],
+          files: ['**/**/*.json'],
+          rules: {
+            '@typescript-eslint/no-unused-expressions': 'off',
+            'prettier/prettier': 'off',
+          },
+        },
+        /*
+          <-------------CONFIG RULES------------->
+        */
+        {
+          files: [ 'jest.config.ts', 'jest.e2e.config.ts' ],
+          rules: {
+            'import/no-default-export': 'off',
+          },
+        },
+        /*
+          <-------------GLOBAL TYPES RULES------------->
+        */
+        {
+          files: ['**/global.declaration.ts'],
+          rules: {
+            'import/no-default-export': 'off',
+          },
+        },
+        /*
+          <-------------LOADABLE COMPONENTS RULES------------->
+        */
+        {
+          files: ['**/*.loadable.ts', '**/*.loadable.tsx', '**/*.loadable.js', '**/*.loadable.jsx'],
+          rules: {
+            'import/no-default-export': 'off',
+          },
+        },
+        /*
+          <-------------STORYBOOK COMPONENTS RULES------------->
+        */
+        {
+          files: [ '**/*.stories.jsx', '**/*.stories.tsx' ],
+          rules: {
+            'import/no-default-export': 'off',
+          },
         },
       ],
-      '@typescript-eslint/no-unused-vars': mode === 'production' ? 'error' : 'off',
-      '@typescript-eslint/ban-ts-comment': mode === 'production' ? 'error' : 'off',
-      '@typescript-eslint/comma-dangle': 'off',
-      quotes: 'off',
-      'no-unused-vars': 'off',
-      semi: 'off',
-      'no-use-before-define': 'off',
-      '@typescript-eslint/no-use-before-define': ['error']
-    };
-
-    if (hasReact) {
-      Object.assign(commonRules, {
-        'react-hooks/exhaustive-deps': 'warn',
-        'react-hooks/rules-of-hooks': 'error',
-        'react/destructuring-assignment': 'off',
-        'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
-        'react/jsx-filename-extension': ['error', {
-          extensions: ['.jsx', '.tsx']
-        }],
-        'react/jsx-indent': ['error', 2, {
-          indentLogicalExpressions: true
-        }],
-        'react/jsx-indent-props': ['error', 2],
-        'react/jsx-one-expression-per-line': 'off',
-        'react/jsx-props-no-multi-spaces': 'off',
-        'react/jsx-props-no-spreading': 'off',
-        'react/no-array-index-key': 'warn',
-        'react/no-danger': 'off',
-        'react/prop-types': 'error',
-        'react/no-unescaped-entities': 'off',
-        'react/static-property-placement': 'off',
-        'react/prefer-stateless-function': 'off',
-        'react/require-default-props': 'off',
-        'react/function-component-definition': [2, {
-          namedComponents: 'arrow-function',
-          unnamedComponents: 'arrow-function',
-        }],
-      });
-
-      Object.assign(tsCommonRules, {
-        'react/prop-types': 'off',
-      });
-    }
-
-    return _makeConfig(commonRules, tsCommonRules, overrideRules, customConfig, {
-      ...opts,
-      ...{
-        root,
-        packageJson,
-        hasReact,
-        reactNewSyntax
-      }
-    });
-  }
+    },
+    customConfig,
+  );
 };

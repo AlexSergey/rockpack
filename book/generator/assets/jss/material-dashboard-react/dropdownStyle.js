@@ -5,120 +5,120 @@ import {
   defaultFont,
   blackColor,
   grayColor,
-  hexToRgb
+  hexToRgb,
 } from '../material-dashboard-react.js';
 
-const dropdownStyle = theme => ({
+const dropdownStyle = (theme) => ({
   buttonLink: {
     [theme.breakpoints.down('md')]: {
       display: 'flex',
       marginLeft: '30px',
-      width: 'auto'
-    }
-  },
-  links: {
-    width: '20px',
-    height: '20px',
-    zIndex: '4',
-    [theme.breakpoints.down('md')]: {
-      display: 'block',
-      width: '30px',
-      height: '30px',
-      color: grayColor[9],
-      marginRight: '15px'
-    }
-  },
-  linkText: {
-    zIndex: '4',
-    ...defaultFont,
-    fontSize: '14px'
-  },
-  popperClose: {
-    pointerEvents: 'none'
-  },
-  pooperResponsive: {
-    [theme.breakpoints.down('md')]: {
-      zIndex: '1640',
-      position: 'static',
-      float: 'none',
       width: 'auto',
-      marginTop: '0',
-      backgroundColor: 'transparent',
-      border: '0',
-      WebkitBoxShadow: 'none',
-      boxShadow: 'none',
-      color: 'black'
-    }
-  },
-  popperNav: {
-    [theme.breakpoints.down('sm')]: {
-      position: 'static !important',
-      left: 'unset !important',
-      top: 'unset !important',
-      transform: 'none !important',
-      willChange: 'unset !important',
-      '& > div': {
-        boxShadow: 'none !important',
-        marginLeft: '0rem',
-        marginRight: '0rem',
-        transition: 'none !important',
-        marginTop: '0px !important',
-        marginBottom: '0px !important',
-        padding: '0px !important',
-        backgroundColor: 'transparent !important',
-        '& ul li': {
-          color: `${whiteColor} !important`,
-          margin: '10px 15px 0!important',
-          padding: '10px 15px !important',
-          '&:hover': {
-            backgroundColor: 'hsla(0,0%,78%,.2)',
-            boxShadow: 'none'
-          }
-        }
-      }
-    }
+    },
   },
   dropdown: {
-    borderRadius: '3px',
     border: '0',
+    borderRadius: '3px',
     boxShadow: `0 2px 5px 0 rgba(${hexToRgb(blackColor)}, 0.26)`,
-    top: '100%',
-    zIndex: '1000',
-    minWidth: '160px',
-    padding: '5px 0',
     margin: '2px 0 0',
     fontSize: '14px',
-    textAlign: 'left',
+    minWidth: '160px',
     listStyle: 'none',
-    backgroundColor: whiteColor,
+    top: '100%',
     WebkitBackgroundClip: 'padding-box',
-    backgroundClip: 'padding-box'
+    zIndex: '1000',
+    backgroundClip: 'padding-box',
+    padding: '5px 0',
+    backgroundColor: whiteColor,
+    textAlign: 'left',
   },
   dropdownItem: {
     ...defaultFont,
-    fontSize: '13px',
-    padding: '10px 20px',
-    margin: '0 5px',
-    borderRadius: '2px',
     WebkitTransition: 'all 150ms linear',
     MozTransition: 'all 150ms linear',
-    OTransition: 'all 150ms linear',
+    fontSize: '13px',
     MsTransition: 'all 150ms linear',
-    transition: 'all 150ms linear',
-    display: 'block',
+    margin: '0 5px',
+    OTransition: 'all 150ms linear',
+    padding: '10px 20px',
+    borderRadius: '2px',
     clear: 'both',
-    fontWeight: '400',
-    lineHeight: '1.42857143',
     color: grayColor[8],
-    whiteSpace: 'nowrap',
-    height: 'unset',
-    minHeight: 'unset',
+    display: 'block',
+    fontWeight: '400',
     '&:hover': {
       backgroundColor: primaryColor[0],
       color: whiteColor,
       ...primaryBoxShadow
-    }
-  }
+    },
+    transition: 'all 150ms linear',
+    height: 'unset',
+    lineHeight: '1.42857143',
+    minHeight: 'unset',
+    whiteSpace: 'nowrap',
+  },
+  linkText: {
+    zIndex: '4',
+    ...defaultFont,
+    fontSize: '14px',
+  },
+  links: {
+    height: '20px',
+    width: '20px',
+    zIndex: '4',
+    [theme.breakpoints.down('md')]: {
+      color: grayColor[9],
+      display: 'block',
+      height: '30px',
+      marginRight: '15px',
+      width: '30px',
+    },
+  },
+  pooperResponsive: {
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: 'transparent',
+      float: 'none',
+      WebkitBoxShadow: 'none',
+      marginTop: '0',
+      border: '0',
+      position: 'static',
+      boxShadow: 'none',
+      zIndex: '1640',
+      color: 'black',
+      width: 'auto',
+    },
+  },
+  popperClose: {
+    pointerEvents: 'none',
+  },
+  popperNav: {
+    [theme.breakpoints.down('sm')]: {
+      '& > div': {
+        boxShadow: 'none !important',
+        marginLeft: '0rem',
+        marginRight: '0rem',
+        marginBottom: '0px !important',
+        marginTop: '0px !important',
+        backgroundColor: 'transparent !important',
+        transition: 'none !important',
+        '& ul li': {
+          color: `${whiteColor} !important`,
+          '&:hover': {
+            backgroundColor: 'hsla(0,0%,78%,.2)',
+            boxShadow: 'none'
+          },
+          margin: '10px 15px 0!important',
+          padding: '10px 15px !important',
+        },
+        padding: '0px !important',
+      },
+      left: 'unset !important',
+      position: 'static !important',
+      top: 'unset !important',
+      transform: 'none !important',
+      willChange: 'unset !important',
+    },
+  },
 });
 
 export default dropdownStyle;

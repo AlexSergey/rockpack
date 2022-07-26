@@ -1,9 +1,8 @@
-const fs = require('fs');
+const fs = require('node:fs');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const wrapper = (html) => (
-  `module.exports = ${JSON.stringify(html)};`
-);
+const wrapper = (html) => `module.exports = ${JSON.stringify(html)};`;
 
 function createWebView(html) {
   fs.writeFileSync(this.options.dist, wrapper(html));
@@ -18,12 +17,10 @@ class WebViewHTMLWrapper {
     let webviewHTML;
     compiler.hooks.compilation.tap('WebViewHTMLWrapperPlugin', (compilation) => {
       if (HtmlWebpackPlugin.getHooks) {
-        HtmlWebpackPlugin.getHooks(compilation)
-          .beforeEmit
-          .tapAsync('WebViewHTMLWrapperPlugin', (data, callback) => {
-            webviewHTML = data.html;
-            callback(null, data);
-          });
+        HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('WebViewHTMLWrapperPlugin', (data, callback) => {
+          webviewHTML = data.html;
+          callback(null, data);
+        });
       }
     });
     compiler.hooks.afterEmit.tapAsync('WebViewHTMLWrapperPlugin', (compilation, callback) => {

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src/",
+    "outDir": "./dist/",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "ES2020", // Node.js 14
+
+    "sourceMap": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "newLine": "lf",
+    "lib": [
+      "esnext",
+      "dom",
+      "ES2015.Iterable"
+    ],
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noEmitOnError": true,
+    "preserveConstEnums": true
+  }
+}

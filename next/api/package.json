@@ -8,6 +8,7 @@
     "analyzer": "node scripts.build --analyzer",
     "start:prod": "node dist/index.js",
     "lint": "eslint \"src/**\"",
+    "format:eslint": "eslint \"src/**\" --fix",
     "db": "npm run migrate && npm run seed && npm run fixtures",
     "db:test": "npm run migrate:test && npm run seed:test && npm run fixtures:test",
     "db:production": "npm run migrate:production && npm run seed:production",

@@ -1,9 +1,10 @@
 import { message } from 'antd';
+
 import { isDevelopment } from './environments';
 
 export const notify = (level: string, text: string, isImportant: boolean): void => {
   if (isDevelopment() && ['log', 'warn', 'info', 'error'].includes(level)) {
-    //eslint-disable-next-line
+    // eslint-disable-next-line no-console
     console[level](text);
   }
   if (isImportant) {
@@ -19,6 +20,9 @@ export const notify = (level: string, text: string, isImportant: boolean): void 
         break;
       case 'error':
         message.error(text);
+        break;
+      default:
+        message.info(text);
         break;
     }
   }

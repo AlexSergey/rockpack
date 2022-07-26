@@ -1,17 +1,21 @@
 import React from 'react';
-import createDocumentation from '../generator';
-import logo from './assets/header-logo.svg';
-import Rockpack from './Pages/Rockpack';
 
-createDocumentation({
-  logo,
-  logoAlt: 'Rockpack',
-  noSidebar: true,
-  docgen: [
-    Rockpack,
-  ],
-  title: 'Rockpack',
-  github: 'https://github.com/AlexSergey/rockpack',
-  footer: <div>License MIT, {new Date().getFullYear()}</div>,
-  ga: 'UA-155200418-1',
-}, document.getElementById('root'));
+// eslint-disable-next-line import/extensions
+import createDocumentation from '../generator';
+
+import Rockpack from './Pages/Rockpack';
+import logo from './assets/header-logo.svg';
+
+createDocumentation(
+  {
+    docgen: [Rockpack],
+    footer: <div>License MIT, {new Date().getFullYear()}</div>,
+    ga: 'UA-155200418-1',
+    github: 'https://github.com/AlexSergey/rockpack',
+    logo,
+    logoAlt: 'Rockpack',
+    noSidebar: true,
+    title: 'Rockpack',
+  },
+  document.getElementById('root'),
+);
