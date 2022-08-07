@@ -32,6 +32,7 @@
 - Write file webpack plugin (in dev mode)
 - Copy Webpack Plugin
 - ESLint support
+- Stylelint support
 - Templates: HTML/Jade/Handlebars
 - CSS: CSS/SASS (dart-sass)/LESS + Postcss
 - Postcss, Autoprefixer
@@ -236,6 +237,9 @@ How do I activate TypeScript?
 ***
 How do I activate Eslint?
 - *It's enough to put **.eslintrc.js** or **.eslintrc.development.js** for DEV mode or **.eslintrc.production.js** for PRODUCTION mode in the root with **@rockpack/compiler***
+***
+How do I activate Stylelint?
+- *It's enough to put **.stylelintrc** or **stylelint.config.js** in the root with **@rockpack/compiler***
 ***
 How do I extend PostCSS?
 - *It's enough to put **postcss.config.js** in the root with **@rockpack/compiler***

@@ -18,6 +18,7 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
@@ -32,6 +33,7 @@ const Collection = require('../utils/collection');
 const fpPromise = require('../utils/find-free-port');
 const { getTitle, getRandomInt } = require('../utils/other');
 const pathToEslintrc = require('../utils/path-to-eslintrc');
+const pathToStylelint = require('../utils/path-to-stylelint');
 const pathToTSConf = require('../utils/path-to-ts-conf');
 
 const makeBanner = require('./make-banner');
@@ -203,6 +205,13 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   }
 
   const eslintRc = pathToEslintrc(root, mode);
+  const stylelint = pathToStylelint(root, mode);
+
+  if (stylelint) {
+    plugins.StylelintWebpackPlugin = new StylelintWebpackPlugin({
+      configFile: stylelint,
+    });
+  }
 
   if (isString(eslintRc)) {
     plugins.EslintWebpackPlugin = new EslintWebpackPlugin({

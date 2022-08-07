@@ -274,4 +274,4 @@ const makeModules = (conf, root, packageJson, mode, excludeModules) => {
   return _makeModules(modules, conf, excludeModules);
 };
 
-module.exports = { makeModules };
+module.exports = makeModules;

@@ -9,11 +9,12 @@ const makeDevServer = require('../modules/make-dev-server');
 const makeDevtool = require('../modules/make-devtool');
 const makeEntry = require('../modules/make-entry');
 const makeExternals = require('../modules/make-externals');
-const { makeModules } = require('../modules/make-modules');
+const makeModules = require('../modules/make-modules');
 const makeOptimization = require('../modules/make-optimization');
 const makeOutput = require('../modules/make-output');
 const makePlugins = require('../modules/make-plugins');
 const makeResolve = require('../modules/make-resolve');
+const makeStats = require('../modules/make-stats');
 const compileWebpackConfig = require('../utils/compile-webpack-config');
 const mergeConfWithDefault = require('../utils/merge-conf-with-default');
 
@@ -36,6 +37,7 @@ const _make = async (conf, post) => {
   const modules = makeModules(conf, root, packageJson, mode);
   const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
   const resolve = makeResolve();
+  const stats = makeStats(conf);
   const externals = makeExternals(conf, root);
 
   const finalConfig = {
@@ -46,6 +48,7 @@ const _make = async (conf, post) => {
     optimization,
     output,
     resolve,
+    stats,
   };
   finalConfig.infrastructureLogging = {
     level: 'error',

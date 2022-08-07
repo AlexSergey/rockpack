@@ -10,16 +10,14 @@
 
 ## Features:
 
-- TS support, React support
-- eslint-config-airbnb
-- eslint-config-airbnb-typescript
-- eslint-plugin-import
-- eslint-plugin-node
-- eslint-plugin-promise
-- eslint-plugin-react
-- eslint-plugin-react-hooks
-- eslint-plugin-sonarjs
-- eslint-plugin-jsx-a11y
+- TS support, pure JS support, React support
+- Prettier integrated
+- Eslint Config Recommended
+- Eslint React Recommended
+- Eslint Airbnb Base Config
+- Eslint Import Recommended
+- Eslint TS Recommended
+- Eslint Prettier Recommended
 
 ## Using
 
@@ -33,169 +31,92 @@ npm install @rockpack/codestyle --save-dev
 yarn add @rockpack/codestyle --dev
 ```
 
-2. Make **.eslintrc.js** in the root of project
+2. Make **.eslintrc.js**, **.prettierrc** in the root of project
 
 3. Put the code in **.eslintrc.js**
 
 ```js
-const { rockConfig, cleanConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle');
 
-module.exports = rockConfig();
+module.exports = makeConfig();
 ```
 
-*The difference between rockConfig and cleanConfig is that cleanConfig does not use any third-party overrides, from the author of Rockpack*
+4. Put the code in **.prettierrc**
 
-To override properties, you need to pass the object to *rockConfig* or *cleanConfig*
-
-*It completely supports IDE editors*
-
-```js
-const { rockConfig } = require('@rockpack/codestyle');
-
-module.exports = rockConfig({
-  'no-plusplus': 'error'
-});
+```json
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "useTabs": false,
+  "semi": true,
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "endOfLine": "lf"
+}
 ```
 
-Second parameter *rockConfig* or *cleanConfig* helps override all config
+## IDE Integration
 
-```js
-const { rockConfig } = require('@rockpack/codestyle');
+We can set up our IDE to fix all lint rules and format code by Prettier.
 
-module.exports = rockConfig({}, {
-  plugins: [
-    'some new plugin'
-  ]
-});
+### Webstorm
+
+#### Manual setup
+
+1. Open Preferences
+2. Find Node.js tab. Choice Node.js interpreter
+3. Find ESLint.
+
+- Set Manual Configuration and set folder to "node_modules/eslint" in your project
+- Set working directories to root of your project
+- Set path to your *.eslintrc.js* file
+- Select "Run eslint --fix on save"
+
+4. Find Prettier.
+
+- Set Prettier path
+- Select "On Reformat code action", "On save"
+
+### VSCode
+
+#### Manual setup
+
+1. Set "Format on save"
+2. Set "Format on paste"
+
+#### Configuration setup
+
+```shell
+mkdir .vscode && touch .vscode/settings.json
 ```
 
-### rockConfig rules overriding:
+Then add settings:
 
-```js
-// JS:
-({
-  indent: ['error', 2, {
-    SwitchCase: 1
-  }],
-  'no-trailing-spaces': 'off',
-  'object-curly-newline': 'off',
-  'no-return-await': 'off',
-  'no-await-in-loop': 'off',
-  'no-continue': 'off',
-  'no-alert': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  'no-loop-func': 'off',
-  'spaced-comment': 'off',
-  'default-case': 'off',
-  'no-implicit-coercion': 'error',
-  'arrow-parens': 'off',
-  'class-methods-use-this': 'off',
-  'comma-dangle': 'off',
-  'consistent-return': 'off',
-  'no-nested-ternary': 'off',
-  'no-param-reassign': 'off',
-  'no-plusplus': 'off',
-  'no-underscore-dangle': 'off',
-  'prefer-spread': 'off',
-  'prefer-destructuring': 'off',
-  'prefer-object-spread': 'off',
-  'import/extensions': 'off',
-  'import/no-extraneous-dependencies': 'off',
-  'import/no-unresolved': 'off',
-  'import/no-dynamic-require': 'off',
-  'import/prefer-default-export': 'off',
-  'jsx-a11y/click-events-have-key-events': 'off',
-  'jsx-a11y/no-static-element-interactions': 'off',
-  'jsx-a11y/heading-has-content': 'off',
-  'jsx-quotes': ['error', 'prefer-double'],
-  'max-len': ['warn', 120, {
-    ignoreComments: true,
-    ignoreStrings: true,
-    ignoreUrls: true,
-    ignoreTemplateLiterals: true,
-    ignoreRegExpLiterals: true,
-    ignorePattern: '^import\\s.+\\sfrom\\s.+;$'
-  }],
-  'newline-per-chained-call': 'error',
-  'no-else-return': ['error', {
-    allowElseIf: true
-  }],
-  'no-shadow': 'warn',
-  'no-undef': ['error', {
-    typeof: true
-  }],
-  'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  'babel/no-unused-expressions': 'error',
-  'no-unused-expressions': 'off',
-  'no-use-before-define': ['error', {
-    functions: false,
-    classes: true
-  }],
-  'operator-linebreak': ['error', 'after'],
-  'promise/no-nesting': 'off',
-  'promise/always-return': 'warn',
-  'promise/catch-or-return': 'warn',
-  'react-hooks/exhaustive-deps': 'warn',
-  'react-hooks/rules-of-hooks': 'error',
-  'react/destructuring-assignment': 'off',
-  'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
-  'react/jsx-filename-extension': ['error', {
-    extensions: ['.jsx', '.tsx']
-  }],
-  'react/jsx-indent': ['error', 2, {
-    indentLogicalExpressions: true
-  }],
-  'react/jsx-indent-props': ['error', 2],
-  'react/jsx-one-expression-per-line': 'off',
-  'react/jsx-props-no-multi-spaces': 'off',
-  'react/jsx-props-no-spreading': 'off',
-  'react/no-array-index-key': 'warn',
-  'react/no-danger': 'off',
-  'react/prop-types': 'error',
-  'react/no-unescaped-entities': 'off',
-  'react/static-property-placement': 'off',
-  'react/prefer-stateless-function': 'off',
-  'react/require-default-props': 'off',
-  'sonarjs/cognitive-complexity': 'off',
-  'sonarjs/no-duplicate-string': 'off',
-  quotes: ['error', 'single'],
-});
-
-// TS
-({
-  '@typescript-eslint/no-explicit-any': 'warn',
-  '@typescript-eslint/ban-ts-ignore': 'off',
-  '@typescript-eslint/explicit-function-return-type': ['error', {
-    allowExpressions: true
-  }],
-  '@typescript-eslint/naming-convention': [
-    'error',
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
     {
-      selector: 'variable',
-      leadingUnderscore: 'allow',
-      trailingUnderscore: 'allow',
-      format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+      "language": "javascript",
+      "autoFix": true
     },
     {
-      selector: 'function',
-      leadingUnderscore: 'allow',
-      trailingUnderscore: 'allow',
-      format: ['camelCase', 'PascalCase'],
+      "language": "javascriptreact",
+      "autoFix": true
     },
     {
-      selector: 'typeLike',
-      leadingUnderscore: 'allow',
-      trailingUnderscore: 'allow',
-      format: ['PascalCase'],
+      "language": "typescript",
+      "autoFix": true
     },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
   ],
-  '@typescript-eslint/no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  'react/prop-types': 'off',
-  quotes: 'off',
-  'no-unused-vars': 'off',
-  semi: 'off'
-})
+  "tslint.enable": false
+}
 ```
 
 ## The MIT License

@@ -51,6 +51,8 @@ or DEV mode
 node tests.js --watch
 ```
 
+5. Create **something.spec.js** in **src** folder of the project and write Jest test
+
 **Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
 ## The MIT License

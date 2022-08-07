@@ -136,11 +136,12 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         shallow: true,
         shallowToJson: true,
       },
+      ignorePatterns: ['.eslintrc.js', '.eslintrc.cjs'],
       settings: {
         'import/resolver': {
           node: {
-            extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
-            moduleDirectory: [ 'node_modules', 'src' ],
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            moduleDirectory: ['node_modules', 'src'],
           },
         },
         react: {
@@ -153,7 +154,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         */
         {
           extends: jsExtends,
-          files: [ '*.js', '*.jsx' ],
+          files: ['*.js', '*.jsx'],
           parser: require.resolve('@babel/eslint-parser'),
           parserOptions: {
             babelOptions: createBabelPresets({
@@ -175,7 +176,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         */
         {
           extends: tsExtends,
-          files: [ '*.ts', '*.tsx' ],
+          files: ['*.ts', '*.tsx'],
           parser: require.resolve('@typescript-eslint/parser'),
           parserOptions: {
             ecmaFeatures: {
@@ -191,19 +192,19 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
           <-------------JS, JSX, TS, TSX, COMMON RULES------------->
         */
         {
-          files: [ '*.js', '*.jsx', '*.ts', '*.tsx' ],
+          files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
           rules: {
             'no-plusplus': 'off',
             'no-return-await': 'off',
-            camelcase: [ 'error', { properties: 'always', allow: camelCaseAllow } ],
+            camelcase: ['error', { properties: 'always', allow: camelCaseAllow }],
             'class-methods-use-this': 'off',
             'no-await-in-loop': 'off',
             'no-alert': isDevelopment ? 'off' : 'error',
             'no-console': isDevelopment ? 'off' : 'error',
             'no-debugger': isDevelopment ? 'off' : 'error',
             'no-param-reassign': 'off',
-            'newline-before-return': 'error',
             'no-underscore-dangle': 'off',
+            'newline-before-return': 'error',
 
             'prettier/prettier': [
               'error',
@@ -220,13 +221,28 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
 
             'sort-keys-fix/sort-keys-fix': 'warn',
 
+            'import/no-extraneous-dependencies': [
+              'error',
+              {
+                devDependencies: [
+                  '**/*.test.js',
+                  '**/*.spec.js',
+                  '**/*.test.ts',
+                  '**/*.spec.ts',
+                  '**/*.test.jsx',
+                  '**/*.spec.jsx',
+                  '**/*.test.tsx',
+                  '**/*.spec.tsx'
+                ],
+              },
+            ],
             'import/order': [
               'error',
               {
                 alphabetize: {
                   order: 'asc',
                 },
-                groups: [ 'builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object' ],
+                groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
                 'newlines-between': 'always',
                 pathGroups: [
                   {
@@ -269,27 +285,8 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         {
           files: ['*.ts', '*.tsx'],
           rules: {
-            '@typescript-eslint/ban-ts-comment': isDevelopment ? 'off' : 'error',
+            'no-unused-vars': 'off',
             '@typescript-eslint/ban-types': 'off',
-            '@typescript-eslint/explicit-function-return-type': 'warn',
-            '@typescript-eslint/naming-convention': [
-              'error',
-              {
-                filter: {
-                  match: false,
-                  regex: ignoredPropNames,
-                },
-                format: [ 'UPPER_CASE', 'StrictPascalCase' ],
-                prefix: [ 'I' ],
-                selector: 'interface',
-              },
-            ],
-            '@typescript-eslint/no-empty-interface': [
-              'error',
-              {
-                allowSingleExtends: true,
-              },
-            ],
             '@typescript-eslint/no-unused-vars': isDevelopment
               ? 'off'
               : [
@@ -300,19 +297,38 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
                   vars: 'all',
                 },
               ],
+            '@typescript-eslint/explicit-function-return-type': 'warn',
             '@typescript-eslint/return-await': 'off',
-            'no-unused-vars': 'off',
+            '@typescript-eslint/no-empty-interface': [
+              'error',
+              {
+                allowSingleExtends: true,
+              },
+            ],
+            '@typescript-eslint/naming-convention': [
+              'error',
+              {
+                filter: {
+                  match: false,
+                  regex: ignoredPropNames,
+                },
+                format: ['UPPER_CASE', 'StrictPascalCase'],
+                prefix: ['I'],
+                selector: 'interface',
+              },
+            ],
+            '@typescript-eslint/ban-ts-comment': isDevelopment ? 'off' : 'error',
           }
         },
         /*
           <-------------REACT RULES------------->
         */
         {
-          files: [ '*.tsx', '*.jsx' ],
+          files: ['*.tsx', '*.jsx'],
           rules: reactRules,
         },
         {
-          files: [ '*.tsx' ],
+          files: ['*.tsx'],
           rules: {
             'react/prop-types': 'off'
           }
@@ -331,7 +347,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
           <-------------CONFIG RULES------------->
         */
         {
-          files: [ 'jest.config.ts', 'jest.e2e.config.ts' ],
+          files: ['jest.config.ts', 'jest.e2e.config.ts'],
           rules: {
             'import/no-default-export': 'off',
           },
@@ -358,7 +374,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
           <-------------STORYBOOK COMPONENTS RULES------------->
         */
         {
-          files: [ '**/*.stories.jsx', '**/*.stories.tsx' ],
+          files: ['**/*.stories.jsx', '**/*.stories.tsx'],
           rules: {
             'import/no-default-export': 'off',
           },

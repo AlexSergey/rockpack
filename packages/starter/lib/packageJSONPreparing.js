@@ -74,7 +74,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: 'history', version: '5' },
           { name: 'redux', version: '4' },
           { name: 'react-helmet-async', version: '1' },
-          { name: '@issr/core', version: '1.1.0' },
+          { name: '@issr/core', version: '1.2.0' },
           { name: 'node-fetch', version: '2' },
           { name: '@reduxjs/toolkit', version: '1' },
           { name: 'serialize-javascript', version: '5' },
@@ -84,7 +84,7 @@ const packageJSONPreparing = async (packageJSON, {
           { name: '@loadable/server', version: '5' }
         ],
         devDependencies: [
-          { name: '@issr/babel-plugin', version: '1.1.0' },
+          { name: '@issr/babel-plugin', version: '1.2.0' },
           { name: '@rockpack/compiler', version: '2.0.1' }
         ]
       });
@@ -201,9 +201,25 @@ const packageJSONPreparing = async (packageJSON, {
   }
 
   if (codestyle) {
-    packageJSON = addScripts(packageJSON, {
-      lint: "eslint \"src/**\"",
-    });
+    if (typescript) {
+      packageJSON = addScripts(packageJSON, {
+        "format:eslint": "eslint --ext .ts,.tsx,.json src/ --fix",
+        "format:package": "sort-package-json",
+        "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
+        "lint": "npm run lint:ts && npm run lint:code",
+        "lint:code": "eslint --ext .ts,.tsx,.json src/",
+        "lint:ts": "tsc --noEmit",
+      });
+    } else {
+      packageJSON = addScripts(packageJSON, {
+        "format:eslint": "eslint --ext .js,.jsx,.json src/ --fix",
+        "format:package": "sort-package-json",
+        "format:prettier": "prettier --write \"src/**/*.{js,jsx,json}\"",
+        "lint": "npm run lint:ts && npm run lint:code",
+        "lint:code": "eslint --ext .js,.jsx,.json src/",
+        "lint:ts": "tsc --noEmit",
+      });
+    }
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
         { name: '@rockpack/codestyle', version: '2.0.1' }

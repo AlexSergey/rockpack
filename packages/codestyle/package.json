@@ -4,8 +4,8 @@
   "description": "The best practice for ESLint and TSLint",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**\"",
-    "format:eslint": "eslint \"**\" --fix",
+    "lint": "eslint \"./index.js\"",
+    "format:eslint": "eslint \"./index.js\" --fix",
     "production": "npm run lint && npm test && npm publish --access public"
   },
   "repository": {
@@ -43,6 +43,11 @@
     "eslint-plugin-unicorn": "43.0.1",
     "prettier": "2.6.2",
     "typescript": "4.5.4",
-    "yargs": "17.3.0"
+    "yargs": "17.3.0",
+    "stylelint": "14.9.1",
+    "stylelint-config-prettier-scss": "0.0.1",
+    "stylelint-config-recommended-scss": "7.0.0",
+    "stylelint-config-standard-scss": "5.0.0",
+    "stylelint-scss": "4.3.0"
   }
 }
