@@ -52,7 +52,7 @@ const wizard = async () => {
   const { codestyle } = await prompt({
     type: 'confirm',
     name: 'codestyle',
-    message: 'Do you want ESLint?'
+    message: 'Do you want code quality tools: ESLint, Prettier, etc?'
   });
 
   return {

@@ -10,6 +10,8 @@
 
 ## Features:
 
+### Eslint configs:
+
 - TS support, pure JS support, React support
 - Prettier integrated
 - Eslint Config Recommended
@@ -18,6 +20,11 @@
 - Eslint Import Recommended
 - Eslint TS Recommended
 - Eslint Prettier Recommended
+
+### Additional tools:
+
+- Stylelint
+- Commitlint
 
 ## Using
 

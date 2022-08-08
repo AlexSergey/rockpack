@@ -24,6 +24,8 @@
   ],
   "private": false,
   "dependencies": {
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
     "@rockpack/babel": "3.0.0-next.1",
     "@rockpack/utils": "3.0.0-next.1",
     "@babel/eslint-parser": "7.18.9",

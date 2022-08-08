@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 const child_process = require('child_process');
 
 const gitIsAvailable = () => {
@@ -35,6 +36,7 @@ const findGitRepoInParent = (currentPath) => {
 const makeRepo = (currentPath) => {
   try {
     child_process.execSync('git init', { stdio: 'ignore', cwd: currentPath });
+    console.log(`${chalk.green('GIT')} initialized`);
     return true;
   } catch (e) {
     return false;

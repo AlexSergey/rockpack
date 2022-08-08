@@ -8,6 +8,7 @@ const copyFiles = require('./copyFiles');
 const createFiles = require('./createFiles');
 const packageJSONPreparing = require('./packageJSONPreparing');
 const { showError } = require('../utils/error');
+const gitHooks = require('../utils/git-hooks');
 const { dummies } = require('../utils/pathes');
 const {
   createPackageJSON,
@@ -190,6 +191,10 @@ const install = async ({
         await installPeerDependencies(packageJSON, currentPath);
       }
     }
+
+    if (!state.nogit) {
+      await gitHooks(state);
+    }
   } catch (e) {
     spinner.stop();
     clear(timeouts);
@@ -239,7 +244,6 @@ const install = async ({
     console.log(chalk.magenta('  GIT add origin:'));
     console.log(chalk.blue('git remote add origin <url>'));
     console.log('pre-commit, pre-push hooks added');
-
   }
 
   console.log();

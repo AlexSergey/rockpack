@@ -208,6 +208,7 @@ const packageJSONPreparing = async (packageJSON, {
         "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
         "lint": "npm run lint:ts && npm run lint:code",
         "lint:code": "eslint --ext .ts,.tsx,.json src/",
+        "lint:commit": "commitlint -e",
         "lint:ts": "tsc --noEmit",
       });
     } else {
@@ -217,12 +218,13 @@ const packageJSONPreparing = async (packageJSON, {
         "format:prettier": "prettier --write \"src/**/*.{js,jsx,json}\"",
         "lint": "npm run lint:ts && npm run lint:code",
         "lint:code": "eslint --ext .js,.jsx,.json src/",
+        "lint:commit": "commitlint -e",
         "lint:ts": "tsc --noEmit",
       });
     }
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/codestyle', version: '2.0.1' }
+        { name: '@rockpack/codestyle', version: '2.0.1' },
       ]
     });
   }
@@ -252,34 +254,9 @@ const packageJSONPreparing = async (packageJSON, {
   }
 
   if (!nogit) {
-    let hooksCommon = [];
-    let hooksCommit = [];
-    let hooksPush = [];
-    if (codestyle) {
-      hooksCommon.push(`${getPM()} run lint`);
-    }
-    hooksCommit = hooksCommit.concat(hooksCommon);
-
-    if (tester) {
-      hooksPush = hooksPush.concat(hooksCommon);
-      hooksPush.push(`${getPM()} test`);
-    }
-
-    hooksPush.push(`${getPM()} run build`);
-
-    hooksCommit = hooksCommit.join(' && ');
-    hooksPush = hooksPush.join(' && ');
-
-    packageJSON = addFields(packageJSON, {
-      'simple-git-hooks': {
-        'pre-commit': hooksCommit,
-        'pre-push': hooksPush
-      }
-    });
-
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: 'simple-git-hooks', version: '2' }
+        { name: 'husky', version: '8.0.1' }
       ]
     });
   }
