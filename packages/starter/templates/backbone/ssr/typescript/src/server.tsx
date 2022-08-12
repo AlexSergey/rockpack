@@ -1,49 +1,49 @@
-import './types/global';
+import './types/global.declaration';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { serverRender } from '@issr/core';
+import Router from '@koa/router';
+import { ChunkExtractor } from '@loadable/server';
+import { createMemoryHistory } from 'history';
 import Koa from 'koa';
-import path from 'path';
 import serve from 'koa-static';
 import fetch from 'node-fetch';
-import Router from '@koa/router';
-import { readFileSync } from 'fs';
 import PrettyError from 'pretty-error';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
-import { serverRender } from '@issr/core';
-import { createMemoryHistory } from 'history';
-import { ChunkExtractor } from '@loadable/server';
-import { HelmetProvider, FilledContext } from 'react-helmet-async';
+
+import { App } from './app';
+import { createServices } from './services';
+import { createStore } from './store';
 import { isDevelopment } from './utils/environments';
-import App from './App';
-import createStore from './store';
-import createServices from './services';
 
 const app = new Koa();
 const router = new Router();
 const pe = new PrettyError();
 
 const publicFolder = path.resolve(__dirname, '../public');
-const stats = JSON.parse(
-  readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'),
-);
+const stats = JSON.parse(readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'));
 
 app.use(serve(publicFolder));
 
 router.get('/*', async (ctx) => {
   const store = createStore({
-    initialState: {},
     history: createMemoryHistory(),
+    initialState: {},
     services: createServices(fetch),
   });
 
   const extractor = new ChunkExtractor({
-    stats,
     entrypoints: ['index'],
+    stats,
   });
 
   const helmetContext = {} as FilledContext;
 
-  const { html } = await serverRender(() => (
+  const { html } = await serverRender(() =>
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
@@ -52,8 +52,8 @@ router.get('/*', async (ctx) => {
           </StaticRouter>
         </HelmetProvider>
       </Provider>,
-    )
-  ));
+    ),
+  );
 
   const { helmet } = helmetContext;
 
@@ -72,7 +72,7 @@ router.get('/*', async (ctx) => {
     ${helmet.meta.toString()}
     ${linkTags}
     ${styleTags}
-    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ''}
+    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ""}
 </head>
 <body>
     <div id="root">${html}</div>
@@ -86,9 +86,7 @@ router.get('/*', async (ctx) => {
   /* eslint-enable */
 });
 
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
@@ -117,5 +115,5 @@ server.once('error', handleError);
 });
 
 ['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal: NodeJS.Signals) => {
-  process.once((signal), () => terminate(signal));
+  process.once(signal, () => terminate(signal));
 });

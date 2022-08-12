@@ -1,12 +1,9 @@
-import imageService, { ImageServiceInterface } from './features/Image/service';
+import { imageService, IImageService } from './features/image/service';
 
-export interface ServicesInterface {
-  image: ImageServiceInterface;
+export interface IServices {
+  image: IImageService;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const createServices = (rest): ServicesInterface => ({
+export const createServices = (rest): IServices => ({
   image: imageService(rest),
 });
-
-export default createServices;

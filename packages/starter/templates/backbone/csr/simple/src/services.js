@@ -1,7 +1,5 @@
-import { imageService } from './features/Image';
+import { imageService } from './features/image';
 
-const createServices = (rest) => ({
+export const createServices = (rest) => ({
   image: imageService(rest),
 });
-
-export default createServices;

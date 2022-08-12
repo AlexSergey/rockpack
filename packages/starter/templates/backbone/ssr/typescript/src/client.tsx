@@ -1,15 +1,16 @@
-import './types/global';
+import './types/global.declaration';
+import createSsr from '@issr/core';
+import { loadableReady } from '@loadable/component';
+import { createBrowserHistory } from 'history';
 import fetch from 'node-fetch';
 import { hydrate } from 'react-dom';
-import { Provider } from 'react-redux';
-import createSsr from '@issr/core';
-import { createBrowserHistory } from 'history';
-import { loadableReady } from '@loadable/component';
 import { HelmetProvider } from 'react-helmet-async';
-import { Router } from './components/Router';
-import App from './App';
-import createStore from './store';
-import createServices from './services';
+import { Provider } from 'react-redux';
+
+import { App } from './app';
+import { Router } from './components/router';
+import { createServices } from './services';
+import { createStore } from './store';
 
 declare global {
   interface Window {
@@ -24,8 +25,8 @@ const history = createBrowserHistory();
 const SSR = createSsr();
 
 const store = createStore({
-  initialState: window.REDUX_DATA,
   history,
+  initialState: window.REDUX_DATA,
   services: createServices(fetch),
 });
 

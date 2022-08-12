@@ -1,29 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { imageReducer } from './features/Image';
+
+import { imageReducer } from './features/image';
 import { isDevelopment } from './utils/environments';
 
-const createStore = ({
-  history,
-  services,
-  initialState,
-}) => (
+export const createStore = ({ history, services, initialState }) =>
   configureStore({
+    devTools: isDevelopment(),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        immutableCheck: true,
+        serializableCheck: false,
+        thunk: {
+          extraArgument: {
+            history,
+            services,
+          },
+        },
+      }),
+    preloadedState: initialState || {},
     reducer: {
       image: imageReducer,
     },
-    devTools: isDevelopment(),
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-      immutableCheck: true,
-      serializableCheck: false,
-      thunk: {
-        extraArgument: {
-          history,
-          services,
-        },
-      },
-    }),
-    preloadedState: initialState || {},
-  })
-);
-
-export default createStore;
+  });

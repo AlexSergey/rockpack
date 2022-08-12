@@ -1,18 +1,5 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "module": "amd",
-    "target": "es6",
-    "jsx": "react-jsx",
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "allowJs": true
-  },
-  "include": [
-    "./src/**/*"
-  ]
+  "extends": "@rockpack/tsconfig",
+  "exclude": ["./node_modules/**/*"],
+  "include": ["./src/**/*"]
 }

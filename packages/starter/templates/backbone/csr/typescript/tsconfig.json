@@ -1,31 +1,5 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "importsNotUsedAsValues": "preserve",
-    "types": [
-      "node",
-      "webpack-env"
-    ],
-    "lib": [
-      "esnext",
-      "dom",
-      "ES2015.Iterable"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
-  },
-  "exclude":  [
-    "./node_modules/**/*"
-  ],
-  "include": [
-    "./src/**/*"
-  ]
+  "extends": "@rockpack/tsconfig",
+  "exclude": ["./node_modules/**/*"],
+  "include": ["./src/**/*"]
 }

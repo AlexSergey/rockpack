@@ -1,12 +1,12 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "3.0.0-next.1",
+  "version": "3.0.0-next.2",
   "description": "The best practice for ESLint and TSLint",
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"./index.js\"",
     "format:eslint": "eslint \"./index.js\" --fix",
-    "production": "npm run lint && npm test && npm publish --access public"
+    "production": "npm run lint && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
   "dependencies": {
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.3",
-    "@rockpack/babel": "3.0.0-next.1",
-    "@rockpack/utils": "3.0.0-next.1",
+    "@rockpack/babel": "3.0.0-next.2",
+    "@rockpack/utils": "3.0.0-next.2",
     "@babel/eslint-parser": "7.18.9",
     "@typescript-eslint/parser": "5.30.7",
     "@typescript-eslint/eslint-plugin": "5.30.7",

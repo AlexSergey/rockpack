@@ -1,11 +1,11 @@
-/* eslint-disable import/no-import-module-exports */
+import { createBrowserHistory } from 'history';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
-import { Router } from './components/Router';
-import App from './App';
-import createStore from './store';
-import createServices from './services';
+
+import { App } from './app';
+import { Router } from './components/router';
+import { createServices } from './services';
+import { createStore } from './store';
 
 const history = createBrowserHistory();
 

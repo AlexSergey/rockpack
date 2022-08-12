@@ -25,7 +25,7 @@ const copyFiles = async (currentPath, {
       path.join(currentPath)
     );
 
-    if (appType === 'library' || appType === 'ssr') {
+    if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
       await copy(
         path.join(addons, 'codestyle', appType, typescript ? 'typescript' : 'simple'),
         path.join(currentPath)

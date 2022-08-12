@@ -1,23 +1,24 @@
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { History } from 'history';
 import { Action } from 'redux';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { ServicesInterface } from '../services';
-import { ImageState } from './Image';
 
-export type Dispatcher = ThunkDispatch<RootState, ThunkExtras, Action>;
+import { IServices } from '../services';
 
-export interface ThunkExtras {
-  services: ServicesInterface;
+import { IImageState } from './image';
+
+export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
+
+export interface IThunkExtras {
+  services: IServices;
+  history: History;
 }
 
-export interface StoreProps extends ThunkExtras {
+export interface IStoreProps extends IThunkExtras {
   initialState?: {
     [key: string]: unknown;
   };
-  history: History;
-  services: ServicesInterface;
 }
 
-export interface RootState {
-  image: ImageState;
+export interface IRootState {
+  image: IImageState;
 }

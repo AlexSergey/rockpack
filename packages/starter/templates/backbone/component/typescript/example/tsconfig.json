@@ -9,14 +9,8 @@
     "noImplicitAny": true,
     "removeComments": false,
     "noLib": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   },
-  "exclude":  [
-    "./node_modules/**/*"
-  ],
-  "include": [
-    "./src/**/*"
-  ]
+  "exclude": ["./node_modules/**/*"],
+  "include": ["./src/**/*"]
 }
