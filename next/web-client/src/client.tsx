@@ -1,5 +1,5 @@
 import './types/global.declaration';
-import createSsr from '@issr/core';
+import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';

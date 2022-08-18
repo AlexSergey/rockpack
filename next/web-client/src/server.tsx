@@ -76,7 +76,7 @@ router.get('(.*)', async (ctx) => {
     stats,
   });
 
-  const { html } = await serverRender(() =>
+  const { html } = await serverRender.string(() =>
     extractor.collectChunks(
       <Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>

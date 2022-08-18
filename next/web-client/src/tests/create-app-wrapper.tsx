@@ -1,4 +1,4 @@
-import createSsr from '@issr/core';
+import { createSsr } from '@issr/core';
 import { createMemoryHistory } from 'history';
 import logger from 'logrock';
 import React, { ReactNode } from 'react';
