@@ -100,6 +100,8 @@ const install = async ({
     try {
       const gitignore = fs.readFileSync(path.join(dummies, 'gitignore'), 'utf8');
       fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore.toString());
+      const gitattributes = fs.readFileSync(path.join(dummies, 'gitattributes'), 'utf8');
+      fs.writeFileSync(path.join(currentPath, '.gitattributes'), gitattributes.toString());
     } catch (e) {
       showError(e, () => {
         console.error('Step: 4.1. .gitignore creating');

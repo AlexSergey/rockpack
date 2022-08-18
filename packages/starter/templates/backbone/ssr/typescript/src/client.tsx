@@ -3,7 +3,7 @@ import createSsr from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import fetch from 'node-fetch';
-import { hydrate } from 'react-dom';
+import { hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 
@@ -31,7 +31,8 @@ const store = createStore({
 });
 
 loadableReady(() => {
-  hydrate(
+  hydrateRoot(
+    document.getElementById('root'),
     <SSR>
       <Provider store={store}>
         <HelmetProvider>
@@ -40,7 +41,6 @@ loadableReady(() => {
           </Router>
         </HelmetProvider>
       </Provider>
-    </SSR>,
-    document.getElementById('root'),
+    </SSR>
   );
 });

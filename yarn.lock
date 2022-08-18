@@ -1879,17 +1879,17 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@issr/babel-plugin@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@issr/babel-plugin/-/babel-plugin-1.0.2.tgz#93466c6246a8a542bb95c660821024dd90da1e48"
-  integrity sha512-CICgGwlAXirapR7RER9MmdbCafd+YqVVYndymQfvwKVmiRHCwDrZhkX5kU7Sk7wT6Kb0vyxmy0DQp7VKG1zhsQ==
+"@issr/babel-plugin@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@issr/babel-plugin/-/babel-plugin-2.0.0.tgz#4f8be869feb90dc6eebf99ec9954c0b42ef5eed2"
+  integrity sha512-SInVBAA8Jehcma1v2Mi8U8DzY0RZD/LehK+BtwcjBM6LCuuSlwgBh7V2FxCMIi7Ei8jkXuMazmruXLvi2/TJJw==
   dependencies:
     md5 "2.3.0"
 
-"@issr/core@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@issr/core/-/core-1.0.2.tgz#c89c1ee37aa11b8796e6beb7f2260d42102f49d0"
-  integrity sha512-YIumay6pF9Uig9K/XuFxX9hw0BzetZ57eYVDZLgDhy166SK7Sy2q5KrOKxckQ7qqbz3V51PVqj9F2AEQ+3go5g==
+"@issr/core@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@issr/core/-/core-2.0.0.tgz#270c0551ff7c6afea51eaf376903cefdfbdacf22"
+  integrity sha512-XF17dFL+WaGEX2IWj/jgp7nTV6+OWllGgUcJ9xs47ksdYvdWd50ccqrcHnv/Id+20QrrXBA+y/8tZ5NKiwdtEw==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

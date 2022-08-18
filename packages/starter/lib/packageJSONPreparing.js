@@ -8,10 +8,10 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
     case 'csr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
-          { name: 'react', version: '17' },
+          { name: 'react', version: '18' },
           { name: 'redux-thunk', version: '2' },
           { name: 'history', version: '5' },
-          { name: 'react-dom', version: '17' },
+          { name: 'react-dom', version: '18' },
           { name: 'react-redux', version: '7' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
@@ -27,8 +27,8 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
       if (typescript) {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: '@types/react', version: '17.0.8' },
-            { name: '@types/react-dom', version: '17.0.5' },
+            { name: '@types/react', version: '18' },
+            { name: '@types/react-dom', version: '18' },
             { name: '@types/react-helmet', version: '6' },
             { name: '@types/loadable__component', version: '5' },
             { name: '@types/node', version: '16' },
@@ -49,8 +49,8 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
           { name: 'redux-thunk', version: '2' },
           { name: 'history', version: '5' },
           { name: 'koa-static', version: '5' },
-          { name: 'react', version: '17' },
-          { name: 'react-dom', version: '17' },
+          { name: 'react', version: '18' },
+          { name: 'react-dom', version: '18' },
           { name: 'react-redux', version: '7' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
@@ -75,12 +75,14 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
       if (typescript) {
         packageJSON = await addDependencies(packageJSON, {
           devDependencies: [
-            { name: '@types/react', version: '17.0.8' },
-            { name: '@types/react-dom', version: '17.0.5' },
+            { name: '@types/react', version: '18' },
+            { name: '@types/react-dom', version: '18' },
             { name: '@types/loadable__component', version: '5' },
             { name: '@types/koa', version: '2' },
             { name: '@types/koa-router', version: '7' },
             { name: '@types/node', version: '16' },
+            { name: '@types/node-fetch', version: '2' },
+            { name: '@types/serialize-javascript', version: '5' },
           ],
         });
       } else {
@@ -95,16 +97,16 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
       if (appType === 'component') {
         packageJSON = await addDependencies(packageJSON, {
           peerDependencies: [
-            { name: 'react', version: '^17.0.0' },
-            { name: 'react-dom', version: '^17.0.0' },
+            { name: 'react', version: '18' },
+            { name: 'react-dom', version: '18' },
           ],
         });
 
         if (typescript) {
           packageJSON = await addDependencies(packageJSON, {
             devDependencies: [
-              { name: '@types/react', version: '17.0.8' },
-              { name: '@types/react-dom', version: '17.0.5' },
+              { name: '@types/react', version: '18' },
+              { name: '@types/react-dom', version: '18' },
             ],
           });
         }
@@ -172,8 +174,8 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
     if (appType === 'component') {
       packageJSONExample = await addDependencies(packageJSONExample, {
         dependencies: [
-          { name: 'react', version: '17.0.2' },
-          { name: 'react-dom', version: '17.0.2' },
+          { name: 'react', version: '18' },
+          { name: 'react-dom', version: '18' },
         ],
       });
     }
@@ -191,7 +193,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
     if (typescript) {
       packageJSON = addScripts(packageJSON, {
         format: 'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
-        'format:eslint': 'eslint --ext .ts,.tsx,.json src/ --fix',
+        'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
         'format:package': 'sort-package-json',
         'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
         'format:styles': 'stylelint "src/**/*.scss" --fix',
@@ -232,12 +234,19 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: 'react-test-renderer', version: '17.0.2' },
+          { name: 'react-test-renderer', version: '18' },
           { name: '@testing-library/jest-dom', version: '5' },
           { name: '@testing-library/react', version: '11' },
           { name: '@testing-library/react-hooks', version: '7' },
         ],
       });
+      if (typescript) {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [
+            { name: '@types/react-test-renderer', version: '18' },
+          ],
+        });
+      }
     }
   }
 

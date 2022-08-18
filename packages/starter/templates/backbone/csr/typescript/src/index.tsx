@@ -1,6 +1,6 @@
 import './types/global.declaration';
 import { createBrowserHistory } from 'history';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import { App } from './app';
@@ -23,13 +23,16 @@ const store = createStore({
   services: createServices(fetch),
 });
 
-render(
+const container = document.getElementById('root');
+
+const root = createRoot(container as HTMLElement);
+
+root.render(
   <Provider store={store}>
     <Router history={history}>
       <App />
     </Router>
-  </Provider>,
-  document.getElementById('root'),
+  </Provider>
 );
 
 if (import.meta.webpackHot) {

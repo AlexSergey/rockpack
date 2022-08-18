@@ -1,17 +1,5 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true,
-    "noImplicitAny": true,
-    "removeComments": false,
-    "noLib": false,
-    "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types"]
-  },
+  "extends": "@rockpack/tsconfig",
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]
 }

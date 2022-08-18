@@ -90,7 +90,7 @@ app.use(router.routes()).use(router.allowedMethods());
 
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is listening ${process.env.PORT} port`);
+  console.log(`Server is listening on http://localhost:${process.env.PORT} port`);
 });
 
 const handleError = (err, ctx): void => {
@@ -100,9 +100,9 @@ const handleError = (err, ctx): void => {
   }
 };
 
-const terminate = async (signal): Promise<void> => {
+const terminate = async (): Promise<void> => {
   server.close();
-  process.exit(signal);
+  process.exit(1);
 };
 
 server.once('error', handleError);
@@ -115,5 +115,5 @@ server.once('error', handleError);
 });
 
 ['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal: NodeJS.Signals) => {
-  process.once(signal, () => terminate(signal));
+  process.once(signal, () => terminate());
 });

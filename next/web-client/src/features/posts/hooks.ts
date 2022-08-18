@@ -1,4 +1,4 @@
-import { useSsrEffect } from '@issr/core';
+import { useSsrEffect, useRegisterEffect } from '@issr/core';
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -24,8 +24,11 @@ export const usePosts = (): [boolean, boolean, IPost[]] => {
   const dispatch = useDispatch();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: IPostsState }, IPostsState>((state) => state.posts);
+  const registerEffect = useRegisterEffect();
 
-  useSsrEffect(() => dispatch(fetchPosts(current)));
+  useSsrEffect(() => {
+    registerEffect(dispatch, fetchPosts(current));
+  }, [current]);
 
   // Pagination changed
   useEffect(() => {

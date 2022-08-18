@@ -36,7 +36,7 @@ const _make = async (conf, post) => {
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
   const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
-  const resolve = makeResolve();
+  const resolve = makeResolve(root);
   const stats = makeStats(conf);
   const externals = makeExternals(conf, root);
 

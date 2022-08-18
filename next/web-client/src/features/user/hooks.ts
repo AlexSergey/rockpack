@@ -1,4 +1,4 @@
-import { useSsrEffect } from '@issr/core';
+import { useSsrEffect, useRegisterEffect } from '@issr/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { IRootState } from '../../types/store';
@@ -12,7 +12,11 @@ export const useRole = (): Roles => useSelector<IRootState, Roles>((state) => st
 
 export const useAuthorization = (): void => {
   const dispatch = useDispatch();
-  useSsrEffect(() => dispatch(authorization()));
+  const registerEffect = useRegisterEffect();
+
+  useSsrEffect(() => {
+    registerEffect(dispatch, authorization());
+  }, []);
 };
 
 export const useUserStatistic = (): UserStatistic => {

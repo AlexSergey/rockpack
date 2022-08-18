@@ -1,18 +1,12 @@
 {
+  "extends": "@rockpack/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "importsNotUsedAsValues": "preserve",
-    "types": ["jest", "node", "@testing-library/jest-dom"],
-    "lib": ["esnext", "dom", "ES2015.Iterable"],
-    "typeRoots": ["node_modules/@types"]
+    "types": [
+      "jest",
+      "node",
+      "webpack-env",
+      "@testing-library/jest-dom"
+    ]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]
