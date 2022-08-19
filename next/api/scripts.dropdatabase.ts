@@ -1,11 +1,11 @@
 import './src/config';
 import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
-import { UserModel } from './src/models/User';
-import { StatisticTypeModel } from './src/models/StatisticType';
-import { ImageTypeModel } from './src/models/ImageType';
-import { RoleModel } from './src/models/Role';
-import { StatisticModel } from './src/models/Statistic';
+import { UserModel } from './src/models/user';
+import { StatisticTypeModel } from './src/models/statistic-type';
+import { ImageTypeModel } from './src/models/image-type';
+import { RoleModel } from './src/models/role';
+import { StatisticModel } from './src/models/statistic';
 
 (async () => {
   if (process.env.NODE_ENV !== 'test') {

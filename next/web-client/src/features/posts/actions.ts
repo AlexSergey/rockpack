@@ -1,10 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { Post } from '../../types/posts';
+import { IPost } from '../../types/posts';
 
 export const requestPosts = createAction('Posts are fetching...');
 
-export const requestPostsSuccess = createAction<Post[]>('Posts have already fetched');
+export const requestPostsSuccess = createAction<IPost[]>('Posts have already fetched');
 
 export const requestPostsError = createAction('Posts fetched with error');
 

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IPostsState, Post } from '../../types/posts';
+import { IPostsState, IPost } from '../../types/posts';
 
 import {
   requestPosts,
@@ -30,7 +30,7 @@ export const postsReducer = createReducer<IPostsState>(
       state.loading = false;
     },
 
-    [requestPostsSuccess.type]: (state, { payload }: { payload: Post[] }) => {
+    [requestPostsSuccess.type]: (state, { payload }: { payload: IPost[] }) => {
       state.data = payload;
       state.error = false;
       state.loading = false;

@@ -1,5 +1,5 @@
 import { config } from '../../config';
-import { Post } from '../../types/post';
+import { IPost } from '../../types/post';
 import { IRest } from '../../utils/rest';
 
 type PostData = {
@@ -7,7 +7,7 @@ type PostData = {
   text: string;
 };
 
-export type PostRes = { data: Post };
+export type PostRes = { data: IPost };
 
 export interface IPostService {
   fetchPost: (postId: number) => Promise<PostRes>;

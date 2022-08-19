@@ -1,38 +1,35 @@
-import {
-  readdirSync,
-  copyFileSync,
-  existsSync,
-  mkdirSync
-} from 'fs';
-import { resolve } from 'path';
+import { readdirSync, copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { loadFile } from 'sequelize-fixtures';
-import { config } from './src/config';
+
 import * as database from './src/boundaries/database';
+import { config } from './src/config';
 import { installMappings } from './src/mappings';
-import { UserModel } from './src/models/User';
-import { PostModel } from './src/models/Post';
-import { ImageModel } from './src/models/Image';
-import { CommentModel } from './src/models/Comment';
+import { CommentModel } from './src/models/comment';
+import { ImageModel } from './src/models/image';
+import { PostModel } from './src/models/post';
+import { UserModel } from './src/models/user';
 
 const models = {
-  User: UserModel,
-  Post: PostModel,
+  Comment: CommentModel,
   Image: ImageModel,
-  Comment: CommentModel
+  Post: PostModel,
+  User: UserModel,
 };
 
 const fixtures = {
   admin: 'fixtures/admin.json',
-  user: 'fixtures/user.json',
-  posts: 'fixtures/posts.json',
+  comments: 'fixtures/comments.json',
   images: 'fixtures/images.json',
-  comments: 'fixtures/comments.json'
+  posts: 'fixtures/posts.json',
+  user: 'fixtures/user.json',
 };
 
 const IMAGES = 'fixtures/images';
 
-const copy = (folder): Promise<void> => (
-  // eslint-disable-next-line promise/param-names
+const copy = (folder): Promise<void> =>
   new Promise((r, reject) => {
     const imagesPath = resolve(__dirname, folder);
     let files;
@@ -40,14 +37,14 @@ const copy = (folder): Promise<void> => (
     try {
       files = readdirSync(imagesPath);
     } catch (e) {
-      return reject(e);
+      reject(e);
     }
 
     if (!existsSync(resolve(__dirname, config.storage))) {
       try {
         mkdirSync(resolve(__dirname, config.storage));
       } catch (e) {
-        return reject(e);
+        reject(e);
       }
     }
 
@@ -55,27 +52,19 @@ const copy = (folder): Promise<void> => (
       const file = files[i];
 
       try {
-        copyFileSync(
-          resolve(imagesPath, file),
-          resolve(__dirname, config.storage, file)
-        );
+        copyFileSync(resolve(imagesPath, file), resolve(__dirname, config.storage, file));
       } catch (e) {
-        return reject(e);
+        reject(e);
       }
     }
 
     r();
-  })
-);
+  });
 
-const loadFixture = (file): Promise<unknown> => (
-  // eslint-disable-next-line no-shadow,promise/param-names
+const loadFixture = (file): Promise<unknown> =>
   new Promise((res, reject) => {
-    loadFile(file, models)
-      .then(res)
-      .catch(reject);
-  })
-);
+    loadFile(file, models).then(res).catch(reject);
+  });
 
 (async () => {
   await database.start();

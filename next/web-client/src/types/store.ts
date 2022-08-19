@@ -9,7 +9,7 @@ import { ICommentsState } from './comments';
 import { ILocalization } from './localization';
 import { IPostState } from './post';
 import { IPostsState } from './posts';
-import { User } from './user';
+import { IUser } from './user';
 import { IUsersState } from './users';
 
 export interface IThunkExtras {
@@ -29,7 +29,7 @@ export interface IStoreProps extends IThunkExtras {
 }
 
 export interface IRootState {
-  user: User;
+  user: IUser;
   localization: ILocalization;
   posts: IPostsState;
   comments: ICommentsState;

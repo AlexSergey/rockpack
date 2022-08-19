@@ -1,8 +1,8 @@
 import { config } from '../../config';
-import { Post } from '../../types/posts';
+import { IPost } from '../../types/posts';
 import { IRest } from '../../utils/rest';
 
-export type PostsRes = { data: { posts: Post[]; count: number } };
+export type PostsRes = { data: { posts: IPost[]; count: number } };
 
 export type DeletePostRes = { data: { deleteComments: number[] } };
 

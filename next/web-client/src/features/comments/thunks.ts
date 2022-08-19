@@ -1,6 +1,6 @@
 import { IComment } from '../../types/comments';
 import { ThunkResult } from '../../types/thunk';
-import { User } from '../../types/user';
+import { IUser } from '../../types/user';
 import { increaseComment, decreaseComment } from '../common/actions';
 
 import {
@@ -26,7 +26,7 @@ export const fetchComments =
   };
 
 export const createComment =
-  ({ text, user, postId }: { text: string; user: User; postId: number }): ThunkResult =>
+  ({ text, user, postId }: { text: string; user: IUser; postId: number }): ThunkResult =>
   async (dispatch, getState, { services, logger }) => {
     try {
       dispatch(requestComments());
