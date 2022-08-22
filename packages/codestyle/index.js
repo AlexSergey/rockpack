@@ -90,11 +90,11 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
       ];
 
-  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'check-file'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file'];
+  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'check-file', 'jest-formatting'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'check-file']
-    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'check-file'];
+    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'check-file', 'jest-formatting']
+    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
 
   const reactRules = {
     'react/function-component-definition': [
@@ -377,6 +377,24 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
           files: ['**/*.stories.jsx', '**/*.stories.tsx'],
           rules: {
             'import/no-default-export': 'off',
+          },
+        },
+        /*
+          <-------------SPEC RULES------------->
+        */
+        {
+          files: [
+            '**/*.spec.jsx',
+            '**/*.spec.tsx',
+            '**/*.spec.js',
+            '**/*.spec.ts',
+            '**/*.e2e-spec.jsx',
+            '**/*.e2e-spec.tsx',
+            '**/*.e2e-spec.js',
+            '**/*.e2e-spec.ts'
+          ],
+          rules: {
+            'jest-formatting/padding-around-all': 'error',
           },
         },
       ],

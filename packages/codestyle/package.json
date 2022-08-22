@@ -43,6 +43,7 @@
     "eslint-plugin-check-file": "1.2.2",
     "eslint-plugin-sort-keys-fix": "1.1.2",
     "eslint-plugin-unicorn": "43.0.1",
+    "eslint-plugin-jest-formatting": "3.1.0",
     "prettier": "2.6.2",
     "typescript": "4.5.4",
     "yargs": "17.3.0",

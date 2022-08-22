@@ -9,6 +9,7 @@ let userRepository;
 beforeAll(() => {
   userRepository = container.get<IUserRepository>(UserRepositoryDIType);
 });
+
 afterAll(() => UserModel.sequelize.close());
 
 describe('UserRepository tests', () => {
