@@ -4,8 +4,9 @@ import { resolve } from 'node:path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loadFile } from 'sequelize-fixtures';
 
-import * as database from './src/boundaries/database';
 import { config } from './src/config';
+// eslint-disable-next-line import/order
+import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
 import { CommentModel } from './src/models/comment';
 import { ImageModel } from './src/models/image';

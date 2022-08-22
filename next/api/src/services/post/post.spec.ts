@@ -63,7 +63,7 @@ describe('PostService tests', () => {
       title: 'test title',
     });
 
-    const IPostDetails = await postRepository.IPostDetails(post.get('id'));
+    const IPostDetails = await postRepository.postDetails(post.get('id'));
     const details = IPostDetails.toJSON() as IPostDetails;
     const u = await userRepository.getUserById(newuser.get('id'));
 
@@ -93,7 +93,7 @@ describe('PostService tests', () => {
       text: 'test text',
       title: 'test title',
     });
-    const IPostDetails = await postRepository.IPostDetails(post.get('id'));
+    const IPostDetails = await postRepository.postDetails(post.get('id'));
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -127,11 +127,11 @@ describe('PostService tests', () => {
       text: 'test text',
       title: 'with comment',
     });
-    let IPostDetails = await postRepository.IPostDetails(post.get('id'));
+    let IPostDetails = await postRepository.postDetails(post.get('id'));
     let details = IPostDetails.toJSON() as IPostDetails;
     const oldComments = details.Statistic.comments;
     await commentService.createComment(newuser.get('id'), details.id, 'test comment');
-    IPostDetails = await postRepository.IPostDetails(post.get('id'));
+    IPostDetails = await postRepository.postDetails(post.get('id'));
     details = IPostDetails.toJSON() as IPostDetails;
     const newComments = details.Statistic.comments;
 
@@ -145,7 +145,7 @@ describe('PostService tests', () => {
       title: 'post for deleting',
     });
     const id = post.get('id');
-    const p = await postRepository.IPostDetails(post.get('id'));
+    const p = await postRepository.postDetails(post.get('id'));
 
     expect(id).toBe(p.get('id'));
   });

@@ -1,12 +1,31 @@
 version: '3.9'
 
 services:
-  mysql:
-    image: mysql:8
+  db:
+    image: mysql:5.7
+    container_name: db
     ports:
-      - 3306:3306
+      - "${DB_PORT}:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PASSWORD=${DB_USER_PASSWORD}
       - MYSQL_USER=${DB_USER}
       - MYSQL_DATABASE=${DB_NAME}
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+    restart: always
+    ports:
+      - "8081:80"
+
+volumes:
+  dbdata:

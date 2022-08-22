@@ -15578,10 +15578,10 @@ lilconfig@^2.0.3:
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.6.tgz#32a384558bd58af3d4c6e077dd1ad1d397bc69d4"
   integrity sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==
 
-limited-array@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/limited-array/-/limited-array-2.0.2.tgz#3b93170c73ed679b26ced6b332dfe3d86f3b13b8"
-  integrity sha512-MMGRVJKjb8ku9FFlcy/o60NOFkhc11D7Ko+Xemxw3DOlh3bmbHdztnUdEKebCvnpY262cJHhqX8hXeBanWtuJw==
+limited-array@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/limited-array/-/limited-array-2.0.3.tgz#32d1d2dcd06f22fb6bdc3ceb6eb509f01d1779b4"
+  integrity sha512-TXar/g3RoKY0fdXyfSs+KdKsC9Hnj5AFgxmMU4NVfkk6eGvfc7V2+9G5sN05CrVWH+SgTSH+wkMFp1rS+XQXuA==
 
 lines-and-columns@^1.1.6:
   version "1.2.4"
@@ -15873,13 +15873,13 @@ loglevelnext@^1.0.1:
     es6-symbol "^3.1.1"
     object.assign "^4.1.0"
 
-logrock@3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/logrock/-/logrock-3.0.2.tgz#1645def639d1394faebee46e02f2b397483df687"
-  integrity sha512-vca1OdQQDEwy+qAIqlsmBVTuVpqQR9bIduW9p0tIoLHMU73qixz94fN2a6Nc+/qAllueekhPMai30sCQejfxKw==
+logrock@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/logrock/-/logrock-3.2.0.tgz#152e03f32a112e952be7050ad18d157ae34315a9"
+  integrity sha512-mNjoG7HACEnG5llwRYfyPCncJHvw+V89uOLYmQxLinGEcBeGOUkPkB/2qvWTzSZP+H7sIwMmU74LSVojutg5rg==
   dependencies:
-    limited-array "2.0.2"
-    valid-types "2.0.3"
+    limited-array "^2.0.2"
+    valid-types "^2.0.5"
 
 long@^3.2.0:
   version "3.2.0"
@@ -23878,7 +23878,7 @@ valid-types@2.0.3:
   resolved "https://registry.yarnpkg.com/valid-types/-/valid-types-2.0.3.tgz#8a1f5af822609ef9f3d605766b27b91a63c21271"
   integrity sha512-pZO/9qe5QpAfAJwKDkTLWKe19gV9ZW6HnNdYOwFlSNIh7UWp/k6ZbGLVMAvAYbmjKoTu56fRj6Rpm6FUG4jBdQ==
 
-valid-types@2.0.5:
+valid-types@2.0.5, valid-types@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/valid-types/-/valid-types-2.0.5.tgz#df2482c5e50df52fce8f55355d83af178c20b749"
   integrity sha512-ZbrlWHFD/g3cDd7ieBdELBFZcujXjQkuv2wWEQTSWpU1evC0UnFZMxY/mghtM39tld0ggNYX0sdXu7f6U6H8aw==
