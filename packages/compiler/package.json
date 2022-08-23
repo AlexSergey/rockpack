@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "3.0.0-next.2",
+  "version": "3.0.0-next.3",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -32,13 +32,13 @@
   ],
   "private": false,
   "dependencies": {
-    "@rockpack/codestyle": "3.0.0-next.2",
+    "@rockpack/codestyle": "3.0.0-next.3",
     "@babel/core": "7.16.5",
     "@loadable/webpack-plugin": "5.15.2",
     "@mdx-js/loader": "1.6.22",
     "@nuxt/friendly-errors-webpack-plugin": "2.5.2",
-    "@rockpack/babel": "3.0.0-next.2",
-    "@rockpack/utils": "3.0.0-next.2",
+    "@rockpack/babel": "3.0.0-next.3",
+    "@rockpack/utils": "3.0.0-next.3",
     "@statoscope/webpack-plugin": "5.19.2",
     "@svgr/webpack": "6.1.2",
     "@teamsupercell/typings-for-css-modules-loader": "2.5.1",

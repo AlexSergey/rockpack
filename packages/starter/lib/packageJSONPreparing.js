@@ -21,7 +21,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
           { name: '@reduxjs/toolkit', version: '1' },
           { name: '@loadable/component', version: '5' },
         ],
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.2' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.3' }],
       });
 
       if (typescript) {
@@ -68,7 +68,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '1.2.0' },
-          { name: '@rockpack/compiler', version: '3.0.0-next.2' },
+          { name: '@rockpack/compiler', version: '3.0.0-next.3' },
         ],
       });
 
@@ -113,7 +113,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
       }
 
       packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.2' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.3' }],
       });
 
       packageJSON = addFields(packageJSON, {
@@ -137,7 +137,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
 
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.2' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.3' }],
       });
 
       if (typescript) {
@@ -145,7 +145,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
           dependencies: [],
           devDependencies: [
             { name: '@types/node', version: '16' },
-            { name: '@rockpack/compiler', version: '3.0.0-next.2' },
+            { name: '@rockpack/compiler', version: '3.0.0-next.3' },
           ],
         });
       }
@@ -155,7 +155,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
   if (typescript) {
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: '@rockpack/tsconfig', version: '3.0.0-next.2' },
+        { name: '@rockpack/tsconfig', version: '3.0.0-next.3' },
       ],
     });
   }
@@ -217,7 +217,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
       });
     }
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0-next.2' }],
+      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0-next.3' }],
     });
   }
 
@@ -228,7 +228,7 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
     });
 
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0-next.2' }],
+      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0-next.3' }],
     });
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
@@ -252,8 +252,16 @@ const packageJSONPreparing = async (packageJSON, { appType, typescript, tester, 
 
   if (!nogit) {
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: 'husky', version: '8.0.1' }],
+      devDependencies: [
+        { name: 'husky', version: '8.0.1' },
+        { name: 'lint-staged', version: '13' }
+      ],
     });
+    if (codestyle) {
+      packageJSON = addScripts(packageJSON, {
+        'pre-commit': 'lint-staged'
+      });
+    }
   }
 
   return packageJSON;

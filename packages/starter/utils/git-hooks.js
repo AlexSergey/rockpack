@@ -10,18 +10,16 @@ module.exports = async ({
   let hooksCommit = [];
   let hooksPush = [];
 
-  if (codestyle) {
-    hooksCommon.push(`${getPM()} run lint`);
-  }
-
+  hooksPush = hooksPush.concat(hooksCommon);
   hooksCommit = hooksCommit.concat(hooksCommon);
 
-  if (tester) {
-    hooksPush = hooksPush.concat(hooksCommon);
-    hooksPush.push(`${getPM()} test`);
+  if (codestyle) {
+    hooksCommit.push(`${getPM()} run pre-commit`);
   }
 
-  hooksPush.push(`${getPM()} run build`);
+  if (tester) {
+    hooksPush.push(`${getPM()} test`);
+  }
 
   hooksCommit = hooksCommit.join(' && ');
   hooksPush = hooksPush.join(' && ');

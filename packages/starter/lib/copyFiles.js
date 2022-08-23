@@ -12,7 +12,8 @@ const copyFiles = async (currentPath, {
   appType,
   typescript,
   tester,
-  codestyle
+  codestyle,
+  nogit
 }) => {
   await copy(
     path.join(backbone, appType, typescript ? 'typescript' : 'simple'),
@@ -24,6 +25,13 @@ const copyFiles = async (currentPath, {
       path.join(addons, 'codestyle', 'common'),
       path.join(currentPath)
     );
+
+    if (!nogit) {
+      await copy(
+        path.join(addons, 'git'),
+        path.join(currentPath)
+      );
+    }
 
     if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
       await copy(
