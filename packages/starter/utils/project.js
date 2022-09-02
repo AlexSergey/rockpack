@@ -4,7 +4,9 @@ const childProcess = require('child_process');
 const latestVersion = require('latest-version');
 const merge = require('merge-package-json');
 const sortPackageJson = require('sort-package-json');
+const semverParse = require('semver/functions/parse');
 const { getPM } = require('../utils/other');
+const { getPMVersion } = require('./other');
 
 const readPackageJSON = (currentPath) => {
   return new Promise((resolve, reject) => {
@@ -93,9 +95,9 @@ const createPackageJSON = (projectName) => (
 
 const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install --silent`, {
+    childProcess.exec(`${getPM()} install -q`, {
       cwd
-    }, (err) => {
+    }, (err, a, b) => {
       if (err) {
         return reject(err);
       }
@@ -106,7 +108,7 @@ const installDependencies = (cwd) => {
 
 const installDependency = (cwd, dependency) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install ${dependency} --silent`, {
+    childProcess.exec(`${getPM()} install ${dependency} -q`, {
       cwd
     }, (err) => {
       if (err) {

@@ -1,4 +1,4 @@
-import { IFetch } from '../../types/fetch';
+import fetch from 'node-fetch';
 
 export type ImageRes = {
   id: string;
@@ -13,7 +13,7 @@ export interface IImageService {
   fetchImage: () => Promise<ImageRes>;
 }
 
-export const imageService = (rest: IFetch): IImageService => ({
+export const imageService = (rest: typeof fetch): IImageService => ({
   fetchImage: async (): Promise<ImageRes> => {
     const response = await rest('https://picsum.photos/id/0/info');
 

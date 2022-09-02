@@ -4,7 +4,6 @@
     "types": [
       "jest",
       "node",
-      "webpack-env",
       "@testing-library/jest-dom"
     ]
   },

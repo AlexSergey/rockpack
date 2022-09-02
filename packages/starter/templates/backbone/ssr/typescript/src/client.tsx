@@ -1,5 +1,5 @@
 import './types/global.declaration';
-import createSsr from '@issr/core';
+import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import fetch from 'node-fetch';
@@ -32,7 +32,7 @@ const store = createStore({
 
 loadableReady(() => {
   hydrateRoot(
-    document.getElementById('root'),
+    document.getElementById('root') as Element,
     <SSR>
       <Provider store={store}>
         <HelmetProvider>
@@ -41,6 +41,6 @@ loadableReady(() => {
           </Router>
         </HelmetProvider>
       </Provider>
-    </SSR>
+    </SSR>,
   );
 });

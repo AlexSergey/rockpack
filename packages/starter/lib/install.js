@@ -164,7 +164,7 @@ const install = async ({
   timeouts.$el1 = setTimeout(() => {
     spinner.text = 'Dependencies are installing. It takes 1-2 minutes.';
     timeouts.$el2 = setTimeout(() => {
-      spinner.text = 'The developer dependencies are installed. Please wait.';
+      spinner.text = 'The developer dependencies are installing. Please wait.';
       timeouts.$el3 = setTimeout(() => {
         spinner.text = 'Almost everything is ready. Less than a minute remaining.';
       }, 60 * 1000);

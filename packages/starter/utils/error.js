@@ -6,7 +6,6 @@ const {
 } = require('../utils/other');
 
 const showError = (e, cb) => {
-  console.log(e);
   console.log();
   console.error(chalk.red('Something went wrong. Please create an issue here and provide more details:'));
   console.log(chalk.blue('https://github.com/AlexSergey/rockpack/issues'));

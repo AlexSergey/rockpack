@@ -1,4 +1,4 @@
-import { useSsrEffect } from '@issr/core';
+import { useSsrEffect, useRegisterEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { IImageState } from '../../types/image';
@@ -14,8 +14,11 @@ export const useImage = (): [boolean, boolean, string] => {
     },
     IImageState
   >((state) => state.image);
+  const registerEffect = useRegisterEffect();
 
-  useSsrEffect(() => dispatch(fetchImage()));
+  useSsrEffect(() => {
+    registerEffect(dispatch, fetchImage());
+  }, []);
 
   return [loading, error, url];
 };

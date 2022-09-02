@@ -32,7 +32,7 @@ root.render(
     <Router history={history}>
       <App />
     </Router>
-  </Provider>
+  </Provider>,
 );
 
 if (import.meta.webpackHot) {

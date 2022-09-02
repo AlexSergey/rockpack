@@ -1,4 +1,4 @@
-import createSsr from '@issr/core';
+import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import fetch from 'node-fetch';
@@ -32,6 +32,6 @@ loadableReady(() => {
           </Router>
         </HelmetProvider>
       </Provider>
-    </SSR>
+    </SSR>,
   );
 });

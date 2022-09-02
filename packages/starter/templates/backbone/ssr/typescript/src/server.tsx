@@ -1,12 +1,14 @@
 import './types/global.declaration';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { constants } from 'node:zlib';
 
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
 import { ChunkExtractor } from '@loadable/server';
 import { createMemoryHistory } from 'history';
-import Koa from 'koa';
+import Koa, { Context } from 'koa';
+import compress from 'koa-compress';
 import serve from 'koa-static';
 import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
@@ -27,9 +29,37 @@ const pe = new PrettyError();
 const publicFolder = path.resolve(__dirname, '../public');
 const stats = JSON.parse(readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'));
 
+app.use(
+  compress({
+    br: false,
+    deflate: {
+      flush: constants.Z_SYNC_FLUSH,
+    },
+    filter(contentType: string): boolean {
+      return /text/i.test(contentType);
+    },
+    gzip: {
+      flush: constants.Z_SYNC_FLUSH,
+    },
+    threshold: 2048,
+  }),
+);
+
 app.use(serve(publicFolder));
 
-router.get('/*', async (ctx) => {
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    if (err instanceof Error) {
+      ctx.status = 500;
+      ctx.body = err.message;
+      ctx.app.emit('error', err, ctx);
+    }
+  }
+});
+
+router.get('/*', async (ctx: Context) => {
   const store = createStore({
     history: createMemoryHistory(),
     initialState: {},
@@ -43,7 +73,7 @@ router.get('/*', async (ctx) => {
 
   const helmetContext = {} as FilledContext;
 
-  const { html } = await serverRender(() =>
+  const { html } = await serverRender.string(() =>
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
@@ -93,8 +123,8 @@ const server = app.listen(process.env.PORT, () => {
   console.log(`Server is listening on http://localhost:${process.env.PORT} port`);
 });
 
-const handleError = (err, ctx): void => {
-  if (ctx == null) {
+const handleError = (err: Error): void => {
+  if (err) {
     // eslint-disable-next-line no-console
     console.error(pe.render(err));
   }
@@ -107,13 +137,13 @@ const terminate = async (): Promise<void> => {
 
 server.once('error', handleError);
 
-['unhandledRejection', 'uncaughtException'].forEach((error: NodeJS.Signals) => {
+['unhandledRejection', 'uncaughtException'].forEach((error: string) => {
   process.on(error, (e) => {
     // eslint-disable-next-line no-console
     console.error(pe.render(e));
   });
 });
 
-['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal: NodeJS.Signals) => {
+['SIGTERM', 'SIGINT', 'SIGUSR2'].forEach((signal: string) => {
   process.once(signal, () => terminate());
 });
