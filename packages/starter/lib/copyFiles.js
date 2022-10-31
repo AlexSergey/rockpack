@@ -10,13 +10,12 @@ const copy = require('../utils/copy');
 
 const copyFiles = async (currentPath, {
   appType,
-  typescript,
   tester,
   codestyle,
   nogit
 }) => {
   await copy(
-    path.join(backbone, appType, typescript ? 'typescript' : 'simple'),
+    path.join(backbone, appType),
     path.join(currentPath)
   );
 
@@ -35,7 +34,7 @@ const copyFiles = async (currentPath, {
 
     if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
       await copy(
-        path.join(addons, 'codestyle', appType, typescript ? 'typescript' : 'simple'),
+        path.join(addons, 'codestyle', appType),
         path.join(currentPath)
       );
     }
@@ -52,12 +51,12 @@ const copyFiles = async (currentPath, {
         path.join(currentPath)
       );
       await copy(
-        path.join(addons, 'tester', appType, typescript ? 'typescript' : 'simple'),
+        path.join(addons, 'tester', appType),
         path.join(currentPath)
       );
     } else if (appType === 'library') {
       await copy(
-        path.join(addons, 'tester', appType, typescript ? 'typescript' : 'simple'),
+        path.join(addons, 'tester', appType),
         path.join(currentPath)
       );
     }

@@ -232,7 +232,10 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
                   '**/*.test.jsx',
                   '**/*.spec.jsx',
                   '**/*.test.tsx',
-                  '**/*.spec.tsx'
+                  '**/*.spec.tsx',
+                  'jest.*.ts',
+                  'jest.*.js',
+                  'jest.*.cjs'
                 ],
               },
             ],

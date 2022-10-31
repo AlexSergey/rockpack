@@ -7,7 +7,6 @@ const { showError } = require('../utils/error');
 const createFiles = async (currentPath, {
   projectName,
   appType,
-  typescript,
   tester,
   codestyle
 }) => {

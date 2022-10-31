@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 const nodemon = require('nodemon');
-const R = require('ramda');
 
 const { getOutputFileMeta } = require('./webpack-utils');
 
@@ -47,7 +46,7 @@ module.exports = class {
       watch: relativeFileName,
     };
 
-    const nodemonOptions = R.merge(nodemonOptionsDefaults, this.nodemonOptions);
+    const nodemonOptions = { ...nodemonOptionsDefaults, ...this.nodemonOptions };
 
     const monitor = nodemon(nodemonOptions);
 

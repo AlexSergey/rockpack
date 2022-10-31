@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "3.0.0-next.3",
+  "version": "3.0.0-next.4",
   "main": "lib/index.js",
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "repository": {
@@ -28,16 +28,16 @@
   },
   "private": false,
   "dependencies": {
-    "@rockpack/utils": "3.0.0-next.3",
+    "@rockpack/utils": "3.0.0-next.4",
     "chalk": "4.1.2",
-    "inquirer": "8.2.0",
+    "inquirer": "9.1.4",
     "latest-version": "5.1.0",
     "merge-package-json": "0.1.3",
     "ncp": "2.0.0",
     "ora": "5.4.1",
     "pascal-case": "3.1.2",
-    "sort-package-json": "1.53.1",
-    "yargs": "17.3.0",
-    "semver": "7.3.5"
+    "sort-package-json": "1.57.0",
+    "yargs": "17.6.0",
+    "semver": "7.3.8"
   }
 }

@@ -10,22 +10,22 @@ const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: `• ${chalk.bold('React SPA')}: Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA')}: Typescript, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'csr',
         checked: false
       },
       {
-        name: `• ${chalk.bold('React SPA + SSR')}: SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA + SSR')}: Typescript, SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
         value: 'ssr',
         checked: false
       },
       {
-        name: `• ${chalk.bold('React Component')}: Starter for creating React Component`,
+        name: `• ${chalk.bold('React Component')}: Starter for creating React Component with Typescript`,
         value: 'component',
         checked: false
       },
       {
-        name: `• ${chalk.bold('UMD Library')}: Starter for creating UMD Library`,
+        name: `• ${chalk.bold('UMD Library')}: Starter for creating UMD Library with Typescript`,
         value: 'library',
         checked: false
       },
@@ -35,12 +35,6 @@ const wizard = async () => {
         checked: false
       }*/
     ]
-  });
-
-  const { typescript } = await prompt({
-    type: 'confirm',
-    name: 'typescript',
-    message: 'Do you want Typescript support?'
   });
 
   const { tester } = await prompt({
@@ -57,7 +51,6 @@ const wizard = async () => {
 
   return {
     appType,
-    typescript,
     tester,
     codestyle
   }
