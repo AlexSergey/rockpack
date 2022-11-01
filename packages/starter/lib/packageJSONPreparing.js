@@ -12,7 +12,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: 'redux-thunk', version: '2' },
           { name: 'history', version: '5' },
           { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '7' },
+          { name: 'react-redux', version: '8' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
           { name: 'history', version: '5' },
@@ -22,7 +22,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0-next.4' },
+          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/react-helmet', version: '6' },
@@ -43,14 +43,13 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: 'koa-static', version: '5' },
           { name: 'react', version: '18' },
           { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '7' },
+          { name: 'react-redux', version: '8' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
-          { name: 'history', version: '5' },
           { name: 'redux', version: '4' },
           { name: 'react-helmet-async', version: '1' },
           { name: '@issr/core', version: '2.0.0' },
-          { name: 'node-fetch', version: '2' },
+          { name: 'node-fetch', version: '3' },
           { name: '@reduxjs/toolkit', version: '1' },
           { name: 'serialize-javascript', version: '5' },
           { name: 'entities', version: '2' },
@@ -61,7 +60,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '2.0.0' },
-          { name: '@rockpack/compiler', version: '3.0.0-next.4' },
+          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/loadable__component', version: '5' },
@@ -71,7 +70,6 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: '@types/koa-static', version: '4' },
           { name: '@types/loadable__server', version: '5' },
           { name: '@types/node', version: '16' },
-          { name: '@types/node-fetch', version: '2' },
           { name: '@types/serialize-javascript', version: '5' },
         ],
       });
@@ -93,7 +91,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
       }
 
       packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.4' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.5' }],
       });
 
       packageJSON = addFields(packageJSON, {
@@ -113,9 +111,9 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0-next.4' },
+          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
           { name: '@types/node', version: '16' },
-          { name: '@rockpack/compiler', version: '3.0.0-next.4' },
+          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
         ],
       });
       break;
@@ -123,7 +121,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
 
   packageJSON = await addDependencies(packageJSON, {
     devDependencies: [
-      { name: '@rockpack/tsconfig', version: '3.0.0-next.4' },
+      { name: '@rockpack/tsconfig', version: '3.0.0-next.5' },
     ],
   });
 
@@ -170,7 +168,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
       'lint:styles': 'stylelint "src/**/*.scss"',
     });
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0-next.4' }],
+      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0-next.5' }],
     });
   }
 
@@ -181,7 +179,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     });
 
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0-next.4' }],
+      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0-next.5' }],
     });
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
@@ -189,8 +187,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
         devDependencies: [
           { name: 'react-test-renderer', version: '18' },
           { name: '@testing-library/jest-dom', version: '5' },
-          { name: '@testing-library/react', version: '11' },
-          { name: '@testing-library/react-hooks', version: '7' },
+          { name: '@testing-library/react', version: '13' },
           { name: '@types/react-test-renderer', version: '18' },
         ],
       });

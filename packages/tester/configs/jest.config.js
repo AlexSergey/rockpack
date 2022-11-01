@@ -84,6 +84,7 @@ module.exports = {
   ],
   setupFiles,
   setupFilesAfterEnv: [
+    require.resolve('@rockpack/utils/polyfills/text-encoder.fix'),
     require.resolve('jest-extended/all'),
     require.resolve('expect-more-jest'),
     require.resolve('jest-generator'),

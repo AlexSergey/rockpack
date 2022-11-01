@@ -50,12 +50,15 @@ const _make = async (conf, post) => {
     resolve,
     stats,
   };
+
   finalConfig.infrastructureLogging = {
     level: 'error',
   };
+
   if (typeof conf.name === 'string') {
     finalConfig.name = conf.name;
   }
+
   finalConfig.mode = mode;
 
   if (isDefined(conf.externals)) {
@@ -64,6 +67,13 @@ const _make = async (conf, post) => {
 
   if (conf.nodejs) {
     finalConfig.target = 'node';
+    finalConfig.externalsPresets = {
+      node: true,
+    };
+  } else if (global.ISOMORPHIC) {
+    finalConfig.externalsPresets = {
+      node: true,
+    };
   }
 
   if (mode === 'development' || conf.debug) {

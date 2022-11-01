@@ -1,15 +1,20 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 
 import { useImage } from './hooks';
 
 it('Render Image from useImage()', async () => {
-  const { result, waitForNextUpdate } = renderHook(() => useImage(), {
+  const { result } = renderHook(() => useImage(), {
     wrapper: createAppWrapper(),
   });
 
-  await waitForNextUpdate({ timeout: 100 });
+  await waitFor(
+    () => {
+      expect(result.current[2] !== '').toBe(true);
+    },
+    { interval: 100 },
+  );
 
   const [, , url] = result.current;
 
