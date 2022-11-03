@@ -1,6 +1,7 @@
 const path = require('node:path');
 
 const { getPM } = require('../utils/other');
+const { version } = require('../package.json');
 const { addFields, addScripts, addDependencies, readPackageJSON, writePackageJSON } = require('../utils/project');
 
 const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, nogit }, currentPath) => {
@@ -22,7 +23,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0' },
+          { name: '@rockpack/compiler', version: version },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/react-helmet', version: '6' },
@@ -60,7 +61,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '2.0.0' },
-          { name: '@rockpack/compiler', version: '3.0.0' },
+          { name: '@rockpack/compiler', version: version },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/loadable__component', version: '5' },
@@ -91,7 +92,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
       }
 
       packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: version }],
       });
 
       packageJSON = addFields(packageJSON, {
@@ -111,9 +112,8 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0' },
+          { name: '@rockpack/compiler', version: version },
           { name: '@types/node', version: '16' },
-          { name: '@rockpack/compiler', version: '3.0.0' },
         ],
       });
       break;
@@ -121,7 +121,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
 
   packageJSON = await addDependencies(packageJSON, {
     devDependencies: [
-      { name: '@rockpack/tsconfig', version: '3.0.0' },
+      { name: '@rockpack/tsconfig', version: version },
     ],
   });
 
@@ -172,7 +172,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
       'lint:styles': 'stylelint "src/**/*.scss"',
     });
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0' }],
+      devDependencies: [{ name: '@rockpack/codestyle', version: version }],
     });
   }
 
@@ -183,7 +183,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     });
 
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0' }],
+      devDependencies: [{ name: '@rockpack/tester', version: version }],
     });
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {

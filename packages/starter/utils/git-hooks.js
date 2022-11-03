@@ -5,10 +5,15 @@ const { getPM } = require('./other');
 module.exports = async ({
   tester,
   codestyle,
-}) => {
+}, currentPath) => {
   let hooksCommon = [];
   let hooksCommit = [];
   let hooksPush = [];
+
+  const shellOptions = {
+    shell: true,
+    cwd: currentPath
+  };
 
   hooksPush = hooksPush.concat(hooksCommon);
   hooksCommit = hooksCommit.concat(hooksCommon);
@@ -24,41 +29,25 @@ module.exports = async ({
   hooksCommit = hooksCommit.join(' && ');
   hooksPush = hooksPush.join(' && ');
 
-  spawnSync('npm', ['set-script', 'prepare', '"husky install"'], {
-    shell: true
-  });
+  spawnSync('npm', ['set-script', 'prepare', '"husky install"'], shellOptions);
 
-  spawnSync('npm', ['run', 'prepare'], {
-    shell: true
-  });
+  spawnSync('npm', ['run', 'prepare'], shellOptions);
 
   if (hooksCommit.length > 0) {
-    spawnSync('npx', ['husky', 'add', '.husky/pre-commit', `"${hooksCommit}"`], {
-      shell: true
-    });
+    spawnSync('npx', ['husky', 'add', '.husky/pre-commit', `"${hooksCommit}"`], shellOptions);
 
-    spawnSync('git', ['add', '.husky/pre-commit'], {
-      shell: true
-    });
+    spawnSync('git', ['add', '.husky/pre-commit'], shellOptions);
   }
 
   if (hooksPush.length > 0) {
-    spawnSync('npx', ['husky', 'add', '.husky/pre-push', `"${hooksPush}"`], {
-      shell: true
-    });
+    spawnSync('npx', ['husky', 'add', '.husky/pre-push', `"${hooksPush}"`], shellOptions);
 
-    spawnSync('git', ['add', '.husky/pre-push'], {
-      shell: true
-    });
+    spawnSync('git', ['add', '.husky/pre-push'], shellOptions);
   }
 
   if (codestyle) {
-    spawnSync('npx', ['husky', 'add', '.husky/commit-msg', '"npm run lint:commit"'], {
-      shell: true
-    });
+    spawnSync('npx', ['husky', 'add', '.husky/commit-msg', '"npm run lint:commit"'], shellOptions);
 
-    spawnSync('git', ['add', '.husky/commit-msg'], {
-      shell: true
-    });
+    spawnSync('git', ['add', '.husky/commit-msg'], shellOptions);
   }
 }

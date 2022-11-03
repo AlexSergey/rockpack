@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "The easiest webpack config generator.",
   "main": "index.js",
   "scripts": {
@@ -36,9 +36,9 @@
     "@loadable/webpack-plugin": "5.15.2",
     "@mdx-js/loader": "2.1.5",
     "@nuxt/friendly-errors-webpack-plugin": "2.5.2",
-    "@rockpack/babel": "3.0.0",
-    "@rockpack/codestyle": "3.0.0",
-    "@rockpack/utils": "3.0.0",
+    "@rockpack/babel": "3.0.1",
+    "@rockpack/codestyle": "3.0.1",
+    "@rockpack/utils": "3.0.1",
     "@squoosh/lib": "0.4.0",
     "@statoscope/webpack-plugin": "5.24.0",
     "@svgr/webpack": "6.5.0",

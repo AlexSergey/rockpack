@@ -195,7 +195,7 @@ const install = async ({
     }
 
     if (!state.nogit) {
-      await gitHooks(state);
+      await gitHooks(state, currentPath);
     }
   } catch (e) {
     spinner.stop();
