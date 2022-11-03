@@ -13,6 +13,6 @@
     "core-js": "3.6.4"
   },
   "devDependencies": {
-    "stmux": "1.8.1"
+    "stmux": "1.8.4"
   }
 }

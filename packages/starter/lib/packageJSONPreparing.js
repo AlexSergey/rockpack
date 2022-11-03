@@ -22,7 +22,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
+          { name: '@rockpack/compiler', version: '3.0.0' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/react-helmet', version: '6' },
@@ -60,7 +60,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
         ],
         devDependencies: [
           { name: '@issr/babel-plugin', version: '2.0.0' },
-          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
+          { name: '@rockpack/compiler', version: '3.0.0' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/loadable__component', version: '5' },
@@ -91,7 +91,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
       }
 
       packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0-next.5' }],
+        devDependencies: [{ name: '@rockpack/compiler', version: '3.0.0' }],
       });
 
       packageJSON = addFields(packageJSON, {
@@ -111,9 +111,9 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     case 'nodejs':
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
+          { name: '@rockpack/compiler', version: '3.0.0' },
           { name: '@types/node', version: '16' },
-          { name: '@rockpack/compiler', version: '3.0.0-next.5' },
+          { name: '@rockpack/compiler', version: '3.0.0' },
         ],
       });
       break;
@@ -121,7 +121,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
 
   packageJSON = await addDependencies(packageJSON, {
     devDependencies: [
-      { name: '@rockpack/tsconfig', version: '3.0.0-next.5' },
+      { name: '@rockpack/tsconfig', version: '3.0.0' },
     ],
   });
 
@@ -156,19 +156,23 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
 
   if (codestyle) {
     packageJSON = addScripts(packageJSON, {
-      format: 'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
+      format: appType === 'library' ?
+        'npm run format:package && npm run format:prettier && npm run format:code' :
+        'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
       'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
       'format:package': 'sort-package-json',
       'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
       'format:styles': 'stylelint "src/**/*.scss" --fix',
-      lint: 'npm run lint:ts && npm run lint:code && npm run lint:styles',
+      lint: appType === 'library' ?
+        'npm run lint:ts && npm run lint:code' :
+        'npm run lint:ts && npm run lint:code && npm run lint:styles',
       'lint:code': 'eslint --ext .ts,.tsx,.json src/',
       'lint:commit': 'commitlint -e',
       'lint:ts': 'tsc --noEmit',
       'lint:styles': 'stylelint "src/**/*.scss"',
     });
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0-next.5' }],
+      devDependencies: [{ name: '@rockpack/codestyle', version: '3.0.0' }],
     });
   }
 
@@ -179,7 +183,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
     });
 
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0-next.5' }],
+      devDependencies: [{ name: '@rockpack/tester', version: '3.0.0' }],
     });
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
@@ -201,6 +205,7 @@ const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, n
         { name: 'lint-staged', version: '13' }
       ],
     });
+
     if (codestyle) {
       packageJSON = addScripts(packageJSON, {
         'pre-commit': 'lint-staged'

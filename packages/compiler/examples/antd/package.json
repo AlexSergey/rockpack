@@ -8,7 +8,6 @@
   "dependencies": {
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "core-js": "3.6.4",
-    "antd": "4.1.1"
+    "antd": "4.24.0"
   }
 }

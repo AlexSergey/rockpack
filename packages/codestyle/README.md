@@ -25,6 +25,7 @@
 
 - Stylelint
 - Commitlint
+- Prettier
 
 ## Using
 

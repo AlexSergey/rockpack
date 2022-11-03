@@ -1,6 +1,15 @@
 # Changelog
 
 ## [3.0.0]
+- A lot of fixes and optimizations
+- The new [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/tree/master/packages/codestyle) module with best practices
+   - Prettier added
+   - Stylelint added
+   - Commitlint added
+   - Lintstaged added
+   - Replaced simple-git-hooks to husky
+- Typescript by default
+- All dependencies were updated
 
 ## [2.0.0]
 - A lot of fixes and optimizations

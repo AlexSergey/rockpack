@@ -30,5 +30,5 @@ app.get('/*', async (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log('Example app listening on port 4000!');
+  console.log('Example app listening on port http://localhost:4000!');
 });

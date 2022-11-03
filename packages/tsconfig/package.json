@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tsconfig",
-  "version": "3.0.0-next.5",
+  "version": "3.0.0",
   "description": "TSConfig for Rockpack projects",
   "main": "tsconfig.json",
   "scripts": {
@@ -19,8 +19,7 @@
   "keywords": [
     "react",
     "rockpack",
-    "typescript",
-    "react-testing"
+    "typescript"
   ],
   "private": false
 }
