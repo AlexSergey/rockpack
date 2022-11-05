@@ -10,21 +10,21 @@ export const imageReducer = createReducer<IImageState>(
     loading: false,
     url: '',
   },
-  {
-    [requestImage.type]: () => ({
-      error: false,
-      loading: true,
-      url: '',
-    }),
-    [requestImageSuccess.type]: (state, { payload }) => ({
-      error: false,
-      loading: false,
-      url: payload.url,
-    }),
-    [requestImageError.type]: () => ({
-      error: true,
-      loading: false,
-      url: '',
-    }),
+  (builder) => {
+    builder.addCase(requestImage, (state) => {
+      state.error = false;
+      state.loading = true;
+      state.url = '';
+    });
+    builder.addCase(requestImageSuccess, (state, { payload }) => {
+      state.error = false;
+      state.loading = false;
+      state.url = payload.url;
+    });
+    builder.addCase(requestImageError, (state) => {
+      state.error = true;
+      state.loading = false;
+      state.url = '';
+    });
   },
 );
