@@ -1,6 +1,7 @@
 const { argv } = require('yargs');
 const { join } = require('path');
-const editJsonFile = require('edit-json-file');
+const { writeFileSync } = require('fs');
+const { EOL } = require('os');
 
 if (argv._.length !== 1) {
   throw new Error('Provide version x.x.x to the argument');
@@ -29,20 +30,23 @@ const projects = [
 ];
 
 for (let projectPath of projects) {
-  let file = editJsonFile(join(__dirname, projectPath));
-  const { dependencies, devDependencies } = file.get();
+  const pthPackageJson = join(__dirname, projectPath);
+  const file = require(pthPackageJson);
+  const { dependencies, devDependencies } = file;
   const depKeys = dependencies ? Object.keys(dependencies) : [];
   const devDepKeys = devDependencies ? Object.keys(devDependencies) : [];
-  const depKeysExist = depKeys.filter(dep => dep.indexOf('@rockpack/') === 0);
-  const devDepKeysExist = devDepKeys.filter(dep => dep.indexOf('@rockpack/') === 0);
+  const depKeysExisted = depKeys.filter(dep => dep.indexOf('@rockpack/') === 0);
+  const devDepKeysExisted = devDepKeys.filter(dep => dep.indexOf('@rockpack/') === 0);
 
-  file.set('version', version);
+  file.version = version;
 
-  depKeysExist.forEach(k => {
-    file.set(`dependencies.${k}`, version);
+  depKeysExisted.forEach(k => {
+    file.dependencies[k] = version;
   });
-  devDepKeysExist.forEach(k => {
-    file.set(`devDependencies.${k}`, version);
+
+  devDepKeysExisted.forEach(k => {
+    file.devDependencies[k] = version;
   });
-  file.save();
+
+  writeFileSync(pthPackageJson, JSON.stringify(file, null, 2) + EOL, 'utf-8');
 }
