@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   db_test:
+    platform: linux/x86_64
     image: mysql:5.7
     container_name: db_test
     ports:
