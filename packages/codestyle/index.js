@@ -341,6 +341,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         */
         {
           files: ['**/**/*.json'],
+          extends: ['plugin:json/recommended'],
           rules: {
             '@typescript-eslint/no-unused-expressions': 'off',
             'prettier/prettier': 'off',
