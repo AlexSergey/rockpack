@@ -34,7 +34,7 @@
     "bcrypt": "5.0.0",
     "debug": "4.3.1",
     "dotenv-safe": "8.2.0",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "koa": "2.13.1",
     "koa-bodyparser": "4.3.0",
     "koa-logger": "3.2.1",
