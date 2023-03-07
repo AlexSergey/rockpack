@@ -14327,11 +14327,6 @@ jest-extended@1.2.1:
     jest-get-type "^27.0.6"
     jest-matcher-utils "^27.2.4"
 
-jest-generator@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/jest-generator/-/jest-generator-1.0.7.tgz#3b1a9a89b05349743e7e9f30f52c216230d39891"
-  integrity sha512-NmA4mHyqqqzo5UnEW4Tm5aNKkWPdrS6YSUYY0BBrFGLY7XSXRJ4oyCeW+hlXG5VHUW2m/ZioUv94jlUbJhb7zA==
-
 jest-get-type@^26.3.0:
   version "26.3.0"
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-26.3.0.tgz#e97dc3c3f53c2b406ca7afaed4493b1d099199e0"

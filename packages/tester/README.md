@@ -13,7 +13,6 @@
 ### Add-ons:
 - [jest-extended](https://github.com/jest-community/jest-extended)
 - [expect-more](https://github.com/JamieMason/expect-more/)
-- [jest-generator](https://github.com/doniyor2109/jest-generator)
 - [jest-chain](https://github.com/mattphillips/jest-chain)
 - [@testing-library/jest-dom/extend-expect](https://github.com/testing-library/jest-dom)
 

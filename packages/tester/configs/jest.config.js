@@ -87,7 +87,6 @@ module.exports = {
     require.resolve('@rockpack/utils/polyfills/text-encoder.fix'),
     require.resolve('jest-extended/all'),
     require.resolve('expect-more-jest'),
-    require.resolve('jest-generator'),
     require.resolve('jest-chain'),
     require.resolve('@testing-library/jest-dom/extend-expect'),
   ].concat(setupFilesAfterEnv),
