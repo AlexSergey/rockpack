@@ -20,6 +20,7 @@ const NodemonPlugin = require('nodemon-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
+const VConsoleWebpackPlugin = require('vconsole-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
@@ -363,6 +364,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.WebViewHTMLWrapper = new WebViewHTMLWrapper({
       dist: distPath,
     });
+    if (mode === 'development' && conf.debug) {
+      plugins.VConsoleWebpackPlugin = new VConsoleWebpackPlugin({
+        enable: true,
+      });
+    }
   }
 
   return plugins;
