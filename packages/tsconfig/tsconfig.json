@@ -4,13 +4,14 @@
     "outDir": "./dist/",
     "jsx": "react-jsx",
 
-    // Node.js 16
+    // Node.js 18
     "lib": [
-      "es2021",
+      "es2022",
       "dom"
     ],
-    "module": "commonjs",
-    "target": "ES2021",
+    "module": "es2022",
+    "target": "es2022",
+    "moduleResolution": "node",
     "esModuleInterop": true,
 
     "sourceMap": true,
