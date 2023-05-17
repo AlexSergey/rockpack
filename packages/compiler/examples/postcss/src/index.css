@@ -1,0 +1,7 @@
+@custom-media --middle-viewport (width <= 800px);
+
+@media (--middle-viewport) {
+  h1 {
+    background: red;
+  }
+}

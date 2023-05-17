@@ -84,7 +84,7 @@ Supports the following types of applications:
 - Loading SVG files as React components
 - CSS/SCSS/Less modules
 - Babel or TS; TS support for CSS/SCSS/Less modules
-- PostCSS Autoprefixer
+- PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
 - SEO Optimizations, React optimizations, Antd optimizations
 - Support for settings via Dotenv and Dotenv safe
 - Bundle Analyzer, Statoscope

@@ -16,7 +16,6 @@ frontendCompiler({
       {
         loader: 'elm-webpack-loader',
         options: {
-          forceWatch: true
         }
       }
     ] : [

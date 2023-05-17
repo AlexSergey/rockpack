@@ -35,7 +35,7 @@
 - Stylelint support
 - Templates: HTML/Jade/Handlebars
 - CSS: CSS/SASS (dart-sass)/LESS + Postcss
-- Postcss, Autoprefixer
+- PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
 - CSS Modules support
 - Imagemin
 - Formats support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc

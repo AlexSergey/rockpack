@@ -21,9 +21,9 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const VConsoleWebpackPlugin = require('vconsole-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const { argv } = require('yargs');
 
