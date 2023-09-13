@@ -1,6 +1,5 @@
 import Localization, { l } from '@localazer/component';
 import { Button } from 'antd';
-import React from 'react';
 
 import { useUserApi } from '../../../../features/user';
 

@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { ICommentsState } from '../../types/comments';
+import { IActionWithPayload } from '../../types/actions';
+import { IComment, ICommentsState } from '../../types/comments';
 
 import {
   requestComments,
@@ -16,33 +17,30 @@ export const commentsReducer = createReducer<ICommentsState>(
     error: false,
     loading: false,
   },
-  {
-    [requestComments.type]: (state) => {
-      state.data = [];
-      state.error = false;
-      state.loading = true;
-    },
-
-    [requestCommentsSuccess.type]: (state, { payload }) => {
-      state.data = payload;
-      state.error = false;
-      state.loading = false;
-    },
-
-    [requestCommentsError.type]: (state) => {
-      state.data = [];
-      state.error = true;
-      state.loading = false;
-    },
-
-    [commentCreated.type]: (state, { payload }) => {
-      state.data.push(payload);
-    },
-
-    [commentDeleted.type]: (state, { payload: { id } }) => {
-      state.data = state.data.filter((s) => s.id !== id);
-      state.error = false;
-      state.loading = false;
-    },
+  (builder) => {
+    builder
+      .addCase(requestComments.type, (state) => {
+        state.data = [];
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(requestCommentsSuccess.type, (state, { payload }: IActionWithPayload<IComment[]>) => {
+        state.data = payload;
+        state.error = false;
+        state.loading = false;
+      })
+      .addCase(requestCommentsError.type, (state) => {
+        state.data = [];
+        state.error = true;
+        state.loading = false;
+      })
+      .addCase(commentCreated.type, (state, { payload }: IActionWithPayload<IComment>) => {
+        state.data.push(payload);
+      })
+      .addCase(commentDeleted.type, (state, { payload: { id } }: IActionWithPayload<{ id: number }>) => {
+        state.data = state.data.filter((s) => s.id !== id);
+        state.error = false;
+        state.loading = false;
+      });
   },
 );

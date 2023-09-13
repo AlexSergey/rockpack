@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { IActionWithPayload } from '../../types/actions';
 import { IUser, Roles } from '../../types/user';
 import { increaseComment, decreaseComment, increasePost, decreasePost } from '../common/actions';
 
@@ -14,32 +15,28 @@ export const userReducer = createReducer<IUser>(
     email: null,
     id: null,
   },
-  {
-    [setUser.type]: (state, { payload }) => ({ ...payload }),
-
-    [clearUserState.type]: () => ({
-      Role: {
-        role: Roles.unauthorized,
-      },
-      Statistic: null,
-      email: null,
-      id: null,
-    }),
-
-    [increaseComment.type]: (state) => {
-      state.Statistic.comments += 1;
-    },
-
-    [decreaseComment.type]: (state) => {
-      state.Statistic.comments -= 1;
-    },
-
-    [increasePost.type]: (state) => {
-      state.Statistic.posts += 1;
-    },
-
-    [decreasePost.type]: (state) => {
-      state.Statistic.posts -= 1;
-    },
+  (builder) => {
+    builder
+      .addCase(setUser.type, (state, { payload }: IActionWithPayload<IUser>) => ({ ...payload }))
+      .addCase(clearUserState.type, () => ({
+        Role: {
+          role: Roles.unauthorized,
+        },
+        Statistic: null,
+        email: null,
+        id: null,
+      }))
+      .addCase(increaseComment.type, (state) => {
+        state.Statistic.comments += 1;
+      })
+      .addCase(decreaseComment.type, (state) => {
+        state.Statistic.comments -= 1;
+      })
+      .addCase(increasePost.type, (state) => {
+        state.Statistic.posts += 1;
+      })
+      .addCase(decreasePost.type, (state) => {
+        state.Statistic.posts -= 1;
+      });
   },
 );

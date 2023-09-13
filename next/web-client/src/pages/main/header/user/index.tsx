@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import React from 'react';
+import { Popover } from 'antd';
 
 import { useRole, useUser } from '../../../../features/user';
 
@@ -12,8 +12,9 @@ export const User = (): JSX.Element => {
   return (
     <div className={styles.user}>
       <div className={styles.holder}>
-        <UserOutlined />
-        <span className={styles.email}>{email}</span>
+        <Popover placement="top" content={email} trigger="hover">
+          <UserOutlined />
+        </Popover>
       </div>
       <span className={styles.role}>{role}</span>
     </div>

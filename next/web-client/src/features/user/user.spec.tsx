@@ -1,6 +1,5 @@
-import { render, act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
-import React, { createElement, useEffect } from 'react';
+import { render, act, renderHook } from '@testing-library/react';
+import { useEffect } from 'react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { sleep } from '../../tests/helpers';
@@ -23,11 +22,9 @@ test('signup', async () => {
   };
 
   render(
-    createElement(() => (
-      <AppWrapper>
-        <Inner />
-      </AppWrapper>
-    )),
+    <AppWrapper>
+      <Inner />
+    </AppWrapper>,
   );
 
   await act(sleep(100));

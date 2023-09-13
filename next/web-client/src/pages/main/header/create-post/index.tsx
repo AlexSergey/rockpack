@@ -2,7 +2,7 @@ import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
 import { Button, Modal, Input, Form } from 'antd';
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import { PhotosUpload } from '../../../../components/photos-upload';
 import { PreviewUpload } from '../../../../components/preview-upload';
@@ -57,7 +57,7 @@ export const CreatePost = (): JSX.Element => {
       <Modal
         title={l('Create')()}
         footer={null}
-        visible={postCreate}
+        open={postCreate}
         onCancel={(): void => {
           cleanState();
           postCreateModal(false);

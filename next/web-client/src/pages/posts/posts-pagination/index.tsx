@@ -1,5 +1,4 @@
 import { Pagination } from 'antd';
-import React from 'react';
 
 import { config } from '../../../config';
 import { usePagination, usePaginationApi } from '../../../features/posts';

@@ -1,5 +1,5 @@
 import { isBackend } from '@issr/core';
-import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
 import { commentsReducer as comments } from './features/comments';
@@ -12,29 +12,28 @@ import { IStoreProps, IRootState } from './types/store';
 import { isDevelopment } from './utils/environments';
 
 export const createStore = ({ initialState, logger, history, services, testMode }: IStoreProps): Store<IRootState> => {
-  const reduxLogger = createLogger({
-    collapsed: true,
-  });
-
-  const middleware = getDefaultMiddleware({
-    immutableCheck: true,
-    serializableCheck: false,
-    thunk: {
-      extraArgument: {
-        history,
-        logger,
-        services,
-      },
-    },
-  });
-
-  if (isDevelopment() && !isBackend() && !testMode) {
-    middleware.push(reduxLogger);
-  }
-
   return configureStore({
     devTools: isDevelopment(),
-    middleware,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        immutableCheck: true,
+        serializableCheck: false,
+        thunk: {
+          extraArgument: {
+            history,
+            logger,
+            services,
+          },
+        },
+      }).concat(
+        isDevelopment() && !isBackend() && !testMode
+          ? [
+              createLogger({
+                collapsed: true,
+              }),
+            ]
+          : [],
+      ),
     preloadedState: initialState || {},
     reducer: {
       comments,

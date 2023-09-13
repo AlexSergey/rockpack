@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import './assets/styles/global.scss';
 import loadable from '@loadable/component';
 import logger, { LoggerContainer } from 'logrock';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { config } from './config';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useUser } from '../hooks';
 
 interface IOwner {

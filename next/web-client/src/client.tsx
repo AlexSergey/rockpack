@@ -4,8 +4,8 @@ import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';
 import logger from 'logrock';
-import React from 'react';
-import { hydrate } from 'react-dom';
+import { hydrateRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 
 import { App } from './app';
@@ -39,16 +39,18 @@ const store = createStore({
 });
 
 loadableReady(() => {
-  hydrate(
+  hydrateRoot(
+    document.getElementById('root'),
     <SSR>
       <Provider store={store}>
-        <Router history={history}>
-          <LocalizationContainer>
-            <App />
-          </LocalizationContainer>
-        </Router>
+        <HelmetProvider>
+          <Router history={history}>
+            <LocalizationContainer>
+              <App />
+            </LocalizationContainer>
+          </Router>
+        </HelmetProvider>
       </Provider>
     </SSR>,
-    document.getElementById('root'),
   );
 });

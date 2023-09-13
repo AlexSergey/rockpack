@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
 import { Form, Input, Button } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { usePostApi } from '../../../features/post';
 

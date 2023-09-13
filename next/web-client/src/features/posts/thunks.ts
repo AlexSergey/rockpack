@@ -1,4 +1,6 @@
-import { ThunkResult } from '../../types/thunk';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { IRootState, IThunkExtras } from '../../types/store';
 import { increasePost, decreasePost, decreaseComment } from '../common/actions';
 
 import {
@@ -9,11 +11,13 @@ import {
   paginationSetCount,
   paginationSetCurrent,
 } from './actions';
-import { PostsRes, DeletePostRes } from './service';
+import { PostsRes } from './service';
+import { IDeletePostPayload, IPostsPayload } from './types';
 
-export const fetchPosts =
-  (page: number): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+  'posts/fetch',
+  async (page, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       dispatch(requestPosts());
       const {
@@ -25,23 +29,28 @@ export const fetchPosts =
       logger.error(error, false);
       dispatch(requestPostsError());
     }
-  };
+  },
+);
 
-export const setPage =
-  (page: number): ThunkResult =>
-  async (dispatch, getState, { logger, history }) => {
-    const { currentLanguage } = getState().localization;
+export const setPage = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+  'posts/setPage',
+  async (page, { dispatch, extra, getState }): Promise<void> => {
+    const { history, logger } = extra;
+    const state = getState() as IRootState;
+    const { currentLanguage } = state.localization;
     try {
       dispatch(paginationSetCurrent(page));
       history.push(`/${currentLanguage}/?page=${page}`);
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const createPost =
-  ({ postData, page }: { postData: FormData; page: number }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkExtras }>(
+  'posts/createPost',
+  async ({ postData, page }, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       await services.posts.createPost(postData);
 
@@ -55,16 +64,20 @@ export const createPost =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const deletePost =
-  ({ id, owner }: { id: number; owner: boolean }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IThunkExtras }>(
+  'posts/deletePost',
+  async ({ id, owner }, { dispatch, extra }): Promise<void> => {
+    const { logger } = extra;
     try {
       const ownerState = Boolean(owner);
-      const {
+      const deleteComments = [];
+      // TODO: uncomment
+      /* const {
         data: { deleteComments },
-      }: DeletePostRes = await services.posts.deletePost(id);
+      }: DeletePostRes = await services.posts.deletePost(id); */
 
       if (Array.isArray(deleteComments) && deleteComments.length > 0) {
         for (let i = 0, l = deleteComments.length; i < l; i++) {
@@ -81,4 +94,5 @@ export const deletePost =
       logger.error(error, false);
       dispatch(requestPostsError());
     }
-  };
+  },
+);

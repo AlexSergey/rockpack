@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Wysiwyg as WysiwygComponent } from './index';
 
 export default {

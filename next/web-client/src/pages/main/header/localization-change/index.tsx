@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import React, { createElement } from 'react';
+import { createElement } from 'react';
 
 import { config } from '../../../../config';
 import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/localization';

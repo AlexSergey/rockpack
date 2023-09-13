@@ -55,8 +55,6 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
 }
 
 module.exports = {
-  collectCoverage: true,
-  coverageReporters: ['json', 'html'],
   displayName: `${name}`,
   globalSetup,
   globalTeardown,
@@ -70,18 +68,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy.js`,
   },
-  reporters: [
-    'default',
-    [
-      require.resolve('jest-html-reporters'),
-      {
-        expand: true,
-        filename: 'jest_reporter.html',
-        pageTitle: 'Tests Report',
-        publicPath: './test-reports',
-      },
-    ],
-  ],
   setupFiles,
   setupFilesAfterEnv: [
     require.resolve('@rockpack/utils/polyfills/text-encoder.fix'),

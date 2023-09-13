@@ -2,12 +2,13 @@ import { useSsrEffect, useRegisterEffect } from '@issr/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ICommentsState, IComment } from '../../types/comments';
+import { ThunkResult } from '../../types/thunk';
 import { IUser } from '../../types/user';
 
 import { fetchComments, createComment, deleteComment } from './thunks';
 
 export const useComments = (postId: number): [boolean, boolean, IComment[]] => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
   const { data, error, loading } = useSelector<{ comments: ICommentsState }, ICommentsState>((state) => state.comments);
   const registerEffect = useRegisterEffect();
 
@@ -22,7 +23,7 @@ export const useCommentsApi = (): {
   createComment: (props: { postId: number; text: string; user: IUser }) => void;
   deleteComment: (id: number, owner?: boolean) => void;
 } => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
 
   return {
     createComment: ({ postId, text, user }): void => {

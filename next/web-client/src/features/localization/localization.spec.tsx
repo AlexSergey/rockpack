@@ -1,6 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { render, waitFor } from '@testing-library/react';
-import React, { useEffect, createElement } from 'react';
+import { useEffect } from 'react';
 
 import ru from '../../locales/ru.json';
 import { createAppWrapper } from '../../tests/create-app-wrapper';
@@ -33,11 +33,9 @@ test('Check localization', async () => {
   };
 
   const { getByText } = render(
-    createElement(() => (
-      <AppWrapper>
-        <Inner />
-      </AppWrapper>
-    )),
+    <AppWrapper>
+      <Inner />
+    </AppWrapper>,
   );
 
   await waitFor(() => {

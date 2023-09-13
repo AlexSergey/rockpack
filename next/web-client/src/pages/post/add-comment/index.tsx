@@ -1,6 +1,5 @@
 import Localization, { l } from '@localazer/component';
 import { Button, Form, Input } from 'antd';
-import React from 'react';
 
 import { useCommentsApi } from '../../../features/comments';
 import { useUser } from '../../../features/user';

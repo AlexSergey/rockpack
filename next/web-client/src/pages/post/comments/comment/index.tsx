@@ -1,7 +1,6 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { l, sprintf } from '@localazer/component';
 import { Button, Tooltip } from 'antd';
-import React from 'react';
 
 import { useCommentsApi } from '../../../../features/comments';
 import { Access, Owner, useUser } from '../../../../features/user';

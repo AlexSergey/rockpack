@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Upload, Modal, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
@@ -56,7 +56,7 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
       >
         {uploadList.length >= config.maxPhotos ? null : uploadButton}
       </Upload>
-      <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
+      <Modal open={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </div>

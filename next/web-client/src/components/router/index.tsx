@@ -1,5 +1,5 @@
 import { History } from 'history';
-import React, { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Router as BaseRouter } from 'react-router-dom';
 
 interface ICustomRouter {

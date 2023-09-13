@@ -1,5 +1,4 @@
 import Localization, { nl, sprintf } from '@localazer/component';
-import React from 'react';
 
 import { Error } from '../../../components/error';
 import { Loader } from '../../../components/loader';

@@ -1,8 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
 import Localization, { l } from '@localazer/component';
 import { Button } from 'antd';
-import React from 'react';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 import { Error } from '../../components/error';
@@ -24,10 +23,10 @@ const Posts = (): JSX.Element => {
 
   return (
     <>
-      <MetaTags>
+      <Helmet>
         <title>{l('Posts')()}</title>
         <meta name="description" content={l('Posts page. Here you find the most popular posts on the Internet')()} />
-      </MetaTags>
+      </Helmet>
       <div className={styles.posts}>
         {loading && <Loader />}
         {error && <Error />}
@@ -61,7 +60,7 @@ const Posts = (): JSX.Element => {
                 <img src={`http://localhost:9999/${post.Preview.thumbnail}`} alt="" />
               </div>
             )}
-            <Link to={`${currentLanguage}/posts/${post.id}`} className={styles.title}>
+            <Link to={`/${currentLanguage}/posts/${post.id}`} className={styles.title}>
               <h2>{post.title}</h2>
             </Link>
             <div className={styles.extra}>

@@ -1,8 +1,7 @@
 import { UserDeleteOutlined } from '@ant-design/icons';
 import Localization, { l } from '@localazer/component';
 import { Button } from 'antd';
-import React from 'react';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet-async';
 
 import { Access, NotOwner } from '../../features/user';
 import { useUsers, useUsersApi } from '../../features/users';
@@ -17,10 +16,10 @@ const Users = (): JSX.Element => {
 
   return (
     <>
-      <MetaTags>
+      <Helmet>
         <title>{l('Users')()}</title>
         <meta name="description" content={l('Users list')()} />
-      </MetaTags>
+      </Helmet>
       <div className={styles.users}>
         {hasUsers && (
           <h1>

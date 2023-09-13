@@ -1,10 +1,13 @@
-import { ThunkResult } from '../../types/thunk';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { IThunkExtras } from '../../types/store';
 
 import { setUsers, userDeleted } from './actions';
 
-export const fetchUsers =
-  (): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const fetchUsers = createAsyncThunk<void, void, { extra: IThunkExtras }>(
+  'users/fetch',
+  async (_, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       const {
         data: { users },
@@ -18,11 +21,13 @@ export const fetchUsers =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const deleteUser =
-  (userId: number): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const deleteUser = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+  'users/delete',
+  async (userId: number, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       await services.users.deleteUser(userId);
 
@@ -30,4 +35,5 @@ export const deleteUser =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);

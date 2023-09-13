@@ -1,10 +1,14 @@
-import { ThunkResult } from '../../types/thunk';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { IThunkExtras } from '../../types/store';
 
 import { setUser, clearUserState } from './actions';
+import { IUserPayload } from './types';
 
-export const signIn =
-  ({ email, password }: { email: string; password: string }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const signIn = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras }>(
+  'user/signIn',
+  async ({ email, password }, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       const { data } = await services.user.signIn({ email, password });
 
@@ -12,11 +16,13 @@ export const signIn =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const authorization =
-  (): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const authorization = createAsyncThunk<void, void, { extra: IThunkExtras }>(
+  'user/authorization',
+  async (_, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       const { data } = await services.user.authorization();
       if (typeof data === 'object') {
@@ -25,11 +31,13 @@ export const authorization =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const signUp =
-  ({ email, password }: { email: string; password: string }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const signUp = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras }>(
+  'user/signUp',
+  async ({ email, password }, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       const { data } = await services.user.signUp({ email, password });
 
@@ -37,11 +45,13 @@ export const signUp =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);
 
-export const signOut =
-  (): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const signOut = createAsyncThunk<void, void, { extra: IThunkExtras }>(
+  'user/signOut',
+  async (_, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       await services.user.signOut();
 
@@ -49,4 +59,5 @@ export const signOut =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);

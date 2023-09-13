@@ -40,7 +40,7 @@ declare module '*.svg' {
 declare module '*.component.svg' {
   import * as React from 'react';
 
-  const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>;
+  const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   export default ReactComponent;
 }
 

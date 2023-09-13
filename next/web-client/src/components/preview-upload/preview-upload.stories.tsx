@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PreviewUpload as PreviewUploadComponent } from './index';
 
 export default {

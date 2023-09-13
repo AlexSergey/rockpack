@@ -1,7 +1,7 @@
 import Localization, { l, sprintf } from '@localazer/component';
 import { Button, Modal } from 'antd';
-import React, { useState } from 'react';
-import MetaTags from 'react-meta-tags';
+import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
 import { Error } from '../../components/error';
@@ -28,10 +28,10 @@ const PostDetails = (): JSX.Element => {
 
   return (
     <>
-      <MetaTags>
+      <Helmet>
         <title>{data && data.title}</title>
         <meta name="description" content={data && data.title} />
-      </MetaTags>
+      </Helmet>
       {loading && <Loader />}
       {error && <Error />}
       {data && (
@@ -65,7 +65,7 @@ const PostDetails = (): JSX.Element => {
 
           <Modal
             title={sprintf(l('Update post %s', 'Post')(), data.title)()}
-            visible={updateMode}
+            open={updateMode}
             onCancel={(): void => setUpdateMode(false)}
             footer={null}
           >

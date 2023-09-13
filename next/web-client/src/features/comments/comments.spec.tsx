@@ -1,16 +1,17 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
+import { sleep } from '../../tests/helpers';
 
 import { useComments } from './hooks';
 
 test('Comments test useComments()', async () => {
-  const { result, waitForNextUpdate } = renderHook(() => useComments(13), {
+  const { result } = renderHook(() => useComments(13), {
     wrapper: createAppWrapper(),
   });
 
   try {
-    await waitForNextUpdate();
+    await waitFor(() => sleep(100));
   } catch (err) {
     expect(err.timeout).toBeTruthy();
   }

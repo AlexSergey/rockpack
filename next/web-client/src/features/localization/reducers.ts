@@ -1,9 +1,11 @@
 import { getDefaultLocale } from '@localazer/component';
 import { createReducer } from '@reduxjs/toolkit';
 
+import { IActionWithPayload } from '../../types/actions';
 import { ILocalization } from '../../types/localization';
 
 import { setLocale } from './actions';
+import { ILocalizationPayload } from './types';
 import { getDefaultLanguage } from './utils';
 
 export const localizationReducer = createReducer<ILocalization>(
@@ -13,10 +15,13 @@ export const localizationReducer = createReducer<ILocalization>(
       [getDefaultLanguage()]: getDefaultLocale(),
     },
   },
-  {
-    [setLocale.type]: (state, { payload: { locale, language } }) => {
-      state.languages[language] = locale;
-      state.currentLanguage = language;
-    },
+  (builder) => {
+    builder.addCase(
+      setLocale.type,
+      (state, { payload: { locale, language } }: IActionWithPayload<ILocalizationPayload>) => {
+        state.languages[language] = locale;
+        state.currentLanguage = language;
+      },
+    );
   },
 );

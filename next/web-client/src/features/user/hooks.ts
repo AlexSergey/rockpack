@@ -2,16 +2,18 @@ import { useSsrEffect, useRegisterEffect } from '@issr/core';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { IRootState } from '../../types/store';
+import { ThunkResult } from '../../types/thunk';
 import { IUser, UserStatistic, Roles } from '../../types/user';
 
 import { signIn, signOut, signUp, authorization } from './thunks';
+import { IUserPayload } from './types';
 
 export const useUser = (): IUser => useSelector<IRootState, IUser>((state) => state.user);
 
 export const useRole = (): Roles => useSelector<IRootState, Roles>((state) => state.user.Role.role);
 
 export const useAuthorization = (): void => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
   const registerEffect = useRegisterEffect();
 
   useSsrEffect(() => {
@@ -29,11 +31,11 @@ export const useUserStatistic = (): UserStatistic => {
 };
 
 export const useUserApi = (): {
-  signin: (props: { email: string; password: string }) => void;
-  signup: (props: { email: string; password: string }) => void;
+  signin: (props: IUserPayload) => void;
+  signup: (props: IUserPayload) => void;
   signout: () => void;
 } => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
 
   return {
     signin: (user): void => {

@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Masonry from 'react-masonry-css';
 
 import { config } from '../../../config';
@@ -23,7 +23,7 @@ export const Images = ({ images }: { images: { uri: string; thumbnail: string }[
       </Masonry>
       <Modal
         className={styles.full}
-        visible={typeof full === 'string'}
+        open={typeof full === 'string'}
         onCancel={(): void => setFull(false)}
         footer={null}
         title={null}

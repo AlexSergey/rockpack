@@ -1,4 +1,4 @@
-import React, { isValidElement } from 'react';
+import { isValidElement } from 'react';
 
 import { Roles } from '../../../types/user';
 import { useRole } from '../hooks';

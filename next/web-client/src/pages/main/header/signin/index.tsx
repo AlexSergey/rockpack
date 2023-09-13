@@ -1,6 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { Modal, Button, Form, Input } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useUserApi } from '../../../../features/user';
 
@@ -19,7 +19,7 @@ export const Signin = (): JSX.Element => {
         <Localization>{l('Sign In')}</Localization>
       </Button>
 
-      <Modal title={l('Sign In')()} visible={signinState} onCancel={(): void => signinModal(false)} footer={null}>
+      <Modal title={l('Sign In')()} open={signinState} onCancel={(): void => signinModal(false)} footer={null}>
         <Form
           name="signin"
           onFinish={(store: Store): void => {

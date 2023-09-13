@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PhotosUpload as PhotosUploadComponent } from './index';
 
 export default {

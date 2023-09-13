@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { IPostsState, IPost } from '../../types/posts';
-import { Dispatcher } from '../../types/store';
+import { ThunkResult } from '../../types/thunk';
 
 import { fetchPosts, setPage, createPost, deletePost } from './thunks';
 
@@ -21,11 +21,10 @@ export const usePagination = (): { current: number; count: number } => {
 
 export const usePosts = (): [boolean, boolean, IPost[]] => {
   const init = useRef(true);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
   const { current } = usePagination();
   const { data, error, loading } = useSelector<{ posts: IPostsState }, IPostsState>((state) => state.posts);
   const registerEffect = useRegisterEffect();
-
   useSsrEffect(() => {
     registerEffect(dispatch, fetchPosts(current));
   }, [current]);
@@ -44,7 +43,7 @@ export const usePosts = (): [boolean, boolean, IPost[]] => {
 export const usePaginationApi = (): {
   setCurrent: (page: number) => void;
 } => {
-  const dispatch = useDispatch<Dispatcher>();
+  const dispatch = useDispatch<ThunkResult>();
 
   return {
     setCurrent: (page): void => {
@@ -57,7 +56,7 @@ export const usePostsApi = (): {
   createPost: (data: { postData: FormData; page: number }) => void;
   deletePost: (id: number, owner?: boolean) => void;
 } => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkResult>();
 
   return {
     createPost: (data): void => {

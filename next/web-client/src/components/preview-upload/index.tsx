@@ -1,7 +1,7 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { Upload, Button, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { config } from '../../config';
 import { getBase64 } from '../../utils/file';

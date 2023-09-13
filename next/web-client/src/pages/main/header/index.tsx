@@ -1,6 +1,5 @@
 import Localization, { l } from '@localazer/component';
 import { Layout, Menu, Dropdown, Button } from 'antd';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useCurrentLanguage } from '../../../features/localization';

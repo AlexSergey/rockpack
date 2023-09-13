@@ -1,7 +1,7 @@
 import { createSsr } from '@issr/core';
 import { createMemoryHistory } from 'history';
 import logger from 'logrock';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
 import { Router } from '../components/router';

@@ -12,9 +12,7 @@ import noCache from 'koa-no-cache';
 import serve from 'koa-static';
 import logger from 'logrock';
 import PrettyError from 'pretty-error';
-import React from 'react';
-import { MetaTagsContext } from 'react-meta-tags';
-import MetaTagsServer from 'react-meta-tags/server';
+import { HelmetProvider, FilledContext } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
@@ -69,7 +67,7 @@ router.get('(.*)', async (ctx) => {
     services: createServices(rest),
   });
 
-  const metaTagsInstance = MetaTagsServer();
+  const helmetContext = {} as FilledContext;
 
   const extractor = new ChunkExtractor({
     entrypoints: ['index'],
@@ -79,23 +77,23 @@ router.get('(.*)', async (ctx) => {
   const { html } = await serverRender.string(() =>
     extractor.collectChunks(
       <Provider store={store}>
-        <MetaTagsContext extract={metaTagsInstance.extract}>
+        <HelmetProvider context={helmetContext}>
           <StaticRouter location={ctx.request.url}>
             <LocalizationContainer>
               <App />
             </LocalizationContainer>
           </StaticRouter>
-        </MetaTagsContext>
+        </HelmetProvider>
       </Provider>,
     ),
   );
 
-  const meta = metaTagsInstance.renderToString();
   const scriptTags = extractor.getScriptTags();
   const linkTags = extractor.getLinkTags();
   const styleTags = extractor.getStyleTags();
 
   const reduxState = store.getState();
+  const { helmet } = helmetContext;
 
   ctx.type = 'html';
   /* eslint-disable */
@@ -108,7 +106,8 @@ router.get('(.*)', async (ctx) => {
     <meta name="viewport" content="width=device-width">
     <link rel="alternate" hreflang="ru-Ru" href=${process.env.URL}/ru/ />
     <link rel="alternate" hreflang="en-En" href=${process.env.URL}/en/ />
-    ${meta}
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
     ${googleFontsInstall()}
     ${linkTags}
     ${styleTags}
@@ -128,7 +127,6 @@ router.get('(.*)', async (ctx) => {
 });
 
 app.use(router.routes()).use(router.allowedMethods());
-
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is listening on http://localhost:${process.env.PORT} port`);

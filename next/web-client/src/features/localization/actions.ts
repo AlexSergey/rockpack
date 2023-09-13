@@ -1,6 +1,5 @@
-import { LocaleData } from '@localazer/component';
 import { createAction } from '@reduxjs/toolkit';
 
-import { Languages } from '../../types/localization';
+import { ILocalizationPayload } from './types';
 
-export const setLocale = createAction<{ locale: LocaleData; language: Languages }>('Set locale');
+export const setLocale = createAction<ILocalizationPayload>('Set locale');

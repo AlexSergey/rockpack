@@ -1,5 +1,4 @@
 import Localization, { l } from '@localazer/component';
-import React from 'react';
 
 import { useUserStatistic } from '../../../../features/user';
 

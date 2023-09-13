@@ -90,10 +90,10 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
       ];
 
-  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'check-file', 'jest-formatting'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
+  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'react-hooks', 'check-file', 'jest-formatting'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'check-file', 'jest-formatting']
+    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'react-hooks', 'check-file', 'jest-formatting']
     : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
 
   const reactRules = {
@@ -104,6 +104,8 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
   };
 
   if (hasReact && reactNewSyntax) {

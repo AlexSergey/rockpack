@@ -1,5 +1,7 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { IComment } from '../../types/comments';
-import { ThunkResult } from '../../types/thunk';
+import { IThunkExtras } from '../../types/store';
 import { IUser } from '../../types/user';
 import { increaseComment, decreaseComment } from '../common/actions';
 
@@ -12,9 +14,10 @@ import {
 } from './actions';
 import { CommentsRes, CommentRes } from './service';
 
-export const fetchComments =
-  (postId: number): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const fetchComments = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+  'comments/fetch',
+  async (postId, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       dispatch(requestComments());
       const { data }: CommentsRes = await services.comments.fetchComments(postId);
@@ -23,39 +26,44 @@ export const fetchComments =
       logger.error(error, false);
       dispatch(requestCommentsError());
     }
-  };
+  },
+);
 
-export const createComment =
-  ({ text, user, postId }: { text: string; user: IUser; postId: number }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
-    try {
-      dispatch(requestComments());
-      const { data }: CommentRes = await services.comments.createComment(postId, text);
+export const createComment = createAsyncThunk<
+  void,
+  { text: string; user: IUser; postId: number },
+  { extra: IThunkExtras }
+>('comments/create', async ({ text, user, postId }, { dispatch, extra }): Promise<void> => {
+  const { services, logger } = extra;
+  try {
+    dispatch(requestComments());
+    const { data }: CommentRes = await services.comments.createComment(postId, text);
 
-      const comment: IComment = {
-        User: {
-          Role: {
-            role: user.Role.role,
-          },
-          Statistic: { ...user.Statistic },
-          email: user.email,
-          id: user.id,
+    const comment: IComment = {
+      User: {
+        Role: {
+          role: user.Role.role,
         },
-        createdAt: new Date().toString(),
-        id: data.id,
-        text,
-      };
+        Statistic: { ...user.Statistic },
+        email: user.email,
+        id: user.id,
+      },
+      createdAt: new Date().toString(),
+      id: data.id,
+      text,
+    };
 
-      dispatch(increaseComment());
-      dispatch(commentCreated(comment));
-    } catch (error) {
-      logger.error(error, false);
-    }
-  };
+    dispatch(increaseComment());
+    dispatch(commentCreated(comment));
+  } catch (error) {
+    logger.error(error, false);
+  }
+});
 
-export const deleteComment =
-  ({ id, owner }: { id: number; owner?: boolean }): ThunkResult =>
-  async (dispatch, getState, { services, logger }) => {
+export const deleteComment = createAsyncThunk<void, { id: number; owner?: boolean }, { extra: IThunkExtras }>(
+  'comments/delete',
+  async ({ id, owner }, { dispatch, extra }): Promise<void> => {
+    const { services, logger } = extra;
     try {
       const ownerState = Boolean(owner);
       await services.comments.deleteComment(id);
@@ -68,4 +76,5 @@ export const deleteComment =
     } catch (error) {
       logger.error(error, false);
     }
-  };
+  },
+);

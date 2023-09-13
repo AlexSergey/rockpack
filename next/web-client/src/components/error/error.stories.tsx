@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Error as ErrorComponent } from './index';
 
 export default {
