@@ -116,6 +116,7 @@
     "svgo-loader": "4.0.0",
     "tempy": "1.0.1",
     "terser-webpack-plugin": "5.3.8",
+    "tslib": "2.6.2",
     "typescript": "5.2.2",
     "valid-types": "2.0.5",
     "vconsole-webpack-plugin": "1.7.3",
