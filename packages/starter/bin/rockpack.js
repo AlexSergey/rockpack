@@ -1,21 +1,21 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const { getCurrentPath } = require('../utils/pathes');
-const { here } = require('../constants/paths');
-const { defaultApp } = require('../constants/names');
-const install = require('../lib/install');
-const packageJSON = require('../package.json');
-const latestVersion = require('latest-version');
-const { argv } = require('yargs');
-const semverParse = require('semver/functions/parse');
+import fs from 'node:fs';
+import path from 'node:path';
+import chalk from 'chalk';
+import { getCurrentPath } from '../utils/pathes.js';
+import { here } from '../constants/paths.js';
+import { defaultApp } from '../constants/names.js';
+import { install } from '../lib/install.js';
+import latestVersion from 'latest-version';
+import semverParse from 'semver/functions/parse.js';
+import { argv } from '../utils/argv.js';
+import { packageJson } from '../utils/package-json.js';
 
-(async () => {
+export const rockpack = async () => {
   const { _, h, help, v, version } = argv;
   const noName = _.length === 0;
 
   if (v || version) {
-    console.log(`Rockpack v${chalk.green(packageJSON.version)}`);
+    console.log(`Rockpack v${chalk.green(packageJson.version)}`);
     process.exit();
   }
 
@@ -43,11 +43,11 @@ const semverParse = require('semver/functions/parse');
     process.exit(1);
   }
 
-  const rockpackLatestVersion = await latestVersion(packageJSON.name);
+  const rockpackLatestVersion = await latestVersion(packageJson.name);
 
   if (
     semverParse(rockpackLatestVersion).prerelease.length === 0 &&
-    packageJSON.version !== rockpackLatestVersion
+    rockpackLatestVersion > packageJson.version
   ) {
     console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
     console.log();
@@ -89,4 +89,4 @@ const semverParse = require('semver/functions/parse');
     projectName,
     currentPath
   });
-})();
+};

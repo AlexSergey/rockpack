@@ -1,10 +1,12 @@
-const path = require('path');
-const { getRootRequireDir } = require('@rockpack/utils');
-const { here } = require('../constants/paths');
+import path from 'node:path';
+import { here } from '../constants/paths.js';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const currentPath = process.cwd();
 
-const getCurrentPath = projectName => (
+export const getCurrentPath = projectName => (
   projectName === here ? currentPath : path.join(currentPath, projectName)
 );
 
@@ -15,21 +17,13 @@ const folderNames = {
   dummies: 'dummies'
 }
 
-const bin = getRootRequireDir();
-
-const root = path.resolve(bin, '..');
+export const root = path.resolve(__dirname, '..');
 
 const _template = path.resolve(root, folderNames.templates);
 
-const backbone = path.resolve(_template, folderNames.backbone);
+export const backbone = path.resolve(_template, folderNames.backbone);
 
-const addons = path.resolve(_template, folderNames.addons);
+export const addons = path.resolve(_template, folderNames.addons);
 
-const dummies = path.resolve(_template, folderNames.dummies);
+export const dummies = path.resolve(_template, folderNames.dummies);
 
-module.exports = {
-  addons,
-  backbone,
-  getCurrentPath,
-  dummies
-}

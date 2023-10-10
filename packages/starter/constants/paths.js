@@ -1,3 +1,1 @@
-module.exports = {
-  here: '.'
-}
+export const here = '.';

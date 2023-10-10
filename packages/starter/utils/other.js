@@ -1,7 +1,7 @@
-const { argv } = require('yargs');
-const child_process = require('child_process');
+import child_process from 'node:child_process';
+import { argv } from '../utils/argv.js';
 
-const yarnIsAvailable = () => {
+export const yarnIsAvailable = () => {
   if (!argv.yarn) {
     return false;
   }
@@ -13,7 +13,7 @@ const yarnIsAvailable = () => {
   }
 }
 
-const getPMVersion = () => {
+export const getPMVersion = () => {
   if (yarnIsAvailable()) {
     return child_process.execSync('yarnpkg --version')
       .toString()
@@ -22,15 +22,9 @@ const getPMVersion = () => {
     .toString()
 }
 
-const getPM = () => {
+export const getPM = () => {
   if (yarnIsAvailable()) {
     return 'yarn';
   }
   return 'npm';
-}
-
-module.exports = {
-  yarnIsAvailable,
-  getPMVersion,
-  getPM
 }

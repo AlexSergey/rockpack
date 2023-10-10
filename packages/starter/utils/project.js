@@ -1,14 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const childProcess = require('child_process');
-const latestVersion = require('latest-version');
-const merge = require('merge-package-json');
-const sortPackageJson = require('sort-package-json');
-const semverParse = require('semver/functions/parse');
-const { getPM } = require('../utils/other');
-const { getPMVersion } = require('./other');
+import fs from 'node:fs';
+import path from 'node:path';
+import childProcess from 'node:child_process';
+import latestVersion from 'latest-version';
+import merge from 'merge-package-json';
+import sortPackageJson from 'sort-package-json';
+import { getPM } from './other.js';
 
-const readPackageJSON = (currentPath) => {
+export const readPackageJSON = (currentPath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(path.resolve(currentPath, 'package.json'), (err, data) => {
       if (err) {
@@ -25,7 +23,7 @@ const readPackageJSON = (currentPath) => {
   })
 }
 
-const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [], peerDependencies = [] }) => {
+export const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [], peerDependencies = [] }) => {
   const toMerge = {
     dependencies: {},
     devDependencies: {},
@@ -59,15 +57,15 @@ const addDependencies = async (packageJSON, { dependencies = [], devDependencies
   return JSON.parse(merge(packageJSON, toMerge));
 }
 
-const addFields = (packageJSON, fields = {}) => {
+export const addFields = (packageJSON, fields = {}) => {
   return JSON.parse(merge(packageJSON, fields));
 }
 
-const addScripts = (packageJSON, scripts = {}) => {
+export const addScripts = (packageJSON, scripts = {}) => {
   return JSON.parse(merge(packageJSON, { scripts }));
 }
 
-const writePackageJSON = (currentPath, packageJSON) => {
+export const writePackageJSON = (currentPath, packageJSON) => {
   return new Promise((resolve, reject) => {
     fs.writeFile(path.join(currentPath, 'package.json'), JSON.stringify(sortPackageJson(packageJSON), null, 2), err => {
       if (err) {
@@ -78,7 +76,7 @@ const writePackageJSON = (currentPath, packageJSON) => {
   });
 }
 
-const createPackageJSON = (projectName) => (
+export const createPackageJSON = (projectName) => (
   {
     name: projectName,
     version: '1.0.0',
@@ -93,7 +91,7 @@ const createPackageJSON = (projectName) => (
   }
 )
 
-const installDependencies = (cwd) => {
+export const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {
     childProcess.exec(`${getPM()} install -q`, {
       cwd
@@ -106,7 +104,7 @@ const installDependencies = (cwd) => {
   });
 }
 
-const installDependency = (cwd, dependency) => {
+export const installDependency = (cwd, dependency) => {
   return new Promise((resolve, reject) => {
     childProcess.exec(`${getPM()} install ${dependency} -q`, {
       cwd
@@ -119,7 +117,7 @@ const installDependency = (cwd, dependency) => {
   });
 }
 
-const installPeerDependencies = async (packageJSON, currentPath) => {
+export const installPeerDependencies = async (packageJSON, currentPath) => {
   const { peerDependencies } = packageJSON;
   for (const depName in peerDependencies) {
     if (peerDependencies.hasOwnProperty(depName)) {
@@ -127,16 +125,4 @@ const installPeerDependencies = async (packageJSON, currentPath) => {
       await installDependency(currentPath, `${depName}@${depVersion}`);
     }
   }
-}
-
-module.exports = {
-  addFields,
-  addScripts,
-  addDependencies,
-  createPackageJSON,
-  readPackageJSON,
-  writePackageJSON,
-  installDependencies,
-  installDependency,
-  installPeerDependencies
 }

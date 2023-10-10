@@ -1,8 +1,7 @@
-const { spawnSync } = require('child_process');
+import { spawnSync } from 'child_process';
+import { getPM } from './other.js';
 
-const { getPM } = require('./other');
-
-module.exports = async ({
+export const gitHooks = async ({
   tester,
   codestyle,
 }, currentPath) => {

@@ -1,8 +1,8 @@
-const { ncp } = require('ncp');
+import recursiveCopy from 'recursive-copy';
 
-const copy = (source, destination, options = {}) => {
+export const copy = (source, destination) => {
   return new Promise((resolve, reject) => {
-    ncp(source, destination, options, function (err) {
+    recursiveCopy(source, destination, function (err) {
       if (err) {
         return reject(err);
       }
@@ -10,5 +10,3 @@ const copy = (source, destination, options = {}) => {
     });
   })
 }
-
-module.exports = copy;

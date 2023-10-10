@@ -129,7 +129,7 @@ router.get('(.*)', async (ctx) => {
 app.use(router.routes()).use(router.allowedMethods());
 const server = app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server is listening on http://localhost:${process.env.PORT} port`);
+  console.log(`Server is listening on http://localhost:${process.env.PORT}`);
 });
 
 const handleError = (err, ctx): void => {

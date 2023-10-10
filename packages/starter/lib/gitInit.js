@@ -1,7 +1,7 @@
-const chalk = require('chalk');
-const { gitIsAvailable, findGitRepoInParent, makeRepo } = require('../utils/git');
+import chalk from 'chalk';
+import { gitIsAvailable, findGitRepoInParent, makeRepo } from '../utils/git.js';
 
-const gitInit = async (currentPath, state) => {
+export const gitInit = async (currentPath, state) => {
   const git = gitIsAvailable();
 
   if (!git) {
@@ -20,5 +20,3 @@ const gitInit = async (currentPath, state) => {
 
   makeRepo(currentPath);
 }
-
-module.exports = gitInit;

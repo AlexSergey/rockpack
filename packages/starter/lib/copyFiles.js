@@ -1,14 +1,13 @@
-const fs = require('fs');
-const path = require('path');
+import path from 'node:path';
 
-const {
+import {
   addons,
   backbone
-} = require('../utils/pathes');
+} from '../utils/pathes.js';
 
-const copy = require('../utils/copy');
+import { copy } from '../utils/copy.js';
 
-const copyFiles = async (currentPath, {
+export const copyFiles = async (currentPath, {
   appType,
   tester,
   codestyle,
@@ -62,5 +61,3 @@ const copyFiles = async (currentPath, {
     }
   }
 }
-
-module.exports = copyFiles;

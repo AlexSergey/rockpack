@@ -1,22 +1,22 @@
-const fs = require('fs');
-const ora = require('ora');
-const path = require('path');
-const chalk = require('chalk');
-const wizard = require('./wizard');
-const gitInit = require('./gitInit');
-const copyFiles = require('./copyFiles');
-const createFiles = require('./createFiles');
-const packageJSONPreparing = require('./packageJSONPreparing');
-const { showError } = require('../utils/error');
-const gitHooks = require('../utils/git-hooks');
-const { dummies } = require('../utils/pathes');
-const {
+import fs from 'node:fs';
+import path from 'node:path';
+import ora from 'ora';
+import chalk from 'chalk';
+import { wizard } from './wizard.js';
+import { gitInit } from './gitInit.js';
+import { copyFiles } from './copyFiles.js';
+import { createFiles } from './createFiles.js';
+import { packageJSONPreparing } from './packageJSONPreparing.js';
+import { showError } from '../utils/error.js';
+import { gitHooks } from '../utils/git-hooks.js';
+import { dummies } from '../utils/pathes.js';
+import {
   createPackageJSON,
   writePackageJSON,
   installDependencies,
   installPeerDependencies
-} = require('../utils/project');
-const { getPM } = require('../utils/other');
+} from '../utils/project.js';
+import { getPM } from '../utils/other.js';
 
 const timeouts = {
   $el1: null,
@@ -30,7 +30,7 @@ const clear = (timeouts) => {
   })
 }
 
-const install = async ({
+export const install = async ({
   projectName,
   currentPath
 }) => {
@@ -251,5 +251,3 @@ const install = async ({
   console.log();
   console.log(chalk.yellow('Thank you for using Rockpack!'));
 }
-
-module.exports = install;

@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const { pascalCase } = require('pascal-case');
-const { dummies } = require('../utils/pathes');
-const { showError } = require('../utils/error');
+import fs from 'node:fs';
+import path from 'node:path';
+import { pascalCase } from 'pascal-case';
+import { dummies } from '../utils/pathes.js';
+import { showError } from '../utils/error.js';
 
-const createFiles = async (currentPath, {
+export const createFiles = async (currentPath, {
   projectName,
   appType,
   tester,
@@ -50,5 +50,3 @@ const createFiles = async (currentPath, {
     }
   }
 };
-
-module.exports = createFiles;

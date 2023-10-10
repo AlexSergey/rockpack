@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const child_process = require('child_process');
+import fs from 'node:fs';
+import path from 'node:path';
+import child_process from 'node:child_process';
+import chalk from 'chalk';
 
-const gitIsAvailable = () => {
+export const gitIsAvailable = () => {
   try {
     child_process.execSync('git --version', { stdio: 'ignore' });
     return true;
@@ -12,7 +12,7 @@ const gitIsAvailable = () => {
   }
 }
 
-const findGitRepoInParent = (currentPath) => {
+export const findGitRepoInParent = (currentPath) => {
   let isExists = false;
   while (currentPath) {
     let parentPath = path.resolve(currentPath, '..');
@@ -33,7 +33,7 @@ const findGitRepoInParent = (currentPath) => {
   return isExists;
 }
 
-const makeRepo = (currentPath) => {
+export const makeRepo = (currentPath) => {
   try {
     child_process.execSync('git init', { stdio: 'ignore', cwd: currentPath });
     console.log(`${chalk.green('GIT')} initialized`);
@@ -41,11 +41,4 @@ const makeRepo = (currentPath) => {
   } catch (e) {
     return false;
   }
-}
-
-
-module.exports = {
-  findGitRepoInParent,
-  gitIsAvailable,
-  makeRepo
 }

@@ -1,3 +1,1 @@
-module.exports = {
-  defaultApp: 'app'
-}
+export const defaultApp = 'app';

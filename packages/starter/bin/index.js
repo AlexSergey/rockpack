@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-
-const chalk = require('chalk');
+import chalk from 'chalk';
+import { rockpack } from "./rockpack.js";
 
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');
 const major = semver[0];
-const minVer = 12;
+const minVer = 16;
 
 if (major < minVer) {
   console.error(
@@ -15,4 +15,4 @@ Rockpack requires Node ${minVer} or higher. Please update your version of Node.`
   process.exit(1);
 }
 
-require('./rockpack');
+rockpack();

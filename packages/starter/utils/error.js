@@ -1,11 +1,11 @@
-const os = require('os');
-const chalk = require('chalk');
-const {
+import os from 'node:os';
+import chalk from 'chalk';
+import {
   getPMVersion,
   getPM
-} = require('../utils/other');
+} from './other.js';
 
-const showError = (e, cb) => {
+export const showError = (e, cb) => {
   console.log();
   console.error(chalk.red('Something went wrong. Please create an issue here and provide more details:'));
   console.log(chalk.blue('https://github.com/AlexSergey/rockpack/issues'));
@@ -23,8 +23,4 @@ const showError = (e, cb) => {
   console.log(`Package manager: ${getPM()}. version: ${getPMVersion()}`);
   console.log();
   process.exit(1);
-}
-
-module.exports = {
-  showError
 }

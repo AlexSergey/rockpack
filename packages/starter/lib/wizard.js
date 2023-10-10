@@ -1,7 +1,7 @@
-const chalk = require('chalk');
-const inquirer = require('inquirer');
+import chalk from 'chalk';
+import inquirer from 'inquirer';
 
-const wizard = async () => {
+export const wizard = async () => {
   const prompt = inquirer.createPromptModule();
 
   const { appType } = await prompt({
@@ -55,5 +55,3 @@ const wizard = async () => {
     codestyle
   }
 }
-
-module.exports = wizard;
