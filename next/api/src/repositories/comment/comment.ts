@@ -1,6 +1,8 @@
 import { injectable } from 'inversify';
 
-import { USER_MODEL_NAME, ROLE_MODEL_NAME, STATISTIC_MODEL_NAME } from '../../constants/models';
+import type { ICommentRepository } from './interface';
+
+import { ROLE_MODEL_NAME, STATISTIC_MODEL_NAME, USER_MODEL_NAME } from '../../constants/models';
 import { InternalError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
 import { CommentModel } from '../../models/comment';
@@ -8,8 +10,6 @@ import { RoleModel } from '../../models/role';
 import { StatisticModel } from '../../models/statistic';
 import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
-
-import type { ICommentRepository } from './interface';
 
 @injectable()
 export class CommentRepository implements ICommentRepository {

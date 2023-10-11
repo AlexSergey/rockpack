@@ -1,8 +1,8 @@
 import { IUser } from './user';
 
 export interface IPreview {
-  uri: string;
   thumbnail: string;
+  uri: string;
 }
 
 export interface IPostStatistic {
@@ -10,17 +10,17 @@ export interface IPostStatistic {
 }
 
 export interface IPost {
-  updatedAt: string;
-  createdAt: string;
-  title: string;
-  id: number;
   Preview?: IPreview;
   Statistic: IPostStatistic;
   User: IUser;
+  createdAt: string;
+  id: number;
+  title: string;
+  updatedAt: string;
 }
 
 export interface IPostsState {
-  loading: boolean;
-  error: boolean;
   data: IPost[];
+  error: boolean;
+  loading: boolean;
 }

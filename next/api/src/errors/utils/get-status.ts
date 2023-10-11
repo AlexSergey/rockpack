@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-shadow
 export enum Statuses {
-  fail = 'fail',
   error = 'error',
+  fail = 'fail',
   success = 'success',
 }
 

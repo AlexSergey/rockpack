@@ -1,11 +1,10 @@
 import Localization, { l } from '@localazer/component';
-import { Layout, Menu, Dropdown, Button } from 'antd';
+import { Button, Dropdown, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { useCurrentLanguage } from '../../../features/localization';
 import { Access } from '../../../features/user';
 import { Roles } from '../../../types/user';
-
 import { CreatePost } from './create-post';
 import { LocalizationChange } from './localization-change';
 import { Logo } from './logo';
@@ -22,12 +21,12 @@ export const Header = (): JSX.Element => {
   return (
     <Layout.Header>
       <div className={styles['nav-holder']}>
-        <Menu className={styles['nav-main']} theme="dark" mode="horizontal" selectable={false}>
+        <Menu className={styles['nav-main']} mode="horizontal" selectable={false} theme="dark">
           <Menu.Item key="logo">
             <Logo />
           </Menu.Item>
         </Menu>
-        <Menu className={styles['nav-secondary']} theme="dark" mode="horizontal" selectable={false}>
+        <Menu className={styles['nav-secondary']} mode="horizontal" selectable={false} theme="dark">
           <Menu.Item key="localizationChange">
             <LocalizationChange />
           </Menu.Item>
@@ -35,7 +34,7 @@ export const Header = (): JSX.Element => {
             <Access forRoles={[Roles.user, Roles.admin]}>
               <Dropdown
                 overlay={(): JSX.Element => (
-                  <Menu theme="dark" selectable={false}>
+                  <Menu selectable={false} theme="dark">
                     <Menu.Item key="user-statistic">
                       <UserStatistic />
                     </Menu.Item>

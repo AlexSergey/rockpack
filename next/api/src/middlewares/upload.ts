@@ -1,7 +1,6 @@
-import path from 'node:path';
-
 import multer from '@koa/multer';
 import { Next } from 'koa';
+import path from 'node:path';
 
 import { config } from '../config';
 import { BadFileFormatError, MulterError } from '../errors';
@@ -36,12 +35,12 @@ const uploader = multer({
 });
 
 interface IUpload {
-  name: string;
   maxCount?: number;
+  name: string;
 }
 
 export const upload =
-  (...fields: (string | IUpload)[]) =>
+  (...fields: (IUpload | string)[]) =>
   async (ctx: IKoaContext, next: Next): Promise<void> => {
     try {
       await uploader.fields(fields)(ctx);

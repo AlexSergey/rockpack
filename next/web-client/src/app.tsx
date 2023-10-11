@@ -1,14 +1,14 @@
-import 'reset-css';
-import 'antd/dist/antd.css';
-import './assets/styles/global.scss';
 import loadable from '@loadable/component';
+import 'antd/dist/antd.css';
 import logger, { LoggerContainer } from 'logrock';
 import { Fragment } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import 'reset-css';
 
+import './assets/styles/global.scss';
 import { config } from './config';
 import { useCurrentLanguage } from './features/localization';
-import { useAuthorization, Access } from './features/user';
+import { Access, useAuthorization } from './features/user';
 import { Main } from './pages/main';
 import { Roles } from './types/user';
 import { notify } from './utils/notifier';
@@ -31,24 +31,24 @@ export const App = (): JSX.Element => {
 
             return (
               <Fragment key={prefix}>
-                <Route path={prefix} element={<Posts />} />
-                <Route path={`${prefix}/posts/:postId`} element={<Post />} />
+                <Route element={<Posts />} path={prefix} />
+                <Route element={<Post />} path={`${prefix}/posts/:postId`} />
                 <Route
-                  path={`${prefix}/users`}
                   element={
                     <Access
-                      forRoles={[Roles.admin]}
                       /* eslint-disable-next-line react/no-unstable-nested-components */
                       fallback={(): JSX.Element => <Navigate to={`/${currentLanguage}`} />}
+                      forRoles={[Roles.admin]}
                     >
                       <Users />
                     </Access>
                   }
+                  path={`${prefix}/users`}
                 />
               </Fragment>
             );
           })}
-          <Route path="*" element={<Navigate to={`/${currentLanguage}`} />} />
+          <Route element={<Navigate to={`/${currentLanguage}`} />} path="*" />
         </Routes>
       </Main>
     </LoggerContainer>

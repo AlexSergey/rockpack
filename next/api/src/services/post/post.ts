@@ -6,12 +6,11 @@ import { CommentModel } from '../../models/comment';
 import { ImageModel } from '../../models/image';
 import { ImageTypeModel } from '../../models/image-type';
 import { PostModel } from '../../models/post';
-
-import { PostData, IPostService } from './interface';
+import { IPostService, PostData } from './interface';
 
 @injectable()
 export class PostService implements IPostService {
-  createPost = async (userId: number, { title, text, preview, photos }: PostData): Promise<PostModel> => {
+  createPost = async (userId: number, { photos, preview, text, title }: PostData): Promise<PostModel> => {
     let post;
 
     try {
@@ -88,7 +87,7 @@ export class PostService implements IPostService {
     return comments;
   };
 
-  updatePost = async (postId: number, { title, text }: { title?: string; text?: string }): Promise<void> => {
+  updatePost = async (postId: number, { text, title }: { text?: string; title?: string }): Promise<void> => {
     if (typeof title === 'undefined' && typeof text === 'undefined') {
       throw new BadRequestError();
     }

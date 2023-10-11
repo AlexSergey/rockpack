@@ -6,12 +6,12 @@ import { useRole } from '../hooks';
 type Callback = (match: boolean) => JSX.Element;
 
 interface IAccess {
-  children: JSX.Element | JSX.Element[] | Callback;
-  forRoles: Roles[];
+  children: Callback | JSX.Element | JSX.Element[];
   fallback?: () => JSX.Element;
+  forRoles: Roles[];
 }
 
-export const Access = ({ children, forRoles, fallback }: IAccess): JSX.Element => {
+export const Access = ({ children, fallback, forRoles }: IAccess): JSX.Element => {
   const role = useRole();
 
   if (typeof children === 'function' && !isValidElement(children)) {

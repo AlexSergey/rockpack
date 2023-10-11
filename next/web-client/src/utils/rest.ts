@@ -6,10 +6,10 @@ interface IOpts {
 }
 
 export interface IRest {
-  get: (url: string) => Promise<any>;
-  post: (url: string, body?: IOpts | FormData, options?: IOpts) => Promise<any>;
-  put: (url: string, body?: IOpts | FormData, options?: IOpts) => Promise<any>;
   delete: (url: string) => Promise<any>;
+  get: (url: string) => Promise<any>;
+  post: (url: string, body?: FormData | IOpts, options?: IOpts) => Promise<any>;
+  put: (url: string, body?: FormData | IOpts, options?: IOpts) => Promise<any>;
 }
 
 const commonHeaders = (token: string): { Authorization: string } | Record<string, never> => {

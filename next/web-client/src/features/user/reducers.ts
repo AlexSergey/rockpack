@@ -2,9 +2,8 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { IActionWithPayload } from '../../types/actions';
 import { IUser, Roles } from '../../types/user';
-import { increaseComment, decreaseComment, increasePost, decreasePost } from '../common/actions';
-
-import { setUser, clearUserState } from './actions';
+import { decreaseComment, decreasePost, increaseComment, increasePost } from '../common/actions';
+import { clearUserState, setUser } from './actions';
 
 export const userReducer = createReducer<IUser>(
   {

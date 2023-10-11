@@ -1,11 +1,10 @@
-import path from 'node:path';
-
 import cors from '@koa/cors';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import logHandler from 'koa-logger';
 import mount from 'koa-mount';
 import serve from 'koa-static';
+import path from 'node:path';
 
 import { config } from '../config';
 import { errorsHandler } from '../errors';

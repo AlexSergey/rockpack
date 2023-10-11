@@ -1,11 +1,10 @@
-import { useSsrEffect, useRegisterEffect } from '@issr/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRegisterEffect, useSsrEffect } from '@issr/core';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ICommentsState, IComment } from '../../types/comments';
+import { IComment, ICommentsState } from '../../types/comments';
 import { ThunkResult } from '../../types/thunk';
 import { IUser } from '../../types/user';
-
-import { fetchComments, createComment, deleteComment } from './thunks';
+import { createComment, deleteComment, fetchComments } from './thunks';
 
 export const useComments = (postId: number): [boolean, boolean, IComment[]] => {
   const dispatch = useDispatch<ThunkResult>();

@@ -1,5 +1,4 @@
 import { Roles } from '../../types/user';
-
 import { IUserService } from './service';
 
 export const mockUserService = (): IUserService => ({

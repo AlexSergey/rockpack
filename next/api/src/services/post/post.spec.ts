@@ -1,31 +1,31 @@
+import type { ICommentService } from '../comment';
+
 import { config } from '../../config';
 import { container } from '../../container';
 import { IPost, PostModel } from '../../models/post';
 import { IUser, UserModel } from '../../models/user';
-import { PostRepositoryDIType, IPostRepository } from '../../repositories/post';
-import { UserRepositoryDIType, IUserRepository } from '../../repositories/user';
+import { IPostRepository, PostRepositoryDIType } from '../../repositories/post';
+import { IUserRepository, UserRepositoryDIType } from '../../repositories/user';
 import { CommentServiceDIType } from '../comment';
-import type { ICommentService } from '../comment';
-import { UserServiceDIType, IUserService } from '../user';
-
+import { IUserService, UserServiceDIType } from '../user';
 import { PostServiceDIType } from './di.type';
 import { IPostService } from './interface';
 
 interface IUserFull extends IUser {
-  Statistic: {
-    posts: number;
-    comments: number;
-  };
   Role: {
     role: string;
+  };
+  Statistic: {
+    comments: number;
+    posts: number;
   };
 }
 
 interface IPostDetails extends IPost {
-  User: IUserFull;
   Statistic: {
     comments: number;
   };
+  User: IUserFull;
 }
 
 let newuser;

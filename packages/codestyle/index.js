@@ -4,6 +4,7 @@ const path = require('node:path');
 const createBabelPresets = require('@rockpack/babel');
 const { checkReact, getMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
+const fs = require("fs");
 
 module.exports.makeConfig = (customConfig = {}, opts = {}) => {
   if (!customConfig) {
@@ -13,8 +14,25 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
   const isDevelopment = mode === 'development';
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
+  const prettierrcPath = path.resolve(root, '.prettierrc');
   // eslint-disable-next-line global-require,import/no-dynamic-require
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+  let prettierConfig = {
+    bracketSpacing: true,
+    endOfLine: 'lf',
+    printWidth: 120,
+    semi: true,
+    singleQuote: true,
+    trailingComma: 'all',
+    useTabs: false,
+  };
+  if (existsSync(prettierrcPath)) {
+    try {
+      prettierConfig = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const ignoredPropNames = opts.ignoredPropNames || `^(${['Window'].join('|')})$`;
   const camelCaseAllow = opts.camelCaseAllow || [];
   const { hasReact, reactNewSyntax } = checkReact(packageJson);
@@ -77,6 +95,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:import/typescript',
         'prettier',
         'plugin:prettier/recommended',
+        'plugin:perfectionist/recommended-natural',
       ]
     : [
         'eslint:recommended',
@@ -88,13 +107,16 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:import/typescript',
         'prettier',
         'plugin:prettier/recommended',
+        'plugin:perfectionist/recommended-natural',
       ];
 
-  const jsPlugins = hasReact ? ['import', 'unicorn', 'sort-keys-fix', 'react', 'react-hooks', 'check-file', 'jest-formatting'] : ['import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
+  const jsPlugins = hasReact ?
+    ['import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist'] :
+    ['import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'react', 'react-hooks', 'check-file', 'jest-formatting']
-    : ['@typescript-eslint', 'import', 'unicorn', 'sort-keys-fix', 'check-file', 'jest-formatting'];
+    ? ['@typescript-eslint', 'import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist']
+    : ['@typescript-eslint', 'import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist'];
 
   const reactRules = {
     'react/function-component-definition': [
@@ -105,7 +127,10 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
       },
     ],
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
+    // eslint-plugin-perfectionist conflicts
+    // https://github.com/azat-io/eslint-plugin-perfectionist#%EF%B8%8F-troubleshooting
+    'react/jsx-sort-props': 'off',
   };
 
   if (hasReact && reactNewSyntax) {
@@ -150,6 +175,13 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
           version: 'detect',
         },
       },
+      // eslint-plugin-perfectionist conflicts
+      // https://github.com/azat-io/eslint-plugin-perfectionist#%EF%B8%8F-troubleshooting
+      rules: {
+        'import/order': 'off',
+        'sort-imports': 'off',
+        'sort-keys': 'off',
+      },
       overrides: [
         /*
           <-------------JS CONFIG------------->
@@ -189,6 +221,12 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
             tsconfigRootDir: root,
           },
           plugins: tsPlugins,
+          // eslint-plugin-perfectionist conflicts
+          // https://github.com/azat-io/eslint-plugin-perfectionist#%EF%B8%8F-troubleshooting
+          rules: {
+            '@typescript-eslint/adjacent-overload-signatures': 'off',
+            '@typescript-eslint/sort-type-constituents': 'off',
+          },
         },
         /*
           <-------------JS, JSX, TS, TSX, COMMON RULES------------->
@@ -208,39 +246,9 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
             'no-underscore-dangle': 'off',
             'newline-before-return': 'error',
 
-            'prettier/prettier': [
-              'error',
-              {
-                bracketSpacing: true,
-                endOfLine: 'lf',
-                printWidth: 120,
-                semi: true,
-                singleQuote: true,
-                trailingComma: 'all',
-                useTabs: false,
-              },
-            ],
-
-            'sort-keys-fix/sort-keys-fix': 'warn',
+            'prettier/prettier': ['error', prettierConfig],
 
             'import/no-extraneous-dependencies': 'error',
-            'import/order': [
-              'error',
-              {
-                alphabetize: {
-                  order: 'asc',
-                },
-                groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
-                'newlines-between': 'always',
-                pathGroups: [
-                  {
-                    group: 'internal',
-                    pattern: '@',
-                    position: 'after',
-                  },
-                ],
-              },
-            ],
             'import/prefer-default-export': 'off',
             'import/no-default-export': 'error',
             'import/no-unresolved': ['error', { caseSensitiveStrict: true }],

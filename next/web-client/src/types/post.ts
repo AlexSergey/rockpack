@@ -1,8 +1,8 @@
 import { IUser } from './user';
 
 export interface IPhoto {
-  uri: string;
   thumbnail: string;
+  uri: string;
 }
 
 export interface IPostStatistic {
@@ -10,18 +10,18 @@ export interface IPostStatistic {
 }
 
 export interface IPost {
-  updatedAt: string;
-  createdAt: string;
-  title: string;
-  text: string;
-  id: number;
   Photos?: IPhoto[];
   Statistic: IPostStatistic;
   User: IUser;
+  createdAt: string;
+  id: number;
+  text: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface IPostState {
-  loading: boolean;
-  error: boolean;
   data: IPost;
+  error: boolean;
+  loading: boolean;
 }

@@ -1,19 +1,19 @@
 import { MulterError as MulterBaseError } from 'multer';
 
+import type { IError } from './_types';
+
 import { FILE_FORMAT_ERROR } from '../constants/messages';
 import { Statuses } from '../utils/get-status';
-
 import { BaseError } from './_base-error';
-import type { IError } from './_types';
 
 export class MulterError extends BaseError implements IError {
   public code = FILE_FORMAT_ERROR.code;
 
-  public statusCode = FILE_FORMAT_ERROR.statusCode;
-
   public status = Statuses.error;
 
-  constructor(e: MulterBaseError | IError) {
+  public statusCode = FILE_FORMAT_ERROR.statusCode;
+
+  constructor(e: IError | MulterBaseError) {
     super();
     this.name = 'MulterError';
 

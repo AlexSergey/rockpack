@@ -1,7 +1,7 @@
 import { config } from '../../config';
 import { Languages } from '../../types/localization';
 
-const { languages, defaultLanguage } = config;
+const { defaultLanguage, languages } = config;
 
 export const getDefaultLanguage = (): Languages => defaultLanguage;
 

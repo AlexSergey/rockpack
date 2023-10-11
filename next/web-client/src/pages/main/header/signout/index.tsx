@@ -7,7 +7,7 @@ export const Signout = (): JSX.Element => {
   const { signout } = useUserApi();
 
   return (
-    <Button type="primary" onClick={signout}>
+    <Button onClick={signout} type="primary">
       <Localization>{l('Sign Out')}</Localization>
     </Button>
   );

@@ -4,7 +4,6 @@ import { LoggerInterface } from 'logrock';
 import { Action } from 'redux';
 
 import { IServices } from '../services';
-
 import { ICommentsState } from './comments';
 import { ILocalization } from './localization';
 import { IPostState } from './post';
@@ -13,30 +12,30 @@ import { IUser } from './user';
 import { IUsersState } from './users';
 
 export interface IThunkExtras {
+  history: History;
   logger: LoggerInterface;
   services: IServices;
-  history: History;
 }
 
 export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
 
 export interface IStoreProps extends IThunkExtras {
+  history: History;
   initialState?: {
     [key: string]: unknown;
   };
-  history: History;
   testMode?: boolean;
 }
 
 export interface IRootState {
-  user: IUser;
-  localization: ILocalization;
-  posts: IPostsState;
   comments: ICommentsState;
-  post: IPostState;
-  users: IUsersState;
+  localization: ILocalization;
   pagination: {
-    current: number;
     count: number;
+    current: number;
   };
+  post: IPostState;
+  posts: IPostsState;
+  user: IUser;
+  users: IUsersState;
 }

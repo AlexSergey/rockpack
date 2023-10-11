@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
-import { Form, Input, Button } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useState } from 'react';
 
 import { usePostApi } from '../../../features/post';
@@ -8,17 +8,17 @@ import { usePostApi } from '../../../features/post';
 const Wysiwyg = loadable(() => import('../../../components/wysiwyg'));
 
 interface IUpdateMode {
-  postId: number;
-  title: string;
-  text: string;
   onFinish: () => void;
+  postId: number;
+  text: string;
+  title: string;
 }
 
 type Store = {
   title: string;
 };
 
-export const UpdateMode = ({ postId, title, text, onFinish }: IUpdateMode): JSX.Element => {
+export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): JSX.Element => {
   const [postText, setText] = useState(text);
   const { updatePost } = usePostApi();
 
@@ -36,9 +36,9 @@ export const UpdateMode = ({ postId, title, text, onFinish }: IUpdateMode): JSX.
         }}
       >
         <Form.Item
+          initialValue={title}
           label="title"
           name="title"
-          initialValue={title}
           rules={[
             {
               required: true,
@@ -48,10 +48,10 @@ export const UpdateMode = ({ postId, title, text, onFinish }: IUpdateMode): JSX.
           <Input />
         </Form.Item>
         <Form.Item>
-          <Wysiwyg value={postText} onChange={setText} />
+          <Wysiwyg onChange={setText} value={postText} />
         </Form.Item>
         <Form.Item style={{ textAlign: 'right' }}>
-          <Button type="primary" htmlType="submit">
+          <Button htmlType="submit" type="primary">
             <Localization>{l('Update post')}</Localization>
           </Button>
         </Form.Item>

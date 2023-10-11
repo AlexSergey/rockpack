@@ -3,7 +3,6 @@ import { Button, Form, Input } from 'antd';
 
 import { useCommentsApi } from '../../../features/comments';
 import { useUser } from '../../../features/user';
-
 import styles from './style.module.scss';
 
 interface IAddComment {
@@ -44,10 +43,10 @@ export const AddComment = ({ postId }: IAddComment): JSX.Element => {
             },
           ]}
         >
-          <Input.TextArea rows={4} className={styles['text-area']} />
+          <Input.TextArea className={styles['text-area']} rows={4} />
         </Form.Item>
         <Form.Item style={{ textAlign: 'right' }}>
-          <Button type="primary" htmlType="submit">
+          <Button htmlType="submit" type="primary">
             <Localization>{l('Publish')}</Localization>
           </Button>
         </Form.Item>

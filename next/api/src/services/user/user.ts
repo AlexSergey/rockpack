@@ -1,4 +1,7 @@
-import { injectable, inject } from 'inversify';
+import { inject, injectable } from 'inversify';
+
+import type { IUserRepository } from '../../repositories/user';
+import type { IUserService } from './interface';
 
 import { config } from '../../config';
 import {
@@ -12,16 +15,46 @@ import { logger } from '../../logger';
 import { RoleModel } from '../../models/role';
 import { UserModel } from '../../models/user';
 import { UserRepositoryDIType } from '../../repositories/user';
-import type { IUserRepository } from '../../repositories/user';
 import { createToken } from '../../utils/auth';
-
-import type { IUserService } from './interface';
 
 @injectable()
 export class UserService implements IUserService {
-  constructor(@inject(UserRepositoryDIType) private repository: IUserRepository) {}
+  deleteUser = async (id: number): Promise<void> => {
+    const user = await UserModel.destroy({
+      individualHooks: true,
+      where: {
+        id,
+      },
+    });
 
-  signup = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+  };
+
+  signin = async (email: string, password: string): Promise<{ token: string; user: UserModel }> => {
+    let isValid;
+    let user;
+
+    try {
+      user = await this.repository.getUserByEmail(email);
+
+      isValid = await user.isValidPassword(password);
+    } catch (e) {
+      logger.error(e.message);
+      throw new SequelizeError(e);
+    }
+
+    if (!isValid) {
+      throw new WrongPasswordError();
+    }
+
+    const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
+
+    return { token, user };
+  };
+
+  signup = async (email: string, password: string): Promise<{ token: string; user: UserModel }> => {
     const user = await UserModel.findOne({
       where: {
         email,
@@ -60,38 +93,5 @@ export class UserService implements IUserService {
     }
   };
 
-  signin = async (email: string, password: string): Promise<{ user: UserModel; token: string }> => {
-    let isValid;
-    let user;
-
-    try {
-      user = await this.repository.getUserByEmail(email);
-
-      isValid = await user.isValidPassword(password);
-    } catch (e) {
-      logger.error(e.message);
-      throw new SequelizeError(e);
-    }
-
-    if (!isValid) {
-      throw new WrongPasswordError();
-    }
-
-    const token = createToken(email, process.env.JWT_SECRET, config.jwtExpiresIn);
-
-    return { token, user };
-  };
-
-  deleteUser = async (id: number): Promise<void> => {
-    const user = await UserModel.destroy({
-      individualHooks: true,
-      where: {
-        id,
-      },
-    });
-
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-  };
+  constructor(@inject(UserRepositoryDIType) private repository: IUserRepository) {}
 }

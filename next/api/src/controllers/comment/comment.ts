@@ -1,37 +1,17 @@
-import { injectable, inject } from 'inversify';
+import { inject, injectable } from 'inversify';
+
+import type { ICommentRepository } from '../../repositories/comment';
+import type { ICommentService } from '../../services/comment';
 
 import { ErrorProxyError } from '../../errors';
 import { CommentRepositoryDIType } from '../../repositories/comment';
-import type { ICommentRepository } from '../../repositories/comment';
 import { CommentServiceDIType } from '../../services/comment';
-import type { ICommentService } from '../../services/comment';
 import { IKoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-
 import { ICommentController } from './interface';
 
 @injectable()
 export class CommentController implements ICommentController {
-  constructor(
-    @inject(CommentRepositoryDIType) private repository: ICommentRepository,
-    @inject(CommentServiceDIType) private service: ICommentService,
-  ) {}
-
-  fetch = async (ctx: IKoaContext): Promise<void> => {
-    const { postId } = ctx.params;
-
-    try {
-      const comments = await this.repository.fetchComments(Number(postId));
-
-      ctx.body = ok(
-        'Comments fetched',
-        comments.map((c) => c.toJSON()),
-      );
-    } catch (e) {
-      throw new ErrorProxyError(e);
-    }
-  };
-
   create = async (ctx: IKoaContext): Promise<void> => {
     const { postId } = ctx.params;
     const { text } = ctx.request.body;
@@ -62,6 +42,21 @@ export class CommentController implements ICommentController {
     }
   };
 
+  fetch = async (ctx: IKoaContext): Promise<void> => {
+    const { postId } = ctx.params;
+
+    try {
+      const comments = await this.repository.fetchComments(Number(postId));
+
+      ctx.body = ok(
+        'Comments fetched',
+        comments.map((c) => c.toJSON()),
+      );
+    } catch (e) {
+      throw new ErrorProxyError(e);
+    }
+  };
+
   update = async (ctx: IKoaContext): Promise<void> => {
     const { id } = ctx.params;
     const { text } = ctx.request.body;
@@ -76,4 +71,9 @@ export class CommentController implements ICommentController {
       throw new ErrorProxyError(e);
     }
   };
+
+  constructor(
+    @inject(CommentRepositoryDIType) private repository: ICommentRepository,
+    @inject(CommentServiceDIType) private service: ICommentService,
+  ) {}
 }

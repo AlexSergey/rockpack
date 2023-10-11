@@ -1,14 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { IThunkExtras } from '../../types/store';
-
-import { requestPost, requestPostError, requestPostSuccess, postUpdated } from './actions';
+import { postUpdated, requestPost, requestPostError, requestPostSuccess } from './actions';
 import { PostRes } from './service';
 
 export const fetchPost = createAsyncThunk<void, number, { extra: IThunkExtras }>(
   'post/fetchPost',
   async (postId, { dispatch, extra }): Promise<void> => {
-    const { services, logger } = extra;
+    const { logger, services } = extra;
     try {
       dispatch(requestPost());
       const { data }: PostRes = await services.post.fetchPost(postId);
@@ -22,10 +21,10 @@ export const fetchPost = createAsyncThunk<void, number, { extra: IThunkExtras }>
 
 export const updatePost = createAsyncThunk<
   void,
-  { postId: number; title: string; text: string },
+  { postId: number; text: string; title: string },
   { extra: IThunkExtras }
->('post/updatePost', async ({ postId, title, text }, { dispatch, extra }): Promise<void> => {
-  const { services, logger } = extra;
+>('post/updatePost', async ({ postId, text, title }, { dispatch, extra }): Promise<void> => {
+  const { logger, services } = extra;
   try {
     dispatch(requestPost());
     await services.post.updatePost(postId, {

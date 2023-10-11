@@ -3,32 +3,31 @@ import { useState } from 'react';
 import Masonry from 'react-masonry-css';
 
 import { config } from '../../../config';
-
 import styles from './style.module.scss';
 
-export const Images = ({ images }: { images: { uri: string; thumbnail: string }[] }): JSX.Element => {
-  const [full, setFull] = useState<string | false>(false);
+export const Images = ({ images }: { images: { thumbnail: string; uri: string }[] }): JSX.Element => {
+  const [full, setFull] = useState<false | string>(false);
 
   return (
     <div className={styles.images}>
       <Masonry breakpointCols={3} className={styles.grid} columnClassName={styles['grid-column']}>
         {images.map((image) => (
           <img
-            key={image.thumbnail}
-            src={`${config.api}/${image.thumbnail}`}
             alt=""
+            key={image.thumbnail}
             onClick={(): void => setFull(image.uri)}
+            src={`${config.api}/${image.thumbnail}`}
           />
         ))}
       </Masonry>
       <Modal
         className={styles.full}
-        open={typeof full === 'string'}
-        onCancel={(): void => setFull(false)}
         footer={null}
+        onCancel={(): void => setFull(false)}
+        open={typeof full === 'string'}
         title={null}
       >
-        <img src={`${config.api}/${full}`} alt="" />
+        <img alt="" src={`${config.api}/${full}`} />
       </Modal>
     </div>
   );

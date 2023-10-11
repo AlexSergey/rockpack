@@ -2,7 +2,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
 
 import { useRole, useUser } from '../../../../features/user';
-
 import styles from './style.module.scss';
 
 export const User = (): JSX.Element => {
@@ -12,7 +11,7 @@ export const User = (): JSX.Element => {
   return (
     <div className={styles.user}>
       <div className={styles.holder}>
-        <Popover placement="top" content={email} trigger="hover">
+        <Popover content={email} placement="top" trigger="hover">
           <UserOutlined />
         </Popover>
       </div>

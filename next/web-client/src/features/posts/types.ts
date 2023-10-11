@@ -1,6 +1,6 @@
 export interface IPostsPayload {
-  postData: FormData;
   page: number;
+  postData: FormData;
 }
 
 export interface IDeletePostPayload {

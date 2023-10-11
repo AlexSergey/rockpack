@@ -7,13 +7,12 @@ import { Provider } from 'react-redux';
 import { Router } from '../components/router';
 import { LocalizationContainer } from '../features/localization';
 import { createStore } from '../store';
-
 import { createMockServices } from './mock-services';
 
 export const createAppWrapper = ({
-  url = '/',
   initialState = {},
-}: { url?: string; initialState?: { [key: string]: unknown } } = {}): (({
+  url = '/',
+}: { initialState?: { [key: string]: unknown }; url?: string } = {}): (({
   children,
 }: {
   children: ReactNode;

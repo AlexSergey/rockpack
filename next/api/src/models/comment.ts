@@ -1,17 +1,16 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 import { InternalError } from '../errors';
-
 import { StatisticModel } from './statistic';
 import { StatisticTypeModel } from './statistic-type';
 
 export interface IComment {
+  createdAt: Date;
   id: number;
-  user_id: number;
   post_id: number;
   text: string;
-  createdAt: Date;
+  user_id: number;
 }
 
 export class CommentModel extends Model<IComment> {}

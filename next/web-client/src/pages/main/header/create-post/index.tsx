@@ -1,8 +1,8 @@
 import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
-import { Button, Modal, Input, Form } from 'antd';
-import { useState, useRef } from 'react';
+import { Button, Form, Input, Modal } from 'antd';
+import { useRef, useState } from 'react';
 
 import { PhotosUpload } from '../../../../components/photos-upload';
 import { PreviewUpload } from '../../../../components/preview-upload';
@@ -51,17 +51,17 @@ export const CreatePost = (): JSX.Element => {
 
   return (
     <>
-      <Button type="primary" onClick={(): void => postCreateModal(true)}>
+      <Button onClick={(): void => postCreateModal(true)} type="primary">
         <Localization>{l('Create post')}</Localization>
       </Button>
       <Modal
-        title={l('Create')()}
         footer={null}
-        open={postCreate}
         onCancel={(): void => {
           cleanState();
           postCreateModal(false);
         }}
+        open={postCreate}
+        title={l('Create')()}
       >
         {postCreate && (
           <Form
@@ -91,13 +91,13 @@ export const CreatePost = (): JSX.Element => {
               <PreviewUpload onChange={previewChange} />
             </Form.Item>
             <Form.Item>
-              <Wysiwyg value={text} onChange={setText} />
+              <Wysiwyg onChange={setText} value={text} />
             </Form.Item>
             <Form.Item>
               <PhotosUpload onChange={photosChange} />
             </Form.Item>
             <Form.Item style={{ textAlign: 'center' }}>
-              <Button type="primary" htmlType="submit">
+              <Button htmlType="submit" type="primary">
                 <Localization>{l('Create')}</Localization>
               </Button>
             </Form.Item>

@@ -1,23 +1,22 @@
 import sanitizeHtml from 'sanitize-html';
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 import { InternalError } from '../errors';
 import { ALLOWED_TEXT } from '../utils/allowed-tags';
 import { removeImages } from '../utils/remove-images';
-
 import { CommentModel, IComment } from './comment';
-import { ImageModel, IImage } from './image';
+import { IImage, ImageModel } from './image';
 import { StatisticModel } from './statistic';
 import { StatisticTypeModel } from './statistic-type';
 
 export interface IPost {
-  id: number;
-  user_id: number;
-  title: string;
-  text: string;
   createdAt: Date;
+  id: number;
+  text: string;
+  title: string;
   updatedAt: Date;
+  user_id: number;
 }
 
 export class PostModel extends Model<IPost> {}

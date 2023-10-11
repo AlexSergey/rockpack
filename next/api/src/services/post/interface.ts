@@ -2,10 +2,10 @@ import { CommentModel } from '../../models/comment';
 import { PostModel } from '../../models/post';
 
 export type PostData = {
-  title: string;
-  text: string;
-  preview?: { filename: string };
   photos?: { filename: string }[];
+  preview?: { filename: string };
+  text: string;
+  title: string;
 };
 
 export interface IPostService {
@@ -13,5 +13,5 @@ export interface IPostService {
 
   deletePost(postId: number, userId: number): Promise<CommentModel[]>;
 
-  updatePost(postId: number, postData: { title?: string; text?: string }): Promise<void>;
+  updatePost(postId: number, postData: { text?: string; title?: string }): Promise<void>;
 }

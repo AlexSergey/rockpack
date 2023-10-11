@@ -3,7 +3,6 @@ import { Socket } from 'node:net';
 
 import { config } from '../config';
 import { logger } from '../logger';
-
 import { app } from './koa';
 
 const connectedSockets = new Set<Socket>();

@@ -1,9 +1,8 @@
-import { useSsrEffect, useRegisterEffect } from '@issr/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRegisterEffect, useSsrEffect } from '@issr/core';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IPostState, IPost } from '../../types/post';
+import { IPost, IPostState } from '../../types/post';
 import { ThunkResult } from '../../types/thunk';
-
 import { fetchPost, updatePost } from './thunks';
 
 export const usePost = (postId: number): [boolean, boolean, IPost] => {
@@ -19,7 +18,7 @@ export const usePost = (postId: number): [boolean, boolean, IPost] => {
 };
 
 export const usePostApi = (): {
-  updatePost: (post: { postId: number; title: string; text: string }) => void;
+  updatePost: (post: { postId: number; text: string; title: string }) => void;
 } => {
   const dispatch = useDispatch<ThunkResult>();
 

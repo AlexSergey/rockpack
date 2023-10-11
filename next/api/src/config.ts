@@ -1,6 +1,5 @@
-import path from 'node:path';
-
 import dotenvSafe from 'dotenv-safe';
+import path from 'node:path';
 
 dotenvSafe.config({
   allowEmptyValues: true,
@@ -10,8 +9,8 @@ dotenvSafe.config({
 
 // eslint-disable-next-line no-shadow
 export enum Roles {
-  user = 'user',
   admin = 'admin',
+  user = 'user',
 }
 
 export const config = {
@@ -36,8 +35,8 @@ export const config = {
   logLevel: 'info',
   postsLimit: 10,
   roles: {
-    [Roles.user]: Roles.user,
     [Roles.admin]: Roles.admin,
+    [Roles.user]: Roles.user,
   },
   shutdownTimeout: 1000,
   storage: 'storage',

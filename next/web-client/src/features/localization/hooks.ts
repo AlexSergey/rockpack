@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 
 import { Languages } from '../../types/localization';
-
 import { LocalizationContext } from './context';
 
 export const useCurrentLanguage = (): Languages => useContext(LocalizationContext).currentLanguage;

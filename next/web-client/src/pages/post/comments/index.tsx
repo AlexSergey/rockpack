@@ -3,10 +3,9 @@ import Localization, { nl, sprintf } from '@localazer/component';
 import { Error } from '../../../components/error';
 import { Loader } from '../../../components/loader';
 import { useComments } from '../../../features/comments';
-
 import { Comment } from './comment';
 
-export const Comments = ({ postId, commentsCount }: { postId: number; commentsCount: number }): JSX.Element => {
+export const Comments = ({ commentsCount, postId }: { commentsCount: number; postId: number }): JSX.Element => {
   const [loading, error, comments] = useComments(postId);
 
   return (
@@ -21,11 +20,11 @@ export const Comments = ({ postId, commentsCount }: { postId: number; commentsCo
         {error && <Error />}
         {comments.map((comment) => (
           <Comment
-            key={comment.id}
-            id={comment.id}
-            user={comment.User}
-            text={comment.text}
             createdAt={comment.createdAt}
+            id={comment.id}
+            key={comment.id}
+            text={comment.text}
+            user={comment.User}
           />
         ))}
       </div>

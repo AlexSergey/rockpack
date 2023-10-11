@@ -1,10 +1,9 @@
-import { render, act, renderHook } from '@testing-library/react';
+import { act, render, renderHook } from '@testing-library/react';
 import { useEffect } from 'react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { sleep } from '../../tests/helpers';
-
-import { useUserApi, useUser } from './hooks';
+import { useUser, useUserApi } from './hooks';
 
 test('signup', async () => {
   const AppWrapper = createAppWrapper();

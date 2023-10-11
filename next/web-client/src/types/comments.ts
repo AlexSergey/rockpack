@@ -1,14 +1,14 @@
 import { IUser } from './user';
 
 export interface IComment {
-  createdAt: string;
-  text: string;
-  id: number;
   User: IUser;
+  createdAt: string;
+  id: number;
+  text: string;
 }
 
 export interface ICommentsState {
-  loading: boolean;
-  error: boolean;
   data: IComment[];
+  error: boolean;
+  loading: boolean;
 }

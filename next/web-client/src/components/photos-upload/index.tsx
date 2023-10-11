@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Upload, Modal, message } from 'antd';
+import { Modal, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { useState } from 'react';
 
@@ -38,11 +38,6 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
   return (
     <div className="clearfix">
       <Upload
-        listType="picture-card"
-        multiple
-        fileList={uploadList}
-        onPreview={handlePreview}
-        onChange={handleChange}
         beforeUpload={(file): false => {
           const isSupported = config.fileFormats.includes(file.type);
           if (!isSupported) {
@@ -53,11 +48,16 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
 
           return false;
         }}
+        fileList={uploadList}
+        listType="picture-card"
+        multiple
+        onChange={handleChange}
+        onPreview={handlePreview}
       >
         {uploadList.length >= config.maxPhotos ? null : uploadButton}
       </Upload>
-      <Modal open={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+      <Modal footer={null} onCancel={handleCancel} open={previewVisible} title={previewTitle}>
+        <img alt="example" src={previewImage} style={{ width: '100%' }} />
       </Modal>
     </div>
   );

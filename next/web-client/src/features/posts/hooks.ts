@@ -1,15 +1,14 @@
-import { useSsrEffect, useRegisterEffect } from '@issr/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRegisterEffect, useSsrEffect } from '@issr/core';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IPostsState, IPost } from '../../types/posts';
+import { IPost, IPostsState } from '../../types/posts';
 import { ThunkResult } from '../../types/thunk';
+import { createPost, deletePost, fetchPosts, setPage } from './thunks';
 
-import { fetchPosts, setPage, createPost, deletePost } from './thunks';
-
-export const usePagination = (): { current: number; count: number } => {
+export const usePagination = (): { count: number; current: number } => {
   const { count, current } = useSelector<
-    { pagination: { current: number; count: number } },
-    { current: number; count: number }
+    { pagination: { count: number; current: number } },
+    { count: number; current: number }
   >((state) => state.pagination);
 
   return {
@@ -44,7 +43,7 @@ export const usePaginationApi = (): {
 };
 
 export const usePostsApi = (): {
-  createPost: (data: { postData: FormData; page: number }) => void;
+  createPost: (data: { page: number; postData: FormData }) => void;
   deletePost: (id: number, owner?: boolean) => void;
 } => {
   const dispatch = useDispatch<ThunkResult>();

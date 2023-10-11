@@ -4,7 +4,7 @@ import SvgLogo from './logo.component.svg';
 import styles from './style.module.scss';
 
 export const Logo = (): JSX.Element => (
-  <Link to="/" className={styles.logo}>
+  <Link className={styles.logo} to="/">
     <SvgLogo />
   </Link>
 );

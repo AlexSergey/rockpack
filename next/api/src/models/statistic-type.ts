@@ -1,13 +1,13 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 
 export interface IStatisticType {
-  id: number;
-  type_id: number;
-  entity_id: number;
-  posts: number;
   comments: number;
+  entity_id: number;
+  id: number;
+  posts: number;
+  type_id: number;
 }
 
 export class StatisticTypeModel extends Model<IStatisticType> {}

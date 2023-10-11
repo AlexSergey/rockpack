@@ -6,9 +6,9 @@ export type CommentsRes = { data: IComment[] };
 export type CommentRes = { data: { id: number } };
 
 export interface ICommentsService {
-  fetchComments: (postId: number) => Promise<CommentsRes>;
   createComment: (postId: number, text: string) => Promise<CommentRes>;
   deleteComment: (id: number) => Promise<void>;
+  fetchComments: (postId: number) => Promise<CommentsRes>;
 }
 
 export const commentsService = (rest: IRest): ICommentsService => ({

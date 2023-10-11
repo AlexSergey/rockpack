@@ -1,6 +1,5 @@
 import { container } from '../../container';
 import { PostModel } from '../../models/post';
-
 import { PostRepositoryDIType } from './di.type';
 import { IPostRepository } from './interface';
 

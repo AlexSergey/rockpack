@@ -3,8 +3,8 @@ import { IPost } from '../../types/post';
 import { IRest } from '../../utils/rest';
 
 type PostData = {
-  title: string;
   text: string;
+  title: string;
 };
 
 export type PostRes = { data: IPost };

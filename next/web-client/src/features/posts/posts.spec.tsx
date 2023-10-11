@@ -2,7 +2,6 @@ import { renderHook, waitFor } from '@testing-library/react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { sleep } from '../../tests/helpers';
-
 import { usePosts } from './hooks';
 
 test('Render Posts from usePosts()', async () => {

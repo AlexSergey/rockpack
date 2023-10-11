@@ -1,14 +1,15 @@
 import Router from '@koa/router';
 import Application from 'koa';
 
+import type { ICommentController } from './controllers/comment';
+import type { IPostController } from './controllers/post';
+import type { IUserController } from './controllers/user';
+
 import { config } from './config';
 import { container } from './container';
 import { CommentControllerDIType } from './controllers/comment';
-import type { ICommentController } from './controllers/comment';
 import { PostControllerDIType } from './controllers/post';
-import type { IPostController } from './controllers/post';
 import { UserControllerDIType } from './controllers/user';
-import type { IUserController } from './controllers/user';
 import { NotFoundError } from './errors';
 import { accessRoute } from './middlewares/access-route';
 import { protectedRoute } from './middlewares/protected-route';

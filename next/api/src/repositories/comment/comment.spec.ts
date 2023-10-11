@@ -1,8 +1,8 @@
+import type { ICommentRepository } from './interface';
+
 import { container } from '../../container';
 import { CommentModel } from '../../models/comment';
-
 import { CommentRepositoryDIType } from './di.type';
-import type { ICommentRepository } from './interface';
 
 let commentRepository;
 

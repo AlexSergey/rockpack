@@ -1,22 +1,22 @@
 import { BaseError as SequelizeBaseError } from 'sequelize';
 
+import type { IError } from './_types';
+
 import { DATABASE_ERROR } from '../constants/messages';
 import { Statuses } from '../utils/get-status';
 import { sequelizeMessage } from '../utils/sequelize-message';
-
 import { BaseError } from './_base-error';
-import type { IError } from './_types';
 
 export class SequelizeError extends BaseError implements IError {
   public code = DATABASE_ERROR.code;
-
-  public statusCode = DATABASE_ERROR.statusCode;
 
   public message = DATABASE_ERROR.message;
 
   public status = Statuses.error;
 
-  constructor(e: SequelizeBaseError | IError) {
+  public statusCode = DATABASE_ERROR.statusCode;
+
+  constructor(e: IError | SequelizeBaseError) {
     super();
     this.name = 'SequelizeError';
 

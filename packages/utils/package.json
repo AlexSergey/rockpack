@@ -1,10 +1,12 @@
 {
   "name": "@rockpack/utils",
-  "version": "3.2.0",
+  "version": "4.0.0-next.1",
   "description": "Rockpack specific utils",
   "main": "index.js",
   "scripts": {
     "lint": "eslint \"**\"",
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint \"**\" --fix",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {

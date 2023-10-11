@@ -3,11 +3,11 @@ import Sequelize from 'sequelize';
 
 import { config } from '../../config';
 import {
-  USER_MODEL_NAME,
+  PHOTOS_MODEL_NAME,
+  PREVIEW_MODEL_NAME,
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME,
-  PREVIEW_MODEL_NAME,
-  PHOTOS_MODEL_NAME,
+  USER_MODEL_NAME,
 } from '../../constants/models';
 import { InternalError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
@@ -18,7 +18,6 @@ import { RoleModel } from '../../models/role';
 import { StatisticModel } from '../../models/statistic';
 import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
-
 import { IPostRepository } from './interface';
 
 @injectable()

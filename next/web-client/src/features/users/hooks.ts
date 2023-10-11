@@ -1,10 +1,9 @@
-import { useSsrEffect, useRegisterEffect } from '@issr/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRegisterEffect, useSsrEffect } from '@issr/core';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ThunkResult } from '../../types/thunk';
 import { IUser } from '../../types/user';
-
-import { fetchUsers, deleteUser } from './thunks';
+import { deleteUser, fetchUsers } from './thunks';
 
 export const useUsers = (): IUser[] => {
   const dispatch = useDispatch<ThunkResult>();

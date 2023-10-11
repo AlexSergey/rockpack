@@ -1,9 +1,9 @@
 import {
-  USER_MODEL_NAME,
+  PHOTOS_MODEL_NAME,
+  PREVIEW_MODEL_NAME,
   ROLE_MODEL_NAME,
   STATISTIC_MODEL_NAME,
-  PREVIEW_MODEL_NAME,
-  PHOTOS_MODEL_NAME,
+  USER_MODEL_NAME,
 } from './constants/models';
 import { CommentModel } from './models/comment';
 import { ImageModel } from './models/image';

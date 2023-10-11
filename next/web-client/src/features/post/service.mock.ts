@@ -1,5 +1,4 @@
 import { Roles } from '../../types/user';
-
 import { IPostService } from './service';
 
 export const mockPostService = (): IPostService => ({

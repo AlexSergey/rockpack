@@ -2,10 +2,10 @@ type Data = unknown;
 
 interface IResponse {
   code: number;
+  data?: Data;
+  message: string;
   status: number;
   statusCode: number;
-  message: string;
-  data?: Data;
 }
 
 export const ok = (message = 'ok', data?: Data): IResponse => {

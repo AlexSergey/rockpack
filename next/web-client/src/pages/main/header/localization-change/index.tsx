@@ -3,7 +3,6 @@ import { createElement } from 'react';
 
 import { config } from '../../../../config';
 import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/localization';
-
 import Ru from './flags/ru.component.svg';
 import Eng from './flags/us.component.svg';
 import styles from './style.module.scss';

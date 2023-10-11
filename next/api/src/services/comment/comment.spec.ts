@@ -1,20 +1,20 @@
+import type { ICommentRepository } from '../../repositories/comment';
+import type { IPostRepository } from '../../repositories/post';
+import type { IUserRepository } from '../../repositories/user';
+import type { IPostService } from '../post';
+import type { IUserService } from '../user';
+import type { ICommentService } from './interface';
+
 import { container } from '../../container';
 import { CommentModel } from '../../models/comment';
 import { PostModel } from '../../models/post';
 import { UserModel } from '../../models/user';
 import { CommentRepositoryDIType } from '../../repositories/comment';
-import type { ICommentRepository } from '../../repositories/comment';
 import { PostRepositoryDIType } from '../../repositories/post';
-import type { IPostRepository } from '../../repositories/post';
 import { UserRepositoryDIType } from '../../repositories/user';
-import type { IUserRepository } from '../../repositories/user';
 import { PostServiceDIType } from '../post';
-import type { IPostService } from '../post';
 import { UserServiceDIType } from '../user';
-import type { IUserService } from '../user';
-
 import { CommentServiceDIType } from './di.type';
-import type { ICommentService } from './interface';
 
 let newuser;
 let post;
@@ -79,7 +79,7 @@ describe('CommentService tests', () => {
   test('Check first comment for the new user', async () => {
     const postId = post.get('id');
     const comments = await commentRepository.fetchComments(postId);
-    const comment = comments[0].toJSON() as { text: string; User: { id: number } };
+    const comment = comments[0].toJSON() as { User: { id: number }; text: string };
 
     expect(comment.User.id).toBe(newuser.get('id'));
     expect(comment.text).toBe('test comment');

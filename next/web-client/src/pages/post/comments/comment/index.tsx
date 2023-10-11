@@ -4,19 +4,18 @@ import { Button, Tooltip } from 'antd';
 
 import { useCommentsApi } from '../../../../features/comments';
 import { Access, Owner, useUser } from '../../../../features/user';
-import { Roles, IUser } from '../../../../types/user';
+import { IUser, Roles } from '../../../../types/user';
 import { dateFormatter } from '../../../../utils/date-format';
-
 import styles from './style.module.scss';
 
 interface IComment {
+  createdAt: string;
   id: number;
   text: string;
-  createdAt: string;
   user: IUser;
 }
 
-export const Comment = ({ id, text, createdAt, user }: IComment): JSX.Element => {
+export const Comment = ({ createdAt, id, text, user }: IComment): JSX.Element => {
   const commentsApi = useCommentsApi();
   const currentUser = useUser();
 

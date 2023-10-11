@@ -1,8 +1,8 @@
 import { Next } from 'koa';
 
 import { container } from '../container';
-import { UnauthorizedError, ExpiredTokenError, UserNotFoundError, ErrorProxyError } from '../errors';
-import { UserRepositoryDIType, IUserRepository } from '../repositories/user';
+import { ErrorProxyError, ExpiredTokenError, UnauthorizedError, UserNotFoundError } from '../errors';
+import { IUserRepository, UserRepositoryDIType } from '../repositories/user';
 import { IKoaContext } from '../types/koa.context';
 import { decodeToken } from '../utils/auth';
 

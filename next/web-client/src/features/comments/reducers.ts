@@ -2,13 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { IActionWithPayload } from '../../types/actions';
 import { IComment, ICommentsState } from '../../types/comments';
-
 import {
-  requestComments,
-  requestCommentsSuccess,
-  requestCommentsError,
   commentCreated,
   commentDeleted,
+  requestComments,
+  requestCommentsError,
+  requestCommentsSuccess,
 } from './actions';
 
 export const commentsReducer = createReducer<ICommentsState>(

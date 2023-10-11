@@ -1,4 +1,3 @@
-import './types/global.declaration';
 import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
@@ -13,6 +12,7 @@ import { Router } from './components/router';
 import { LocalizationContainer } from './features/localization';
 import { createServices } from './services';
 import { createStore } from './store';
+import './types/global.declaration';
 import { createRestClient } from './utils/rest';
 
 declare global {

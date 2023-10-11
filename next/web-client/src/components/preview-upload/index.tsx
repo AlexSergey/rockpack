@@ -1,11 +1,10 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Upload, Button, message } from 'antd';
+import { Button, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { useState } from 'react';
 
 import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
-
 import styles from './style.module.scss';
 
 export const PreviewUpload = ({
@@ -27,8 +26,6 @@ export const PreviewUpload = ({
   return (
     <div className={`${styles.holder} ${preview.length === 0 ? styles['without-preview'] : ''}`}>
       <Upload
-        fileList={fileList}
-        showUploadList={false}
         beforeUpload={(file): false => {
           const isSupported = config.fileFormats.includes(file.type);
           if (!isSupported) {
@@ -40,6 +37,7 @@ export const PreviewUpload = ({
 
           return false;
         }}
+        fileList={fileList}
         onChange={(info): void => {
           if (info.fileList.length === 0) {
             setPreview('');
@@ -49,6 +47,7 @@ export const PreviewUpload = ({
             onChange(info.file);
           }
         }}
+        showUploadList={false}
       >
         <Button>
           <UploadOutlined /> Click to Upload
@@ -56,7 +55,7 @@ export const PreviewUpload = ({
       </Upload>
       {preview !== '' ? (
         <div>
-          <img className={styles.preview} src={preview} alt="preview" />
+          <img alt="preview" className={styles.preview} src={preview} />
         </div>
       ) : null}
     </div>

@@ -1,6 +1,5 @@
 import { container } from '../../container';
 import { UserModel } from '../../models/user';
-
 import { UserRepositoryDIType } from './di.type';
 import { IUserRepository } from './interface';
 

@@ -1,7 +1,6 @@
 import Localization, { l } from '@localazer/component';
 
 import { useUserStatistic } from '../../../../features/user';
-
 import styles from './style.module.scss';
 
 export const UserStatistic = (): JSX.Element => {

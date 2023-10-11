@@ -1,8 +1,7 @@
+import { Next } from 'koa';
 import fs from 'node:fs';
 import path from 'node:path';
 import util from 'node:util';
-
-import { Next } from 'koa';
 import sharp from 'sharp';
 
 import { config } from '../config';
@@ -14,11 +13,11 @@ const writeFile = util.promisify(fs.writeFile);
 const resizeFile = (
   filePath: string,
   resize:
-    | number
     | {
-        width?: number;
         height?: number;
-      },
+        width?: number;
+      }
+    | number,
 ): Promise<Buffer> =>
   new Promise((resolve, reject) => {
     sharp(filePath)
@@ -31,15 +30,15 @@ const resizeFile = (
 interface IResizeImage {
   name: string;
   resize?:
-    | number
     | {
-        width?: number;
         height?: number;
-      };
+        width?: number;
+      }
+    | number;
 }
 
 export const resizeImage =
-  (...fields: (string | IResizeImage)[]) =>
+  (...fields: (IResizeImage | string)[]) =>
   async (ctx: IKoaContext, next: Next): Promise<void> => {
     const { files } = ctx;
 

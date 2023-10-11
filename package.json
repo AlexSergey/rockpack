@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "3.2.0",
+  "version": "4.0.0-next.1",
   "private": true,
   "license": "MIT",
   "workspaces": [
@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "lint": "lerna run lint",
+    "format": "lerna run format",
     "production": "lerna run production",
     "test": "lerna run test --stream",
     "postinstall": "cpy node_modules/@types/koa-bodyparser next/api/node_modules/@types/koa-bodyparser"

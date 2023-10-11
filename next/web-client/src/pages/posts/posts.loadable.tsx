@@ -11,7 +11,6 @@ import { usePosts, usePostsApi } from '../../features/posts';
 import { Access, Owner, useUser } from '../../features/user';
 import { Roles } from '../../types/user';
 import { dateFormatter } from '../../utils/date-format';
-
 import { PostsPagination } from './posts-pagination';
 import styles from './style.module.scss';
 
@@ -25,19 +24,19 @@ const Posts = (): JSX.Element => {
     <>
       <Helmet>
         <title>{l('Posts')()}</title>
-        <meta name="description" content={l('Posts page. Here you find the most popular posts on the Internet')()} />
+        <meta content={l('Posts page. Here you find the most popular posts on the Internet')()} name="description" />
       </Helmet>
       <div className={styles.posts}>
         {loading && <Loader />}
         {error && <Error />}
         {data.map((post, index) => (
-          <div key={post.id} className={`${styles.post} ${data.length - 1 === index && styles['post-last']}`}>
+          <div className={`${styles.post} ${data.length - 1 === index && styles['post-last']}`} key={post.id}>
             <Access forRoles={[Roles.admin]}>
               {(roleMatched): JSX.Element =>
                 roleMatched ? (
                   <Button
-                    danger
                     className={styles.delete}
+                    danger
                     onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
                   >
                     <CloseOutlined />
@@ -45,8 +44,8 @@ const Posts = (): JSX.Element => {
                 ) : (
                   <Owner forUser={post.User.email}>
                     <Button
-                      danger
                       className={styles.delete}
+                      danger
                       onClick={(): void => deletePost(post.id, currentUser.email === post.User.email)}
                     >
                       <CloseOutlined />
@@ -57,10 +56,10 @@ const Posts = (): JSX.Element => {
             </Access>
             {post.Preview && (
               <div className={styles['preview-holder']}>
-                <img src={`http://localhost:9999/${post.Preview.thumbnail}`} alt="" />
+                <img alt="" src={`http://localhost:9999/${post.Preview.thumbnail}`} />
               </div>
             )}
-            <Link to={`/${currentLanguage}/posts/${post.id}`} className={styles.title}>
+            <Link className={styles.title} to={`/${currentLanguage}/posts/${post.id}`}>
               <h2>{post.title}</h2>
             </Link>
             <div className={styles.extra}>

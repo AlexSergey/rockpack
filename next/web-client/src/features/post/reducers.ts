@@ -3,8 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { IActionWithPayload } from '../../types/actions';
 import { IPost, IPostState } from '../../types/post';
 import { commentCreated, commentDeleted } from '../comments';
-
-import { requestPost, requestPostError, requestPostSuccess, postUpdated } from './actions';
+import { postUpdated, requestPost, requestPostError, requestPostSuccess } from './actions';
 
 export const postReducer = createReducer<IPostState>(
   {

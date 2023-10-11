@@ -9,7 +9,6 @@ import { Loader } from '../../components/loader';
 import { usePost } from '../../features/post';
 import { Access, Owner } from '../../features/user';
 import { Roles } from '../../types/user';
-
 import { AddComment } from './add-comment';
 import { Comments } from './comments';
 import { Images } from './images';
@@ -30,7 +29,7 @@ const PostDetails = (): JSX.Element => {
     <>
       <Helmet>
         <title>{data && data.title}</title>
-        <meta name="description" content={data && data.title} />
+        <meta content={data && data.title} name="description" />
       </Helmet>
       {loading && <Loader />}
       {error && <Error />}
@@ -64,16 +63,16 @@ const PostDetails = (): JSX.Element => {
           </Access>
 
           <Modal
-            title={sprintf(l('Update post %s', 'Post')(), data.title)()}
-            open={updateMode}
-            onCancel={(): void => setUpdateMode(false)}
             footer={null}
+            onCancel={(): void => setUpdateMode(false)}
+            open={updateMode}
+            title={sprintf(l('Update post %s', 'Post')(), data.title)()}
           >
             <UpdateMode
+              onFinish={(): void => setUpdateMode(false)}
               postId={data.id}
               text={data.text}
               title={data.title}
-              onFinish={(): void => setUpdateMode(false)}
             />
           </Modal>
         </div>

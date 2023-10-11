@@ -1,5 +1,5 @@
 import Localization, { l } from '@localazer/component';
-import { Modal, Button, Form, Input } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { useState } from 'react';
 
 import { useUserApi } from '../../../../features/user';
@@ -15,11 +15,11 @@ export const Signup = (): JSX.Element => {
 
   return (
     <>
-      <Button type="primary" onClick={(): void => signupModal(true)}>
+      <Button onClick={(): void => signupModal(true)} type="primary">
         <Localization>{l('Sign Up')}</Localization>
       </Button>
 
-      <Modal title={l('Sign Up')()} open={signupState} onCancel={(): void => signupModal(false)} footer={null}>
+      <Modal footer={null} onCancel={(): void => signupModal(false)} open={signupState} title={l('Sign Up')()}>
         <Form
           name="signup"
           onFinish={(store: Store): void => {
@@ -53,7 +53,7 @@ export const Signup = (): JSX.Element => {
           </Form.Item>
 
           <Form.Item style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">
+            <Button htmlType="submit" type="primary">
               <Localization>{l('Sign Up')}</Localization>
             </Button>
           </Form.Item>

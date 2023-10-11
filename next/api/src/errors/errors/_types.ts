@@ -1,8 +1,8 @@
 import { Statuses } from '../utils/get-status';
 
 export interface IError {
-  statusCode: number;
-  message: string;
   code: string;
+  message: string;
   status: Statuses;
+  statusCode: number;
 }

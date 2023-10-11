@@ -1,15 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { IRootState, IThunkExtras } from '../../types/store';
-import { increasePost, decreasePost, decreaseComment } from '../common/actions';
-
+import { decreaseComment, decreasePost, increasePost } from '../common/actions';
 import {
+  paginationSetCount,
+  paginationSetCurrent,
+  postDeleted,
   requestPosts,
   requestPostsError,
   requestPostsSuccess,
-  postDeleted,
-  paginationSetCount,
-  paginationSetCurrent,
 } from './actions';
 import { PostsRes } from './service';
 import { IDeletePostPayload, IPostsPayload } from './types';
@@ -17,11 +16,11 @@ import { IDeletePostPayload, IPostsPayload } from './types';
 export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }>(
   'posts/fetch',
   async (page, { dispatch, extra }): Promise<void> => {
-    const { services, logger } = extra;
+    const { logger, services } = extra;
     try {
       dispatch(requestPosts());
       const {
-        data: { posts, count },
+        data: { count, posts },
       }: PostsRes = await services.posts.fetchPosts(page);
       dispatch(paginationSetCount(count));
       dispatch(requestPostsSuccess(posts));
@@ -49,13 +48,13 @@ export const setPage = createAsyncThunk<void, number, { extra: IThunkExtras }>(
 
 export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkExtras }>(
   'posts/createPost',
-  async ({ postData, page }, { dispatch, extra }): Promise<void> => {
-    const { services, logger } = extra;
+  async ({ page, postData }, { dispatch, extra }): Promise<void> => {
+    const { logger, services } = extra;
     try {
       await services.posts.createPost(postData);
 
       const {
-        data: { posts, count },
+        data: { count, posts },
       }: PostsRes = await services.posts.fetchPosts(page);
 
       dispatch(increasePost());

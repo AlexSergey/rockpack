@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import ru from '../../locales/ru.json';
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { Languages } from '../../types/localization';
-
 import { useLocalizationAPI } from './hooks';
 
 test('Check localization', async () => {

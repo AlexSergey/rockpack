@@ -1,5 +1,7 @@
 import { injectable } from 'inversify';
 
+import type { IUserRepository } from './interface';
+
 import { ROLE_MODEL_NAME, STATISTIC_MODEL_NAME } from '../../constants/models';
 import { BadRequestError, InternalError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
@@ -7,8 +9,6 @@ import { RoleModel } from '../../models/role';
 import { StatisticModel } from '../../models/statistic';
 import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
-
-import type { IUserRepository } from './interface';
 
 @injectable()
 export class UserRepository implements IUserRepository {

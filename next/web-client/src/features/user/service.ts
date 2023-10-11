@@ -10,13 +10,13 @@ type UserData = {
 type UserRes = { data: IUser };
 
 export interface IUserService {
-  signIn: (user: UserData) => Promise<UserRes>;
-
   authorization: () => Promise<UserRes>;
 
-  signUp: (user: UserData) => Promise<UserRes>;
+  signIn: (user: UserData) => Promise<UserRes>;
 
   signOut: () => Promise<void>;
+
+  signUp: (user: UserData) => Promise<UserRes>;
 }
 
 export const userService = (rest: IRest): IUserService => ({

@@ -18,5 +18,5 @@ export default {
 
 export const Wysiwyg = (): JSX.Element => (
   // eslint-disable-next-line no-console
-  <WysiwygComponent value="<h1>Test</h1>" onChange={(value): void => console.log(value)} />
+  <WysiwygComponent onChange={(value): void => console.log(value)} value="<h1>Test</h1>" />
 );

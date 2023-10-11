@@ -1,6 +1,6 @@
 {
   "name": "react-starter",
-  "version": "3.2.0",
+  "version": "4.0.0-next.1",
   "scripts": {
     "start": "node scripts.build",
     "build": "node scripts.build --mode=production",
@@ -8,6 +8,7 @@
     "localization:makePot": "cross-env NODE_ENV=production node scripts.makePot",
     "localization:po2json": "node scripts.po2json",
     "lint": "eslint \"src/**\"",
+    "format": "npm run format:eslint",
     "format:eslint": "eslint \"src/**\" --fix",
     "seo": "node scripts.seo.check.js",
     "storybook": "start-storybook",
@@ -50,10 +51,10 @@
   "devDependencies": {
     "@localazer/webpack-plugin": "3.1.0",
     "@localazer/po2json": "3.1.0",
-    "@rockpack/codestyle": "3.2.0",
-    "@rockpack/compiler": "3.2.0",
-    "@rockpack/tester": "3.2.0",
-    "@rockpack/tsconfig": "3.2.0",
+    "@rockpack/codestyle": "4.0.0-next.1",
+    "@rockpack/compiler": "4.0.0-next.1",
+    "@rockpack/tester": "4.0.0-next.1",
+    "@rockpack/tsconfig": "4.0.0-next.1",
     "@issr/babel-plugin": "2.2.0",
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-backgrounds": "5.3.21",

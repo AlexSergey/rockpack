@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-shadow
 export enum Roles {
+  admin = 'admin',
   unauthorized = 'unauthorized',
   user = 'user',
-  admin = 'admin',
 }
 
 export type UserStatistic = {
@@ -11,10 +11,10 @@ export type UserStatistic = {
 };
 
 export interface IUser {
-  id: number;
-  email: string;
   Role: {
     role: Roles;
   };
   Statistic: UserStatistic;
+  email: string;
+  id: number;
 }

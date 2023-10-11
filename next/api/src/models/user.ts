@@ -1,9 +1,8 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 import { InternalError, PostNotFoundError } from '../errors';
 import { cryptPassword, isValidPassword } from '../utils/auth';
-
 import { CommentModel } from './comment';
 import { PostModel } from './post';
 import { StatisticModel } from './statistic';
@@ -13,9 +12,9 @@ const PROTECTED_ATTRIBUTES = ['password', 'token'];
 
 export interface IUser {
   id: number;
-  username: string;
   password: string;
   role: string;
+  username: string;
 }
 
 export class UserModel extends Model<IUser> {

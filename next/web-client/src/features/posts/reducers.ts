@@ -1,15 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { IActionWithPayload } from '../../types/actions';
-import { IPostsState, IPost } from '../../types/posts';
-
+import { IPost, IPostsState } from '../../types/posts';
 import {
+  paginationSetCount,
+  paginationSetCurrent,
+  postDeleted,
   requestPosts,
   requestPostsError,
   requestPostsSuccess,
-  postDeleted,
-  paginationSetCount,
-  paginationSetCurrent,
 } from './actions';
 
 export const postsReducer = createReducer<IPostsState>(
@@ -43,7 +42,7 @@ export const postsReducer = createReducer<IPostsState>(
   },
 );
 
-export const paginationReducer = createReducer<{ current: number; count: number }>(
+export const paginationReducer = createReducer<{ count: number; current: number }>(
   {
     count: 10,
     current: 1,

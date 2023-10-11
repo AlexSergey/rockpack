@@ -5,9 +5,9 @@ import { IRest } from '../../utils/rest';
 type UsersRes = { data: { users: IUser[] } };
 
 export interface IUsersService {
-  fetchUsers: () => Promise<UsersRes>;
-
   deleteUser: (id: number) => Promise<void>;
+
+  fetchUsers: () => Promise<UsersRes>;
 }
 
 export const usersService = (rest: IRest): IUsersService => ({

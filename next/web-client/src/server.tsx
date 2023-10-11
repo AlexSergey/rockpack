@@ -1,7 +1,3 @@
-import './types/global.declaration';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
 import { ChunkExtractor } from '@loadable/server';
@@ -11,8 +7,10 @@ import Koa from 'koa';
 import noCache from 'koa-no-cache';
 import serve from 'koa-static';
 import logger from 'logrock';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import PrettyError from 'pretty-error';
-import { HelmetProvider, FilledContext } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
@@ -23,6 +21,7 @@ import { LocalizationContainer, getCurrentLanguageFromURL } from './features/loc
 import ru from './locales/ru.json';
 import { createServices } from './services';
 import { createStore } from './store';
+import './types/global.declaration';
 import { isDevelopment } from './utils/environments';
 import { createRestClient } from './utils/rest';
 
