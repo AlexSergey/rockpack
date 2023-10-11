@@ -2,7 +2,6 @@ import renderer, { act } from 'react-test-renderer';
 
 import { createAppWrapper } from '../../../../tests/create-app-wrapper';
 import { sleep } from '../../../../tests/helpers';
-
 import { ImageArea } from './index';
 
 it('ImageArea renders correctly', async () => {

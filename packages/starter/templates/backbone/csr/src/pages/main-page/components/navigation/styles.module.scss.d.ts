@@ -1,6 +1,6 @@
 declare namespace StyleModulesScssNamespace {
   export interface IStyleModulesScss {
-    "nav-holder": string;
+    'nav-holder': string;
   }
 }
 

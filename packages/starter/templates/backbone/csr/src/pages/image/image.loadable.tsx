@@ -6,8 +6,8 @@ const Image = (): JSX.Element => (
   <>
     <Helmet>
       <title>Image Page</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="description" content="Image page" />
+      <meta content="width=device-width, initial-scale=1" name="viewport" />
+      <meta content="Image page" name="description" />
     </Helmet>
     <ImageArea />
   </>

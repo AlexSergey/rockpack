@@ -1,10 +1,10 @@
-import { configureStore, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
+import { Store, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import { imageReducer } from './features/image';
 import { IRootState, IStoreProps } from './types/store';
 import { isDevelopment } from './utils/environments';
 
-export const createStore = ({ initialState, services, history }: IStoreProps): Store<IRootState> => {
+export const createStore = ({ history, initialState, services }: IStoreProps): Store<IRootState> => {
   const middleware = getDefaultMiddleware({
     immutableCheck: true,
     serializableCheck: false,

@@ -20,6 +20,7 @@
 - Eslint Import Recommended
 - Eslint TS Recommended
 - Eslint Prettier Recommended
+- Eslint Perfectionist
 
 ### Additional tools:
 

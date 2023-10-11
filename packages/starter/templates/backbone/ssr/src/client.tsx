@@ -1,4 +1,3 @@
-import './types/global.declaration';
 import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
@@ -11,6 +10,7 @@ import { App } from './app';
 import { Router } from './components/router';
 import { createServices } from './services';
 import { createStore } from './store';
+import './types/global.declaration';
 
 declare global {
   interface Window {

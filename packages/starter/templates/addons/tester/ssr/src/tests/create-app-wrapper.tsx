@@ -5,15 +5,14 @@ import { Provider } from 'react-redux';
 
 import { Router } from '../components/router';
 import { createStore } from '../store';
-
 import { createMockServices } from './mock-services';
 
 export const createAppWrapper = ({
-  url = '/',
   initialState = {},
+  url = '/',
 }: {
-  url?: string;
   initialState?: { [key: string]: unknown };
+  url?: string;
 } = {}): (({ children }: { children: ReactNode }) => JSX.Element) => {
   const history = createMemoryHistory({
     initialEntries: [url],

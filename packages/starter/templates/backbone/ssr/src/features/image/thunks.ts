@@ -1,6 +1,5 @@
 import { ThunkResult } from '../../types/thunk';
-
-import { requestImage, requestImageSuccess, requestImageError } from './actions';
+import { requestImage, requestImageError, requestImageSuccess } from './actions';
 
 export const fetchImage =
   (): ThunkResult =>

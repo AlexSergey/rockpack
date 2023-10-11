@@ -1,7 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
-
 import { useImage } from './hooks';
 
 it('Render Image from useImage()', async () => {

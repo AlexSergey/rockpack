@@ -113,7 +113,7 @@ export const install = async ({
 
   if (state.appType === 'library' || state.appType === 'component') {
     try {
-      const npmignore = fs.readFileSync(path.join(dummies, 'npmignore.lc'), 'utf8');
+      const npmignore = fs.readFileSync(path.join(dummies, 'npmignore'), 'utf8');
       fs.writeFileSync(path.join(currentPath, '.npmignore'), npmignore.toString());
     } catch (e) {
       showError(e, () => {

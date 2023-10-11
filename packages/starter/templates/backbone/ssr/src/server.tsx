@@ -1,8 +1,3 @@
-import './types/global.declaration';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-import { constants } from 'node:zlib';
-
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
 import { ChunkExtractor } from '@loadable/server';
@@ -10,9 +5,12 @@ import { createMemoryHistory } from 'history';
 import Koa, { Context } from 'koa';
 import compress from 'koa-compress';
 import serve from 'koa-static';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { constants } from 'node:zlib';
 import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
-import { HelmetProvider, FilledContext } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
@@ -20,6 +18,7 @@ import serialize from 'serialize-javascript';
 import { App } from './app';
 import { createServices } from './services';
 import { createStore } from './store';
+import './types/global.declaration';
 import { isDevelopment } from './utils/environments';
 
 const app = new Koa();
@@ -102,7 +101,7 @@ router.get('/*', async (ctx: Context) => {
     ${helmet.meta.toString()}
     ${linkTags}
     ${styleTags}
-    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ""}
+    ${isDevelopment() ? '<script src="/dev-server.js"></script>' : ''}
 </head>
 <body>
     <div id="root">${html}</div>

@@ -1,6 +1,6 @@
 declare namespace StyleModulesScssNamespace {
   export interface IStyleModulesScss {
-    "image-holder": string;
+    'image-holder': string;
   }
 }
 

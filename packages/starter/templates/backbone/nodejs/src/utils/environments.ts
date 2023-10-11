@@ -9,4 +9,4 @@ const isDevelopment = (): boolean => process.env.NODE_ENV === 'development';
 
 export default MODE[process.env.NODE_ENV];
 
-export { isProduction, isDevelopment };
+export { isDevelopment, isProduction };

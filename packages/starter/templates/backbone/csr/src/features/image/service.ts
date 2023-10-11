@@ -1,12 +1,12 @@
 import { IFetch } from '../../types/fetch';
 
 export type ImageRes = {
-  id: string;
   author: string;
-  width: number;
-  height: number;
-  url: string;
   download_url: string;
+  height: number;
+  id: string;
+  url: string;
+  width: number;
 };
 
 export interface IImageService {

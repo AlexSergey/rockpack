@@ -1,4 +1,4 @@
-import { imageService, IImageService } from './features/image/service';
+import { IImageService, imageService } from './features/image/service';
 import { IFetch } from './types/fetch';
 
 export interface IServices {
