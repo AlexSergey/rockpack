@@ -21541,6 +21541,11 @@ postcss-selector-parser@^6.0.11, postcss-selector-parser@^6.0.13:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
+postcss-sorting@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-sorting/-/postcss-sorting-8.0.2.tgz#6393385ece272baf74bee9820fb1b58098e4eeca"
+  integrity sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==
+
 postcss-svgo@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/postcss-svgo/-/postcss-svgo-6.0.0.tgz"
@@ -25652,6 +25657,13 @@ stylehacks@^6.0.0:
     browserslist "^4.21.4"
     postcss-selector-parser "^6.0.4"
 
+stylelint-config-clean-order@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-clean-order/-/stylelint-config-clean-order-5.2.0.tgz#4462256111740d1e777515bf24d3b9805ed05e12"
+  integrity sha512-eAB9ftPa8txPFY2oh4NIE3DFkNzqVEBIALUZhSXP0+6CISPjZPBoOV24shjC9DgOKr7rNPY52DAXBXIBI//Mhg==
+  dependencies:
+    stylelint-order "^6.0.2"
+
 stylelint-config-prettier-scss@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/stylelint-config-prettier-scss/-/stylelint-config-prettier-scss-1.0.0.tgz"
@@ -25685,6 +25697,14 @@ stylelint-config-standard@^34.0.0:
   integrity sha512-u0VSZnVyW9VSryBG2LSO+OQTjN7zF9XJaAJRX/4EwkmU0R2jYwmBSN10acqZisDitS0CLiEiGjX7+Hrq8TAhfQ==
   dependencies:
     stylelint-config-recommended "^13.0.0"
+
+stylelint-order@^6.0.2:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/stylelint-order/-/stylelint-order-6.0.3.tgz#160b78650bd90463241b992581efee7159baefc2"
+  integrity sha512-1j1lOb4EU/6w49qZeT2SQVJXm0Ht+Qnq9GMfUa3pMwoyojIWfuA+JUDmoR97Bht1RLn4ei0xtLGy87M7d29B1w==
+  dependencies:
+    postcss "^8.4.21"
+    postcss-sorting "^8.0.2"
 
 stylelint-scss@5.2.1:
   version "5.2.1"

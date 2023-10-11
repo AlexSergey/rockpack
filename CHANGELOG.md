@@ -6,6 +6,8 @@
 - Rework [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/tree/master/packages/codestyle) module:
   - Added [eslint-plugin-perfectionist](https://github.com/azat-io/eslint-plugin-perfectionist)
   - Turned off all conflicts rules
+  - Updated all deprecation warnings from Stylelint
+  - Added
 - Adopt the code to use [iSSR](https://github.com/AlexSergey/issr) the new version
 - All dependencies were updated
 

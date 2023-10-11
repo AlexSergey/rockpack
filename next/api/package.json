@@ -1,6 +1,6 @@
 {
   "name": "node-starter",
-  "version": "4.0.0-next.2",
+  "version": "4.0.0-next.3",
   "main": "index.js",
   "scripts": {
     "start": "node scripts.build",
@@ -55,9 +55,9 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "4.0.0-next.2",
-    "@rockpack/compiler": "4.0.0-next.2",
-    "@rockpack/tester": "4.0.0-next.2",
+    "@rockpack/codestyle": "4.0.0-next.3",
+    "@rockpack/compiler": "4.0.0-next.3",
+    "@rockpack/tester": "4.0.0-next.3",
     "@types/dotenv-safe": "8.1.1",
     "@types/jsonwebtoken": "8.5.0",
     "@types/koa": "2.11.7",
