@@ -3,7 +3,7 @@ import { getPM } from '../utils/other.js';
 import { packageJson } from '../utils/package-json.js';
 import { addFields, addScripts, addDependencies, readPackageJSON, writePackageJSON } from '../utils/project.js';
 
-export const packageJSONPreparing = async (packageJSON, { appType, tester, codestyle, nogit }, currentPath) => {
+export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit }, currentPath) => {
   switch (appType) {
     case 'csr':
       packageJSON = await addDependencies(packageJSON, {
@@ -54,7 +54,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, codes
           { name: 'serialize-javascript', version: '5' },
           { name: 'entities', version: '2' },
           { name: 'pretty-error', version: '4' },
-          { name: '@koa/router', version: '8' },
+          { name: '@koa/router', version: '12' },
           { name: '@loadable/component', version: '5' },
           { name: '@loadable/server', version: '5' },
         ],
@@ -66,7 +66,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, codes
           { name: '@types/loadable__component', version: '5' },
           { name: '@types/koa', version: '2' },
           { name: '@types/koa-compress', version: '4' },
-          { name: '@types/koa__router', version: '8' },
+          { name: '@types/koa__router', version: '12' },
           { name: '@types/koa-static', version: '4' },
           { name: '@types/loadable__server', version: '5' },
           { name: '@types/node', version: '16' },
@@ -99,7 +99,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, codes
         types: 'dist/index.d.ts',
       });
 
-      const production = `${codestyle ? `${getPM()} run lint && ` : ''}${
+      const production = `${getPM()} run lint && ${
         tester ? `${getPM()} test && ` : ''
       }${getPM()} run build && ${getPM()} publish`;
 
@@ -153,27 +153,25 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, codes
     });
   }
 
-  if (codestyle) {
-    packageJSON = addScripts(packageJSON, {
-      format: appType === 'library' ?
-        'npm run format:package && npm run format:prettier && npm run format:code' :
-        'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
-      'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
-      'format:package': 'sort-package-json',
-      'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
-      'format:styles': 'stylelint "src/**/*.scss" --fix',
-      lint: appType === 'library' ?
-        'npm run lint:ts && npm run lint:code' :
-        'npm run lint:ts && npm run lint:code && npm run lint:styles',
-      'lint:code': 'eslint --ext .ts,.tsx,.json src/',
-      'lint:commit': 'commitlint -e',
-      'lint:ts': 'tsc --noEmit',
-      'lint:styles': 'stylelint "src/**/*.scss"',
-    });
-    packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/codestyle', version: packageJson.version }],
-    });
-  }
+  packageJSON = addScripts(packageJSON, {
+    format: appType === 'library' ?
+      'npm run format:package && npm run format:prettier && npm run format:code' :
+      'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
+    'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
+    'format:package': 'sort-package-json',
+    'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
+    'format:styles': 'stylelint "src/**/*.scss" --fix',
+    lint: appType === 'library' ?
+      'npm run lint:ts && npm run lint:code' :
+      'npm run lint:ts && npm run lint:code && npm run lint:styles',
+    'lint:code': 'eslint --ext .ts,.tsx,.json src/',
+    'lint:commit': 'commitlint -e',
+    'lint:ts': 'tsc --noEmit',
+    'lint:styles': 'stylelint "src/**/*.scss"',
+  });
+  packageJSON = await addDependencies(packageJSON, {
+    devDependencies: [{ name: '@rockpack/codestyle', version: packageJson.version }],
+  });
 
   if (tester) {
     packageJSON = addScripts(packageJSON, {
@@ -205,11 +203,9 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, codes
       ],
     });
 
-    if (codestyle) {
-      packageJSON = addScripts(packageJSON, {
-        'pre-commit': 'lint-staged'
-      });
-    }
+    packageJSON = addScripts(packageJSON, {
+      'pre-commit': 'lint-staged'
+    });
   }
 
   return packageJSON;

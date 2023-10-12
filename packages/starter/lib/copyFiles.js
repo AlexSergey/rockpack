@@ -10,7 +10,6 @@ import { copy } from '../utils/copy.js';
 export const copyFiles = async (currentPath, {
   appType,
   tester,
-  codestyle,
   nogit
 }) => {
   await copy(
@@ -18,25 +17,23 @@ export const copyFiles = async (currentPath, {
     path.join(currentPath)
   );
 
-  if (codestyle) {
+  await copy(
+    path.join(addons, 'codestyle', 'common'),
+    path.join(currentPath)
+  );
+
+  if (!nogit) {
     await copy(
-      path.join(addons, 'codestyle', 'common'),
+      path.join(addons, 'git'),
       path.join(currentPath)
     );
+  }
 
-    if (!nogit) {
-      await copy(
-        path.join(addons, 'git'),
-        path.join(currentPath)
-      );
-    }
-
-    if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
-      await copy(
-        path.join(addons, 'codestyle', appType),
-        path.join(currentPath)
-      );
-    }
+  if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
+    await copy(
+      path.join(addons, 'codestyle', appType),
+      path.join(currentPath)
+    );
   }
 
   if (tester) {

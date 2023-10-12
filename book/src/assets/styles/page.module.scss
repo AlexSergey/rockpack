@@ -1,0 +1,30 @@
+.page {
+  max-width: 900px;
+  min-width: 320px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.github {
+  width: 120px;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: none;
+    width: 100%;
+    height: 1px;
+    background: black;
+    position: absolute;
+    top: 80px;
+  }
+
+  &:hover {
+    &:before {
+      display: block;
+    }
+  }
+}

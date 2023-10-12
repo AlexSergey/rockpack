@@ -7,8 +7,6 @@ import { showError } from '../utils/error.js';
 export const createFiles = async (currentPath, {
   projectName,
   appType,
-  tester,
-  codestyle
 }) => {
   if (fs.existsSync(path.join(currentPath, '.env.example'))) {
     fs.copyFileSync(path.join(currentPath, '.env.example'), path.join(currentPath, '.env'));

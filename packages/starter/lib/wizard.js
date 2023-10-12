@@ -43,15 +43,8 @@ export const wizard = async () => {
     message: 'Do you want tests?'
   });
 
-  const { codestyle } = await prompt({
-    type: 'confirm',
-    name: 'codestyle',
-    message: 'Do you want code quality tools: ESLint, Prettier, etc?'
-  });
-
   return {
     appType,
     tester,
-    codestyle
   }
 }

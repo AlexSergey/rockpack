@@ -58,7 +58,7 @@ app.use(async (ctx, next) => {
   }
 });
 
-router.get('/*', async (ctx: Context) => {
+router.get('(.*)', async (ctx: Context) => {
   const store = createStore({
     history: createMemoryHistory(),
     initialState: {},

@@ -1,26 +1,3 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "jsx": "react",
-    "module": "esnext",
-    "skipLibCheck": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "lib": [
-      "esnext",
-      "dom",
-      "ES2015.Iterable"
-    ],
-    "typeRoots": [
-      "./typings"
-    ]
-  },
-  "exclude": [
-    "./node_modules/**/*"
-  ],
-  "include": [
-    "./generator/**/*"
-  ]
+  "extends": "@rockpack/tsconfig"
 }

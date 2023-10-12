@@ -3,7 +3,6 @@ import { getPM } from './other.js';
 
 export const gitHooks = async ({
   tester,
-  codestyle,
 }, currentPath) => {
   let hooksCommon = [];
   let hooksCommit = [];
@@ -17,9 +16,7 @@ export const gitHooks = async ({
   hooksPush = hooksPush.concat(hooksCommon);
   hooksCommit = hooksCommit.concat(hooksCommon);
 
-  if (codestyle) {
-    hooksCommit.push(`${getPM()} run pre-commit`);
-  }
+  hooksCommit.push(`${getPM()} run pre-commit`);
 
   if (tester) {
     hooksPush.push(`${getPM()} test`);
@@ -44,9 +41,7 @@ export const gitHooks = async ({
     spawnSync('git', ['add', '.husky/pre-push'], shellOptions);
   }
 
-  if (codestyle) {
-    spawnSync('npx', ['husky', 'add', '.husky/commit-msg', '"npm run lint:commit"'], shellOptions);
+  spawnSync('npx', ['husky', 'add', '.husky/commit-msg', '"npm run lint:commit"'], shellOptions);
 
-    spawnSync('git', ['add', '.husky/commit-msg'], shellOptions);
-  }
+  spawnSync('git', ['add', '.husky/commit-msg'], shellOptions);
 }

@@ -235,11 +235,9 @@ export const install = async ({
     console.log(`${chalk.blue(`${getPM()} run test:watch`)} - run tests in dev mode`);
   }
 
-  if (state.codestyle) {
-    console.log();
-    console.log(chalk.magenta('  ESLint checking:'));
-    console.log(`${chalk.blue(`${getPM()} run lint`)} - check ESLint rules`);
-  }
+  console.log();
+  console.log(chalk.magenta('  ESLint checking:'));
+  console.log(`${chalk.blue(`${getPM()} run lint`)} - check ESLint rules`);
 
   if (!state.nogit) {
     console.log();
