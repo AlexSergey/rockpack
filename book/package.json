@@ -28,7 +28,6 @@
     "@types/react-helmet": "6.1.7",
     "node-html-parser": "6.1.10",
     "prerender-spa-plugin": "3.4.0",
-    "raw-loader": "4.0.2",
-    "strip-comments": "2.0.1"
+    "raw-loader": "4.0.2"
   }
 }

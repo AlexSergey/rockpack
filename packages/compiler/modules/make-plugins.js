@@ -67,7 +67,7 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
 
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
-  const { extensions } = makeResolve();
+  const { extensions } = makeResolve(root);
   const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
   const distFolder = path.dirname(distPath);
 

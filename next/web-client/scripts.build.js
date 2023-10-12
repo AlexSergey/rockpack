@@ -1,13 +1,5 @@
-const path = require('path');
+const path = require('node:path');
 const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rockpack/compiler');
-
-const alias = {
-  alias: {
-    'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
-    react: path.resolve(__dirname, '../../node_modules/react'),
-    'react-dom/server': path.resolve(__dirname, '../../node_modules/react-dom/server')
-  }
-};
 
 isomorphicCompiler(
   frontendCompiler({
@@ -16,15 +8,11 @@ isomorphicCompiler(
     copy: [
       { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
       { from: path.resolve(__dirname, './src/assets/robots.txt'), to: './' },
-      { from: path.resolve(__dirname, './src/locales'), to: './locales' }
-    ]
-  }, config => {
-    Object.assign(config.resolve, alias);
+      { from: path.resolve(__dirname, './src/locales'), to: './locales' },
+    ],
   }),
   backendCompiler({
     src: 'src/server.tsx',
     dist: 'dist',
-  }, config => {
-    Object.assign(config.resolve, alias);
-  })
+  }),
 );

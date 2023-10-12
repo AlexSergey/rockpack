@@ -32,7 +32,7 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
 
           if (isTypeScript) {
             try {
-              await generateDts(conf);
+              await generateDts(conf, root);
             } catch (e) {
               // eslint-disable-next-line no-console
               console.error(e.message);

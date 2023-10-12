@@ -1,7 +1,7 @@
 const { existsSync } = require('node:fs');
 const path = require('node:path');
 
-const { getRootRequireDir, getMode } = require('@rockpack/utils');
+const { getMode } = require('@rockpack/utils');
 const { copySync } = require('fs-extra');
 const tempy = require('tempy');
 const ts = require('typescript');
@@ -15,9 +15,8 @@ const makeCompilerOptions = require('./make-compiler-options');
 const pathToTSConf = require('./path-to-ts-conf');
 
 // eslint-disable-next-line consistent-return
-module.exports = async function generateDts(conf) {
-  const { extensions } = makeResolve();
-  const root = getRootRequireDir();
+module.exports = async function generateDts(conf, root) {
+  const { extensions } = makeResolve(root);
   const mode = getMode();
   const tsConfig = pathToTSConf(root, mode, false);
   const isTypeScript = isString(tsConfig);
