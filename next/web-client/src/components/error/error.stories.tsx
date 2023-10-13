@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { Error as ErrorComponent } from './index';
 
 export default {
@@ -16,4 +18,4 @@ export default {
   title: 'Component',
 };
 
-export const Error = (): JSX.Element => <ErrorComponent />;
+export const Error = (): ReactElement => <ErrorComponent />;

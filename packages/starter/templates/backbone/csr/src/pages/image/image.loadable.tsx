@@ -1,8 +1,9 @@
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { ImageArea } from '../../features/image';
 
-const Image = (): JSX.Element => (
+const Image = (): ReactElement => (
   <>
     <Helmet>
       <title>Image Page</title>

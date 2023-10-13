@@ -1,12 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, message } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
 
-export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): JSX.Element => {
+export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => void }): ReactElement => {
   const [uploadList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -28,7 +28,7 @@ export const PhotosUpload = ({ onChange }: { onChange: (file: UploadFile[]) => v
     onChange(fileList);
   };
 
-  const uploadButton = (
+  const uploadButton: ReactElement = (
     <div>
       <PlusOutlined />
       <div className="ant-upload-text">Upload</div>

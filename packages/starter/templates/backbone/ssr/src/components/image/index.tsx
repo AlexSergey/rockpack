@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import styles from './styles.module.scss';
 
 interface IImage {
@@ -6,7 +8,7 @@ interface IImage {
   url: string;
 }
 
-export const Image = ({ error, loading, url }: IImage): JSX.Element => (
+export const Image = ({ error, loading, url }: IImage): ReactElement => (
   <div className={styles.img}>
     {loading && <p>Loading...</p>}
     {error && <p>Error, try again</p>}

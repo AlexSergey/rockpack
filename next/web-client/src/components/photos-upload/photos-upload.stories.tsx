@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { PhotosUpload as PhotosUploadComponent } from './index';
 
 export default {
@@ -18,7 +20,7 @@ export default {
   title: 'Component',
 };
 
-export const PhotosUpload = (): JSX.Element => (
+export const PhotosUpload = (): ReactElement => (
   <PhotosUploadComponent
     // eslint-disable-next-line no-console
     onChange={(files): void => console.log(files)}

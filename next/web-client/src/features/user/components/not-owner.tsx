@@ -1,11 +1,13 @@
+import { ReactElement } from 'react';
+
 import { useUser } from '../hooks';
 
 interface INotOwner {
-  children: JSX.Element | JSX.Element[];
+  children: ReactElement | ReactElement[];
   forUser: string;
 }
 
-export const NotOwner = ({ children, forUser }: INotOwner): JSX.Element | null => {
+export const NotOwner = ({ children, forUser }: INotOwner): ReactElement | null => {
   const { email } = useUser();
 
   if (!email) {

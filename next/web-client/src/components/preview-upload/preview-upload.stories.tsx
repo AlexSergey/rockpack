@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { PreviewUpload as PreviewUploadComponent } from './index';
 
 export default {
@@ -18,7 +20,7 @@ export default {
   title: 'Component',
 };
 
-export const PreviewUpload = (): JSX.Element => (
+export const PreviewUpload = (): ReactElement => (
   <PreviewUploadComponent
     // eslint-disable-next-line no-console
     onChange={(file): void => console.log(file)}

@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
 import { Button, Form, Input } from 'antd';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { usePostApi } from '../../../features/post';
 
@@ -18,7 +18,7 @@ type Store = {
   title: string;
 };
 
-export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): JSX.Element => {
+export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): ReactElement => {
   const [postText, setText] = useState(text);
   const { updatePost } = usePostApi();
 

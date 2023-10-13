@@ -1,6 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { l, sprintf } from '@localazer/component';
 import { Button, Tooltip } from 'antd';
+import { ReactElement } from 'react';
 
 import { useCommentsApi } from '../../../../features/comments';
 import { Access, Owner, useUser } from '../../../../features/user';
@@ -15,14 +16,14 @@ interface IComment {
   user: IUser;
 }
 
-export const Comment = ({ createdAt, id, text, user }: IComment): JSX.Element => {
+export const Comment = ({ createdAt, id, text, user }: IComment): ReactElement => {
   const commentsApi = useCommentsApi();
   const currentUser = useUser();
 
   return (
     <div className={styles.comment}>
       <Access forRoles={[Roles.admin]}>
-        {(roleMatched): JSX.Element =>
+        {(roleMatched): ReactElement =>
           roleMatched ? (
             <Button
               className={styles['delete-comment']}

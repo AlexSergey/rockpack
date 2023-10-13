@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { Wysiwyg as WysiwygComponent } from './index';
 
 export default {
@@ -16,7 +18,7 @@ export default {
   title: 'Component',
 };
 
-export const Wysiwyg = (): JSX.Element => (
+export const Wysiwyg = (): ReactElement => (
   // eslint-disable-next-line no-console
   <WysiwygComponent onChange={(value): void => console.log(value)} value="<h1>Test</h1>" />
 );

@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import { Loader as LoaderCompoennt } from './index';
 
 export default {
@@ -17,4 +19,4 @@ export default {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const Loader = (): JSX.Element => <LoaderCompoennt />;
+export const Loader = (): ReactElement => <LoaderCompoennt />;

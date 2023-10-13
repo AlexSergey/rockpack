@@ -1,9 +1,10 @@
 import Localization, { l } from '@localazer/component';
 import { Button } from 'antd';
+import { ReactElement } from 'react';
 
 import { useUserApi } from '../../../../features/user';
 
-export const Signout = (): JSX.Element => {
+export const Signout = (): ReactElement => {
   const { signout } = useUserApi();
 
   return (

@@ -1,11 +1,11 @@
 import { Modal } from 'antd';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
 import { config } from '../../../config';
 import styles from './style.module.scss';
 
-export const Images = ({ images }: { images: { thumbnail: string; uri: string }[] }): JSX.Element => {
+export const Images = ({ images }: { images: { thumbnail: string; uri: string }[] }): ReactElement => {
   const [full, setFull] = useState<false | string>(false);
 
   return (

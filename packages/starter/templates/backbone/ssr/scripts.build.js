@@ -5,7 +5,7 @@ const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rock
 isomorphicCompiler(
   frontendCompiler({
     copy: [
-      { from: path.resolve(__dirname, './src/assets/favicon.ico'), to: './' },
+      { from: path.resolve(__dirname, './favicon.ico'), to: './' },
       { from: path.resolve(__dirname, './robots.txt'), to: './' },
     ],
     dist: 'public',

@@ -1,5 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { Button, Form, Input } from 'antd';
+import { ReactElement } from 'react';
 
 import { useCommentsApi } from '../../../features/comments';
 import { useUser } from '../../../features/user';
@@ -13,7 +14,7 @@ type Store = {
   text: string;
 };
 
-export const AddComment = ({ postId }: IAddComment): JSX.Element => {
+export const AddComment = ({ postId }: IAddComment): ReactElement => {
   const [form] = Form.useForm();
   const user = useUser();
   const { createComment } = useCommentsApi();

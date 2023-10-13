@@ -1,6 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { render, waitFor } from '@testing-library/react';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import ru from '../../locales/ru.json';
 import { createAppWrapper } from '../../tests/create-app-wrapper';
@@ -18,7 +18,7 @@ test('Check localization', async () => {
     },
   });
 
-  const Inner = (): JSX.Element => {
+  const Inner = (): ReactElement => {
     const { changeLanguage } = useLocalizationAPI();
     useEffect(() => {
       changeLanguage(Languages.ru);

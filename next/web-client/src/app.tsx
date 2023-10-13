@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import 'antd/dist/antd.css';
 import logger, { LoggerContainer } from 'logrock';
-import { Fragment } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import 'reset-css';
 
@@ -17,7 +17,7 @@ const Posts = loadable(() => import('./pages/posts/posts.loadable'));
 const Post = loadable(() => import('./pages/post/post.loadable'));
 const Users = loadable(() => import('./pages/users/users.loadable'));
 
-export const App = (): JSX.Element => {
+export const App = (): ReactElement => {
   const currentLanguage = useCurrentLanguage();
 
   useAuthorization();
@@ -26,7 +26,7 @@ export const App = (): JSX.Element => {
     <LoggerContainer logger={logger} stdout={notify}>
       <Main>
         <Routes>
-          {config.languages.map((language): JSX.Element => {
+          {config.languages.map((language): ReactElement => {
             const prefix = `/${language}`;
 
             return (
@@ -37,7 +37,7 @@ export const App = (): JSX.Element => {
                   element={
                     <Access
                       /* eslint-disable-next-line react/no-unstable-nested-components */
-                      fallback={(): JSX.Element => <Navigate to={`/${currentLanguage}`} />}
+                      fallback={(): ReactElement => <Navigate to={`/${currentLanguage}`} />}
                       forRoles={[Roles.admin]}
                     >
                       <Users />

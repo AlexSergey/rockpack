@@ -1,7 +1,7 @@
 import { createSsr } from '@issr/core';
 import { createMemoryHistory } from 'history';
 import logger from 'logrock';
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 
 import { Router } from '../components/router';
@@ -16,7 +16,7 @@ export const createAppWrapper = ({
   children,
 }: {
   children: ReactNode;
-}) => JSX.Element) => {
+}) => ReactElement) => {
   const history = createMemoryHistory({
     initialEntries: [url],
   });
@@ -37,7 +37,7 @@ export const createAppWrapper = ({
   });
 
   // eslint-disable-next-line react/display-name
-  return ({ children }): JSX.Element => (
+  return ({ children }): ReactElement => (
     <SSR>
       <Provider store={store}>
         <Router history={history}>

@@ -1,0 +1,37 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html>
+<html>
+<head>
+    <% if (htmlWebpackPlugin.options.code) { %>
+        <script><%= htmlWebpackPlugin.options.code %></script>
+    <% } %>
+    <meta charset="utf-8" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="address=no" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+    <meta name="google" value="notranslate" />
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <% if (Array.isArray(htmlWebpackPlugin.files.css)) { %>
+        <% htmlWebpackPlugin.files.css.forEach(function(css){ %>
+            <link rel="preload" href="<%- css %>" as="style">
+            <link href="<%- css %>" rel="stylesheet">
+        <% }); %>
+    <% } %>
+
+    <% if (Array.isArray(htmlWebpackPlugin.files.js)) { %>
+        <% htmlWebpackPlugin.files.js.forEach(function(js){ %>
+            <script src="<%- js %>" type="text/javascript" defer></script>
+        <% }); %>
+    <% } %>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>

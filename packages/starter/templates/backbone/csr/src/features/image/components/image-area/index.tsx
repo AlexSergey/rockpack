@@ -1,8 +1,10 @@
+import { ReactElement } from 'react';
+
 import { Image } from '../../../../components/image';
 import { useImage } from '../../hooks';
 import styles from './styles.module.scss';
 
-export const ImageArea = (): JSX.Element => {
+export const ImageArea = (): ReactElement => {
   const [loading, error, url] = useImage();
 
   return (

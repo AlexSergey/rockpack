@@ -1,6 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
 import Localization, { l } from '@localazer/component';
 import { Button } from 'antd';
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +15,7 @@ import { dateFormatter } from '../../utils/date-format';
 import { PostsPagination } from './posts-pagination';
 import styles from './style.module.scss';
 
-const Posts = (): JSX.Element => {
+const Posts = (): ReactElement => {
   const currentLanguage = useCurrentLanguage();
   const currentUser = useUser();
   const [loading, error, data] = usePosts();
@@ -32,7 +33,7 @@ const Posts = (): JSX.Element => {
         {data.map((post, index) => (
           <div className={`${styles.post} ${data.length - 1 === index && styles['post-last']}`} key={post.id}>
             <Access forRoles={[Roles.admin]}>
-              {(roleMatched): JSX.Element =>
+              {(roleMatched): ReactElement =>
                 roleMatched ? (
                   <Button
                     className={styles.delete}

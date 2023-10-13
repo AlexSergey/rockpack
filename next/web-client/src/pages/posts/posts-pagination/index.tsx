@@ -1,10 +1,11 @@
 import { Pagination } from 'antd';
+import { ReactElement } from 'react';
 
 import { config } from '../../../config';
 import { usePagination, usePaginationApi } from '../../../features/posts';
 import styles from './style.module.scss';
 
-export const PostsPagination = (): JSX.Element => {
+export const PostsPagination = (): ReactElement => {
   const { setCurrent } = usePaginationApi();
   const { count, current } = usePagination();
 

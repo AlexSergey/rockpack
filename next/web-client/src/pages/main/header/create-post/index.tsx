@@ -2,7 +2,7 @@ import { isBackend } from '@issr/core';
 import loadable from '@loadable/component';
 import Localization, { l } from '@localazer/component';
 import { Button, Form, Input, Modal } from 'antd';
-import { useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 
 import { PhotosUpload } from '../../../../components/photos-upload';
 import { PreviewUpload } from '../../../../components/preview-upload';
@@ -14,7 +14,7 @@ type FormState = {
   title: string;
 };
 
-export const CreatePost = (): JSX.Element => {
+export const CreatePost = (): ReactElement => {
   const { current } = usePagination();
   const { createPost } = usePostsApi();
   const [postCreate, postCreateModal] = useState(false);

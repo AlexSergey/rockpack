@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import { createElement } from 'react';
+import { ReactElement, createElement } from 'react';
 
 import { config } from '../../../../config';
 import { useCurrentLanguage, useLocalizationAPI } from '../../../../features/localization';
@@ -14,7 +14,7 @@ const Flags = {
   ru: Ru,
 };
 
-export const LocalizationChange = (): JSX.Element => {
+export const LocalizationChange = (): ReactElement => {
   const defaultValue = useCurrentLanguage();
   const { changeLanguage } = useLocalizationAPI();
 

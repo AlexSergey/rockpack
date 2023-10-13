@@ -1,5 +1,5 @@
 import { LocalizationObserver } from '@localazer/component';
-import { useCallback } from 'react';
+import { ReactElement, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ILocalization, Languages } from '../../types/localization';
@@ -8,7 +8,7 @@ import { LocalizationContext } from './context';
 import { fetchLocalization } from './thunks';
 import { getDefaultLanguage } from './utils';
 
-export const LocalizationContainer = ({ children }): JSX.Element => {
+export const LocalizationContainer = ({ children }): ReactElement => {
   const dispatcher = useDispatch<Dispatcher>();
   const { currentLanguage, languages } = useSelector<IRootState, ILocalization>((state) => state.localization);
 

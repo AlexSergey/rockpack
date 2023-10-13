@@ -1,6 +1,7 @@
 import { Spin } from 'antd';
+import { ReactElement } from 'react';
 
-export const Loader = (): JSX.Element => (
+export const Loader = (): ReactElement => (
   <div style={{ textAlign: 'center' }}>
     <Spin />
   </div>

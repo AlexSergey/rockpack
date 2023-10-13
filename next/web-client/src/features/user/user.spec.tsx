@@ -1,5 +1,5 @@
 import { act, render, renderHook } from '@testing-library/react';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { sleep } from '../../tests/helpers';
@@ -8,7 +8,7 @@ import { useUser, useUserApi } from './hooks';
 test('signup', async () => {
   const AppWrapper = createAppWrapper();
 
-  const Inner = (): JSX.Element => {
+  const Inner = (): ReactElement => {
     const { signup } = useUserApi();
     useEffect(() => {
       signup({

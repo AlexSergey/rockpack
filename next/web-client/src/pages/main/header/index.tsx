@@ -1,5 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { Button, Dropdown, Layout, Menu } from 'antd';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useCurrentLanguage } from '../../../features/localization';
@@ -15,7 +16,7 @@ import styles from './style.module.scss';
 import { User } from './user';
 import { UserStatistic } from './user-statistic';
 
-export const Header = (): JSX.Element => {
+export const Header = (): ReactElement => {
   const currentLanguage = useCurrentLanguage();
 
   return (
@@ -33,7 +34,7 @@ export const Header = (): JSX.Element => {
           <Menu.Item key="user">
             <Access forRoles={[Roles.user, Roles.admin]}>
               <Dropdown
-                overlay={(): JSX.Element => (
+                overlay={(): ReactElement => (
                   <Menu selectable={false} theme="dark">
                     <Menu.Item key="user-statistic">
                       <UserStatistic />

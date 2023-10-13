@@ -1,8 +1,9 @@
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Page } from './page';
 
-export const App = (): JSX.Element => {
+export const App = (): ReactElement => {
   return (
     <>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}

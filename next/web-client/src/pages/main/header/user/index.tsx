@@ -1,10 +1,11 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Popover } from 'antd';
+import { ReactElement } from 'react';
 
 import { useRole, useUser } from '../../../../features/user';
 import styles from './style.module.scss';
 
-export const User = (): JSX.Element => {
+export const User = (): ReactElement => {
   const { email } = useUser();
   const role = useRole();
 

@@ -1,11 +1,12 @@
 import Localization, { nl, sprintf } from '@localazer/component';
+import { ReactElement } from 'react';
 
 import { Error } from '../../../components/error';
 import { Loader } from '../../../components/loader';
 import { useComments } from '../../../features/comments';
 import { Comment } from './comment';
 
-export const Comments = ({ commentsCount, postId }: { commentsCount: number; postId: number }): JSX.Element => {
+export const Comments = ({ commentsCount, postId }: { commentsCount: number; postId: number }): ReactElement => {
   const [loading, error, comments] = useComments(postId);
 
   return (

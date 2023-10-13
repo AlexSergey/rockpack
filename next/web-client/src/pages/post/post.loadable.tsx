@@ -1,6 +1,6 @@
 import Localization, { l, sprintf } from '@localazer/component';
 import { Button, Modal } from 'antd';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ type PathParamsType = {
   postId: string;
 };
 
-const PostDetails = (): JSX.Element => {
+const PostDetails = (): ReactElement => {
   const params = useParams<PathParamsType>();
   const postId = Number(params.postId);
   const [loading, error, data] = usePost(postId);

@@ -8,6 +8,8 @@
   - Turned off all conflicts rules
   - Updated all deprecation warnings from Stylelint
   - Added
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/tree/master/packages/codestyle) module integrated to each of project
+- React Pure project added (include React, React-Dom only)
 - Adopt the code to use [iSSR](https://github.com/AlexSergey/issr) the new version
 - All dependencies were updated
 

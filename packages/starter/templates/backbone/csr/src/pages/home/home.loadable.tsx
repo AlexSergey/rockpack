@@ -1,8 +1,9 @@
+import { ReactElement } from 'react';
 import { Helmet } from 'react-helmet';
 
 import Logo from './logo.component.svg';
 
-const Home = (): JSX.Element => (
+const Home = (): ReactElement => (
   <>
     <Helmet>
       <title>Home Page</title>

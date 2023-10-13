@@ -1,6 +1,6 @@
 import Localization, { l } from '@localazer/component';
 import { Button, Form, Input, Modal } from 'antd';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { useUserApi } from '../../../../features/user';
 
@@ -9,7 +9,7 @@ type Store = {
   password: string;
 };
 
-export const Signup = (): JSX.Element => {
+export const Signup = (): ReactElement => {
   const { signup } = useUserApi();
   const [signupState, signupModal] = useState(false);
 

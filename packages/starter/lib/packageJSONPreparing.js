@@ -27,8 +27,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@types/react-dom', version: '18' },
           { name: '@types/react-helmet', version: '6' },
           { name: '@types/loadable__component', version: '5' },
-          { name: '@types/node', version: '16' },
-          { name: '@types/webpack-env', version: '1.16.2' },
+          { name: '@types/webpack-env', version: '1' },
         ],
       });
       break;
@@ -69,8 +68,24 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@types/koa__router', version: '12' },
           { name: '@types/koa-static', version: '4' },
           { name: '@types/loadable__server', version: '5' },
-          { name: '@types/node', version: '16' },
+          { name: '@types/node', version: '18' },
+          { name: '@types/webpack-env', version: '1' },
           { name: '@types/serialize-javascript', version: '5' },
+        ],
+      });
+      break;
+
+    case 'pure':
+      packageJSON = await addDependencies(packageJSON, {
+        dependencies: [
+          { name: 'react', version: '18' },
+          { name: 'react-dom', version: '18' },
+        ],
+        devDependencies: [
+          { name: '@rockpack/compiler', version: packageJson.version },
+          { name: '@types/react', version: '18' },
+          { name: '@types/react-dom', version: '18' },
+          { name: '@types/webpack-env', version: '1' },
         ],
       });
       break;
@@ -112,7 +127,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '16' },
+          { name: '@types/node', version: '18' },
         ],
       });
       break;
@@ -183,7 +198,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       devDependencies: [{ name: '@rockpack/tester', version: packageJson.version }],
     });
 
-    if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
+    if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'pure') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: 'react-test-renderer', version: '18' },

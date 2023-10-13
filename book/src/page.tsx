@@ -1,6 +1,7 @@
+import { ReactElement } from 'react';
 import ReactGA from 'react-ga';
 
-import img from '../readme_assets/rockpack_starter_1.v4.jpg';
+import img from '../readme_assets/rockpack_starter_1.v5.png';
 import Github from './assets/github.component.svg';
 import LogoComponent from './assets/logo.component.svg';
 import styles from './assets/styles/page.module.scss';
@@ -15,7 +16,7 @@ import codeInstallationExample from './code-samples/installation.example';
 ReactGA.initialize('UA-155200418-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-export const Page = (): JSX.Element => (
+export const Page = (): ReactElement => (
   <div className={styles.page}>
     <div>
       <LogoComponent />
@@ -52,7 +53,7 @@ export const Page = (): JSX.Element => (
 
     <p>3. Select the type of application, select the required modules:</p>
 
-    <img alt="Rockpack CLI" className="flexible-image" src={img} />
+    <img alt="Rockpack CLI" className="flexible-image" src={img} style={{ width: '100%' }} />
 
     <div>License MIT, {new Date().getFullYear()}</div>
   </div>

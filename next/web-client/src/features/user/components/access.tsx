@@ -1,17 +1,17 @@
-import { isValidElement } from 'react';
+import { ReactElement, isValidElement } from 'react';
 
 import { Roles } from '../../../types/user';
 import { useRole } from '../hooks';
 
-type Callback = (match: boolean) => JSX.Element;
+type Callback = (match: boolean) => ReactElement;
 
 interface IAccess {
-  children: Callback | JSX.Element | JSX.Element[];
-  fallback?: () => JSX.Element;
+  children: Callback | ReactElement | ReactElement[];
+  fallback?: () => ReactElement;
   forRoles: Roles[];
 }
 
-export const Access = ({ children, fallback, forRoles }: IAccess): JSX.Element => {
+export const Access = ({ children, fallback, forRoles }: IAccess): ReactElement => {
   const role = useRole();
 
   if (typeof children === 'function' && !isValidElement(children)) {

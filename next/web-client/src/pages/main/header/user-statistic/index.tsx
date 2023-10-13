@@ -1,9 +1,10 @@
 import Localization, { l } from '@localazer/component';
+import { ReactElement } from 'react';
 
 import { useUserStatistic } from '../../../../features/user';
 import styles from './style.module.scss';
 
-export const UserStatistic = (): JSX.Element => {
+export const UserStatistic = (): ReactElement => {
   const { comments, posts } = useUserStatistic();
 
   return (

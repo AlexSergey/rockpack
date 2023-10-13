@@ -29,7 +29,7 @@ export const copyFiles = async (currentPath, {
     );
   }
 
-  if (appType === 'library' || appType === 'ssr' || appType === 'csr') {
+  if (appType === 'library' || appType === 'ssr' || appType === 'csr' || appType === 'pure') {
     await copy(
       path.join(addons, 'codestyle', appType),
       path.join(currentPath)
@@ -41,15 +41,17 @@ export const copyFiles = async (currentPath, {
       path.join(addons, 'tester', 'common'),
       path.join(currentPath)
     );
-    if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
+    if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'pure') {
       await copy(
         path.join(addons, 'tester', 'react-common'),
         path.join(currentPath)
       );
-      await copy(
-        path.join(addons, 'tester', appType),
-        path.join(currentPath)
-      );
+      if (appType !== 'pure') {
+        await copy(
+          path.join(addons, 'tester', appType),
+          path.join(currentPath)
+        );
+      }
     } else if (appType === 'library') {
       await copy(
         path.join(addons, 'tester', appType),
