@@ -24,8 +24,8 @@ export const Page = (): ReactElement => (
         <Github />
       </a>
       <p>
-        <strong>Rockpack</strong> is a simple solution for creating React Application with Server Side Rendering,
-        bundling, linting, testing, logging, localizing.
+        <strong>Rockpack</strong> is a simple solution for creating React Application with Typescript, Server Side
+        Rendering, bundling, linting, testing.
       </p>
       <p>The main goal is to reduce project setup time from weeks to 5 minutes.</p>
     </div>
@@ -38,8 +38,8 @@ export const Page = (): ReactElement => (
 
     <ul>
       <li>Simple Single Page application</li>
-      <li>Server-Side Render</li>
       <li>Server-Side Render + Redux + Thunk + React-Router + project structure</li>
+      <li>Pure React project</li>
       <li>UMD library or React Component</li>
     </ul>
 
