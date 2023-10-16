@@ -6,7 +6,7 @@ object-assign
 
 /*!
  * banner:
- * @rockpack/book: 4.0.0-next.5
+ * @rockpack/book: 4.0.0
  * ISC
  */
 
