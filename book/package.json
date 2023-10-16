@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/book",
-  "version": "4.0.0-next.5",
+  "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -20,9 +20,9 @@
     "react-helmet": "6.1.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "4.0.0-next.5",
-    "@rockpack/compiler": "4.0.0-next.5",
-    "@rockpack/tsconfig": "4.0.0-next.5",
+    "@rockpack/codestyle": "4.0.0",
+    "@rockpack/compiler": "4.0.0",
+    "@rockpack/tsconfig": "4.0.0",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
     "@types/react-helmet": "6.1.7",
