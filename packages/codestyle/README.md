@@ -21,6 +21,7 @@
 - Eslint TS Recommended
 - Eslint Prettier Recommended
 - Eslint Perfectionist
+- Eslint Regexp
 
 ### Additional tools:
 

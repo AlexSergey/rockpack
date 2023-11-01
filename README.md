@@ -134,7 +134,7 @@ This is an efficiently customized Eslint with many best practical rules and addi
 The **Rockpack** project was inspired by:
 
 - [Next.js](https://github.com/vercel/next.js/)
-- [Creat React App](https://github.com/facebook/create-react-app)
+- [create-react-app](https://github.com/facebook/create-react-app)
 - [Rome](https://github.com/romefrontend/rome)
 - [Estrella](https://github.com/rsms/estrella)
 

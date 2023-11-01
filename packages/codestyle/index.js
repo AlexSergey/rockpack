@@ -72,6 +72,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:import/typescript',
         'prettier',
         'plugin:prettier/recommended',
+        'plugin:regexp/recommended',
       ]
     : [
         'eslint:recommended',
@@ -80,6 +81,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:import/typescript',
         'prettier',
         'plugin:prettier/recommended',
+        'plugin:regexp/recommended',
       ];
 
   const tsExtends = hasReact
@@ -96,6 +98,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
+        'plugin:regexp/recommended',
       ]
     : [
         'eslint:recommended',
@@ -108,15 +111,16 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
+        'plugin:regexp/recommended',
       ];
 
   const jsPlugins = hasReact ?
-    ['import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist'] :
-    ['import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist'];
+    ['import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'] :
+    ['import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist']
-    : ['@typescript-eslint', 'import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist'];
+    ? ['@typescript-eslint', 'import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp']
+    : ['@typescript-eslint', 'import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'];
 
   const reactRules = {
     'react/function-component-definition': [
@@ -245,6 +249,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
             'no-param-reassign': 'off',
             'no-underscore-dangle': 'off',
             'newline-before-return': 'error',
+            'no-warning-comments': 'warn',
 
             'prettier/prettier': ['error', prettierConfig],
 
