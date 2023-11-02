@@ -22,6 +22,7 @@
 - Eslint Prettier Recommended
 - Eslint Perfectionist
 - Eslint Regexp
+- Eslint Sonarjs
 
 ### Additional tools:
 
