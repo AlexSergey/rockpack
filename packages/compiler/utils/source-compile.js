@@ -14,6 +14,7 @@ const makeCompilerOptions = require('./make-compiler-options');
 const { capitalize } = require('./other');
 const pathToTSConf = require('./path-to-ts-conf');
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 module.exports = async function sourceCompile(conf) {
   const root = getRootRequireDir();
   const mode = getMode();

@@ -56,11 +56,13 @@ afterAll(async () => {
   UserModel.sequelize.close();
 });
 
+const title = 'test title';
+
 describe('PostService tests', () => {
   test('createPost', async () => {
     const post = await postService.createPost(newuser.get('id'), {
       text: 'test text',
-      title: 'test title',
+      title,
     });
 
     const IPostDetails = await postRepository.postDetails(post.get('id'));
@@ -82,7 +84,7 @@ describe('PostService tests', () => {
       createdAt: IPostDetails.get('createdAt'),
       id: IPostDetails.get('id'),
       text: 'test text',
-      title: 'test title',
+      title,
       updatedAt: IPostDetails.get('updatedAt'),
     });
   });
@@ -91,7 +93,7 @@ describe('PostService tests', () => {
     const post = await postService.createPost(newuser.get('id'), {
       photos: [{ filename: 'img1.png' }, { filename: 'img2.png' }, { filename: 'img3.png' }],
       text: 'test text',
-      title: 'test title',
+      title,
     });
     const IPostDetails = await postRepository.postDetails(post.get('id'));
 

@@ -11,11 +11,13 @@ beforeAll(() => {
 
 afterAll(() => UserModel.sequelize.close());
 
+const testadmin = 'second_admin@rock.com';
+
 describe('UserRepository tests', () => {
   test('Test method getUserByEmail', async () => {
-    const admin = await userRepository.getUserByEmail('second_admin@rock.com');
+    const admin = await userRepository.getUserByEmail(testadmin);
 
-    expect(admin.get('email')).toBe('second_admin@rock.com');
+    expect(admin.get('email')).toBe(testadmin);
   });
 
   test('Test method getUserByEmail with userNotFoundError exception', async () => {
@@ -28,7 +30,7 @@ describe('UserRepository tests', () => {
     const admin = await userRepository.getUserById(2);
     const user = await userRepository.getUserById(3);
 
-    expect(admin.get('email')).toBe('second_admin@rock.com');
+    expect(admin.get('email')).toBe(testadmin);
     expect(user.get('email')).toBe('simple_user@rock.com');
   });
 
@@ -42,7 +44,7 @@ describe('UserRepository tests', () => {
     const users = await userRepository.getUsers();
 
     expect(users.length).toBe(3);
-    expect(users[1].get('email')).toBe('second_admin@rock.com');
+    expect(users[1].get('email')).toBe(testadmin);
     expect(users[2].get('email')).toBe('simple_user@rock.com');
   });
 });

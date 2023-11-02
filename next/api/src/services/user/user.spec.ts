@@ -17,20 +17,22 @@ beforeAll(() => {
 
 afterAll(() => UserModel.sequelize.close());
 
+const testuser = 'test_user@text.mail';
+
 describe('UserService tests', () => {
   test('signup', async () => {
-    const { token, user } = await userService.signup('test_user@text.mail', '123456');
+    const { token, user } = await userService.signup(testuser, '123456');
     newuser = user;
 
     expect(typeof token).toBe('string');
-    expect(user.get('email')).toBe('test_user@text.mail');
+    expect(user.get('email')).toBe(testuser);
   });
 
   test('signin', async () => {
-    const { token, user } = await userService.signin('test_user@text.mail', '123456');
+    const { token, user } = await userService.signin(testuser, '123456');
 
     expect(typeof token).toBe('string');
-    expect(user.get('email')).toBe('test_user@text.mail');
+    expect(user.get('email')).toBe(testuser);
   });
 
   test('destroy', async () => {

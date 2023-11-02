@@ -73,6 +73,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:regexp/recommended',
+        'plugin:sonarjs/recommended',
       ]
     : [
         'eslint:recommended',
@@ -82,6 +83,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:regexp/recommended',
+        'plugin:sonarjs/recommended',
       ];
 
   const tsExtends = hasReact
@@ -99,6 +101,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
         'plugin:regexp/recommended',
+        'plugin:sonarjs/recommended',
       ]
     : [
         'eslint:recommended',
@@ -112,15 +115,16 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
         'plugin:regexp/recommended',
+        'plugin:sonarjs/recommended',
       ];
 
   const jsPlugins = hasReact ?
-    ['import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'] :
-    ['import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'];
+    ['import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp', 'sonarjs'] :
+    ['import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp', 'sonarjs'];
 
   const tsPlugins = hasReact
-    ? ['@typescript-eslint', 'import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp']
-    : ['@typescript-eslint', 'import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp'];
+    ? ['@typescript-eslint', 'import', 'unicorn', 'react', 'react-hooks', 'check-file', 'jest-formatting', 'perfectionist', 'regexp', 'sonarjs']
+    : ['@typescript-eslint', 'import', 'unicorn', 'check-file', 'jest-formatting', 'perfectionist', 'regexp', 'sonarjs'];
 
   const reactRules = {
     'react/function-component-definition': [

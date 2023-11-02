@@ -13,6 +13,7 @@ const createBabelPresets = ({
   isTest = false,
   typescript = false,
   presetsAdditionalOptions = {},
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');

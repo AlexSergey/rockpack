@@ -65,6 +65,7 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
   return opts;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
   const { extensions } = makeResolve(root);
@@ -78,6 +79,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   if (!argv._rockpack_testing) {
     if (!global.ISOMORPHIC) {
       plugins.ProgressPlugin = new ProgressBarPlugin();
+      // eslint-disable-next-line sonarjs/no-duplicated-branches
     } else if (global.ISOMORPHIC && conf.__isIsomorphicFrontend) {
       plugins.ProgressPlugin = new ProgressBarPlugin();
     }

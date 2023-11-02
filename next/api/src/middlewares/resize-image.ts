@@ -39,6 +39,7 @@ interface IResizeImage {
 
 export const resizeImage =
   (...fields: (IResizeImage | string)[]) =>
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   async (ctx: IKoaContext, next: Next): Promise<void> => {
     const { files } = ctx;
 

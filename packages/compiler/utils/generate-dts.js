@@ -14,7 +14,7 @@ const { getFiles, getTypeScript } = require('./file-system-utils');
 const makeCompilerOptions = require('./make-compiler-options');
 const pathToTSConf = require('./path-to-ts-conf');
 
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line consistent-return,sonarjs/cognitive-complexity
 module.exports = async function generateDts(conf, root) {
   const { extensions } = makeResolve(root);
   const mode = getMode();

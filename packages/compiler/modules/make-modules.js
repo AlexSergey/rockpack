@@ -55,6 +55,7 @@ function getModules(conf = {}, mode, root) {
     html: {
       exclude: /\.async\.(html|css)$/,
       test: /\.html$/,
+      // eslint-disable-next-line sonarjs/no-duplicate-string
       use: require.resolve('html-loader'),
     },
 
@@ -75,6 +76,7 @@ function getModules(conf = {}, mode, root) {
       test: /\.js$/,
       use: [
         {
+          // eslint-disable-next-line sonarjs/no-duplicate-string
           loader: require.resolve('babel-loader'),
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,
