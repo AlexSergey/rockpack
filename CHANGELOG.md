@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.1.0]
+
+- Added [eslint-plugin-regexp](https://github.com/ota-meshi/eslint-plugin-regexp)
+- Added [eslint-plugin-sonarjs](https://github.com/SonarSource/eslint-plugin-sonarjs)
+
 ## [4.0.0]
 
 - A lot of fixes and optimizations
