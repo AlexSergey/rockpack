@@ -1,34 +1,27 @@
 const path = require('node:path');
 
-const glob = require('glob');
+const { glob } = require('glob');
 
 const errors = require('../errors/markup-compiler');
 
-function findHtml(pth, html = []) {
-  return new Promise((resolve, reject) => {
-    glob(pth, { absolute: true }, async (err, files) => {
-      if (err) {
-        return reject(err);
-      }
-      if (!Array.isArray(html)) {
-        html = typeof html === 'undefined' ? [] : [html];
-      }
-      if (files.length === 0) {
-        // eslint-disable-next-line no-console
-        console.error(errors.INVALID_PATH);
+async function findHtml(pth, html = []) {
+  const files = await glob(pth, { absolute: true });
 
-        return process.exit(1);
-      }
+  if (!Array.isArray(html)) {
+    html = typeof html === 'undefined' ? [] : [html];
+  }
+  if (files.length === 0) {
+    // eslint-disable-next-line no-console
+    console.error(errors.INVALID_PATH);
 
-      return resolve(
-        html.concat(
-          files.map((file) => ({
-            template: path.resolve(file),
-          })),
-        ),
-      );
-    });
-  });
+    return process.exit(1);
+  }
+
+  return html.concat(
+    files.map((file) => ({
+      template: path.resolve(file),
+    })),
+  );
 }
 
 module.exports = findHtml;

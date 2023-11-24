@@ -2,49 +2,32 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const { getRootRequireDir } = require('@rockpack/utils');
-const glob = require('glob');
+const { glob } = require('glob');
 const mkdirp = require('mkdirp');
 
-function getFiles(srcFolder, query = '*', ignore = []) {
-  return new Promise((resolve, reject) => {
-    const root = getRootRequireDir();
+async function getFiles(srcFolder, query = '*', ignore = []) {
+  const root = getRootRequireDir();
 
-    glob(
-      `${path.resolve(root, srcFolder)}/**/${query}`,
-      {
-        ignore,
-      },
-      (err, files) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(files.filter((file) => !fs.lstatSync(file).isDirectory()));
-      },
-    );
+  const files = await glob(`${path.resolve(root, srcFolder)}/**/${query}`, {
+    ignore,
   });
+
+  return files.filter((file) => !fs.lstatSync(file).isDirectory());
 }
 
-function getTypeScript(srcFolder) {
-  return new Promise((resolve, reject) => {
-    const root = getRootRequireDir();
+async function getTypeScript(srcFolder) {
+  const root = getRootRequireDir();
 
-    glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`, (err, files) => {
-      if (err) {
-        return reject(err);
-      }
-      const tsAndTsx = files
-        .filter((file) => !fs.lstatSync(file).isDirectory())
-        .filter((file) => {
-          const extL = file.lastIndexOf('.');
-          const ext = file.slice(extL, file.length);
+  const files = await glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`);
 
-          return ['.ts', '.tsx'].indexOf(ext) >= 0;
-        });
+  return files
+    .filter((file) => !fs.lstatSync(file).isDirectory())
+    .filter((file) => {
+      const extL = file.lastIndexOf('.');
+      const ext = file.slice(extL, file.length);
 
-      return resolve(tsAndTsx);
+      return ['.ts', '.tsx'].indexOf(ext) >= 0;
     });
-  });
 }
 
 function writeFile(pth, contents) {

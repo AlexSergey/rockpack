@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "The best practice for ESLint and TSLint",
   "main": "index.js",
   "scripts": {
@@ -28,8 +28,8 @@
     "@babel/eslint-parser": "7.22.15",
     "@commitlint/cli": "17.7.2",
     "@commitlint/config-conventional": "17.7.0",
-    "@rockpack/babel": "4.1.0",
-    "@rockpack/utils": "4.1.0",
+    "@rockpack/babel": "4.2.0",
+    "@rockpack/utils": "4.2.0",
     "@typescript-eslint/eslint-plugin": "6.7.4",
     "@typescript-eslint/parser": "6.7.4",
     "deep-extend": "0.6.0",

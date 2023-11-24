@@ -5,10 +5,14 @@ frontendCompiler({
   banner: true,
   styles: 'style.css',
   vendor: ['react', 'react-dom', 'core-js']
-}, (config, modules, plugins) => {
+}, (config, modules, plugins, mode) => {
+  if (mode === 'production') {
+    config.output.publicPath = './';
+  }
+
   config.resolve.extensions = ['.js', '.elm'];
 
-  modules.set('elm', {
+  modules.add('elm', {
     test: /\.elm$/,
     exclude: [/elm-stuff/, /node_modules/],
     use: process.env.NODE_ENV === 'development' ? [
@@ -26,6 +30,10 @@ frontendCompiler({
         }
       }
     ]
+  });
+
+  modules.modify('css', (css) => {
+    css.sideEffects = true;
   });
 
   plugins.set('WebpackNotifierPlugin', new WebpackNotifierPlugin());

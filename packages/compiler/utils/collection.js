@@ -42,6 +42,16 @@ class Collection {
     this.dict[name] = data;
   }
 
+  modify(name, cb) {
+    if (!this.dict[name]) {
+      throw new Error(`Provided name "${name}" was not found in the collection`);
+    }
+    if (!isFunction(cb)) {
+      throw new Error('The second argument should be a function');
+    }
+    cb(this.dict[name]);
+  }
+
   // eslint-disable-next-line consistent-return
   remove(name) {
     if (isArray(name)) {

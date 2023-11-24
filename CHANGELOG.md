@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.2.0]
+
+- Fixed bugs in libraryCompiler
+- Provided ability to modify modules and plugins in compilers. The example for customization compiler was update regarding these changes.
+
 ## [4.1.0]
 
 - Added [eslint-plugin-regexp](https://github.com/ota-meshi/eslint-plugin-regexp)

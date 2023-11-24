@@ -10,5 +10,5 @@ libraryCompiler({
     src: './src',
     dist: './lib/esm'
   },
-  external: ['react'],
+  externals: ['react'],
 });

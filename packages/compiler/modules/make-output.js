@@ -14,7 +14,7 @@ const makeOutput = (conf = {}, root, mode) => {
 
   if (conf.library) {
     Object.assign(outputProps, {
-      globalObject: 'this',
+      globalObject: 'globalThis',
       library: conf.library,
       libraryTarget: 'umd',
     });

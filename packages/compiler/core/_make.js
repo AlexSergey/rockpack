@@ -95,7 +95,7 @@ const _make = async (conf, post) => {
   }
 
   if (isFunction(post)) {
-    post(finalConfig, modules, plugins);
+    post(finalConfig, modules, plugins, mode);
   }
 
   const webpackConfig = compileWebpackConfig(finalConfig, conf, mode, root, modules, plugins);

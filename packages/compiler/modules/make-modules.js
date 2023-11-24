@@ -35,6 +35,11 @@ function getModules(conf = {}, mode, root) {
       use: css.module,
     },
 
+    geojson: {
+      test: /\.geojson$/,
+      type: 'json',
+    },
+
     fonts: {
       ...{
         test: /\.(eot|ttf|woff|woff2)$/,
