@@ -1,1 +1,3 @@
+# Autodetect text files and force the following filetypes
+# to have unix eols, so Windows does not break them
 * text=auto eol=lf

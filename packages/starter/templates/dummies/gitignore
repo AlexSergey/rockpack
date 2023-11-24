@@ -40,8 +40,8 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules
-jspm_packages
+node_modules/
+jspm_packages/
 
 # Optional npm cache directory
 .npm
@@ -57,9 +57,6 @@ jspm_packages
 
 # Yarn Integrity file
 .yarn-integrity
-
-# dotenv environment variables file
-*.env
 
 # next.js build output
 .next
@@ -86,14 +83,18 @@ Thumbs.db
 .DS_Store
 
 # Test reports
-reports
 test-reports
 
 # Custom config for prettier and eslint
 .eslintrc.custom.js
 .prettierrc.custom.js
 
-# dotenv file ought to ignore
+# dotenv environment variables file
 .env
 
 # Custom rules
+.clinic
+
+# Database
+prisma/dev.db
+prisma/dev.db-journal
