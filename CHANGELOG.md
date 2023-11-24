@@ -2,8 +2,9 @@
 
 ## [4.2.0]
 
-- Fixed bugs in libraryCompiler
-- Provided ability to modify modules and plugins in compilers. The example for customization compiler was update regarding these changes.
+- Fixed bugs in **libraryCompiler**
+- Provided ability to modify modules and plugins in compilers. The example for the customization compiler was updated
+  regarding these changes.
 
 ## [4.1.0]
 
