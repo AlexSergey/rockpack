@@ -1,6 +1,9 @@
 # GIT
 .git
 
+# GIT Hooks
+.husky
+
 # Logs
 logs
 *.log
@@ -58,9 +61,6 @@ jspm_packages
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-*.env
-
 # next.js build output
 .next
 
@@ -93,7 +93,7 @@ test-reports
 .eslintrc.custom.js
 .prettierrc.custom.js
 
-# dotenv file ought to ignore
+# dotenv environment variables file
 .env
 
 # NPM rules

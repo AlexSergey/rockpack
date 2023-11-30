@@ -83,6 +83,7 @@ Thumbs.db
 .DS_Store
 
 # Test reports
+reports
 test-reports
 
 # Custom config for prettier and eslint
@@ -93,8 +94,3 @@ test-reports
 .env
 
 # Custom rules
-.clinic
-
-# Database
-prisma/dev.db
-prisma/dev.db-journal

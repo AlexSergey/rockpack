@@ -4,13 +4,13 @@
     "outDir": "./dist/",
     "jsx": "react-jsx",
 
-    // Node.js 18
+    // Node.js 20
     "lib": [
-      "es2022",
+      "ESNext",
       "dom"
     ],
-    "module": "es2022",
-    "target": "es2022",
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
 

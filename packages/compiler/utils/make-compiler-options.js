@@ -25,7 +25,6 @@ function makeCompilerOptions(root, pth, outDir, format) {
           declaration: true,
           module: 'commonjs',
           outDir,
-          target: 'es5',
         },
       });
       break;
@@ -35,10 +34,9 @@ function makeCompilerOptions(root, pth, outDir, format) {
         compilerOptions: {
           baseUrl: './',
           importHelpers: true,
-          module: 'es2015',
+          module: 'ESNext',
           moduleResolution: 'node',
           outDir,
-          target: 'es2015',
         },
       });
       break;
