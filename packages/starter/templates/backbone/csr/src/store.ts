@@ -1,8 +1,12 @@
-import { Store, configureStore } from '@reduxjs/toolkit';
+import { Store, configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import { imageReducer } from './features/image';
 import { IRootState, IStoreProps } from './types/store';
 import { isDevelopment } from './utils/environments';
+
+const rootReducer = combineReducers({
+  image: imageReducer,
+});
 
 export const createStore = ({ history, initialState, services }: IStoreProps): Store<IRootState> =>
   configureStore({
@@ -19,7 +23,5 @@ export const createStore = ({ history, initialState, services }: IStoreProps): S
         },
       }),
     preloadedState: initialState || {},
-    reducer: {
-      image: imageReducer,
-    },
+    reducer: rootReducer,
   });

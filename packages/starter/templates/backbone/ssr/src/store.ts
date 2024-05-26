@@ -1,27 +1,28 @@
-import { Store, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { Store, configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import { imageReducer } from './features/image';
 import { IRootState, IStoreProps } from './types/store';
 import { isDevelopment } from './utils/environments';
 
-export const createStore = ({ history, initialState, services }: IStoreProps): Store<IRootState> => {
-  const middleware = getDefaultMiddleware({
-    immutableCheck: true,
-    serializableCheck: false,
-    thunk: {
-      extraArgument: {
-        history,
-        services,
-      },
-    },
-  });
+const rootReducer = combineReducers({
+  image: imageReducer,
+});
 
+export const createStore = ({ history, initialState, services }: IStoreProps): Store<IRootState> => {
   return configureStore({
     devTools: isDevelopment(),
-    middleware,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        immutableCheck: true,
+        serializableCheck: false,
+        thunk: {
+          extraArgument: {
+            history,
+            services,
+          },
+        },
+      }),
     preloadedState: initialState || {},
-    reducer: {
-      image: imageReducer,
-    },
+    reducer: rootReducer,
   });
 };

@@ -9,16 +9,16 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'react', version: '18' },
-          { name: 'redux-thunk', version: '2' },
+          { name: 'redux-thunk', version: '3' },
           { name: 'history', version: '5' },
           { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '8' },
+          { name: 'react-redux', version: '9' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
           { name: 'history', version: '5' },
           { name: 'react-helmet', version: '6' },
-          { name: 'redux', version: '4' },
-          { name: '@reduxjs/toolkit', version: '1' },
+          { name: 'redux', version: '5' },
+          { name: '@reduxjs/toolkit', version: '2' },
           { name: '@loadable/component', version: '5' },
         ],
         devDependencies: [
@@ -37,19 +37,19 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         dependencies: [
           { name: 'koa', version: '2' },
           { name: 'koa-compress', version: '5' },
-          { name: 'redux-thunk', version: '2' },
+          { name: 'redux-thunk', version: '3' },
           { name: 'history', version: '5' },
           { name: 'koa-static', version: '5' },
           { name: 'react', version: '18' },
           { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '8' },
+          { name: 'react-redux', version: '9' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
-          { name: 'redux', version: '4' },
+          { name: 'redux', version: '5' },
           { name: 'react-helmet-async', version: '1' },
           { name: '@issr/core', version: '2.2.0' },
           { name: 'node-fetch', version: '3' },
-          { name: '@reduxjs/toolkit', version: '1' },
+          { name: '@reduxjs/toolkit', version: '2' },
           { name: 'serialize-javascript', version: '5' },
           { name: 'entities', version: '2' },
           { name: 'pretty-error', version: '4' },
@@ -134,9 +134,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
   }
 
   packageJSON = await addDependencies(packageJSON, {
-    devDependencies: [
-      { name: '@rockpack/tsconfig', version: packageJson.version },
-    ],
+    devDependencies: [{ name: '@rockpack/tsconfig', version: packageJson.version }],
   });
 
   if (appType === 'library' || appType === 'component') {
@@ -169,16 +167,18 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
   }
 
   packageJSON = addScripts(packageJSON, {
-    format: appType === 'library' ?
-      'npm run format:package && npm run format:prettier && npm run format:code' :
-      'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
+    format:
+      appType === 'library'
+        ? 'npm run format:package && npm run format:prettier && npm run format:code'
+        : 'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
     'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
     'format:package': 'sort-package-json',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
     'format:styles': 'stylelint "src/**/*.scss" --fix',
-    lint: appType === 'library' ?
-      'npm run lint:ts && npm run lint:code' :
-      'npm run lint:ts && npm run lint:code && npm run lint:styles',
+    lint:
+      appType === 'library'
+        ? 'npm run lint:ts && npm run lint:code'
+        : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
     'lint:code': 'eslint --ext .ts,.tsx,.json src/',
     'lint:commit': 'commitlint -e',
     'lint:ts': 'tsc --noEmit',
@@ -214,12 +214,12 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
         { name: 'husky', version: '8.0.1' },
-        { name: 'lint-staged', version: '13' }
+        { name: 'lint-staged', version: '13' },
       ],
     });
 
     packageJSON = addScripts(packageJSON, {
-      'pre-commit': 'lint-staged'
+      'pre-commit': 'lint-staged',
     });
   }
 

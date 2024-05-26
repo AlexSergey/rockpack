@@ -17,7 +17,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const { isString, isBoolean, isArray, isObject } = require('valid-types');
 const VConsoleWebpackPlugin = require('vconsole-webpack-plugin');
@@ -25,8 +24,6 @@ const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const { argv } = require('yargs');
-
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
 const SSRDevelopment = require('../plugins/SSRDevelopment');
 const WebViewHTMLWrapper = require('../plugins/WebViewHTMLWrapper');
@@ -74,16 +71,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const isTypeScript = isString(tsConfig);
 
+  // eslint-disable-next-line sonarjs/prefer-object-literal
   const plugins = {};
-
-  if (!argv._rockpack_testing) {
-    if (!global.ISOMORPHIC) {
-      plugins.ProgressPlugin = new ProgressBarPlugin();
-      // eslint-disable-next-line sonarjs/no-duplicated-branches
-    } else if (global.ISOMORPHIC && conf.__isIsomorphicFrontend) {
-      plugins.ProgressPlugin = new ProgressBarPlugin();
-    }
-  }
 
   plugins.BreakingChangesWebpack4 = new BreakingChangesWebpack4();
 
@@ -91,6 +80,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     compilationSuccessInfo: {
       messages: conf.messages,
     },
+    clearConsole: true,
   });
 
   if (isTypeScript) {

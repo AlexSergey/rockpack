@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { IServices } from '../../services';
 import { IRootState, IThunkExtras } from '../../types/store';
 import { decreaseComment, decreasePost, increasePost } from '../common/actions';
 import {
@@ -10,7 +11,7 @@ import {
   requestPostsError,
   requestPostsSuccess,
 } from './actions';
-import { PostsRes } from './service';
+import { DeletePostRes, PostsRes } from './service';
 import { IDeletePostPayload, IPostsPayload } from './types';
 
 export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }>(
@@ -66,17 +67,15 @@ export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkE
   },
 );
 
-export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IThunkExtras }>(
+export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IThunkExtras; services: IServices }>(
   'posts/deletePost',
   async ({ id, owner }, { dispatch, extra }): Promise<void> => {
-    const { logger } = extra;
+    const { logger, services } = extra;
     try {
       const ownerState = Boolean(owner);
-      const deleteComments = [];
-      // TODO: uncomment
-      /* const {
+      const {
         data: { deleteComments },
-      }: DeletePostRes = await services.posts.deletePost(id); */
+      }: DeletePostRes = await services.posts.deletePost(id);
 
       if (Array.isArray(deleteComments) && deleteComments.length > 0) {
         for (let i = 0, l = deleteComments.length; i < l; i++) {

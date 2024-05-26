@@ -73,7 +73,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:regexp/recommended',
-        'plugin:sonarjs/recommended',
+        'plugin:sonarjs/recommended-legacy',
       ]
     : [
         'eslint:recommended',
@@ -83,7 +83,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'prettier',
         'plugin:prettier/recommended',
         'plugin:regexp/recommended',
-        'plugin:sonarjs/recommended',
+        'plugin:sonarjs/recommended-legacy',
       ];
 
   const tsExtends = hasReact
@@ -101,7 +101,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
         'plugin:regexp/recommended',
-        'plugin:sonarjs/recommended',
+        'plugin:sonarjs/recommended-legacy',
       ]
     : [
         'eslint:recommended',
@@ -115,7 +115,7 @@ module.exports.makeConfig = (customConfig = {}, opts = {}) => {
         'plugin:prettier/recommended',
         'plugin:perfectionist/recommended-natural',
         'plugin:regexp/recommended',
-        'plugin:sonarjs/recommended',
+        'plugin:sonarjs/recommended-legacy',
       ];
 
   const jsPlugins = hasReact ?

@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.0]
+
+- ESLint 9 preparation for use
+- Refactoring
+- All dependencies were updated
+
 ## [4.2.0]
 
 - Fixed bugs in **libraryCompiler**

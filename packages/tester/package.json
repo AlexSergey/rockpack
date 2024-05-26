@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tester",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "Small wrapper for Jest and testing best practice.",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,9 @@
   ],
   "private": false,
   "dependencies": {
-    "@rockpack/babel": "4.2.0",
-    "@rockpack/utils": "4.2.0",
+    "@adobe/css-tools": "4.3.3",
+    "@rockpack/babel": "4.3.0",
+    "@rockpack/utils": "4.3.0",
     "@testing-library/jest-dom": "5.17.0",
     "babel-jest": "29.7.0",
     "deep-extend": "0.6.0",
@@ -38,15 +39,15 @@
     "jest": "29.7.0",
     "jest-chain": "1.1.6",
     "jest-environment-jsdom": "29.7.0",
-    "jest-extended": "4.0.1",
-    "jest-html-reporters": "3.1.4",
-    "typescript": "5.2.2",
+    "jest-extended": "4.0.2",
+    "jest-html-reporters": "3.1.7",
+    "typescript": "5.4.5",
     "valid-types": "2.0.5",
     "yargs": "17.7.2",
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "4.2.0",
+    "@rockpack/codestyle": "4.3.0",
     "@types/jest": "29.5.1"
   }
 }
