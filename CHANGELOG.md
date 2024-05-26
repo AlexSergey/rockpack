@@ -3,6 +3,7 @@
 ## [4.3.0]
 
 - ESLint 9 preparation for use
+- Bug fixing
 - Refactoring
 - All dependencies were updated
 
