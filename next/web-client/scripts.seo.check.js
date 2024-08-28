@@ -1,18 +1,17 @@
+const chromeLauncher = require('chrome-launcher');
 const fs = require('fs');
 const lighthouse = require('lighthouse');
-const puppeteer = require('puppeteer');
-
-const chromeLauncher = require('chrome-launcher');
 const reportGenerator = require('lighthouse/lighthouse-core/report/report-generator');
+const puppeteer = require('puppeteer');
 const request = require('request');
 const util = require('util');
 
 const dir = 'seo_report';
 
 const options = {
-  logLevel: 'info',
+  chromeFlags: ['--disable-mobile-emulation'],
   disableDeviceEmulation: true,
-  chromeFlags: ['--disable-mobile-emulation']
+  logLevel: 'info',
 };
 
 // eslint-disable-next-line no-shadow

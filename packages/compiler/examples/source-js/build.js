@@ -1,13 +1,13 @@
 const { libraryCompiler } = require('../../index');
 
 libraryCompiler({
-  name: 'app',
   cjs: {
+    dist: './lib/cjs',
     src: './src',
-    dist: './lib/cjs'
   },
   esm: {
+    dist: './lib/esm',
     src: './src',
-    dist: './lib/esm'
-  }
+  },
+  name: 'app',
 });

@@ -11,7 +11,7 @@ import {
   requestPostsError,
   requestPostsSuccess,
 } from './actions';
-import { DeletePostRes, PostsRes } from './service';
+import { IDeletePostRes, IPostsRes } from './service';
 import { IDeletePostPayload, IPostsPayload } from './types';
 
 export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }>(
@@ -22,7 +22,7 @@ export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }
       dispatch(requestPosts());
       const {
         data: { count, posts },
-      }: PostsRes = await services.posts.fetchPosts(page);
+      }: IPostsRes = await services.posts.fetchPosts(page);
       dispatch(paginationSetCount(count));
       dispatch(requestPostsSuccess(posts));
     } catch (error) {
@@ -56,7 +56,7 @@ export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkE
 
       const {
         data: { count, posts },
-      }: PostsRes = await services.posts.fetchPosts(page);
+      }: IPostsRes = await services.posts.fetchPosts(page);
 
       dispatch(increasePost());
       dispatch(paginationSetCount(count));
@@ -75,7 +75,7 @@ export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IT
       const ownerState = Boolean(owner);
       const {
         data: { deleteComments },
-      }: DeletePostRes = await services.posts.deletePost(id);
+      }: IDeletePostRes = await services.posts.deletePost(id);
 
       if (Array.isArray(deleteComments) && deleteComments.length > 0) {
         for (let i = 0, l = deleteComments.length; i < l; i++) {

@@ -11,7 +11,7 @@ import {
   requestCommentsError,
   requestCommentsSuccess,
 } from './actions';
-import { CommentRes, CommentsRes } from './service';
+import { ICommentRes, ICommentsRes } from './service';
 
 export const fetchComments = createAsyncThunk<void, number, { extra: IThunkExtras }>(
   'comments/fetch',
@@ -19,7 +19,7 @@ export const fetchComments = createAsyncThunk<void, number, { extra: IThunkExtra
     const { logger, services } = extra;
     try {
       dispatch(requestComments());
-      const { data }: CommentsRes = await services.comments.fetchComments(postId);
+      const { data }: ICommentsRes = await services.comments.fetchComments(postId);
       dispatch(requestCommentsSuccess(data));
     } catch (error) {
       logger.error(error, false);
@@ -36,20 +36,20 @@ export const createComment = createAsyncThunk<
   const { logger, services } = extra;
   try {
     dispatch(requestComments());
-    const { data }: CommentRes = await services.comments.createComment(postId, text);
+    const { data }: ICommentRes = await services.comments.createComment(postId, text);
 
     const comment: IComment = {
+      createdAt: new Date().toString(),
+      id: data.id,
+      text,
       User: {
+        email: user.email,
+        id: user.id,
         Role: {
           role: user.Role.role,
         },
         Statistic: { ...user.Statistic },
-        email: user.email,
-        id: user.id,
       },
-      createdAt: new Date().toString(),
-      id: data.id,
-      text,
     };
 
     dispatch(increaseComment());

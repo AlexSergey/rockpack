@@ -1,5 +1,5 @@
 const deepExtend = require('deep-extend');
-const { isFunction, isObject, isArray } = require('valid-types');
+const { isArray, isFunction, isObject } = require('valid-types');
 
 class Collection {
   constructor(opt) {
@@ -30,16 +30,16 @@ class Collection {
     });
   }
 
+  add(name, instance) {
+    this.dict[name] = instance;
+  }
+
   get(name) {
     if (name) {
       return [this.dict[name]];
     }
 
     return Object.keys(this.dict).map((n) => this.dict[n]);
-  }
-
-  set(name, data) {
-    this.dict[name] = data;
   }
 
   modify(name, cb) {
@@ -66,8 +66,8 @@ class Collection {
     delete this.dict[name];
   }
 
-  add(name, instance) {
-    this.dict[name] = instance;
+  set(name, data) {
+    this.dict[name] = data;
   }
 }
 

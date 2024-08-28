@@ -10,13 +10,13 @@ export interface IPostStatistic {
 }
 
 export interface IPost {
-  Preview?: IPreview;
-  Statistic: IPostStatistic;
-  User: IUser;
   createdAt: string;
   id: number;
+  Preview?: IPreview;
+  Statistic: IPostStatistic;
   title: string;
   updatedAt: string;
+  User: IUser;
 }
 
 export interface IPostsState {

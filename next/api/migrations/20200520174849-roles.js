@@ -1,21 +1,20 @@
 const tableName = 'roles';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
+  down: (queryInterface) => queryInterface.dropTable(tableName),
+
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable(tableName, {
       id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
 
       role: {
         allowNull: false,
         type: Sequelize.ENUM('user', 'admin'),
-      }
-    })
-  ),
-
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+      },
+    }),
 };

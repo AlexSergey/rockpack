@@ -1,23 +1,25 @@
 const tableName = 'statistic';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
-    queryInterface.createTable(tableName, {
-      id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-      },
+  down: (queryInterface) => queryInterface.dropTable(tableName),
 
-      type_id: {
-        foreignKey: true,
-        allowNull: false,
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable(tableName, {
+      comments: {
+        allowNull: true,
+        defaultValue: 0,
         type: Sequelize.INTEGER,
       },
 
       entity_id: {
         allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER,
       },
 
@@ -27,13 +29,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
 
-      comments: {
-        allowNull: true,
-        defaultValue: 0,
+      type_id: {
+        allowNull: false,
+        foreignKey: true,
         type: Sequelize.INTEGER,
       },
-    })
-  ),
-
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+    }),
 };

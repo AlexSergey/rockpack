@@ -6,11 +6,11 @@ import { CommentModel } from '../../models/comment';
 import { ImageModel } from '../../models/image';
 import { ImageTypeModel } from '../../models/image-type';
 import { PostModel } from '../../models/post';
-import { IPostService, PostData } from './interface';
+import { IPostData, IPostService } from './interface';
 
 @injectable()
 export class PostService implements IPostService {
-  createPost = async (userId: number, { photos, preview, text, title }: PostData): Promise<PostModel> => {
+  createPost = async (userId: number, { photos, preview, text, title }: IPostData): Promise<PostModel> => {
     let post;
 
     try {
@@ -103,7 +103,7 @@ export class PostService implements IPostService {
     }
 
     try {
-      const commit: { [key: string]: string } = {};
+      const commit: Record<string, string> = {};
 
       if (typeof title === 'string' && title.length > 0) {
         commit.title = title;

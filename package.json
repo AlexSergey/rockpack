@@ -19,11 +19,9 @@
     "pre-push": "npm run lint && npm test"
   },
   "dependencies": {
-    "caniuse-lite": "1.0.30001534",
-    "node-gyp": "9.4.0"
+    "caniuse-lite": "1.0.30001653"
   },
   "devDependencies": {
-    "cpy-cli": "3.1.1",
     "lerna": "3.22.1",
     "simple-git-hooks": "2.4.1"
   }

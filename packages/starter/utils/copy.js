@@ -7,13 +7,14 @@ export const copy = (source, destination) => {
       destination,
       {
         dot: true,
-        overwrite: true
+        overwrite: true,
       },
       (err) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
-  })
-}
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      },
+    );
+  });
+};

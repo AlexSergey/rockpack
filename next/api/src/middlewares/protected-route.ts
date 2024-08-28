@@ -19,6 +19,7 @@ export const protectedRoute = async (ctx: IKoaContext, next: Next): Promise<void
   try {
     currentUser = decodeToken(token, process.env.JWT_SECRET);
   } catch (e) {
+    console.error(e);
     ctx.cookies.set('token', '', { httpOnly: false });
     throw new ExpiredTokenError();
   }

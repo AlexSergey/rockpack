@@ -1,6 +1,5 @@
-const fs = require('node:fs');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('node:fs');
 
 const wrapper = (html) => `module.exports = ${JSON.stringify(html)};`;
 

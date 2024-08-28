@@ -22,7 +22,7 @@ export class UserModel extends Model<IUser> {
     return await isValidPassword(this.get('password') as string, password);
   }
 
-  toJSON(): { [key: string]: unknown } {
+  toJSON(): Record<string, unknown> {
     const attributes = { ...this.get() };
 
     PROTECTED_ATTRIBUTES.forEach((key) => {
@@ -85,6 +85,7 @@ UserModel.init(
             type_id: typeEntity.get('id'),
           });
         } catch (e) {
+          console.error(e);
           throw new InternalError();
         }
       },
@@ -119,6 +120,7 @@ UserModel.init(
             },
           });
         } catch (e) {
+          console.error(e);
           throw new PostNotFoundError();
         }
       },

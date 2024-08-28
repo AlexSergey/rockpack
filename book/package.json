@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node build",
     "build": "node build --mode=production && node base.modify.js",
-    "lint": "eslint \"src/**\"",
-    "format:eslint": "eslint \"src/**\" --fix"
+    "lint": "eslint .",
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix"
   },
   "keywords": [],
   "author": "",

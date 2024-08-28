@@ -1,5 +1,5 @@
-import text from 'text';
 import http from 'http';
+import text from 'text';
 
 const port = 3000;
 

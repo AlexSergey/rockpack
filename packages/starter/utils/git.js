@@ -1,7 +1,7 @@
+import chalk from 'chalk';
+import child_process from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import child_process from 'node:child_process';
-import chalk from 'chalk';
 
 export const gitIsAvailable = () => {
   try {
@@ -10,7 +10,7 @@ export const gitIsAvailable = () => {
   } catch (e) {
     return false;
   }
-}
+};
 
 export const findGitRepoInParent = (currentPath) => {
   let isExists = false;
@@ -31,14 +31,14 @@ export const findGitRepoInParent = (currentPath) => {
     }
   }
   return isExists;
-}
+};
 
 export const makeRepo = (currentPath) => {
   try {
-    child_process.execSync('git init', { stdio: 'ignore', cwd: currentPath });
+    child_process.execSync('git init', { cwd: currentPath, stdio: 'ignore' });
     console.log(`${chalk.green('GIT')} initialized`);
     return true;
   } catch (e) {
     return false;
   }
-}
+};

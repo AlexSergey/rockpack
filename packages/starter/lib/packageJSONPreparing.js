@@ -171,7 +171,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       appType === 'library'
         ? 'npm run format:package && npm run format:prettier && npm run format:code'
         : 'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
-    'format:code': 'eslint --ext .ts,.tsx,.json src/ --fix',
+    'format:code': 'eslint . --fix',
     'format:package': 'sort-package-json',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
     'format:styles': 'stylelint "src/**/*.scss" --fix',
@@ -179,7 +179,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       appType === 'library'
         ? 'npm run lint:ts && npm run lint:code'
         : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
-    'lint:code': 'eslint --ext .ts,.tsx,.json src/',
+    'lint:code': 'eslint .',
     'lint:commit': 'commitlint -e',
     'lint:ts': 'tsc --noEmit',
     'lint:styles': 'stylelint "src/**/*.scss"',

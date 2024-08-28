@@ -14,9 +14,9 @@ interface IUpdateMode {
   title: string;
 }
 
-type Store = {
+interface IStore {
   title: string;
-};
+}
 
 export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): ReactElement => {
   const [postText, setText] = useState(text);
@@ -26,7 +26,7 @@ export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): Reac
     <div>
       <Form
         name="post"
-        onFinish={(store: Store): void => {
+        onFinish={(store: IStore): void => {
           updatePost({
             postId,
             text: postText,

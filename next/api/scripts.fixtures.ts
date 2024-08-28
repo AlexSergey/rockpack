@@ -1,11 +1,10 @@
-import { readdirSync, copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { loadFile } from 'sequelize-fixtures';
 
 import { config } from './src/config';
-// eslint-disable-next-line import/order
+
+// eslint-disable-next-line perfectionist/sort-imports
 import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
 import { CommentModel } from './src/models/comment';
@@ -67,7 +66,7 @@ const loadFixture = (file): Promise<unknown> =>
     loadFile(file, models).then(res).catch(reject);
   });
 
-(async () => {
+(async (): Promise<void> => {
   await database.start();
   await installMappings();
 

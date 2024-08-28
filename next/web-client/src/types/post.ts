@@ -10,14 +10,14 @@ export interface IPostStatistic {
 }
 
 export interface IPost {
-  Photos?: IPhoto[];
-  Statistic: IPostStatistic;
-  User: IUser;
   createdAt: string;
   id: number;
+  Photos?: IPhoto[];
+  Statistic: IPostStatistic;
   text: string;
   title: string;
   updatedAt: string;
+  User: IUser;
 }
 
 export interface IPostState {

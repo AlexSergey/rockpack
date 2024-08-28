@@ -7,23 +7,23 @@ import { clearUserState, setUser } from './actions';
 
 export const userReducer = createReducer<IUser>(
   {
+    email: null,
+    id: null,
     Role: {
       role: Roles.unauthorized,
     },
     Statistic: null,
-    email: null,
-    id: null,
   },
   (builder) => {
     builder
       .addCase(setUser.type, (state, { payload }: IActionWithPayload<IUser>) => ({ ...payload }))
       .addCase(clearUserState.type, () => ({
+        email: null,
+        id: null,
         Role: {
           role: Roles.unauthorized,
         },
         Statistic: null,
-        email: null,
-        id: null,
       }))
       .addCase(increaseComment.type, (state) => {
         state.Statistic.comments += 1;

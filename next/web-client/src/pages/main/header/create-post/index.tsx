@@ -10,9 +10,9 @@ import { usePagination, usePostsApi } from '../../../../features/posts';
 
 const Wysiwyg = loadable(() => import('../../../../components/wysiwyg'));
 
-type FormState = {
+interface IFormState {
   title: string;
-};
+}
 
 export const CreatePost = (): ReactElement => {
   const { current } = usePagination();
@@ -66,7 +66,7 @@ export const CreatePost = (): ReactElement => {
         {postCreate && (
           <Form
             name="post"
-            onFinish={(store: FormState): void => {
+            onFinish={(store: IFormState): void => {
               if (formData.current instanceof FormData) {
                 formData.current.append('title', store.title);
                 formData.current.append('text', text);

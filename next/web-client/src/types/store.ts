@@ -21,9 +21,7 @@ export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
 
 export interface IStoreProps extends IThunkExtras {
   history: History;
-  initialState?: {
-    [key: string]: unknown;
-  };
+  initialState?: Record<string, unknown>;
   testMode?: boolean;
 }
 

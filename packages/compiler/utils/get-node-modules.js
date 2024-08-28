@@ -1,7 +1,6 @@
+const finder = require('find-package-json');
 const fs = require('node:fs');
 const path = require('node:path');
-
-const finder = require('find-package-json');
 
 const getNodeModules = (root) => {
   const f = finder(root);

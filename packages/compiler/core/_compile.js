@@ -2,7 +2,6 @@ const { getMode } = require('@rockpack/utils');
 const webpack = require('webpack');
 
 const mergeConfWithDefault = require('../utils/merge-conf-with-default');
-
 const _args = require('./_args');
 const _innerProps = require('./_inner-props');
 const _make = require('./_make');

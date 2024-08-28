@@ -4,9 +4,9 @@
   "description": "Small wrapper for Jest and testing best practice.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**\"",
+    "lint": "eslint .",
     "format": "npm run format:eslint",
-    "format:eslint": "eslint \"**\" --fix",
+    "format:eslint": "eslint . --fix",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {
@@ -41,7 +41,7 @@
     "jest-environment-jsdom": "29.7.0",
     "jest-extended": "4.0.2",
     "jest-html-reporters": "3.1.7",
-    "typescript": "5.4.5",
+    "typescript": "5.5.4",
     "valid-types": "2.0.5",
     "yargs": "17.7.2",
     "yargs-unparser": "2.0.0"

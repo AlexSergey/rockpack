@@ -1,4 +1,4 @@
-const { isString, isObject } = require('valid-types');
+const { isObject, isString } = require('valid-types');
 
 const { getMajorVersion } = require('./get-major-version');
 

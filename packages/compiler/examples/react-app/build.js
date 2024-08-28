@@ -3,5 +3,5 @@ const { frontendCompiler } = require('../../index');
 frontendCompiler({
   banner: true,
   styles: 'style.css',
-  vendor: ['react', 'react-dom', 'core-js']
+  vendor: ['react', 'react-dom', 'core-js'],
 });

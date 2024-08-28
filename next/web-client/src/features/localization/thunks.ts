@@ -1,4 +1,4 @@
-import { LocaleData, getDefaultLocale } from '@localazer/component';
+import { getDefaultLocale, LocaleData } from '@localazer/component';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { ILanguageList, Languages } from '../../types/localization';
@@ -46,6 +46,7 @@ export const fetchLocalization = createAsyncThunk<
     );
     history.push(`/${language}`);
   } catch (error) {
+    console.error(error);
     logger.error('Cant change the language', true);
   }
 });

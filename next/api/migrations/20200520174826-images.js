@@ -1,18 +1,20 @@
 const tableName = 'images';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
+  down: (queryInterface) => queryInterface.dropTable(tableName),
+
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable(tableName, {
       id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
 
       post_id: {
-        foreignKey: true,
         allowNull: false,
+        foreignKey: true,
         type: Sequelize.INTEGER,
       },
 
@@ -25,9 +27,6 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
         type: Sequelize.STRING,
-      }
-    })
-  ),
-
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+      },
+    }),
 };

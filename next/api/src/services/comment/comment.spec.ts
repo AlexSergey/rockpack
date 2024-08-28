@@ -34,7 +34,7 @@ beforeAll(async () => {
   commentService = container.get<ICommentService>(CommentServiceDIType);
 
   const data = await userService.signup('test_user_for_comments@text.mail', '123456');
-  if (data && data.user) {
+  if (data?.user) {
     newuser = data.user;
   }
   post = await postService.createPost(newuser.get('id'), {
@@ -79,7 +79,7 @@ describe('CommentService tests', () => {
   test('Check first comment for the new user', async () => {
     const postId = post.get('id');
     const comments = await commentRepository.fetchComments(postId);
-    const comment = comments[0].toJSON() as { User: { id: number }; text: string };
+    const comment = comments[0].toJSON() as { text: string; User: { id: number } };
 
     expect(comment.User.id).toBe(newuser.get('id'));
     expect(comment.text).toBe('test comment');

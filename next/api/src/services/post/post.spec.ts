@@ -43,7 +43,7 @@ beforeAll(async () => {
   commentService = container.get<ICommentService>(CommentServiceDIType);
 
   const data = await userService.signup('test_user_for_posts@text.mail', '123456');
-  if (data && data.user) {
+  if (data?.user) {
     newuser = data.user;
   }
 });
@@ -70,22 +70,22 @@ describe('PostService tests', () => {
     const u = await userRepository.getUserById(newuser.get('id'));
 
     expect(details).toEqual({
+      createdAt: IPostDetails.get('createdAt'),
+      id: IPostDetails.get('id'),
       Photos: [],
       Statistic: {
         comments: 0,
       },
-      User: {
-        Role: { role: 'user' },
-        Statistic: { comments: 0, posts: 1 },
-        email: u.get('email'),
-        id: u.get('id'),
-        role_id: u.get('role_id'),
-      },
-      createdAt: IPostDetails.get('createdAt'),
-      id: IPostDetails.get('id'),
       text: 'test text',
       title,
       updatedAt: IPostDetails.get('updatedAt'),
+      User: {
+        email: u.get('email'),
+        id: u.get('id'),
+        Role: { role: 'user' },
+        role_id: u.get('role_id'),
+        Statistic: { comments: 0, posts: 1 },
+      },
     });
   });
 

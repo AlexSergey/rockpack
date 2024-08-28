@@ -1,16 +1,20 @@
 import './src/config';
+
+// eslint-disable-next-line perfectionist/sort-imports
 import * as database from './src/boundaries/database';
 import { installMappings } from './src/mappings';
-import { UserModel } from './src/models/user';
-import { StatisticTypeModel } from './src/models/statistic-type';
 import { ImageTypeModel } from './src/models/image-type';
 import { RoleModel } from './src/models/role';
 import { StatisticModel } from './src/models/statistic';
+import { StatisticTypeModel } from './src/models/statistic-type';
+import { UserModel } from './src/models/user';
 
-(async () => {
+(async (): Promise<void> => {
+  console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV !== 'test') {
     console.error('Dropdatabase script must be used only in test env!');
     process.exit(1);
+
     return;
   }
   try {
@@ -18,29 +22,29 @@ import { StatisticModel } from './src/models/statistic';
     await installMappings();
 
     await UserModel.destroy({
-      where: {},
+      individualHooks: true,
       truncate: true,
-      individualHooks: true
+      where: {},
     });
 
     await StatisticTypeModel.destroy({
+      truncate: true,
       where: {},
-      truncate: true
     });
 
     await ImageTypeModel.destroy({
+      truncate: true,
       where: {},
-      truncate: true
     });
 
     await RoleModel.destroy({
+      truncate: true,
       where: {},
-      truncate: true
     });
 
     await StatisticModel.destroy({
+      truncate: true,
       where: {},
-      truncate: true
     });
 
     await database.stop();

@@ -1,6 +1,4 @@
-export type ValidationMessage = {
-  [key: string]: string;
-};
+export type ValidationMessage = Record<string, string>;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const sequelizeMessage = (e: any): ValidationMessage => {
@@ -42,7 +40,7 @@ export const sequelizeMessage = (e: any): ValidationMessage => {
       }
       messages[error.path] = message;
     });
-  } else if (e && e.original && typeof e.original.sqlMessage === 'string') {
+  } else if (e?.original && typeof e.original.sqlMessage === 'string') {
     messages.sql = e.original.sqlMessage;
   }
 

@@ -2,21 +2,23 @@ import { config } from '../../config';
 import { IUser } from '../../types/user';
 import { IRest } from '../../utils/rest';
 
-type UserData = {
+interface IUserData {
   email: string;
   password: string;
-};
+}
 
-type UserRes = { data: IUser };
+interface IUserRes {
+  data: IUser;
+}
 
 export interface IUserService {
-  authorization: () => Promise<UserRes>;
+  authorization: () => Promise<IUserRes>;
 
-  signIn: (user: UserData) => Promise<UserRes>;
+  signIn: (user: IUserData) => Promise<IUserRes>;
 
   signOut: () => Promise<void>;
 
-  signUp: (user: UserData) => Promise<UserRes>;
+  signUp: (user: IUserData) => Promise<IUserRes>;
 }
 
 export const userService = (rest: IRest): IUserService => ({

@@ -1,9 +1,8 @@
-const fs = require('node:fs');
-const path = require('node:path');
-
 const { getRootRequireDir } = require('@rockpack/utils');
 const { glob } = require('glob');
 const mkdirp = require('mkdirp');
+const fs = require('node:fs');
+const path = require('node:path');
 
 async function getFiles(srcFolder, query = '*', ignore = []) {
   const root = getRootRequireDir();

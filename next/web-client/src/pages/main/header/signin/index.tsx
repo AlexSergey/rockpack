@@ -4,10 +4,10 @@ import { ReactElement, useState } from 'react';
 
 import { useUserApi } from '../../../../features/user';
 
-type Store = {
+interface IStore {
   email: string;
   password: string;
-};
+}
 
 export const Signin = (): ReactElement => {
   const [signinState, signinModal] = useState(false);
@@ -22,7 +22,7 @@ export const Signin = (): ReactElement => {
       <Modal footer={null} onCancel={(): void => signinModal(false)} open={signinState} title={l('Sign In')()}>
         <Form
           name="signin"
-          onFinish={(store: Store): void => {
+          onFinish={(store: IStore): void => {
             signin(store);
           }}
         >

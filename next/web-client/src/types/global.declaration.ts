@@ -60,21 +60,21 @@ declare module '*.less' {
 }
 
 declare module '*.module.css' {
-  const classes: { [key: string]: string };
+  const classes: Record<string, string>;
   export default classes;
 }
 
 declare module '*.module.scss' {
-  const classes: { [key: string]: string };
+  const classes: Record<string, string>;
   export default classes;
 }
 
 declare module '*.module.less' {
-  const classes: { [key: string]: string };
+  const classes: Record<string, string>;
   export default classes;
 }
 
 declare module '*.module.sass' {
-  const classes: { [key: string]: string };
+  const classes: Record<string, string>;
   export default classes;
 }

@@ -1,30 +1,27 @@
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    },
-  },
-  plugins: [
-    'react',
-    'react-hooks'
-  ],
   env: {
     browser: true,
-    node: true,
+    commonjs: true,
     es6: true,
     mocha: true,
-    commonjs: true
+    node: true,
   },
   parser: 'babel-eslint',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 6,
+    sourceType: 'module',
+  },
+  plugins: ['react', 'react-hooks'],
   rules: {
-    'jsx-quotes': [2, 'prefer-double'], //JSX double quotes
-    'react/jsx-uses-react': 2, //no-unused exclude error for import React
     indent: [2, 4], //4 spaces indent
+    'jsx-quotes': [2, 'prefer-double'], //JSX double quotes
     quotes: [2, 'single'], //single quote in JS code,
+    'react/jsx-uses-react': 2, //no-unused exclude error for import React
+    'react-hooks/exhaustive-deps': 'warn',
     // Rules of hook - https://reactjs.org/docs/hooks-rules.html
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
-  }
+  },
 };

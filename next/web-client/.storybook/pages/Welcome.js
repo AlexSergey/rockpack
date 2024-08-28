@@ -1,27 +1,29 @@
-import React from 'react';
 import { storiesOf } from '@storybook/react';
+import React from 'react';
 
-storiesOf('Welcome', module)
-  .add('to your new Storubook!',
-    () => (
-      <div style={{ padding: '10px', background: 'white', height: '100%' }}>
-        <h1>Hi!</h1>
-      </div>
-    ), {
-      info: {
-        source: false,
-        header: false,
-        inline: false,
-        button: false,
-        styles: {
-          button: {
-            base: {
-              display: 'none',
-            }
-          }
+storiesOf('Welcome', module).add(
+  'to your new Storubook!',
+  () => (
+    <div style={{ background: 'white', height: '100%', padding: '10px' }}>
+      <h1>Hi!</h1>
+    </div>
+  ),
+  {
+    info: {
+      button: false,
+      header: false,
+      inline: false,
+      source: false,
+      styles: {
+        button: {
+          base: {
+            display: 'none',
+          },
         },
       },
-      options: {
-        showPanel: false
-      }
-    })
+    },
+    options: {
+      showPanel: false,
+    },
+  },
+);

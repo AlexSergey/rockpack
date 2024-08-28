@@ -1,5 +1,4 @@
 const path = require('node:path');
-
 const R = require('ramda');
 
 const isMapFile = R.endsWith('.map');

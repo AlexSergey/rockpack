@@ -2,12 +2,14 @@ import { config } from '../../config';
 import { IUser } from '../../types/user';
 import { IRest } from '../../utils/rest';
 
-type UsersRes = { data: { users: IUser[] } };
+interface IUsersRes {
+  data: { users: IUser[] };
+}
 
 export interface IUsersService {
   deleteUser: (id: number) => Promise<void>;
 
-  fetchUsers: () => Promise<UsersRes>;
+  fetchUsers: () => Promise<IUsersRes>;
 }
 
 export const usersService = (rest: IRest): IUsersService => ({

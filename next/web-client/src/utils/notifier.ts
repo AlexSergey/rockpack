@@ -9,17 +9,17 @@ export const notify = (level: string, text: string, isImportant: boolean): void 
   }
   if (isImportant) {
     switch (level) {
-      case 'log':
-        message.success(text);
+      case 'error':
+        message.error(text);
         break;
       case 'info':
         message.info(text);
         break;
+      case 'log':
+        message.success(text);
+        break;
       case 'warn':
         message.warn(text);
-        break;
-      case 'error':
-        message.error(text);
         break;
       default:
         message.info(text);

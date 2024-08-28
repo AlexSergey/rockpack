@@ -1,6 +1,5 @@
-const path = require('node:path');
-
 const deepExtend = require('deep-extend');
+const path = require('node:path');
 const ts = require('typescript');
 
 const { moduleFormats } = require('../constants');

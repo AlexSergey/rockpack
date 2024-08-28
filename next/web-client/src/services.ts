@@ -1,4 +1,4 @@
-import { ICommentsService, commentsService } from './features/comments/service';
+import { commentsService, ICommentsService } from './features/comments/service';
 import { ILocalizationService, localizationService } from './features/localization/service';
 import { IPostService, postService } from './features/post/service';
 import { IPostsService, postsService } from './features/posts/service';

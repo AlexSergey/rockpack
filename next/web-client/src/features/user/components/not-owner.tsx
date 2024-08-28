@@ -7,7 +7,7 @@ interface INotOwner {
   forUser: string;
 }
 
-export const NotOwner = ({ children, forUser }: INotOwner): ReactElement | null => {
+export const NotOwner = ({ children, forUser }: INotOwner): null | ReactElement => {
   const { email } = useUser();
 
   if (!email) {

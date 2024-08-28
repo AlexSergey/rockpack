@@ -1,44 +1,43 @@
 const tableName = 'posts';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
+  down: (queryInterface) => queryInterface.dropTable(tableName),
+
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable(tableName, {
+      createdAt: {
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        type: Sequelize.DATE,
+      },
+
       id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
-      },
-
-      user_id: {
-        foreignKey: true,
-        allowNull: false,
+        primaryKey: true,
         type: Sequelize.INTEGER,
-      },
-
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
 
       text: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
 
-      createdAt: {
+      title: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
+        type: Sequelize.STRING,
       },
 
       updatedAt: {
         allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      }
-    })
-  ),
+      },
 
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+      user_id: {
+        allowNull: false,
+        foreignKey: true,
+        type: Sequelize.INTEGER,
+      },
+    }),
 };

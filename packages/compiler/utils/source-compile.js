@@ -1,20 +1,18 @@
-const { existsSync } = require('node:fs');
-const path = require('node:path');
-
 const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
-const { getRootRequireDir, getMode } = require('@rockpack/utils');
+const { getMode, getRootRequireDir } = require('@rockpack/utils');
 const { copySync } = require('fs-extra');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
 const rimraf = require('rimraf');
 const ts = require('typescript');
-const { isObject, isString, isUndefined, isArray } = require('valid-types');
+const { isArray, isObject, isString, isUndefined } = require('valid-types');
 
 const { getFiles, getTypeScript, writeFile } = require('./file-system-utils');
 const makeCompilerOptions = require('./make-compiler-options');
 const { capitalize } = require('./other');
 const pathToTSConf = require('./path-to-ts-conf');
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 module.exports = async function sourceCompile(conf) {
   const root = getRootRequireDir();
   const mode = getMode();

@@ -15,12 +15,12 @@ import { Images } from './images';
 import styles from './style.module.scss';
 import { UpdateMode } from './update-mode';
 
-type PathParamsType = {
+interface IPathParamsType {
   postId: string;
-};
+}
 
 const PostDetails = (): ReactElement => {
-  const params = useParams<PathParamsType>();
+  const params = useParams<IPathParamsType>();
   const postId = Number(params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);

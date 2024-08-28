@@ -1,9 +1,7 @@
-import os from 'node:os';
 import chalk from 'chalk';
-import {
-  getPMVersion,
-  getPM
-} from './other.js';
+import os from 'node:os';
+
+import { getPM, getPMVersion } from './other.js';
 
 export const showError = (e, cb) => {
   console.log();
@@ -23,4 +21,4 @@ export const showError = (e, cb) => {
   console.log(`Package manager: ${getPM()}. version: ${getPMVersion()}`);
   console.log();
   process.exit(1);
-}
+};

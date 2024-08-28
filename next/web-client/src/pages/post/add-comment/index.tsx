@@ -10,9 +10,9 @@ interface IAddComment {
   postId: number;
 }
 
-type Store = {
+interface IStore {
   text: string;
-};
+}
 
 export const AddComment = ({ postId }: IAddComment): ReactElement => {
   const [form] = Form.useForm();
@@ -27,7 +27,7 @@ export const AddComment = ({ postId }: IAddComment): ReactElement => {
       <Form
         form={form}
         name="comment"
-        onFinish={(store: Store): void => {
+        onFinish={(store: IStore): void => {
           createComment({
             postId,
             text: store.text,

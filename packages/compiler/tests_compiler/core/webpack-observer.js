@@ -1,5 +1,5 @@
 class WebpackObserver {
-  constructor({ onError, onFinished, end }) {
+  constructor({ end, onError, onFinished }) {
     this.onError = onError;
     this.onFinished = onFinished;
     this.interval = null;
@@ -10,6 +10,11 @@ class WebpackObserver {
       this.destroy();
       this.onError(new Error('Time out'));
     }, this.end);
+  }
+
+  destroy() {
+    clearInterval(this.interval);
+    clearTimeout(this.deadTimer);
   }
 
   run(delay) {
@@ -31,11 +36,6 @@ class WebpackObserver {
 
   setState(state) {
     this.state = state;
-  }
-
-  destroy() {
-    clearInterval(this.interval);
-    clearTimeout(this.deadTimer);
   }
 }
 

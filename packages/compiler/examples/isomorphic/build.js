@@ -1,12 +1,12 @@
-const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('../../index');
+const { backendCompiler, frontendCompiler, isomorphicCompiler } = require('../../index');
 
 isomorphicCompiler(
   backendCompiler({
-    src: 'src/server.jsx',
     dist: 'dist/index.js',
+    src: 'src/server.jsx',
   }),
   frontendCompiler({
-    src: 'src/client.jsx',
     dist: 'public/index.js',
+    src: 'src/client.jsx',
   }),
 );

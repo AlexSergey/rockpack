@@ -1,8 +1,8 @@
 const { frontendCompiler } = require('../../index');
 
 frontendCompiler({
-  dist: './public',
   banner: true,
+  dist: './public',
   styles: 'style.css',
-  vendor: ['react', 'react-dom', 'core-js']
-})
+  vendor: ['react', 'react-dom', 'core-js'],
+});

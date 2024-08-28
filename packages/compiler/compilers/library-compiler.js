@@ -1,6 +1,6 @@
 const { setMode } = require('@rockpack/utils');
 const deepExtend = require('deep-extend');
-const { isString, isObject, isArray } = require('valid-types');
+const { isArray, isObject, isString } = require('valid-types');
 
 const _compile = require('../core/_compile');
 const errorHandler = require('../error-handler');

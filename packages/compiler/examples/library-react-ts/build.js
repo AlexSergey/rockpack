@@ -1,17 +1,14 @@
 const { libraryCompiler } = require('../../index');
 
 libraryCompiler({
-  name: 'Color',
   cjs: {
+    dist: './lib/cjs',
     src: './src',
-    dist: './lib/cjs'
   },
   esm: {
+    dist: './lib/esm',
     src: './src',
-    dist: './lib/esm'
   },
-  externals: [
-    'react',
-    'react-dom'
-  ]
+  externals: ['react', 'react-dom'],
+  name: 'Color',
 });

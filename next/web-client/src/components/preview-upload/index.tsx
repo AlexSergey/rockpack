@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload, message } from 'antd';
+import { Button, message, Upload } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { ReactElement, useState } from 'react';
 
@@ -10,7 +10,7 @@ import styles from './style.module.scss';
 export const PreviewUpload = ({
   onChange,
 }: {
-  onChange: (file: UploadFile<Record<string, unknown>> | false) => void;
+  onChange: (file: false | UploadFile<Record<string, unknown>>) => void;
 }): ReactElement => {
   const [preview, setPreview] = useState('');
   const [fileList, setFileList] = useState([]);

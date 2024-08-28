@@ -1,4 +1,4 @@
-const { setMode, getMode } = require('@rockpack/utils');
+const { getMode, setMode } = require('@rockpack/utils');
 const livereload = require('livereload');
 const { isUndefined } = require('valid-types');
 const webpack = require('webpack');

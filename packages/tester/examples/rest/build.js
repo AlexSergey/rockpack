@@ -1,10 +1,11 @@
 const path = require('path');
+
 const { frontendCompiler } = require('../../../compiler');
 
-frontendCompiler({}, config => {
+frontendCompiler({}, (config) => {
   Object.assign(config.resolve, {
     alias: {
-      react: path.resolve(__dirname, './node_modules/react')
-    }
+      react: path.resolve(__dirname, './node_modules/react'),
+    },
   });
 });

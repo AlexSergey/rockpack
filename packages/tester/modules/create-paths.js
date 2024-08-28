@@ -1,7 +1,6 @@
+const { getRootRequireDir } = require('@rockpack/utils');
 const fs = require('node:fs');
 const path = require('node:path');
-
-const { getRootRequireDir } = require('@rockpack/utils');
 const { isArray } = require('valid-types');
 
 module.exports = (options) => {

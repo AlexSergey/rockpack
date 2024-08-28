@@ -1,11 +1,9 @@
-const path = require('node:path');
-
 const chalk = require('chalk');
 const deepExtend = require('deep-extend');
+const path = require('node:path');
 
 const { defaultDistFile, distExtension } = require('../constants');
 const defaultProps = require('../default-props');
-
 const fpPromise = require('./find-free-port');
 
 const mergeConfWithDefault = async (conf, mode) => {

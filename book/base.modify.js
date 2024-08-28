@@ -1,6 +1,6 @@
+const fs = require('fs');
 const { parse } = require('node-html-parser');
 const path = require('path');
-const fs = require('fs');
 
 const dist = path.join(__dirname, '..', './docs');
 const htmlPath = path.join(dist, 'index.html');

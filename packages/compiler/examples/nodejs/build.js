@@ -1,10 +1,11 @@
 const path = require('path');
+
 const { backendCompiler } = require('../../index');
 
-backendCompiler({}, finalConfig => {
+backendCompiler({}, (finalConfig) => {
   Object.assign(finalConfig.resolve, {
     alias: {
-      text: path.resolve('./text')
-    }
+      text: path.resolve('./text'),
+    },
   });
 });

@@ -2,14 +2,18 @@ import { config } from '../../config';
 import { IPost } from '../../types/posts';
 import { IRest } from '../../utils/rest';
 
-export type PostsRes = { data: { count: number; posts: IPost[] } };
+export interface IPostsRes {
+  data: { count: number; posts: IPost[] };
+}
 
-export type DeletePostRes = { data: { deleteComments: number[] } };
+export interface IDeletePostRes {
+  data: { deleteComments: number[] };
+}
 
 export interface IPostsService {
   createPost: (postData: FormData) => Promise<void>;
-  deletePost: (id: number) => Promise<DeletePostRes>;
-  fetchPosts: (page: number) => Promise<PostsRes>;
+  deletePost: (id: number) => Promise<IDeletePostRes>;
+  fetchPosts: (page: number) => Promise<IPostsRes>;
 }
 
 export const postsService = (rest: IRest): IPostsService => ({

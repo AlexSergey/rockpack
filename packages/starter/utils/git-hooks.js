@@ -1,16 +1,15 @@
 import { spawnSync } from 'child_process';
+
 import { getPM } from './other.js';
 
-export const gitHooks = async ({
-  tester,
-}, currentPath) => {
+export const gitHooks = async ({ tester }, currentPath) => {
   let hooksCommon = [];
   let hooksCommit = [];
   let hooksPush = [];
 
   const shellOptions = {
+    cwd: currentPath,
     shell: true,
-    cwd: currentPath
   };
 
   hooksPush = hooksPush.concat(hooksCommon);
@@ -44,4 +43,4 @@ export const gitHooks = async ({
   spawnSync('npx', ['husky', 'add', '.husky/commit-msg', '"npm run lint:commit"'], shellOptions);
 
   spawnSync('git', ['add', '.husky/commit-msg'], shellOptions);
-}
+};

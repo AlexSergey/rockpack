@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload, message } from 'antd';
+import { message, Modal, Upload } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { ReactElement, useState } from 'react';
 

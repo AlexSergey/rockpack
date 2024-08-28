@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { IRootState } from '../../types/store';
 import { ThunkResult } from '../../types/thunk';
-import { IUser, Roles, UserStatistic } from '../../types/user';
+import { IUser, IUserStatistic, Roles } from '../../types/user';
 import { authorization, signIn, signOut, signUp } from './thunks';
 import { IUserPayload } from './types';
 
@@ -20,8 +20,8 @@ export const useAuthorization = (): void => {
   }, []);
 };
 
-export const useUserStatistic = (): UserStatistic => {
-  const { comments, posts } = useSelector<IRootState, UserStatistic>((state) => state.user.Statistic);
+export const useUserStatistic = (): IUserStatistic => {
+  const { comments, posts } = useSelector<IRootState, IUserStatistic>((state) => state.user.Statistic);
 
   return {
     comments,

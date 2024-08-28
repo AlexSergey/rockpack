@@ -5,36 +5,36 @@ export const mockUserService = (): IUserService => ({
   authorization: () =>
     Promise.resolve({
       data: {
+        email: 'admin@rock.com',
+        id: 1,
+
         Role: {
           role: Roles.admin,
         },
+
+        role_id: 2,
         Statistic: {
           comments: 0,
           posts: 0,
         },
-
-        email: 'admin@rock.com',
-
-        id: 1,
-        role_id: 2,
       },
     }),
 
   signIn: () =>
     Promise.resolve({
       data: {
+        email: 'admin@rock.com',
+        id: 1,
+
         Role: {
           role: Roles.admin,
         },
+
+        role_id: 2,
         Statistic: {
           comments: 0,
           posts: 0,
         },
-
-        email: 'admin@rock.com',
-
-        id: 1,
-        role_id: 2,
       },
     }),
 
@@ -43,16 +43,16 @@ export const mockUserService = (): IUserService => ({
   signUp: (user) =>
     Promise.resolve({
       data: {
+        email: user.email,
+        id: 10,
         Role: {
           role: Roles.user,
         },
+        role_id: 2,
         Statistic: {
           comments: 0,
           posts: 0,
         },
-        email: user.email,
-        id: 10,
-        role_id: 2,
       },
     }),
 });

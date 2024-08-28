@@ -28,10 +28,14 @@
     "rockpack": "./bin/index.js"
   },
   "scripts": {
+    "lint": "eslint .",
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix",
     "production": "npm publish --access public"
   },
   "private": false,
   "dependencies": {
+    "@rockpack/codestyle": "4.3.1",
     "@rockpack/utils": "4.3.1",
     "chalk": "5.3.0",
     "inquirer": "9.2.20",

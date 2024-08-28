@@ -4,7 +4,6 @@ const createAssetType = (conf) =>
   conf.webview
     ? {
         asyncAssets: {
-          // eslint-disable-next-line sonarjs/no-duplicate-string
           type: 'asset/inline',
         },
         fonts: {
@@ -28,7 +27,6 @@ const createAssetType = (conf) =>
           generator: {
             filename: 'static/html/[name].[hash][ext]',
           },
-          // eslint-disable-next-line sonarjs/no-duplicate-string
           type: 'asset/resource',
         },
         fonts: {

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch from 'node-fetch';
 
-interface IOpts {
-  [key: string]: unknown;
-}
+type IOpts = Record<string, unknown>;
 
 export interface IRest {
   delete: (url: string) => Promise<any>;

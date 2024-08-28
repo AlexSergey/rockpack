@@ -87,6 +87,7 @@ CommentModel.init(
             },
           );
         } catch (e) {
+          console.error(e);
           throw new InternalError();
         }
       },
@@ -129,6 +130,7 @@ CommentModel.init(
             },
           );
         } catch (e) {
+          console.error(e);
           throw new InternalError();
         }
       },

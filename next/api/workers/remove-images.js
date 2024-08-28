@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { argv } = require('yargs');
 
-const { storage, prefix, images } = argv;
+const { images, prefix, storage } = argv;
 
 const files = images.indexOf(',') > 0 ? images.split(',') : [images];
 

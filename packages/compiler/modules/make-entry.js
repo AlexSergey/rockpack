@@ -1,6 +1,5 @@
 const path = require('node:path');
-
-const { isString, isArray } = require('valid-types');
+const { isArray, isString } = require('valid-types');
 
 const { distExtension } = require('../constants');
 

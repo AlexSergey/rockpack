@@ -7,7 +7,6 @@ const pathToTSConf = require('../utils/path-to-ts-conf');
 const sourceCompile = require('../utils/source-compile');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
-  // eslint-disable-next-line consistent-return,sonarjs/cognitive-complexity
   const compiler = webpack(webpackConfig, async (err, stats) => {
     // eslint-disable-next-line default-case
     switch (mode) {

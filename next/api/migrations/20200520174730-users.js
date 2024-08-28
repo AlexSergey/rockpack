@@ -1,32 +1,31 @@
 const tableName = 'users';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
+  down: (queryInterface) => queryInterface.dropTable(tableName),
+
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable(tableName, {
-      id: {
+      email: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+        type: Sequelize.STRING,
       },
 
-      email: {
-        type: Sequelize.STRING,
+      id: {
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
 
       password: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
 
       role_id: {
         allowNull: false,
+        defaultValue: 1,
         type: Sequelize.INTEGER,
-        defaultValue: 1
-      }
-    })
-  ),
-
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+      },
+    }),
 };

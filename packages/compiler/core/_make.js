@@ -1,8 +1,7 @@
+const { getMode, getRootRequireDir } = require('@rockpack/utils');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
-
-const { getRootRequireDir, getMode } = require('@rockpack/utils');
-const { isFunction, isDefined } = require('valid-types');
+const { isDefined, isFunction } = require('valid-types');
 const webpack = require('webpack');
 
 const makeDevServer = require('../modules/make-dev-server');
@@ -22,14 +21,11 @@ const _make = async (conf, post) => {
   const mode = getMode();
   const root = getRootRequireDir();
 
-  const packageJson = existsSync(path.resolve(root, 'package.json'))
-    ? // eslint-disable-next-line global-require,import/no-dynamic-require
-      require(path.resolve(root, 'package.json'))
-    : {};
+  const packageJson = existsSync(path.resolve(root, 'package.json')) ? require(path.resolve(root, 'package.json')) : {};
 
   conf = await mergeConfWithDefault(conf, mode);
 
-  const { entry, context } = makeEntry(conf, root, mode);
+  const { context, entry } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root, mode);
   const devtool = makeDevtool(mode, conf);
   const devServer = await makeDevServer(conf);

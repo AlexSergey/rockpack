@@ -1,40 +1,46 @@
-const { frontendCompiler } = require('../../index');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
-frontendCompiler({
-  banner: true,
-  styles: 'style.css',
-  vendor: ['react', 'react-dom', 'core-js']
-}, (config, modules, plugins, mode) => {
-  if (mode === 'production') {
-    config.output.publicPath = './';
-  }
+const { frontendCompiler } = require('../../index');
 
-  config.resolve.extensions = ['.js', '.elm'];
+frontendCompiler(
+  {
+    banner: true,
+    styles: 'style.css',
+    vendor: ['react', 'react-dom', 'core-js'],
+  },
+  (config, modules, plugins, mode) => {
+    if (mode === 'production') {
+      config.output.publicPath = './';
+    }
 
-  modules.add('elm', {
-    test: /\.elm$/,
-    exclude: [/elm-stuff/, /node_modules/],
-    use: process.env.NODE_ENV === 'development' ? [
-      { loader: 'elm-hot-webpack-loader' },
-      {
-        loader: 'elm-webpack-loader',
-        options: {
-        }
-      }
-    ] : [
-      {
-        loader: 'elm-webpack-loader',
-        options: {
-          optimize: true
-        }
-      }
-    ]
-  });
+    config.resolve.extensions = ['.js', '.elm'];
 
-  modules.modify('css', (css) => {
-    css.sideEffects = true;
-  });
+    modules.add('elm', {
+      exclude: [/elm-stuff/, /node_modules/],
+      test: /\.elm$/,
+      use:
+        process.env.NODE_ENV === 'development'
+          ? [
+              { loader: 'elm-hot-webpack-loader' },
+              {
+                loader: 'elm-webpack-loader',
+                options: {},
+              },
+            ]
+          : [
+              {
+                loader: 'elm-webpack-loader',
+                options: {
+                  optimize: true,
+                },
+              },
+            ],
+    });
 
-  plugins.set('WebpackNotifierPlugin', new WebpackNotifierPlugin());
-});
+    modules.modify('css', (css) => {
+      css.sideEffects = true;
+    });
+
+    plugins.set('WebpackNotifierPlugin', new WebpackNotifierPlugin());
+  },
+);

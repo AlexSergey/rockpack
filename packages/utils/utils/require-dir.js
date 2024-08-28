@@ -1,6 +1,5 @@
 const { statSync } = require('node:fs');
 const { dirname } = require('node:path');
-
 const requireMainFilename = require('require-main-filename');
 
 const getRootRequireDir = () => {

@@ -1,6 +1,5 @@
-const path = require('node:path');
-
 const { glob } = require('glob');
+const path = require('node:path');
 
 const errors = require('../errors/markup-compiler');
 

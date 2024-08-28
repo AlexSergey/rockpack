@@ -1,15 +1,15 @@
-const path = require('node:path');
 const { frontendCompiler } = require('@rockpack/compiler');
+const path = require('node:path');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 frontendCompiler(
   {
+    copy: [{ from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }],
     dist: path.resolve(__dirname, '../docs'),
     html: {
-      template: path.resolve(__dirname, './index.ejs'),
       favicon: path.resolve(__dirname, './favicon.ico'),
+      template: path.resolve(__dirname, './index.ejs'),
     },
-    copy: [{ from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }],
   },
   (finalConfig, modules, plugins) => {
     modules.set('example', {
@@ -20,9 +20,9 @@ frontendCompiler(
       plugins.set(
         'PrerenderSPAPlugin',
         new PrerenderSPAPlugin({
-          staticDir: finalConfig.output.path,
-          routes: ['/'],
           minify: true,
+          routes: ['/'],
+          staticDir: finalConfig.output.path,
         }),
       );
       finalConfig.output.publicPath = './';

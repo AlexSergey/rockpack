@@ -1,3 +1,3 @@
 module.exports = {
-  isNodeJS: () => typeof __dirname === 'string'
-}
+  isNodeJS: () => typeof __dirname === 'string',
+};

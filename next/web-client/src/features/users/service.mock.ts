@@ -9,6 +9,8 @@ export const mockUsersService = (): IUsersService => ({
       data: {
         users: [
           {
+            email: 'admin@rock.com',
+            id: 1,
             Role: {
               role: Roles.admin,
             },
@@ -16,10 +18,10 @@ export const mockUsersService = (): IUsersService => ({
               comments: 0,
               posts: 0,
             },
-            email: 'admin@rock.com',
-            id: 1,
           },
           {
+            email: 'second_admin@rock.com',
+            id: 2,
             Role: {
               role: Roles.admin,
             },
@@ -27,10 +29,10 @@ export const mockUsersService = (): IUsersService => ({
               comments: 4,
               posts: 10,
             },
-            email: 'second_admin@rock.com',
-            id: 2,
           },
           {
+            email: 'simple_user@rock.com',
+            id: 3,
             Role: {
               role: Roles.user,
             },
@@ -38,8 +40,6 @@ export const mockUsersService = (): IUsersService => ({
               comments: 4,
               posts: 3,
             },
-            email: 'simple_user@rock.com',
-            id: 3,
           },
         ],
       },

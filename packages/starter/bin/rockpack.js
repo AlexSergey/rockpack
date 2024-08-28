@@ -1,14 +1,15 @@
+import chalk from 'chalk';
+import latestVersion from 'latest-version';
 import fs from 'node:fs';
 import path from 'node:path';
-import chalk from 'chalk';
-import { getCurrentPath } from '../utils/pathes.js';
-import { here } from '../constants/paths.js';
-import { defaultApp } from '../constants/names.js';
-import { install } from '../lib/install.js';
-import latestVersion from 'latest-version';
 import semverParse from 'semver/functions/parse.js';
+
+import { defaultApp } from '../constants/names.js';
+import { here } from '../constants/paths.js';
+import { install } from '../lib/install.js';
 import { argv } from '../utils/argv.js';
 import { packageJson } from '../utils/package-json.js';
+import { getCurrentPath } from '../utils/pathes.js';
 
 export const rockpack = async () => {
   const { _, h, help, v, version } = argv;
@@ -34,9 +35,7 @@ export const rockpack = async () => {
 
   if (noName) {
     console.error('Please specify the project directory:');
-    console.log(
-      `  rockpack ${chalk.green('<project-directory>')}`
-    );
+    console.log(`  rockpack ${chalk.green('<project-directory>')}`);
     console.log();
     console.log('For example:');
     console.log(`  rockpack ${chalk.green('project-name')}`);
@@ -45,15 +44,10 @@ export const rockpack = async () => {
 
   const rockpackLatestVersion = await latestVersion(packageJson.name);
 
-  if (
-    semverParse(rockpackLatestVersion).prerelease.length === 0 &&
-    rockpackLatestVersion > packageJson.version
-  ) {
+  if (semverParse(rockpackLatestVersion).prerelease.length === 0 && rockpackLatestVersion > packageJson.version) {
     console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
     console.log();
-    console.log(
-      ` => The current available version is ${rockpackLatestVersion}`
-    );
+    console.log(` => The current available version is ${rockpackLatestVersion}`);
     console.log();
     console.log('Please run:');
     console.log();
@@ -67,9 +61,15 @@ export const rockpack = async () => {
 
   if (projectName !== here && fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
     console.error(chalk.red(`Project "${projectName}" has already created. Please use manual installation:\n`));
-    console.log(`${chalk.green('@rockpack/compiler')} - https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md`);
-    console.log(`${chalk.green('@rockpack/tester')} - https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md`);
-    console.log(`${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`);
+    console.log(
+      `${chalk.green('@rockpack/compiler')} - https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md`,
+    );
+    console.log(
+      `${chalk.green('@rockpack/tester')} - https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md`,
+    );
+    console.log(
+      `${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`,
+    );
     return process.exit(1);
   }
 
@@ -86,7 +86,7 @@ export const rockpack = async () => {
   }
 
   await install({
+    currentPath,
     projectName,
-    currentPath
   });
 };

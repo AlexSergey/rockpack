@@ -3,8 +3,8 @@ const babelJest = require('babel-jest').default;
 
 const opts = createBabelPresets({
   framework: 'react',
-  isTest: true,
   isomorphic: true,
+  isTest: true,
 });
 
 module.exports = babelJest.createTransformer({ ...opts });

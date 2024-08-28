@@ -12,7 +12,7 @@ import { createMockServices } from './mock-services';
 export const createAppWrapper = ({
   initialState = {},
   url = '/',
-}: { initialState?: { [key: string]: unknown }; url?: string } = {}): (({
+}: { initialState?: Record<string, unknown>; url?: string } = {}): (({
   children,
 }: {
   children: ReactNode;

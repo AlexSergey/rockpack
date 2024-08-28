@@ -1,8 +1,7 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
-
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { isString, isBoolean } = require('valid-types');
+const { isBoolean, isString } = require('valid-types');
 
 const pathToTSConf = require('./path-to-ts-conf');
 
@@ -11,11 +10,9 @@ const getPostcssConfig = (root) => {
     ? path.resolve(root, './postcss.config.js')
     : path.resolve(__dirname, '../configs/postcss.config.js');
 
-  // eslint-disable-next-line global-require,import/no-dynamic-require
   return require(pth);
 };
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const getStylesRules = (conf, mode, root) => {
   const isProduction = mode === 'production';
 
@@ -49,10 +46,8 @@ const getStylesRules = (conf, mode, root) => {
   if (conf.__isIsomorphicStyles) {
     css = [
       MiniCssExtractPlugin.loader,
-      // eslint-disable-next-line sonarjs/no-duplicate-string
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       {
-        // eslint-disable-next-line sonarjs/no-duplicate-string
         loader: require.resolve('postcss-loader'),
         options: { postcssOptions: getPostcssConfig(root), sourceMap: debug },
       },
@@ -64,7 +59,6 @@ const getStylesRules = (conf, mode, root) => {
         loader: require.resolve('postcss-loader'),
         options: { postcssOptions: getPostcssConfig(root), sourceMap: debug },
       },
-      // eslint-disable-next-line sonarjs/no-duplicate-string
       { loader: require.resolve('sass-loader'), options: { sourceMap: debug } },
     ];
     less = [
@@ -75,7 +69,6 @@ const getStylesRules = (conf, mode, root) => {
         options: { postcssOptions: getPostcssConfig(root), sourceMap: debug },
       },
       {
-        // eslint-disable-next-line sonarjs/no-duplicate-string
         loader: require.resolve('less-loader'),
         options: {
           lessOptions: {
@@ -122,7 +115,6 @@ const getStylesRules = (conf, mode, root) => {
     ];
   } else {
     css = [
-      // eslint-disable-next-line sonarjs/no-duplicate-string
       extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
       { loader: require.resolve('css-loader'), options: { sourceMap: debug } },
       {
@@ -197,7 +189,6 @@ const getStylesRules = (conf, mode, root) => {
     if (conf.__isIsomorphicStyles) {
       cssModule = [
         MiniCssExtractPlugin.loader,
-        // eslint-disable-next-line sonarjs/no-duplicate-string
         { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {

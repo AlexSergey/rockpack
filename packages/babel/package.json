@@ -4,9 +4,9 @@
   "description": "Babel presets module for Rockpack",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"**\"",
+    "lint": "eslint .",
     "format": "npm run format:eslint",
-    "format:eslint": "eslint \"**\" --fix",
+    "format:eslint": "eslint . --fix",
     "production": "npm run lint && npm publish --access public"
   },
   "repository": {

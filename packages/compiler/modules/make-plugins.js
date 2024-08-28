@@ -1,8 +1,7 @@
-const { existsSync } = require('node:fs');
-const path = require('node:path');
-
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugin');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
 const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -18,22 +17,22 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
-const { isString, isBoolean, isArray, isObject } = require('valid-types');
+const { isArray, isBoolean, isObject, isString } = require('valid-types');
 const VConsoleWebpackPlugin = require('vconsole-webpack-plugin');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WriteFilePlugin = require('write-file-webpack-plugin');
+
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
 const SSRDevelopment = require('../plugins/SSRDevelopment');
 const WebViewHTMLWrapper = require('../plugins/WebViewHTMLWrapper');
 const Collection = require('../utils/collection');
 const fpPromise = require('../utils/find-free-port');
-const { getTitle, getRandomInt } = require('../utils/other');
+const { getRandomInt, getTitle } = require('../utils/other');
 const pathToEslintrc = require('../utils/path-to-eslintrc');
 const pathToStylelint = require('../utils/path-to-stylelint');
 const pathToTSConf = require('../utils/path-to-ts-conf');
-
 const makeBanner = require('./make-banner');
 const makeResolve = require('./make-resolve');
 
@@ -62,7 +61,6 @@ const getNodemonOptions = async (distFolder, distPath, conf) => {
   return opts;
 };
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   const tsConfig = pathToTSConf(root, mode, false);
   const { extensions } = makeResolve(root);
@@ -71,16 +69,15 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   const isTypeScript = isString(tsConfig);
 
-  // eslint-disable-next-line sonarjs/prefer-object-literal
   const plugins = {};
 
   plugins.BreakingChangesWebpack4 = new BreakingChangesWebpack4();
 
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
+    clearConsole: true,
     compilationSuccessInfo: {
       messages: conf.messages,
     },
-    clearConsole: true,
   });
 
   if (isTypeScript) {

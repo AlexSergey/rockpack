@@ -1,20 +1,17 @@
-const { existsSync } = require('node:fs');
-const path = require('node:path');
-
 const { getMode } = require('@rockpack/utils');
 const { copySync } = require('fs-extra');
+const { existsSync } = require('node:fs');
+const path = require('node:path');
 const tempy = require('tempy');
 const ts = require('typescript');
 const { isArray, isString } = require('valid-types');
 
 const { moduleFormats } = require('../constants');
 const makeResolve = require('../modules/make-resolve');
-
 const { getFiles, getTypeScript } = require('./file-system-utils');
 const makeCompilerOptions = require('./make-compiler-options');
 const pathToTSConf = require('./path-to-ts-conf');
 
-// eslint-disable-next-line consistent-return,sonarjs/cognitive-complexity
 module.exports = async function generateDts(conf, root) {
   const { extensions } = makeResolve(root);
   const mode = getMode();

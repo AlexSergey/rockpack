@@ -1,9 +1,10 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import childProcess from 'node:child_process';
 import latestVersion from 'latest-version';
 import merge from 'merge-package-json';
+import childProcess from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import sortPackageJson from 'sort-package-json';
+
 import { getPM } from './other.js';
 
 export const readPackageJSON = (currentPath) => {
@@ -20,14 +21,17 @@ export const readPackageJSON = (currentPath) => {
       }
       resolve(parsed);
     });
-  })
-}
+  });
+};
 
-export const addDependencies = async (packageJSON, { dependencies = [], devDependencies = [], peerDependencies = [] }) => {
+export const addDependencies = async (
+  packageJSON,
+  { dependencies = [], devDependencies = [], peerDependencies = [] },
+) => {
   const toMerge = {
     dependencies: {},
     devDependencies: {},
-    peerDependencies: {}
+    peerDependencies: {},
   };
 
   for (let i = 0, l = dependencies.length; i < l; i++) {
@@ -48,74 +52,84 @@ export const addDependencies = async (packageJSON, { dependencies = [], devDepen
     toMerge.peerDependencies[peerDep.name] = peerVersion;
   }
 
-  Object.keys(toMerge).forEach(type => {
+  Object.keys(toMerge).forEach((type) => {
     if (Object.keys(toMerge[type]).length === 0) {
       delete toMerge[type];
     }
   });
 
   return JSON.parse(merge(packageJSON, toMerge));
-}
+};
 
 export const addFields = (packageJSON, fields = {}) => {
   return JSON.parse(merge(packageJSON, fields));
-}
+};
 
 export const addScripts = (packageJSON, scripts = {}) => {
   return JSON.parse(merge(packageJSON, { scripts }));
-}
+};
 
 export const writePackageJSON = (currentPath, packageJSON) => {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path.join(currentPath, 'package.json'), JSON.stringify(sortPackageJson(packageJSON), null, 2), err => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
+    fs.writeFile(
+      path.join(currentPath, 'package.json'),
+      JSON.stringify(sortPackageJson(packageJSON), null, 2),
+      (err) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      },
+    );
   });
-}
+};
 
-export const createPackageJSON = (projectName) => (
-  {
-    name: projectName,
-    version: '1.0.0',
-    description: '',
-    main: 'index.js',
-    scripts: {
-      'test': 'echo \"Error: no test specified\" && exit 1'
-    },
-    keywords: [],
-    author: '',
-    license: 'ISC'
-  }
-)
+export const createPackageJSON = (projectName) => ({
+  author: '',
+  description: '',
+  keywords: [],
+  license: 'ISC',
+  main: 'index.js',
+  name: projectName,
+  scripts: {
+    test: 'echo "Error: no test specified" && exit 1',
+  },
+  version: '1.0.0',
+});
 
 export const installDependencies = (cwd) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install -q`, {
-      cwd
-    }, (err, a, b) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
+    childProcess.exec(
+      `${getPM()} install -q`,
+      {
+        cwd,
+      },
+      (err, a, b) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      },
+    );
   });
-}
+};
 
 export const installDependency = (cwd, dependency) => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install ${dependency} -q`, {
-      cwd
-    }, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve();
-    });
+    childProcess.exec(
+      `${getPM()} install ${dependency} -q`,
+      {
+        cwd,
+      },
+      (err) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve();
+      },
+    );
   });
-}
+};
 
 export const installPeerDependencies = async (packageJSON, currentPath) => {
   const { peerDependencies } = packageJSON;
@@ -125,4 +139,4 @@ export const installPeerDependencies = async (packageJSON, currentPath) => {
       await installDependency(currentPath, `${depName}@${depVersion}`);
     }
   }
-}
+};

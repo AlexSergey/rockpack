@@ -7,7 +7,7 @@ interface IOwner {
   forUser: string;
 }
 
-export const Owner = ({ children, forUser }: IOwner): ReactElement | null => {
+export const Owner = ({ children, forUser }: IOwner): null | ReactElement => {
   const { email } = useUser();
 
   if (!email) {

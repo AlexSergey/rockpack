@@ -16,13 +16,10 @@
 - Prettier integrated
 - Eslint Config Recommended
 - Eslint React Recommended
-- Eslint Airbnb Base Config
-- Eslint Import Recommended
 - Eslint TS Recommended
 - Eslint Prettier Recommended
 - Eslint Perfectionist
 - Eslint Regexp
-- Eslint Sonarjs
 
 ### Additional tools:
 

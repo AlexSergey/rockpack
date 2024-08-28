@@ -2,5 +2,5 @@ const { frontendCompiler } = require('../../index');
 
 frontendCompiler({
   banner: true,
-  styles: 'style.css'
+  styles: 'style.css',
 });

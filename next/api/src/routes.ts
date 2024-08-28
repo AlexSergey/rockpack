@@ -31,7 +31,6 @@ export const routes = (app: Application): void => {
   router.get('/v1/users', protectedRoute, accessRoute(config.roles.admin), userController.userList);
 
   router.get('/v1/posts', postController.fetch);
-  // eslint-disable-next-line sonarjs/no-duplicate-string
   router.get('/v1/posts/:id', postController.details);
   router.post(
     '/v1/posts',

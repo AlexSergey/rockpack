@@ -1,10 +1,10 @@
 import { IUser } from './user';
 
 export interface IComment {
-  User: IUser;
   createdAt: string;
   id: number;
   text: string;
+  User: IUser;
 }
 
 export interface ICommentsState {

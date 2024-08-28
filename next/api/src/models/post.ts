@@ -87,6 +87,7 @@ PostModel.init(
             },
           );
         } catch (e) {
+          console.error(e);
           throw new InternalError();
         }
       },
@@ -151,6 +152,7 @@ PostModel.init(
             }
           }
         } catch (e) {
+          console.error(e);
           throw new InternalError();
         }
 
@@ -171,6 +173,7 @@ PostModel.init(
               },
             );
           } catch (e) {
+            console.error(e);
             throw new InternalError();
           }
         }

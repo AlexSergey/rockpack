@@ -2,17 +2,19 @@ import { config } from '../../config';
 import { IPost } from '../../types/post';
 import { IRest } from '../../utils/rest';
 
-type PostData = {
+interface IPostData {
   text: string;
   title: string;
-};
+}
 
-export type PostRes = { data: IPost };
+export interface IPostRes {
+  data: IPost;
+}
 
 export interface IPostService {
-  fetchPost: (postId: number) => Promise<PostRes>;
+  fetchPost: (postId: number) => Promise<IPostRes>;
 
-  updatePost: (postId: number, post: PostData) => Promise<void>;
+  updatePost: (postId: number, post: IPostData) => Promise<void>;
 }
 
 export const postService = (rest: IRest): IPostService => ({

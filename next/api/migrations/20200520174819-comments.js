@@ -1,38 +1,37 @@
 const tableName = 'comments';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => (
+  down: (queryInterface) => queryInterface.dropTable(tableName),
+
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable(tableName, {
+      createdAt: {
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        type: Sequelize.DATE,
+      },
+
       id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+
+      post_id: {
+        allowNull: false,
+        foreignKey: true,
+        type: Sequelize.INTEGER,
+      },
+
+      text: {
+        allowNull: false,
+        type: Sequelize.TEXT,
       },
 
       user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-
-      post_id: {
-        foreignKey: true,
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-
-      text: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()')
-      }
-    })
-  ),
-
-  down: (queryInterface) => queryInterface.dropTable(tableName)
+    }),
 };

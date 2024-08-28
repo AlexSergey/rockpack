@@ -6,7 +6,7 @@ const getStylesRules = require('../utils/get-styles-rules');
 
 // eslint-disable-next-line default-param-last
 function getModules(conf = {}, mode, root) {
-  const { css, scss, less } = getStylesRules(conf, mode, root);
+  const { css, less, scss } = getStylesRules(conf, mode, root);
   let presetsAdditionalOptions = {};
   if (conf.babelPresetsAdditionalOptions) {
     presetsAdditionalOptions = conf.babelPresetsAdditionalOptions;
@@ -35,16 +35,16 @@ function getModules(conf = {}, mode, root) {
       use: css.module,
     },
 
-    geojson: {
-      test: /\.geojson$/,
-      type: 'json',
-    },
-
     fonts: {
       ...{
         test: /\.(eot|ttf|woff|woff2)$/,
       },
       ...assetType.fonts,
+    },
+
+    geojson: {
+      test: /\.geojson$/,
+      type: 'json',
     },
 
     graphql: {
@@ -60,7 +60,6 @@ function getModules(conf = {}, mode, root) {
     html: {
       exclude: /\.async\.(html|css)$/,
       test: /\.html$/,
-      // eslint-disable-next-line sonarjs/no-duplicate-string
       use: require.resolve('html-loader'),
     },
 
@@ -81,7 +80,6 @@ function getModules(conf = {}, mode, root) {
       test: /\.js$/,
       use: [
         {
-          // eslint-disable-next-line sonarjs/no-duplicate-string
           loader: require.resolve('babel-loader'),
           options: createBabelPresets({
             isNodejs: !!conf.nodejs,

@@ -1,6 +1,5 @@
-const path = require('node:path');
-
 const deepExtend = require('deep-extend');
+const path = require('node:path');
 const yargs = require('yargs');
 const unparse = require('yargs-unparser');
 

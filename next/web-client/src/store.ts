@@ -1,5 +1,5 @@
 import { isBackend } from '@issr/core';
-import { Store, configureStore } from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
 import { commentsReducer as comments } from './features/comments';
