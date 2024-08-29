@@ -6,6 +6,8 @@
 
 **@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
 
+**@rockpack/codestyle** fully support new ESLint 9.0 flat config.
+
 **@rockpack/codestyle** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 ## Features:
@@ -39,7 +41,7 @@ npm install @rockpack/codestyle --save-dev
 yarn add @rockpack/codestyle --dev
 ```
 
-2. Make **.eslintrc.js**, **.prettierrc** in the root of project
+2. Make **eslint.config.js**, **.prettierrc** in the root of project
 
 3. Put the code in **.eslintrc.js**
 
@@ -61,6 +63,26 @@ module.exports = makeConfig();
   "printWidth": 120,
   "endOfLine": "lf"
 }
+```
+
+## Extensibility
+
+If you need to change the ESLint configuration you can just extend return object from **makeConfig** function:
+
+```ts
+const { makeConfig } = require('@rockpack/codestyle');
+
+const camelCaseAllow = ['download_url'];
+
+const config = makeConfig();
+
+config.push({
+  rules: {
+    camelcase: ['error', { allow: camelCaseAllow, properties: 'always' }],
+  },
+});
+
+module.exports = config;
 ```
 
 ## IDE Integration

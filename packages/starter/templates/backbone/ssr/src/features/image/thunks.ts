@@ -8,6 +8,7 @@ export const fetchImage =
       dispatch(requestImage());
       const { download_url } = await services.image.fetchImage();
       dispatch(requestImageSuccess({ url: download_url }));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       dispatch(requestImageError());
     }

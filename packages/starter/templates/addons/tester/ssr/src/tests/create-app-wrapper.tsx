@@ -11,7 +11,7 @@ export const createAppWrapper = ({
   initialState = {},
   url = '/',
 }: {
-  initialState?: { [key: string]: unknown };
+  initialState?: Record<string, unknown>;
   url?: string;
 } = {}): (({ children }: { children: ReactNode }) => JSX.Element) => {
   const history = createMemoryHistory({

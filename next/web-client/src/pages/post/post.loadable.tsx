@@ -15,7 +15,7 @@ import { Images } from './images';
 import styles from './style.module.scss';
 import { UpdateMode } from './update-mode';
 
-interface IPathParamsType {
+interface IPathParamsType extends Record<string, string> {
   postId: string;
 }
 

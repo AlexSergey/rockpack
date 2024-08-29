@@ -13,9 +13,7 @@ export interface IThunkExtras {
 }
 
 export interface IStoreProps extends IThunkExtras {
-  initialState?: {
-    [key: string]: unknown;
-  };
+  initialState?: Record<string, unknown>;
 }
 
 export interface IRootState {

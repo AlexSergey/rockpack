@@ -1,7 +1,7 @@
-import { IImageService, ImageRes } from './service';
+import { IImageRes, IImageService } from './service';
 
 export const mockImageService = (): IImageService => ({
-  fetchImage: (): Promise<ImageRes> =>
+  fetchImage: (): Promise<IImageRes> =>
     Promise.resolve({
       author: 'Alejandro Escamilla',
       download_url: 'https://picsum.photos/id/0/5616/3744',

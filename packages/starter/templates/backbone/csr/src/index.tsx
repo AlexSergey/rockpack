@@ -10,14 +10,6 @@ import './types/global.declaration';
 
 const history = createBrowserHistory();
 
-declare global {
-  interface Window {
-    REDUX_DATA: {
-      [key: string]: unknown;
-    };
-  }
-}
-
 const store = createStore({
   history,
   services: createServices(fetch),

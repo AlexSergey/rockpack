@@ -2,7 +2,7 @@ import { config } from '../../config';
 import { IPost } from '../../types/post';
 import { IRest } from '../../utils/rest';
 
-interface IPostData {
+interface IPostData extends Record<string, string> {
   text: string;
   title: string;
 }

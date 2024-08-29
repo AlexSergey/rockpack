@@ -92,7 +92,6 @@ router.get('(.*)', async (ctx: Context) => {
 
   const reduxState = store.getState();
 
-  /* eslint-disable */
   ctx.body = `
   <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +111,6 @@ router.get('(.*)', async (ctx: Context) => {
 </body>
 </html>
 `;
-  /* eslint-enable */
 });
 
 app.use(router.routes()).use(router.allowedMethods());

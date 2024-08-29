@@ -2,7 +2,7 @@ import { config } from '../../config';
 import { IUser } from '../../types/user';
 import { IRest } from '../../utils/rest';
 
-interface IUserData {
+interface IUserData extends Record<string, string> {
   email: string;
   password: string;
 }

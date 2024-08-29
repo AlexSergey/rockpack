@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "4.3.1",
+  "version": "4.4.0",
   "description": "Rockpack specific utils",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "private": false,
   "dependencies": {
     "require-main-filename": "2.0.0",
-    "semver": "7.6.0",
+    "semver": "7.6.3",
     "valid-types": "2.0.5",
     "yargs": "17.7.2"
   }
