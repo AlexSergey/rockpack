@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.4.0]
+
+- ESLint 9 support
+- Refactoring
+- All dependencies were updated
+
 ## [4.3.0]
 
 - ESLint 9 preparation for use
