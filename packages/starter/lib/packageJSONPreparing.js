@@ -68,7 +68,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@types/koa__router', version: '12' },
           { name: '@types/koa-static', version: '4' },
           { name: '@types/loadable__server', version: '5' },
-          { name: '@types/node', version: '18' },
+          { name: '@types/node', version: '20' },
           { name: '@types/webpack-env', version: '1' },
           { name: '@types/serialize-javascript', version: '5' },
         ],
@@ -202,8 +202,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: 'react-test-renderer', version: '18' },
-          { name: '@testing-library/jest-dom', version: '5' },
-          { name: '@testing-library/react', version: '13' },
+          { name: '@testing-library/jest-dom', version: '6' },
+          { name: '@testing-library/react', version: '15' },
           { name: '@types/react-test-renderer', version: '18' },
         ],
       });
@@ -213,8 +213,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
   if (!nogit) {
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
-        { name: 'husky', version: '8.0.1' },
-        { name: 'lint-staged', version: '13' },
+        { name: 'husky', version: '9' },
+        { name: 'lint-staged', version: '15' },
       ],
     });
 

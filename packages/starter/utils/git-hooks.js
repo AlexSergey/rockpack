@@ -24,7 +24,7 @@ export const gitHooks = async ({ tester }, currentPath) => {
   hooksCommit = hooksCommit.join(' && ');
   hooksPush = hooksPush.join(' && ');
 
-  spawnSync('npm', ['set-script', 'prepare', '"husky install"'], shellOptions);
+  spawnSync('npm', ['set-script', 'prepare', '"husky init"'], shellOptions);
 
   spawnSync('npm', ['run', 'prepare'], shellOptions);
 

@@ -8,7 +8,7 @@ interface IRouterProps {
   history: History;
 }
 
-export const Router = ({ basename, children, history }: IRouterProps): ReactElement => {
+export const Router = ({ basename = '/', children, history }: IRouterProps): ReactElement => {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,
@@ -26,8 +26,4 @@ export const Router = ({ basename, children, history }: IRouterProps): ReactElem
       {children}
     </BaseRouter>
   );
-};
-
-Router.defaultProps = {
-  basename: '/',
 };
