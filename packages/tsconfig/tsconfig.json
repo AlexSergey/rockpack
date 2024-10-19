@@ -7,7 +7,8 @@
     // Node.js 20
     "lib": [
       "ESNext",
-      "dom"
+      "dom",
+      "dom.iterable"
     ],
     "module": "ESNext",
     "target": "ESNext",
