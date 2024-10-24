@@ -20,6 +20,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         ],
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
+          { name: '@types/node', version: '20' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
           { name: '@types/react-helmet', version: '6' },
@@ -118,7 +119,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '18' },
+          { name: '@types/node', version: '20' },
         ],
       });
       break;

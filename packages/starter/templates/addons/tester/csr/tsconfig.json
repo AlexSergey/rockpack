@@ -3,7 +3,9 @@
   "compilerOptions": {
     "module": "esnext",
     "types": [
-      "node"
+      "jest",
+      "node",
+      "webpack/module"
     ]
   },
   "exclude": ["./node_modules/**/*"],
