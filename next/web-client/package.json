@@ -1,6 +1,6 @@
 {
   "name": "react-starter",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "scripts": {
     "start": "node scripts.build",
     "build": "node scripts.build --mode=production",
@@ -51,10 +51,10 @@
   "devDependencies": {
     "@localazer/webpack-plugin": "3.1.0",
     "@localazer/po2json": "3.1.0",
-    "@rockpack/codestyle": "4.5.1",
-    "@rockpack/compiler": "4.5.1",
-    "@rockpack/tester": "4.5.1",
-    "@rockpack/tsconfig": "4.5.1",
+    "@rockpack/codestyle": "4.5.2",
+    "@rockpack/compiler": "4.5.2",
+    "@rockpack/tester": "4.5.2",
+    "@rockpack/tsconfig": "4.5.2",
     "@issr/babel-plugin": "2.2.0",
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-backgrounds": "5.3.21",
