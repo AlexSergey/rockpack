@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.5.0]
+
+- Templates were refactored
+- Changed react-router notation to the object style
+- All dependencies were updated
+
 ## [4.4.0]
 
 - ESLint 9 support
