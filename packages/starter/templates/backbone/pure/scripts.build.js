@@ -1,6 +1,5 @@
-const path = require('node:path');
-
 const { frontendCompiler } = require('@rockpack/compiler');
+const path = require('node:path');
 
 frontendCompiler({
   html: {

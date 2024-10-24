@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
 
 import { App } from './app';
-import './types/global.declaration';
 
 const container = document.getElementById('root');
 

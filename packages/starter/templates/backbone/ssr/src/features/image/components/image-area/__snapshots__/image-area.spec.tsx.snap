@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageArea renders correctly 1`] = `
+<div
+  className="image-holder"
+>
+  <div
+    className="img"
+  >
+    <img
+      alt="random"
+      src="https://picsum.photos/id/0/5616/3744"
+      width="200px"
+    />
+  </div>
+</div>
+`;

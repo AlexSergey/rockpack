@@ -1,21 +1,19 @@
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
 import { ChunkExtractor } from '@loadable/server';
-import { createMemoryHistory } from 'history';
 import Koa, { Context } from 'koa';
 import compress from 'koa-compress';
 import serve from 'koa-static';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { constants } from 'node:zlib';
-import fetch from 'node-fetch';
 import PrettyError from 'pretty-error';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router-dom/server';
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
 import serialize from 'serialize-javascript';
 
-import { App } from './app';
+import { routes } from './routes';
 import { createServices } from './services';
 import { createStore } from './store';
 import './types/global.declaration';
@@ -27,6 +25,40 @@ const pe = new PrettyError();
 
 const publicFolder = path.resolve(__dirname, '../public');
 const stats = JSON.parse(readFileSync(path.resolve(publicFolder, './stats.json'), 'utf8'));
+
+function createFetchRequest(ctx: Context, req: Koa.Request): Request {
+  const origin = `${req.protocol}://${req.get('host')}`;
+  // Note: This had to take originalUrl into account for presumably vite's proxying
+  const url = new URL(req.originalUrl || req.url, origin);
+
+  const controller = new AbortController();
+  ctx.res.on('close', () => controller.abort());
+
+  const headers = new Headers();
+
+  for (const [key, values] of Object.entries(req.headers)) {
+    if (values) {
+      if (Array.isArray(values)) {
+        for (const value of values) {
+          headers.append(key, value);
+        }
+      } else {
+        headers.set(key, values);
+      }
+    }
+  }
+
+  const init = {
+    body: req.method !== 'GET' && req.method !== 'HEAD' ? ctx.body : null,
+    headers,
+    method: req.method,
+    signal: controller.signal,
+  };
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  return new Request(url.href, init);
+}
 
 app.use(
   compress({
@@ -59,8 +91,11 @@ app.use(async (ctx, next) => {
 });
 
 router.get('(.*)', async (ctx: Context) => {
+  const { dataRoutes, query } = createStaticHandler(routes);
+  const fetchRequest = createFetchRequest(ctx, ctx.request);
+  const context = await query(fetchRequest);
+
   const store = createStore({
-    history: createMemoryHistory(),
     initialState: {},
     services: createServices(fetch),
   });
@@ -72,13 +107,17 @@ router.get('(.*)', async (ctx: Context) => {
 
   const helmetContext = {} as FilledContext;
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  const router = createStaticRouter(dataRoutes, context);
+
   const { html } = await serverRender.string(() =>
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
-          <StaticRouter location={ctx.request.url}>
-            <App />
-          </StaticRouter>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-expect-error */}
+          <StaticRouterProvider context={context} router={router} />
         </HelmetProvider>
       </Provider>,
     ),

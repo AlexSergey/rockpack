@@ -1,12 +1,12 @@
-declare namespace StyleModulesScssNamespace {
-  export interface IStyleModulesScss {
+declare namespace StylesModuleScssNamespace {
+  export interface IStylesModuleScss {
     img: string;
   }
 }
 
-declare const StyleModulesScssModule: StyleModulesScssNamespace.IStyleModulesScss & {
+declare const StylesModuleScssModule: StylesModuleScssNamespace.IStylesModuleScss & {
   /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-  locals: StyleModulesScssNamespace.IStyleModulesScss;
+  locals: StylesModuleScssNamespace.IStylesModuleScss;
 };
 
-export = StyleModulesScssModule;
+export = StylesModuleScssModule;

@@ -1,13 +1,11 @@
 import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
-import { createBrowserHistory } from 'history';
-import fetch from 'node-fetch';
 import { hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { App } from './app';
-import { Router } from './components/router';
+import { routes } from './routes';
 import { createServices } from './services';
 import { createStore } from './store';
 import './types/global.declaration';
@@ -19,15 +17,13 @@ declare global {
   }
 }
 
-const history = createBrowserHistory();
-
 const SSR = createSsr();
 
 const store = createStore({
-  history,
   initialState: window.REDUX_DATA,
   services: createServices(fetch),
 });
+const router = createBrowserRouter(routes);
 
 loadableReady(() => {
   hydrateRoot(
@@ -35,9 +31,7 @@ loadableReady(() => {
     <SSR>
       <Provider store={store}>
         <HelmetProvider>
-          <Router history={history}>
-            <App />
-          </Router>
+          <RouterProvider router={router} />
         </HelmetProvider>
       </Provider>
     </SSR>,

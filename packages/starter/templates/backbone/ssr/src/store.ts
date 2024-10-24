@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   image: imageReducer,
 });
 
-export const createStore = ({ history, initialState, services }: IStoreProps): Store<IRootState> => {
+export const createStore = ({ initialState, services }: IStoreProps): Store<IRootState> => {
   return configureStore({
     devTools: isDevelopment(),
     middleware: (getDefaultMiddleware) =>
@@ -17,7 +17,6 @@ export const createStore = ({ history, initialState, services }: IStoreProps): S
         serializableCheck: false,
         thunk: {
           extraArgument: {
-            history,
             services,
           },
         },

@@ -1,17 +1,15 @@
-import { createBrowserHistory } from 'history';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { App } from './app';
-import { Router } from './components/router';
+import { routes } from './routes';
 import { createServices } from './services';
 import { createStore } from './store';
 import './types/global.declaration';
 
-const history = createBrowserHistory();
+const router = createBrowserRouter(routes);
 
 const store = createStore({
-  history,
   services: createServices(fetch),
 });
 
@@ -21,9 +19,7 @@ const root = createRoot(container as HTMLElement);
 
 root.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+    <RouterProvider router={router} />
   </Provider>,
 );
 

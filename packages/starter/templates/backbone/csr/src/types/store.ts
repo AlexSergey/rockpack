@@ -1,5 +1,4 @@
 import { ThunkDispatch } from '@reduxjs/toolkit';
-import { History } from 'history';
 import { Action } from 'redux';
 
 import { IServices } from '../services';
@@ -8,7 +7,6 @@ import { IImageState } from './image';
 export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
 
 export interface IThunkExtras {
-  history: History;
   services: IServices;
 }
 

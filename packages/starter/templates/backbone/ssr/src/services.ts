@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-import { IImageService, imageService } from './features/image/service';
+import { IImageService, imageService } from './features/image';
 
 export interface IServices {
   image: IImageService;

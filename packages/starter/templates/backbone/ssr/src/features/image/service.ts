@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 export interface IImageRes {
   author: string;
   download_url: string;
