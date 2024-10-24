@@ -37,10 +37,9 @@
 - CSS: CSS/SASS (dart-sass)/LESS + Postcss
 - PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
 - CSS Modules support
-- Imagemin
+- Image minification by Sharp
 - Formats support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
 - SVG + SVGO, SVGR (import SVG like React Component)
-- Antd optimizations (With optimizations: auto replace momentjs to dayjs, import antd)
 - Terser minification
 - Generate stats.json (in production mode)
 - SEO Optimizations

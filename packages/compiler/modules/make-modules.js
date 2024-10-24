@@ -15,22 +15,13 @@ function getModules(conf = {}, mode, root) {
   const assetType = createAssetType(conf);
 
   return {
-    asyncAssets: {
-      ...{
-        test: /\.async\.(html|css)$/,
-        use: [require.resolve('extract-loader')],
-      },
-      ...assetType.asyncAssets,
-    },
-
     css: {
-      exclude: /(\.async\.css$)|(\.module\.css$)/,
+      exclude: /\.module\.css$/,
       test: /\.css$/,
       use: css.simple,
     },
 
     cssModules: {
-      exclude: /\.async\.css$/,
       test: /\.module\.css$/,
       use: css.module,
     },
@@ -48,8 +39,8 @@ function getModules(conf = {}, mode, root) {
     },
 
     graphql: {
-      test: /\.graphql?$/,
-      use: require.resolve('webpack-graphql-loader'),
+      test: /\.(graphql|gql)$/,
+      use: require.resolve('@graphql-tools/webpack-loader'),
     },
 
     handlebars: {
@@ -58,7 +49,6 @@ function getModules(conf = {}, mode, root) {
     },
 
     html: {
-      exclude: /\.async\.(html|css)$/,
       test: /\.html$/,
       use: require.resolve('html-loader'),
     },

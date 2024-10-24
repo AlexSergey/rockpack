@@ -83,19 +83,9 @@ const createBabelPresets = ({
     getPreset('@babel/plugin-proposal-pipeline-operator', {
       proposal: 'minimal',
     }),
-    getPreset('@babel/plugin-proposal-numeric-separator'),
     getPreset('@babel/plugin-proposal-do-expressions'),
-    getPreset('@babel/plugin-proposal-logical-assignment-operators'),
-    getPreset('@babel/plugin-proposal-optional-chaining', { loose: false }),
-    getPreset('@babel/plugin-proposal-nullish-coalescing-operator'),
     getPreset('@babel/plugin-proposal-decorators', { legacy: true }),
     getPreset('babel-plugin-parameter-decorator'),
-    getPreset('@babel/plugin-proposal-class-properties'),
-    getPreset('@babel/plugin-proposal-object-rest-spread'),
-    getPreset('babel-plugin-import', {
-      libraryName: 'antd',
-      style: true,
-    }),
   ];
 
   if (typescript) {
@@ -119,12 +109,7 @@ const createBabelPresets = ({
 
     opts.env.production = {
       ...opts.env.production,
-      plugins: [
-        require.resolve('@babel/plugin-transform-react-constant-elements'),
-        require.resolve('@babel/plugin-transform-react-inline-elements'),
-        require.resolve('babel-plugin-transform-react-class-to-function'),
-        require.resolve('babel-plugin-transform-react-remove-prop-types'),
-      ],
+      plugins: [require.resolve('@babel/plugin-transform-react-constant-elements')],
     };
   }
 

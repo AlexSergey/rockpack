@@ -1,4 +1,5 @@
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { isArray } = require('valid-types');
 
@@ -34,6 +35,23 @@ const makeOptimization = (mode, conf) => {
       flagIncludedChunks: true,
       minimize: true,
       minimizer: [
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.sharpMinify,
+            options: {
+              encodeOptions: {
+                jpeg: {
+                  quality: 80,
+                },
+                png: {
+                  adaptiveFiltering: true,
+                  force: true,
+                  quality: 80,
+                },
+              },
+            },
+          },
+        }),
         new TerserPlugin({
           terserOptions: {
             compress: {

@@ -3,7 +3,6 @@ const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugi
 const { existsSync } = require('node:fs');
 const path = require('node:path');
 const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
-const AntdDayjsPlugin = require('antd-dayjs-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -13,7 +12,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
 const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
@@ -74,7 +72,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   plugins.BreakingChangesWebpack4 = new BreakingChangesWebpack4();
 
   plugins.FriendlyErrorsPlugin = new FriendlyErrorsWebpackPlugin({
-    clearConsole: true,
+    clearConsole: false,
     compilationSuccessInfo: {
       messages: conf.messages,
     },
@@ -82,10 +80,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
   if (isTypeScript) {
     plugins.ForkTsCheckerPlugin = new ForkTsCheckerWebpackPlugin();
-  }
-
-  if (packageJson.dependencies && packageJson.dependencies.antd) {
-    plugins.AntdDayjsPlugin = new AntdDayjsPlugin();
   }
 
   if (existsSync(path.resolve(root, '.env'))) {
@@ -287,31 +281,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     plugins.MiniCssExtractPlugin = new MiniCssExtractPlugin({
       filename: styleName,
-    });
-
-    plugins.ImageminPlugin = new ImageMinimizerPlugin({
-      generator: [
-        {
-          implementation: ImageMinimizerPlugin.imageminGenerate,
-
-          options: {
-            plugins: ['imagemin-webp'],
-          },
-          // You can apply generator using `?as=webp`, you can use any name and provide more options
-          preset: 'webp',
-        },
-      ],
-      minimizer: {
-        implementation: ImageMinimizerPlugin.imageminMinify,
-        options: {
-          plugins: [
-            ['gifsicle', { interlaced: false, optimizationLevel: 9 }],
-            ['mozjpeg', { progressive: true, quality: 73 }],
-            ['pngquant', { quality: [0.7, 0.8] }],
-          ],
-        },
-      },
-      test: /\.(jpe?g|png|gif|webp)$/i,
     });
 
     plugins.FlagDependencyUsagePlugin = new FlagDependencyUsagePlugin();

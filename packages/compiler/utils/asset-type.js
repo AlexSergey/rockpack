@@ -3,9 +3,6 @@ const _4kb = 4 * 1024;
 const createAssetType = (conf) =>
   conf.webview
     ? {
-        asyncAssets: {
-          type: 'asset/inline',
-        },
         fonts: {
           type: 'asset/inline',
         },
@@ -23,12 +20,6 @@ const createAssetType = (conf) =>
         },
       }
     : {
-        asyncAssets: {
-          generator: {
-            filename: 'static/html/[name].[hash][ext]',
-          },
-          type: 'asset/resource',
-        },
         fonts: {
           generator: {
             filename: 'static/fonts/[name].[hash][ext]',
