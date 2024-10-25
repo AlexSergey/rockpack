@@ -18,10 +18,10 @@ import { RoleModel } from '../../models/role';
 import { StatisticModel } from '../../models/statistic';
 import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
-import { IPostRepository } from './interface';
+import { PostRepositoryInterface } from './interface';
 
 @injectable()
-export class PostRepository implements IPostRepository {
+export class PostRepository implements PostRepositoryInterface {
   fetchPosts = async (page: number, limit: number): Promise<{ count: number; rows: PostModel[] }> => {
     const offset = page * limit;
 

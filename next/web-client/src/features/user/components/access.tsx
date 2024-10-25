@@ -5,13 +5,13 @@ import { useRole } from '../hooks';
 
 type Callback = (match: boolean) => ReactElement;
 
-interface IAccess {
+interface Access {
   children: Callback | ReactElement | ReactElement[];
   fallback?: () => ReactElement;
   forRoles: Roles[];
 }
 
-export const Access = ({ children, fallback, forRoles }: IAccess): ReactElement => {
+export const Access = ({ children, fallback, forRoles }: Access): ReactElement => {
   const role = useRole();
 
   if (typeof children === 'function' && !isValidElement(children)) {

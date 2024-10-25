@@ -5,7 +5,7 @@ import { InternalError } from '../errors';
 import { StatisticModel } from './statistic';
 import { StatisticTypeModel } from './statistic-type';
 
-export interface IComment {
+export interface Comment {
   createdAt: Date;
   id: number;
   post_id: number;
@@ -13,7 +13,7 @@ export interface IComment {
   user_id: number;
 }
 
-export class CommentModel extends Model<IComment> {}
+export class CommentModel extends Model<Comment> {}
 
 CommentModel.init(
   {

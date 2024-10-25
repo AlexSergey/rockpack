@@ -1,21 +1,21 @@
 import { config } from '../../config';
-import { IComment } from '../../types/comments';
-import { IRest } from '../../utils/rest';
+import { Comment } from '../../types/comments';
+import { Rest } from '../../utils/rest';
 
-export interface ICommentsRes {
-  data: IComment[];
+export interface CommentsRes {
+  data: Comment[];
 }
-export interface ICommentRes {
+export interface CommentRes {
   data: { id: number };
 }
 
-export interface ICommentsService {
-  createComment: (postId: number, text: string) => Promise<ICommentRes>;
+export interface CommentsService {
+  createComment: (postId: number, text: string) => Promise<CommentRes>;
   deleteComment: (id: number) => Promise<void>;
-  fetchComments: (postId: number) => Promise<ICommentsRes>;
+  fetchComments: (postId: number) => Promise<CommentsRes>;
 }
 
-export const commentsService = (rest: IRest): ICommentsService => ({
+export const commentsService = (rest: Rest): CommentsService => ({
   createComment: (postId, text) => rest.post(`${config.api}/v1/comments/${postId}`, { text }),
 
   deleteComment: (id) => rest.delete(`${config.api}/v1/comments/${id}`),

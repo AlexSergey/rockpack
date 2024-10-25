@@ -1,4 +1,4 @@
-export interface IImageRes {
+export interface ImageRes {
   author: string;
   download_url: string;
   height: number;
@@ -7,14 +7,14 @@ export interface IImageRes {
   width: number;
 }
 
-export interface IImageService {
-  fetchImage: () => Promise<IImageRes>;
+export interface ImageService {
+  fetchImage: () => Promise<ImageRes>;
 }
 
-export const imageService = (rest: typeof fetch): IImageService => ({
-  fetchImage: async (): Promise<IImageRes> => {
+export const imageService = (rest: typeof fetch): ImageService => ({
+  fetchImage: async (): Promise<ImageRes> => {
     const response = await rest('https://picsum.photos/id/0/info');
 
-    return (await response.json()) as IImageRes;
+    return (await response.json()) as ImageRes;
   },
 });

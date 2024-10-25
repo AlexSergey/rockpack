@@ -5,12 +5,12 @@ import { sequelize } from '../boundaries/database';
 import { InternalError } from '../errors';
 import { ALLOWED_TEXT } from '../utils/allowed-tags';
 import { removeImages } from '../utils/remove-images';
-import { CommentModel, IComment } from './comment';
-import { IImage, ImageModel } from './image';
+import { Comment, CommentModel } from './comment';
+import { Image, ImageModel } from './image';
 import { StatisticModel } from './statistic';
 import { StatisticTypeModel } from './statistic-type';
 
-export interface IPost {
+export interface Post {
   createdAt: Date;
   id: number;
   text: string;
@@ -19,7 +19,7 @@ export interface IPost {
   user_id: number;
 }
 
-export class PostModel extends Model<IPost> {}
+export class PostModel extends Model<Post> {}
 
 PostModel.init(
   {
@@ -106,7 +106,7 @@ PostModel.init(
         });
 
         const userComments = comments
-          .map((c) => c.toJSON() as IComment)
+          .map((c) => c.toJSON() as Comment)
           .reduce((dict, comment) => {
             dict[comment.user_id] = typeof dict[comment.user_id] === 'number' ? dict[comment.user_id] + 1 : 1;
 
@@ -145,7 +145,7 @@ PostModel.init(
           );
 
           if (images) {
-            const imageLinks = images.map((img) => (img.toJSON() as IImage).uri);
+            const imageLinks = images.map((img) => (img.toJSON() as Image).uri);
 
             if (imageLinks.length > 0) {
               removeImages(imageLinks);

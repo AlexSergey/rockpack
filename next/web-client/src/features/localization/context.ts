@@ -2,9 +2,9 @@ import { createContext } from 'react';
 
 import { Languages } from '../../types/localization';
 
-export interface ILocalizationContext {
+export interface LocalizationContext {
   changeLanguage: (lang: Languages) => void;
   currentLanguage: Languages;
 }
 
-export const LocalizationContext = createContext<ILocalizationContext>(null);
+export const LocalizationContext = createContext<LocalizationContext>(null);

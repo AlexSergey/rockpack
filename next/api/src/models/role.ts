@@ -2,12 +2,12 @@ import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 
-export interface IRole {
+export interface Role {
   id: number;
   role: number;
 }
 
-export class RoleModel extends Model<IRole> {}
+export class RoleModel extends Model<Role> {}
 
 RoleModel.init(
   {

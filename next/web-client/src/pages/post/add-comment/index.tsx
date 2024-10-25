@@ -6,15 +6,15 @@ import { useCommentsApi } from '../../../features/comments';
 import { useUser } from '../../../features/user';
 import styles from './style.module.scss';
 
-interface IAddComment {
+interface AddComment {
   postId: number;
 }
 
-interface IStore {
+interface Store {
   text: string;
 }
 
-export const AddComment = ({ postId }: IAddComment): ReactElement => {
+export const AddComment = ({ postId }: AddComment): ReactElement => {
   const [form] = Form.useForm();
   const user = useUser();
   const { createComment } = useCommentsApi();
@@ -27,7 +27,7 @@ export const AddComment = ({ postId }: IAddComment): ReactElement => {
       <Form
         form={form}
         name="comment"
-        onFinish={(store: IStore): void => {
+        onFinish={(store: Store): void => {
           createComment({
             postId,
             text: store.text,

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IActionWithPayload } from '../../types/actions';
-import { IComment, ICommentsState } from '../../types/comments';
+import { ActionWithPayload } from '../../types/actions';
+import { Comment, CommentsState } from '../../types/comments';
 import {
   commentCreated,
   commentDeleted,
@@ -10,7 +10,7 @@ import {
   requestCommentsSuccess,
 } from './actions';
 
-export const commentsReducer = createReducer<ICommentsState>(
+export const commentsReducer = createReducer<CommentsState>(
   {
     data: [],
     error: false,
@@ -23,7 +23,7 @@ export const commentsReducer = createReducer<ICommentsState>(
         state.error = false;
         state.loading = true;
       })
-      .addCase(requestCommentsSuccess.type, (state, { payload }: IActionWithPayload<IComment[]>) => {
+      .addCase(requestCommentsSuccess.type, (state, { payload }: ActionWithPayload<Comment[]>) => {
         state.data = payload;
         state.error = false;
         state.loading = false;
@@ -33,10 +33,10 @@ export const commentsReducer = createReducer<ICommentsState>(
         state.error = true;
         state.loading = false;
       })
-      .addCase(commentCreated.type, (state, { payload }: IActionWithPayload<IComment>) => {
+      .addCase(commentCreated.type, (state, { payload }: ActionWithPayload<Comment>) => {
         state.data.push(payload);
       })
-      .addCase(commentDeleted.type, (state, { payload: { id } }: IActionWithPayload<{ id: number }>) => {
+      .addCase(commentDeleted.type, (state, { payload: { id } }: ActionWithPayload<{ id: number }>) => {
         state.data = state.data.filter((s) => s.id !== id);
         state.error = false;
         state.loading = false;

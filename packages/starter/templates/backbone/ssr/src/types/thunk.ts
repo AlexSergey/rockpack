@@ -1,6 +1,6 @@
 import { Action } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 
-import { IRootState, IThunkExtras } from './store';
+import { RootState, ThunkExtras } from './store';
 
-export type ThunkResult<R = void> = ThunkAction<Promise<R>, IRootState, IThunkExtras, Action>;
+export type ThunkResult<R = void> = ThunkAction<Promise<R>, RootState, ThunkExtras, Action>;

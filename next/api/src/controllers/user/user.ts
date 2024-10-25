@@ -1,22 +1,22 @@
 import { inject, injectable } from 'inversify';
 
-import type { IUserRepository } from '../../repositories/user';
-import type { IUserService } from '../../services/user';
+import type { UserRepositoryInterface } from '../../repositories/user';
+import type { UserServiceInterface } from '../../services/user';
 
 import { ErrorProxyError } from '../../errors';
 import { UserRepositoryDIType } from '../../repositories/user';
 import { UserServiceDIType } from '../../services/user';
-import { IKoaContext } from '../../types/koa.context';
+import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-import { IUserController } from './interface';
+import { UserControllerInterface } from './interface';
 
 @injectable()
-export class UserController implements IUserController {
-  authorization = async (ctx: IKoaContext): Promise<void> => {
+export class UserController implements UserControllerInterface {
+  authorization = async (ctx: KoaContext): Promise<void> => {
     ctx.body = ok('User is correct', ctx.user.toJSON());
   };
 
-  delete = async (ctx: IKoaContext): Promise<void> => {
+  delete = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
 
     try {
@@ -28,7 +28,7 @@ export class UserController implements IUserController {
     }
   };
 
-  signin = async (ctx: IKoaContext): Promise<void> => {
+  signin = async (ctx: KoaContext): Promise<void> => {
     const { email, password } = ctx.request.body;
     try {
       const { token, user } = await this.service.signin(email, password);
@@ -40,13 +40,13 @@ export class UserController implements IUserController {
     }
   };
 
-  signout = async (ctx: IKoaContext): Promise<void> => {
+  signout = async (ctx: KoaContext): Promise<void> => {
     ctx.cookies.set('token', '', { httpOnly: false });
 
     ctx.body = ok('User is logged out');
   };
 
-  signup = async (ctx: IKoaContext): Promise<void> => {
+  signup = async (ctx: KoaContext): Promise<void> => {
     const { email, password } = ctx.request.body;
 
     try {
@@ -60,7 +60,7 @@ export class UserController implements IUserController {
     }
   };
 
-  userList = async (ctx: IKoaContext): Promise<void> => {
+  userList = async (ctx: KoaContext): Promise<void> => {
     try {
       const users = await this.repository.getUsers();
 
@@ -71,7 +71,7 @@ export class UserController implements IUserController {
   };
 
   constructor(
-    @inject(UserRepositoryDIType) private repository: IUserRepository,
-    @inject(UserServiceDIType) private service: IUserService,
+    @inject(UserRepositoryDIType) private repository: UserRepositoryInterface,
+    @inject(UserServiceDIType) private service: UserServiceInterface,
   ) {}
 }

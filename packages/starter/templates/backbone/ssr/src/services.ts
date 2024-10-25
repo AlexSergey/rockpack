@@ -1,9 +1,9 @@
-import { IImageService, imageService } from './features/image';
+import { ImageService, imageService } from './features/image';
 
-export interface IServices {
-  image: IImageService;
+export interface Services {
+  image: ImageService;
 }
 
-export const createServices = (rest: typeof fetch): IServices => ({
+export const createServices = (rest: typeof fetch): Services => ({
   image: imageService(rest),
 });

@@ -6,7 +6,7 @@ import sharp from 'sharp';
 
 import { config } from '../config';
 import { logger } from '../logger';
-import { IKoaContext } from '../types/koa.context';
+import { KoaContext } from '../types/koa.context';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -27,7 +27,7 @@ const resizeFile = (
       .catch((err) => reject(err));
   });
 
-interface IResizeImage {
+interface ResizeImage {
   name: string;
   resize?:
     | {
@@ -38,8 +38,8 @@ interface IResizeImage {
 }
 
 export const resizeImage =
-  (...fields: (IResizeImage | string)[]) =>
-  async (ctx: IKoaContext, next: Next): Promise<void> => {
+  (...fields: (ResizeImage | string)[]) =>
+  async (ctx: KoaContext, next: Next): Promise<void> => {
     const { files } = ctx;
 
     if (files) {

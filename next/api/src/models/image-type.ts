@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 
-export interface IImageType {
+export interface ImageType {
   comments: number;
   entity_id: number;
   id: number;
@@ -10,7 +10,7 @@ export interface IImageType {
   type_id: number;
 }
 
-export class ImageTypeModel extends Model<IImageType> {}
+export class ImageTypeModel extends Model<ImageType> {}
 
 ImageTypeModel.init(
   {

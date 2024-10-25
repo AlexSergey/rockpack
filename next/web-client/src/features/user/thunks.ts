@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IThunkExtras } from '../../types/store';
+import { ThunkExtras } from '../../types/store';
 import { clearUserState, setUser } from './actions';
-import { IUserPayload } from './types';
+import { UserPayload } from './types';
 
-export const signIn = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras }>(
+export const signIn = createAsyncThunk<void, UserPayload, { extra: ThunkExtras }>(
   'user/signIn',
   async ({ email, password }, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -18,7 +18,7 @@ export const signIn = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras
   },
 );
 
-export const authorization = createAsyncThunk<void, void, { extra: IThunkExtras }>(
+export const authorization = createAsyncThunk<void, void, { extra: ThunkExtras }>(
   'user/authorization',
   async (_, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -33,7 +33,7 @@ export const authorization = createAsyncThunk<void, void, { extra: IThunkExtras 
   },
 );
 
-export const signUp = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras }>(
+export const signUp = createAsyncThunk<void, UserPayload, { extra: ThunkExtras }>(
   'user/signUp',
   async ({ email, password }, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -47,7 +47,7 @@ export const signUp = createAsyncThunk<void, IUserPayload, { extra: IThunkExtras
   },
 );
 
-export const signOut = createAsyncThunk<void, void, { extra: IThunkExtras }>(
+export const signOut = createAsyncThunk<void, void, { extra: ThunkExtras }>(
   'user/signOut',
   async (_, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;

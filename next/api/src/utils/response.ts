@@ -1,6 +1,6 @@
 type Data = unknown;
 
-interface IResponse {
+interface ResponseInterface {
   code: number;
   data?: Data;
   message: string;
@@ -8,8 +8,8 @@ interface IResponse {
   statusCode: number;
 }
 
-export const ok = (message = 'ok', data?: Data): IResponse => {
-  const response: IResponse = {
+export const ok = (message = 'ok', data?: Data): ResponseInterface => {
+  const response: ResponseInterface = {
     code: 200,
     message,
     status: 200,

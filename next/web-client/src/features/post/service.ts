@@ -1,23 +1,23 @@
 import { config } from '../../config';
-import { IPost } from '../../types/post';
-import { IRest } from '../../utils/rest';
+import { Post } from '../../types/post';
+import { Rest } from '../../utils/rest';
 
-interface IPostData extends Record<string, string> {
+interface PostData extends Record<string, string> {
   text: string;
   title: string;
 }
 
-export interface IPostRes {
-  data: IPost;
+export interface PostRes {
+  data: Post;
 }
 
-export interface IPostService {
-  fetchPost: (postId: number) => Promise<IPostRes>;
+export interface PostService {
+  fetchPost: (postId: number) => Promise<PostRes>;
 
-  updatePost: (postId: number, post: IPostData) => Promise<void>;
+  updatePost: (postId: number, post: PostData) => Promise<void>;
 }
 
-export const postService = (rest: IRest): IPostService => ({
+export const postService = (rest: Rest): PostService => ({
   fetchPost: (postId) => rest.get(`${config.api}/v1/posts/${postId}`),
 
   updatePost: (postId, post) => rest.put(`${config.api}/v1/posts/${postId}`, post),

@@ -1,14 +1,14 @@
 import { Container } from 'inversify';
 
-import type { ICommentController } from './controllers/comment';
-import type { IPostController } from './controllers/post';
-import type { IUserController } from './controllers/user';
-import type { ICommentRepository } from './repositories/comment';
-import type { IPostRepository } from './repositories/post';
-import type { IUserRepository } from './repositories/user';
-import type { ICommentService } from './services/comment';
-import type { IPostService } from './services/post';
-import type { IUserService } from './services/user';
+import type { CommentControllerInterface } from './controllers/comment';
+import type { PostControllerInterface } from './controllers/post';
+import type { UserControllerInterface } from './controllers/user';
+import type { CommentRepositoryInterface } from './repositories/comment';
+import type { PostRepositoryInterface } from './repositories/post';
+import type { UserRepositoryInterface } from './repositories/user';
+import type { CommentServiceInterface } from './services/comment';
+import type { PostServiceInterface } from './services/post';
+import type { UserServiceInterface } from './services/user';
 
 import { CommentController, CommentControllerDIType } from './controllers/comment';
 import { PostController, PostControllerDIType } from './controllers/post';
@@ -22,16 +22,16 @@ import { UserService, UserServiceDIType } from './services/user';
 
 const container = new Container();
 
-container.bind<ICommentRepository>(CommentRepositoryDIType).to(CommentRepository);
-container.bind<IPostRepository>(PostRepositoryDIType).to(PostRepository);
-container.bind<IUserRepository>(UserRepositoryDIType).to(UserRepository);
+container.bind<CommentRepositoryInterface>(CommentRepositoryDIType).to(CommentRepository);
+container.bind<PostRepositoryInterface>(PostRepositoryDIType).to(PostRepository);
+container.bind<UserRepositoryInterface>(UserRepositoryDIType).to(UserRepository);
 
-container.bind<ICommentService>(CommentServiceDIType).to(CommentService);
-container.bind<IPostService>(PostServiceDIType).to(PostService);
-container.bind<IUserService>(UserServiceDIType).to(UserService);
+container.bind<CommentServiceInterface>(CommentServiceDIType).to(CommentService);
+container.bind<PostServiceInterface>(PostServiceDIType).to(PostService);
+container.bind<UserServiceInterface>(UserServiceDIType).to(UserService);
 
-container.bind<ICommentController>(CommentControllerDIType).to(CommentController);
-container.bind<IPostController>(PostControllerDIType).to(PostController);
-container.bind<IUserController>(UserControllerDIType).to(UserController);
+container.bind<CommentControllerInterface>(CommentControllerDIType).to(CommentController);
+container.bind<PostControllerInterface>(PostControllerDIType).to(PostController);
+container.bind<UserControllerInterface>(UserControllerDIType).to(UserController);
 
 export { container };

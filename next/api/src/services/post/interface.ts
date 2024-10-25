@@ -1,15 +1,15 @@
 import { CommentModel } from '../../models/comment';
 import { PostModel } from '../../models/post';
 
-export interface IPostData {
+export interface PostData {
   photos?: { filename: string }[];
   preview?: { filename: string };
   text: string;
   title: string;
 }
 
-export interface IPostService {
-  createPost(userId: number, postData: IPostData): Promise<PostModel>;
+export interface PostServiceInterface {
+  createPost(userId: number, postData: PostData): Promise<PostModel>;
 
   deletePost(postId: number, userId: number): Promise<CommentModel[]>;
 

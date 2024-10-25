@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IImageState } from '../../types/image';
+import { ImageState } from '../../types/image';
 import { requestImage, requestImageError, requestImageSuccess } from './actions';
 
-export const imageReducer = createReducer<IImageState>(
+export const imageReducer = createReducer<ImageState>(
   {
     error: false,
     loading: false,

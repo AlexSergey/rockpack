@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import { config } from '../config';
 import { BadFileFormatError, MulterError } from '../errors';
-import { IKoaContext } from '../types/koa.context';
+import { KoaContext } from '../types/koa.context';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -34,14 +34,14 @@ const uploader = multer({
   storage,
 });
 
-interface IUpload {
+interface Upload {
   maxCount?: number;
   name: string;
 }
 
 export const upload =
-  (...fields: (IUpload | string)[]) =>
-  async (ctx: IKoaContext, next: Next): Promise<void> => {
+  (...fields: (string | Upload)[]) =>
+  async (ctx: KoaContext, next: Next): Promise<void> => {
     try {
       await uploader.fields(fields)(ctx);
     } catch (e) {

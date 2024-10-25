@@ -1,7 +1,7 @@
 import { Roles } from '../../types/user';
-import { IPostService } from './service';
+import { PostService } from './service';
 
-export const mockPostService = (): IPostService => ({
+export const mockPostService = (): PostService => ({
   fetchPost: () =>
     Promise.resolve({
       data: {

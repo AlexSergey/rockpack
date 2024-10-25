@@ -64,7 +64,6 @@
     "find-package-json": "1.2.0",
     "fork-ts-checker-webpack-plugin": "9.0.2",
     "fs-extra": "11.2.0",
-    "get-port-sync": "1.0.1",
     "glob": "11.0.0",
     "glob-stream": "8.0.2",
     "gutil": "1.6.4",

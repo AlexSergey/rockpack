@@ -1,17 +1,17 @@
-import type { ICommentService } from '../comment';
+import type { CommentServiceInterface } from '../comment';
 
 import { config } from '../../config';
 import { container } from '../../container';
-import { IPost, PostModel } from '../../models/post';
-import { IUser, UserModel } from '../../models/user';
-import { IPostRepository, PostRepositoryDIType } from '../../repositories/post';
-import { IUserRepository, UserRepositoryDIType } from '../../repositories/user';
+import { Post, PostModel } from '../../models/post';
+import { UserInterface, UserModel } from '../../models/user';
+import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/post';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/user';
 import { CommentServiceDIType } from '../comment';
-import { IUserService, UserServiceDIType } from '../user';
+import { UserServiceDIType, UserServiceInterface } from '../user';
 import { PostServiceDIType } from './di.type';
-import { IPostService } from './interface';
+import { PostServiceInterface } from './interface';
 
-interface IUserFull extends IUser {
+interface UserFull extends UserInterface {
   Role: {
     role: string;
   };
@@ -21,11 +21,11 @@ interface IUserFull extends IUser {
   };
 }
 
-interface IPostDetails extends IPost {
+interface PostDetails extends Post {
   Statistic: {
     comments: number;
   };
-  User: IUserFull;
+  User: UserFull;
 }
 
 let newuser;
@@ -36,11 +36,11 @@ let postService;
 let commentService;
 
 beforeAll(async () => {
-  userRepository = container.get<IUserRepository>(UserRepositoryDIType);
-  postRepository = container.get<IPostRepository>(PostRepositoryDIType);
-  userService = container.get<IUserService>(UserServiceDIType);
-  postService = container.get<IPostService>(PostServiceDIType);
-  commentService = container.get<ICommentService>(CommentServiceDIType);
+  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
+  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
+  userService = container.get<UserServiceInterface>(UserServiceDIType);
+  postService = container.get<PostServiceInterface>(PostServiceDIType);
+  commentService = container.get<CommentServiceInterface>(CommentServiceDIType);
 
   const data = await userService.signup('test_user_for_posts@text.mail', '123456');
   if (data?.user) {
@@ -66,7 +66,7 @@ describe('PostService tests', () => {
     });
 
     const IPostDetails = await postRepository.postDetails(post.get('id'));
-    const details = IPostDetails.toJSON() as IPostDetails;
+    const details = IPostDetails.toJSON() as PostDetails;
     const u = await userRepository.getUserById(newuser.get('id'));
 
     expect(details).toEqual({
@@ -130,11 +130,11 @@ describe('PostService tests', () => {
       title: 'with comment',
     });
     let IPostDetails = await postRepository.postDetails(post.get('id'));
-    let details = IPostDetails.toJSON() as IPostDetails;
+    let details = IPostDetails.toJSON() as PostDetails;
     const oldComments = details.Statistic.comments;
     await commentService.createComment(newuser.get('id'), details.id, 'test comment');
     IPostDetails = await postRepository.postDetails(post.get('id'));
-    details = IPostDetails.toJSON() as IPostDetails;
+    details = IPostDetails.toJSON() as PostDetails;
     const newComments = details.Statistic.comments;
 
     expect(oldComments).toBe(0);

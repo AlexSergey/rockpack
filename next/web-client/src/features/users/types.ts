@@ -1,5 +1,5 @@
-import { IUser } from '../../types/user';
+import { User } from '../../types/user';
 
-export interface ISetUsersPayload {
-  users: IUser[];
+export interface SetUsersPayload {
+  users: User[];
 }

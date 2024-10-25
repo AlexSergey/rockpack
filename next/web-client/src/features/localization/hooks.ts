@@ -5,11 +5,11 @@ import { LocalizationContext } from './context';
 
 export const useCurrentLanguage = (): Languages => useContext(LocalizationContext).currentLanguage;
 
-interface ILocalizationApi {
+interface LocalizationApi {
   changeLanguage: (lang: Languages) => void;
 }
 
-export const useLocalizationAPI = (): ILocalizationApi => {
+export const useLocalizationAPI = (): LocalizationApi => {
   const ctx = useContext(LocalizationContext);
 
   return {

@@ -9,12 +9,12 @@ export const decodeToken = (token: string, secret: string): unknown => jwt.verif
 export const isValidPassword = async (userPassword: string, password: string): Promise<boolean> =>
   await bcrypt.compare(password, userPassword);
 
-interface IBcryptResult {
+interface BcryptResult {
   cryptedPassword: string;
   salt: string;
 }
 
-export const cryptPassword = (password: string): Promise<IBcryptResult> =>
+export const cryptPassword = (password: string): Promise<BcryptResult> =>
   new Promise((resolve, reject) => {
     // eslint-disable-next-line consistent-return
     bcrypt.genSalt(10, (err, salt): void => {

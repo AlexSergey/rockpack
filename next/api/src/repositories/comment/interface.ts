@@ -1,5 +1,5 @@
 import { CommentModel } from '../../models/comment';
 
-export interface ICommentRepository {
+export interface CommentRepositoryInterface {
   fetchComments(postId: number): Promise<CommentModel[]>;
 }

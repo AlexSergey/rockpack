@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IServices } from '../../services';
-import { IRootState, IThunkExtras } from '../../types/store';
+import { Services } from '../../services';
+import { RootState, ThunkExtras } from '../../types/store';
 import { decreaseComment, decreasePost, increasePost } from '../common/actions';
 import {
   paginationSetCount,
@@ -11,10 +11,10 @@ import {
   requestPostsError,
   requestPostsSuccess,
 } from './actions';
-import { IDeletePostRes, IPostsRes } from './service';
-import { IDeletePostPayload, IPostsPayload } from './types';
+import { DeletePostRes, PostsRes } from './service';
+import { DeletePostPayload, PostsPayload } from './types';
 
-export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+export const fetchPosts = createAsyncThunk<void, number, { extra: ThunkExtras }>(
   'posts/fetch',
   async (page, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -22,7 +22,7 @@ export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }
       dispatch(requestPosts());
       const {
         data: { count, posts },
-      }: IPostsRes = await services.posts.fetchPosts(page);
+      }: PostsRes = await services.posts.fetchPosts(page);
       dispatch(paginationSetCount(count));
       dispatch(requestPostsSuccess(posts));
     } catch (error) {
@@ -32,11 +32,11 @@ export const fetchPosts = createAsyncThunk<void, number, { extra: IThunkExtras }
   },
 );
 
-export const setPage = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+export const setPage = createAsyncThunk<void, number, { extra: ThunkExtras }>(
   'posts/setPage',
   async (page, { dispatch, extra, getState }): Promise<void> => {
     const { history, logger } = extra;
-    const state = getState() as IRootState;
+    const state = getState() as RootState;
     const { currentLanguage } = state.localization;
     try {
       dispatch(paginationSetCurrent(page));
@@ -47,7 +47,7 @@ export const setPage = createAsyncThunk<void, number, { extra: IThunkExtras }>(
   },
 );
 
-export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkExtras }>(
+export const createPost = createAsyncThunk<void, PostsPayload, { extra: ThunkExtras }>(
   'posts/createPost',
   async ({ page, postData }, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -56,7 +56,7 @@ export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkE
 
       const {
         data: { count, posts },
-      }: IPostsRes = await services.posts.fetchPosts(page);
+      }: PostsRes = await services.posts.fetchPosts(page);
 
       dispatch(increasePost());
       dispatch(paginationSetCount(count));
@@ -67,7 +67,7 @@ export const createPost = createAsyncThunk<void, IPostsPayload, { extra: IThunkE
   },
 );
 
-export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IThunkExtras; services: IServices }>(
+export const deletePost = createAsyncThunk<void, DeletePostPayload, { extra: ThunkExtras; services: Services }>(
   'posts/deletePost',
   async ({ id, owner }, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
@@ -75,7 +75,7 @@ export const deletePost = createAsyncThunk<void, IDeletePostPayload, { extra: IT
       const ownerState = Boolean(owner);
       const {
         data: { deleteComments },
-      }: IDeletePostRes = await services.posts.deletePost(id);
+      }: DeletePostRes = await services.posts.deletePost(id);
 
       if (Array.isArray(deleteComments) && deleteComments.length > 0) {
         for (let i = 0, l = deleteComments.length; i < l; i++) {

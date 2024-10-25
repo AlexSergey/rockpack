@@ -1,10 +1,10 @@
-import type { IError } from './_types';
+import type { ErrorInterface } from './_types';
 
 import { INCORRECT_ACCESS } from '../constants/messages';
 import { getStatus } from '../utils/get-status';
 import { BaseError } from './_base-error';
 
-export class IncorrectAccessError extends BaseError implements IError {
+export class IncorrectAccessError extends BaseError implements ErrorInterface {
   public code = INCORRECT_ACCESS.code;
 
   public message = INCORRECT_ACCESS.message;

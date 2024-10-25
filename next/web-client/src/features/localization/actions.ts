@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { ILocalizationPayload } from './types';
+import { LocalizationPayload } from './types';
 
-export const setLocale = createAction<ILocalizationPayload>('Set locale');
+export const setLocale = createAction<LocalizationPayload>('Set locale');

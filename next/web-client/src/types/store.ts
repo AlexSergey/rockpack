@@ -3,37 +3,37 @@ import { History } from 'history';
 import { LoggerInterface } from 'logrock';
 import { Action } from 'redux';
 
-import { IServices } from '../services';
-import { ICommentsState } from './comments';
-import { ILocalization } from './localization';
-import { IPostState } from './post';
-import { IPostsState } from './posts';
-import { IUser } from './user';
+import { Services } from '../services';
+import { CommentsState } from './comments';
+import { Localization } from './localization';
+import { PostState } from './post';
+import { PostsState } from './posts';
+import { User } from './user';
 import { IUsersState } from './users';
 
-export interface IThunkExtras {
+export interface ThunkExtras {
   history: History;
   logger: LoggerInterface;
-  services: IServices;
+  services: Services;
 }
 
-export type Dispatcher = ThunkDispatch<IRootState, IThunkExtras, Action>;
+export type Dispatcher = ThunkDispatch<RootState, ThunkExtras, Action>;
 
-export interface IStoreProps extends IThunkExtras {
+export interface StoreProps extends ThunkExtras {
   history: History;
   initialState?: Record<string, unknown>;
   testMode?: boolean;
 }
 
-export interface IRootState {
-  comments: ICommentsState;
-  localization: ILocalization;
+export interface RootState {
+  comments: CommentsState;
+  localization: Localization;
   pagination: {
     count: number;
     current: number;
   };
-  post: IPostState;
-  posts: IPostsState;
-  user: IUser;
+  post: PostState;
+  posts: PostsState;
+  user: User;
   users: IUsersState;
 }

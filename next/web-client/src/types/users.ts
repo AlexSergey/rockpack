@@ -1,3 +1,3 @@
-import { IUser } from './user';
+import { User } from './user';
 
-export type IUsersState = IUser[];
+export type IUsersState = User[];

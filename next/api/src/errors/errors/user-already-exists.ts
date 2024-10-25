@@ -1,10 +1,10 @@
-import type { IError } from './_types';
+import type { ErrorInterface } from './_types';
 
 import { USER_ALREADY_EXISTS } from '../constants/messages';
 import { getStatus } from '../utils/get-status';
 import { BaseError } from './_base-error';
 
-export class UserAlreadyExistsError extends BaseError implements IError {
+export class UserAlreadyExistsError extends BaseError implements ErrorInterface {
   public code = USER_ALREADY_EXISTS.code;
 
   public message = USER_ALREADY_EXISTS.message;

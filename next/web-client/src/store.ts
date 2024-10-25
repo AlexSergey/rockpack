@@ -8,10 +8,10 @@ import { postReducer as post } from './features/post';
 import { paginationReducer as pagination, postsReducer as posts } from './features/posts';
 import { userReducer as user } from './features/user';
 import { usersReducer as users } from './features/users';
-import { IRootState, IStoreProps } from './types/store';
+import { RootState, StoreProps } from './types/store';
 import { isDevelopment } from './utils/environments';
 
-export const createStore = ({ history, initialState, logger, services, testMode }: IStoreProps): Store<IRootState> => {
+export const createStore = ({ history, initialState, logger, services, testMode }: StoreProps): Store<RootState> => {
   return configureStore({
     devTools: isDevelopment(),
     middleware: (getDefaultMiddleware) =>

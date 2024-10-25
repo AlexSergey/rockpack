@@ -1,18 +1,18 @@
 import { config } from '../../config';
-import { IUser } from '../../types/user';
-import { IRest } from '../../utils/rest';
+import { User } from '../../types/user';
+import { Rest } from '../../utils/rest';
 
-interface IUsersRes {
-  data: { users: IUser[] };
+interface UsersRes {
+  data: { users: User[] };
 }
 
-export interface IUsersService {
+export interface UsersService {
   deleteUser: (id: number) => Promise<void>;
 
-  fetchUsers: () => Promise<IUsersRes>;
+  fetchUsers: () => Promise<UsersRes>;
 }
 
-export const usersService = (rest: IRest): IUsersService => ({
+export const usersService = (rest: Rest): UsersService => ({
   deleteUser: (id) => rest.delete(`${config.api}/v1/users/${id}`),
 
   fetchUsers: () => rest.get(`${config.api}/v1/users`),

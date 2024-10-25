@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IActionWithPayload } from '../../types/actions';
-import { IPost, IPostsState } from '../../types/posts';
+import { ActionWithPayload } from '../../types/actions';
+import { Post, PostsState } from '../../types/posts';
 import {
   paginationSetCount,
   paginationSetCurrent,
@@ -11,7 +11,7 @@ import {
   requestPostsSuccess,
 } from './actions';
 
-export const postsReducer = createReducer<IPostsState>(
+export const postsReducer = createReducer<PostsState>(
   {
     data: [],
     error: false,
@@ -24,12 +24,12 @@ export const postsReducer = createReducer<IPostsState>(
         state.error = false;
         state.loading = true;
       })
-      .addCase(postDeleted.type, (state, { payload: { id } }: IActionWithPayload<{ id: number }>) => {
+      .addCase(postDeleted.type, (state, { payload: { id } }: ActionWithPayload<{ id: number }>) => {
         state.data = state.data.filter((post) => post.id !== id);
         state.error = false;
         state.loading = false;
       })
-      .addCase(requestPostsSuccess.type, (state, { payload }: IActionWithPayload<IPost[]>) => {
+      .addCase(requestPostsSuccess.type, (state, { payload }: ActionWithPayload<Post[]>) => {
         state.data = payload;
         state.error = false;
         state.loading = false;
@@ -49,10 +49,10 @@ export const paginationReducer = createReducer<{ count: number; current: number 
   },
   (builder) => {
     builder
-      .addCase(paginationSetCurrent.type, (state, { payload }: IActionWithPayload<number>) => {
+      .addCase(paginationSetCurrent.type, (state, { payload }: ActionWithPayload<number>) => {
         state.current = payload;
       })
-      .addCase(paginationSetCount.type, (state, { payload }: IActionWithPayload<number>) => {
+      .addCase(paginationSetCount.type, (state, { payload }: ActionWithPayload<number>) => {
         state.count = payload;
       });
   },

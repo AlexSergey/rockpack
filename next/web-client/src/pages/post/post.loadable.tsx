@@ -15,12 +15,12 @@ import { Images } from './images';
 import styles from './style.module.scss';
 import { UpdateMode } from './update-mode';
 
-interface IPathParamsType extends Record<string, string> {
+interface PathParamsType extends Record<string, string> {
   postId: string;
 }
 
 const PostDetails = (): ReactElement => {
-  const params = useParams<IPathParamsType>();
+  const params = useParams<PathParamsType>();
   const postId = Number(params.postId);
   const [loading, error, data] = usePost(postId);
   const [updateMode, setUpdateMode] = useState(false);

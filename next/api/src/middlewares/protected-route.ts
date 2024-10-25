@@ -2,12 +2,12 @@ import { Next } from 'koa';
 
 import { container } from '../container';
 import { ErrorProxyError, ExpiredTokenError, UnauthorizedError, UserNotFoundError } from '../errors';
-import { IUserRepository, UserRepositoryDIType } from '../repositories/user';
-import { IKoaContext } from '../types/koa.context';
+import { UserRepositoryDIType, UserRepositoryInterface } from '../repositories/user';
+import { KoaContext } from '../types/koa.context';
 import { decodeToken } from '../utils/auth';
 
-export const protectedRoute = async (ctx: IKoaContext, next: Next): Promise<void> => {
-  const userRepository = container.get<IUserRepository>(UserRepositoryDIType);
+export const protectedRoute = async (ctx: KoaContext, next: Next): Promise<void> => {
+  const userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
   const token = ctx.get('Authorization');
 
   if (!token) {

@@ -1,7 +1,7 @@
 import { Roles } from '../../types/user';
-import { ICommentsService } from './service';
+import { CommentsService } from './service';
 
-export const mockCommentsService = (): ICommentsService => ({
+export const mockCommentsService = (): CommentsService => ({
   createComment: () =>
     Promise.resolve({
       data: {

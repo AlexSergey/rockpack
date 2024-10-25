@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IComment } from '../../types/comments';
-import { IThunkExtras } from '../../types/store';
-import { IUser } from '../../types/user';
+import { Comment } from '../../types/comments';
+import { ThunkExtras } from '../../types/store';
+import { User } from '../../types/user';
 import { decreaseComment, increaseComment } from '../common/actions';
 import {
   commentCreated,
@@ -11,15 +11,15 @@ import {
   requestCommentsError,
   requestCommentsSuccess,
 } from './actions';
-import { ICommentRes, ICommentsRes } from './service';
+import { CommentRes, CommentsRes } from './service';
 
-export const fetchComments = createAsyncThunk<void, number, { extra: IThunkExtras }>(
+export const fetchComments = createAsyncThunk<void, number, { extra: ThunkExtras }>(
   'comments/fetch',
   async (postId, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;
     try {
       dispatch(requestComments());
-      const { data }: ICommentsRes = await services.comments.fetchComments(postId);
+      const { data }: CommentsRes = await services.comments.fetchComments(postId);
       dispatch(requestCommentsSuccess(data));
     } catch (error) {
       logger.error(error, false);
@@ -30,15 +30,15 @@ export const fetchComments = createAsyncThunk<void, number, { extra: IThunkExtra
 
 export const createComment = createAsyncThunk<
   void,
-  { postId: number; text: string; user: IUser },
-  { extra: IThunkExtras }
+  { postId: number; text: string; user: User },
+  { extra: ThunkExtras }
 >('comments/create', async ({ postId, text, user }, { dispatch, extra }): Promise<void> => {
   const { logger, services } = extra;
   try {
     dispatch(requestComments());
-    const { data }: ICommentRes = await services.comments.createComment(postId, text);
+    const { data }: CommentRes = await services.comments.createComment(postId, text);
 
-    const comment: IComment = {
+    const comment: Comment = {
       createdAt: new Date().toString(),
       id: data.id,
       text,
@@ -59,7 +59,7 @@ export const createComment = createAsyncThunk<
   }
 });
 
-export const deleteComment = createAsyncThunk<void, { id: number; owner?: boolean }, { extra: IThunkExtras }>(
+export const deleteComment = createAsyncThunk<void, { id: number; owner?: boolean }, { extra: ThunkExtras }>(
   'comments/delete',
   async ({ id, owner }, { dispatch, extra }): Promise<void> => {
     const { logger, services } = extra;

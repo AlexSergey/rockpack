@@ -1,26 +1,26 @@
-import { IUser } from './user';
+import { User } from './user';
 
-export interface IPreview {
+export interface Preview {
   thumbnail: string;
   uri: string;
 }
 
-export interface IPostStatistic {
+export interface PostStatistic {
   comments: number;
 }
 
-export interface IPost {
+export interface Post {
   createdAt: string;
   id: number;
-  Preview?: IPreview;
-  Statistic: IPostStatistic;
+  Preview?: Preview;
+  Statistic: PostStatistic;
   title: string;
   updatedAt: string;
-  User: IUser;
+  User: User;
 }
 
-export interface IPostsState {
-  data: IPost[];
+export interface PostsState {
+  data: Post[];
   error: boolean;
   loading: boolean;
 }

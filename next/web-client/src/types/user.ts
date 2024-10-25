@@ -5,16 +5,16 @@ export enum Roles {
   user = 'user',
 }
 
-export interface IUserStatistic {
+export interface UserStatistic {
   comments: number;
   posts: number;
 }
 
-export interface IUser {
+export interface User {
   email: string;
   id: number;
   Role: {
     role: Roles;
   };
-  Statistic: IUserStatistic;
+  Statistic: UserStatistic;
 }

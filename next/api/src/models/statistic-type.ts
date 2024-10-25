@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 
-export interface IStatisticType {
+export interface StatisticType {
   comments: number;
   entity_id: number;
   id: number;
@@ -10,7 +10,7 @@ export interface IStatisticType {
   type_id: number;
 }
 
-export class StatisticTypeModel extends Model<IStatisticType> {}
+export class StatisticTypeModel extends Model<StatisticType> {}
 
 StatisticTypeModel.init(
   {

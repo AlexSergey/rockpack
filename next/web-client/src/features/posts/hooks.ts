@@ -1,7 +1,7 @@
 import { useRegisterEffect, useSsrEffect } from '@issr/core';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { IPost, IPostsState } from '../../types/posts';
+import { Post, PostsState } from '../../types/posts';
 import { ThunkResult } from '../../types/thunk';
 import { createPost, deletePost, fetchPosts, setPage } from './thunks';
 
@@ -17,10 +17,10 @@ export const usePagination = (): { count: number; current: number } => {
   };
 };
 
-export const usePosts = (): [boolean, boolean, IPost[]] => {
+export const usePosts = (): [boolean, boolean, Post[]] => {
   const dispatch = useDispatch<ThunkResult>();
   const { current } = usePagination();
-  const { data, error, loading } = useSelector<{ posts: IPostsState }, IPostsState>((state) => state.posts);
+  const { data, error, loading } = useSelector<{ posts: PostsState }, PostsState>((state) => state.posts);
   const registerEffect = useRegisterEffect();
 
   useSsrEffect(() => {

@@ -1,5 +1,5 @@
-import type { IUserRepository } from '../../repositories/user';
-import type { IUserService } from './interface';
+import type { UserRepositoryInterface } from '../../repositories/user';
+import type { UserServiceInterface } from './interface';
 
 import { container } from '../../container';
 import { UserModel } from '../../models/user';
@@ -11,8 +11,8 @@ let userRepository;
 let userService;
 
 beforeAll(() => {
-  userRepository = container.get<IUserRepository>(UserRepositoryDIType);
-  userService = container.get<IUserService>(UserServiceDIType);
+  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
+  userService = container.get<UserServiceInterface>(UserServiceDIType);
 });
 
 afterAll(() => UserModel.sequelize.close());

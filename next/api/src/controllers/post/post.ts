@@ -1,20 +1,20 @@
 import { inject, injectable } from 'inversify';
 
-import type { IPostRepository } from '../../repositories/post';
-import type { IPostService } from '../../services/post';
-import type { IPostController } from './interface';
+import type { PostRepositoryInterface } from '../../repositories/post';
+import type { PostServiceInterface } from '../../services/post';
 
 import { config } from '../../config';
 import { ErrorProxyError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
 import { PostRepositoryDIType } from '../../repositories/post';
 import { PostServiceDIType } from '../../services/post';
-import { IKoaContext } from '../../types/koa.context';
+import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
+import { PostControllerInterface } from './interface';
 
 @injectable()
-export class PostController implements IPostController {
-  create = async (ctx: IKoaContext): Promise<void> => {
+export class PostController implements PostControllerInterface {
+  create = async (ctx: KoaContext): Promise<void> => {
     const userId = Number(ctx.user.get('id'));
     const { text, title } = ctx.request.body;
 
@@ -34,7 +34,7 @@ export class PostController implements IPostController {
     }
   };
 
-  delete = async (ctx: IKoaContext): Promise<void> => {
+  delete = async (ctx: KoaContext): Promise<void> => {
     const userId = Number(ctx.user.get('id'));
     const { id } = ctx.params;
     try {
@@ -48,7 +48,7 @@ export class PostController implements IPostController {
     }
   };
 
-  details = async (ctx: IKoaContext): Promise<void> => {
+  details = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
 
     try {
@@ -60,7 +60,7 @@ export class PostController implements IPostController {
     }
   };
 
-  fetch = async (ctx: IKoaContext): Promise<void> => {
+  fetch = async (ctx: KoaContext): Promise<void> => {
     const page = typeof ctx.request.query.page === 'undefined' ? 0 : Number(ctx.request.query.page) - 1;
     try {
       const { count, rows } = await this.repository.fetchPosts(page, config.postsLimit);
@@ -74,7 +74,7 @@ export class PostController implements IPostController {
     }
   };
 
-  update = async (ctx: IKoaContext): Promise<void> => {
+  update = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
     const { text, title } = ctx.request.body;
     try {
@@ -90,7 +90,7 @@ export class PostController implements IPostController {
   };
 
   constructor(
-    @inject(PostRepositoryDIType) private repository: IPostRepository,
-    @inject(PostServiceDIType) private service: IPostService,
+    @inject(PostRepositoryDIType) private repository: PostRepositoryInterface,
+    @inject(PostServiceDIType) private service: PostServiceInterface,
   ) {}
 }

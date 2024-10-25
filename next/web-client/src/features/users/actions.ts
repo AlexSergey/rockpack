@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { IUser } from '../../types/user';
+import { User } from '../../types/user';
 
-export const setUsers = createAction<{ users: IUser[] }>('Set users list');
+export const setUsers = createAction<{ users: User[] }>('Set users list');
 
 export const userDeleted = createAction<number>('User deleted');

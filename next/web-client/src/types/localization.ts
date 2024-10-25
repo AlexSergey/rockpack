@@ -6,9 +6,9 @@ export enum Languages {
   ru = 'ru',
 }
 
-export type ILanguageList = Record<string, LocaleData>;
+export type LanguageList = Record<string, LocaleData>;
 
-export interface ILocalization {
+export interface Localization {
   currentLanguage: Languages;
-  languages: ILanguageList;
+  languages: LanguageList;
 }

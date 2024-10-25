@@ -1,15 +1,15 @@
 import { useRegisterEffect, useSsrEffect } from '@issr/core';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { IRootState } from '../../types/store';
+import { RootState } from '../../types/store';
 import { ThunkResult } from '../../types/thunk';
-import { IUser, IUserStatistic, Roles } from '../../types/user';
+import { Roles, User, UserStatistic } from '../../types/user';
 import { authorization, signIn, signOut, signUp } from './thunks';
-import { IUserPayload } from './types';
+import { UserPayload } from './types';
 
-export const useUser = (): IUser => useSelector<IRootState, IUser>((state) => state.user);
+export const useUser = (): User => useSelector<RootState, User>((state) => state.user);
 
-export const useRole = (): Roles => useSelector<IRootState, Roles>((state) => state.user.Role.role);
+export const useRole = (): Roles => useSelector<RootState, Roles>((state) => state.user.Role.role);
 
 export const useAuthorization = (): void => {
   const dispatch = useDispatch<ThunkResult>();
@@ -20,8 +20,8 @@ export const useAuthorization = (): void => {
   }, []);
 };
 
-export const useUserStatistic = (): IUserStatistic => {
-  const { comments, posts } = useSelector<IRootState, IUserStatistic>((state) => state.user.Statistic);
+export const useUserStatistic = (): UserStatistic => {
+  const { comments, posts } = useSelector<RootState, UserStatistic>((state) => state.user.Statistic);
 
   return {
     comments,
@@ -30,9 +30,9 @@ export const useUserStatistic = (): IUserStatistic => {
 };
 
 export const useUserApi = (): {
-  signin: (props: IUserPayload) => void;
+  signin: (props: UserPayload) => void;
   signout: () => void;
-  signup: (props: IUserPayload) => void;
+  signup: (props: UserPayload) => void;
 } => {
   const dispatch = useDispatch<ThunkResult>();
 

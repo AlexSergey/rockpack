@@ -2,13 +2,13 @@ import { ReactElement } from 'react';
 
 import styles from './styles.module.scss';
 
-interface IImage {
+interface Image {
   error: boolean;
   loading: boolean;
   url: string;
 }
 
-export const Image = ({ error, loading, url }: IImage): ReactElement => (
+export const Image = ({ error, loading, url }: Image): ReactElement => (
   <div className={styles.img}>
     {loading && <p>Loading...</p>}
     {error && <p>Error, try again</p>}

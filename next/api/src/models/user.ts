@@ -10,14 +10,14 @@ import { StatisticTypeModel } from './statistic-type';
 
 const PROTECTED_ATTRIBUTES = ['password', 'token'];
 
-export interface IUser {
+export interface UserInterface {
   id: number;
   password: string;
   role: string;
   username: string;
 }
 
-export class UserModel extends Model<IUser> {
+export class UserModel extends Model<UserInterface> {
   async isValidPassword(password: string): Promise<boolean> {
     return await isValidPassword(this.get('password') as string, password);
   }

@@ -1,14 +1,14 @@
-import { IUser } from './user';
+import { User } from './user';
 
-export interface IComment {
+export interface Comment {
   createdAt: string;
   id: number;
   text: string;
-  User: IUser;
+  User: User;
 }
 
-export interface ICommentsState {
-  data: IComment[];
+export interface CommentsState {
+  data: Comment[];
   error: boolean;
   loading: boolean;
 }

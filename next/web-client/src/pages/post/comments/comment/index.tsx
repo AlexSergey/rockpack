@@ -5,18 +5,18 @@ import { ReactElement } from 'react';
 
 import { useCommentsApi } from '../../../../features/comments';
 import { Access, Owner, useUser } from '../../../../features/user';
-import { IUser, Roles } from '../../../../types/user';
+import { Roles, User } from '../../../../types/user';
 import { dateFormatter } from '../../../../utils/date-format';
 import styles from './style.module.scss';
 
-interface IComment {
+interface Comment {
   createdAt: string;
   id: number;
   text: string;
-  user: IUser;
+  user: User;
 }
 
-export const Comment = ({ createdAt, id, text, user }: IComment): ReactElement => {
+export const CommentComponent = ({ createdAt, id, text, user }: Comment): ReactElement => {
   const commentsApi = useCommentsApi();
   const currentUser = useUser();
 

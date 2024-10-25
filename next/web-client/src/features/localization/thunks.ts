@@ -1,15 +1,15 @@
 import { getDefaultLocale, LocaleData } from '@localazer/component';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ILanguageList, Languages } from '../../types/localization';
-import { IThunkExtras } from '../../types/store';
+import { LanguageList, Languages } from '../../types/localization';
+import { ThunkExtras } from '../../types/store';
 import { setLocale } from './actions';
 import { getDefaultLanguage } from './utils';
 
 export const fetchLocalization = createAsyncThunk<
   void,
-  { language: Languages; languages: ILanguageList },
-  { extra: IThunkExtras }
+  { language: Languages; languages: LanguageList },
+  { extra: ThunkExtras }
 >('localization/fetch', async ({ language, languages }, { dispatch, extra }): Promise<void> => {
   const { history, logger, services } = extra;
   try {

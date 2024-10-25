@@ -1,4 +1,4 @@
-import type { ICommentRepository } from './interface';
+import type { CommentRepositoryInterface } from './interface';
 
 import { container } from '../../container';
 import { CommentModel } from '../../models/comment';
@@ -7,7 +7,7 @@ import { CommentRepositoryDIType } from './di.type';
 let commentRepository;
 
 beforeAll(() => {
-  commentRepository = container.get<ICommentRepository>(CommentRepositoryDIType);
+  commentRepository = container.get<CommentRepositoryInterface>(CommentRepositoryDIType);
 });
 
 afterAll(() => CommentModel.sequelize.close());

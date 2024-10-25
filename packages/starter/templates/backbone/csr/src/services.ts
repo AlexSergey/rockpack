@@ -1,10 +1,10 @@
-import { IImageService, imageService } from './features/image/service';
-import { IFetch } from './types/fetch';
+import { ImageService, imageService } from './features/image/service';
+import { Fetch } from './types/fetch';
 
-export interface IServices {
-  image: IImageService;
+export interface Services {
+  image: ImageService;
 }
 
-export const createServices = (rest: IFetch): IServices => ({
+export const createServices = (rest: Fetch): Services => ({
   image: imageService(rest),
 });

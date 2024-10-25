@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.0 in progress]
+
+- Zero vulnerabilities for all packages
+- Replaced imagemin to sharp
+- Dropped mandatory "I" prefix for interfaces
+- Dropped deprecated babel plugins
+- Removed unused modules
+
 ## [4.5.0]
 
 - Templates were refactored

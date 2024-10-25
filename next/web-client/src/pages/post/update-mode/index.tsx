@@ -7,18 +7,18 @@ import { usePostApi } from '../../../features/post';
 
 const Wysiwyg = loadable(() => import('../../../components/wysiwyg'));
 
-interface IUpdateMode {
+interface UpdateMode {
   onFinish: () => void;
   postId: number;
   text: string;
   title: string;
 }
 
-interface IStore {
+interface Store {
   title: string;
 }
 
-export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): ReactElement => {
+export const UpdateMode = ({ onFinish, postId, text, title }: UpdateMode): ReactElement => {
   const [postText, setText] = useState(text);
   const { updatePost } = usePostApi();
 
@@ -26,7 +26,7 @@ export const UpdateMode = ({ onFinish, postId, text, title }: IUpdateMode): Reac
     <div>
       <Form
         name="post"
-        onFinish={(store: IStore): void => {
+        onFinish={(store: Store): void => {
           updatePost({
             postId,
             text: postText,

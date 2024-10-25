@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IActionWithPayload } from '../../types/actions';
-import { IPost, IPostState } from '../../types/post';
+import { ActionWithPayload } from '../../types/actions';
+import { Post, PostState } from '../../types/post';
 import { commentCreated, commentDeleted } from '../comments';
 import { postUpdated, requestPost, requestPostError, requestPostSuccess } from './actions';
 
-export const postReducer = createReducer<IPostState>(
+export const postReducer = createReducer<PostState>(
   {
     data: null,
     error: false,
@@ -18,7 +18,7 @@ export const postReducer = createReducer<IPostState>(
         state.error = false;
         state.loading = true;
       })
-      .addCase(requestPostSuccess.type, (state, { payload }: IActionWithPayload<IPost>) => {
+      .addCase(requestPostSuccess.type, (state, { payload }: ActionWithPayload<Post>) => {
         state.data = payload;
         state.error = false;
         state.loading = false;
@@ -28,7 +28,7 @@ export const postReducer = createReducer<IPostState>(
         state.error = true;
         state.loading = false;
       })
-      .addCase(postUpdated.type, (state, { payload }: IActionWithPayload<IPost>) => {
+      .addCase(postUpdated.type, (state, { payload }: ActionWithPayload<Post>) => {
         state.data.title = payload.title;
         state.data.text = payload.text;
       })

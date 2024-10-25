@@ -1,21 +1,21 @@
-import { commentsService, ICommentsService } from './features/comments/service';
-import { ILocalizationService, localizationService } from './features/localization/service';
-import { IPostService, postService } from './features/post/service';
-import { IPostsService, postsService } from './features/posts/service';
-import { IUserService, userService } from './features/user/service';
-import { IUsersService, usersService } from './features/users/service';
-import { IRest } from './utils/rest';
+import { commentsService, CommentsService } from './features/comments/service';
+import { LocalizationService, localizationService } from './features/localization/service';
+import { PostService, postService } from './features/post/service';
+import { PostsService, postsService } from './features/posts/service';
+import { UserService, userService } from './features/user/service';
+import { UsersService, usersService } from './features/users/service';
+import { Rest } from './utils/rest';
 
-export interface IServices {
-  comments: ICommentsService;
-  localization: ILocalizationService;
-  post: IPostService;
-  posts: IPostsService;
-  user: IUserService;
-  users: IUsersService;
+export interface Services {
+  comments: CommentsService;
+  localization: LocalizationService;
+  post: PostService;
+  posts: PostsService;
+  user: UserService;
+  users: UsersService;
 }
 
-export const createServices = (rest: IRest): IServices => ({
+export const createServices = (rest: Rest): Services => ({
   comments: commentsService(rest),
   localization: localizationService(rest),
   post: postService(rest),

@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 type IOpts = Record<string, unknown>;
 
-export interface IRest {
+export interface Rest {
   delete: (url: string) => Promise<any>;
   get: (url: string) => Promise<any>;
   post: (url: string, body?: FormData | IOpts, options?: IOpts) => Promise<any>;
@@ -20,7 +20,7 @@ const commonHeaders = (token: string): { Authorization: string } | Record<string
   return {};
 };
 
-export const createRestClient = (getToken: () => string): IRest => ({
+export const createRestClient = (getToken: () => string): Rest => ({
   delete: <T>(url, options?): Promise<T> => {
     const headers = commonHeaders(getToken());
 

@@ -1,27 +1,27 @@
 import { config } from '../../config';
-import { IUser } from '../../types/user';
-import { IRest } from '../../utils/rest';
+import { User } from '../../types/user';
+import { Rest } from '../../utils/rest';
 
-interface IUserData extends Record<string, string> {
+interface UserData extends Record<string, string> {
   email: string;
   password: string;
 }
 
-interface IUserRes {
-  data: IUser;
+interface UserRes {
+  data: User;
 }
 
-export interface IUserService {
-  authorization: () => Promise<IUserRes>;
+export interface UserService {
+  authorization: () => Promise<UserRes>;
 
-  signIn: (user: IUserData) => Promise<IUserRes>;
+  signIn: (user: UserData) => Promise<UserRes>;
 
   signOut: () => Promise<void>;
 
-  signUp: (user: IUserData) => Promise<IUserRes>;
+  signUp: (user: UserData) => Promise<UserRes>;
 }
 
-export const userService = (rest: IRest): IUserService => ({
+export const userService = (rest: Rest): UserService => ({
   authorization: () => rest.get(`${config.api}/v1/users/authorization`),
 
   signIn: (user) => rest.post(`${config.api}/v1/users/signin`, user),

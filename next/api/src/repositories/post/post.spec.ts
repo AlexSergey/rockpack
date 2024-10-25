@@ -1,12 +1,12 @@
 import { container } from '../../container';
 import { PostModel } from '../../models/post';
 import { PostRepositoryDIType } from './di.type';
-import { IPostRepository } from './interface';
+import { PostRepositoryInterface } from './interface';
 
 let postRepository;
 
 beforeAll(() => {
-  postRepository = container.get<IPostRepository>(PostRepositoryDIType);
+  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
 });
 
 afterAll(() => PostModel.sequelize.close());

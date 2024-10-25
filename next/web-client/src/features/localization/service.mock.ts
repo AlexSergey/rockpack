@@ -1,6 +1,6 @@
-import { ILocalizationService } from './service';
+import { LocalizationService } from './service';
 
-export const mockLocalizationService = (): ILocalizationService => ({
+export const mockLocalizationService = (): LocalizationService => ({
   fetchLocalization: () =>
     Promise.resolve({
       domain: 'messages',

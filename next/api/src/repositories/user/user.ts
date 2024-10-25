@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 
-import type { IUserRepository } from './interface';
+import type { UserRepositoryInterface } from './interface';
 
 import { ROLE_MODEL_NAME, STATISTIC_MODEL_NAME } from '../../constants/models';
 import { BadRequestError, InternalError, SequelizeError } from '../../errors';
@@ -11,7 +11,7 @@ import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
 
 @injectable()
-export class UserRepository implements IUserRepository {
+export class UserRepository implements UserRepositoryInterface {
   getUserByEmail = async (email: string): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {

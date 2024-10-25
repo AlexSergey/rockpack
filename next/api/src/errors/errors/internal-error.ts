@@ -1,10 +1,10 @@
-import type { IError } from './_types';
+import type { ErrorInterface } from './_types';
 
 import { INTERNAL_ERROR } from '../constants/messages';
 import { getStatus } from '../utils/get-status';
 import { BaseError } from './_base-error';
 
-export class InternalError extends BaseError implements IError {
+export class InternalError extends BaseError implements ErrorInterface {
   public code = INTERNAL_ERROR.code;
 
   public message = INTERNAL_ERROR.message;

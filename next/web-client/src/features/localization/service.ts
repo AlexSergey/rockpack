@@ -1,12 +1,12 @@
 import { LocaleData } from '@localazer/component';
 
 import { Languages } from '../../types/localization';
-import { IRest } from '../../utils/rest';
+import { Rest } from '../../utils/rest';
 
-export interface ILocalizationService {
+export interface LocalizationService {
   fetchLocalization: (language: Languages) => Promise<LocaleData>;
 }
 
-export const localizationService = (rest: IRest): ILocalizationService => ({
+export const localizationService = (rest: Rest): LocalizationService => ({
   fetchLocalization: (language) => rest.get(`/locales/${language}.json`),
 });

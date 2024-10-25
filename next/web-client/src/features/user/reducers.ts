@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { IActionWithPayload } from '../../types/actions';
-import { IUser, Roles } from '../../types/user';
+import { ActionWithPayload } from '../../types/actions';
+import { Roles, User } from '../../types/user';
 import { decreaseComment, decreasePost, increaseComment, increasePost } from '../common/actions';
 import { clearUserState, setUser } from './actions';
 
-export const userReducer = createReducer<IUser>(
+export const userReducer = createReducer<User>(
   {
     email: null,
     id: null,
@@ -16,7 +16,7 @@ export const userReducer = createReducer<IUser>(
   },
   (builder) => {
     builder
-      .addCase(setUser.type, (state, { payload }: IActionWithPayload<IUser>) => ({ ...payload }))
+      .addCase(setUser.type, (state, { payload }: ActionWithPayload<User>) => ({ ...payload }))
       .addCase(clearUserState.type, () => ({
         email: null,
         id: null,

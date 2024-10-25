@@ -43,7 +43,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: 'entities', version: '3' },
           { name: 'redux', version: '5' },
           { name: 'react-helmet-async', version: '1' },
-          { name: '@issr/core', version: '2.2.0' },
+          { name: '@issr/core', version: '2.3.0' },
           { name: '@reduxjs/toolkit', version: '2' },
           { name: 'serialize-javascript', version: '5' },
           { name: 'pretty-error', version: '4' },
@@ -52,7 +52,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@loadable/server', version: '5' },
         ],
         devDependencies: [
-          { name: '@issr/babel-plugin', version: '2.2.0' },
+          { name: '@issr/babel-plugin', version: '2.3.0' },
           { name: '@rockpack/compiler', version: packageJson.version },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },

@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 
-import type { ICommentRepository } from './interface';
+import type { CommentRepositoryInterface } from './interface';
 
 import { ROLE_MODEL_NAME, STATISTIC_MODEL_NAME, USER_MODEL_NAME } from '../../constants/models';
 import { InternalError, SequelizeError } from '../../errors';
@@ -12,7 +12,7 @@ import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
 
 @injectable()
-export class CommentRepository implements ICommentRepository {
+export class CommentRepository implements CommentRepositoryInterface {
   fetchComments = async (postId: number): Promise<CommentModel[]> => {
     const userType = await StatisticTypeModel.findOne({
       where: {

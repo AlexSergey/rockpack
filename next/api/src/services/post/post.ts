@@ -6,11 +6,11 @@ import { CommentModel } from '../../models/comment';
 import { ImageModel } from '../../models/image';
 import { ImageTypeModel } from '../../models/image-type';
 import { PostModel } from '../../models/post';
-import { IPostData, IPostService } from './interface';
+import { PostData, PostServiceInterface } from './interface';
 
 @injectable()
-export class PostService implements IPostService {
-  createPost = async (userId: number, { photos, preview, text, title }: IPostData): Promise<PostModel> => {
+export class PostService implements PostServiceInterface {
+  createPost = async (userId: number, { photos, preview, text, title }: PostData): Promise<PostModel> => {
     let post;
 
     try {

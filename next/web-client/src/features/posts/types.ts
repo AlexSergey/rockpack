@@ -1,9 +1,9 @@
-export interface IPostsPayload {
+export interface PostsPayload {
   page: number;
   postData: FormData;
 }
 
-export interface IDeletePostPayload {
+export interface DeletePostPayload {
   id: number;
   owner: boolean;
 }

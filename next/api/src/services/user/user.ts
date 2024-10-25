@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 
-import type { IUserRepository } from '../../repositories/user';
-import type { IUserService } from './interface';
+import type { UserRepositoryInterface } from '../../repositories/user';
+import type { UserServiceInterface } from './interface';
 
 import { config } from '../../config';
 import {
@@ -18,7 +18,7 @@ import { UserRepositoryDIType } from '../../repositories/user';
 import { createToken } from '../../utils/auth';
 
 @injectable()
-export class UserService implements IUserService {
+export class UserService implements UserServiceInterface {
   deleteUser = async (id: number): Promise<void> => {
     const user = await UserModel.destroy({
       individualHooks: true,
@@ -93,5 +93,5 @@ export class UserService implements IUserService {
     }
   };
 
-  constructor(@inject(UserRepositoryDIType) private repository: IUserRepository) {}
+  constructor(@inject(UserRepositoryDIType) private repository: UserRepositoryInterface) {}
 }

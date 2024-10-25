@@ -4,9 +4,9 @@ import { mockPostService } from '../features/post/service.mock';
 import { mockPostsService } from '../features/posts/service.mock';
 import { mockUserService } from '../features/user/service.mock';
 import { mockUsersService } from '../features/users/service.mock';
-import { IServices } from '../services';
+import { Services } from '../services';
 
-export const createMockServices = (): IServices => ({
+export const createMockServices = (): Services => ({
   comments: mockCommentsService(),
   localization: mockLocalizationService(),
   post: mockPostService(),

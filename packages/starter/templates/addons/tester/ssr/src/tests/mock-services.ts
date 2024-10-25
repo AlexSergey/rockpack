@@ -1,6 +1,6 @@
 import { mockImageService } from '../features/image/service.mock';
-import { IServices } from '../services';
+import { Services } from '../services';
 
-export const createMockServices = (): IServices => ({
+export const createMockServices = (): Services => ({
   image: mockImageService(),
 });

@@ -1,18 +1,18 @@
 import { inject, injectable } from 'inversify';
 
-import type { ICommentRepository } from '../../repositories/comment';
-import type { ICommentService } from '../../services/comment';
+import type { CommentRepositoryInterface } from '../../repositories/comment';
+import type { CommentServiceInterface } from '../../services/comment';
 
 import { ErrorProxyError } from '../../errors';
 import { CommentRepositoryDIType } from '../../repositories/comment';
 import { CommentServiceDIType } from '../../services/comment';
-import { IKoaContext } from '../../types/koa.context';
+import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-import { ICommentController } from './interface';
+import { CommentControllerInterface } from './interface';
 
 @injectable()
-export class CommentController implements ICommentController {
-  create = async (ctx: IKoaContext): Promise<void> => {
+export class CommentController implements CommentControllerInterface {
+  create = async (ctx: KoaContext): Promise<void> => {
     const { postId } = ctx.params;
     const { text } = ctx.request.body;
     const userId = Number(ctx.user.get('id'));
@@ -28,7 +28,7 @@ export class CommentController implements ICommentController {
     }
   };
 
-  delete = async (ctx: IKoaContext): Promise<void> => {
+  delete = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
 
     try {
@@ -42,7 +42,7 @@ export class CommentController implements ICommentController {
     }
   };
 
-  fetch = async (ctx: IKoaContext): Promise<void> => {
+  fetch = async (ctx: KoaContext): Promise<void> => {
     const { postId } = ctx.params;
 
     try {
@@ -57,7 +57,7 @@ export class CommentController implements ICommentController {
     }
   };
 
-  update = async (ctx: IKoaContext): Promise<void> => {
+  update = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
     const { text } = ctx.request.body;
 
@@ -73,7 +73,7 @@ export class CommentController implements ICommentController {
   };
 
   constructor(
-    @inject(CommentRepositoryDIType) private repository: ICommentRepository,
-    @inject(CommentServiceDIType) private service: ICommentService,
+    @inject(CommentRepositoryDIType) private repository: CommentRepositoryInterface,
+    @inject(CommentServiceDIType) private service: CommentServiceInterface,
   ) {}
 }

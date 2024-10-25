@@ -2,14 +2,14 @@ import { DataTypes, Model } from 'sequelize';
 
 import { sequelize } from '../boundaries/database';
 
-export interface IImage {
+export interface Image {
   id: number;
   post_id: number;
   type_id: number;
   uri: string;
 }
 
-export class ImageModel extends Model<IImage> {}
+export class ImageModel extends Model<Image> {}
 
 ImageModel.init(
   {

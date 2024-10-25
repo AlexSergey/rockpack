@@ -1,7 +1,7 @@
 import { Roles } from '../../types/user';
-import { IUsersService } from './service';
+import { UsersService } from './service';
 
-export const mockUsersService = (): IUsersService => ({
+export const mockUsersService = (): UsersService => ({
   deleteUser: () => Promise.resolve(),
 
   fetchUsers: () =>

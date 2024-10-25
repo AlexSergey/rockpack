@@ -116,8 +116,15 @@ module.exports.makeConfig = () => {
         'error',
         {
           format: ['UPPER_CASE', 'StrictPascalCase'],
-          prefix: ['I'],
           selector: 'interface',
+        },
+        {
+          format: ['PascalCase'],
+          selector: 'typeLike',
+        },
+        {
+          format: ['UPPER_CASE', 'StrictPascalCase'],
+          selector: 'class',
         },
       ],
       '@typescript-eslint/no-empty-interface': [

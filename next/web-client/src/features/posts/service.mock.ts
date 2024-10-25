@@ -1,9 +1,9 @@
 import { Roles } from '../../types/user';
-import { IPostsService } from './service';
+import { PostsService } from './service';
 
 const simpleuser = 'simple_user@rock.com';
 const secondadmin = 'second_admin@rock.com';
-export const mockPostsService = (): IPostsService => ({
+export const mockPostsService = (): PostsService => ({
   createPost: () => Promise.resolve(),
 
   // postId 13 has comments: id 1, 5

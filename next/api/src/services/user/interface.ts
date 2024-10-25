@@ -1,6 +1,6 @@
 import { UserModel } from '../../models/user';
 
-export interface IUserService {
+export interface UserServiceInterface {
   deleteUser(id: number): Promise<void>;
 
   signin(email: string, password: string): Promise<{ token: string; user: UserModel }>;

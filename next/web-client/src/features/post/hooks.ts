@@ -1,13 +1,13 @@
 import { useRegisterEffect, useSsrEffect } from '@issr/core';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { IPost, IPostState } from '../../types/post';
+import { Post, PostState } from '../../types/post';
 import { ThunkResult } from '../../types/thunk';
 import { fetchPost, updatePost } from './thunks';
 
-export const usePost = (postId: number): [boolean, boolean, IPost] => {
+export const usePost = (postId: number): [boolean, boolean, Post] => {
   const dispatch = useDispatch<ThunkResult>();
-  const { data, error, loading } = useSelector<{ post: IPostState }, IPostState>((state) => state.post);
+  const { data, error, loading } = useSelector<{ post: PostState }, PostState>((state) => state.post);
   const registerEffect = useRegisterEffect();
 
   useSsrEffect(() => {

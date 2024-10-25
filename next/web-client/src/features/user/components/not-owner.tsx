@@ -2,12 +2,12 @@ import { ReactElement } from 'react';
 
 import { useUser } from '../hooks';
 
-interface INotOwner {
+interface NotOwner {
   children: ReactElement | ReactElement[];
   forUser: string;
 }
 
-export const NotOwner = ({ children, forUser }: INotOwner): null | ReactElement => {
+export const NotOwner = ({ children, forUser }: NotOwner): null | ReactElement => {
   const { email } = useUser();
 
   if (!email) {

@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { Error } from '../../../components/error';
 import { Loader } from '../../../components/loader';
 import { useComments } from '../../../features/comments';
-import { Comment } from './comment';
+import { CommentComponent } from './comment';
 
 export const Comments = ({ commentsCount, postId }: { commentsCount: number; postId: number }): ReactElement => {
   const [loading, error, comments] = useComments(postId);
@@ -20,7 +20,7 @@ export const Comments = ({ commentsCount, postId }: { commentsCount: number; pos
         {loading && <Loader />}
         {error && <Error />}
         {comments.map((comment) => (
-          <Comment
+          <CommentComponent
             createdAt={comment.createdAt}
             id={comment.id}
             key={comment.id}
