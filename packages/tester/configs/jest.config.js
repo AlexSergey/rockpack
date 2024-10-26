@@ -75,7 +75,7 @@ module.exports = {
     require.resolve('jest-extended/all'),
     require.resolve('expect-more-jest'),
     require.resolve('jest-chain'),
-    require.resolve('@testing-library/jest-dom/extend-expect'),
+    require.resolve('@testing-library/jest-dom'),
   ].concat(setupFilesAfterEnv),
   testEnvironment: require.resolve('jest-environment-jsdom'),
   testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],

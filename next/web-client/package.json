@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "4.4.0",
-    "@koa/router": "10.0.0",
+    "@koa/router": "13.1.0",
     "@loadable/component": "5.14.1",
     "@loadable/server": "5.14.2",
     "@reduxjs/toolkit": "1.9.5",
@@ -27,7 +27,7 @@
     "antd": "4.24.14",
     "dayjs": "1.10.4",
     "js-cookie": "2.2.1",
-    "koa": "2.13.1",
+    "koa": "2.15.3",
     "koa-no-cache": "2.0.0",
     "koa-static": "5.0.0",
     "node-fetch": "2.6.1",

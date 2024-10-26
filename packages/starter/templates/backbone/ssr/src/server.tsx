@@ -90,7 +90,7 @@ app.use(async (ctx, next) => {
   }
 });
 
-router.get('(.*)', async (ctx: Context) => {
+router.get(/.*/, async (ctx: Context) => {
   const { dataRoutes, query } = createStaticHandler(routes);
   const fetchRequest = createFetchRequest(ctx, ctx.request);
   const context = await query(fetchRequest);

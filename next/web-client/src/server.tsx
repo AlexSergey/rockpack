@@ -41,7 +41,7 @@ app.use(
 
 app.use(serve(publicFolder));
 
-router.get('(.*)', async (ctx) => {
+router.get(/.*/, async (ctx) => {
   const page = Number(ctx.request.query.page) || 1;
   const getToken = (): string | undefined => ctx.cookies.get('token');
   const currentLanguage = getCurrentLanguageFromURL(ctx.request.url, ctx.acceptsLanguages.bind(ctx));
