@@ -1,5 +1,5 @@
-@import "antd.overload.scss";
-@import "./variables.scss";
+@use "antd.overload.scss" as *;
+@use "./variables.scss" as *;
 
 body {
   margin: 0;

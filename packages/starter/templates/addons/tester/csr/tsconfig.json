@@ -5,7 +5,8 @@
     "types": [
       "jest",
       "node",
-      "webpack/module"
+      "webpack/module",
+      "@testing-library/jest-dom"
     ]
   },
   "exclude": ["./node_modules/**/*"],

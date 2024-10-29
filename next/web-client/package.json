@@ -64,6 +64,7 @@
     "@storybook/addons": "5.3.21",
     "@storybook/react": "5.3.21",
     "@storybook/theming": "5.3.21",
+    "@types/jest": "29.5.1",
     "@testing-library/jest-dom": "6.6.2",
     "jest-environment-jsdom": "29.7.0",
     "@testing-library/react": "14.0.0",

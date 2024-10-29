@@ -1,8 +1,9 @@
 const { getMode } = require('@rockpack/utils');
+const crypto = require('crypto');
 const { copySync } = require('fs-extra');
-const { existsSync } = require('node:fs');
+const { existsSync, mkdirSync } = require('node:fs');
 const path = require('node:path');
-const tempy = require('tempy');
+const os = require('os');
 const ts = require('typescript');
 const { isArray, isString } = require('valid-types');
 
@@ -48,7 +49,10 @@ module.exports = async function generateDts(conf, root) {
 
     if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
       if (existsSync(tsConfig)) {
-        const temp = tempy.directory();
+        const uuid = crypto.randomUUID();
+        const tempFolder = os.tmpdir();
+        const temp = path.join(tempFolder, uuid);
+        mkdirSync(tempFolder);
         const compilerOptions = makeCompilerOptions(root, tsConfig, temp, moduleFormats.cjs);
         const host = ts.createCompilerHost(compilerOptions.options);
         const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);

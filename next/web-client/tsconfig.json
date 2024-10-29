@@ -9,11 +9,10 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "importsNotUsedAsValues": "preserve",
     "types": [
       "jest",
       "node",
-      "@testing-library/jest-dom"
+      "../../node_modules/@testing-library/jest-dom"
     ],
     "lib": [
       "esnext",

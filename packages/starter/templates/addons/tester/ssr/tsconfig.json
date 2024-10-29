@@ -3,7 +3,8 @@
   "compilerOptions": {
     "types": [
       "jest",
-      "node"
+      "node",
+      "@testing-library/jest-dom"
     ]
   },
   "exclude": ["./node_modules/**/*"],

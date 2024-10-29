@@ -3,6 +3,7 @@ import { loadableReady } from '@loadable/component';
 import { createBrowserHistory } from 'history';
 import Cookies from 'js-cookie';
 import logger from 'logrock';
+import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
@@ -40,16 +41,18 @@ const store = createStore({
 loadableReady(() => {
   hydrateRoot(
     document.getElementById('root'),
-    <SSR>
-      <Provider store={store}>
-        <HelmetProvider>
-          <Router history={history}>
-            <LocalizationContainer>
-              <App />
-            </LocalizationContainer>
-          </Router>
-        </HelmetProvider>
-      </Provider>
-    </SSR>,
+    <StrictMode>
+      <SSR>
+        <Provider store={store}>
+          <HelmetProvider>
+            <Router history={history}>
+              <LocalizationContainer>
+                <App />
+              </LocalizationContainer>
+            </Router>
+          </HelmetProvider>
+        </Provider>
+      </SSR>
+    </StrictMode>,
   );
 });

@@ -9,7 +9,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "allowJs": true,
-    "importsNotUsedAsValues": "preserve"
+    "allowJs": true
   }
 }

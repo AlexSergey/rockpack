@@ -1,4 +1,6 @@
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -18,9 +20,13 @@ const container = document.getElementById('root');
 const root = createRoot(container as HTMLElement);
 
 root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>,
+  <StrictMode>
+    <HelmetProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </HelmetProvider>
+  </StrictMode>,
 );
 
 if (import.meta.webpackHot) {

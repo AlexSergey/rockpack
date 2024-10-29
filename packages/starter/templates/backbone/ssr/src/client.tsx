@@ -1,5 +1,6 @@
 import { createSsr } from '@issr/core';
 import { loadableReady } from '@loadable/component';
+import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
@@ -27,12 +28,14 @@ const router = createBrowserRouter(routes);
 loadableReady(() => {
   hydrateRoot(
     document.getElementById('root') as Element,
-    <SSR>
-      <Provider store={store}>
-        <HelmetProvider>
-          <RouterProvider router={router} />
-        </HelmetProvider>
-      </Provider>
-    </SSR>,
+    <StrictMode>
+      <SSR>
+        <Provider store={store}>
+          <HelmetProvider>
+            <RouterProvider router={router} />
+          </HelmetProvider>
+        </Provider>
+      </SSR>
+    </StrictMode>,
   );
 });

@@ -14,7 +14,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: 'react-redux', version: '9' },
           { name: 'react-router', version: '6' },
           { name: 'react-router-dom', version: '6' },
-          { name: 'react-helmet', version: '6' },
+          { name: 'react-helmet-async', version: '2' },
           { name: '@reduxjs/toolkit', version: '2' },
         ],
         devDependencies: [
@@ -22,7 +22,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@types/node', version: '20' },
           { name: '@types/react', version: '18' },
           { name: '@types/react-dom', version: '18' },
-          { name: '@types/react-helmet', version: '6' },
         ],
       });
       break;
