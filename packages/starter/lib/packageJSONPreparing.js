@@ -194,6 +194,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@testing-library/jest-dom', version: '6' },
           { name: '@testing-library/react', version: '15' },
           { name: '@types/react-test-renderer', version: '18' },
+          { name: '@testing-library/jest-dom', version: '6' },
+          { name: 'jest-environment-jsdom', version: '29' },
         ],
       });
     }

@@ -10,12 +10,6 @@
 
 **@rockpack/tester** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
-### Add-ons:
-- [jest-extended](https://github.com/jest-community/jest-extended)
-- [expect-more](https://github.com/JamieMason/expect-more/)
-- [jest-chain](https://github.com/mattphillips/jest-chain)
-- [@testing-library/jest-dom/extend-expect](https://github.com/testing-library/jest-dom)
-
 ### Reporter:
 - [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
 

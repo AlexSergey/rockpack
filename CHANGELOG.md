@@ -7,6 +7,7 @@
 - Dropped mandatory "I" prefix for interfaces
 - Dropped deprecated babel plugins
 - Removed unused modules
+- Dropped addons from tester package. Improves customization.
 
 ## [4.5.0]
 

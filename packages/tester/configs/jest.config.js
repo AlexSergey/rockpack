@@ -70,14 +70,8 @@ module.exports = {
     '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy.js`,
   },
   setupFiles,
-  setupFilesAfterEnv: [
-    require.resolve('@rockpack/utils/polyfills/text-encoder.fix'),
-    require.resolve('jest-extended/all'),
-    require.resolve('expect-more-jest'),
-    require.resolve('jest-chain'),
-    require.resolve('@testing-library/jest-dom'),
-  ].concat(setupFilesAfterEnv),
-  testEnvironment: require.resolve('jest-environment-jsdom'),
+  setupFilesAfterEnv: [require.resolve('@rockpack/utils/polyfills/text-encoder.fix')].concat(setupFilesAfterEnv),
+  testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
   transform: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/file-transformer.js`,
