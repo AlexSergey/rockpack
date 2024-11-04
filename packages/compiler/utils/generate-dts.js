@@ -1,7 +1,5 @@
 const { getMode } = require('@rockpack/utils');
-const crypto = require('crypto');
-const { copySync } = require('fs-extra');
-const { existsSync, mkdirSync, rmSync } = require('node:fs');
+const { existsSync } = require('node:fs');
 const path = require('node:path');
 const ts = require('typescript');
 const { isArray, isString } = require('valid-types');

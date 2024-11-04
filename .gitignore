@@ -66,6 +66,7 @@ jspm_packages/
 
 # Dist
 dist
+dist-types
 build
 *.map
 

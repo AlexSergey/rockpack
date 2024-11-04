@@ -21,6 +21,7 @@ function makeCompilerOptions(root, pth, outDir, format) {
       deepExtend(configFile.config, {
         compilerOptions: {
           baseUrl: './',
+          declaration: true,
           emitDeclarationOnly: true,
           outDir,
         },

@@ -1,11 +1,9 @@
 const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
 const { getMode, getRootRequireDir } = require('@rockpack/utils');
-const { copySync } = require('fs-extra');
-const { existsSync, renameSync } = require('node:fs');
+const { copyFileSync, existsSync, renameSync } = require('node:fs');
 const path = require('node:path');
 const rimraf = require('rimraf');
-const { prepareSingleFileReplaceTscAliasPaths } = require('tsc-alias');
 const { isArray, isObject, isString, isUndefined } = require('valid-types');
 
 const { getFiles, getTypeScript, writeFile } = require('./file-system-utils');
@@ -102,14 +100,11 @@ module.exports = async function sourceCompile(conf) {
         console.log(tsAndTsx.join('\n'));
         console.log('\n');
 
-        const runFile = await prepareSingleFileReplaceTscAliasPaths();
-
         tsAndTsx.forEach((file) => {
           const { code } = babel.transformFileSync(file, babelOptions);
           const relativePath = path.relative(src, file);
-          const newContents = runFile({ fileContents: code, filePath: relativePath });
           const outputPath = `${relativePath.substring(0, relativePath.lastIndexOf('.'))}${format === 'esm' ? '.mjs' : '.cjs'}`;
-          writeFile(path.join(dist, outputPath), newContents);
+          writeFile(path.join(dist, outputPath), code);
         });
       } else {
         throw new Error('tsconfig not found');
@@ -153,7 +148,7 @@ module.exports = async function sourceCompile(conf) {
       copyFiles.forEach((file) => {
         const filePth = path.relative(path.join(root, opt.src), file);
         const fileDest = path.join(dist, filePth);
-        copySync(file, fileDest);
+        copyFileSync(file, fileDest);
       });
     }
 
