@@ -8,6 +8,7 @@
 - Dropped deprecated babel plugins
 - Removed unused modules
 - Dropped addons from tester package. Improves customization.
+- Added support CJS and ESM types for library template
 
 ## [4.5.0]
 

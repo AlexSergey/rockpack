@@ -2,14 +2,13 @@ const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
 const { getMode, getRootRequireDir } = require('@rockpack/utils');
 const { copySync } = require('fs-extra');
-const { existsSync } = require('node:fs');
+const { existsSync, renameSync } = require('node:fs');
 const path = require('node:path');
 const rimraf = require('rimraf');
-const ts = require('typescript');
+const { prepareSingleFileReplaceTscAliasPaths } = require('tsc-alias');
 const { isArray, isObject, isString, isUndefined } = require('valid-types');
 
 const { getFiles, getTypeScript, writeFile } = require('./file-system-utils');
-const makeCompilerOptions = require('./make-compiler-options');
 const { capitalize } = require('./other');
 const pathToTSConf = require('./path-to-ts-conf');
 
@@ -81,13 +80,36 @@ module.exports = async function sourceCompile(conf) {
 
     if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
       if (existsSync(tsConfig)) {
-        compilerOptions = makeCompilerOptions(root, tsConfig, opt.dist, format);
-        const host = ts.createCompilerHost(compilerOptions.options);
-        // eslint-disable-next-line no-console
-        console.log('TSC convert: ', tsAndTsx.join('\n'));
-        const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);
-        ts.createTypeChecker(program, true);
-        program.emit();
+        const babelOptions = createBabelPresets({
+          framework: 'react',
+          isNodejs: !!conf.nodejs,
+          isomorphic: conf.__isIsomorphic,
+          modules: format === 'esm' ? false : 'commonjs',
+          typescript: true,
+        });
+        const cachedBabelPlugins = babelOptions.plugins;
+        if (format === 'esm') {
+          babelOptions.plugins = [[require.resolve('babel-plugin-add-import-extension'), { extension: 'mjs' }]];
+        } else if (format === 'cjs') {
+          babelOptions.plugins = [
+            [require.resolve('babel-plugin-add-import-extension'), { extension: 'cjs' }],
+            require.resolve('@babel/plugin-transform-modules-commonjs'),
+          ];
+        }
+        babelOptions.plugins = [...babelOptions.plugins, ...cachedBabelPlugins];
+
+        console.log('Babel convert:\n');
+        console.log(tsAndTsx.join('\n'));
+        console.log('\n');
+
+        const runFile = await prepareSingleFileReplaceTscAliasPaths();
+
+        tsAndTsx.forEach((file) => {
+          const { code } = babel.transformFileSync(file, babelOptions);
+          const relativePath = path.relative(src, file).replace('.jsx', '.js');
+          const newContents = runFile({ fileContents: code, filePath: relativePath });
+          writeFile(path.join(dist, relativePath), newContents);
+        });
       } else {
         throw new Error('tsconfig not found');
       }
@@ -98,8 +120,19 @@ module.exports = async function sourceCompile(conf) {
         isomorphic: conf.__isIsomorphic,
         modules: format === 'esm' ? false : 'commonjs',
       });
+      const cachedBabelPlugins = babelOptions.plugins;
+      if (format === 'esm') {
+        babelOptions.plugins = [[require.resolve('babel-plugin-add-import-extension'), { extension: 'mjs' }]];
+      } else if (format === 'cjs') {
+        babelOptions.plugins = [
+          [require.resolve('babel-plugin-add-import-extension'), { extension: 'cjs' }],
+          require.resolve('@babel/plugin-transform-modules-commonjs'),
+        ];
+      }
+      babelOptions.plugins = [...babelOptions.plugins, ...cachedBabelPlugins];
       // eslint-disable-next-line no-console
       console.log('Babel convert: ', jsAndJsx.join('\n'));
+
       jsAndJsx.forEach((file) => {
         const { code } = babel.transformFileSync(file, babelOptions);
         const relativePath = path.relative(src, file).replace('.jsx', '.js');
@@ -109,12 +142,30 @@ module.exports = async function sourceCompile(conf) {
 
     if (isArray(copyFiles) && copyFiles.length > 0) {
       // eslint-disable-next-line no-console
-      console.log('Files will copy: ', copyFiles.join('\n'));
+      console.log('Files will copy:\n');
+      console.log(copyFiles.join('\n'));
+      console.log('\n');
 
       copyFiles.forEach((file) => {
         const filePth = path.relative(path.join(root, opt.src), file);
         const fileDest = path.join(dist, filePth);
         copySync(file, fileDest);
+      });
+    }
+
+    const jsFiles = await getFiles(dist, '*.js');
+    const jsMapFiles = await getFiles(dist, '*.js.map');
+
+    if (Array.isArray(jsFiles) && jsFiles.length > 0) {
+      jsFiles.forEach((file) => {
+        const modified = file.substr(0, file.lastIndexOf('.')) + (format === 'cjs' ? '.cjs' : '.mjs');
+        renameSync(file, modified);
+      });
+    }
+    if (Array.isArray(jsMapFiles) && jsMapFiles.length > 0) {
+      jsMapFiles.forEach((file) => {
+        const modified = file.substr(0, file.lastIndexOf('.js.map')) + (format === 'cjs' ? '.cjs.map' : '.mjs.map');
+        renameSync(file, modified);
       });
     }
     // eslint-disable-next-line no-console

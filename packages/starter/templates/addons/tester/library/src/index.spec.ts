@@ -1,4 +1,4 @@
-import HelloWorld from './index';
+import HelloWorld from './index.js';
 
 const mock = 'Hello world';
 

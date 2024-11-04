@@ -17,12 +17,22 @@ function makeCompilerOptions(root, pth, outDir, format) {
   const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
 
   switch (format) {
+    case 'dts':
+      deepExtend(configFile.config, {
+        compilerOptions: {
+          baseUrl: './',
+          emitDeclarationOnly: true,
+          outDir,
+        },
+      });
+      break;
+
     case moduleFormats.cjs:
       deepExtend(configFile.config, {
         compilerOptions: {
           baseUrl: './',
-          declaration: true,
           module: 'commonjs',
+          moduleResolution: 'node',
           outDir,
         },
       });
@@ -32,10 +42,10 @@ function makeCompilerOptions(root, pth, outDir, format) {
       deepExtend(configFile.config, {
         compilerOptions: {
           baseUrl: './',
-          importHelpers: true,
           module: 'ESNext',
           moduleResolution: 'node',
           outDir,
+          target: 'ESNext',
         },
       });
       break;

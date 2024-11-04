@@ -91,16 +91,33 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: '@types/react-dom', version: '18' },
           ],
         });
+      } else if (appType === 'library') {
+        packageJSON = await addDependencies(packageJSON, {
+          devDependencies: [{ name: 'jest-ts-webcompat-resolver', version: '1' }],
+        });
       }
 
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [{ name: '@rockpack/compiler', version: packageJson.version }],
       });
-
-      packageJSON = addFields(packageJSON, {
-        main: 'dist/index.js',
-        types: 'dist/index.d.ts',
-      });
+      if (appType === 'component') {
+        packageJSON = addFields(packageJSON, {
+          main: 'dist/index.js',
+          types: 'dist/index.d.ts',
+        });
+      } else if (appType === 'library') {
+        packageJSON = addFields(packageJSON, {
+          exports: {
+            '.': {
+              import: './lib/esm/index.mjs',
+              require: './lib/cjs/index.cjs',
+            },
+          },
+          main: './lib/cjs/index.cjs',
+          module: './lib/esm/index.mjs',
+          types: './dist-types/index.d.ts',
+        });
+      }
 
       const production = `${getPM()} run lint && ${
         tester ? `${getPM()} test && ` : ''
