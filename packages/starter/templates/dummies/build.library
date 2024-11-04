@@ -11,8 +11,4 @@ libraryCompiler({
     dist: './lib/esm'
   },
   externals: [],
-}, {}, () => {
-  config.resolve.extensionAlias = {
-    '.js': ['.ts'],
-  };
 });

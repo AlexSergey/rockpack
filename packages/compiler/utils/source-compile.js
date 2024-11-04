@@ -106,9 +106,10 @@ module.exports = async function sourceCompile(conf) {
 
         tsAndTsx.forEach((file) => {
           const { code } = babel.transformFileSync(file, babelOptions);
-          const relativePath = path.relative(src, file).replace('.jsx', '.js');
+          const relativePath = path.relative(src, file);
           const newContents = runFile({ fileContents: code, filePath: relativePath });
-          writeFile(path.join(dist, relativePath), newContents);
+          const outputPath = `${relativePath.substring(0, relativePath.lastIndexOf('.'))}${format === 'esm' ? '.mjs' : '.cjs'}`;
+          writeFile(path.join(dist, outputPath), newContents);
         });
       } else {
         throw new Error('tsconfig not found');
@@ -130,13 +131,16 @@ module.exports = async function sourceCompile(conf) {
         ];
       }
       babelOptions.plugins = [...babelOptions.plugins, ...cachedBabelPlugins];
-      // eslint-disable-next-line no-console
-      console.log('Babel convert: ', jsAndJsx.join('\n'));
+
+      console.log('Babel convert:\n');
+      console.log(jsAndJsx.join('\n'));
+      console.log('\n');
 
       jsAndJsx.forEach((file) => {
         const { code } = babel.transformFileSync(file, babelOptions);
-        const relativePath = path.relative(src, file).replace('.jsx', '.js');
-        writeFile(path.join(dist, relativePath), code);
+        const relativePath = path.relative(src, file);
+        const outputPath = `${relativePath.substring(0, relativePath.lastIndexOf('.'))}${format === 'esm' ? '.mjs' : '.cjs'}`;
+        writeFile(path.join(dist, outputPath), code);
       });
     }
 
