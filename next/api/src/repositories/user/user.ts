@@ -1,6 +1,4 @@
-import { injectable } from 'inversify';
-
-import type { UserRepositoryInterface } from './interface';
+import { Injectable } from 'friendly-di';
 
 import { ROLE_MODEL_NAME, STATISTIC_MODEL_NAME } from '../../constants/models';
 import { BadRequestError, InternalError, SequelizeError } from '../../errors';
@@ -10,8 +8,8 @@ import { StatisticModel } from '../../models/statistic';
 import { StatisticTypeModel } from '../../models/statistic-type';
 import { UserModel } from '../../models/user';
 
-@injectable()
-export class UserRepository implements UserRepositoryInterface {
+@Injectable()
+export class UserRepository {
   getUserByEmail = async (email: string): Promise<UserModel> => {
     const userType = await StatisticTypeModel.findOne({
       where: {

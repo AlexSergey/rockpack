@@ -1,15 +1,7 @@
-import type { CommentServiceInterface } from '../comment';
-
 import { config } from '../../config';
 import { container } from '../../container';
 import { Post, PostModel } from '../../models/post';
 import { UserInterface, UserModel } from '../../models/user';
-import { PostRepositoryDIType, PostRepositoryInterface } from '../../repositories/post';
-import { UserRepositoryDIType, UserRepositoryInterface } from '../../repositories/user';
-import { CommentServiceDIType } from '../comment';
-import { UserServiceDIType, UserServiceInterface } from '../user';
-import { PostServiceDIType } from './di.type';
-import { PostServiceInterface } from './interface';
 
 interface UserFull extends UserInterface {
   Role: {
@@ -36,11 +28,11 @@ let postService;
 let commentService;
 
 beforeAll(async () => {
-  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
-  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
-  userService = container.get<UserServiceInterface>(UserServiceDIType);
-  postService = container.get<PostServiceInterface>(PostServiceDIType);
-  commentService = container.get<CommentServiceInterface>(CommentServiceDIType);
+  userRepository = container.getUserRepository();
+  postRepository = container.getPostRepository();
+  userService = container.getUserService();
+  postService = container.getPostService();
+  commentService = container.getCommentService();
 
   const data = await userService.signup('test_user_for_posts@text.mail', '123456');
   if (data?.user) {

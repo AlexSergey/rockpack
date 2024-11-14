@@ -1,18 +1,13 @@
-import type { UserRepositoryInterface } from '../../repositories/user';
-import type { UserServiceInterface } from './interface';
-
 import { container } from '../../container';
 import { UserModel } from '../../models/user';
-import { UserRepositoryDIType } from '../../repositories/user';
-import { UserServiceDIType } from './di.type';
 
 let newuser;
 let userRepository;
 let userService;
 
 beforeAll(() => {
-  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
-  userService = container.get<UserServiceInterface>(UserServiceDIType);
+  userRepository = container.getUserRepository();
+  userService = container.getUserService();
 });
 
 afterAll(() => UserModel.sequelize.close());

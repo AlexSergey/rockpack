@@ -1,17 +1,13 @@
-import { inject, injectable } from 'inversify';
-
-import type { CommentRepositoryInterface } from '../../repositories/comment';
-import type { CommentServiceInterface } from '../../services/comment';
+import { Injectable } from 'friendly-di';
 
 import { ErrorProxyError } from '../../errors';
-import { CommentRepositoryDIType } from '../../repositories/comment';
-import { CommentServiceDIType } from '../../services/comment';
+import { CommentRepository } from '../../repositories/comment';
+import { CommentService } from '../../services/comment';
 import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-import { CommentControllerInterface } from './interface';
 
-@injectable()
-export class CommentController implements CommentControllerInterface {
+@Injectable()
+export class CommentController {
   create = async (ctx: KoaContext): Promise<void> => {
     const { postId } = ctx.params;
     const { text } = ctx.request.body;
@@ -73,7 +69,7 @@ export class CommentController implements CommentControllerInterface {
   };
 
   constructor(
-    @inject(CommentRepositoryDIType) private repository: CommentRepositoryInterface,
-    @inject(CommentServiceDIType) private service: CommentServiceInterface,
+    private repository: CommentRepository,
+    private service: CommentService,
   ) {}
 }

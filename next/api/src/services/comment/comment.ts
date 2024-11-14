@@ -1,13 +1,11 @@
-import { injectable } from 'inversify';
-
-import type { CommentServiceInterface } from './interface';
+import { Injectable } from 'friendly-di';
 
 import { BadRequestError, CommentNotFoundErrorError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
 import { CommentModel } from '../../models/comment';
 
-@injectable()
-export class CommentService implements CommentServiceInterface {
+@Injectable()
+export class CommentService {
   createComment = async (userId: number, postId: number, text: string): Promise<CommentModel> => {
     if (typeof text === 'undefined' || (typeof text === 'string' && text === '')) {
       throw new BadRequestError();

@@ -1,20 +1,7 @@
-import type { CommentRepositoryInterface } from '../../repositories/comment';
-import type { PostRepositoryInterface } from '../../repositories/post';
-import type { UserRepositoryInterface } from '../../repositories/user';
-import type { PostServiceInterface } from '../post';
-import type { UserServiceInterface } from '../user';
-import type { CommentServiceInterface } from './interface';
-
 import { container } from '../../container';
 import { CommentModel } from '../../models/comment';
 import { PostModel } from '../../models/post';
 import { UserModel } from '../../models/user';
-import { CommentRepositoryDIType } from '../../repositories/comment';
-import { PostRepositoryDIType } from '../../repositories/post';
-import { UserRepositoryDIType } from '../../repositories/user';
-import { PostServiceDIType } from '../post';
-import { UserServiceDIType } from '../user';
-import { CommentServiceDIType } from './di.type';
 
 let newuser;
 let post;
@@ -26,12 +13,12 @@ let postService;
 let commentService;
 
 beforeAll(async () => {
-  userRepository = container.get<UserRepositoryInterface>(UserRepositoryDIType);
-  postRepository = container.get<PostRepositoryInterface>(PostRepositoryDIType);
-  commentRepository = container.get<CommentRepositoryInterface>(CommentRepositoryDIType);
-  userService = container.get<UserServiceInterface>(UserServiceDIType);
-  postService = container.get<PostServiceInterface>(PostServiceDIType);
-  commentService = container.get<CommentServiceInterface>(CommentServiceDIType);
+  userRepository = container.getUserRepository();
+  postRepository = container.getPostRepository();
+  commentRepository = container.getCommentRepository();
+  userService = container.getUserService();
+  postService = container.getPostService();
+  commentService = container.getCommentService();
 
   const data = await userService.signup('test_user_for_comments@text.mail', '123456');
   if (data?.user) {

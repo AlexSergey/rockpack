@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Injectable } from 'friendly-di';
 
 import { BadRequestError, PostNotFoundError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
@@ -6,10 +6,10 @@ import { CommentModel } from '../../models/comment';
 import { ImageModel } from '../../models/image';
 import { ImageTypeModel } from '../../models/image-type';
 import { PostModel } from '../../models/post';
-import { PostData, PostServiceInterface } from './interface';
+import { PostData } from './types';
 
-@injectable()
-export class PostService implements PostServiceInterface {
+@Injectable()
+export class PostService {
   createPost = async (userId: number, { photos, preview, text, title }: PostData): Promise<PostModel> => {
     let post;
 

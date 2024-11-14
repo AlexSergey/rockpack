@@ -1,17 +1,13 @@
-import { inject, injectable } from 'inversify';
-
-import type { UserRepositoryInterface } from '../../repositories/user';
-import type { UserServiceInterface } from '../../services/user';
+import { Injectable } from 'friendly-di';
 
 import { ErrorProxyError } from '../../errors';
-import { UserRepositoryDIType } from '../../repositories/user';
-import { UserServiceDIType } from '../../services/user';
+import { UserRepository } from '../../repositories/user';
+import { UserService } from '../../services/user';
 import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-import { UserControllerInterface } from './interface';
 
-@injectable()
-export class UserController implements UserControllerInterface {
+@Injectable()
+export class UserController {
   authorization = async (ctx: KoaContext): Promise<void> => {
     ctx.body = ok('User is correct', ctx.user.toJSON());
   };
@@ -71,7 +67,7 @@ export class UserController implements UserControllerInterface {
   };
 
   constructor(
-    @inject(UserRepositoryDIType) private repository: UserRepositoryInterface,
-    @inject(UserServiceDIType) private service: UserServiceInterface,
+    private repository: UserRepository,
+    private service: UserService,
   ) {}
 }

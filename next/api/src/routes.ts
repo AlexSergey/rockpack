@@ -1,15 +1,8 @@
 import Router from '@koa/router';
 import Application from 'koa';
 
-import type { CommentControllerInterface } from './controllers/comment';
-import type { PostControllerInterface } from './controllers/post';
-import type { UserControllerInterface } from './controllers/user';
-
 import { config } from './config';
 import { container } from './container';
-import { CommentControllerDIType } from './controllers/comment';
-import { PostControllerDIType } from './controllers/post';
-import { UserControllerDIType } from './controllers/user';
 import { NotFoundError } from './errors';
 import { accessRoute } from './middlewares/access-route';
 import { protectedRoute } from './middlewares/protected-route';
@@ -19,9 +12,9 @@ import { upload } from './middlewares/upload';
 const router = new Router();
 
 export const routes = (app: Application): void => {
-  const userController = container.get<UserControllerInterface>(UserControllerDIType);
-  const postController = container.get<PostControllerInterface>(PostControllerDIType);
-  const commentController = container.get<CommentControllerInterface>(CommentControllerDIType);
+  const userController = container.getUserController();
+  const postController = container.getPostController();
+  const commentController = container.getCommentController();
 
   router.post('/v1/users/signup', userController.signup);
   router.post('/v1/users/signin', userController.signin);

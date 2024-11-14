@@ -1,37 +1,66 @@
-import { Container } from 'inversify';
+import { Container, Injectable } from 'friendly-di';
 
-import type { CommentControllerInterface } from './controllers/comment';
-import type { PostControllerInterface } from './controllers/post';
-import type { UserControllerInterface } from './controllers/user';
-import type { CommentRepositoryInterface } from './repositories/comment';
-import type { PostRepositoryInterface } from './repositories/post';
-import type { UserRepositoryInterface } from './repositories/user';
-import type { CommentServiceInterface } from './services/comment';
-import type { PostServiceInterface } from './services/post';
-import type { UserServiceInterface } from './services/user';
+import { CommentController } from './controllers/comment';
+import { PostController } from './controllers/post';
+import { UserController } from './controllers/user';
+import { CommentRepository } from './repositories/comment';
+import { PostRepository } from './repositories/post';
+import { UserRepository } from './repositories/user';
+import { CommentService } from './services/comment';
+import { PostService } from './services/post';
+import { UserService } from './services/user';
 
-import { CommentController, CommentControllerDIType } from './controllers/comment';
-import { PostController, PostControllerDIType } from './controllers/post';
-import { UserController, UserControllerDIType } from './controllers/user';
-import { CommentRepository, CommentRepositoryDIType } from './repositories/comment';
-import { PostRepository, PostRepositoryDIType } from './repositories/post';
-import { UserRepository, UserRepositoryDIType } from './repositories/user';
-import { CommentService, CommentServiceDIType } from './services/comment';
-import { PostService, PostServiceDIType } from './services/post';
-import { UserService, UserServiceDIType } from './services/user';
+@Injectable()
+class CompositionRoot {
+  constructor(
+    private userService: UserService,
+    private postService: PostService,
+    private commentService: CommentService,
+    private userRepository: UserRepository,
+    private postRepository: PostRepository,
+    private commentRepository: CommentRepository,
+    private userController: UserController,
+    private postController: PostController,
+    private commentController: CommentController,
+  ) {}
 
-const container = new Container();
+  getCommentController(): CommentController {
+    return this.commentController;
+  }
 
-container.bind<CommentRepositoryInterface>(CommentRepositoryDIType).to(CommentRepository);
-container.bind<PostRepositoryInterface>(PostRepositoryDIType).to(PostRepository);
-container.bind<UserRepositoryInterface>(UserRepositoryDIType).to(UserRepository);
+  getCommentRepository(): CommentRepository {
+    return this.commentRepository;
+  }
 
-container.bind<CommentServiceInterface>(CommentServiceDIType).to(CommentService);
-container.bind<PostServiceInterface>(PostServiceDIType).to(PostService);
-container.bind<UserServiceInterface>(UserServiceDIType).to(UserService);
+  getCommentService(): CommentService {
+    return this.commentService;
+  }
 
-container.bind<CommentControllerInterface>(CommentControllerDIType).to(CommentController);
-container.bind<PostControllerInterface>(PostControllerDIType).to(PostController);
-container.bind<UserControllerInterface>(UserControllerDIType).to(UserController);
+  getPostController(): PostController {
+    return this.postController;
+  }
+
+  getPostRepository(): PostRepository {
+    return this.postRepository;
+  }
+
+  getPostService(): PostService {
+    return this.postService;
+  }
+
+  getUserController(): UserController {
+    return this.userController;
+  }
+
+  getUserRepository(): UserRepository {
+    return this.userRepository;
+  }
+
+  getUserService(): UserService {
+    return this.userService;
+  }
+}
+
+const container = new Container(CompositionRoot).compile();
 
 export { container };

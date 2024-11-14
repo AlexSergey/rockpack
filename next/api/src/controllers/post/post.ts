@@ -1,19 +1,15 @@
-import { inject, injectable } from 'inversify';
-
-import type { PostRepositoryInterface } from '../../repositories/post';
-import type { PostServiceInterface } from '../../services/post';
+import { Injectable } from 'friendly-di';
 
 import { config } from '../../config';
 import { ErrorProxyError, SequelizeError } from '../../errors';
 import { logger } from '../../logger';
-import { PostRepositoryDIType } from '../../repositories/post';
-import { PostServiceDIType } from '../../services/post';
+import { PostRepository } from '../../repositories/post';
+import { PostService } from '../../services/post';
 import { KoaContext } from '../../types/koa.context';
 import { ok } from '../../utils/response';
-import { PostControllerInterface } from './interface';
 
-@injectable()
-export class PostController implements PostControllerInterface {
+@Injectable()
+export class PostController {
   create = async (ctx: KoaContext): Promise<void> => {
     const userId = Number(ctx.user.get('id'));
     const { text, title } = ctx.request.body;
@@ -90,7 +86,7 @@ export class PostController implements PostControllerInterface {
   };
 
   constructor(
-    @inject(PostRepositoryDIType) private repository: PostRepositoryInterface,
-    @inject(PostServiceDIType) private service: PostServiceInterface,
+    private repository: PostRepository,
+    private service: PostService,
   ) {}
 }
