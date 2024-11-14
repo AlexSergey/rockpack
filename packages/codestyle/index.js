@@ -56,8 +56,6 @@ const ignores = [
 const tsFiles = ['**/*.{ts,tsx}'];
 
 module.exports.makeConfig = () => {
-  const mode = getMode(['development', 'production'], 'production');
-  const isDevelopment = mode === 'development';
   const root = process.cwd();
 
   const packageJsonPath = path.resolve(root, 'package.json');
@@ -109,7 +107,7 @@ module.exports.makeConfig = () => {
       unicorn: eslintPluginUnicorn,
     },
     rules: {
-      '@typescript-eslint/ban-ts-comment': isDevelopment ? 'off' : 'error',
+      '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/naming-convention': [
@@ -133,16 +131,14 @@ module.exports.makeConfig = () => {
           allowSingleExtends: true,
         },
       ],
-      '@typescript-eslint/no-unused-vars': isDevelopment
-        ? 'off'
-        : [
-            'error',
-            {
-              args: 'after-used',
-              ignoreRestSiblings: false,
-              vars: 'all',
-            },
-          ],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'after-used',
+          ignoreRestSiblings: false,
+          vars: 'all',
+        },
+      ],
       '@typescript-eslint/return-await': 'off',
 
       camelcase: ['error', { properties: 'always' }],
@@ -165,10 +161,10 @@ module.exports.makeConfig = () => {
 
       'class-methods-use-this': 'off',
       'newline-before-return': 'error',
-      'no-alert': isDevelopment ? 'off' : 'error',
+      'no-alert': 'error',
       'no-await-in-loop': 'off',
-      'no-console': isDevelopment ? 'off' : 'error',
-      'no-debugger': isDevelopment ? 'off' : 'error',
+      'no-console': 'error',
+      'no-debugger': 'error',
       'no-param-reassign': 'off',
       'no-plusplus': 'off',
       'no-return-await': 'off',

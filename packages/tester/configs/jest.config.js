@@ -8,19 +8,11 @@ const rootFolder = path.resolve(__dirname, '..');
 
 const currentProjectFolder = getRootRequireDir();
 
-let tsConfig = path.resolve(__dirname, 'tsconfig.json');
-
 let jestConfig = {};
 
 if (existsSync(path.resolve(currentProjectFolder, './jest.extend.js'))) {
   // eslint-disable-next-line global-require
   jestConfig = require(path.resolve(currentProjectFolder, './jest.extend.js'));
-}
-
-if (existsSync(path.resolve(currentProjectFolder, './tsconfig.js'))) {
-  tsConfig = path.resolve(currentProjectFolder, './tsconfig.js');
-} else if (existsSync(path.resolve(currentProjectFolder, './tsconfig.json'))) {
-  tsConfig = path.resolve(currentProjectFolder, './tsconfig.json');
 }
 
 const setupFiles = [];
@@ -56,12 +48,6 @@ const root = getRootRequireDir();
 
 module.exports = {
   displayName: `${name}`,
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-      tsConfig,
-    },
-  },
   globalSetup,
   globalTeardown,
   moduleDirectories: [path.resolve(root, 'node_modules'), 'node_modules'],

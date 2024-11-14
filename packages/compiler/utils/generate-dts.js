@@ -46,7 +46,7 @@ module.exports = async function generateDts(conf, root) {
 
     if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
       if (existsSync(tsConfig)) {
-        const compilerOptions = makeCompilerOptions(root, tsConfig, path.join(root, 'dist-types'), 'dts');
+        const compilerOptions = makeCompilerOptions(root, tsConfig, path.join(root, conf.distContext, 'types'), 'dts');
         const host = ts.createCompilerHost(compilerOptions.options);
         const program = ts.createProgram(tsAndTsx, compilerOptions.options, host);
         ts.createTypeChecker(program, true);

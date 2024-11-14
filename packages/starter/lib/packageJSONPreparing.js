@@ -91,10 +91,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: '@types/react-dom', version: '18' },
           ],
         });
-      } else if (appType === 'library') {
-        packageJSON = await addDependencies(packageJSON, {
-          devDependencies: [{ name: 'jest-ts-webcompat-resolver', version: '1' }],
-        });
       }
 
       packageJSON = await addDependencies(packageJSON, {
@@ -115,7 +111,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           },
           main: './lib/cjs/index.cjs',
           module: './lib/esm/index.mjs',
-          types: './dist-types/index.d.ts',
+          types: './dist/types/index.d.ts',
         });
       }
 

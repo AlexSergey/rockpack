@@ -48,6 +48,20 @@ node tests.js --watch
 
 **Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
+## Tricks
+
+If you need override *testEnvironment* configuration from JSDom (React App) to Node, you should:
+
+1. Create "jest.extend.js" file in the root of the project
+
+2. Put the code inside:
+
+```js
+module.exports = {
+  testEnvironment: 'node',
+};
+```
+
 ## The MIT License
 
 <a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>
