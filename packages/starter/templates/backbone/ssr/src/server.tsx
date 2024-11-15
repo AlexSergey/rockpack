@@ -14,7 +14,6 @@ import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'r
 import serialize from 'serialize-javascript';
 
 import { routes } from './routes';
-import { createServices } from './services';
 import { createStore } from './store';
 import './types/global.declaration';
 import { isDevelopment } from './utils/environments';
@@ -95,10 +94,7 @@ router.get(/.*/, async (ctx: Context) => {
   const fetchRequest = createFetchRequest(ctx, ctx.request);
   const context = await query(fetchRequest);
 
-  const store = createStore({
-    initialState: {},
-    services: createServices(fetch),
-  });
+  const store = createStore();
 
   const extractor = new ChunkExtractor({
     entrypoints: ['index'],

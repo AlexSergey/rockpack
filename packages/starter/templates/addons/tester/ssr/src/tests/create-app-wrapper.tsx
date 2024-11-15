@@ -4,14 +4,13 @@ import { Provider } from 'react-redux';
 import { createMemoryRouter } from 'react-router';
 import { RouterProvider } from 'react-router-dom';
 
-import { createStore } from '../store';
-import { createMockServices } from './mock-services';
+import { AppState, createStore } from '../store';
 
 export const createAppWrapper = ({
-  initialState = {},
+  initialState,
   url = '/',
 }: {
-  initialState?: Record<string, unknown>;
+  initialState?: AppState;
   url?: string;
 } = {}): (({ children }: { children: ReactNode }) => ReactNode) => {
   const SSR = createSsr(
@@ -23,7 +22,6 @@ export const createAppWrapper = ({
 
   const store = createStore({
     initialState,
-    services: createMockServices(),
   });
 
   // eslint-disable-next-line react/display-name

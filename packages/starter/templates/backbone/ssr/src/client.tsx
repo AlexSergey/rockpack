@@ -7,13 +7,12 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { routes } from './routes';
-import { createServices } from './services';
-import { createStore } from './store';
+import { AppState, createStore } from './store';
 import './types/global.declaration';
 
 declare global {
   interface Window {
-    REDUX_DATA: Record<string, unknown>;
+    REDUX_DATA: AppState;
   }
 }
 
@@ -21,8 +20,8 @@ const SSR = createSsr();
 
 const store = createStore({
   initialState: window.REDUX_DATA,
-  services: createServices(fetch),
 });
+
 const router = createBrowserRouter(routes);
 
 loadableReady(() => {

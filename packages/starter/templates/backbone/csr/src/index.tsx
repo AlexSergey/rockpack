@@ -5,15 +5,12 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { routes } from './routes';
-import { createServices } from './services';
 import { createStore } from './store';
 import './types/global.declaration';
 
 const router = createBrowserRouter(routes);
 
-const store = createStore({
-  services: createServices(fetch),
-});
+const store = createStore();
 
 const container = document.getElementById('root');
 

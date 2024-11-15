@@ -1,27 +1,24 @@
-import { combineReducers, configureStore, Store } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, EnhancedStore, ThunkDispatch } from '@reduxjs/toolkit';
+import { Action } from 'redux';
 
-import { imageReducer } from './features/image';
-import { RootState, StoreProps } from './types/store';
+import { imageReducer } from './features/image/image.slice';
 import { isDevelopment } from './utils/environments';
 
 const rootReducer = combineReducers({
   image: imageReducer,
 });
 
-export const createStore = ({ initialState, services }: StoreProps): Store<RootState> => {
-  return configureStore({
+export type AppState = ReturnType<typeof rootReducer>;
+export type Dispatcher = ThunkDispatch<AppState, void, Action>;
+
+export const createStore = (props?: { initialState?: AppState | undefined }): EnhancedStore<AppState> =>
+  configureStore({
     devTools: isDevelopment(),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         immutableCheck: true,
         serializableCheck: false,
-        thunk: {
-          extraArgument: {
-            services,
-          },
-        },
       }),
-    preloadedState: initialState || {},
+    preloadedState: props?.initialState || {},
     reducer: rootReducer,
   });
-};

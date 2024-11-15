@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 import { Image } from '../../../../components/image';
-import { useImage } from '../../hooks';
+import { useImage } from '../../image.hooks';
 import styles from './styles.module.scss';
 
 export const ImageArea = (): ReactElement => {

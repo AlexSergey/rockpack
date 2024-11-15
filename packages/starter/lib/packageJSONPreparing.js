@@ -8,6 +8,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     case 'csr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
+          { name: 'axios', version: '1' },
           { name: 'react', version: '18' },
           { name: 'redux-thunk', version: '3' },
           { name: 'react-dom', version: '18' },
@@ -29,6 +30,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     case 'ssr':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
+          { name: 'axios', version: '1' },
           { name: 'koa', version: '2' },
           { name: 'koa-compress', version: '5' },
           { name: 'koa-static', version: '5' },
@@ -196,8 +198,18 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     });
 
     packageJSON = await addDependencies(packageJSON, {
-      devDependencies: [{ name: '@rockpack/tester', version: packageJson.version }],
+      devDependencies: [
+        { name: '@rockpack/tester', version: packageJson.version },
+        { name: '@types/jest', version: '29' },
+        { name: 'chalk', version: '4' },
+      ],
     });
+
+    if (appType === 'csr' || appType === 'ssr') {
+      packageJSON = await addDependencies(packageJSON, {
+        devDependencies: [{ name: 'axios-mock-adapter', version: '2' }],
+      });
+    }
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'pure') {
       packageJSON = await addDependencies(packageJSON, {
