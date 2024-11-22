@@ -13,11 +13,11 @@ const writeFile = util.promisify(fs.writeFile);
 const resizeFile = (
   filePath: string,
   resize:
+    | number
     | {
         height?: number;
         width?: number;
-      }
-    | number,
+      },
 ): Promise<Buffer> =>
   new Promise((resolve, reject) => {
     sharp(filePath)
@@ -30,11 +30,11 @@ const resizeFile = (
 interface ResizeImage {
   name: string;
   resize?:
+    | number
     | {
         height?: number;
         width?: number;
-      }
-    | number;
+      };
 }
 
 export const resizeImage =

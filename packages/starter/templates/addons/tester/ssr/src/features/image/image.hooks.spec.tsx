@@ -9,7 +9,7 @@ const mock = new AxiosMockAdapter(axios);
 
 mock.onGet('https://picsum.photos/id/0/info').reply(200, {
   author: 'Alejandro Escamilla',
-  download_url: 'https://picsum.photos/id/0/5616/37424',
+  download_url: 'https://picsum.photos/id/0/5616/3744',
 
   height: 3744,
   id: '0',

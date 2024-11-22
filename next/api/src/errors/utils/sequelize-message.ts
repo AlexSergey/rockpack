@@ -9,11 +9,17 @@ export const sequelizeMessage = (e: any): ValidationMessage => {
       let message;
       // eslint-disable-next-line default-case
       switch (error.validatorKey) {
-        case 'isEmail':
-          message = 'Please enter a valid email';
+        case 'is_null':
+          message = `Please complete "${error.path}" field`;
           break;
         case 'isDate':
           message = 'Please enter a valid date';
+          break;
+        case 'isEmail':
+          message = 'Please enter a valid email';
+          break;
+        case 'isInt':
+          message = `Field "${error.path}" is required a number`;
           break;
         case 'len':
           if (error.validatorArgs[0] === error.validatorArgs[1]) {
@@ -22,17 +28,11 @@ export const sequelizeMessage = (e: any): ValidationMessage => {
             message = `Use between ${error.validatorArgs[0]} and ${error.validatorArgs[1]} characters`;
           }
           break;
-        case 'min':
-          message = `Field "${error.path}" is required a number greater or equal to ${error.validatorArgs[0]}`;
-          break;
         case 'max':
           message = `Field "${error.path}" is required a number less or equal to ${error.validatorArgs[0]}`;
           break;
-        case 'isInt':
-          message = `Field "${error.path}" is required a number`;
-          break;
-        case 'is_null':
-          message = `Please complete "${error.path}" field`;
+        case 'min':
+          message = `Field "${error.path}" is required a number greater or equal to ${error.validatorArgs[0]}`;
           break;
         case 'not_unique':
           message = `${error.value} is taken. Please choose another one`;

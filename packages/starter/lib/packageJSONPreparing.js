@@ -202,6 +202,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         { name: '@rockpack/tester', version: packageJson.version },
         { name: '@types/jest', version: '29' },
         { name: 'chalk', version: '4' },
+        { name: 'source-map', version: '0.8.0-beta.0' },
       ],
     });
 

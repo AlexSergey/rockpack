@@ -2,11 +2,11 @@ import { config } from '../../config';
 import { Comment } from '../../types/comments';
 import { Rest } from '../../utils/rest';
 
-export interface CommentsRes {
-  data: Comment[];
-}
 export interface CommentRes {
   data: { id: number };
+}
+export interface CommentsRes {
+  data: Comment[];
 }
 
 export interface CommentsService {

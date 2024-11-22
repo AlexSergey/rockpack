@@ -3,6 +3,13 @@ import { container } from '../../container';
 import { Post, PostModel } from '../../models/post';
 import { UserInterface, UserModel } from '../../models/user';
 
+interface PostDetails extends Post {
+  Statistic: {
+    comments: number;
+  };
+  User: UserFull;
+}
+
 interface UserFull extends UserInterface {
   Role: {
     role: string;
@@ -11,13 +18,6 @@ interface UserFull extends UserInterface {
     comments: number;
     posts: number;
   };
-}
-
-interface PostDetails extends Post {
-  Statistic: {
-    comments: number;
-  };
-  User: UserFull;
 }
 
 let newuser;

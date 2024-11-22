@@ -2,15 +2,6 @@ import { config } from '../../config';
 import { User } from '../../types/user';
 import { Rest } from '../../utils/rest';
 
-interface UserData extends Record<string, string> {
-  email: string;
-  password: string;
-}
-
-interface UserRes {
-  data: User;
-}
-
 export interface UserService {
   authorization: () => Promise<UserRes>;
 
@@ -19,6 +10,15 @@ export interface UserService {
   signOut: () => Promise<void>;
 
   signUp: (user: UserData) => Promise<UserRes>;
+}
+
+interface UserData extends Record<string, string> {
+  email: string;
+  password: string;
+}
+
+interface UserRes {
+  data: User;
 }
 
 export const userService = (rest: Rest): UserService => ({

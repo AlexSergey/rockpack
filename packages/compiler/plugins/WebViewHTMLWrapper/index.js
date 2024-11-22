@@ -3,10 +3,6 @@ const fs = require('node:fs');
 
 const wrapper = (html) => `module.exports = ${JSON.stringify(html)};`;
 
-function createWebView(html) {
-  fs.writeFileSync(this.options.dist, wrapper(html));
-}
-
 class WebViewHTMLWrapper {
   constructor(props) {
     this.options = props;
@@ -30,6 +26,10 @@ class WebViewHTMLWrapper {
       callback();
     });
   }
+}
+
+function createWebView(html) {
+  fs.writeFileSync(this.options.dist, wrapper(html));
 }
 
 module.exports = WebViewHTMLWrapper;

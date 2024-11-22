@@ -1,10 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import axios from 'axios';
+import AxiosMockAdapter from 'axios-mock-adapter';
 
 import { createAppWrapper } from '../../tests/create-app-wrapper';
 import { useImage } from './image.hooks';
-
-import AxiosMockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
 
 const mock = new AxiosMockAdapter(axios);
 

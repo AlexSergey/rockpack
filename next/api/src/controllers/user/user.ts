@@ -8,6 +8,11 @@ import { ok } from '../../utils/response';
 
 @Injectable()
 export class UserController {
+  constructor(
+    private repository: UserRepository,
+    private service: UserService,
+  ) {}
+
   authorization = async (ctx: KoaContext): Promise<void> => {
     ctx.body = ok('User is correct', ctx.user.toJSON());
   };
@@ -65,9 +70,4 @@ export class UserController {
       throw new ErrorProxyError(e);
     }
   };
-
-  constructor(
-    private repository: UserRepository,
-    private service: UserService,
-  ) {}
 }

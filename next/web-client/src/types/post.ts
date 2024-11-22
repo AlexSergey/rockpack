@@ -5,10 +5,6 @@ export interface Photo {
   uri: string;
 }
 
-export interface PostStatistic {
-  comments: number;
-}
-
 export interface Post {
   createdAt: string;
   id: number;
@@ -24,4 +20,8 @@ export interface PostState {
   data: Post;
   error: boolean;
   loading: boolean;
+}
+
+export interface PostStatistic {
+  comments: number;
 }

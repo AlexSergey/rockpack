@@ -11,19 +11,7 @@ import { PostsState } from './posts';
 import { User } from './user';
 import { IUsersState } from './users';
 
-export interface ThunkExtras {
-  history: History;
-  logger: LoggerInterface;
-  services: Services;
-}
-
 export type Dispatcher = ThunkDispatch<RootState, ThunkExtras, Action>;
-
-export interface StoreProps extends ThunkExtras {
-  history: History;
-  initialState?: Record<string, unknown>;
-  testMode?: boolean;
-}
 
 export interface RootState {
   comments: CommentsState;
@@ -36,4 +24,16 @@ export interface RootState {
   posts: PostsState;
   user: User;
   users: IUsersState;
+}
+
+export interface StoreProps extends ThunkExtras {
+  history: History;
+  initialState?: Record<string, unknown>;
+  testMode?: boolean;
+}
+
+export interface ThunkExtras {
+  history: History;
+  logger: LoggerInterface;
+  services: Services;
 }

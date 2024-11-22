@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch from 'node-fetch';
 
-type IOpts = Record<string, unknown>;
-
 export interface Rest {
   delete: (url: string) => Promise<any>;
   get: (url: string) => Promise<any>;
@@ -10,7 +8,9 @@ export interface Rest {
   put: (url: string, body?: FormData | IOpts, options?: IOpts) => Promise<any>;
 }
 
-const commonHeaders = (token: string): { Authorization: string } | Record<string, never> => {
+type IOpts = Record<string, unknown>;
+
+const commonHeaders = (token: string): Record<string, never> | { Authorization: string } => {
   if (token) {
     return {
       Authorization: token,

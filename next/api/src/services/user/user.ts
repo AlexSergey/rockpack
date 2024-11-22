@@ -16,6 +16,8 @@ import { createToken } from '../../utils/auth';
 
 @Injectable()
 export class UserService {
+  constructor(private repository: UserRepository) {}
+
   deleteUser = async (id: number): Promise<void> => {
     const user = await UserModel.destroy({
       individualHooks: true,
@@ -89,6 +91,4 @@ export class UserService {
       throw new SequelizeError(e);
     }
   };
-
-  constructor(private repository: UserRepository) {}
 }

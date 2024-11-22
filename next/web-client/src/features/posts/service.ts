@@ -2,12 +2,12 @@ import { config } from '../../config';
 import { Post } from '../../types/posts';
 import { Rest } from '../../utils/rest';
 
-export interface PostsRes {
-  data: { count: number; posts: Post[] };
-}
-
 export interface DeletePostRes {
   data: { deleteComments: number[] };
+}
+
+export interface PostsRes {
+  data: { count: number; posts: Post[] };
 }
 
 export interface PostsService {

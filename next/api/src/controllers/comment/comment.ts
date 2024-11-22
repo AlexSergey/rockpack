@@ -8,6 +8,11 @@ import { ok } from '../../utils/response';
 
 @Injectable()
 export class CommentController {
+  constructor(
+    private repository: CommentRepository,
+    private service: CommentService,
+  ) {}
+
   create = async (ctx: KoaContext): Promise<void> => {
     const { postId } = ctx.params;
     const { text } = ctx.request.body;
@@ -67,9 +72,4 @@ export class CommentController {
       throw new ErrorProxyError(e);
     }
   };
-
-  constructor(
-    private repository: CommentRepository,
-    private service: CommentService,
-  ) {}
 }

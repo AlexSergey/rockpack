@@ -7,14 +7,14 @@ import { usePostApi } from '../../../features/post';
 
 const Wysiwyg = loadable(() => import('../../../components/wysiwyg'));
 
+interface Store {
+  title: string;
+}
+
 interface UpdateMode {
   onFinish: () => void;
   postId: number;
   text: string;
-  title: string;
-}
-
-interface Store {
   title: string;
 }
 

@@ -10,6 +10,11 @@ import { ok } from '../../utils/response';
 
 @Injectable()
 export class PostController {
+  constructor(
+    private repository: PostRepository,
+    private service: PostService,
+  ) {}
+
   create = async (ctx: KoaContext): Promise<void> => {
     const userId = Number(ctx.user.get('id'));
     const { text, title } = ctx.request.body;
@@ -84,9 +89,4 @@ export class PostController {
       throw new SequelizeError(e);
     }
   };
-
-  constructor(
-    private repository: PostRepository,
-    private service: PostService,
-  ) {}
 }

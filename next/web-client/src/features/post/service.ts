@@ -2,11 +2,6 @@ import { config } from '../../config';
 import { Post } from '../../types/post';
 import { Rest } from '../../utils/rest';
 
-interface PostData extends Record<string, string> {
-  text: string;
-  title: string;
-}
-
 export interface PostRes {
   data: Post;
 }
@@ -15,6 +10,11 @@ export interface PostService {
   fetchPost: (postId: number) => Promise<PostRes>;
 
   updatePost: (postId: number, post: PostData) => Promise<void>;
+}
+
+interface PostData extends Record<string, string> {
+  text: string;
+  title: string;
 }
 
 export const postService = (rest: Rest): PostService => ({
