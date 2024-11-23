@@ -32,7 +32,7 @@
     "@koa/cors": "3.1.0",
     "@koa/multer": "3.0.0",
     "@koa/router": "10.0.0",
-    "bcrypt": "5.0.0",
+    "bcrypt": "5.1.1",
     "debug": "4.3.1",
     "dotenv-safe": "8.2.0",
     "jsonwebtoken": "8.5.1",
