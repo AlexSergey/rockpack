@@ -7,7 +7,7 @@ import { useCommentsApi } from '../../../../features/comments';
 import { Access, Owner, useUser } from '../../../../features/user';
 import { Roles, User } from '../../../../types/user';
 import { dateFormatter } from '../../../../utils/date-format';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 interface Comment {
   createdAt: string;

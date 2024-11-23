@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 export const Navigation = (): ReactElement => (
   <div className={styles['nav-holder']}>

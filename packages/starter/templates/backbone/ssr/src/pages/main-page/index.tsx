@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { Outlet } from 'react-router';
 
 import { Navigation } from './components/navigation';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 export const MainPage = (): ReactElement => (
   <div>

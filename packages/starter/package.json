@@ -1,22 +1,8 @@
 {
   "name": "@rockpack/starter",
   "version": "5.0.0-next.5",
-  "main": "lib/index.js",
-  "type": "module",
+  "private": false,
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexSergey/rockpack.git"
-  },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
-  "license": "MIT",
-  "homepage": "https://alexsergey.github.io/rockpack/",
-  "bugs": {
-    "url": "https://github.com/AlexSergey/rockpack/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "keywords": [
     "bundler",
     "ssr",
@@ -24,29 +10,43 @@
     "react boilerplate",
     "react starter"
   ],
+  "homepage": "https://alexsergey.github.io/rockpack/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rockpack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
+  },
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "type": "module",
+  "main": "lib/index.js",
   "bin": {
     "rockpack": "./bin/index.js"
   },
   "scripts": {
-    "lint": "eslint .",
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
     "production": "npm publish --access public"
   },
-  "private": false,
   "dependencies": {
     "@rockpack/codestyle": "5.0.0-next.5",
     "@rockpack/utils": "5.0.0-next.5",
     "chalk": "5.3.0",
-    "inquirer": "9.3.7",
+    "inquirer": "12.1.0",
     "latest-version": "9.0.0",
     "merge-package-json": "0.1.3",
     "ncp": "2.0.0",
-    "recursive-copy": "2.0.14",
-    "ora": "7.0.1",
+    "ora": "8.1.1",
     "pascal-case": "4.0.0",
+    "recursive-copy": "2.0.14",
     "semver": "7.6.3",
-    "sort-package-json": "2.10.1",
+    "sort-package-json": "2.12.0",
     "yargs": "17.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

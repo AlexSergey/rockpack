@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 
 import { config } from '../../../config';
 import { usePagination, usePaginationApi } from '../../../features/posts';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 export const PostsPagination = (): ReactElement => {
   const { setCurrent } = usePaginationApi();

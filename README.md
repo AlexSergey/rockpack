@@ -2,6 +2,9 @@
   <img alt="Rockpack" src="https://www.natrube.net/rockpack/readme_assets/rockpack_logo.png">
 </p>
 
+[![Version](https://img.shields.io/npm/v/@rockpack/starter.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
+[![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
+
 **Rockpack** is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing.
 
 **Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.

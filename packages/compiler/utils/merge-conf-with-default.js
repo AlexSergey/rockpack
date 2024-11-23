@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+const ansiColors = require('ansi-colors');
 const deepExtend = require('deep-extend');
 const path = require('node:path');
 
@@ -18,8 +18,7 @@ const mergeConfWithDefault = async (conf, mode) => {
       c.distContext = path.dirname(defaultProps.dist);
     }
 
-    // eslint-disable-next-line no-console
-    console.log(`The distribution folder will be ${chalk.green(c.dist)}`);
+    console.log(`The distribution folder will be ${ansiColors.green(c.dist)}`);
   } else {
     c.distContext = path.dirname(c.dist);
   }

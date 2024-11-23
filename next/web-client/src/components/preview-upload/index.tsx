@@ -5,7 +5,7 @@ import { ReactElement, useState } from 'react';
 
 import { config } from '../../config';
 import { getBase64 } from '../../utils/file';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 export const PreviewUpload = ({
   onChange,

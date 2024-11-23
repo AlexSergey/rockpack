@@ -12,7 +12,7 @@ import { Roles } from '../../types/user';
 import { AddComment } from './add-comment';
 import { Comments } from './comments';
 import { Images } from './images';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 import { UpdateMode } from './update-mode';
 
 interface PathParamsType extends Record<string, string> {

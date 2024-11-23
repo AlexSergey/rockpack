@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 
 import { useCommentsApi } from '../../../features/comments';
 import { useUser } from '../../../features/user';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 interface AddComment {
   postId: number;

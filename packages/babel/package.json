@@ -1,41 +1,41 @@
 {
   "name": "@rockpack/babel",
   "version": "5.0.0-next.5",
+  "private": false,
   "description": "Babel presets module for Rockpack",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "production": "npm run lint && npm publish --access public"
+  "keywords": [
+    "babel",
+    "babel-presets"
+  ],
+  "homepage": "https://alexsergey.github.io/rockpack/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rockpack/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlexSergey/rockpack.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
-  "homepage": "https://alexsergey.github.io/rockpack/",
-  "bugs": {
-    "url": "https://github.com/AlexSergey/rockpack/issues"
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
+    "production": "npm run lint && npm publish --access public"
   },
-  "keywords": [
-    "babel",
-    "babel-presets"
-  ],
-  "private": false,
   "dependencies": {
-    "@babel/core": "7.25.9",
-    "@babel/generator": "7.25.9",
-    "@babel/parser": "7.25.9",
+    "@babel/core": "7.26.0",
+    "@babel/generator": "7.26.2",
+    "@babel/parser": "7.26.2",
     "@babel/plugin-proposal-decorators": "7.25.9",
     "@babel/plugin-proposal-do-expressions": "7.25.9",
     "@babel/plugin-proposal-pipeline-operator": "7.25.9",
     "@babel/plugin-transform-modules-commonjs": "7.25.9",
     "@babel/plugin-transform-react-constant-elements": "7.25.9",
-    "@babel/preset-env": "7.25.9",
+    "@babel/preset-env": "7.26.0",
     "@babel/preset-react": "7.25.9",
-    "@babel/preset-typescript": "7.25.9",
+    "@babel/preset-typescript": "7.26.0",
     "@babel/traverse": "7.25.9",
     "@loadable/babel-plugin": "5.16.1",
     "@rockpack/utils": "5.0.0-next.5",

@@ -1,31 +1,31 @@
 {
   "name": "@rockpack/tester",
   "version": "5.0.0-next.5",
+  "private": false,
   "description": "Small wrapper for Jest and testing best practice.",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "production": "npm run lint && npm publish --access public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexSergey/rockpack.git"
-  },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
-  "license": "MIT",
-  "homepage": "https://alexsergey.github.io/rockpack/",
-  "bugs": {
-    "url": "https://github.com/AlexSergey/rockpack/issues"
-  },
   "keywords": [
     "jest",
     "testing-library",
     "react",
     "react-testing"
   ],
-  "private": false,
+  "homepage": "https://alexsergey.github.io/rockpack/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rockpack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexSergey/rockpack.git"
+  },
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
+    "production": "npm run lint && npm publish --access public"
+  },
   "dependencies": {
     "@adobe/css-tools": "4.4.0",
     "@rockpack/babel": "5.0.0-next.5",
@@ -34,11 +34,11 @@
     "deep-extend": "0.6.0",
     "identity-obj-proxy": "3.0.0",
     "isomorphic-fetch": "3.0.0",
-    "source-map": "0.8.0-beta.0",
     "jest": "29.7.0",
-    "jest-html-reporters": "3.1.7",
     "jest-environment-jsdom": "29.7.0",
+    "jest-html-reporters": "3.1.7",
     "pretty-format": "29.7.0",
+    "source-map": "0.8.0-beta.0",
     "typescript": "5.6.3",
     "valid-types": "2.0.5",
     "yargs": "17.7.2",
@@ -46,6 +46,6 @@
   },
   "devDependencies": {
     "@rockpack/codestyle": "5.0.0-next.5",
-    "@types/jest": "29.5.1"
+    "@types/jest": "29.5.14"
   }
 }

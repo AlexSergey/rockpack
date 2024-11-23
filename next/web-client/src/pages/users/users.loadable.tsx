@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { Access, NotOwner } from '../../features/user';
 import { useUsers, useUsersApi } from '../../features/users';
 import { Roles } from '../../types/user';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 const Users = (): ReactElement => {
   const users = useUsers();

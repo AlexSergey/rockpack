@@ -3,7 +3,7 @@ import { ReactElement, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
 import { config } from '../../../config';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 export const Images = ({ images }: { images: { thumbnail: string; uri: string }[] }): ReactElement => {
   const [full, setFull] = useState<false | string>(false);

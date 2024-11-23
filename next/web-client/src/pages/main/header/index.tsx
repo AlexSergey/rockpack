@@ -12,7 +12,7 @@ import { Logo } from './logo';
 import { Signin } from './signin';
 import { Signout } from './signout';
 import { Signup } from './signup';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 import { User } from './user';
 import { UserStatistic } from './user-statistic';
 

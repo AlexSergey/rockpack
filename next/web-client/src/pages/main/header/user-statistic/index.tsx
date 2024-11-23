@@ -2,7 +2,7 @@ import Localization, { l } from '@localazer/component';
 import { ReactElement } from 'react';
 
 import { useUserStatistic } from '../../../../features/user';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 export const UserStatistic = (): ReactElement => {
   const { comments, posts } = useUserStatistic();

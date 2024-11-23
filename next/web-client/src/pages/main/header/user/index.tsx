@@ -3,7 +3,7 @@ import { Popover } from 'antd';
 import { ReactElement } from 'react';
 
 import { useRole, useUser } from '../../../../features/user';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 export const User = (): ReactElement => {
   const { email } = useUser();

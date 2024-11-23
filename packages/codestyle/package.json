@@ -1,59 +1,59 @@
 {
   "name": "@rockpack/codestyle",
   "version": "5.0.0-next.5",
+  "private": false,
   "description": "The best practice for ESLint and TSLint",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "production": "npm run lint && npm publish --access public"
+  "keywords": [
+    "eslint",
+    "ts-lint"
+  ],
+  "homepage": "https://alexsergey.github.io/rockpack/",
+  "bugs": {
+    "url": "https://github.com/AlexSergey/rockpack/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlexSergey/rockpack.git"
   },
-  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "license": "MIT",
-  "homepage": "https://alexsergey.github.io/rockpack/",
-  "bugs": {
-    "url": "https://github.com/AlexSergey/rockpack/issues"
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
+    "production": "npm run lint && npm publish --access public"
   },
-  "keywords": [
-    "eslint",
-    "ts-lint"
-  ],
-  "private": false,
   "dependencies": {
     "@babel/eslint-parser": "7.25.9",
-    "@commitlint/cli": "19.5.0",
-    "@commitlint/config-conventional": "19.5.0",
+    "@commitlint/cli": "19.6.0",
+    "@commitlint/config-conventional": "19.6.0",
     "@rockpack/babel": "5.0.0-next.5",
     "@rockpack/utils": "5.0.0-next.5",
-    "@typescript-eslint/eslint-plugin": "8.11.0",
-    "@typescript-eslint/parser": "8.11.0",
+    "@typescript-eslint/eslint-plugin": "8.15.0",
+    "@typescript-eslint/parser": "8.15.0",
     "deep-extend": "0.6.0",
-    "eslint": "9.13.0",
+    "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-check-file": "2.8.0",
     "eslint-plugin-json": "4.0.1",
+    "eslint-plugin-perfectionist": "4.0.3",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-react-hooks": "5.0.0",
-    "eslint-plugin-regexp": "2.6.0",
-    "eslint-plugin-unicorn": "56.0.0",
-    "eslint-plugin-perfectionist": "4.0.3",
-    "globals": "15.11.0",
+    "eslint-plugin-regexp": "2.7.0",
+    "eslint-plugin-unicorn": "56.0.1",
+    "globals": "15.12.0",
     "prettier": "3.3.3",
-    "sort-package-json": "2.10.1",
+    "sort-package-json": "2.12.0",
     "stylelint": "16.10.0",
+    "stylelint-config-clean-order": "6.1.0",
     "stylelint-config-prettier-scss": "1.0.0",
     "stylelint-config-recommended-scss": "14.1.0",
     "stylelint-config-standard-scss": "13.1.0",
-    "stylelint-config-clean-order": "6.1.0",
-    "stylelint-scss": "6.8.1",
-    "typescript": "5.6.3",
-    "typescript-eslint": "8.11.0",
+    "stylelint-scss": "6.10.0",
+    "typescript": "5.7.2",
+    "typescript-eslint": "8.15.0",
     "yargs": "17.7.2"
   }
 }

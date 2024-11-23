@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface Image {
   error: boolean;

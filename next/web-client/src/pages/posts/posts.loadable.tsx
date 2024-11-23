@@ -13,7 +13,7 @@ import { Access, Owner, useUser } from '../../features/user';
 import { Roles } from '../../types/user';
 import { dateFormatter } from '../../utils/date-format';
 import { PostsPagination } from './posts-pagination';
-import styles from './style.module.scss';
+import * as styles from './style.module.scss';
 
 const Posts = (): ReactElement => {
   const currentLanguage = useCurrentLanguage();
