@@ -306,7 +306,7 @@ TypeScript sources will be saved in ESM and CJS format at the specified path.
 How to work with CSS (SCSS, LESS) Modules?
 - *You need to rename the file with modular styles to the format [filename].module.scss*
 ```jsx
-import styles from './App.module.css';
+import * as styles from './App.module.css';
 
 <div className={styles.App}>
 ```

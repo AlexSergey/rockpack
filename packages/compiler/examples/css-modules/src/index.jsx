@@ -1,14 +1,15 @@
 import './global.scss';
 import React from 'react';
 import { render } from 'react-dom';
-import stylesScss from './styles.module.scss';
-import stylesLess from './styles.module.less';
+import * as stylesScss from './styles.module.scss';
+import * as stylesLess from './styles.module.less';
 
-render((
+render(
   <div className="myclass">
     <div className={stylesScss.block}>
       <h1>Test</h1>
       <button className={stylesLess.submit}>I am button</button>
     </div>
-  </div>
-), document.getElementById('root'));
+  </div>,
+  document.getElementById('root'),
+);

@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "5.0.0-next.5",
+  "version": "5.0.0-next.6",
   "description": "Rockpack specific utils",
   "main": "index.js",
   "scripts": {

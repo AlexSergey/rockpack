@@ -6,7 +6,7 @@ object-assign
 
 /*!
  * banner:
- * @rockpack/book: 4.0.0
+ * @rockpack/book: 5.0.0-next.6
  * ISC
  */
 
@@ -48,13 +48,4 @@ object-assign
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */
-
-/**
- * Prism: Lightweight, robust, elegant syntax highlighting
- *
- * @license MIT <https://opensource.org/licenses/MIT>
- * @author Lea Verou <https://lea.verou.me>
- * @namespace
- * @public
  */

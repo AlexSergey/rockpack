@@ -11,7 +11,7 @@ export const App = (): ReactElement => {
       <Helmet>
         <title>Rockpack</title>
         <meta
-          content="Rockpack is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing within 5 minutes"
+          content="Rockpack is a lightweight, zero-configuration solution for quickly setting up a React application with full support for Server-Side Rendering (SSR), bundling, linting, and testing."
           key="description"
           name="description"
         />

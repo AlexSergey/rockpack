@@ -1,6 +1,6 @@
+const PrerenderSPAPlugin = require('@prerenderer/webpack-plugin');
 const { frontendCompiler } = require('@rockpack/compiler');
 const path = require('node:path');
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
 
 frontendCompiler(
   {
@@ -21,6 +21,11 @@ frontendCompiler(
         'PrerenderSPAPlugin',
         new PrerenderSPAPlugin({
           minify: true,
+          renderer: require.resolve('@prerenderer/renderer-puppeteer'),
+          rendererOptions: {
+            executablePath: '/opt/homebrew/bin/chromium',
+            headless: false,
+          },
           routes: ['/'],
           staticDir: finalConfig.output.path,
         }),

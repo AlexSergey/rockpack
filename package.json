@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "5.0.0-next.5",
+  "version": "5.0.0-next.6",
   "private": true,
   "license": "MIT",
   "workspaces": [
@@ -19,12 +19,15 @@
     "pre-push": "npm run lint && npm test"
   },
   "dependencies": {
-    "caniuse-lite": "1.0.30001653",
+    "caniuse-lite": "1.0.30001684",
     "node-addon-api": "8.2.2",
     "node-gyp": "10.2.0"
   },
   "devDependencies": {
     "lerna": "3.22.1",
-    "simple-git-hooks": "2.4.1"
+    "simple-git-hooks": "2.11.1"
+  },
+  "overrides": {
+    "puppeteer": "^7.1.0"
   }
 }

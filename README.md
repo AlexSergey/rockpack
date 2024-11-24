@@ -5,9 +5,24 @@
 [![Version](https://img.shields.io/npm/v/@rockpack/starter.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 [![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 
-**Rockpack** is a simple solution for creating React Application with Server Side Rendering, bundling, linting, testing.
+**Rockpack** is a lightweight, zero-configuration solution for quickly setting up a React application with full support for
+**Server-Side Rendering (SSR)**, bundling, linting, and testing. In just 5 minutes, you can get up and running with a modern
+React app that's optimized for performance and best practices. Perfect for developers who want to skip the setup and
+focus on building their app!
 
-**Rockpack** The main goal is to reduce project setup time from weeks to 5 minutes.
+- **Instant SSR**: Seamlessly integrate server-side rendering for better SEO and faster initial page loads.
+- **Smart Bundling**: Out-of-the-box support for bundling with optimal performance.
+- **Automatic Linting**: Maintain code quality with built-in linting and style checks.
+- **Ready for Testing**: Pre-configured testing environment with popular tools like Jest.
+
+## Key Features:
+
+- **Zero-config setup**: Start building immediately with minimal setup.
+- **React, SSR, and Webpack integration**: All in one package for efficient development.
+- **Optimized for production**: Bundle, lint, test, and render with best practices.
+- **Extensible**: Easily customize for more advanced use cases.
+
+Get started with **Rockpack** today and streamline your React app development!
 
 ## Getting Started:
 
@@ -28,7 +43,7 @@
 
 ***
 
-## Motivation
+### Motivation
 
 Working on many React projects, we are faced with the same type of routine tasks. We answer questions every time:
 
@@ -50,11 +65,11 @@ Using **Rockpack** you can deploy your project in minutes and start writing real
   <img width="500px" alt="Rockpack flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_2.png">
 </p>
 
-## Rockpack modules overview
+### Modules overview
 
 **Rockpack** consists of modules. Let's consider them in more detail:
 
-### @rockpack/starter
+#### @rockpack/starter
 
 this is **create-react-app** on steroids.
 
@@ -101,7 +116,7 @@ Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/mas
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/compiler
+#### @rockpack/compiler
 
 This is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
 
@@ -116,13 +131,13 @@ This is React bundler (based on Webpack) using a set of necessary loaders, plugi
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/tester
+#### @rockpack/tester
 
 This is Jest with cool config, add-ons and fully compatible with TS / Babel.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md" target="_blank">More details...</a>
 ***
-### @rockpack/codestyle
+#### @rockpack/codestyle
 
 This is an efficiently customized Eslint with many best practical rules and additions.
 
@@ -136,6 +151,7 @@ This is an efficiently customized Eslint with many best practical rules and addi
 
 The **Rockpack** project was inspired by:
 
+- [Vite](https://vite.dev/)
 - [Next.js](https://github.com/vercel/next.js/)
 - [create-react-app](https://github.com/facebook/create-react-app)
 - [Rome](https://github.com/romefrontend/rome)
