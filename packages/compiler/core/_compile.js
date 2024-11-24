@@ -7,7 +7,6 @@ const _innerProps = require('./_inner-props');
 const _make = require('./_make');
 const _run = require('./_run');
 
-// eslint-disable-next-line default-param-last
 const _compile = async (conf = {}, post, withoutRun = false) => {
   const mode = getMode();
   conf = await mergeConfWithDefault(conf, mode);

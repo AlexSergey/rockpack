@@ -16,7 +16,7 @@ const createBabelPresets = ({
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
   const babelMerge = path.resolve(root, 'rockpack.babel.js');
-  // eslint-disable-next-line global-require
+
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
   let corejs = false;
 
@@ -123,7 +123,6 @@ const createBabelPresets = ({
 
   if (existsSync(babelMerge)) {
     try {
-      // eslint-disable-next-line global-require
       const babelMergeModule = require(babelMerge);
 
       if (typeof babelMergeModule === 'object' && Object.keys(babelMergeModule).length > 0) {
@@ -147,9 +146,8 @@ const createBabelPresets = ({
         }
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error("Rockpack/Babel: can't merge rockpack.babel.js");
-      // eslint-disable-next-line no-console
+
       console.log(e);
     }
   }

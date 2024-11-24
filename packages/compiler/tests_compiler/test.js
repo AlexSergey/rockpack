@@ -10,7 +10,6 @@ const { run } = require('./core/run');
       strategy: 'cra-build',
     });
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.log(e);
   }
 })();

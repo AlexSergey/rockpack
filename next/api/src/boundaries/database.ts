@@ -6,7 +6,7 @@ export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
   },
   dialect: process.env.DATABASE_DIALECT as 'mysql' | 'sqlite',
   host: process.env.DB_HOST,
-  // eslint-disable-next-line no-console
+
   logging: process.env.DB_LOGGING === '1' ? console.log : false,
   port: Number(process.env.DB_PORT),
 });

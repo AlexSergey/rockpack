@@ -1,6 +1,5 @@
 import { LocaleData } from '@localazer/component';
 
-// eslint-disable-next-line no-shadow
 export enum Languages {
   en = 'en',
   ru = 'ru',

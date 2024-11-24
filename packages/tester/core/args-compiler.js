@@ -7,7 +7,6 @@ const defaultProps = require('../default-props');
 const createPaths = require('../modules/create-paths');
 const compileSrc = require('../modules/merge-src');
 
-// eslint-disable-next-line default-param-last
 module.exports = function argsCompiler(opts = {}, mode) {
   const options = deepExtend({}, defaultProps, opts);
   const rootFolder = path.resolve(__dirname, '..');

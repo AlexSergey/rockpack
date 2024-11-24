@@ -5,7 +5,6 @@ const { distExtension } = require('../constants');
 
 const makeEntry = (conf, root, mode) => {
   if (!isString(conf.src)) {
-    // eslint-disable-next-line no-console
     console.error('Src must be a string!');
     process.exit(1);
   }

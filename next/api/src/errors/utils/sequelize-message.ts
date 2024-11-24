@@ -1,13 +1,13 @@
 export type ValidationMessage = Record<string, string>;
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const sequelizeMessage = (e: any): ValidationMessage => {
   const messages: ValidationMessage = {};
 
   if (e && Array.isArray(e.errors)) {
     e.errors.forEach((error) => {
       let message;
-      // eslint-disable-next-line default-case
+
       switch (error.validatorKey) {
         case 'is_null':
           message = `Please complete "${error.path}" field`;

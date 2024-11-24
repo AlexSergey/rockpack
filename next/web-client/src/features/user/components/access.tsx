@@ -18,6 +18,5 @@ export const Access = ({ children, fallback, forRoles }: Access): ReactElement =
     return <>{children(forRoles.includes(role))}</>;
   }
 
-  // eslint-disable-next-line no-nested-ternary
   return forRoles.includes(role) ? <>{children}</> : typeof fallback === 'function' ? fallback() : null;
 };

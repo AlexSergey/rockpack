@@ -95,7 +95,7 @@ router.get(/.*/, async (ctx) => {
   const { helmet } = helmetContext;
 
   ctx.type = 'html';
-  /* eslint-disable */
+
   ctx.body = `
   <!DOCTYPE html>
 <html lang="${currentLanguage === 'ru' ? 'ru-RU' : 'en-US'}">
@@ -122,18 +122,15 @@ router.get(/.*/, async (ctx) => {
 </body>
 </html>
 `;
-  /* eslint-enable */
 });
 
 app.use(router.routes()).use(router.allowedMethods());
 const server = app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Server is listening on http://localhost:${process.env.PORT}`);
 });
 
 const handleError = (err, ctx): void => {
   if (ctx == null) {
-    // eslint-disable-next-line no-console
     console.error(pe.render(err));
   }
 };
@@ -147,7 +144,6 @@ server.once('error', handleError);
 
 ['unhandledRejection', 'uncaughtException'].forEach((error: NodeJS.Signals) => {
   process.on(error, (e) => {
-    // eslint-disable-next-line no-console
     console.error(pe.render(e));
   });
 });

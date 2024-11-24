@@ -9,6 +9,7 @@
 - Removed unused modules
 - Dropped addons from tester package. Improves customization.
 - Added support CJS and ESM types for library template
+- Added Updater module to update dependencies automatically
 
 ## [4.5.0]
 

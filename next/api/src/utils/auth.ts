@@ -16,12 +16,11 @@ interface BcryptResult {
 
 export const cryptPassword = (password: string): Promise<BcryptResult> =>
   new Promise((resolve, reject) => {
-    // eslint-disable-next-line consistent-return
     bcrypt.genSalt(10, (err, salt): void => {
       if (err) {
         return reject(err);
       }
-      // eslint-disable-next-line consistent-return
+
       bcrypt.hash(password, salt, (e, hash): void => {
         if (e) {
           return reject(e);

@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// eslint-disable-next-line consistent-return
 const fileFilter = (req, file, cb): void => {
   if (config.files.types.find((f) => f === file.mimetype)) {
     cb(null, true);

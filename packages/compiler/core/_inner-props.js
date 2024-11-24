@@ -4,7 +4,6 @@ const _innerProps = async (conf, mode) => {
   conf.messages = [];
 
   if (global.ISOMORPHIC) {
-    // eslint-disable-next-line default-case
     switch (conf.compilerName) {
       case 'backendCompiler':
         conf.__isIsomorphic = true;

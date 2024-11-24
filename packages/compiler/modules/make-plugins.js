@@ -144,7 +144,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
         {
           code: conf.html && conf.html.code ? conf.html.code : null,
           favicon: conf.html && conf.html.favicon ? conf.html.favicon : null,
-          // eslint-disable-next-line no-nested-ternary
+
           filename: conf.html && conf.html.filename ? conf.html.filename : conf.webview ? 'index.html' : false,
           template:
             (conf.html && conf.html.template) ||

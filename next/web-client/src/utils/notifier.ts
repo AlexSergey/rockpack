@@ -4,7 +4,6 @@ import { isDevelopment } from './environments';
 
 export const notify = (level: string, text: string, isImportant: boolean): void => {
   if (isDevelopment() && ['error', 'info', 'log', 'warn'].includes(level)) {
-    // eslint-disable-next-line no-console
     console[level](text);
   }
   if (isImportant) {

@@ -4,7 +4,6 @@ const deepExtend = require('deep-extend');
 const _compile = require('../core/_compile');
 const errorHandler = require('../error-handler');
 
-// eslint-disable-next-line default-param-last
 async function backendCompiler(conf = {}, cb, configOnly = false) {
   setMode(['development', 'production'], 'development');
   if (!conf) {

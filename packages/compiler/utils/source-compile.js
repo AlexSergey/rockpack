@@ -14,7 +14,6 @@ module.exports = async function sourceCompile(conf) {
   const root = getRootRequireDir();
   const mode = getMode();
 
-  // eslint-disable-next-line no-console
   console.log('=========Source compile is starting....=========');
 
   const formats = ['cjs', 'esm'];
@@ -58,7 +57,6 @@ module.exports = async function sourceCompile(conf) {
     const format = formats[i];
     const opt = output[format];
     if (isUndefined(opt)) {
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -73,7 +71,7 @@ module.exports = async function sourceCompile(conf) {
     const tsConfig = pathToTSConf(root, mode, debug);
 
     rimraf.sync(dist);
-    // eslint-disable-next-line no-console
+
     console.log(`=========${format} format is starting=========`);
 
     if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
@@ -140,7 +138,6 @@ module.exports = async function sourceCompile(conf) {
     }
 
     if (isArray(copyFiles) && copyFiles.length > 0) {
-      // eslint-disable-next-line no-console
       console.log('Files will copy:\n');
       console.log(copyFiles.join('\n'));
       console.log('\n');
@@ -167,7 +164,7 @@ module.exports = async function sourceCompile(conf) {
         renameSync(file, modified);
       });
     }
-    // eslint-disable-next-line no-console
+
     console.log(`=========${format} format finished=========`);
   }
 };

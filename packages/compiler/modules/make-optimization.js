@@ -55,9 +55,8 @@ const makeOptimization = (mode, conf) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              // eslint-disable-next-line camelcase
               drop_console: !conf.debug,
-              // eslint-disable-next-line camelcase
+
               drop_debugger: !conf.debug,
             },
             mangle: true,

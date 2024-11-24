@@ -4,7 +4,6 @@ const createAssetType = require('../utils/asset-type');
 const Collection = require('../utils/collection');
 const getStylesRules = require('../utils/get-styles-rules');
 
-// eslint-disable-next-line default-param-last
 function getModules(conf = {}, mode, root) {
   const { css, less, scss } = getStylesRules(conf, mode, root);
   let presetsAdditionalOptions = {};
@@ -253,7 +252,6 @@ function getModules(conf = {}, mode, root) {
 
 const _makeModules = (modules, conf, excludeModules = []) => {
   excludeModules.forEach((propsToDelete) => {
-    // eslint-disable-next-line no-param-reassign
     delete modules[propsToDelete];
   });
 

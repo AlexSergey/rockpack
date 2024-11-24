@@ -10,7 +10,6 @@ async function findHtml(pth, html = []) {
     html = typeof html === 'undefined' ? [] : [html];
   }
   if (files.length === 0) {
-    // eslint-disable-next-line no-console
     console.error(errors.INVALID_PATH);
 
     return process.exit(1);

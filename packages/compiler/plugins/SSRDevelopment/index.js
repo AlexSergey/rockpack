@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const nodemon = require('nodemon');
 
 const { getOutputFileMeta } = require('./webpack-utils');
@@ -51,7 +49,6 @@ module.exports = class {
 
     const monitor = nodemon(nodemonOptions);
 
-    // eslint-disable-next-line no-console
     monitor.on('log', ({ colour: colouredMessage }) => console.log(colouredMessage));
     monitor.on('restart', () => {
       global.LIVE_RELOAD_SERVER.refresh('');

@@ -11,7 +11,6 @@ const currentProjectFolder = getRootRequireDir();
 let jestConfig = {};
 
 if (existsSync(path.resolve(currentProjectFolder, './jest.extend.js'))) {
-  // eslint-disable-next-line global-require
   jestConfig = require(path.resolve(currentProjectFolder, './jest.extend.js'));
 }
 

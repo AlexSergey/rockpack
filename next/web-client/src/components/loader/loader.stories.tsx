@@ -18,5 +18,4 @@ export default {
   title: 'Component',
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Loader = (): ReactElement => <LoaderCompoennt />;

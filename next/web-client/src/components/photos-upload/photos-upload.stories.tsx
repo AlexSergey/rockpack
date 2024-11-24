@@ -21,8 +21,5 @@ export default {
 };
 
 export const PhotosUpload = (): ReactElement => (
-  <PhotosUploadComponent
-    // eslint-disable-next-line no-console
-    onChange={(files): void => console.log(files)}
-  />
+  <PhotosUploadComponent onChange={(files): void => console.log(files)} />
 );

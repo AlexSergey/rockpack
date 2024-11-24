@@ -10,14 +10,12 @@ const log = (compilation) => {
     console.log('[COMPILE]', `${duration.minutes()}:${duration.seconds()} minutes`);
 
     if (!messages.errors.length) {
-      // eslint-disable-next-line no-console
       console.log('Compiled successfully!');
     }
 
     if (messages.errors.length) {
-      // eslint-disable-next-line no-console
       console.log('Failed to compile.');
-      // eslint-disable-next-line no-console
+
       messages.errors.forEach((e) => console.log(e));
     }
   });

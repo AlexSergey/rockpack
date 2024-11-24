@@ -19,7 +19,6 @@ class WebpackObserver {
 
   run(delay) {
     this.interval = setInterval(() => {
-      // eslint-disable-next-line default-case
       switch (this.state) {
         case 'done':
           this.destroy();

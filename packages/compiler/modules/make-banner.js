@@ -11,12 +11,10 @@ const makeBanner = (packageJson) => {
 
     types.forEach((type) => {
       if (banner.indexOf(type) > 0 && !!packageJson[type]) {
-        // eslint-disable-next-line no-useless-escape
         banner = banner.replace(`$\{${type}\}`, packageJson[type]);
       }
     });
     types.forEach((type) => {
-      // eslint-disable-next-line no-useless-escape
       banner = banner.replace(`$\{${type}\}`, '');
     });
 

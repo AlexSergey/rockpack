@@ -19,6 +19,5 @@ export default {
 };
 
 export const Wysiwyg = (): ReactElement => (
-  // eslint-disable-next-line no-console
   <WysiwygComponent onChange={(value): void => console.log(value)} value="<h1>Test</h1>" />
 );

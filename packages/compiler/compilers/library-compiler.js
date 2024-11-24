@@ -6,7 +6,6 @@ const _compile = require('../core/_compile');
 const errorHandler = require('../error-handler');
 const errors = require('../errors/library-compiler');
 
-// eslint-disable-next-line default-param-last
 async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   setMode(['development', 'production'], 'development');
   if (!conf) {
@@ -37,16 +36,14 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
       });
     }
   } else {
-    // eslint-disable-next-line no-console
     console.error(errors.LIBRARY_OPTS_ERROR);
-    // eslint-disable-next-line no-console
+
     console.error(errors.MUST_BE_STRING);
 
     return process.exit(1);
   }
 
   if (!isString(libraryName)) {
-    // eslint-disable-next-line no-console
     console.error(errors.MUST_BE_STRING);
 
     return process.exit(1);

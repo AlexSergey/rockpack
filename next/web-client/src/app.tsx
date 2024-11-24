@@ -36,7 +36,6 @@ export const App = (): ReactElement => {
                 <Route
                   element={
                     <Access
-                      /* eslint-disable-next-line react/no-unstable-nested-components */
                       fallback={(): ReactElement => <Navigate to={`/${currentLanguage}`} />}
                       forRoles={[Roles.admin]}
                     >

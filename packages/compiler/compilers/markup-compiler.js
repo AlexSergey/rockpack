@@ -7,7 +7,6 @@ const errorHandler = require('../error-handler');
 const errors = require('../errors/markup-compiler');
 const findHTML = require('../utils/find-html');
 
-// eslint-disable-next-line default-param-last,consistent-return
 async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
   const mode = setMode(['development', 'production'], 'development');
   if (!conf) {
@@ -17,7 +16,6 @@ async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
   errorHandler();
 
   if (!pth) {
-    // eslint-disable-next-line no-console
     console.error(errors.PATH_CANT_BE_EMPTY);
 
     return process.exit(1);
@@ -44,7 +42,6 @@ async function markupCompiler(pth, conf = {}, cb, configOnly = false) {
       _devServer(result);
     }
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error(err);
 
     return process.exit(1);

@@ -8,17 +8,14 @@ const sourceCompile = require('../utils/source-compile');
 
 const _run = async (webpackConfig, mode, webpack, conf) => {
   const compiler = webpack(webpackConfig, async (err, stats) => {
-    // eslint-disable-next-line default-case
     switch (mode) {
       case 'development':
         if (err) {
-          // eslint-disable-next-line no-console
           console.error(err.message);
         }
         break;
       case 'production':
         if (err) {
-          // eslint-disable-next-line no-console
           console.error(err.message);
 
           return process.exit(1);
@@ -33,7 +30,6 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
             try {
               await generateDts(conf, root);
             } catch (e) {
-              // eslint-disable-next-line no-console
               console.error(e.message);
             }
           }
@@ -42,7 +38,6 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
             try {
               await sourceCompile(conf);
             } catch (e) {
-              // eslint-disable-next-line no-console
               console.error(e.message);
             }
           }

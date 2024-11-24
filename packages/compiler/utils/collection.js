@@ -52,7 +52,6 @@ class Collection {
     cb(this.dict[name]);
   }
 
-  // eslint-disable-next-line consistent-return
   remove(name) {
     if (isArray(name)) {
       name.forEach((n) => {

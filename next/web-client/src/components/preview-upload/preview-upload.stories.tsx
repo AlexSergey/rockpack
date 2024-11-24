@@ -21,8 +21,5 @@ export default {
 };
 
 export const PreviewUpload = (): ReactElement => (
-  <PreviewUploadComponent
-    // eslint-disable-next-line no-console
-    onChange={(file): void => console.log(file)}
-  />
+  <PreviewUploadComponent onChange={(file): void => console.log(file)} />
 );

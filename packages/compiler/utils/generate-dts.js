@@ -17,7 +17,6 @@ module.exports = async function generateDts(conf, root) {
   const isTypeScript = isString(tsConfig);
 
   if (!isTypeScript) {
-    // eslint-disable-next-line no-console
     console.error("It's not TS project");
 
     return false;
