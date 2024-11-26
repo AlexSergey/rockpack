@@ -1,9 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
 
-export interface ImageService {
-  fetchImage: () => AxiosPromise<ImageRes>;
-}
-
 export interface ImageRes {
   author: string;
   download_url: string;
@@ -11,6 +7,10 @@ export interface ImageRes {
   id: string;
   url: string;
   width: number;
+}
+
+export interface ImageService {
+  fetchImage: () => AxiosPromise<ImageRes>;
 }
 
 export const imageService: ImageService = {

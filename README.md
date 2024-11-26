@@ -33,7 +33,7 @@ Get started with **Rockpack** today and streamline your React app development!
 - **Startup.** If you need to quickly check an idea without wasting time on unfolding and setting up the project.
 - **Library or React Component.** If you want to write a UMD library or React component, with support for the esm/cjs build as well as the minified version.
 
-[Fast setup](https://alexsergey.github.io/rockpack/)
+[Fast setup](https://alexsergey.github.io/rockpack/#getting_started)
 
 - **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please see every modules' readme.
 

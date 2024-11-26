@@ -13,7 +13,7 @@ export const copyFiles = async (currentPath, { appType, tester, nogit }) => {
     await copy(path.join(addons, 'git'), path.join(currentPath));
   }
 
-  if (appType === 'library' || appType === 'ssr' || appType === 'csr' || appType === 'pure') {
+  if (appType === 'ssr' || appType === 'csr' || appType === 'pure') {
     await copy(path.join(addons, 'codestyle', appType), path.join(currentPath));
   }
 
