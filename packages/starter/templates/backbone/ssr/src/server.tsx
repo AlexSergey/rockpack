@@ -10,7 +10,7 @@ import { constants } from 'node:zlib';
 import PrettyError from 'pretty-error';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
+import { createStaticHandler, createStaticRouter, StaticHandlerContext, StaticRouterProvider } from 'react-router-dom';
 import serialize from 'serialize-javascript';
 
 import { routes } from './routes';
@@ -92,7 +92,7 @@ app.use(async (ctx, next) => {
 router.get(/.*/, async (ctx: Context) => {
   const { dataRoutes, query } = createStaticHandler(routes);
   const fetchRequest = createFetchRequest(ctx, ctx.request);
-  const context = await query(fetchRequest);
+  const context = (await query(fetchRequest)) as StaticHandlerContext;
 
   const store = createStore();
 
@@ -111,8 +111,6 @@ router.get(/.*/, async (ctx: Context) => {
     extractor.collectChunks(
       <Provider store={store}>
         <HelmetProvider context={helmetContext}>
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-expect-error */}
           <StaticRouterProvider context={context} router={router} />
         </HelmetProvider>
       </Provider>,

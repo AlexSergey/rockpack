@@ -17,7 +17,7 @@ export class PostController {
 
   create = async (ctx: KoaContext): Promise<void> => {
     const userId = Number(ctx.user.get('id'));
-    const { text, title } = ctx.request.body;
+    const { text, title } = ctx.request.body as { text: string; title: string };
 
     try {
       const post = await this.service.createPost(userId, {
@@ -77,7 +77,7 @@ export class PostController {
 
   update = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
-    const { text, title } = ctx.request.body;
+    const { text, title } = ctx.request.body as { text: string; title: string };
     try {
       await this.service.updatePost(id, {
         text,

@@ -30,7 +30,7 @@ export class UserController {
   };
 
   signin = async (ctx: KoaContext): Promise<void> => {
-    const { email, password } = ctx.request.body;
+    const { email, password } = ctx.request.body as { email: string; password: string };
     try {
       const { token, user } = await this.service.signin(email, password);
 
@@ -48,7 +48,7 @@ export class UserController {
   };
 
   signup = async (ctx: KoaContext): Promise<void> => {
-    const { email, password } = ctx.request.body;
+    const { email, password } = ctx.request.body as { email: string; password: string };
 
     try {
       const { token, user } = await this.service.signup(email, password);

@@ -15,7 +15,7 @@ export class CommentController {
 
   create = async (ctx: KoaContext): Promise<void> => {
     const { postId } = ctx.params;
-    const { text } = ctx.request.body;
+    const { text } = ctx.request.body as { text: string };
     const userId = Number(ctx.user.get('id'));
 
     try {
@@ -60,7 +60,7 @@ export class CommentController {
 
   update = async (ctx: KoaContext): Promise<void> => {
     const { id } = ctx.params;
-    const { text } = ctx.request.body;
+    const { text } = ctx.request.body as { text: string };
 
     try {
       const [, comments] = await this.service.updateComment(id, text);
