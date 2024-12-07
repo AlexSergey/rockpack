@@ -1,14 +1,14 @@
 const { libraryCompiler } = require('@rockpack/compiler');
 
 libraryCompiler({
-  name: '%libraryName%',
   cjs: {
+    dist: './lib/cjs',
     src: './src',
-    dist: './lib/cjs'
   },
   esm: {
+    dist: './lib/esm',
     src: './src',
-    dist: './lib/esm'
   },
   externals: [],
+  name: '%libraryName%',
 });

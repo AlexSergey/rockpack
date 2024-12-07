@@ -26,6 +26,7 @@ const ignores = [
   'build/*',
   'lib/*',
   'dist/*',
+  'example/*',
   '*.css',
   '*.scss',
   '*.less',
@@ -172,6 +173,18 @@ module.exports.makeConfig = () => {
       'no-unused-vars': 'off',
       'no-warning-comments': 'warn',
 
+      'unicorn/custom-error-definition': 'error',
+      'unicorn/empty-brace-spaces': 'error',
+      'unicorn/error-message': 'error',
+      'unicorn/no-instanceof-array': 'error',
+      'unicorn/prefer-keyboard-event-key': 'error',
+      'unicorn/prefer-node-protocol': 'error',
+      'unicorn/throw-new-error': 'error',
+    },
+  };
+
+  if (hasReact) {
+    Object.assign(customTypescriptConfig.rules, {
       'react/function-component-definition': [
         2,
         {
@@ -182,16 +195,8 @@ module.exports.makeConfig = () => {
       'react/jsx-uses-react': 'off',
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
-
-      'unicorn/custom-error-definition': 'error',
-      'unicorn/empty-brace-spaces': 'error',
-      'unicorn/error-message': 'error',
-      'unicorn/no-instanceof-array': 'error',
-      'unicorn/prefer-keyboard-event-key': 'error',
-      'unicorn/prefer-node-protocol': 'error',
-      'unicorn/throw-new-error': 'error',
-    },
-  };
+    });
+  }
 
   const recommendedTypeScriptConfigs = [
     ...eslintTs.configs.recommended.map((config) => ({
@@ -215,19 +220,21 @@ module.exports.makeConfig = () => {
 
   return [
     { ignores },
-    reactPlugin.configs.flat.recommended,
+    hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
     perfectionist.configs['recommended-natural'],
     regexpPlugin.configs['flat/recommended'],
     json.configs['recommended'],
     customTypescriptConfig,
-    {
-      settings: {
-        react: {
-          version: 'detect',
-        },
-      },
-    },
+    hasReact
+      ? {
+          settings: {
+            react: {
+              version: 'detect',
+            },
+          },
+        }
+      : {},
   ];
 };
