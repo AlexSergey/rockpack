@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "express": "^4.17.1",
+    "express": "^4.20.0",
     "serialize-javascript": "3.0.0"
   }
 }
