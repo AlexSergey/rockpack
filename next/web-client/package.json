@@ -44,7 +44,7 @@
     "redux": "4.2.1",
     "redux-logger": "4.0.0",
     "reset-css": "5.0.1",
-    "serialize-javascript": "5.0.1",
+    "serialize-javascript": "6.0.2",
     "redux-thunk": "2.4.2",
     "history": "5.3.0"
   },
