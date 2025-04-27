@@ -4,7 +4,6 @@ const { existsSync } = require('node:fs');
 const path = require('node:path');
 const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
@@ -271,10 +270,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * PRODUCTION
    * */
   if (mode === 'production') {
-    plugins.CircularDependencyPlugin = new CircularDependencyPlugin({
-      exclude: /node_modules/,
-    });
-
     plugins.CaseSensitivePathsPlugin = new CaseSensitivePathsPlugin();
 
     const styleName = conf.styles && conf.styles.indexOf('.css') >= 0 ? conf.styles : 'css/styles.css';

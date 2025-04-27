@@ -1,4 +1,4 @@
-const { makeConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle/index.js');
 
 const camelCaseAllow = ['role_id', 'user_id', 'post_id', 'type_id', 'entity_id'];
 

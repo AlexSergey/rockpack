@@ -46,7 +46,7 @@ yarn add @rockpack/codestyle --dev
 3. Put the code in **.eslintrc.js**
 
 ```js
-const { makeConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle/index.js');
 
 module.exports = makeConfig();
 ```

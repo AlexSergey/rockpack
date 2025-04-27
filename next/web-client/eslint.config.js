@@ -1,4 +1,4 @@
-const { makeConfig } = require('@rockpack/codestyle');
+const { makeConfig } = require('@rockpack/codestyle/index.js');
 
 const camelCaseAllow = ['role_id', 'plural_forms', 'locale_data'];
 

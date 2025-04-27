@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/book",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -24,9 +24,9 @@
     "puppeteer": "7.1.0",
     "@prerenderer/renderer-puppeteer": "1.2.4",
     "@prerenderer/webpack-plugin": "5.3.10",
-    "@rockpack/codestyle": "5.0.0",
-    "@rockpack/compiler": "5.0.0",
-    "@rockpack/tsconfig": "5.0.0",
+    "@rockpack/codestyle": "5.0.1",
+    "@rockpack/compiler": "5.0.1",
+    "@rockpack/tsconfig": "5.0.1",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
     "@types/react-helmet": "6.1.7",

@@ -1,3 +1,3 @@
-const { makeConfig } = require('../codestyle');
+const { makeConfig } = require('@rockpack/codestyle/index.js');
 
 module.exports = makeConfig();

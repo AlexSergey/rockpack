@@ -1,6 +1,6 @@
 {
   "name": "node-starter",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "main": "index.js",
   "scripts": {
     "start": "node scripts.build",
@@ -55,9 +55,9 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "5.0.0",
-    "@rockpack/compiler": "5.0.0",
-    "@rockpack/tester": "5.0.0",
+    "@rockpack/codestyle": "5.0.1",
+    "@rockpack/compiler": "5.0.1",
+    "@rockpack/tester": "5.0.1",
     "@types/dotenv-safe": "8.1.6",
     "@types/jsonwebtoken": "9.0.7",
     "@types/koa": "2.15.0",

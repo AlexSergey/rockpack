@@ -43,7 +43,7 @@ for (let i = 0; i < pkgs.length; i++) {
         );
         const newVersionParsed = parse(newVersion);
         const oldVersionParsed = parse(oldVersion);
-        if (newVersionParsed.major !== oldVersionParsed.major) {
+        if (newVersionParsed?.major !== oldVersionParsed?.major) {
           console.warn(`Major dependency for ${dep} will be updated`);
         }
         forUpdate[dep] = newVersion;

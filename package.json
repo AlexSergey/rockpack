@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "private": true,
   "license": "MIT",
   "workspaces": [
@@ -21,7 +21,8 @@
   "dependencies": {
     "caniuse-lite": "1.0.30001684",
     "node-addon-api": "8.2.2",
-    "node-gyp": "10.2.0"
+    "node-gyp": "10.2.0",
+    "sort-package-json": "2.14.0"
   },
   "devDependencies": {
     "lerna": "3.22.1",

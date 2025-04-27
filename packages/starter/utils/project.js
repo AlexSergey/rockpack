@@ -1,5 +1,5 @@
+import extend from 'deep-extend';
 import latestVersion from 'latest-version';
-import merge from 'merge-package-json';
 import childProcess from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -58,15 +58,15 @@ export const addDependencies = async (
     }
   });
 
-  return JSON.parse(merge(packageJSON, toMerge));
+  return extend({}, packageJSON, toMerge);
 };
 
 export const addFields = (packageJSON, fields = {}) => {
-  return JSON.parse(merge(packageJSON, fields));
+  return extend({}, packageJSON, fields);
 };
 
 export const addScripts = (packageJSON, scripts = {}) => {
-  return JSON.parse(merge(packageJSON, { scripts }));
+  return extend({}, packageJSON, { scripts });
 };
 
 export const writePackageJSON = (currentPath, packageJSON) => {
