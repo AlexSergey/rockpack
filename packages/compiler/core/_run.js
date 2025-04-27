@@ -26,17 +26,17 @@ const _run = async (webpackConfig, mode, webpack, conf) => {
           const tsConfig = pathToTSConf(root, mode, false);
           const isTypeScript = isString(tsConfig);
 
-          if (isTypeScript) {
-            try {
-              await generateDts(conf, root);
-            } catch (e) {
-              console.error(e.message);
-            }
-          }
           if (isDefined(conf.esm) || isDefined(conf.cjs)) {
             // Transpile source
             try {
               await sourceCompile(conf);
+            } catch (e) {
+              console.error(e.message);
+            }
+          }
+          if (isTypeScript) {
+            try {
+              await generateDts(conf, root);
             } catch (e) {
               console.error(e.message);
             }
