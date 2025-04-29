@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "5.0.2",
+  "version": "6.0.0-next.1",
   "private": false,
   "description": "The best practice for ESLint and TSLint",
   "keywords": [
@@ -28,8 +28,8 @@
     "@babel/eslint-parser": "7.27.0",
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
-    "@rockpack/babel": "5.0.2",
-    "@rockpack/utils": "5.0.2",
+    "@rockpack/babel": "6.0.0-next.1",
+    "@rockpack/utils": "6.0.0-next.1",
     "@typescript-eslint/eslint-plugin": "8.31.0",
     "@typescript-eslint/parser": "8.31.0",
     "deep-extend": "0.6.0",
@@ -42,7 +42,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-regexp": "2.7.0",
-    "eslint-plugin-unicorn": "56.0.1",
+    "eslint-plugin-unicorn": "59.0.0",
     "globals": "16.0.0",
     "prettier": "3.5.3",
     "sort-package-json": "3.0.0",

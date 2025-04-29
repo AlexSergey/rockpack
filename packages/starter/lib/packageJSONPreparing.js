@@ -9,20 +9,14 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'axios', version: '1' },
-          { name: 'react', version: '18' },
-          { name: 'redux-thunk', version: '3' },
-          { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '9' },
-          { name: 'react-router', version: '7' },
-          { name: 'react-router-dom', version: '7' },
-          { name: 'react-helmet-async', version: '2' },
-          { name: '@reduxjs/toolkit', version: '2' },
+          { name: 'react', version: '19' },
+          { name: 'react-dom', version: '19' },
         ],
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '20' },
-          { name: '@types/react', version: '18' },
-          { name: '@types/react-dom', version: '18' },
+          { name: '@types/node', version: '22' },
+          { name: '@types/react', version: '19' },
+          { name: '@types/react-dom', version: '19' },
         ],
       });
       break;
@@ -32,35 +26,23 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         dependencies: [
           { name: 'axios', version: '1' },
           { name: 'koa', version: '2' },
-          { name: 'koa-compress', version: '5' },
           { name: 'koa-static', version: '5' },
-          { name: 'react', version: '18' },
-          { name: 'react-dom', version: '18' },
-          { name: 'react-redux', version: '9' },
-          { name: 'react-router', version: '7' },
+          { name: 'react', version: '19' },
+          { name: 'react-dom', version: '19' },
           { name: 'react-router-dom', version: '7' },
-          { name: 'entities', version: '3' },
-          { name: 'react-helmet-async', version: '1' },
-          { name: '@issr/core', version: '2.3.0' },
-          { name: '@reduxjs/toolkit', version: '2' },
+          { name: '@issr/core', version: '3' },
           { name: 'serialize-javascript', version: '6' },
-          { name: 'pretty-error', version: '4' },
           { name: '@koa/router', version: '13' },
-          { name: '@loadable/component', version: '5' },
-          { name: '@loadable/server', version: '5' },
         ],
         devDependencies: [
-          { name: '@issr/babel-plugin', version: '2.3.0' },
+          { name: '@issr/babel-plugin', version: '3' },
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/react', version: '18' },
-          { name: '@types/react-dom', version: '18' },
-          { name: '@types/loadable__component', version: '5' },
+          { name: '@types/react', version: '19' },
+          { name: '@types/react-dom', version: '19' },
           { name: '@types/koa', version: '2' },
-          { name: '@types/koa-compress', version: '4' },
           { name: '@types/koa__router', version: '12' },
           { name: '@types/koa-static', version: '4' },
-          { name: '@types/loadable__server', version: '5' },
-          { name: '@types/node', version: '20' },
+          { name: '@types/node', version: '22' },
           { name: '@types/serialize-javascript', version: '5' },
         ],
       });
@@ -69,13 +51,13 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     case 'pure':
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
-          { name: 'react', version: '18' },
-          { name: 'react-dom', version: '18' },
+          { name: 'react', version: '19' },
+          { name: 'react-dom', version: '19' },
         ],
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/react', version: '18' },
-          { name: '@types/react-dom', version: '18' },
+          { name: '@types/react', version: '19' },
+          { name: '@types/react-dom', version: '19' },
         ],
       });
       break;
@@ -85,12 +67,12 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       if (appType === 'component') {
         packageJSON = await addDependencies(packageJSON, {
           peerDependencies: [
-            { name: 'react', version: '18' },
-            { name: 'react-dom', version: '18' },
+            { name: 'react', version: '19' },
+            { name: 'react-dom', version: '19' },
           ],
           devDependencies: [
-            { name: '@types/react', version: '18' },
-            { name: '@types/react-dom', version: '18' },
+            { name: '@types/react', version: '19' },
+            { name: '@types/react-dom', version: '19' },
           ],
         });
       }
@@ -130,7 +112,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '20' },
+          { name: '@types/node', version: '22' },
         ],
       });
       break;
@@ -154,8 +136,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     if (appType === 'component') {
       packageJSONExample = await addDependencies(packageJSONExample, {
         dependencies: [
-          { name: 'react', version: '18' },
-          { name: 'react-dom', version: '18' },
+          { name: 'react', version: '19' },
+          { name: 'react-dom', version: '19' },
         ],
       });
     }
@@ -215,10 +197,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'pure') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
-          { name: 'react-test-renderer', version: '18' },
           { name: '@testing-library/jest-dom', version: '6' },
-          { name: '@testing-library/react', version: '15' },
-          { name: '@types/react-test-renderer', version: '18' },
+          { name: '@testing-library/react', version: '16' },
           { name: '@testing-library/jest-dom', version: '6' },
           { name: 'jest-environment-jsdom', version: '29' },
         ],

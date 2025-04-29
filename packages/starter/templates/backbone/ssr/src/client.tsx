@@ -1,40 +1,24 @@
 import { createSsr } from '@issr/core';
-import { loadableReady } from '@loadable/component';
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { routes } from './routes';
-import { AppState, createStore } from './store';
 import './types/global.declaration';
+import { App } from './app';
 
 declare global {
   interface Window {
-    REDUX_DATA: AppState;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SSR_DATA: any;
   }
 }
 
-const SSR = createSsr();
+const SSR = createSsr(window.SSR_DATA);
 
-const store = createStore({
-  initialState: window.REDUX_DATA,
-});
-
-const router = createBrowserRouter(routes);
-
-loadableReady(() => {
-  hydrateRoot(
-    document.getElementById('root') as Element,
-    <StrictMode>
-      <SSR>
-        <Provider store={store}>
-          <HelmetProvider>
-            <RouterProvider router={router} />
-          </HelmetProvider>
-        </Provider>
-      </SSR>
-    </StrictMode>,
-  );
-});
+hydrateRoot(
+  document.getElementById('root') as Element,
+  <StrictMode>
+    <SSR>
+      <App />
+    </SSR>
+  </StrictMode>,
+);
