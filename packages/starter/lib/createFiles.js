@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { pascalCase } from 'pascal-case';
+import { pascalCase } from 'change-case';
 import { dummies } from '../utils/pathes.js';
 import { showError } from '../utils/error.js';
 

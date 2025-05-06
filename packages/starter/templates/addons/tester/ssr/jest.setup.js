@@ -7,7 +7,7 @@ window.MessageChannel = jest.fn().mockImplementation(() => {
       },
     },
     port2: {
-      postMessage: data => {
+      postMessage: (data) => {
         onmessage?.({ data });
       },
     },

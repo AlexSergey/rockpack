@@ -1,4 +1,4 @@
-const { makeConfig } = require('@rockpack/codestyle/index.js');
+const { makeConfig } = require('@rockpack/codestyle');
 
 const camelCaseAllow = ['download_url'];
 
