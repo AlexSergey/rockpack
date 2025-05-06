@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "6.0.0-next.1",
+  "version": "6.0.0-next.2",
   "private": false,
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "keywords": [
@@ -32,8 +32,8 @@
     "production": "npm publish --access public"
   },
   "dependencies": {
-    "@rockpack/codestyle": "6.0.0-next.1",
-    "@rockpack/utils": "6.0.0-next.1",
+    "@rockpack/codestyle": "6.0.0-next.2",
+    "@rockpack/utils": "6.0.0-next.2",
     "chalk": "5.4.1",
     "deep-extend": "0.6.0",
     "inquirer": "12.6.0",

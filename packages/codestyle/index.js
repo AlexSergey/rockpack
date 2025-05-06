@@ -6,7 +6,6 @@ const perfectionist = require('eslint-plugin-perfectionist');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const reactPlugin = require('eslint-plugin-react');
 const regexpPlugin = require('eslint-plugin-regexp');
-const eslintPluginUnicorn = require('eslint-plugin-unicorn');
 const globals = require('globals');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
@@ -105,7 +104,6 @@ module.exports.makeConfig = () => {
     plugins: {
       'check-file': checkFile,
       'import/parsers': tsParser,
-      unicorn: eslintPluginUnicorn,
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'error',
@@ -172,14 +170,6 @@ module.exports.makeConfig = () => {
       'no-underscore-dangle': 'off',
       'no-unused-vars': 'off',
       'no-warning-comments': 'warn',
-
-      'unicorn/custom-error-definition': 'error',
-      'unicorn/empty-brace-spaces': 'error',
-      'unicorn/error-message': 'error',
-      'unicorn/no-instanceof-array': 'error',
-      'unicorn/prefer-keyboard-event-key': 'error',
-      'unicorn/prefer-node-protocol': 'error',
-      'unicorn/throw-new-error': 'error',
     },
   };
 

@@ -1,9 +1,9 @@
+import { createSsr } from '@issr/core';
 import { renderHook, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import AxiosMockAdapter from 'axios-mock-adapter';
 
 import { useRockpack } from './rockpack-description.hooks';
-import { createSsr } from '@issr/core';
 
 const mock = new AxiosMockAdapter(axios);
 
@@ -21,8 +21,8 @@ const SSR = createSsr(
 it('useRockpack', async () => {
   const { result } = renderHook(() => useRockpack(), {
     wrapper: ({ children }) => {
-      return <SSR>{children}</SSR>
-    }
+      return <SSR>{children}</SSR>;
+    },
   });
 
   await waitFor(
