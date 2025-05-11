@@ -7,7 +7,9 @@ export const wizard = async () => {
   console.log();
   console.log(`Hello there! ${chalk.bold('Rockpack')} greets you!`);
   console.log(`${chalk.bold('Rockpack')} helps you set up React applications extremely fast.`);
-  console.log('All scaffolded applications include Typescript, ESLint with best configurations, Stylelint, Prettier, lint-staged, git hooks, etc.');
+  console.log(
+    'All scaffolded applications include Typescript, ESLint with best configurations, Stylelint, Prettier, lint-staged, git hooks, etc.',
+  );
   console.log();
 
   const { appType } = await prompt({
@@ -16,46 +18,36 @@ export const wizard = async () => {
     message: 'Which is type of application would you build?',
     choices: [
       {
-        name: `• ${chalk.bold('React SPA')}: Typescript, Redux Toolkit, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA')}: Preset for a Single Page Application using React`,
         value: 'csr',
-        checked: false
+        checked: false,
       },
       {
-        name: `• ${chalk.bold('React SPA + SSR')}: Typescript, SSR, SEO, Redux Toolkit, Thunk, React-Router, CSS Modules, @loadable, project structure etc`,
+        name: `• ${chalk.bold('React SPA + SSR')}: Preset for a React Single Page Application with Server-Side Rendering`,
         value: 'ssr',
-        checked: false
+        checked: false,
       },
       {
-        name: `• ${chalk.bold('React Pure')}: Typescript, React, React-Dom`,
-        value: 'pure',
-        checked: false
-      },
-      {
-        name: `• ${chalk.bold('React Component')}: Starter for creating React Component with Typescript`,
+        name: `• ${chalk.bold('React Component')}: Preset for publishing a reusable React component to NPM`,
         value: 'component',
-        checked: false
+        checked: false,
       },
       {
-        name: `• ${chalk.bold('UMD Library')}: Starter for creating UMD Library with Typescript`,
+        name: `• ${chalk.bold('UMD Library')}: Preset for a vanilla JavaScript UMD library, suitable for NPM publishing`,
         value: 'library',
-        checked: false
+        checked: false,
       },
-      /*{
-        name: '• Node.js Application',
-        value: 'nodejs',
-        checked: false
-      }*/
-    ]
+    ],
   });
 
   const { tester } = await prompt({
     type: 'confirm',
     name: 'tester',
-    message: 'Do you want tests?'
+    message: 'Do you want tests?',
   });
 
   return {
     appType,
     tester,
-  }
-}
+  };
+};

@@ -48,20 +48,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       });
       break;
 
-    case 'pure':
-      packageJSON = await addDependencies(packageJSON, {
-        dependencies: [
-          { name: 'react', version: '19' },
-          { name: 'react-dom', version: '19' },
-        ],
-        devDependencies: [
-          { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/react', version: '19' },
-          { name: '@types/react-dom', version: '19' },
-        ],
-      });
-      break;
-
     case 'library':
     case 'component':
       if (appType === 'component') {
@@ -105,15 +91,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
 
       packageJSON = addScripts(packageJSON, {
         production,
-      });
-      break;
-
-    case 'nodejs':
-      packageJSON = await addDependencies(packageJSON, {
-        devDependencies: [
-          { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '22' },
-        ],
       });
       break;
   }
@@ -194,7 +171,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       });
     }
 
-    if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'pure') {
+    if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       packageJSON = await addDependencies(packageJSON, {
         devDependencies: [
           { name: '@testing-library/jest-dom', version: '6' },

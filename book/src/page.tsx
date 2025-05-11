@@ -85,7 +85,7 @@ export const Page = (): ReactElement => {
 
       <ul>
         <li>Simple Single Page application</li>
-        <li>Server-Side Render + Redux + Thunk + React-Router + project structure</li>
+        <li>Server-Side Render</li>
         <li>Pure React project</li>
         <li>UMD library or React Component</li>
       </ul>

@@ -8,24 +8,10 @@
 
 **@rockpack/starter** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
-- **React SPA** - Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
-    - React-Router
-    - Redux
-    - Redux Toolkit
-    - Redux-Thunk
-    - React-Helmet
-    - @loadable/components is being used for split your code into SSR application
-- **React SPA + SSR** - SSR, SEO, Redux, Thunk, React-Router, CSS Modules, @loadable, project structure etc.
-    - Koa is being used for the server
-    - iSSR is being used for effect handling in the server side
-    - React-Router
-    - Redux
-    - Redux Toolkit
-    - Redux-Thunk
-    - React-Helmet-Async
-    - @loadable/components is being used for split your code into SSR application
-- **React Component** - Configured webpack to create React component (for NPM publishing).
-- **UMD Library** - Configured webpack to create UMD library (vanilla JS, for NPM publishing).
+**React SPA** – Preset for a Single Page Application using React.
+**React SPA + SSR** – Preset for a React Single Page Application with Server-Side Rendering.
+**React Component** – Preset for publishing a reusable React component to NPM.
+**UMD Library** – Preset for a vanilla JavaScript UMD library, suitable for NPM publishing.
 
 *All types of applications support:*
 - Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
