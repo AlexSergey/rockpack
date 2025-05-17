@@ -23,7 +23,7 @@ frontendCompiler(
           minify: true,
           renderer: require.resolve('@prerenderer/renderer-puppeteer'),
           rendererOptions: {
-            executablePath: '/opt/homebrew/bin/chromium',
+            executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
             headless: false,
           },
           routes: ['/'],

@@ -1,6 +1,13 @@
 # Changelog
 
-## [5.0.0 in progress]
+## [6.0.0]
+- React 19 supports in all templates
+- All dependencies were updated
+- Fix vulnerabilities issues
+- Templates simplification
+- Performance improvements
+
+## [5.0.0]
 
 - Zero vulnerabilities for all packages
 - Replaced imagemin to sharp

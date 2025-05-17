@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react';
 import ReactGA from 'react-ga';
 
-import img from '../readme_assets/rockpack_starter_1.v5.png';
+import img from '../readme_assets/rockpack_starter_1.v6.png';
 import Github from './assets/github.component.svg';
 import LogoComponent from './assets/logo.component.svg';
 import * as styles from './assets/styles/page.module.scss';
@@ -38,9 +38,10 @@ export const Page = (): ReactElement => {
         </a>
         <p>
           <strong>Rockpack</strong> is a lightweight, zero-configuration solution for quickly setting up a React
-          application with full support for **Server-Side Rendering (SSR)**, bundling, linting, and testing. In just 5
-          minutes, you can get up and running with a modern React app that&#39;s optimized for performance and best
-          practices. Perfect for developers who want to skip the setup and focus on building their app!
+          application with full support for <strong>Server-Side Rendering (SSR)</strong>, bundling, linting, and
+          testing. In just 5 minutes, you can get up and running with a modern React app that&#39;s optimized for
+          performance and best practices. Perfect for developers who want to skip the setup and focus on building their
+          app!
         </p>
         <ul>
           <li>
