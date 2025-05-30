@@ -87,7 +87,7 @@ export const writePackageJSON = (currentPath, packageJSON) => {
 export const createPackageJSON = (projectName) => ({
   author: '',
   description: '',
-  keywords: [],
+  keywords: [projectName],
   license: 'ISC',
   main: 'index.js',
   name: projectName,

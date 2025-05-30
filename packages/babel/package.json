@@ -25,9 +25,9 @@
     "production": "npm run lint && npm publish --access public"
   },
   "dependencies": {
-    "@babel/core": "7.27.1",
-    "@babel/generator": "7.27.1",
-    "@babel/parser": "7.27.2",
+    "@babel/core": "7.27.3",
+    "@babel/generator": "7.27.3",
+    "@babel/parser": "7.27.3",
     "@babel/plugin-proposal-decorators": "7.27.1",
     "@babel/plugin-proposal-do-expressions": "7.27.1",
     "@babel/plugin-proposal-pipeline-operator": "7.27.1",
@@ -36,7 +36,7 @@
     "@babel/preset-env": "7.27.2",
     "@babel/preset-react": "7.27.1",
     "@babel/preset-typescript": "7.27.1",
-    "@babel/traverse": "7.27.1",
+    "@babel/traverse": "7.27.3",
     "@loadable/babel-plugin": "5.16.1",
     "@rockpack/utils": "6.0.0",
     "babel-plugin-parameter-decorator": "1.0.16",

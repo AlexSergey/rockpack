@@ -2,17 +2,16 @@
   "name": "@rockpack/book",
   "version": "6.0.0",
   "description": "",
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build",
     "build": "node build --mode=production && node base.modify.js",
-    "lint": "eslint .",
     "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix"
+    "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
+    "start": "node build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "prism-react-renderer": "1.3.5",
     "react": "18.2.0",
@@ -21,7 +20,6 @@
     "react-helmet": "6.1.0"
   },
   "devDependencies": {
-    "puppeteer": "7.1.0",
     "@prerenderer/renderer-puppeteer": "1.2.4",
     "@prerenderer/webpack-plugin": "5.3.10",
     "@rockpack/codestyle": "6.0.0",
@@ -31,6 +29,7 @@
     "@types/react-dom": "18.2.13",
     "@types/react-helmet": "6.1.7",
     "node-html-parser": "6.1.10",
+    "puppeteer": "7.1.0",
     "raw-loader": "4.0.2"
   },
   "peerDependencies": {

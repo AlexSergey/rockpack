@@ -1,7 +1,7 @@
 const { checkReact, getMode } = require('@rockpack/utils');
 const tsParser = require('@typescript-eslint/parser');
 const checkFile = require('eslint-plugin-check-file');
-const json = require('eslint-plugin-json');
+const packageJsonConfig = require('eslint-plugin-package-json');
 const perfectionist = require('eslint-plugin-perfectionist');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const reactPlugin = require('eslint-plugin-react');
@@ -42,7 +42,6 @@ const ignores = [
   '*.txt',
   '*.mdx',
   '*.md',
-  '*.json',
   '*.ejs',
   '*.hbs',
   '*.jade',
@@ -210,12 +209,12 @@ module.exports.makeConfig = () => {
 
   return [
     { ignores },
+    packageJsonConfig.configs.recommended,
     hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
     perfectionist.configs['recommended-natural'],
     regexpPlugin.configs['flat/recommended'],
-    json.configs['recommended'],
     customTypescriptConfig,
     hasReact
       ? {

@@ -131,10 +131,9 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
   packageJSON = addScripts(packageJSON, {
     format:
       appType === 'library'
-        ? 'npm run format:package && npm run format:prettier && npm run format:code'
-        : 'npm run format:package && npm run format:prettier && npm run format:code && npm run format:styles',
+        ? 'npm run format:prettier && npm run format:code'
+        : 'npm run format:prettier && npm run format:code && npm run format:styles',
     'format:code': 'eslint . --fix',
-    'format:package': 'sort-package-json',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
     'format:styles': 'stylelint "src/**/*.scss" --fix',
     lint:
