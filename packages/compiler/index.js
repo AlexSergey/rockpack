@@ -1,5 +1,8 @@
 const webpack = require('webpack');
-const { argv } = require('yargs');
+const yargs = require('yargs');
+const { hideBin } = require('yargs/helpers');
+
+const argv = yargs(hideBin(process.argv)).parse();
 
 const backendCompiler = require('./compilers/backend-compiler');
 const frontendCompiler = require('./compilers/frontend-compiler');

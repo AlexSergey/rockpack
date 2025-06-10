@@ -1,6 +1,6 @@
 {
   "name": "node-starter",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "",
   "license": "ISC",
   "author": "",
@@ -55,9 +55,9 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "6.0.0",
-    "@rockpack/compiler": "6.0.0",
-    "@rockpack/tester": "6.0.0",
+    "@rockpack/codestyle": "6.0.1",
+    "@rockpack/compiler": "6.0.1",
+    "@rockpack/tester": "6.0.1",
     "@types/dotenv-safe": "8.1.6",
     "@types/enzyme": "3.10.18",
     "@types/jsonwebtoken": "9.0.7",

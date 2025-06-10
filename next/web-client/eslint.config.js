@@ -8,6 +8,7 @@ config.push({
   rules: {
     camelcase: ['error', { allow: camelCaseAllow, properties: 'always' }],
     'no-console': 'off',
+    'package-json/require-type': 'off',
   },
 });
 

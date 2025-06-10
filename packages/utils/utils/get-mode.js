@@ -1,4 +1,7 @@
-const { argv } = require('yargs');
+const yargs = require('yargs');
+const { hideBin } = require('yargs/helpers');
+
+const argv = yargs(hideBin(process.argv)).parse();
 
 const getMode = (modes = ['development', 'production'], defaultMode = 'development') => {
   let mode = defaultMode;

@@ -1,9 +1,13 @@
 const { makeConfig } = require('@rockpack/codestyle');
-
+const { globalIgnores } = require('eslint/config');
 const config = makeConfig();
 
 config.push({
-  ignores: ['templates/**'],
+  rules: {
+    'package-json/require-type': 'off',
+  },
 });
+
+config.push(globalIgnores(['./templates']));
 
 module.exports = config;

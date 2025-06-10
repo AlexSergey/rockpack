@@ -6,6 +6,7 @@ const perfectionist = require('eslint-plugin-perfectionist');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const reactPlugin = require('eslint-plugin-react');
 const regexpPlugin = require('eslint-plugin-regexp');
+const { globalIgnores } = require('eslint/config');
 const globals = require('globals');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
@@ -208,7 +209,7 @@ module.exports.makeConfig = () => {
   }
 
   return [
-    { ignores },
+    globalIgnores(ignores),
     packageJsonConfig.configs.recommended,
     hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,

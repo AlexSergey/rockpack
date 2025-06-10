@@ -1,3 +1,11 @@
 const { makeConfig } = require('@rockpack/codestyle');
 
-module.exports = makeConfig();
+const config = makeConfig();
+
+config.push({
+  rules: {
+    'package-json/require-type': 'off',
+  },
+});
+
+module.exports = config;
