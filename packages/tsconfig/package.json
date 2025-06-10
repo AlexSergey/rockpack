@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tsconfig",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "TSConfig for Rockpack projects",
   "main": "tsconfig.json",
   "scripts": {

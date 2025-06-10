@@ -1,3 +1,4 @@
+import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-export const argv = yargs(yargs.hideBin(process.argv)).argv;
+export const argv = yargs(hideBin(process.argv)).argv;

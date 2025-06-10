@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "private": false,
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "keywords": [
