@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "6.0.3",
+  "version": "6.0.5",
   "private": true,
   "license": "MIT",
   "workspaces": [

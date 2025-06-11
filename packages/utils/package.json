@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "6.0.3",
+  "version": "6.0.5",
   "private": false,
   "description": "Rockpack specific utils",
   "keywords": [

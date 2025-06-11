@@ -1,6 +1,6 @@
 {
   "name": "react-starter",
-  "version": "6.0.3",
+  "version": "6.0.5",
   "description": "",
   "scripts": {
     "analyzer": "node scripts.build --analyzer",
@@ -53,10 +53,10 @@
     "@issr/babel-plugin": "2.2.0",
     "@localazer/po2json": "3.1.0",
     "@localazer/webpack-plugin": "3.1.0",
-    "@rockpack/codestyle": "6.0.3",
-    "@rockpack/compiler": "6.0.3",
-    "@rockpack/tester": "6.0.3",
-    "@rockpack/tsconfig": "6.0.3",
+    "@rockpack/codestyle": "6.0.5",
+    "@rockpack/compiler": "6.0.5",
+    "@rockpack/tester": "6.0.5",
+    "@rockpack/tsconfig": "6.0.5",
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-backgrounds": "5.3.21",
     "@storybook/addon-cssresources": "5.3.21",

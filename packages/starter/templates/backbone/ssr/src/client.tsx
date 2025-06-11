@@ -1,4 +1,5 @@
 import { createSsr } from '@issr/core';
+import { createHead, UnheadProvider } from '@unhead/react/client';
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
@@ -14,11 +15,15 @@ declare global {
 
 const SSR = createSsr(window.SSR_DATA);
 
+const head = createHead();
+
 hydrateRoot(
   document.getElementById('root') as Element,
   <StrictMode>
     <SSR>
-      <App />
+      <UnheadProvider head={head}>
+        <App />
+      </UnheadProvider>
     </SSR>
   </StrictMode>,
 );
