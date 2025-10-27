@@ -12,7 +12,7 @@ export const App = (): ReactElement => {
     <>
       <Head>
         <title>Rockpack</title>
-        <meta name="description" content={description} />
+        <meta content={description} name="description" />
       </Head>
       <div className={styles.wrapper}>
         <Logo />

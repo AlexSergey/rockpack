@@ -12,7 +12,7 @@ import { App } from './app';
 const app = new Koa();
 const router = new Router();
 
-const getTemplate = () => `
+const getTemplate = (): string => `
   <!DOCTYPE html>
 <html lang="en">
 <head>

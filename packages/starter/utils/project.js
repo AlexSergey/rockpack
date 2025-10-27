@@ -73,7 +73,7 @@ export const writePackageJSON = (currentPath, packageJSON) => {
   return new Promise((resolve, reject) => {
     fs.writeFile(
       path.join(currentPath, 'package.json'),
-      JSON.stringify(sortPackageJson(packageJSON), null, 2),
+      JSON.stringify(sortPackageJson(packageJSON), null, 2) + '\n',
       (err) => {
         if (err) {
           return reject(err);
