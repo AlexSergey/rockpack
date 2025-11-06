@@ -1,14 +1,9 @@
 const { setMode } = require('@rockpack/utils');
-const { argv } = require('yargs');
 
-const run = require('./core/run');
-const watch = require('./core/watch');
+const init = require('./core/init');
 
-module.exports = function test(...args) {
+module.exports = function test(opts) {
   setMode(['development', 'production', 'test'], 'test');
-  if (argv.watch) {
-    watch.apply(this, args);
-  } else {
-    run.apply(this, args);
-  }
+
+  init(opts).catch(console.error);
 };

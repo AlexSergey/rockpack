@@ -1,15 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react'
 import Link from './Link';
 
 describe('Link', () => {
   test('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <Link title="mockTitle" url="mockUrl" />
-      ).toJSON();
+    const tree = render(<Link title="mockTitle" url="mockUrl" />);
 
-    expect(tree)
-      .toMatchSnapshot();
+    expect(tree).toMatchSnapshot();
   });
 });

@@ -7,7 +7,5 @@ test('adds 1 + 2 to equal 3', () => {
 test('1 + 1 to equal 2', () => {
   debugger;
   expect(1 + 1)
-    .toBe(2)
-    .toBeGreaterThan(1)
-    .toBeNumber();
+    .toBe(2);
 });

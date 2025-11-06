@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node tests.js",
-    "test:watch": "node tests.js --watch"
+    "test:watch": "node tests.js watch"
   },
   "author": "",
   "license": "ISC",

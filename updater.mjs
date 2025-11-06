@@ -52,16 +52,17 @@ for (let i = 0; i < pkgs.length; i++) {
     if (Object.keys(forUpdate).length > 0) {
       const pathToPackageJson = dirname(p);
       console.warn(`[${pkg.name}] package.json will be updated`);
-      const updatedPackageJson = JSON.stringify(
-        sortPackageJson({
-          ...pkg,
-          ...{
-            [field]: { ...deps, ...forUpdate },
-          },
-        }),
-        null,
-        2,
-      );
+      const updatedPackageJson =
+        JSON.stringify(
+          sortPackageJson({
+            ...pkg,
+            ...{
+              [field]: { ...deps, ...forUpdate },
+            },
+          }),
+          null,
+          2,
+        ) + '\n';
       writeFileSync(join(pathToPackageJson, 'package.json'), updatedPackageJson);
     }
   }

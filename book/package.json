@@ -1,9 +1,9 @@
 {
   "name": "@rockpack/book",
-  "version": "6.0.5",
-  "description": "",
-  "license": "ISC",
-  "author": "",
+  "version": "7.0.0-next.1",
+  "description": "Documentation and usage examples for the Rockpack project",
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
     "build": "node build --mode=production && node base.modify.js",
@@ -22,9 +22,9 @@
   "devDependencies": {
     "@prerenderer/renderer-puppeteer": "1.2.4",
     "@prerenderer/webpack-plugin": "5.3.10",
-    "@rockpack/codestyle": "6.0.5",
-    "@rockpack/compiler": "6.0.5",
-    "@rockpack/tsconfig": "6.0.5",
+    "@rockpack/codestyle": "7.0.0-next.1",
+    "@rockpack/compiler": "7.0.0-next.1",
+    "@rockpack/tsconfig": "7.0.0-next.1",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
     "@types/react-helmet": "6.1.7",

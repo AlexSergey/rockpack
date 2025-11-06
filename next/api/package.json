@@ -1,9 +1,9 @@
 {
-  "name": "node-starter",
-  "version": "6.0.5",
-  "description": "",
-  "license": "ISC",
-  "author": "",
+  "name": "api",
+  "version": "7.0.0-next.1",
+  "description": "Backend example showcasing Rockpack setup and usage",
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
     "analyzer": "node scripts.build --analyzer",
@@ -55,9 +55,9 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "6.0.5",
-    "@rockpack/compiler": "6.0.5",
-    "@rockpack/tester": "6.0.5",
+    "@rockpack/codestyle": "7.0.0-next.1",
+    "@rockpack/compiler": "7.0.0-next.1",
+    "@rockpack/tester": "7.0.0-next.1",
     "@types/dotenv-safe": "8.1.6",
     "@types/enzyme": "3.10.18",
     "@types/jsonwebtoken": "9.0.7",

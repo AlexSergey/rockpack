@@ -1,6 +1,7 @@
 const defaultProps = {
-  prefix: 'spec',
+  prefix: '(spec|test)',
   src: './src',
+  watch: false,
   /*
    * Other Props:
    * */

@@ -10,7 +10,7 @@ import { StatisticTypeModel } from './src/models/statistic-type';
 import { UserModel } from './src/models/user';
 
 (async (): Promise<void> => {
-  console.log(process.env.NODE_ENV);
+  console.log(`Using environment "${process.env.NODE_ENV}"`);
   if (process.env.NODE_ENV !== 'test') {
     console.error('Dropdatabase script must be used only in test env!');
     process.exit(1);

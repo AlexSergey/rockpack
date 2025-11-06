@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "6.0.5",
+  "version": "7.0.0-next.1",
   "private": false,
   "description": "Create-react-app on steroids. Create CSR/SSR Applications, with configured Webpack, Jest, ESLint's best practices rules and many optimizations",
   "keywords": [
@@ -20,7 +20,6 @@
   },
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
-  "type": "module",
   "main": "lib/index.js",
   "bin": {
     "rockpack": "./bin/index.js"
@@ -32,15 +31,15 @@
     "production": "npm publish --access public"
   },
   "dependencies": {
-    "chalk": "5.4.1",
+    "chalk": "5.6.2",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",
-    "inquirer": "12.6.3",
+    "inquirer": "12.10.0",
     "latest-version": "9.0.0",
     "ncp": "2.0.0",
-    "ora": "8.2.0",
-    "semver": "7.7.2",
-    "sort-package-json": "3.2.1",
+    "ora": "9.0.0",
+    "semver": "7.7.3",
+    "sort-package-json": "3.4.0",
     "yargs": "18.0.0"
   },
   "engines": {
