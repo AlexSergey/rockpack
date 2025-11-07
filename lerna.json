@@ -1,10 +1,5 @@
 {
   "npmClient": "npm",
-  "packages": [
-    "book",
-    "next/*",
-    "packages/*"
-  ],
-  "version": "independent",
-  "useWorkspaces": true
+  "packages": ["book", "packages/*"],
+  "version": "independent"
 }

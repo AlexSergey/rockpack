@@ -94,7 +94,6 @@ test-reports
 .env
 
 # Custom rules
-packages/next/public
 packages/compiler/examples/**/public
 packages/compiler/examples/**/lib
 packages/ussr/examples/**/public

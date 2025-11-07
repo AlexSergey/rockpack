@@ -15,7 +15,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         ],
         devDependencies: [
           { name: '@rockpack/compiler', version: packageJson.version },
-          { name: '@types/node', version: '22' },
+          { name: '@types/node', version: '24' },
           { name: '@types/react', version: '19' },
           { name: '@types/react-dom', version: '19' },
         ],
@@ -26,14 +26,14 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       packageJSON = await addDependencies(packageJSON, {
         dependencies: [
           { name: 'axios', version: '1' },
-          { name: 'koa', version: '2' },
+          { name: 'koa', version: '3' },
           { name: 'koa-static', version: '5' },
           { name: 'react', version: '19' },
           { name: 'react-dom', version: '19' },
           { name: 'react-router-dom', version: '7' },
           { name: '@issr/core', version: '3' },
-          { name: 'serialize-javascript', version: '6' },
-          { name: '@koa/router', version: '13' },
+          { name: 'serialize-javascript', version: '7' },
+          { name: '@koa/router', version: '14' },
           { name: '@unhead/react', version: '2' },
         ],
         devDependencies: [
@@ -41,10 +41,10 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@rockpack/compiler', version: packageJson.version },
           { name: '@types/react', version: '19' },
           { name: '@types/react-dom', version: '19' },
-          { name: '@types/koa', version: '2' },
+          { name: '@types/koa', version: '3' },
           { name: '@types/koa__router', version: '12' },
           { name: '@types/koa-static', version: '4' },
-          { name: '@types/node', version: '22' },
+          { name: '@types/node', version: '24' },
           { name: '@types/serialize-javascript', version: '5' },
         ],
       });
@@ -160,7 +160,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
         { name: '@rockpack/tester', version: packageJson.version },
-        { name: '@types/jest', version: '29' },
         { name: 'source-map', version: '0.8.0-beta.0' },
       ],
     });
@@ -177,7 +176,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           { name: '@testing-library/jest-dom', version: '6' },
           { name: '@testing-library/react', version: '16' },
           { name: '@testing-library/jest-dom', version: '6' },
-          { name: 'jest-environment-jsdom', version: '29' },
         ],
       });
     }
@@ -187,7 +185,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     packageJSON = await addDependencies(packageJSON, {
       devDependencies: [
         { name: 'husky', version: '9' },
-        { name: 'lint-staged', version: '15' },
+        { name: 'lint-staged', version: '16' },
       ],
     });
 

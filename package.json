@@ -5,7 +5,6 @@
   "license": "MIT",
   "workspaces": [
     "book",
-    "next/*",
     "packages/*"
   ],
   "scripts": {
@@ -19,15 +18,15 @@
     "pre-push": "npm run lint && npm test"
   },
   "dependencies": {
-    "caniuse-lite": "1.0.30001684",
-    "node-addon-api": "8.2.2",
-    "node-gyp": "10.2.0",
-    "sort-package-json": "2.14.0"
+    "caniuse-lite": "1.0.30001754",
+    "node-addon-api": "8.5.0",
+    "node-gyp": "11.5.0",
+    "sort-package-json": "3.4.0"
   },
   "devDependencies": {
     "cross-env": "7.0.3",
-    "lerna": "3.22.1",
-    "simple-git-hooks": "2.11.1"
+    "lerna": "9.0.0",
+    "simple-git-hooks": "2.13.1"
   },
   "overrides": {
     "puppeteer": "^7.1.0"

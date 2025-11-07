@@ -1,4 +1,0 @@
-User-agent: *
-allow: /ru/
-allow: /en/
-Disallow: /admin/

@@ -80,12 +80,12 @@ const createBabelPresets = ({
       };
 
   opts.plugins = [
+    getPreset('babel-plugin-react-compiler'),
     getPreset('@babel/plugin-proposal-pipeline-operator', {
       proposal: 'minimal',
     }),
     getPreset('@babel/plugin-proposal-do-expressions'),
     getPreset('@babel/plugin-proposal-decorators', { legacy: true }),
-    getPreset('babel-plugin-parameter-decorator'),
   ];
 
   if (typescript) {

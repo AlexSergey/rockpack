@@ -20,8 +20,6 @@ if (format.filter((f) => f !== '').length !== 3) {
 
 const projects = [
   './book/package.json',
-  './next/api/package.json',
-  './next/web-client/package.json',
   './packages/babel/package.json',
   './packages/codestyle/package.json',
   './packages/compiler/package.json',

@@ -8,8 +8,5 @@
     "build": "cross-env NODE_ENV=production node build"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "eslint-plugin-react": "7.19.0"
-  }
+  "license": "ISC"
 }

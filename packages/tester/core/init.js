@@ -9,13 +9,13 @@ async function init(opts = {}) {
     const { results } = await runCLI(jestConfig, [process.cwd()]);
 
     if (results.success) {
-      console.log('✅ All tests have been successfully passed!');
+      console.log('✅ All tests have passed successfully!');
     } else {
-      console.error('❌ Some tests have been failed!');
+      console.error('❌ Some tests have failed!');
       process.exit(1);
     }
   } catch (err) {
-    console.error("Jest can't be run:", err);
+    console.error('Jest encountered an error:', err);
     process.exit(1);
   }
 }
