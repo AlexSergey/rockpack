@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
 const paths = [
+  './e2e/babel/package.json',
   './packages/babel/package.json',
   './packages/codestyle/package.json',
   './packages/compiler/package.json',

@@ -5,6 +5,7 @@
   "license": "MIT",
   "workspaces": [
     "book",
+    "e2e/*",
     "packages/*"
   ],
   "scripts": {
