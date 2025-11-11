@@ -6,6 +6,7 @@ import semverParse from 'semver/functions/parse.js';
 
 import { defaultApp } from '../constants/names.js';
 import { here } from '../constants/paths.js';
+import { getArgs } from '../lib/getArgs.js';
 import { install } from '../lib/install.js';
 import { argv } from '../utils/argv.js';
 import { packageJson } from '../utils/package-json.js';
@@ -14,6 +15,7 @@ import { getCurrentPath } from '../utils/pathes.js';
 export const rockpack = async () => {
   const { _, h, help, v, version } = argv;
   const noName = _.length === 0;
+  const args = getArgs();
 
   if (v || version) {
     console.log(`Rockpack v${chalk.green(packageJson.version)}`);
@@ -57,7 +59,7 @@ export const rockpack = async () => {
 
   let projectName = String(_[0]);
 
-  const currentPath = getCurrentPath(projectName);
+  const currentPath = getCurrentPath(args.folder ? path.join(args.folder, projectName) : projectName);
 
   if (projectName !== here && fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
     console.error(chalk.red(`Project "${projectName}" has already created. Please use manual installation:\n`));
@@ -86,6 +88,7 @@ export const rockpack = async () => {
   }
 
   await install({
+    args,
     currentPath,
     projectName,
   });

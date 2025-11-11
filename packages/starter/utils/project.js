@@ -70,23 +70,42 @@ export const addScripts = (packageJSON, scripts = {}) => {
 };
 
 export const writePackageJSON = (currentPath, packageJSON) => {
+  const sorted = sortPackageJson(packageJSON);
+
+  /*
+   * eslint-plugin-package-json has different logic of sorting collections:
+   * sortPackageJson by default sort the keys like this:
+   *  - @types/koa__router
+   *  - @types/koa-static
+   * eslint-plugin-package-json expects to have order:
+   *  - @types/koa-static
+   *  - @types/koa__router
+   * This fix important only in generation stage, after generation package json will be sorted by eslint-plugin-package-json
+   * */
+  if (sorted.devDependencies) {
+    const orderedKeys = Object.keys(sorted.devDependencies);
+    const indexA = orderedKeys.indexOf('@types/koa__router');
+    const indexB = orderedKeys.indexOf('@types/koa-static');
+
+    if (indexA >= 0 && indexB >= 0) {
+      [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
+      sorted.devDependencies = Object.fromEntries(orderedKeys.map((key) => [key, sorted.devDependencies[key]]));
+    }
+  }
+
   return new Promise((resolve, reject) => {
-    fs.writeFile(
-      path.join(currentPath, 'package.json'),
-      JSON.stringify(sortPackageJson(packageJSON), null, 2) + '\n',
-      (err) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve();
-      },
-    );
+    fs.writeFile(path.join(currentPath, 'package.json'), JSON.stringify(sorted, null, 2) + '\n', (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
   });
 };
 
 export const createPackageJSON = (projectName) => ({
-  author: '',
-  description: '',
+  author: 'email@email.com',
+  description: '<description>',
   keywords: [projectName],
   license: 'ISC',
   main: 'index.js',

@@ -104,3 +104,4 @@ packages/ussr/lib
 starter_test
 elm-stuff
 storage
+e2e/starter-e2e/src/generators

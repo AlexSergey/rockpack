@@ -1,6 +1,6 @@
 import child_process from 'node:child_process';
 
-import { argv } from '../utils/argv.js';
+import { argv } from './argv.js';
 
 export const yarnIsAvailable = () => {
   if (!argv.yarn) {

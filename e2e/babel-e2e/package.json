@@ -1,16 +1,19 @@
 {
   "name": "@rockpack/babel-e2e",
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "node test.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/AlexSergey/rockpack.git"
   },
-  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:eslint",
+    "format:eslint": "eslint . --fix",
+    "lint": "eslint .",
+    "test": "node test.js"
+  },
   "devDependencies": {
     "@rockpack/tester": "7.0.0-next.1"
   }

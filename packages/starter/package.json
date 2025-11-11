@@ -20,6 +20,7 @@
   },
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "type": "module",
   "main": "lib/index.js",
   "bin": {
     "rockpack": "./bin/index.js"
@@ -36,6 +37,7 @@
     "deep-extend": "0.6.0",
     "inquirer": "12.10.0",
     "latest-version": "9.0.0",
+    "mkdirp": "3.0.1",
     "ncp": "2.0.0",
     "ora": "9.0.0",
     "semver": "7.7.3",

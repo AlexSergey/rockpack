@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ora from 'ora';
 import chalk from 'chalk';
+import { mkdirp } from 'mkdirp';
 import { wizard } from './wizard.js';
 import { gitInit } from './gitInit.js';
 import { copyFiles } from './copyFiles.js';
@@ -10,38 +11,28 @@ import { packageJSONPreparing } from './packageJSONPreparing.js';
 import { showError } from '../utils/error.js';
 import { gitHooks } from '../utils/git-hooks.js';
 import { dummies } from '../utils/pathes.js';
-import {
-  createPackageJSON,
-  writePackageJSON,
-  installDependencies,
-  installPeerDependencies
-} from '../utils/project.js';
+import { createPackageJSON, writePackageJSON, installDependencies, installPeerDependencies } from '../utils/project.js';
 import { getPM } from '../utils/other.js';
 
 const timeouts = {
   $el1: null,
   $el2: null,
   $el3: null,
-}
+};
 
 const clear = (timeouts) => {
-  Object.keys(timeouts).forEach(k => {
+  Object.keys(timeouts).forEach((k) => {
     clearTimeout(timeouts[k]);
-  })
-}
+  });
+};
 
-export const install = async ({
-  projectName,
-  currentPath
-}) => {
-  const state = await wizard();
+export const install = async ({ args, projectName, currentPath }) => {
+  const state = await wizard(args);
   state.projectName = projectName;
 
   console.log();
 
-  if (!fs.existsSync(currentPath)) {
-    fs.mkdirSync(currentPath);
-  }
+  await mkdirp(currentPath);
 
   const examplePath = path.resolve(currentPath, 'example');
 
@@ -124,8 +115,7 @@ export const install = async ({
     console.log(`${chalk.green('.npmignore')} created\n`);
   }
 
-  const spinner = ora('package.json is preparing. Dependencies are checking.\n')
-    .start();
+  const spinner = ora('package.json is preparing. Dependencies are checking.\n').start();
 
   try {
     packageJSON = await packageJSONPreparing(packageJSON, state, currentPath);
@@ -182,6 +172,15 @@ export const install = async ({
     });
   }
 
+  if (args.noInstall) {
+    spinner.stop();
+    clear(timeouts);
+
+    console.log();
+    console.log(chalk.green(`Project "${projectName}" was created successfully!`));
+    process.exit();
+  }
+
   try {
     await installDependencies(currentPath);
 
@@ -214,7 +213,7 @@ export const install = async ({
   console.log();
   console.log(`Go to "${projectName}" folder`);
   console.log(chalk.blue(`cd ${projectName}`));
-  console.log('and run commands')
+  console.log('and run commands');
   console.log();
   console.log(chalk.yellow('COMMANDS:'));
   console.log();
@@ -248,4 +247,4 @@ export const install = async ({
 
   console.log();
   console.log(chalk.yellow('Thank you for using Rockpack!'));
-}
+};
