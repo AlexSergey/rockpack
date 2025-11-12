@@ -4,6 +4,7 @@ const config = makeConfig();
 
 config.push({
   rules: {
+    'no-console': 'off',
     'package-json/require-type': 'off',
     'package-json/valid-description': 'off',
   },

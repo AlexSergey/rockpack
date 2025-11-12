@@ -1,17 +1,16 @@
-import Highlight, { defaultProps, Language } from 'prism-react-renderer';
-import dracula from 'prism-react-renderer/themes/dracula';
+import { Highlight, Language, RenderProps, themes } from 'prism-react-renderer';
 import { ReactElement } from 'react';
 
 export const Code = ({ code, language }: { code: string; language: Language }): ReactElement => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <Highlight {...defaultProps} code={code} language={language} theme={dracula}>
-    {({ className, getLineProps, getTokenProps, style, tokens }): ReactElement => (
-      <pre className={className} style={style}>
+  <Highlight code={code.substring(0, code.length - 1)} language={language} theme={themes.shadesOfPurple}>
+    {({ getLineProps, getTokenProps, style, tokens }: RenderProps) => (
+      <pre style={style}>
         {tokens.map((line, i) => (
-          <div {...getLineProps({ line })} key={i}>
+          <div key={i} {...getLineProps({ line })}>
             {line.map((token, key) => (
-              <span {...getTokenProps({ token })} key={key} />
+              <span key={key} {...getTokenProps({ token })} />
             ))}
           </div>
         ))}

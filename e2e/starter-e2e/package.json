@@ -12,29 +12,33 @@
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",
-    "test": "node test.js"
+    "test": "node --experimental-vm-modules test.js"
   },
   "dependencies": {
+    "@rockpack/tester": "7.0.0-next.1",
+    "@types/kill-port": "^2.0.3",
+    "kill-port": "2.0.1",
+    "puppeteer": "24.29.1",
     "rimraf": "6.1.0"
   },
   "devDependencies": {
-    "@issr/core": "3.0.0",
-    "@koa/router": "^14.0.0",
-    "@rockpack/tester": "7.0.0-next.1",
+    "@issr/babel-plugin": "4.0.0",
+    "@issr/core": "4.0.0",
+    "@koa/router": "14.0.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",
-    "@types/koa": "^3.0.1",
-    "@types/koa-static": "^4.0.4",
-    "@types/koa__router": "^12.0.5",
-    "@types/serialize-javascript": "^5.0.4",
+    "@types/koa": "3.0.1",
+    "@types/koa-static": "4.0.4",
+    "@types/koa__router": "12.0.5",
+    "@types/serialize-javascript": "5.0.4",
     "@unhead/react": "2.0.19",
     "axios-mock-adapter": "2.1.0",
-    "koa": "^3.1.1",
-    "koa-static": "^5.0.0",
+    "koa": "3.1.1",
+    "koa-static": "5.0.0",
+    "looks-same": "10.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "serialize-javascript": "^7.0.0",
-    "source-map": "0.8.0-beta.0",
-    "ts-jest": "^29.4.5"
+    "serialize-javascript": "7.0.0",
+    "source-map": "0.8.0-beta.0"
   }
 }

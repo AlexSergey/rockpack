@@ -46,7 +46,6 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
 } else if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.ts'))) {
   globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.ts');
 }
-const root = getRootRequireDir();
 
 module.exports = function argsCompiler(opts = {}) {
   const options = deepExtend({}, defaultProps, opts);
@@ -55,7 +54,6 @@ module.exports = function argsCompiler(opts = {}) {
   const config = {
     globalSetup,
     globalTeardown,
-    moduleDirectories: [path.resolve(root, 'node_modules'), 'node_modules'],
     moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
     moduleNameMapper: {
       '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy.js`,

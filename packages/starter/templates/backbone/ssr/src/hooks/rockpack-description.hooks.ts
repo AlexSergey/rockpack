@@ -9,10 +9,15 @@ export const useRockpack = (): [boolean, boolean, string] => {
 
   useSsrEffect(() => {
     effect(async () => {
-      const { data } = await axios.get('https://api.github.com/repos/AlexSergey/rockpack');
-      setLoading(false);
-      setError(false);
-      setDescription(data.description);
+      try {
+        const { data } = await axios.get('https://api.github.com/repos/AlexSergey/rockpack');
+        setLoading(false);
+        setError(false);
+        setDescription(data.description);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        setError(true);
+      }
     });
   }, []);
 
