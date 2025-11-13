@@ -1,4 +1,3 @@
-const { checkReact } = require('@rockpack/utils');
 const deepmerge = require('deepmerge');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
@@ -7,7 +6,6 @@ const { isObject, isString } = require('valid-types');
 const createBabelPresets = ({
   framework = 'none',
   isNodejs = false,
-  isomorphic = false,
   isTest = false,
   modules = false,
   presetsAdditionalOptions = {},
@@ -37,8 +35,6 @@ const createBabelPresets = ({
   if (packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies['core-js'])) {
     corejs = packageJson.dependencies['core-js'];
   }
-
-  const { reactNewSyntax } = checkReact(packageJson);
 
   let opts = typescript
     ? {
@@ -80,7 +76,6 @@ const createBabelPresets = ({
       };
 
   opts.plugins = [
-    getPreset('babel-plugin-react-compiler'),
     getPreset('@babel/plugin-proposal-pipeline-operator', {
       proposal: 'minimal',
     }),
@@ -93,28 +88,18 @@ const createBabelPresets = ({
   }
 
   if (framework === 'react') {
+    opts.plugins.unshift(getPreset('babel-plugin-react-compiler'));
     opts.presets.push(
-      getPreset(
-        '@babel/preset-react',
-        reactNewSyntax
-          ? {
-              runtime: 'automatic',
-              useBuiltIns: true,
-            }
-          : {
-              useBuiltIns: true,
-            },
-      ),
+      getPreset('@babel/preset-react', {
+        runtime: 'automatic',
+        useBuiltIns: true,
+      }),
     );
 
     opts.env.production = {
       ...opts.env.production,
       plugins: [require.resolve('@babel/plugin-transform-react-constant-elements')],
     };
-  }
-
-  if (isomorphic) {
-    opts.plugins.push(require.resolve('@loadable/babel-plugin'));
   }
 
   if (isTest) {
@@ -132,7 +117,6 @@ const createBabelPresets = ({
           {
             framework,
             isNodejs,
-            isomorphic,
             isTest,
             modules,
             typescript,

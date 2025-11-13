@@ -1,4 +1,3 @@
-const LoadablePlugin = require('@loadable/webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugin');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
@@ -305,10 +304,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.StatoscopeWebpackPlugin = new StatoscopeWebpackPlugin({
       watchMode: mode === 'development',
     });
-  }
-
-  if (conf.__isIsomorphic) {
-    plugins.LoadablePlugin = new LoadablePlugin({ filename: 'stats.json', writeToDisk: true });
   }
 
   if (conf.webview) {

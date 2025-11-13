@@ -87,7 +87,6 @@ function getModules(conf = {}, mode, root) {
           options: createBabelPresets({
             framework: 'react',
             isNodejs: !!conf.nodejs,
-            isomorphic: conf.__isIsomorphic,
             presetsAdditionalOptions,
           }),
         },
@@ -119,7 +118,6 @@ function getModules(conf = {}, mode, root) {
           options: createBabelPresets({
             framework: 'react',
             isNodejs: !!conf.nodejs,
-            isomorphic: conf.__isIsomorphic,
             presetsAdditionalOptions,
           }),
         },
@@ -199,7 +197,6 @@ function getModules(conf = {}, mode, root) {
           options: createBabelPresets({
             framework: 'react',
             isNodejs: !!conf.nodejs,
-            isomorphic: conf.__isIsomorphic,
             presetsAdditionalOptions,
           }),
         },
@@ -215,7 +212,6 @@ function getModules(conf = {}, mode, root) {
         loader: require.resolve('babel-loader'),
         options: createBabelPresets({
           isNodejs: !!conf.nodejs,
-          isomorphic: true,
           presetsAdditionalOptions,
           typescript: true,
         }),
@@ -229,7 +225,6 @@ function getModules(conf = {}, mode, root) {
         options: createBabelPresets({
           framework: 'react',
           isNodejs: !!conf.nodejs,
-          isomorphic: conf.__isIsomorphic,
           presetsAdditionalOptions,
           typescript: true,
         }),

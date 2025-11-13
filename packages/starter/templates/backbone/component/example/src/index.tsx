@@ -1,5 +1,9 @@
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import RockpackComponent from '../../src';
 
-render(<RockpackComponent />, document.getElementById('root'));
+const container = document.getElementById('root');
+
+const root = createRoot(container as HTMLElement);
+
+root.render(<RockpackComponent />);

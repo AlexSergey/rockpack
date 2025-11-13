@@ -37,7 +37,6 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@babel/traverse": "7.28.5",
-    "@loadable/babel-plugin": "5.16.1",
     "@rockpack/utils": "7.0.0-next.1",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-typescript-metadata": "0.4.0",

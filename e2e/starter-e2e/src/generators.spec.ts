@@ -85,13 +85,29 @@ describe('Generators tests', () => {
         });
       });
     });
+
+    it(`checks test script for ${type}`, async () => {
+      const passedMessage = '✅ All tests have passed successfully!';
+      const buf = execSync('npm test', {
+        cwd: join(genFolder, `${type}-with-tests`),
+      });
+      const res = buf
+        .toString()
+        // eslint-disable-next-line no-control-regex
+        .replace(/\x1B\[[0-9;]*m/g, '')
+        .split('\n');
+
+      const message = res.find((m) => m === passedMessage);
+
+      expect(message).toBe(passedMessage);
+    });
   });
 
   describe.each(['csr', 'ssr'])('dev server checking', (type) => {
     describe.each([true, false])('dev server checking for project with or without tests', (tests) => {
       it(`${type} dev server checking`, async () => {
-        const screenOriginalPth = `screenshots/original/${type}-${tests ? 'with' : 'without'}-dev-tests`;
-        const screenNewPth = `screenshots/new/${type}-${tests ? 'with' : 'without'}-dev-tests`;
+        const screenOriginalPth = `screenshots/original/${type}-${tests ? 'with' : 'without'}-tests-dev`;
+        const screenNewPth = `screenshots/new/${type}-${tests ? 'with' : 'without'}-tests-dev`;
 
         const serverProcess = spawn('npm', ['start'], {
           cwd: join(genFolder, `${type}-${tests ? 'with' : 'without'}-tests`),
@@ -187,8 +203,8 @@ describe('Generators tests', () => {
 
     describe('build csr project', () => {
       describe.each([true, false])('csr with or without tests', (tests) => {
+        const projectFolder = `csr-${tests ? 'with' : 'without'}-tests`;
         it(`build csr ${tests ? 'with' : 'without'} tests`, async () => {
-          const projectFolder = `csr-${tests ? 'with' : 'without'}-tests`;
           const buf = execSync('npm run build', {
             cwd: join(genFolder, `csr-${tests ? 'with' : 'without'}-tests`),
           });
@@ -217,13 +233,53 @@ describe('Generators tests', () => {
           expect(vendor).toBeTruthy();
           expect(vendorLICENSE).toBeTruthy();
         });
+
+        it('check build stage to csr project', async () => {
+          const screenOriginalPth = `screenshots/original/csr-${tests ? 'with' : 'without'}-tests-build`;
+          const screenNewPth = `screenshots/new/csr-${tests ? 'with' : 'without'}-tests-build`;
+
+          const serverProcess = spawn('node', ['./src/csr.server.js', tests ? 'with' : 'without'], {
+            detached: true,
+          });
+
+          const url = 'http://localhost:4000';
+
+          serverProcess?.stdout?.on('data', (data) => process.stdout.write(`[server] ${data}`));
+          serverProcess?.stderr?.on('data', (data) => process.stderr.write(`[server-err] ${data}`));
+
+          await waitForServer(url);
+          const browser = await puppeteer.launch({ executablePath: '/opt/homebrew/bin/chromium', headless: 'shell' });
+
+          try {
+            const page = await browser.newPage();
+            await page.goto(url, { waitUntil: 'networkidle0' });
+            await page.screenshot({ path: `${screenNewPth}.png` });
+          } catch (err) {
+            console.error(err);
+          } finally {
+            await browser.close();
+            serverProcess.kill();
+
+            try {
+              await kill(4000);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {}
+            try {
+              await kill(35729);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {}
+          }
+
+          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });
+          expect(equal).toBeTruthy();
+        });
       });
     });
 
     describe('build ssr project', () => {
       describe.each([true, false])('ssr with or without tests', (tests) => {
+        const projectFolder = `ssr-${tests ? 'with' : 'without'}-tests`;
         it(`build ssr ${tests ? 'with' : 'without'} tests`, async () => {
-          const projectFolder = `ssr-${tests ? 'with' : 'without'}-tests`;
           const buf = execSync('npm run build', {
             cwd: join(genFolder, `ssr-${tests ? 'with' : 'without'}-tests`),
           });
@@ -240,25 +296,58 @@ describe('Generators tests', () => {
           const dist0js = await exists(join(genFolder, projectFolder, 'dist', '0.js'));
           const distIndexJS = await exists(join(genFolder, projectFolder, 'dist', 'index.js'));
           const distIndexLicense = await exists(join(genFolder, projectFolder, 'dist', 'index.js.LICENSE.txt'));
-          const distStats = await exists(join(genFolder, projectFolder, 'dist', 'stats.json'));
 
           const publicCss = await exists(join(genFolder, projectFolder, 'public', 'css', 'styles.css'));
           const publicFavicon = await exists(join(genFolder, projectFolder, 'public', 'favicon.ico'));
           const publicIndexJS = await exists(join(genFolder, projectFolder, 'public', 'index.js'));
           const publicRobots = await exists(join(genFolder, projectFolder, 'public', 'robots.txt'));
-          const publicStats = await exists(join(genFolder, projectFolder, 'public', 'stats.json'));
 
           expect(distCss).toBeTruthy();
           expect(dist0js).toBeTruthy();
           expect(distIndexJS).toBeTruthy();
           expect(distIndexLicense).toBeTruthy();
-          expect(distStats).toBeTruthy();
 
           expect(publicCss).toBeTruthy();
           expect(publicFavicon).toBeTruthy();
           expect(publicIndexJS).toBeTruthy();
           expect(publicRobots).toBeTruthy();
-          expect(publicStats).toBeTruthy();
+        });
+
+        it('check build result to ssr project', async () => {
+          const screenOriginalPth = `screenshots/original/ssr-${tests ? 'with' : 'without'}-tests-build`;
+          const screenNewPth = `screenshots/new/ssr-${tests ? 'with' : 'without'}-tests-build`;
+
+          const serverProcess = spawn('node', ['dist/index.js'], {
+            cwd: join(genFolder, projectFolder),
+            detached: true,
+          });
+
+          const url = 'http://localhost:4000';
+
+          serverProcess?.stdout?.on('data', (data) => process.stdout.write(`[server] ${data}`));
+          serverProcess?.stderr?.on('data', (data) => process.stderr.write(`[server-err] ${data}`));
+
+          await waitForServer(url);
+          const browser = await puppeteer.launch({ executablePath: '/opt/homebrew/bin/chromium', headless: 'shell' });
+
+          try {
+            const page = await browser.newPage();
+            await page.goto(url, { waitUntil: 'networkidle0' });
+            await page.screenshot({ path: `${screenNewPth}.png` });
+          } catch (err) {
+            console.error(err);
+          } finally {
+            await browser.close();
+            serverProcess.kill();
+
+            try {
+              await kill(35729);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {}
+          }
+
+          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });
+          expect(equal).toBeTruthy();
         });
       });
     });

@@ -79,7 +79,6 @@ module.exports = async function sourceCompile(conf) {
         const babelOptions = createBabelPresets({
           framework: 'react',
           isNodejs: !!conf.nodejs,
-          isomorphic: conf.__isIsomorphic,
           modules: format === 'esm' ? false : 'commonjs',
           typescript: true,
         });
@@ -111,7 +110,6 @@ module.exports = async function sourceCompile(conf) {
       const babelOptions = createBabelPresets({
         framework: 'react',
         isNodejs: !!conf.nodejs,
-        isomorphic: conf.__isIsomorphic,
         modules: format === 'esm' ? false : 'commonjs',
       });
       const cachedBabelPlugins = babelOptions.plugins;

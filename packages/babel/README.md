@@ -31,10 +31,7 @@ To add additional plugins please make *rockpack.babel.js* in the root folder of 
 - @babel/plugin-transform-modules-commonjs
 
 ### Other:
-- @loadable/babel-plugin (support loadable components)
 - babel-plugin-import (Ant Design correct import modules)
-
-*@loadable/babel-plugin* allows you to organize dynamic import support for SSR applications.
 
 ## The MIT License
 

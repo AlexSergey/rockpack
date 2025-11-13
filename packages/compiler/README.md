@@ -44,7 +44,7 @@
 - Generate stats.json (in production mode)
 - SEO Optimizations
 - Bundle Analyze (webpack-bundle-analyzer, Statoscope)
-- Isomorphic compile support (include isomorphic styles, isomorphic dynamic imports - **@loadable**)
+- Isomorphic compile support (include isomorphic styles)
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
 - MD/MDX support
 - GraphQL support (webpack-graphql-loader)
