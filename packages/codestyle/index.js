@@ -1,4 +1,3 @@
-const { checkReact, getMode } = require('@rockpack/utils');
 const tsParser = require('@typescript-eslint/parser');
 const checkFile = require('eslint-plugin-check-file');
 const packageJsonConfig = require('eslint-plugin-package-json');
@@ -11,6 +10,7 @@ const globals = require('globals');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
 const eslintTs = require('typescript-eslint');
+const { isObject, isString } = require('valid-types');
 
 const ignores = [
   '**/*.d.ts',
@@ -60,7 +60,8 @@ module.exports.makeConfig = () => {
 
   const packageJsonPath = path.resolve(root, 'package.json');
   const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
-  const { hasReact, reactNewSyntax } = checkReact(packageJson);
+  const { hasReact, reactNewSyntax } =
+    packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies.react);
 
   let tsConfig = false;
 
@@ -199,13 +200,9 @@ module.exports.makeConfig = () => {
     })),
   ];
 
-  if (hasReact && reactNewSyntax) {
+  if (hasReact) {
     customTypescriptConfig.rules['react/jsx-uses-react'] = 'off';
     customTypescriptConfig.rules['react/react-in-jsx-scope'] = 'off';
-  }
-  if (hasReact && !reactNewSyntax) {
-    customTypescriptConfig.rules['@typescript-eslint/no-unused-vars'] = 'off';
-    customTypescriptConfig.rules['no-unused-vars'] = 'off';
   }
 
   return [

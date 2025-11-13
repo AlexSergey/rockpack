@@ -29,7 +29,6 @@
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
     "@rockpack/babel": "7.0.0-next.1",
-    "@rockpack/utils": "7.0.0-next.1",
     "@typescript-eslint/eslint-plugin": "8.46.3",
     "@typescript-eslint/parser": "8.46.3",
     "deep-extend": "0.6.0",

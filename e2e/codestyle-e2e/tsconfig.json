@@ -1,0 +1,7 @@
+{
+  "extends": "@rockpack/tsconfig",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowJs": true
+  }
+}
