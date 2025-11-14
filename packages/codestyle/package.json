@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "7.0.0-next.1",
+  "version": "7.0.0-next.2",
   "private": false,
   "description": "The best practice for ESLint and TSLint",
   "keywords": [
@@ -28,15 +28,15 @@
     "@babel/eslint-parser": "7.28.5",
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
-    "@rockpack/babel": "7.0.0-next.1",
-    "@typescript-eslint/eslint-plugin": "8.46.3",
-    "@typescript-eslint/parser": "8.46.3",
+    "@rockpack/babel": "7.0.0-next.2",
+    "@typescript-eslint/eslint-plugin": "8.46.4",
+    "@typescript-eslint/parser": "8.46.4",
     "deep-extend": "0.6.0",
     "eslint": "9.39.1",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-check-file": "3.3.1",
     "eslint-plugin-json": "4.0.1",
-    "eslint-plugin-package-json": "0.64.0",
+    "eslint-plugin-package-json": "0.74.0",
     "eslint-plugin-perfectionist": "4.15.1",
     "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-react": "7.37.5",
@@ -51,7 +51,7 @@
     "stylelint-config-standard-scss": "16.0.0",
     "stylelint-scss": "6.12.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.3",
+    "typescript-eslint": "8.46.4",
     "yargs": "18.0.0"
   }
 }

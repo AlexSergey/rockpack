@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel",
-  "version": "7.0.0-next.1",
+  "version": "7.0.0-next.2",
   "private": false,
   "description": "Babel presets module for Rockpack",
   "keywords": [
@@ -37,7 +37,7 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@babel/traverse": "7.28.5",
-    "@rockpack/utils": "7.0.0-next.1",
+    "@rockpack/utils": "7.0.0-next.2",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-typescript-metadata": "0.4.0",
     "deepmerge": "4.3.1",
@@ -46,6 +46,6 @@
     "valid-types": "2.0.5"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "7.0.0-next.1"
+    "@rockpack/codestyle": "7.0.0-next.2"
   }
 }
