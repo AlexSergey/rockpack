@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.0.0]
+
+- Added React Compiler suppor
+- Updated all dependencies
+- Fixed security vulnerabilities
+- Removed outdated code
+- Improved overall performance
+
 ## [6.0.0]
 - React 19 supports in all templates
 - All dependencies were updated
