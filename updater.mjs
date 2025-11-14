@@ -54,17 +54,36 @@ for (let i = 0; i < pkgs.length; i++) {
     if (Object.keys(forUpdate).length > 0) {
       const pathToPackageJson = dirname(p);
       console.warn(`[${pkg.name}] package.json will be updated`);
-      const updatedPackageJson =
-        JSON.stringify(
-          sortPackageJson({
-            ...pkg,
-            ...{
-              [field]: { ...deps, ...forUpdate },
-            },
-          }),
-          null,
-          2,
-        ) + '\n';
+      const sorted = sortPackageJson({
+        ...pkg,
+        ...{
+          [field]: { ...deps, ...forUpdate },
+        },
+      });
+
+      if (p.indexOf('starter-e2e') > 0) {
+        if (sorted.devDependencies) {
+          /*
+           * eslint-plugin-package-json has different logic of sorting collections:
+           * sortPackageJson by default sort the keys like this:
+           *  - @types/koa__router
+           *  - @types/koa-static
+           * eslint-plugin-package-json expects to have order:
+           *  - @types/koa-static
+           *  - @types/koa__router
+           * */
+          const orderedKeys = Object.keys(sorted.devDependencies);
+          const indexA = orderedKeys.indexOf('@types/koa__router');
+          const indexB = orderedKeys.indexOf('@types/koa-static');
+
+          if (indexA >= 0 && indexB >= 0) {
+            [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
+            sorted.devDependencies = Object.fromEntries(orderedKeys.map((key) => [key, sorted.devDependencies[key]]));
+          }
+        }
+      }
+
+      const updatedPackageJson = JSON.stringify(sorted, null, 2) + '\n';
       writeFileSync(join(pathToPackageJson, 'package.json'), updatedPackageJson);
     }
   }
