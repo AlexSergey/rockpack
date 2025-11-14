@@ -9,7 +9,6 @@ export const gitHooks = async ({ tester }, currentPath) => {
 
   const shellOptions = {
     cwd: currentPath,
-    shell: true,
   };
 
   hooksPush = hooksPush.concat(hooksCommon);
