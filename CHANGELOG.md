@@ -2,7 +2,7 @@
 
 ## [7.0.0]
 
-- Added React Compiler suppor
+- Added React Compiler support
 - Updated all dependencies
 - Fixed security vulnerabilities
 - Removed outdated code
