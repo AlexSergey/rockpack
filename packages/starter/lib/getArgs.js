@@ -1,10 +1,16 @@
 import { argv } from '../utils/argv.js';
 
 export const getArgs = () => {
-  const args = {};
+  const args = {
+    testMode: false,
+  };
 
-  if (typeof argv.install !== 'undefined') {
+  if (String(argv.install) === 'false') {
     args.noInstall = true;
+  }
+
+  if (argv.mode === 'test') {
+    args.testMode = true;
   }
 
   if (argv.tests === 'true' || argv.tests === 'false') {

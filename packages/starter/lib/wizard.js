@@ -47,11 +47,13 @@ export const wizard = async (args) => {
   }
 
   if (typeof tester === 'undefined') {
-    tester = await prompt({
-      type: 'confirm',
-      name: 'tester',
-      message: 'Do you want tests?',
-    });
+    tester = (
+      await prompt({
+        type: 'confirm',
+        name: 'tester',
+        message: 'Do you want tests?',
+      })
+    ).tester;
   }
 
   return {

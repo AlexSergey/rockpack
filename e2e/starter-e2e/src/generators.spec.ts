@@ -23,7 +23,7 @@ describe('Generators tests', () => {
 
       it(`generates project with type %i ${tests ? ' with test' : ' without test'}`, () => {
         const buf = execSync(
-          `node ${starter} --no-install --folder="generators" --type="${type}" --tests=${tests} ${projectFolder}`,
+          `node ${starter} --no-install --mode=test --folder="generators" --type="${type}" --tests=${tests} ${projectFolder}`,
           {
             cwd: __dirname,
           },

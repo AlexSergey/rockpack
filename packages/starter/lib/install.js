@@ -30,6 +30,9 @@ export const install = async ({ args, projectName, currentPath }) => {
   const state = await wizard(args);
   state.projectName = projectName;
 
+  if (args.testMode) {
+    state.testMode = args.testMode;
+  }
   console.log();
 
   await mkdirp(currentPath);

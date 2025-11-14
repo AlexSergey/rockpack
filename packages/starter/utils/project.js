@@ -27,6 +27,7 @@ export const readPackageJSON = (currentPath) => {
 export const addDependencies = async (
   packageJSON,
   { dependencies = [], devDependencies = [], peerDependencies = [] },
+  testMode = false,
 ) => {
   const toMerge = {
     dependencies: {},
@@ -36,20 +37,32 @@ export const addDependencies = async (
 
   for (let i = 0, l = dependencies.length; i < l; i++) {
     const dep = dependencies[i];
-    const depVersion = await latestVersion(dep.name, { version: dep.version });
-    toMerge.dependencies[dep.name] = depVersion;
+    if (testMode && dep.name.indexOf('@rockpack/') === 0) {
+      toMerge.dependencies[dep.name] = dep.version;
+    } else {
+      const depVersion = await latestVersion(dep.name, { version: dep.version });
+      toMerge.dependencies[dep.name] = depVersion;
+    }
   }
 
   for (let i = 0, l = devDependencies.length; i < l; i++) {
     const devDep = devDependencies[i];
-    const devDepVersion = await latestVersion(devDep.name, { version: devDep.version });
-    toMerge.devDependencies[devDep.name] = devDepVersion;
+    if (testMode && devDep.name.indexOf('@rockpack/') === 0) {
+      toMerge.devDependencies[devDep.name] = devDep.version;
+    } else {
+      const devDepVersion = await latestVersion(devDep.name, { version: devDep.version });
+      toMerge.devDependencies[devDep.name] = devDepVersion;
+    }
   }
 
   for (let i = 0, l = peerDependencies.length; i < l; i++) {
     const peerDep = peerDependencies[i];
-    const peerVersion = await latestVersion(peerDep.name, { version: peerDep.version });
-    toMerge.peerDependencies[peerDep.name] = peerVersion;
+    if (testMode && peerDep.name.indexOf('@rockpack/') === 0) {
+      toMerge.peerDependencies[peerDep.name] = peerDep.version;
+    } else {
+      const peerVersion = await latestVersion(peerDep.name, { version: peerDep.version });
+      toMerge.peerDependencies[peerDep.name] = peerVersion;
+    }
   }
 
   Object.keys(toMerge).forEach((type) => {
