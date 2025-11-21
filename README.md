@@ -35,7 +35,7 @@ Get started with **Rockpack** today and streamline your React app development!
 
 [Fast setup](https://alexsergey.github.io/rockpack/#getting_started)
 
-- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please see every modules' readme.
+- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please see every module's readme.
 
 *Also, pay attention to module [iSSR](https://github.com/AlexSergey/issr). This tiny module helps you to move your React application to Server-Side Rendering. Please see articles:*
 - [ENG: Server-Side Rendering from zero to hero](https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610)
@@ -51,7 +51,7 @@ Working on many React projects, we are faced with the same type of routine tasks
 - *Which linter's rules should be on the project for comfortable work*
 - *How to set up Jest that it works with Babel or Typescript*
 - *How to make server-side rendering to work with existing solutions - Redux, Apollo and other*
-- *How to set up Webpack for server-side rendering and get production ready artifact and cool dev server*
+- *How to set up Webpack for server-side rendering and get production ready artifact and a cool dev server*
 
 Every time we spend weeks on these routine tasks.
 
@@ -131,7 +131,7 @@ This is an efficiently customized Eslint with many best practical rules and addi
 ***
 *In order to get more detailed info please follow each module links.*
 
-**Rockpack is completely free project. We are always open to collaboration and contributors.**
+**Rockpack is a completely free project. We are always open to collaboration and contributors.**
 
 ## Alternatives
 
@@ -148,7 +148,7 @@ The **Rockpack** project was inspired by:
 - **Rockpack** provides a very easy way to get started with **@rockpack/starter**. Just one command allows you to set up your application with support for TypeScript, Jest, Eslint, SSR and more.
 - **Rockpack** is very flexible. You can design the architecture as you like, use different libraries and solutions, for example, for state management.
 - **Rockpack** doesn't add any magic. This is a set of best practices and libraries for automating the start of a project.
-- **Rockpack** has the option of modular integration into legacy project.
+- **Rockpack** has the option of modular integration into a legacy project.
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
 - **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
 
