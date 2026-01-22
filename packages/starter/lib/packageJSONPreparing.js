@@ -39,7 +39,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: 'react-router-dom', version: '7' },
             { name: '@issr/core', version: '4' },
             { name: 'serialize-javascript', version: '7' },
-            { name: '@koa/router', version: '14' },
+            { name: '@koa/router', version: '15' },
             { name: '@unhead/react', version: '2' },
           ],
           devDependencies: [
@@ -48,7 +48,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: '@types/react', version: '19' },
             { name: '@types/react-dom', version: '19' },
             { name: '@types/koa', version: '3' },
-            { name: '@types/koa__router', version: '12' },
             { name: '@types/koa-static', version: '4' },
             { name: '@types/node', version: '24' },
             { name: '@types/serialize-javascript', version: '5' },
@@ -69,6 +68,8 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
               { name: 'react-dom', version: '19' },
             ],
             devDependencies: [
+              { name: 'react', version: '19' },
+              { name: 'react-dom', version: '19' },
               { name: '@types/react', version: '19' },
               { name: '@types/react-dom', version: '19' },
             ],

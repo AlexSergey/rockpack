@@ -1,5 +1,11 @@
 # Changelog
 
+## [7.1.0]
+
+- Updated all dependencies
+- Disabled package-json/require-type rule in codestyle
+- Fixed breaking changes in rockpack/starter
+
 ## [7.0.0]
 
 - Added React Compiler support
@@ -9,6 +15,7 @@
 - Improved overall performance
 
 ## [6.0.0]
+
 - React 19 supports in all templates
 - All dependencies were updated
 - Fix vulnerabilities issues

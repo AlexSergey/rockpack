@@ -205,6 +205,13 @@ module.exports.makeConfig = () => {
     customTypescriptConfig.rules['react/react-in-jsx-scope'] = 'off';
   }
 
+  const customPackageJsonConfig = {
+    files: ['package.json'],
+    rules: {
+      'package-json/require-type': 'off',
+    },
+  };
+
   return [
     globalIgnores(ignores),
     packageJsonConfig.configs.recommended,
@@ -214,6 +221,7 @@ module.exports.makeConfig = () => {
     perfectionist.configs['recommended-natural'],
     regexpPlugin.configs['flat/recommended'],
     customTypescriptConfig,
+    customPackageJsonConfig,
     hasReact
       ? {
           settings: {

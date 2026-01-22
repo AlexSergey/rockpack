@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
+import select from '@inquirer/select';
 
 export const wizard = async (args) => {
   const prompt = inquirer.createPromptModule();
@@ -15,45 +16,50 @@ export const wizard = async (args) => {
   console.log();
 
   if (typeof appType === 'undefined') {
-    appType = (
-      await prompt({
+    try {
+      appType = await select({
         type: 'list',
-        name: 'appType',
         message: 'Which is type of application would you build?',
         choices: [
           {
             name: `• ${chalk.bold('React SPA')}: Preset for a Single Page Application using React`,
             value: 'csr',
-            checked: false,
           },
           {
             name: `• ${chalk.bold('React SPA + SSR')}: Preset for a React Single Page Application with Server-Side Rendering`,
             value: 'ssr',
-            checked: false,
           },
           {
             name: `• ${chalk.bold('React Component')}: Preset for publishing a reusable React component to NPM`,
             value: 'component',
-            checked: false,
           },
           {
             name: `• ${chalk.bold('UMD Library')}: Preset for a vanilla JavaScript UMD library, suitable for NPM publishing`,
             value: 'library',
-            checked: false,
           },
         ],
-      })
-    ).appType;
+      });
+    } catch (error) {
+      if (error.name === 'ExitPromptError') {
+        process.exit(0);
+      }
+    }
   }
 
   if (typeof tester === 'undefined') {
-    tester = (
-      await prompt({
-        type: 'confirm',
-        name: 'tester',
-        message: 'Do you want tests?',
-      })
-    ).tester;
+    try {
+      tester = (
+        await prompt({
+          type: 'confirm',
+          name: 'tester',
+          message: 'Do you want tests?',
+        })
+      ).tester;
+    } catch (error) {
+      if (error.name === 'ExitPromptError') {
+        process.exit(0);
+      }
+    }
   }
 
   return {

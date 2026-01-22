@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "private": true,
   "license": "MIT",
   "workspaces": [
@@ -19,12 +19,13 @@
     "pre-push": "npm run lint && npm test"
   },
   "dependencies": {
-    "sort-package-json": "3.4.0"
+    "@inquirer/select": "5.0.4",
+    "sort-package-json": "3.6.0"
   },
   "devDependencies": {
     "@types/node": "24.10.0",
     "cross-env": "7.0.3",
-    "lerna": "9.0.0",
+    "lerna": "9.0.3",
     "simple-git-hooks": "2.13.1"
   }
 }

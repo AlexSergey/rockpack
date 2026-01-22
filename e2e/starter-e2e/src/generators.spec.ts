@@ -293,7 +293,6 @@ describe('Generators tests', () => {
           expect(message).toBe('Compiled successfully!');
 
           const distCss = await exists(join(genFolder, projectFolder, 'dist', 'css', 'styles.css'));
-          const dist0js = await exists(join(genFolder, projectFolder, 'dist', '0.js'));
           const distIndexJS = await exists(join(genFolder, projectFolder, 'dist', 'index.js'));
           const distIndexLicense = await exists(join(genFolder, projectFolder, 'dist', 'index.js.LICENSE.txt'));
 
@@ -303,7 +302,6 @@ describe('Generators tests', () => {
           const publicRobots = await exists(join(genFolder, projectFolder, 'public', 'robots.txt'));
 
           expect(distCss).toBeTruthy();
-          expect(dist0js).toBeTruthy();
           expect(distIndexJS).toBeTruthy();
           expect(distIndexLicense).toBeTruthy();
 
