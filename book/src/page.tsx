@@ -92,11 +92,11 @@ export const Page = (): ReactElement => {
 
       <p>1. Installation:</p>
 
-      <Code code={codeInstallationExample} language="bash" />
+      <Code code={codeInstallationExample as string} language="bash" />
 
       <p>2. Creating an App:</p>
 
-      <Code code={codeCreateExample} language="bash" />
+      <Code code={codeCreateExample as string} language="bash" />
 
       <p>3. Select the type of application, select the required modules:</p>
 

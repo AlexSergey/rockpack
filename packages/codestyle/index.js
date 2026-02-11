@@ -9,7 +9,7 @@ const { globalIgnores } = require('eslint/config');
 const globals = require('globals');
 const { existsSync } = require('node:fs');
 const path = require('node:path');
-const eslintTs = require('typescript-eslint');
+const tseslint = require('typescript-eslint');
 const { isObject, isString } = require('valid-types');
 
 const ignores = [
@@ -190,11 +190,15 @@ module.exports.makeConfig = () => {
   }
 
   const recommendedTypeScriptConfigs = [
-    ...eslintTs.configs.recommended.map((config) => ({
+    ...tseslint.configs.recommended.map((config) => ({
       ...config,
       files: tsFiles,
     })),
-    ...eslintTs.configs.stylistic.map((config) => ({
+    ...tseslint.configs.stylistic.map((config) => ({
+      ...config,
+      files: tsFiles,
+    })),
+    ...tseslint.configs.recommendedTypeChecked.map((config) => ({
       ...config,
       files: tsFiles,
     })),
@@ -214,14 +218,15 @@ module.exports.makeConfig = () => {
 
   return [
     globalIgnores(ignores),
-    packageJsonConfig.configs.recommended,
     hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
     perfectionist.configs['recommended-natural'],
     regexpPlugin.configs['flat/recommended'],
     customTypescriptConfig,
+    packageJsonConfig.configs.recommended,
     customPackageJsonConfig,
+    packageJsonConfig.configs.stylistic,
     hasReact
       ? {
           settings: {

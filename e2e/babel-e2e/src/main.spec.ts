@@ -1,8 +1,8 @@
+/* eslint-disable */
 import createBabelPresets from '@rockpack/babel';
 
 describe('babel preset generator', () => {
   it('generates config with babel preset', () => {
-    // eslint-disable-next-line
     const conf: any = createBabelPresets({
       framework: 'none',
       isNodejs: false,
@@ -20,7 +20,6 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with react framework', () => {
-    // eslint-disable-next-line
     const conf: any = createBabelPresets({
       framework: 'react',
       isNodejs: false,
@@ -37,7 +36,6 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with typescript preset', () => {
-    // eslint-disable-next-line
     const conf: any = createBabelPresets({
       framework: 'react',
       isNodejs: false,
@@ -52,7 +50,6 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with isomorphic preset', () => {
-    // eslint-disable-next-line
     const conf: any = createBabelPresets({
       framework: 'react',
       isNodejs: false,

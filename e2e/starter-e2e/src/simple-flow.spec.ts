@@ -30,7 +30,9 @@ describe('Starter simple flow', () => {
       execSync(`node ${starter}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      expect(err.message.indexOf('Please specify the project directory') > 0).toBeTruthy();
+      if (err instanceof Error) {
+        expect(err.message.indexOf('Please specify the project directory') > 0).toBeTruthy();
+      }
     }
   });
 });

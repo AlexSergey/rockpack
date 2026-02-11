@@ -64,7 +64,7 @@ describe('Generators tests', () => {
       });
 
       describe('tests scripts', () => {
-        it('runs npm lint', async () => {
+        it('runs npm lint', () => {
           let errors = false;
           try {
             execSync('npm run lint', {
@@ -73,7 +73,9 @@ describe('Generators tests', () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (e: any) {
             errors = true;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (e && Array.isArray(e.output)) {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
               e.output.forEach((_e: Buffer) => {
                 if (_e && typeof _e.toString === 'function') {
                   throw new Error(_e.toString());
@@ -86,7 +88,7 @@ describe('Generators tests', () => {
       });
     });
 
-    it(`checks test script for ${type}`, async () => {
+    it(`checks test script for ${type}`, () => {
       const passedMessage = '✅ All tests have passed successfully!';
       const buf = execSync('npm test', {
         cwd: join(genFolder, `${type}-with-tests`),
