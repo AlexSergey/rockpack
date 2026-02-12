@@ -23,9 +23,9 @@
     "sort-package-json": "3.6.0"
   },
   "devDependencies": {
-    "@types/node": "24.10.0",
+    "@types/node": "24.10.13",
     "cross-env": "7.0.3",
-    "lerna": "9.0.3",
+    "lerna": "9.0.4",
     "simple-git-hooks": "2.13.1"
   }
 }

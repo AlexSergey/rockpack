@@ -8,9 +8,9 @@ export const useRockpack = (): [boolean, boolean, string] => {
   const [description, setDescription] = useSsrState('');
 
   useSsrEffect(() => {
-    effect(async () => {
+    void effect(async () => {
       try {
-        const { data } = await axios.get('https://api.github.com/repos/AlexSergey/rockpack');
+        const { data } = await axios.get<{ description: string }>('https://api.github.com/repos/AlexSergey/rockpack');
         setLoading(false);
         setError(false);
         setDescription(data.description);

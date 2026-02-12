@@ -8,7 +8,7 @@ export const useRockpack = (): [boolean, boolean, string] => {
 
   useEffect(() => {
     axios
-      .get('https://api.github.com/repos/AlexSergey/rockpack')
+      .get<{ description: string }>('https://api.github.com/repos/AlexSergey/rockpack')
       .then(({ data }) => {
         setLoading(false);
         setError(false);

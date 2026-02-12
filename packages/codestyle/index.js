@@ -1,3 +1,4 @@
+const js = require('@eslint/js');
 const tsParser = require('@typescript-eslint/parser');
 const checkFile = require('eslint-plugin-check-file');
 const packageJsonConfig = require('eslint-plugin-package-json');
@@ -216,6 +217,13 @@ module.exports.makeConfig = () => {
     },
   };
 
+  const customJsConfig = {
+    files: ['**/*.{js,jsx}'],
+    plugins: {
+      js,
+    },
+  };
+
   return [
     globalIgnores(ignores),
     hasReact ? reactPlugin.configs.flat.recommended : {},
@@ -227,6 +235,7 @@ module.exports.makeConfig = () => {
     packageJsonConfig.configs.recommended,
     customPackageJsonConfig,
     packageJsonConfig.configs.stylistic,
+    customJsConfig,
     hasReact
       ? {
           settings: {

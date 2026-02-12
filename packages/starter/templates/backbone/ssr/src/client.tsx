@@ -1,4 +1,4 @@
-import { createSsr } from '@issr/core';
+import { createSsr, IInitState } from '@issr/core';
 import { createHead, UnheadProvider } from '@unhead/react/client';
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
@@ -8,8 +8,7 @@ import { App } from './app';
 
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    SSR_DATA: any;
+    SSR_DATA: IInitState;
   }
 }
 
