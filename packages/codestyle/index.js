@@ -1,4 +1,5 @@
 const js = require('@eslint/js');
+const json = require('@eslint/json');
 const tsParser = require('@typescript-eslint/parser');
 const checkFile = require('eslint-plugin-check-file');
 const packageJsonConfig = require('eslint-plugin-package-json');
@@ -14,6 +15,7 @@ const tseslint = require('typescript-eslint');
 const { isObject, isString } = require('valid-types');
 
 const ignores = [
+  '.idea',
   '**/*.d.ts',
   '*.d.ts',
   'node_modules',
@@ -224,14 +226,35 @@ module.exports.makeConfig = () => {
     },
   };
 
+  const jsonCustomConfig = {
+    files: ['**/*.json'],
+    ignores: ['**/*-lock.json'],
+    language: 'json/json',
+    plugins: {
+      json: json.default,
+    },
+    ...json.default.configs.recommended,
+  };
+
+  const perfectionistConfig = {
+    files: ['**/*.{js,jsx}', '**/*.{ts,tsx}'],
+    ...perfectionist.configs['recommended-natural'],
+  };
+
+  const regexpConfig = {
+    files: ['**/*.{js,jsx}', '**/*.{ts,tsx}'],
+    ...regexpPlugin.configs['flat/recommended'],
+  };
+
   return [
     globalIgnores(ignores),
     hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
-    perfectionist.configs['recommended-natural'],
-    regexpPlugin.configs['flat/recommended'],
+    perfectionistConfig,
+    regexpConfig,
     customTypescriptConfig,
+    jsonCustomConfig,
     packageJsonConfig.configs.recommended,
     customPackageJsonConfig,
     packageJsonConfig.configs.stylistic,

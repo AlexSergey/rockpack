@@ -1,9 +1,7 @@
 {
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]

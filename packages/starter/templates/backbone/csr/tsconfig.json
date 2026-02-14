@@ -2,10 +2,7 @@
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
     "module": "esnext",
-    "types": [
-      "node",
-      "webpack/module"
-    ]
+    "types": ["node", "webpack/module"]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]

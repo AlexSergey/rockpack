@@ -2,12 +2,7 @@
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
     "module": "esnext",
-    "types": [
-      "jest",
-      "node",
-      "webpack/module",
-      "@testing-library/jest-dom"
-    ]
+    "types": ["jest", "node", "webpack/module", "@testing-library/jest-dom"]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]
