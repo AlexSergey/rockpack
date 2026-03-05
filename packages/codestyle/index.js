@@ -212,9 +212,24 @@ module.exports.makeConfig = () => {
     customTypescriptConfig.rules['react/react-in-jsx-scope'] = 'off';
   }
 
+  const jsonCustomConfig = {
+    files: ['**/*.json'],
+    ignores: ['**/*-lock.json', 'package.json'],
+    language: 'json/json',
+    plugins: {
+      json,
+    },
+    ...json.default.configs.recommended,
+  };
+
   const customPackageJsonConfig = {
     files: ['package.json'],
+    ignores: ['**/*-lock.json'],
     rules: {
+      'package-json/require-exports': 'off',
+      'package-json/require-files': 'off',
+      'package-json/require-repository': 'off',
+      'package-json/require-sideEffects': 'off',
       'package-json/require-type': 'off',
     },
   };
@@ -224,16 +239,6 @@ module.exports.makeConfig = () => {
     plugins: {
       js,
     },
-  };
-
-  const jsonCustomConfig = {
-    files: ['**/*.json'],
-    ignores: ['**/*-lock.json'],
-    language: 'json/json',
-    plugins: {
-      json: json.default,
-    },
-    ...json.default.configs.recommended,
   };
 
   const perfectionistConfig = {
