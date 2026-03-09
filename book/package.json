@@ -15,8 +15,7 @@
   "dependencies": {
     "prism-react-renderer": "2.4.1",
     "react": "19.2.0",
-    "react-dom": "19.2.0",
-    "react-ga4": "2.1.0"
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@prerenderer/renderer-puppeteer": "1.2.4",

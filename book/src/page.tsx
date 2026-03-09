@@ -1,5 +1,4 @@
 import { ReactElement, useEffect } from 'react';
-import ReactGA from 'react-ga4';
 
 import img from '../readme_assets/rockpack_starter_1.v6.png';
 import Github from './assets/github.component.svg';
@@ -12,8 +11,6 @@ import codeCreateExample from './code-samples/create.example';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import codeInstallationExample from './code-samples/installation.example';
-
-ReactGA.initialize('UA-155200418-1');
 
 export const Page = (): ReactElement => {
   const hash = window?.location?.hash;
