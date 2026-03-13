@@ -1,5 +1,11 @@
 # Changelog
 
+## [7.2.0]
+
+- Updated all dependencies
+- Fixed json linter
+- Eslint was update to 10
+
 ## [7.1.0]
 
 - Updated all dependencies
