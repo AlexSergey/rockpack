@@ -5,11 +5,7 @@
     "jsx": "react-jsx",
 
     // Node.js 20
-    "lib": [
-      "ESNext",
-      "dom",
-      "dom.iterable"
-    ],
+    "lib": ["ESNext", "dom", "dom.iterable"],
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
@@ -30,7 +26,6 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
-    "noEmitOnError": true,
     "preserveConstEnums": true
   }
 }

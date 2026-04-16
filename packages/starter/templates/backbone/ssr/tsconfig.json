@@ -1,7 +1,7 @@
 {
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"]

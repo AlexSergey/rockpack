@@ -13,7 +13,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: 'axios', version: '1' },
             { name: 'react', version: '19' },
             { name: 'react-dom', version: '19' },
-            { name: '@unhead/react', version: '2' },
+            { name: '@unhead/react', version: '3' },
           ],
           devDependencies: [
             { name: '@rockpack/compiler', version: packageJson.version },
@@ -40,7 +40,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             { name: '@issr/core', version: '4' },
             { name: 'serialize-javascript', version: '7' },
             { name: '@koa/router', version: '15' },
-            { name: '@unhead/react', version: '2' },
+            { name: '@unhead/react', version: '3' },
           ],
           devDependencies: [
             { name: '@issr/babel-plugin', version: '4' },

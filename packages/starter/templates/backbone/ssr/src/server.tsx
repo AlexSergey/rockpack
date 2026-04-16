@@ -1,7 +1,7 @@
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
-import { createHead, UnheadProvider } from '@unhead/react/client';
-import { transformHtmlTemplate } from '@unhead/react/server';
+import { UnheadProvider } from '@unhead/react/client';
+import { createHead, transformHtmlTemplate } from '@unhead/react/server';
 import Koa, { Context } from 'koa';
 import serve from 'koa-static';
 import path from 'node:path';
@@ -40,7 +40,7 @@ router.get(/.*/, async (ctx: Context) => {
 
   const template = getTemplate();
 
-  ctx.body = await transformHtmlTemplate(
+  ctx.body = transformHtmlTemplate(
     head,
     template
       .replace(`<!--app-html-->`, rendered.html ?? '')
