@@ -140,7 +140,7 @@ describe('Generators tests', () => {
           } catch (e) {}
         }
 
-        const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`);
+        const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });
         expect(equal).toBeTruthy();
       });
     });
@@ -272,7 +272,7 @@ describe('Generators tests', () => {
             } catch (e) {}
           }
 
-          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`);
+          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });
           expect(equal).toBeTruthy();
         });
       });
@@ -346,7 +346,7 @@ describe('Generators tests', () => {
             } catch (e) {}
           }
 
-          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`);
+          const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });
           expect(equal).toBeTruthy();
         });
       });
