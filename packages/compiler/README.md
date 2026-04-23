@@ -13,7 +13,6 @@
 - Compile your React application (TS/Babel)
 - Compile React Component or VanillaJS UMD library (TS/Babel)
 - Nodejs backend (TS/Babel)
-- Markup html files
 - Compile isomorphic (Server-side rendering) application (TS/Babel)
 - Bundle analyze (TS/Babel)
 
@@ -33,7 +32,7 @@
 - Copy Webpack Plugin
 - ESLint support
 - Stylelint support
-- Templates: HTML/Jade/Handlebars
+- HTML Files support
 - CSS: CSS/SASS (dart-sass)/LESS + Postcss
 - PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
 - CSS Modules support
@@ -92,7 +91,6 @@ Your app will be built, minified, and optimized for production.
 ```js
 const {
   isomorphicCompiler,
-  markupCompiler,
   libraryCompiler,
   frontendCompiler,
   backendCompiler,
@@ -190,22 +188,6 @@ libraryCompiler({
      'react-dom'
   ]
 }, options);
-```
-### markupCompiler(paths[needed], options[optional], callback[optional]);
-
-Allows to process HTML files (HTML, handlebars, jade). Useful for markup
-
-```js
-const { markupCompiler } = require('rocket-starter');
-
-markupCompiler(
-  './src/**/*.{html,hbs,jade,njk}', // Glob format supported
-  options,
-  webpackConfig => {
-    Object.assign(finalConfig.resolve, {
-      alias: // add some aliases
-    });
-  });
 ```
 ### isomorphicCompiler(configs[needed]);
 

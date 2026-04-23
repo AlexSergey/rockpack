@@ -42,11 +42,6 @@ function getModules(conf = {}, mode, root) {
       use: require.resolve('@graphql-tools/webpack-loader'),
     },
 
-    handlebars: {
-      test: /\.(hbs|handlebars)$/,
-      use: require.resolve('handlebars-loader'),
-    },
-
     html: {
       test: /\.html$/,
       use: require.resolve('html-loader'),
@@ -59,13 +54,8 @@ function getModules(conf = {}, mode, root) {
       ...assetType.images,
     },
 
-    jade: {
-      test: /\.(pug|jade)$/,
-      use: [require.resolve('html-loader'), require.resolve('pug-plain-loader')],
-    },
-
     js: {
-      exclude: /(node_modules|bower_components)/,
+      exclude: /(node_modules)/,
       test: /\.js$/,
       use: [
         {
@@ -79,7 +69,7 @@ function getModules(conf = {}, mode, root) {
     },
 
     jsx: {
-      exclude: /(node_modules|bower_components)/,
+      exclude: /(node_modules)/,
       test: /\.jsx$/,
       use: [
         {
@@ -110,7 +100,7 @@ function getModules(conf = {}, mode, root) {
     },
 
     mdx: {
-      exclude: /(node_modules|bower_components)/,
+      exclude: /(node_modules)/,
       test: /\.mdx$/,
       use: [
         {

@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.0]
+
+- Updated all dependencies
+- Dropped handlebars and pug support
+- Dropped outdated markupCompiler
+- Dropped bower support
+
 ## [7.2.0]
 
 - Updated all dependencies
