@@ -9,8 +9,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # ide
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
 
 # Runtime data
 pids
