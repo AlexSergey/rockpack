@@ -6,8 +6,7 @@
     "build": "cross-env NODE_ENV=production node build"
   },
   "dependencies": {
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "core-js": "3.6.4"
+    "react": "19.2.5",
+    "react-dom": "19.2.5"
   }
 }

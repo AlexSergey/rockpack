@@ -14,11 +14,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const { isArray, isBoolean, isObject, isString } = require('valid-types');
-const VConsoleWebpackPlugin = require('vconsole-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const FlagDependencyUsagePlugin = require('webpack/lib/FlagDependencyUsagePlugin');
 const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunksPlugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
 const SSRDevelopment = require('../plugins/SSRDevelopment');
@@ -98,10 +96,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       delete dotenv.definitions['process.env'];
     }
     plugins.Dotenv = dotenv;
-  }
-
-  if (mode !== 'production' || conf.debug) {
-    plugins.WriteFilePlugin = new WriteFilePlugin();
   }
 
   let banner = makeBanner(packageJson, root);
@@ -312,11 +306,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     plugins.WebViewHTMLWrapper = new WebViewHTMLWrapper({
       dist: distPath,
     });
-    if (mode === 'development' && conf.debug) {
-      plugins.VConsoleWebpackPlugin = new VConsoleWebpackPlugin({
-        enable: true,
-      });
-    }
   }
 
   return plugins;

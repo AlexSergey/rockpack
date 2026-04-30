@@ -29,10 +29,11 @@ const makeOptimization = (mode, conf) => {
   if (mode === 'production') {
     Object.assign(optimization, {
       checkWasmTypes: true,
-      chunkIds: 'total-size',
+      chunkIds: conf.debug ? 'named' : 'total-size',
       concatenateModules: true,
       emitOnErrors: false,
       flagIncludedChunks: true,
+      mangleExports: false,
       minimize: true,
       minimizer: [
         new ImageMinimizerPlugin({
@@ -56,9 +57,9 @@ const makeOptimization = (mode, conf) => {
           terserOptions: {
             compress: {
               drop_console: !conf.debug,
-
-              drop_debugger: !conf.debug,
             },
+            keep_classnames: true,
+            keep_fnames: true,
             mangle: true,
             output: {
               comments: /banner/,
@@ -67,7 +68,7 @@ const makeOptimization = (mode, conf) => {
         }),
         new CssMinimizerPlugin(),
       ],
-      moduleIds: 'size',
+      moduleIds: conf.debug ? 'named' : 'size',
       nodeEnv: mode,
       removeAvailableModules: true,
       removeEmptyChunks: true,

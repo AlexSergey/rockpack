@@ -27,7 +27,7 @@ const _make = async (conf, post) => {
 
   const { context, entry } = makeEntry(conf, root, mode);
   const output = makeOutput(conf, root, mode);
-  const devtool = makeDevtool(mode, conf);
+  const devtool = makeDevtool(mode);
   const devServer = await makeDevServer(conf);
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
@@ -72,7 +72,7 @@ const _make = async (conf, post) => {
     };
   }
 
-  if (mode === 'development' || conf.debug) {
+  if (mode === 'development') {
     finalConfig.watch = true;
     finalConfig.cache = true;
     finalConfig.performance = {
@@ -80,7 +80,7 @@ const _make = async (conf, post) => {
     };
   }
 
-  if (mode === 'production' && !conf.debug) {
+  if (mode === 'production') {
     finalConfig.performance = {
       hints: 'warning',
     };

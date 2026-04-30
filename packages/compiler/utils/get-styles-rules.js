@@ -189,7 +189,7 @@ const getStylesRules = (conf, mode, root) => {
     if (conf.__isIsomorphicStyles) {
       cssModule = [
         MiniCssExtractPlugin.loader,
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),
@@ -198,7 +198,7 @@ const getStylesRules = (conf, mode, root) => {
       ];
       scssModule = [
         MiniCssExtractPlugin.loader,
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),
@@ -208,7 +208,7 @@ const getStylesRules = (conf, mode, root) => {
       ];
       lessModule = [
         MiniCssExtractPlugin.loader,
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),
@@ -227,7 +227,7 @@ const getStylesRules = (conf, mode, root) => {
     } else {
       cssModule = [
         extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),
@@ -236,7 +236,7 @@ const getStylesRules = (conf, mode, root) => {
       ];
       scssModule = [
         extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),
@@ -246,7 +246,7 @@ const getStylesRules = (conf, mode, root) => {
       ];
       lessModule = [
         extractStyles ? MiniCssExtractPlugin.loader : { loader: require.resolve('style-loader') },
-        { loader: require.resolve('@teamsupercell/typings-for-css-modules-loader') },
+        { loader: require.resolve('dts-css-modules-loader') },
         { loader: require.resolve('css-loader'), options: { modules: true, sourceMap: debug } },
         {
           loader: require.resolve('postcss-loader'),

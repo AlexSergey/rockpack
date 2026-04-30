@@ -102,17 +102,17 @@ const {
 
 *Options* - The settings object is the same for each compiler type:
 
-| Prop | Value[<i>Default value</i>] | Description |
-| --- | --- | --- |
-| dist | String['./dist'] | The path for compiled app, by default **dist** |
-| src | String['./src'] | The path for application source. By default "src", where will be find index.{js\|jsx\|ts\|tsx} |
-| debug | Boolean[false] | Debug option. Save source maps. It helps to find difficult bugs in minified code in production mode |
+| Prop | Value[<i>Default value</i>] | Description                                                                                                                                                                                        |
+| --- | --- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| dist | String['./dist'] | The path for compiled app, by default **dist**                                                                                                                                                     |
+| src | String['./src'] | The path for application source. By default "src", where will be find index.{js\|jsx\|ts\|tsx}                                                                                                     |
+| debug | Boolean[false] | Debug option. Disable all the code mangling. It helps to find difficult bugs in minified code in production mode                                                                                   |
 | html | Boolean/Object[undefined] | This setting will activate Html webpack plugin. You can override the default index.ejs template. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
-| port | Number[3000] | webpack-dev-server's port |
-| styles | String[undefined] | The path for CSS extraction (mini-css-extract-plugin) |
-| banner | String[undefined] | This parameter allows you to add a banner to JS and CSS files |
-| global | Object[undefined] | Allows forcing global variables using webpack.ProvidePlugin |
-| copy | Object/Array[undefined] | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}} |
+| port | Number[3000] | webpack-dev-server's port                                                                                                                                                                          |
+| styles | String[undefined] | The path for CSS extraction (mini-css-extract-plugin)                                                                                                                                              |
+| banner | String[undefined] | This parameter allows you to add a banner to JS and CSS files                                                                                                                                      |
+| global | Object[undefined] | Allows forcing global variables using webpack.ProvidePlugin                                                                                                                                        |
+| copy | Object/Array[undefined] | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                                                     |
 
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
@@ -120,7 +120,6 @@ const { frontendCompiler } = require('@rockpack/compiler');
 frontendCompiler({
   dist: 'public',
   src: 'src/main.js',
-  debug: true,
   html: {
     title: 'New app',
     favicon: './favicon.ico',
@@ -210,6 +209,33 @@ isomorphicCompiler(
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 
+## Production debugging
+
+**Rockpack** provides the ability to debug code in production by disabling all obfuscated code.
+
+This allows you to run your application in a code environment as close to production as possible. In the source code, you'll see:
+
+- Full path to the module file
+- Real names of exported methods, classes and functions
+- Saved console expressions
+
+This can be helpful when tracking down complex bugs in production. To do this, set the debug true property in the compiler.
+
+```js
+const { frontendCompiler } = require('@rockpack/compiler');
+
+frontendCompiler({
+  debug: true
+});
+```
+
+### SourceMaps
+
+- **Development**: source maps are embedded into the bundle (devtool: eval-source-map).
+- **Production**: generated as hidden-source-map. You can enable them in Chrome DevTools (the Sources tab) if needed.
+
+⚠️ It’s not recommended to deploy source maps to the server. For production debugging, upload them to Sentry and store them separately (e.g., in a bucket).
+
 ## Q&A
 
 How do I activate TypeScript?
@@ -292,7 +318,7 @@ import * as styles from './App.module.css';
 
 <div className={styles.App}>
 ```
-*CSS Modules support TypeScript with generating definitions - [@teamsupercell/typings-for-css-modules-loader](https://www.npmjs.com/package/@teamsupercell/typings-for-css-modules-loader)*
+*CSS Modules support TypeScript with generating definitions - [dts-css-modules-loader](https://github.com/Megaputer/dts-css-modules-loader)*
 ***
 
 ## The MIT License
