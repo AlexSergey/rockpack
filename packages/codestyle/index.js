@@ -1,5 +1,6 @@
 const js = require('@eslint/js');
 const json = require('@eslint/json');
+const tseslintPlugin = require('@typescript-eslint/eslint-plugin');
 const tsParser = require('@typescript-eslint/parser');
 const checkFile = require('eslint-plugin-check-file');
 const packageJsonConfig = require('eslint-plugin-package-json');
@@ -55,6 +56,7 @@ const ignores = [
   'locales/',
   'src/locales/',
   'seo_report',
+  '.last-run.json',
 ];
 const tsFiles = ['**/*.{ts,tsx}'];
 
@@ -106,6 +108,7 @@ module.exports.makeConfig = () => {
       },
     },
     plugins: {
+      '@typescript-eslint': tseslintPlugin,
       'check-file': checkFile,
       'import/parsers': tsParser,
     },
