@@ -1,65 +1,84 @@
-/* eslint-disable */
 import createBabelPresets from '@rockpack/babel';
+
+interface Config {
+  babelrc: boolean;
+  env: {
+    production: {
+      plugins: string[];
+    };
+  };
+  plugins: string[][];
+  presets: string[][];
+}
 
 describe('babel preset generator', () => {
   it('generates config with babel preset', () => {
-    const conf: any = createBabelPresets({
+    const conf = createBabelPresets({
       framework: 'none',
       isNodejs: false,
-      isomorphic: false,
       isTest: false,
       modules: false,
       presetsAdditionalOptions: {},
       typescript: false,
-    });
+    }) as unknown as Config;
 
-    expect(conf.presets[0][0].indexOf('@babel/preset-env') > 0).toBe(true);
+    const preset = conf.presets?.[0]?.[0] as string;
 
-    expect(conf.plugins[0][0].indexOf('babel-plugin-react-compiler') > 0).toBe(false);
+    expect(typeof preset === 'string' && preset.includes('@babel/preset-env')).toBe(true);
+    expect(typeof preset === 'string' && preset.includes('babel-plugin-react-compiler')).toBe(false);
+
     expect(conf.env.production.plugins).toBeUndefined();
   });
 
   it('generates config with react framework', () => {
-    const conf: any = createBabelPresets({
+    const conf = createBabelPresets({
       framework: 'react',
       isNodejs: false,
-      isomorphic: false,
       isTest: false,
       modules: false,
       presetsAdditionalOptions: {},
       typescript: false,
-    });
+    }) as unknown as Config;
+    const pluginsGlobal = conf.plugins?.[0]?.[0] as string;
+    const preset2 = conf.presets?.[1]?.[0] as string;
+    const plugins = conf.env.production.plugins[0] as string;
 
-    expect(conf.plugins[0][0].indexOf('babel-plugin-react-compiler') > 0).toBe(true);
-    expect(conf.env.production.plugins[0].indexOf('@babel/plugin-transform-react-constant-elements') > 0).toBe(true);
-    expect(conf.presets[1][0].indexOf('@babel/preset-react') > 0).toBe(true);
+    expect(pluginsGlobal.includes('babel-plugin-react-compiler')).toBe(true);
+
+    expect(plugins.includes('@babel/plugin-transform-react-constant-elements')).toBe(true);
+
+    expect(plugins.includes('@babel/plugin-transform-react-constant-elements')).toBe(true);
+
+    expect(preset2.includes('@babel/preset-react')).toBe(true);
   });
 
   it('generates config with typescript preset', () => {
-    const conf: any = createBabelPresets({
+    const conf: Config = createBabelPresets({
       framework: 'react',
       isNodejs: false,
-      isomorphic: false,
       isTest: false,
       modules: false,
       presetsAdditionalOptions: {},
       typescript: true,
-    });
+    }) as unknown as Config;
 
-    expect(conf.presets[0][0].indexOf('@babel/preset-typescript') > 0).toBe(true);
+    const preset = conf.presets?.[0]?.[0] as string;
+
+    expect(preset.includes('@babel/preset-typescript')).toBe(true);
   });
 
   it('generates config with isomorphic preset', () => {
-    const conf: any = createBabelPresets({
+    const conf = createBabelPresets({
       framework: 'react',
       isNodejs: false,
-      isomorphic: true,
       isTest: false,
       modules: false,
       presetsAdditionalOptions: {},
       typescript: true,
-    });
+    }) as unknown as Config;
 
-    expect(conf.presets[0][0].indexOf('@babel/preset-typescript') > 0).toBe(true);
+    const preset = conf.presets?.[0]?.[0] as string;
+
+    expect(preset.includes('@babel/preset-typescript')).toBe(true);
   });
 });

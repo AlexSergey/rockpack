@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": "src/",
     "outDir": "./dist/",
     "jsx": "react-jsx",
 
-    // Node.js 20
-    "lib": ["ESNext", "dom", "dom.iterable"],
+    // Node.js 24
+    "lib": [
+      "ESNext",
+      "dom",
+      "dom.iterable"
+    ],
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+
     "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
 
     "sourceMap": true,
     "removeComments": false,

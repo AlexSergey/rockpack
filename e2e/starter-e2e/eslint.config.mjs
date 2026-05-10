@@ -1,5 +1,6 @@
-const { makeConfig } = require('@rockpack/codestyle');
-const { globalIgnores } = require('eslint/config');
+import { makeConfig } from '@rockpack/codestyle';
+import { globalIgnores } from 'eslint/config';
+
 const config = makeConfig();
 
 config.push({
@@ -12,4 +13,4 @@ config.push({
 
 config.push(globalIgnores(['./src/generators']));
 
-module.exports = config;
+export default config;

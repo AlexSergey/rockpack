@@ -1,6 +1,7 @@
 {
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
+    "rootDir": "src/",
     "module": "esnext",
     "types": ["node", "webpack/module"]
   },

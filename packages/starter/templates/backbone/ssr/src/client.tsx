@@ -1,4 +1,6 @@
-import { createSsr, IInitState } from '@issr/core';
+import type { IInitState } from '@issr/core';
+
+import { createSsr } from '@issr/core';
 import { createHead, UnheadProvider } from '@unhead/react/client';
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';

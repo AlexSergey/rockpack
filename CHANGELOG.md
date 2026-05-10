@@ -2,13 +2,14 @@
 
 ## [8.0.0]
 
-- Updated all dependencies
+- Codestyle module has been reworked for better ESLint 10 support
 - Fixed d.ts generation for CSS Modules
 - Improved debugging in production
 - Dropped handlebars and pug support
 - Dropped outdated markupCompiler
 - Dropped outdated webpack plugins
 - Dropped bower support
+- Updated all dependencies
 
 ## [7.2.0]
 

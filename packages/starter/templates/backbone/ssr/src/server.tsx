@@ -1,8 +1,10 @@
+import type { Context } from 'koa';
+
 import { serverRender } from '@issr/core';
 import Router from '@koa/router';
 import { UnheadProvider } from '@unhead/react/client';
 import { createHead, transformHtmlTemplate } from '@unhead/react/server';
-import Koa, { Context } from 'koa';
+import Koa from 'koa';
 import serve from 'koa-static';
 import path from 'node:path';
 import serialize from 'serialize-javascript';

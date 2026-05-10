@@ -1,4 +1,4 @@
-const { makeConfig } = require('./index.js');
+import { makeConfig } from '@rockpack/codestyle';
 
 const config = makeConfig();
 
@@ -8,4 +8,4 @@ config.push({
   },
 });
 
-module.exports = config;
+export default config;

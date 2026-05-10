@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "require-main-filename": "2.0.0",
-    "semver": "7.7.4",
+    "semver": "7.8.0",
     "valid-types": "2.0.5",
     "yargs": "18.0.0"
   }

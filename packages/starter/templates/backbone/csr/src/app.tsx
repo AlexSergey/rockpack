@@ -1,5 +1,6 @@
+import type { ReactElement } from 'react';
+
 import { Head } from '@unhead/react';
-import { ReactElement } from 'react';
 
 import Logo from './components/logo.component.svg';
 import { useRockpack } from './hooks/rockpack-description.hooks';

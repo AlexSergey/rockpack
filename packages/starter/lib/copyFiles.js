@@ -7,14 +7,10 @@ import { copy } from '../utils/copy.js';
 export const copyFiles = async (currentPath, { appType, tester, nogit }) => {
   await copy(path.join(backbone, appType), path.join(currentPath));
 
-  await copy(path.join(addons, 'codestyle', 'common'), path.join(currentPath));
+  await copy(path.join(addons, 'codestyle'), path.join(currentPath));
 
   if (!nogit) {
     await copy(path.join(addons, 'git'), path.join(currentPath));
-  }
-
-  if (appType === 'ssr' || appType === 'csr') {
-    await copy(path.join(addons, 'codestyle', appType), path.join(currentPath));
   }
 
   if (tester) {

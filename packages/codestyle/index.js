@@ -1,19 +1,19 @@
-const js = require('@eslint/js');
-const json = require('@eslint/json');
-const tseslintPlugin = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
-const checkFile = require('eslint-plugin-check-file');
-const packageJsonConfig = require('eslint-plugin-package-json');
-const perfectionist = require('eslint-plugin-perfectionist');
-const prettierRecommended = require('eslint-plugin-prettier/recommended');
-const reactPlugin = require('eslint-plugin-react');
-const regexpPlugin = require('eslint-plugin-regexp');
-const { globalIgnores } = require('eslint/config');
-const globals = require('globals');
-const { existsSync } = require('node:fs');
-const path = require('node:path');
-const tseslint = require('typescript-eslint');
-const { isObject, isString } = require('valid-types');
+import reactPlugin from '@eslint-react/eslint-plugin';
+import js from '@eslint/js';
+import json from '@eslint/json';
+import tseslintPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import checkFile from 'eslint-plugin-check-file';
+import packageJsonConfig from 'eslint-plugin-package-json';
+import perfectionist from 'eslint-plugin-perfectionist';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import regexpPlugin from 'eslint-plugin-regexp';
+import { globalIgnores } from 'eslint/config';
+import globals from 'globals';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import tseslint from 'typescript-eslint';
 
 const ignores = [
   '.idea',
@@ -58,13 +58,18 @@ const ignores = [
   'seo_report',
   '.last-run.json',
 ];
-const tsFiles = ['**/*.{ts,tsx}'];
+const jsPattern = '**/*.{js,jsx}';
+const tsPattern = '**/*.{ts,tsx}';
 
-module.exports.makeConfig = () => {
+export const isString = (value) => typeof value === 'string';
+
+export const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+export const makeConfig = () => {
   const root = process.cwd();
 
   const packageJsonPath = path.resolve(root, 'package.json');
-  const packageJson = existsSync(packageJsonPath) ? require(packageJsonPath) : {};
+  const packageJson = existsSync(packageJsonPath) ? JSON.parse(readFileSync(packageJsonPath, 'utf8')) : {};
   const { hasReact, reactNewSyntax } =
     packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies.react);
 
@@ -99,7 +104,7 @@ module.exports.makeConfig = () => {
   };
 
   const customTypescriptConfig = {
-    files: tsFiles,
+    files: [tsPattern],
     languageOptions: {
       ...languageOptions,
       parser: tsParser,
@@ -198,15 +203,15 @@ module.exports.makeConfig = () => {
   const recommendedTypeScriptConfigs = [
     ...tseslint.configs.recommended.map((config) => ({
       ...config,
-      files: tsFiles,
+      files: [tsPattern],
     })),
     ...tseslint.configs.stylistic.map((config) => ({
       ...config,
-      files: tsFiles,
+      files: [tsPattern],
     })),
     ...tseslint.configs.recommendedTypeChecked.map((config) => ({
       ...config,
-      files: tsFiles,
+      files: [tsPattern],
     })),
   ];
 
@@ -222,7 +227,7 @@ module.exports.makeConfig = () => {
     plugins: {
       json,
     },
-    ...json.default.configs.recommended,
+    ...json.configs.recommended,
   };
 
   const customPackageJsonConfig = {
@@ -238,25 +243,24 @@ module.exports.makeConfig = () => {
   };
 
   const customJsConfig = {
-    files: ['**/*.{js,jsx}'],
+    files: [jsPattern],
     plugins: {
       js,
     },
   };
 
   const perfectionistConfig = {
-    files: ['**/*.{js,jsx}', '**/*.{ts,tsx}'],
+    files: [tsPattern, jsPattern],
     ...perfectionist.configs['recommended-natural'],
   };
 
   const regexpConfig = {
-    files: ['**/*.{js,jsx}', '**/*.{ts,tsx}'],
+    files: [tsPattern, jsPattern],
     ...regexpPlugin.configs['flat/recommended'],
   };
 
   return [
     globalIgnores(ignores),
-    hasReact ? reactPlugin.configs.flat.recommended : {},
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
     perfectionistConfig,
@@ -274,6 +278,9 @@ module.exports.makeConfig = () => {
               version: 'detect',
             },
           },
+          ...reactHooksPlugin.configs.flat.recommended,
+          ...reactPlugin.configs['recommended-type-checked'],
+          files: [tsPattern, jsPattern],
         }
       : {},
   ];
