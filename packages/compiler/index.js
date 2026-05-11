@@ -9,7 +9,6 @@ const frontendCompiler = require('./compilers/frontend-compiler');
 const isomorphicCompiler = require('./compilers/isomorphic-compiler');
 const libraryCompiler = require('./compilers/library-compiler');
 const makeWebpackConfig = require('./compilers/make-webpack-config');
-const webViewCompiler = require('./compilers/web-view-compiler');
 
 const getArgs = () => argv;
 
@@ -23,5 +22,4 @@ module.exports = {
   isomorphicCompiler,
   libraryCompiler,
   makeWebpackConfig,
-  webViewCompiler,
 };

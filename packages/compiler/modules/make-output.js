@@ -5,7 +5,7 @@ const makeOutput = (conf = {}, root, mode) => {
 
   const outputProps = {
     clean: true,
-    filename: conf.webview ? 'webview-index.js' : '[name].js',
+    filename: '[name].js',
     path: path.dirname(distPath),
     pathinfo: mode === 'development',
     publicPath: '/',

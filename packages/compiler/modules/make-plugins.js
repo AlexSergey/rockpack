@@ -7,8 +7,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlInlineCssWebpackPlugin = require('html-inline-css-webpack-plugin').default;
-const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
@@ -20,7 +18,6 @@ const FlagIncludedChunksPlugin = require('webpack/lib/optimize/FlagIncludedChunk
 
 const BreakingChangesWebpack4 = require('../plugins/BreakingChangesWebpack4');
 const SSRDevelopment = require('../plugins/SSRDevelopment');
-const WebViewHTMLWrapper = require('../plugins/WebViewHTMLWrapper');
 const Collection = require('../utils/collection');
 const fpPromise = require('../utils/find-free-port');
 const { getRandomInt, getTitle } = require('../utils/other');
@@ -137,12 +134,8 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
           code: conf.html && conf.html.code ? conf.html.code : null,
           favicon: conf.html && conf.html.favicon ? conf.html.favicon : null,
 
-          filename: conf.html && conf.html.filename ? conf.html.filename : conf.webview ? 'index.html' : false,
-          template:
-            (conf.html && conf.html.template) ||
-            (conf.webview
-              ? path.resolve(__dirname, '..', './index.webview.ejs')
-              : path.resolve(__dirname, '..', './index.ejs')),
+          filename: conf.html && conf.html.filename ? conf.html.filename : false,
+          template: (conf.html && conf.html.template) || path.resolve(__dirname, '..', './index.ejs'),
           title: (conf.html && conf.html.title) || (getTitle(packageJson) ? getTitle(packageJson) : ''),
         },
       ];
@@ -150,21 +143,14 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     pages = pages.map((page) => {
       if (!page.template) {
-        page.template = conf.webview
-          ? path.resolve(__dirname, '..', './index.webview.ejs')
-          : path.resolve(__dirname, '..', './index.ejs');
+        page.template = path.resolve(__dirname, '..', './index.ejs');
       }
       if (!page.filename) {
         page.filename = page.template.slice(page.template.lastIndexOf(path.sep) + 1, page.template.lastIndexOf('.'));
         page.filename += '.html';
       }
 
-      if (conf.webview) {
-        page.cache = false;
-        page.inject = 'body';
-      } else {
-        page.inject = false;
-      }
+      page.inject = false;
 
       page.minify = {
         collapseWhitespace: mode === 'production',
@@ -238,7 +224,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
   /**
    * DEVELOPMENT
    * */
-  if (mode === 'development' && !conf.webview) {
+  if (mode === 'development') {
     if (!conf.__library && conf.nodejs && !global.ISOMORPHIC) {
       const opts = await getNodemonOptions(distFolder, distPath, conf);
 
@@ -297,14 +283,6 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
 
     plugins.StatoscopeWebpackPlugin = new StatoscopeWebpackPlugin({
       watchMode: mode === 'development',
-    });
-  }
-
-  if (conf.webview) {
-    plugins.HtmlInlineScriptWebpackPlugin = new HtmlInlineScriptWebpackPlugin();
-    plugins.HtmlInlineCssWebpackPlugin = new HtmlInlineCssWebpackPlugin();
-    plugins.WebViewHTMLWrapper = new WebViewHTMLWrapper({
-      dist: distPath,
     });
   }
 
