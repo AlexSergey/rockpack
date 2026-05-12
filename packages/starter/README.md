@@ -27,6 +27,9 @@
 
 Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
 
+- **Claude Code adaptation**: Preconfigured AI development guidelines for consistent and maintainable code generation.
+- **Cost-efficient workflows**: Optimized rules to reduce unnecessary scans, validations, and refactors.
+
 *Additionally, for each type of application, you can install:*
 - Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
 - Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)

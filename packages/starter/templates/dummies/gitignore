@@ -94,4 +94,8 @@ test-reports
 # dotenv environment variables file
 .env
 
+# AI
+.claude/settings.local.json
+claude.local.md
+
 # Custom rules

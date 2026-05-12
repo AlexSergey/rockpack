@@ -1,4 +1,6 @@
-import { ReactElement, useEffect } from 'react';
+import type { ReactElement } from 'react';
+
+import { useEffect } from 'react';
 
 import img from '../readme_assets/rockpack_starter_1.v6.png';
 import Github from './assets/github.component.svg';
@@ -63,10 +65,19 @@ export const Page = (): ReactElement => {
             <strong>React, SSR, and Webpack integration</strong>: All in one package for efficient development.
           </li>
           <li>
-            <strong>Optimized for production</strong>: Bundle, lint, test, and render with best practices.
+            <strong>Production-ready quality gates</strong>: Enforced ESLint, Prettier, TypeScript, and testing
+            conventions.
           </li>
           <li>
             <strong>Extensible</strong>: Easily customize for more advanced use cases.
+          </li>
+          <li>
+            <strong>Claude Code adaptation</strong>: Preconfigured AI development guidelines for consistent and
+            maintainable code generation.
+          </li>
+          <li>
+            <strong>Cost-efficient workflows</strong>: Optimized rules to reduce unnecessary scans, validations, and
+            refactors.
           </li>
         </ul>
         <p>

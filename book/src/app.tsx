@@ -1,5 +1,6 @@
+import type { ReactElement } from 'react';
+
 import { Head } from '@unhead/react';
-import { ReactElement } from 'react';
 
 import { Page } from './page';
 

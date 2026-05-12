@@ -5,12 +5,15 @@
 - Codestyle module has been reworked for better ESLint 10 support
 - TypeScript 6+ fully support
 - Fixed d.ts generation for CSS Modules
+- Claude Code adaptation
+- Cost-efficient workflows
 - Improved debugging in production
 - Dropped handlebars and pug support
 - Dropped outdated markupCompiler
 - Dropped outdated webViewCompiler
 - Dropped outdated webpack plugins
 - Dropped bower support
+- Performance improvements
 - Updated all dependencies
 
 ## [7.2.0]

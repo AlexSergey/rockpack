@@ -19,8 +19,10 @@ focus on building their app!
 
 - **Zero-config setup**: Start building immediately with minimal setup.
 - **React, SSR, and Webpack integration**: All in one package for efficient development.
-- **Optimized for production**: Bundle, lint, test, and render with best practices.
+- **Production-ready quality gates**: Enforced ESLint, Prettier, TypeScript, and testing conventions.
 - **Extensible**: Easily customize for more advanced use cases.
+- **Claude Code adaptation**: Preconfigured AI development guidelines for consistent and maintainable code generation.
+- **Cost-efficient workflows**: Optimized rules to reduce unnecessary scans, validations, and refactors.
 
 Get started with **Rockpack** today and streamline your React app development!
 
@@ -132,6 +134,12 @@ This is an efficiently customized Eslint with many best practical rules and addi
 *In order to get more detailed info please follow each module links.*
 
 **Rockpack is a completely free project. We are always open to collaboration and contributors.**
+
+## Claude Code adaptation
+
+With **Rockpack** quality gates and a well-configured claude.md, AI-generated code stays consistent, maintainable, and production-safe.
+
+This setup helps minimize regressions, preserve existing architecture, and ensure that new changes integrate cleanly with the current codebase.
 
 ## Alternatives
 

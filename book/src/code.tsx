@@ -1,5 +1,7 @@
-import { Highlight, Language, RenderProps, themes } from 'prism-react-renderer';
-import { ReactElement } from 'react';
+import type { Language, RenderProps } from 'prism-react-renderer';
+import type { ReactElement } from 'react';
+
+import { Highlight, themes } from 'prism-react-renderer';
 
 export const Code = ({ code, language }: { code: string; language: Language }): ReactElement => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
