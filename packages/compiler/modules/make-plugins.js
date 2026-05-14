@@ -114,7 +114,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     });
   }
 
-  let pages = [];
+  let pages;
   let HTMLProcessing = true;
 
   if (typeof conf.html !== 'undefined' && isBoolean(conf.html) && conf.html === false) {

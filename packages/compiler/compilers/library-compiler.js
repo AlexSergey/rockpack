@@ -15,7 +15,7 @@ async function libraryCompiler(libraryOpts, conf, cb, configOnly = false) {
   conf.__library = true;
 
   errorHandler();
-  let libraryName = false;
+  let libraryName;
 
   if (isString(libraryOpts)) {
     libraryName = libraryOpts;

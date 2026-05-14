@@ -8,6 +8,7 @@ export const gitIsAvailable = () => {
     child_process.execSync('git --version', { stdio: 'ignore' });
     return true;
   } catch (e) {
+    console.error(e);
     return false;
   }
 };
@@ -39,6 +40,7 @@ export const makeRepo = (currentPath) => {
     console.log(`${chalk.green('GIT')} initialized`);
     return true;
   } catch (e) {
+    console.error(e);
     return false;
   }
 };

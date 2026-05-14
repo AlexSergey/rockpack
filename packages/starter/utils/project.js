@@ -136,7 +136,7 @@ export const installDependencies = (cwd) => {
       {
         cwd,
       },
-      (err, a, b) => {
+      (err) => {
         if (err) {
           return reject(err);
         }
@@ -166,7 +166,7 @@ export const installDependency = (cwd, dependency) => {
 export const installPeerDependencies = async (packageJSON, currentPath) => {
   const { peerDependencies } = packageJSON;
   for (const depName in peerDependencies) {
-    if (peerDependencies.hasOwnProperty(depName)) {
+    if (Object.prototype.hasOwnProperty.call(peerDependencies, depName)) {
       let depVersion = peerDependencies[depName];
       await installDependency(currentPath, `${depName}@${depVersion}`);
     }

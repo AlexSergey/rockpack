@@ -168,9 +168,9 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         ? 'npm run lint:ts && npm run lint:code'
         : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
     'lint:code': 'eslint .',
-    'lint:commit': 'commitlint -e',
+    'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
     'lint:ts': 'tsc --noEmit',
-    'lint:styles': 'stylelint "src/**/*.scss"',
+    'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.scss"',
   });
   packageJSON = await addDependencies(
     packageJSON,
@@ -235,7 +235,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     );
 
     packageJSON = addScripts(packageJSON, {
-      'pre-commit': 'lint-staged',
+      'pre-commit': 'lint-staged --config .lintstagedrc.cjs',
     });
   }
 

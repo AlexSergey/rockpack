@@ -26,6 +26,24 @@ focus on building their app!
 
 Get started with **Rockpack** today and streamline your React app development!
 
+## Claude Code Adaptation
+
+**Rockpack** is designed for safe and efficient AI-assisted development.
+
+Strict quality gates, automated validation, and the existing Code Style module help prevent inconsistent or low-quality
+AI-generated code from entering the project.
+
+The `CLAUDE.md` configuration is optimized for:
+
+- minimal unrelated refactoring
+- architecture consistency
+- controlled context usage
+- token-efficient workflows
+- safe incremental changes
+
+This allows AI tools to integrate cleanly into the existing engineering workflow while keeping the codebase stable and
+maintainable.
+
 ## Getting Started:
 
 **Rockpack** will help if:
@@ -135,12 +153,6 @@ This is an efficiently customized Eslint with many best practical rules and addi
 
 **Rockpack is a completely free project. We are always open to collaboration and contributors.**
 
-## Claude Code adaptation
-
-With **Rockpack** quality gates and a well-configured claude.md, AI-generated code stays consistent, maintainable, and production-safe.
-
-This setup helps minimize regressions, preserve existing architecture, and ensure that new changes integrate cleanly with the current codebase.
-
 ## Alternatives
 
 The **Rockpack** project was inspired by:
@@ -160,10 +172,6 @@ The **Rockpack** project was inspired by:
 - **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
 - **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
 
-## The MIT License
+# The MIT License
 
-Copyright (c) Sergey Aleksandrov
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[LICENSE](https://github.com/prod-forge/backend/blob/main/LICENSE.md)

@@ -10,6 +10,7 @@ export const yarnIsAvailable = () => {
     child_process.execSync('yarnpkg --version', { stdio: 'ignore' });
     return true;
   } catch (e) {
+    console.error(e);
     return false;
   }
 };

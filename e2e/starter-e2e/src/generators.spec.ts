@@ -44,9 +44,9 @@ describe('Generators tests', () => {
         });
 
         it('exists lint files', async () => {
-          const commitlintrc = await exists(join(genFolder, projectFolder, '.commitlintrc.js'));
+          const commitlintrc = await exists(join(genFolder, projectFolder, '.commitlintrc.cjs'));
           const eslint = await exists(join(genFolder, projectFolder, 'eslint.config.mjs'));
-          const stylelintrc = await exists(join(genFolder, projectFolder, '.stylelintrc.js'));
+          const stylelintrc = await exists(join(genFolder, projectFolder, '.stylelintrc.cjs'));
           expect(commitlintrc).toBeTruthy();
           expect(eslint).toBeTruthy();
           expect(stylelintrc).toBeTruthy();

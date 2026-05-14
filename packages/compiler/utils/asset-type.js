@@ -1,6 +1,6 @@
 const _4kb = 4 * 1024;
 
-const createAssetType = (conf) => ({
+const createAssetType = () => ({
   fonts: {
     generator: {
       filename: 'static/fonts/[name].[hash][ext]',

@@ -1,9 +1,11 @@
 import reactPlugin from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import json from '@eslint/json';
+import { getMode } from '@rockpack/utils';
 import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import checkFile from 'eslint-plugin-check-file';
+import noOnlyTests from 'eslint-plugin-no-only-tests';
 import packageJsonConfig from 'eslint-plugin-package-json';
 import perfectionist from 'eslint-plugin-perfectionist';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
@@ -58,20 +60,26 @@ const ignores = [
   'seo_report',
   '.last-run.json',
 ];
-const jsPattern = '**/*.{js,jsx}';
-const tsPattern = '**/*.{ts,tsx}';
+
+const jsFiles = ['**/*.{js,jsx,mjs,cjs}'];
+
+const tsFiles = ['**/*.{ts,tsx}'];
+
+const sourceFiles = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
 
 export const isString = (value) => typeof value === 'string';
 
 export const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 export const makeConfig = () => {
+  const mode = getMode(['development', 'production'], 'production');
+
+  // eslint-disable-next-line no-undef
   const root = process.cwd();
 
   const packageJsonPath = path.resolve(root, 'package.json');
   const packageJson = existsSync(packageJsonPath) ? JSON.parse(readFileSync(packageJsonPath, 'utf8')) : {};
-  const { hasReact, reactNewSyntax } =
-    packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies.react);
+  const { hasReact } = packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies.react);
 
   let tsConfig = false;
 
@@ -104,7 +112,7 @@ export const makeConfig = () => {
   };
 
   const customTypescriptConfig = {
-    files: [tsPattern],
+    files: tsFiles,
     languageOptions: {
       ...languageOptions,
       parser: tsParser,
@@ -116,10 +124,12 @@ export const makeConfig = () => {
       '@typescript-eslint': tseslintPlugin,
       'check-file': checkFile,
       'import/parsers': tsParser,
+      'no-only-tests': noOnlyTests,
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/ban-types': 'off',
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/naming-convention': [
         'error',
@@ -176,6 +186,7 @@ export const makeConfig = () => {
       'no-await-in-loop': 'off',
       'no-console': 'error',
       'no-debugger': 'error',
+      'no-only-tests/no-only-tests': 'error',
       'no-param-reassign': 'off',
       'no-plusplus': 'off',
       'no-return-await': 'off',
@@ -203,15 +214,15 @@ export const makeConfig = () => {
   const recommendedTypeScriptConfigs = [
     ...tseslint.configs.recommended.map((config) => ({
       ...config,
-      files: [tsPattern],
+      files: tsFiles,
     })),
     ...tseslint.configs.stylistic.map((config) => ({
       ...config,
-      files: [tsPattern],
+      files: tsFiles,
     })),
     ...tseslint.configs.recommendedTypeChecked.map((config) => ({
       ...config,
-      files: [tsPattern],
+      files: tsFiles,
     })),
   ];
 
@@ -243,19 +254,24 @@ export const makeConfig = () => {
   };
 
   const customJsConfig = {
-    files: [jsPattern],
-    plugins: {
-      js,
+    files: jsFiles,
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+        ...globals.browser,
+      },
     },
+    ...js.configs.recommended,
   };
 
   const perfectionistConfig = {
-    files: [tsPattern, jsPattern],
+    files: sourceFiles,
     ...perfectionist.configs['recommended-natural'],
   };
 
   const regexpConfig = {
-    files: [tsPattern, jsPattern],
+    files: sourceFiles,
     ...regexpPlugin.configs['flat/recommended'],
   };
 
@@ -280,7 +296,7 @@ export const makeConfig = () => {
           },
           ...reactHooksPlugin.configs.flat.recommended,
           ...reactPlugin.configs['recommended-type-checked'],
-          files: [tsPattern, jsPattern],
+          files: sourceFiles,
         }
       : {},
   ];

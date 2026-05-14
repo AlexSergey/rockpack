@@ -20,17 +20,6 @@
 
 ---
 
-## Code Quality
-
-- All generated code must follow existing ESLint configuration
-- All generated code must follow existing Prettier formatting
-- All generated code must pass TypeScript checks
-- Do not disable lint rules unless explicitly requested
-- Remove unused imports
-- Keep imports and object keys sorted according to eslint-plugin-perfectionist
-
----
-
 ## TypeScript Rules
 
 - Use TypeScript strict mode

@@ -11,11 +11,11 @@ const makeBanner = (packageJson) => {
 
     types.forEach((type) => {
       if (banner.indexOf(type) > 0 && !!packageJson[type]) {
-        banner = banner.replace(`$\{${type}\}`, packageJson[type]);
+        banner = banner.replace(`$\{${type}}`, packageJson[type]);
       }
     });
     types.forEach((type) => {
-      banner = banner.replace(`$\{${type}\}`, '');
+      banner = banner.replace(`$\{${type}}`, '');
     });
 
     banner = banner

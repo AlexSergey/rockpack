@@ -66,7 +66,6 @@ module.exports = async function sourceCompile(conf) {
     const tsAndTsx = await getTypeScript(opt.src);
     const copyFiles = await getFiles(opt.src, undefined, ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
     const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
-    let compilerOptions;
 
     const tsConfig = pathToTSConf(root, mode, debug);
 
