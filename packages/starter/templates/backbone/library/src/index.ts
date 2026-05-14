@@ -10,4 +10,5 @@ class HelloWorld {
   }
 }
 
+// eslint-disable-next-line @import-lite/no-default-export
 export default HelloWorld;

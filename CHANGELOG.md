@@ -5,6 +5,7 @@
 - Codestyle module has been reworked for better ESLint 10 support
 - Added:
   - eslint-plugin-no-only-tests
+  - eslint-plugin-import-lite
 - TypeScript 6+ fully support
 - Fixed d.ts generation for CSS Modules
 - Claude Code adaptation

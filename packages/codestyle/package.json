@@ -39,6 +39,7 @@
     "eslint": "10.3.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-check-file": "3.3.1",
+    "eslint-plugin-import-lite": "0.6.0",
     "eslint-plugin-json": "4.0.1",
     "eslint-plugin-no-only-tests": "3.4.0",
     "eslint-plugin-package-json": "0.91.2",
