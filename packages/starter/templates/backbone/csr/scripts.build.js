@@ -1,5 +1,8 @@
 const { frontendCompiler } = require('@rockpack/compiler');
+const fs = require('node:fs');
 const path = require('node:path');
+
+const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
 frontendCompiler({
   html: {
@@ -8,4 +11,5 @@ frontendCompiler({
   },
   styles: 'styles.css',
   vendor: ['react', 'react-dom'],
+  version: packageJson.version,
 });

@@ -145,6 +145,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
       if (!page.template) {
         page.template = path.resolve(__dirname, '..', './index.ejs');
       }
+
+      page.templateParameters = {
+        version: typeof conf.version === 'string' ? conf.version : '1.0.0',
+      };
+
       if (!page.filename) {
         page.filename = page.template.slice(page.template.lastIndexOf(path.sep) + 1, page.template.lastIndexOf('.'));
         page.filename += '.html';

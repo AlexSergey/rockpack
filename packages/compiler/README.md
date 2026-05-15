@@ -102,17 +102,18 @@ const {
 
 *Options* - The settings object is the same for each compiler type:
 
-| Prop | Value[<i>Default value</i>] | Description                                                                                                                                                                                        |
-| --- | --- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dist | String['./dist'] | The path for compiled app, by default **dist**                                                                                                                                                     |
-| src | String['./src'] | The path for application source. By default "src", where will be find index.{js\|jsx\|ts\|tsx}                                                                                                     |
-| debug | Boolean[false] | Debug option. Disable all the code mangling. It helps to find difficult bugs in minified code in production mode                                                                                   |
-| html | Boolean/Object[undefined] | This setting will activate Html webpack plugin. You can override the default index.ejs template. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
-| port | Number[3000] | webpack-dev-server's port                                                                                                                                                                          |
-| styles | String[undefined] | The path for CSS extraction (mini-css-extract-plugin)                                                                                                                                              |
-| banner | String[undefined] | This parameter allows you to add a banner to JS and CSS files                                                                                                                                      |
-| global | Object[undefined] | Allows forcing global variables using webpack.ProvidePlugin                                                                                                                                        |
-| copy | Object/Array[undefined] | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                                                     |
+| Prop    | Value[<i>Default value</i>] | Description                                                                                                                                                    |
+|---------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| dist    | String['./dist']            | The path for compiled app, by default **dist**                                                                                                                 |
+| src     | String['./src']             | The path for application source. By default "src", where will be find index.{js\|jsx\|ts\|tsx}                                                                 |
+| debug   | Boolean[false]              | Debug option. Disable all the code mangling. It helps to find difficult bugs in minified code in production mode                                               |
+| html    | Boolean/Object[undefined]   | This setting will activate Html webpack plugin. You can override the default index.ejs template. Example: {  title: String, favicon: String[path to favicon], template: String[path_to_template] } |
+| port    | Number[3000]                | webpack-dev-server's port                                                                                                                                      |
+| styles  | String[undefined]           | The path for CSS extraction (mini-css-extract-plugin)                                                                                                          |
+| banner  | String[undefined]           | This parameter allows you to add a banner to JS and CSS files                                                                                                  |
+| global  | Object[undefined]           | Allows forcing global variables using webpack.ProvidePlugin                                                                                                    |
+| copy    | Object/Array[undefined]     | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                 |
+| version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
 
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
