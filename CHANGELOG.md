@@ -6,6 +6,8 @@
 - Added:
   - eslint-plugin-no-only-tests
   - eslint-plugin-import-lite
+  - eslint-plugin-sonarjs
+  - eslint-plugin-unicorn
 - TypeScript 6+ fully support
 - Fixed d.ts generation for CSS Modules
 - Claude Code adaptation

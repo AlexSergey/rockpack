@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 
 import { version } from '../../../package.json';
 const starter = require.resolve('../../../packages/starter/bin/index.js');
