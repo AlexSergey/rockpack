@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "7.2.0",
+  "version": "8.0.0-next.1",
   "private": false,
   "description": "The best practice for ESLint and TSLint",
   "keywords": [
@@ -26,17 +26,17 @@
     "production": "npm run lint && npm publish --access public"
   },
   "dependencies": {
-    "@commitlint/cli": "21.0.0",
-    "@commitlint/config-conventional": "21.0.0",
-    "@eslint-react/eslint-plugin": "5.7.5",
+    "@commitlint/cli": "21.0.1",
+    "@commitlint/config-conventional": "21.0.1",
+    "@eslint-react/eslint-plugin": "5.7.9",
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
-    "@rockpack/babel": "7.2.0",
-    "@rockpack/utils": "7.2.0",
-    "@typescript-eslint/eslint-plugin": "8.59.2",
-    "@typescript-eslint/parser": "8.59.2",
+    "@rockpack/babel": "8.0.0-next.1",
+    "@rockpack/utils": "8.0.0-next.1",
+    "@typescript-eslint/eslint-plugin": "8.59.3",
+    "@typescript-eslint/parser": "8.59.3",
     "deep-extend": "0.6.0",
-    "eslint": "10.3.0",
+    "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-check-file": "3.3.1",
     "eslint-plugin-import-lite": "0.6.0",
@@ -51,14 +51,14 @@
     "eslint-plugin-unicorn": "64.0.0",
     "globals": "17.6.0",
     "prettier": "3.8.3",
-    "stylelint": "17.11.0",
+    "stylelint": "17.11.1",
     "stylelint-config-clean-order": "8.0.1",
     "stylelint-config-prettier-scss": "1.0.0",
     "stylelint-config-recommended-scss": "17.0.1",
     "stylelint-config-standard-scss": "17.0.0",
-    "stylelint-scss": "7.0.0",
+    "stylelint-scss": "7.1.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.2",
+    "typescript-eslint": "8.59.3",
     "yargs": "18.0.0"
   }
 }

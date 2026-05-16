@@ -13,6 +13,7 @@ interface Config {
 
 describe('babel preset generator', () => {
   it('generates config with babel preset', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const conf = createBabelPresets({
       framework: 'none',
       isNodejs: false,
@@ -31,6 +32,7 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with react framework', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const conf = createBabelPresets({
       framework: 'react',
       isNodejs: false,
@@ -53,6 +55,7 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with typescript preset', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const conf: Config = createBabelPresets({
       framework: 'react',
       isNodejs: false,
@@ -68,6 +71,7 @@ describe('babel preset generator', () => {
   });
 
   it('generates config with isomorphic preset', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const conf = createBabelPresets({
       framework: 'react',
       isNodejs: false,

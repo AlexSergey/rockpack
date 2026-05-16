@@ -1,6 +1,9 @@
 {
   "extends": "@rockpack/tsconfig",
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "allowJs": true,
     "types": ["node", "jest"]

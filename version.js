@@ -20,6 +20,8 @@ if (format.filter((f) => f !== '').length !== 3) {
 
 const projects = [
   './book/package.json',
+  './e2e/babel-e2e/package.json',
+  './e2e/starter-e2e/package.json',
   './packages/babel/package.json',
   './packages/codestyle/package.json',
   './packages/compiler/package.json',

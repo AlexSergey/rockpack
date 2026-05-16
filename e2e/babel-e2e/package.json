@@ -15,10 +15,10 @@
     "test": "node test.js"
   },
   "dependencies": {
-    "@rockpack/babel": "7.2.0",
-    "@rockpack/tester": "7.2.0"
+    "@rockpack/babel": "8.0.0-next.1",
+    "@rockpack/tester": "8.0.0-next.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "7.2.0"
+    "@rockpack/codestyle": "8.0.0-next.1"
   }
 }

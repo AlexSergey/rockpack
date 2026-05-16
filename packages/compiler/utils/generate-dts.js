@@ -75,6 +75,8 @@ module.exports = async function generateDts(conf, root) {
             dts.forEach((file) => {
               const filePth = path.relative(temp, file);
               const fileDest = path.join(dist, filePth);
+              const destDir = path.dirname(fileDest);
+              mkdirp.sync(destDir);
               copyFileSync(file, fileDest);
             });
           }
