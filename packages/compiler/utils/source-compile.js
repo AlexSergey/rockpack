@@ -139,11 +139,15 @@ module.exports = async function sourceCompile(conf) {
       console.log(copyFiles.join('\n'));
       console.log('\n');
 
-      copyFiles.forEach((file) => {
-        const filePth = path.relative(path.join(root, opt.src), file);
-        const fileDest = path.join(dist, filePth);
-        copyFileSync(file, fileDest);
-      });
+      for (const file of copyFiles) {
+        try {
+          const filePth = path.relative(path.join(root, opt.src), file);
+          const fileDest = path.join(dist, filePth);
+          copyFileSync(file, fileDest);
+        } catch (err) {
+          console.error(err);
+        }
+      }
     }
 
     const jsFiles = await getFiles(dist, '*.js');

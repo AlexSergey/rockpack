@@ -5,7 +5,7 @@ import { createHead, UnheadProvider } from '@unhead/react/client';
 import { StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
-import './types/global.declaration';
+import './types/global.declarations';
 import { App } from './app';
 
 declare global {

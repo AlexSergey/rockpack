@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tester",
-  "version": "8.0.0-next.1",
+  "version": "8.0.0-next.2",
   "private": false,
   "description": "Small wrapper for Jest and testing best practice.",
   "keywords": [
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.4.4",
-    "@rockpack/babel": "8.0.0-next.1",
-    "@rockpack/utils": "8.0.0-next.1",
+    "@rockpack/babel": "8.0.0-next.2",
+    "@rockpack/utils": "8.0.0-next.2",
     "@types/jest": "30.0.0",
     "babel-jest": "30.4.1",
     "deep-extend": "0.6.0",
@@ -46,6 +46,6 @@
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0-next.1"
+    "@rockpack/codestyle": "8.0.0-next.2"
   }
 }

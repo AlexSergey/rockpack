@@ -96,6 +96,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
             '.': {
               import: './lib/esm/index.mjs',
               require: './lib/cjs/index.cjs',
+              types: './dist/types/index.d.ts',
             },
           },
           main: './lib/cjs/index.cjs',

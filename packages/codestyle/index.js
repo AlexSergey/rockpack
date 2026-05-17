@@ -29,6 +29,7 @@ const ignores = [
   '*.log',
   'lib-cov/',
   'coverage/',
+  'coverage-e2e/',
   'NO_COMMIT/',
   'test-reports/**',
   'docs/*',

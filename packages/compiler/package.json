@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler",
-  "version": "8.0.0-next.1",
+  "version": "8.0.0-next.2",
   "private": false,
   "description": "The easiest webpack config generator.",
   "keywords": [
@@ -37,9 +37,9 @@
     "@graphql-tools/webpack-loader": "7.0.0",
     "@mdx-js/loader": "3.1.1",
     "@nuxt/friendly-errors-webpack-plugin": "2.6.0",
-    "@rockpack/babel": "8.0.0-next.1",
-    "@rockpack/codestyle": "8.0.0-next.1",
-    "@rockpack/utils": "8.0.0-next.1",
+    "@rockpack/babel": "8.0.0-next.2",
+    "@rockpack/codestyle": "8.0.0-next.2",
+    "@rockpack/utils": "8.0.0-next.2",
     "@statoscope/webpack-plugin": "5.29.0",
     "@svgr/webpack": "8.1.0",
     "ansi-colors": "4.1.3",

@@ -2,7 +2,7 @@ import { createHead, UnheadProvider } from '@unhead/react/client';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import './types/global.declaration';
+import './types/global.declarations';
 import { App } from './app';
 
 const container = document.getElementById('root');
