@@ -22,6 +22,7 @@ import tseslint from 'typescript-eslint';
 
 const ignores = [
   '.idea',
+  '.last-run.json',
   '**/*.d.ts',
   '*.d.ts',
   'node_modules',
@@ -62,7 +63,7 @@ const ignores = [
   'locales/',
   'src/locales/',
   'seo_report',
-  '.last-run.json',
+  '**/.last-run.json',
 ];
 
 const jsFiles = ['**/*.{js,jsx,mjs,cjs}'];
@@ -312,6 +313,19 @@ export const makeConfig = () => {
     ...regexpPlugin.configs['flat/recommended'],
   };
 
+  const disableDefaultExportBlockingForStorybook = {
+    files: [
+      '**/*.stories.@(js|jsx|ts|tsx|mdx)',
+      '**/playwright*.config.ts',
+      '**/.storybook/**',
+      '**/vite.config.ts',
+      '**/vitest.config.ts',
+    ],
+    rules: {
+      '@import-lite/no-default-export': 'off',
+    },
+  };
+
   return [
     globalIgnores(ignores),
     ...recommendedTypeScriptConfigs,
@@ -336,5 +350,6 @@ export const makeConfig = () => {
           files: sourceFiles,
         }
       : {},
+    disableDefaultExportBlockingForStorybook,
   ];
 };
