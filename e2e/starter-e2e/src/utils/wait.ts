@@ -1,5 +1,9 @@
 import http from 'node:http';
 
+export const wait = (delay = 1000) => {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+};
+
 export async function waitForServer(url: string, timeout = 100000): Promise<void> {
   const start = Date.now();
 

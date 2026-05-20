@@ -1,19 +1,25 @@
 import kill from 'kill-port';
 import looksSame from 'looks-same';
 import { execSync, spawn } from 'node:child_process';
+import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import puppeteer from 'puppeteer';
 import { rimraf } from 'rimraf';
 
 import { exists } from './utils/fs';
-import { waitForServer } from './utils/wait';
+import { wait, waitForServer } from './utils/wait';
 
 const starter = require.resolve('../../../packages/starter/bin/index.js');
 
 const genFolder = join(__dirname, 'generators');
+const newImages = join(__dirname, '..', 'screenshots', 'new');
 
 describe('Generators tests', () => {
   beforeAll(async () => {
+    const newImagesExists = await exists(join(__dirname, '..', 'screenshots', 'new'));
+    if (!newImagesExists) {
+      await mkdir(newImages);
+    }
     await rimraf(`${genFolder}/*`, { glob: { dot: true } });
   });
 
@@ -127,6 +133,7 @@ describe('Generators tests', () => {
         try {
           const page = await browser.newPage();
           await page.goto(url, { waitUntil: 'networkidle0' });
+          await wait(1000);
           await page.screenshot({ path: `${screenNewPth}.png` });
         } catch (err) {
           console.error(err);
@@ -255,6 +262,7 @@ describe('Generators tests', () => {
           try {
             const page = await browser.newPage();
             await page.goto(url, { waitUntil: 'networkidle0' });
+            await wait(1000);
             await page.screenshot({ path: `${screenNewPth}.png` });
           } catch (err) {
             console.error(err);
@@ -333,6 +341,7 @@ describe('Generators tests', () => {
           try {
             const page = await browser.newPage();
             await page.goto(url, { waitUntil: 'networkidle0' });
+            await wait(1000);
             await page.screenshot({ path: `${screenNewPth}.png` });
           } catch (err) {
             console.error(err);

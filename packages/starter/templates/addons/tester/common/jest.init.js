@@ -1,7 +1,7 @@
-const dotenv = require('dotenv');
-const { existsSync } = require('node:fs');
-const path = require('node:path');
+import dotenv from 'dotenv';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-if (existsSync(path.resolve(__dirname, './.env.test'))) {
+if (existsSync(resolve(__dirname, './.env.test'))) {
   dotenv.config({ path: './.env.test' });
 }

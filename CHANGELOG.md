@@ -2,24 +2,24 @@
 
 ## [8.0.0]
 
-- Codestyle module has been reworked for better ESLint 10 support
-- Added:
-  - eslint-plugin-no-only-tests
-  - eslint-plugin-import-lite
-  - eslint-plugin-sonarjs
-  - eslint-plugin-unicorn
-- TypeScript 6+ fully support
-- Fixed d.ts generation for CSS Modules
-- Claude Code adaptation
-- Cost-efficient workflows
+Version 8.0.0 is a major modernization release: the toolchain has been updated to support ESLint 10, TypeScript 6, and Tailwind CSS v4, while legacy and unmaintained integrations have been removed. It also introduces first-class AI-assisted development support, making Rockpack a solid foundation for teams working with tools like Claude Code.
+
+### Added
+- Adapted for AI-assisted development: preconfigured CLAUDE.md with quality gates, minimal-diff rules, and cost-efficient workflows for Claude Code and similar AI tools
+- Tailwind CSS v4 support
+- eslint-plugin-no-only-tests, eslint-plugin-import-lite, eslint-plugin-sonarjs, eslint-plugin-unicorn
+
+### Changed
+- Codestyle module reworked for ESLint 10 support
+- Full TypeScript 6+ support
 - Improved debugging in production
-- Dropped handlebars and pug support
-- Dropped outdated markupCompiler
-- Dropped outdated webViewCompiler
-- Dropped outdated webpack plugins
-- Dropped bower support
-- Performance improvements
-- Updated all dependencies
+- Dependency updates
+
+### Fixed
+- Fixed d.ts generation for CSS Modules
+
+### Removed
+- Removed handlebars, pug, markupCompiler, webViewCompiler, outdated webpack plugins, and bower support
 
 ## [7.2.0]
 

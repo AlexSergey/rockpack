@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 window.MessageChannel = jest.fn().mockImplementation(() => {
   let onmessage;
   return {

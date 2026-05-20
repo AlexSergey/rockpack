@@ -4,14 +4,16 @@
 
 # @rockpack/tester
 
-**@rockpack/tester** is Jest with cool config, add-ons and fully compatible with TS / Babel.
+**@rockpack/tester** is a pre-configured Jest setup with TypeScript and Babel support, HTML reporting, and best-practice defaults for React projects.
 
-**@rockpack/tester** includes several recommended modules and a test report generator.
+This module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
-**@rockpack/tester** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
+## Included
 
-### Reporter:
-- [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters)
+- Full TypeScript and Babel support via `@rockpack/babel`
+- [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters) — HTML test report generation
+- jsdom environment for React component testing
+- CSS module mocking via identity-object-proxy
 
 ## Using
 
@@ -25,9 +27,7 @@ npm install @rockpack/tester --save-dev
 yarn add @rockpack/tester --dev
 ```
 
-2. Make **tests.js** in the root of project
-
-3. Put the code in **tests.js**
+2. Create **tests.js** in the root of the project:
 
 ```js
 const tests = require('@rockpack/tester');
@@ -35,26 +35,27 @@ const tests = require('@rockpack/tester');
 tests();
 ```
 
-4. Run the script
-```shell script
+3. Run tests:
+
+```shell
 node tests.js
 ```
-or DEV mode
-```shell script
+
+or in watch mode:
+
+```shell
 node tests.js --watch
 ```
 
-5. Create **something.spec.js** in **src** folder of the project and write Jest test
+4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.
 
-**Please see "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
+**See the `examples` folder** — <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
-## Tricks
+## Configuration
 
-If you need override *testEnvironment* configuration from JSDom (React App) to Node, you should:
+To override Jest configuration — for example, to switch the test environment from jsdom to Node:
 
-1. Create "jest.extend.js" file in the root of the project
-
-2. Put the code inside:
+1. Create `jest.extend.js` in the root of the project:
 
 ```js
 module.exports = {

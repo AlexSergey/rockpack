@@ -12,9 +12,9 @@
 
 - Compile your React application (TS/Babel)
 - Compile React Component or VanillaJS UMD library (TS/Babel)
-- Nodejs backend (TS/Babel)
+- Node.js backend (TS/Babel)
 - Compile isomorphic (Server-side rendering) application (TS/Babel)
-- Bundle analyze (TS/Babel)
+- Bundle analysis
 
 ## Features:
 
@@ -34,7 +34,7 @@
 - Stylelint support
 - HTML Files support
 - CSS: CSS/SASS (dart-sass)/LESS + Postcss
-- PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
+- PostCSS: tailwind, autoprefixer, postcss-custom-media, postcss-media-minmax
 - CSS Modules support
 - Image minification by Sharp
 - Formats support: Markdown, Video, Audio, Fonts, SVG, Script, Shaders etc
@@ -51,7 +51,7 @@
 
 ## Using
 
-**create-react-app** like bundling example:
+Basic bundling example:
 
 1. Installation:
 
@@ -98,7 +98,7 @@ const {
 ```
 ### frontendCompiler(options[optional], callback[optional]);
 
-*frontendCompiler* will build a **create-react-app** style React app (Babel / TypeScript)
+*frontendCompiler* builds a React SPA (Babel or TypeScript)
 
 *Options* - The settings object is the same for each compiler type:
 
@@ -135,8 +135,8 @@ In this example, alias will be extended via a callback function
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');
 
-frontendCompiler({}, webpackConfig => {
-  Object.assign(finalConfig.resolve, {
+frontendCompiler({}, (config) => {
+  Object.assign(config.resolve, {
     alias: {
       react: '<path to react>'
     }
@@ -151,9 +151,11 @@ Compiles a **Node.js** application. When you run this compiler with NODE_ENV dev
 ```js
 const { backendCompiler } = require('@rockpack/compiler');
 
-backendCompiler(options, webpackConfig => {
-  Object.assign(finalConfig.resolve, {
-    alias: // add some aliases
+backendCompiler(options, (config) => {
+  Object.assign(config.resolve, {
+    alias: {
+      // add your aliases here
+    }
   });
 });
 ```
@@ -168,7 +170,7 @@ const { libraryCompiler } = require('@rockpack/compiler');
 libraryCompiler('MyLib', options);
 ```
 
-*libraryName* может принимать объект с дополнительными настройками:
+*libraryName* also accepts an object with additional options:
 
 ```js
 const { libraryCompiler } = require('@rockpack/compiler');
@@ -194,7 +196,7 @@ libraryCompiler({
 Compiles an SSR application.
 
 ```js
-const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('rocket-starter');
+const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rockpack/compiler');
 
 isomorphicCompiler(
   frontendCompiler({

@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+
+import { fetchRockpackDescription } from '../api/rockpack.api';
 
 export const useRockpack = (): [boolean, boolean, string] => {
   const [loading, setLoading] = useState(true);
@@ -7,14 +8,16 @@ export const useRockpack = (): [boolean, boolean, string] => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    axios
-      .get<{ description: string }>('https://api.github.com/repos/AlexSergey/rockpack')
-      .then(({ data }) => {
+    fetchRockpackDescription()
+      .then((desc) => {
         setLoading(false);
         setError(false);
-        setDescription(data.description);
+        setDescription(desc);
       })
-      .catch(() => setError(true));
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
   }, []);
 
   return [loading, error, description];

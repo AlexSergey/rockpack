@@ -4,34 +4,33 @@
 
 # @rockpack/babel
 
-**@rockpack/babel** is Babel settings that provide modern JS syntax support for **@rockpack/compiler**, **@rockpack/tester**.
+**@rockpack/babel** provides Babel configuration for **@rockpack/compiler** and **@rockpack/tester**, covering React, TypeScript, and modern JavaScript syntax.
 
-**@rockpack/babel** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
+This module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
-**@rockpack/babel** includes support for React, Jest, contains a number of optimizing plugins for React, and more. See below for a complete list of included features:
+To add custom plugins, create `rockpack.babel.js` in the root of your project. Plugins defined there are merged into the base Babel config.
 
-## Features:
-To add additional plugins please make *rockpack.babel.js* in the root folder of your project and add plugins. These plugins will merge to common babel config.
+## Included presets and plugins
 
-### Babel:
-- @babel/preset-env (browsers supporting > 5%, nodejs supporting the latest version)
-- @babel/plugin-proposal-pipeline-operator
-- @babel/plugin-proposal-do-expressions
-- @babel/plugin-syntax-dynamic-import
-- @babel/plugin-proposal-decorators
+### Environment
+- `@babel/preset-env` — targets browsers with > 5% usage and the latest Node.js LTS
 
-### React:
-- @babel/preset-react
+### React
+- `@babel/preset-react`
+- `babel-plugin-react-compiler` — enables the React Compiler for automatic memoization
+- `@babel/plugin-transform-react-constant-elements` — hoists static JSX elements out of render
 
-### React optimizations:
-- @babel/plugin-transform-react-constant-elements
-- @babel/plugin-transform-react-inline-elements
+### TypeScript
+- `@babel/preset-typescript`
+- `babel-plugin-transform-typescript-metadata` — enables TypeScript decorator metadata emission
 
-### Jest:
-- @babel/plugin-transform-modules-commonjs
+### Modern syntax
+- `@babel/plugin-proposal-decorators`
+- `@babel/plugin-proposal-pipeline-operator`
+- `@babel/plugin-proposal-do-expressions`
 
-### Other:
-- babel-plugin-import (Ant Design correct import modules)
+### Jest compatibility
+- `@babel/plugin-transform-modules-commonjs`
 
 ## The MIT License
 

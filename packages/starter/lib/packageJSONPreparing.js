@@ -10,7 +10,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         packageJSON,
         {
           dependencies: [
-            { name: 'axios', version: '1' },
+            { name: 'tailwindcss', version: '4' },
             { name: 'react', version: '19' },
             { name: 'react-dom', version: '19' },
             { name: '@unhead/react', version: '3' },
@@ -31,7 +31,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         packageJSON,
         {
           dependencies: [
-            { name: 'axios', version: '1' },
+            { name: 'tailwindcss', version: '4' },
             { name: 'koa', version: '3' },
             { name: 'koa-static', version: '5' },
             { name: 'react', version: '19' },
@@ -163,7 +163,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         : 'npm run format:prettier && npm run format:code && npm run format:styles',
     'format:code': 'eslint . --fix',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
-    'format:styles': 'stylelint "src/**/*.scss" --fix',
+    'format:styles': 'stylelint "src/**/*.{css,scss}" --fix',
     lint:
       appType === 'library'
         ? 'npm run lint:ts && npm run lint:code'
@@ -171,7 +171,7 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     'lint:code': 'eslint .',
     'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
     'lint:ts': 'tsc --noEmit',
-    'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.scss"',
+    'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.{css,scss}"',
   });
   packageJSON = await addDependencies(
     packageJSON,
@@ -197,16 +197,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
       },
       testMode,
     );
-
-    if (appType === 'csr' || appType === 'ssr') {
-      packageJSON = await addDependencies(
-        packageJSON,
-        {
-          devDependencies: [{ name: 'axios-mock-adapter', version: '2' }],
-        },
-        testMode,
-      );
-    }
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       packageJSON = await addDependencies(

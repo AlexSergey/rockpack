@@ -1,26 +1,28 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import axios from 'axios';
-import AxiosMockAdapter from 'axios-mock-adapter';
 
+import { fetchRockpackDescription } from '../api/rockpack.api';
 import { useRockpack } from './rockpack-description.hooks';
 
-const mock = new AxiosMockAdapter(axios);
+jest.mock('../api/rockpack.api');
 
-mock.onGet('https://api.github.com/repos/AlexSergey/rockpack').reply(200, {
-  description: 'Lorem ipsum',
-});
+const mockFetch = fetchRockpackDescription as jest.MockedFunction<typeof fetchRockpackDescription>;
 
-it('useRockpack', async () => {
-  const { result } = renderHook(() => useRockpack());
+describe('useRockpack', () => {
+  describe('positive cases', () => {
+    it('returns description on success', async () => {
+      mockFetch.mockResolvedValueOnce('Lorem ipsum');
 
-  await waitFor(
-    () => {
-      expect(result.current[2] !== '').toBe(true);
-    },
-    { interval: 100 },
-  );
+      const { result } = renderHook(() => useRockpack());
 
-  const [, , description] = result.current;
+      await waitFor(() => {
+        expect(result.current[2]).toBe('Lorem ipsum');
+      });
 
-  expect(description).toEqual('Lorem ipsum');
+      const [loading, error, description] = result.current;
+
+      expect(loading).toBe(false);
+      expect(error).toBe(false);
+      expect(description).toBe('Lorem ipsum');
+    });
+  });
 });

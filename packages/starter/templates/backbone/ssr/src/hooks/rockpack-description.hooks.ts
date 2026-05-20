@@ -1,5 +1,6 @@
 import { useRegisterEffect, useSsrEffect, useSsrState } from '@issr/core';
-import axios from 'axios';
+
+import { fetchRockpackDescription } from '../api/rockpack.api';
 
 export const useRockpack = (): [boolean, boolean, string] => {
   const effect = useRegisterEffect();
@@ -10,10 +11,10 @@ export const useRockpack = (): [boolean, boolean, string] => {
   useSsrEffect(() => {
     void effect(async () => {
       try {
-        const { data } = await axios.get<{ description: string }>('https://api.github.com/repos/AlexSergey/rockpack');
+        const description = await fetchRockpackDescription();
         setLoading(false);
         setError(false);
-        setDescription(data.description);
+        setDescription(description);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         setError(true);

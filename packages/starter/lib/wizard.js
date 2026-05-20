@@ -22,19 +22,19 @@ export const wizard = async (args) => {
         message: 'Which is type of application would you build?',
         choices: [
           {
-            name: `• ${chalk.bold('React SPA')}: Preset for a Single Page Application using React`,
+            name: `• ${chalk.bold('React SPA')}: Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured - structured for clean AI-assisted development.`,
             value: 'csr',
           },
           {
-            name: `• ${chalk.bold('React SPA + SSR')}: Preset for a React Single Page Application with Server-Side Rendering`,
+            name: `• ${chalk.bold('React SPA + SSR')}: Universal React app with SSR, hydration, and a Node.js server - no setup needed, AI-ready from the first commit.`,
             value: 'ssr',
           },
           {
-            name: `• ${chalk.bold('React Component')}: Preset for publishing a reusable React component to NPM`,
+            name: `• ${chalk.bold('React Component')}: NPM-ready React component with TypeScript declarations, optimized bundle, and explicit APIs that AI tools work great with.`,
             value: 'component',
           },
           {
-            name: `• ${chalk.bold('UMD Library')}: Preset for a vanilla JavaScript UMD library, suitable for NPM publishing`,
+            name: `• ${chalk.bold('UMD Library')}: Framework-agnostic UMD library for NPM, zero configuration required, with quality gates that keep AI-generated code clean.`,
             value: 'library',
           },
         ],

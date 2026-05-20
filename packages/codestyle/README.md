@@ -4,24 +4,30 @@
 
 # @rockpack/codestyle
 
-**@rockpack/codestyle** is an efficiently customized Eslint with many best practice rules and additions.
+**@rockpack/codestyle** is an opinionated ESLint configuration with best-practice rules, Prettier, Stylelint, and Commitlint — ready to use out of the box.
 
-**@rockpack/codestyle** fully support new ESLint 9.0 flat config.
+**@rockpack/codestyle** fully supports ESLint 10 flat config.
 
 **@rockpack/codestyle** this module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
 ## Features:
 
-### Eslint configs:
+### ESLint configs:
 
-- TS support, pure JS support, React support
+- TypeScript, JavaScript, and React support
 - Prettier integrated
-- Eslint Config Recommended
-- Eslint React Recommended
-- Eslint TS Recommended
-- Eslint Prettier Recommended
-- Eslint Perfectionist
-- Eslint Regexp
+- ESLint Config Recommended
+- ESLint React Recommended
+- ESLint TypeScript Recommended
+- ESLint Prettier Recommended
+- eslint-plugin-perfectionist
+- eslint-plugin-regexp
+- eslint-plugin-sonarjs
+- eslint-plugin-unicorn
+- eslint-plugin-import-lite
+- eslint-plugin-no-only-tests
+- eslint-plugin-check-file
+- eslint-plugin-package-json
 
 ### Additional tools:
 
@@ -41,12 +47,12 @@ npm install @rockpack/codestyle --save-dev
 yarn add @rockpack/codestyle --dev
 ```
 
-2. Make **eslint.config.js**, **.prettierrc** in the root of project
+2. Create **eslint.config.js** and **.prettierrc** in the root of the project.
 
-3. Put the code in **.eslintrc.js**
+3. Put the code in **eslint.config.js**:
 
 ```js
-const { makeConfig } = require('@rockpack/codestyle/index.js');
+const { makeConfig } = require('@rockpack/codestyle');
 
 module.exports = makeConfig();
 ```
@@ -93,8 +99,8 @@ We can set up our IDE to fix all lint rules and format code by Prettier.
 
 #### Manual setup
 
-1. Open Preferences
-2. Find Node.js tab. Choice Node.js interpreter
+1. Open Settings
+2. Find the Node.js section and select the Node.js interpreter.
 3. Find ESLint.
 
 - Set Manual Configuration and set folder to "node_modules/eslint" in your project
@@ -126,26 +132,9 @@ Then add settings:
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    {
-      "language": "javascript",
-      "autoFix": true
-    },
-    {
-      "language": "javascriptreact",
-      "autoFix": true
-    },
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
-  ],
-  "tslint.enable": false
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
 ```
 

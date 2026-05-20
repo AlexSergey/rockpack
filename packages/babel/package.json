@@ -1,11 +1,16 @@
 {
   "name": "@rockpack/babel",
-  "version": "8.0.0-next.3",
+  "version": "8.0.0-next.4",
   "private": false,
-  "description": "Babel presets module for Rockpack",
+  "description": "Zero-config Babel presets for React, TypeScript, and modern JavaScript with React Compiler support",
   "keywords": [
     "babel",
-    "babel-presets"
+    "babel-preset",
+    "react",
+    "typescript",
+    "react-compiler",
+    "preset-env",
+    "rockpack"
   ],
   "homepage": "https://alexsergey.github.io/rockpack/",
   "bugs": {
@@ -37,7 +42,7 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@babel/traverse": "7.29.0",
-    "@rockpack/utils": "8.0.0-next.3",
+    "@rockpack/utils": "8.0.0-next.4",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-typescript-metadata": "0.4.0",
     "deepmerge": "4.3.1",
@@ -46,6 +51,9 @@
     "valid-types": "2.0.5"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0-next.3"
+    "@rockpack/codestyle": "8.0.0-next.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

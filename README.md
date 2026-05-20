@@ -5,59 +5,44 @@
 [![Version](https://img.shields.io/npm/v/@rockpack/starter.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 [![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 
-**Rockpack** is a lightweight, zero-configuration solution for quickly setting up a React application with full support for
-**Server-Side Rendering (SSR)**, bundling, linting, and testing. In just 5 minutes, you can get up and running with a modern
-React app that's optimized for performance and best practices. Perfect for developers who want to skip the setup and
-focus on building their app!
+**Rockpack** is a zero-configuration toolkit for building React applications — with full support for **Server-Side Rendering (SSR)**, bundling, linting, and testing. In minutes, you can have a modern React app with production-ready quality gates, preconfigured tooling, and built-in support for AI-assisted development.
 
-- **Instant SSR**: Seamlessly integrate server-side rendering for better SEO and faster initial page loads.
-- **Smart Bundling**: Out-of-the-box support for bundling with optimal performance.
-- **Automatic Linting**: Maintain code quality with built-in linting and style checks.
-- **Ready for Testing**: Pre-configured testing environment with popular tools like Jest.
+## Key Features
 
-## Key Features:
+- **Zero-config setup**: Scaffold a complete React app with a single command.
+- **SSR out of the box**: Universal rendering with hydration and a Node.js server, no manual configuration needed.
+- **Production-ready quality gates**: Enforced ESLint, Prettier, TypeScript, and Jest conventions from day one.
+- **Test coverage included**: Every project template ships with a configured Jest setup, so AI-generated code is validated immediately — before it ever reaches code review.
+- **AI-first development**: Preconfigured `CLAUDE.md` with strict quality rules and cost-saving conventions makes working with AI tools like Claude Code fast, reliable, and economical.
+- **Extensible**: Customize Webpack, ESLint, or Jest without ejecting.
 
-- **Zero-config setup**: Start building immediately with minimal setup.
-- **React, SSR, and Webpack integration**: All in one package for efficient development.
-- **Production-ready quality gates**: Enforced ESLint, Prettier, TypeScript, and testing conventions.
-- **Extensible**: Easily customize for more advanced use cases.
-- **Claude Code adaptation**: Preconfigured AI development guidelines for consistent and maintainable code generation.
-- **Cost-efficient workflows**: Optimized rules to reduce unnecessary scans, validations, and refactors.
+## AI-Assisted Development
 
-Get started with **Rockpack** today and streamline your React app development!
+Rockpack is designed to make AI-assisted development **safe, fast, and cost-efficient**.
 
-## Claude Code Adaptation
-
-**Rockpack** is designed for safe and efficient AI-assisted development.
-
-Strict quality gates, automated validation, and the existing Code Style module help prevent inconsistent or low-quality
-AI-generated code from entering the project.
+The combination of test coverage, strict quality gates, and a well-tuned `CLAUDE.md` means AI tools like Claude Code can contribute to your codebase without introducing regressions or inconsistencies. Because every Rockpack project starts with linting and tests already configured, AI-generated code is reviewed automatically on every change.
 
 The `CLAUDE.md` configuration is optimized for:
 
-- minimal unrelated refactoring
-- architecture consistency
-- controlled context usage
-- token-efficient workflows
-- safe incremental changes
+- **Minimal context usage** — rules guide the AI to read only what is relevant, reducing token consumption
+- **Cost-efficient workflows** — targeted test runs instead of full-suite scans for isolated changes
+- **Architecture consistency** — the AI preserves existing patterns instead of introducing unnecessary abstractions
+- **Safe incremental changes** — small, predictable diffs that are easy to review
+- **Quality enforcement** — ESLint, TypeScript strict mode, and Jest act as automated reviewers on every AI-generated change
 
-This allows AI tools to integrate cleanly into the existing engineering workflow while keeping the codebase stable and
-maintainable.
+## Getting Started
 
-## Getting Started:
+**Rockpack** is a good fit for:
 
-**Rockpack** will help if:
+- **Developers new to React** — bootstrap a project of any complexity in minutes, with Webpack, ESLint, and Jest already configured.
+- **Large projects from scratch** — best-practice Webpack, ESLint, TypeScript, and Jest configuration that scales well.
+- **Startups and prototypes** — skip the setup and validate ideas quickly.
+- **Libraries and React components** — UMD, ESM, and CJS builds with TypeScript declarations, no configuration required.
+- **Existing projects** — Rockpack is modular; use only the packages you need.
 
-- **Beginners.** With the help of Rockpack, any newbie to React can deploy a project of any complexity in a few minutes, with configured webpack, eslint, jest, etc. Rockpack supports the most popular types of React application with the project structure, Server Side Rendering, optimizations, and has the necessary dependencies.
-- **Large projects from scratch.** Rockpack supports most of the webpack best practices configurations, eslint rules, jest, typescript and will work great even on large projects
-- **Startup.** If you need to quickly check an idea without wasting time on unfolding and setting up the project.
-- **Library or React Component.** If you want to write a UMD library or React component, with support for the esm/cjs build as well as the minified version.
+[Fast setup →](https://alexsergey.github.io/rockpack/#getting_started)
 
-[Fast setup](https://alexsergey.github.io/rockpack/#getting_started)
-
-- **Legacy projects or modular use.** Rockpack is a modular platform, you can only use what you need. Please see every module's readme.
-
-*Also, pay attention to module [iSSR](https://github.com/AlexSergey/issr). This tiny module helps you to move your React application to Server-Side Rendering. Please see articles:*
+*Also, take a look at [iSSR](https://github.com/AlexSergey/issr) — a small module for adding SSR to an existing React app:*
 - [ENG: Server-Side Rendering from zero to hero](https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610)
 - [RU: Server-Side Rendering с нуля до профи](https://habr.com/ru/post/527310/)
 
@@ -65,93 +50,94 @@ maintainable.
 
 ### Motivation
 
-Working on many React projects, we are faced with the same type of routine tasks. We answer questions every time:
+Every new React project raises the same questions:
 
-- *How to set up an efficient build system with support for many formats and Typescript we need*
-- *Which linter's rules should be on the project for comfortable work*
-- *How to set up Jest that it works with Babel or Typescript*
-- *How to make server-side rendering to work with existing solutions - Redux, Apollo and other*
-- *How to set up Webpack for server-side rendering and get production ready artifact and a cool dev server*
+- How do I set up an efficient build system with TypeScript support?
+- Which ESLint rules should I use?
+- How do I configure Jest to work with Babel or TypeScript?
+- How do I set up SSR with Redux, Apollo, or other solutions?
+- How do I configure Webpack for server-side rendering and get a production-ready artifact with a working dev server?
 
-Every time we spend weeks on these routine tasks.
+Setting this up from scratch takes weeks. Rockpack solves it in minutes.
 
 <p align="center">
-  <img width="500px" alt="Usual flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_1.v2.0.png">
+  <img width="500px" alt="Usual flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_1.v3.0.png">
 </p>
 
-Using **Rockpack** you can deploy your project in minutes and start writing really useful code.
+With **Rockpack**, you go from zero to a fully configured, running project in minutes and focus on writing the code that matters.
 
 <p align="center">
-  <img width="500px" alt="Rockpack flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_2.png">
+  <img width="500px" alt="Rockpack flow" src="https://www.natrube.net/rockpack/readme_assets/rockpack_main_2.v3.0.png">
 </p>
 
 ### Modules overview
 
-**Rockpack** consists of modules. Let's consider them in more detail:
+**Rockpack** is modular. Each package can be used independently or together.
 
 #### @rockpack/starter
 
-this is **create-react-app** on steroids.
+A CLI scaffolding tool for React applications. Follows a feature-based project structure (see [this article](https://dev.to/alexsergey/project-structure-repository-and-folders-review-of-approaches-4kh2)).
 
-**Rockpack** provides the best practice to set up your application. Project structure has feature based approach (see article [here](https://dev.to/alexsergey/project-structure-repository-and-folders-review-of-approaches-4kh2)).
+Supported application types:
 
-Supports the following types of applications:
+- **React SPA** — Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
+- **React SPA + SSR** — Universal React app with SSR, hydration, and a Node.js server.
+- **React Component** — NPM-ready React component with TypeScript declarations and an optimized bundle.
+- **UMD Library** — Framework-agnostic UMD library for NPM, zero configuration required.
 
-**React SPA** – Preset for a Single Page Application using React.
-**React SPA + SSR** – Preset for a React Single Page Application with Server-Side Rendering.
-**React Component** – Preset for publishing a reusable React component to NPM.
-**UMD Library** – Preset for a vanilla JavaScript UMD library, suitable for NPM publishing.
-
-*All types of applications support:*
-- Import of many file formats. [List of formats](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
-- Image optimization, SVG Optimization
-- Loading SVG files as React components
-- CSS/SCSS/Less modules
-- Babel or TS; TS support for CSS/SCSS/Less modules
-- PostCSS: autoprefixer, postcss-custom-media, postcss-media-minmax
-- SEO Optimizations, React optimizations, Antd optimizations
-- Support for settings via Dotenv and Dotenv safe
+*All project types include:*
+- Import support for many file formats. [Full list](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
+- Image and SVG optimization; SVG files importable as React components
+- CSS/SCSS/Less modules with TypeScript support
+- PostCSS: Tailwind, autoprefixer, postcss-custom-media, postcss-media-minmax
+- SEO and React optimizations
+- Dotenv and Dotenv safe support
 - Bundle Analyzer, Statoscope
 - GraphQL support
 
-Full list of features see [here](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
-
-*Additionally, for each type of application, you can install:*
-- Configured ESLint with best practices rules [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)
-- Customized Jest with additions [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md)
+*Optional add-ons for each project type:*
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) — ESLint with best-practice rules
+- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) — pre-configured Jest setup
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
+
 ***
+
 #### @rockpack/compiler
 
-This is React bundler (based on Webpack) using a set of necessary loaders, plugins and using the best practices out of the box.
+A Webpack-based bundler with best-practice loaders and plugins preconfigured.
 
-**@rockpack/compiler** can help you with:
+**@rockpack/compiler** supports:
 
-- Compile your React application (TS/Babel)
-- Compile React Component or VanillaJS UMD library (TS/Babel)
-- Nodejs backend (TS/Babel)
-- Markup html files
-- Compile isomorphic (Server-side rendering) application (TS/Babel)
-- Bundle Analyzer, Statoscope (TS/Babel)
+- React applications (TypeScript or Babel)
+- React components and VanillaJS UMD libraries
+- Node.js backend applications
+- Isomorphic (SSR) applications
+- Bundle analysis with webpack-bundle-analyzer and Statoscope
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
+
 ***
+
 #### @rockpack/tester
 
-This is Jest with cool config, add-ons and fully compatible with TS / Babel.
+Pre-configured Jest with TypeScript and Babel support, HTML reporting, and best-practice defaults for React projects.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md" target="_blank">More details...</a>
+
 ***
+
 #### @rockpack/codestyle
 
-This is an efficiently customized Eslint with many best practical rules and additions.
+Opinionated ESLint configuration with Prettier, Stylelint, and Commitlint — ready to use out of the box.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
-***
-*In order to get more detailed info please follow each module links.*
 
-**Rockpack is a completely free project. We are always open to collaboration and contributors.**
+***
+
+*For more information, follow the links to each module.*
+
+**Rockpack is a free and open-source project. Contributions are always welcome.**
 
 ## Alternatives
 
@@ -163,15 +149,15 @@ The **Rockpack** project was inspired by:
 - [Rome](https://github.com/romefrontend/rome)
 - [Estrella](https://github.com/rsms/estrella)
 
-## Why do we need Rockpack...?
-...if we have **create-react-app** or other?
-- **Rockpack** provides a very easy way to get started with **@rockpack/starter**. Just one command allows you to set up your application with support for TypeScript, Jest, Eslint, SSR and more.
-- **Rockpack** is very flexible. You can design the architecture as you like, use different libraries and solutions, for example, for state management.
-- **Rockpack** doesn't add any magic. This is a set of best practices and libraries for automating the start of a project.
-- **Rockpack** has the option of modular integration into a legacy project.
-- **Rockpack** has the ability to modify the webpack.config without "eject" with the ability to update **Rockpack**.
-- **Rockpack** uses only existing modules and approaches and don't reinventing the wheel.
+## Why Rockpack?
+
+- **One command to start** — `@rockpack/starter` scaffolds a complete app with TypeScript, Jest, ESLint, and SSR support.
+- **Flexible architecture** — no opinions on state management or libraries; design the app the way you want.
+- **No magic** — Rockpack is a curated set of best practices and libraries, not a black box.
+- **Modular** — use only the packages you need, even in a legacy project.
+- **No eject** — extend the Webpack config directly without losing the ability to update Rockpack.
+- **No reinventing the wheel** — built on top of existing, well-maintained tools.
 
 # The MIT License
 
-[LICENSE](https://github.com/prod-forge/backend/blob/main/LICENSE.md)
+[LICENSE](https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md)
