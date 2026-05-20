@@ -12,7 +12,7 @@ export const App = (): ReactElement => {
       <Head>
         <title>Rockpack</title>
         <meta
-          content="Rockpack is a lightweight, zero-configuration solution for quickly setting up a React application with full support for Server-Side Rendering (SSR), bundling, linting, and testing."
+          content="Rockpack is a zero-configuration toolkit for building React applications with SSR, bundling, linting, testing, and built-in support for AI-assisted development."
           key="description"
           name="description"
         />
