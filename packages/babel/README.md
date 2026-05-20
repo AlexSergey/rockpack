@@ -13,16 +13,16 @@ To add custom plugins, create `rockpack.babel.js` in the root of your project. P
 ## Included presets and plugins
 
 ### Environment
-- `@babel/preset-env` — targets browsers with > 5% usage and the latest Node.js LTS
+- `@babel/preset-env` - targets browsers with > 5% usage and the latest Node.js LTS
 
 ### React
 - `@babel/preset-react`
-- `babel-plugin-react-compiler` — enables the React Compiler for automatic memoization
-- `@babel/plugin-transform-react-constant-elements` — hoists static JSX elements out of render
+- `babel-plugin-react-compiler` - enables the React Compiler for automatic memoization
+- `@babel/plugin-transform-react-constant-elements` - hoists static JSX elements out of render
 
 ### TypeScript
 - `@babel/preset-typescript`
-- `babel-plugin-transform-typescript-metadata` — enables TypeScript decorator metadata emission
+- `babel-plugin-transform-typescript-metadata` - enables TypeScript decorator metadata emission
 
 ### Modern syntax
 - `@babel/plugin-proposal-decorators`

@@ -11,7 +11,7 @@ This module is part of the **Rockpack** project. See more details on [the offici
 ## Included
 
 - Full TypeScript and Babel support via `@rockpack/babel`
-- [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters) — HTML test report generation
+- [jest-html-reporters](https://github.com/Hazyzh/jest-html-reporters) - HTML test report generation
 - jsdom environment for React component testing
 - CSS module mocking via identity-object-proxy
 
@@ -49,11 +49,11 @@ node tests.js --watch
 
 4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.
 
-**See the `examples` folder** — <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
+**See the `examples` folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
 ## Configuration
 
-To override Jest configuration — for example, to switch the test environment from jsdom to Node:
+To override Jest configuration - for example, to switch the test environment from jsdom to Node:
 
 1. Create `jest.extend.js` in the root of the project:
 

@@ -5,14 +5,14 @@
 [![Version](https://img.shields.io/npm/v/@rockpack/starter.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 [![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=rgb(0,104,175)&labelColor=26272b)](https://www.npmjs.com/package/@rockpack/starter)
 
-**Rockpack** is a zero-configuration toolkit for building React applications — with full support for **Server-Side Rendering (SSR)**, bundling, linting, and testing. In minutes, you can have a modern React app with production-ready quality gates, preconfigured tooling, and built-in support for AI-assisted development.
+**Rockpack** is a zero-configuration toolkit for building React applications - with full support for **Server-Side Rendering (SSR)**, bundling, linting, and testing. In minutes, you can have a modern React app with production-ready quality gates, preconfigured tooling, and built-in support for AI-assisted development.
 
 ## Key Features
 
 - **Zero-config setup**: Scaffold a complete React app with a single command.
 - **SSR out of the box**: Universal rendering with hydration and a Node.js server, no manual configuration needed.
 - **Production-ready quality gates**: Enforced ESLint, Prettier, TypeScript, and Jest conventions from day one.
-- **Test coverage included**: Every project template ships with a configured Jest setup, so AI-generated code is validated immediately — before it ever reaches code review.
+- **Test coverage included**: Every project template ships with a configured Jest setup, so AI-generated code is validated immediately - before it ever reaches code review.
 - **AI-first development**: Preconfigured `CLAUDE.md` with strict quality rules and cost-saving conventions makes working with AI tools like Claude Code fast, reliable, and economical.
 - **Extensible**: Customize Webpack, ESLint, or Jest without ejecting.
 
@@ -20,31 +20,31 @@
 
 Rockpack is designed to make AI-assisted development **safe, fast, and cost-efficient**.
 
-Beyond tooling, Rockpack establishes a **baseline architecture** — consistent project structure, naming conventions, and module boundaries — that AI models can reason about reliably. A well-structured codebase is not just easier for humans to navigate; it dramatically improves the quality of AI-generated code because the model has clear patterns to follow and fewer ambiguous decisions to make.
+Beyond tooling, Rockpack establishes a **baseline architecture** - consistent project structure, naming conventions, and module boundaries - that AI models can reason about reliably. A well-structured codebase is not just easier for humans to navigate; it dramatically improves the quality of AI-generated code because the model has clear patterns to follow and fewer ambiguous decisions to make.
 
 The combination of a defined architecture, test coverage, strict quality gates, and a well-tuned `CLAUDE.md` means AI tools like Claude Code can contribute to your codebase without introducing regressions or inconsistencies. Because every Rockpack project starts with linting and tests already configured, AI-generated code is reviewed automatically on every change.
 
 The `CLAUDE.md` configuration is optimized for:
 
-- **Minimal context usage** — rules guide the AI to read only what is relevant, reducing token consumption
-- **Cost-efficient workflows** — targeted test runs instead of full-suite scans for isolated changes
-- **Architecture consistency** — the AI preserves existing patterns instead of introducing unnecessary abstractions
-- **Safe incremental changes** — small, predictable diffs that are easy to review
-- **Quality enforcement** — ESLint, TypeScript strict mode, and Jest act as automated reviewers on every AI-generated change
+- **Minimal context usage** - rules guide the AI to read only what is relevant, reducing token consumption
+- **Cost-efficient workflows** - targeted test runs instead of full-suite scans for isolated changes
+- **Architecture consistency** - the AI preserves existing patterns instead of introducing unnecessary abstractions
+- **Safe incremental changes** - small, predictable diffs that are easy to review
+- **Quality enforcement** - ESLint, TypeScript strict mode, and Jest act as automated reviewers on every AI-generated change
 
 ## Getting Started
 
 **Rockpack** is a good fit for:
 
-- **Developers new to React** — bootstrap a project of any complexity in minutes, with Webpack, ESLint, and Jest already configured.
-- **Large projects from scratch** — best-practice Webpack, ESLint, TypeScript, and Jest configuration that scales well.
-- **Startups and prototypes** — skip the setup and validate ideas quickly.
-- **Libraries and React components** — UMD, ESM, and CJS builds with TypeScript declarations, no configuration required.
-- **Existing projects** — Rockpack is modular; use only the packages you need.
+- **Developers new to React** - bootstrap a project of any complexity in minutes, with Webpack, ESLint, and Jest already configured.
+- **Large projects from scratch** - best-practice Webpack, ESLint, TypeScript, and Jest configuration that scales well.
+- **Startups and prototypes** - skip the setup and validate ideas quickly.
+- **Libraries and React components** - UMD, ESM, and CJS builds with TypeScript declarations, no configuration required.
+- **Existing projects** - Rockpack is modular; use only the packages you need.
 
 [Fast setup →](https://alexsergey.github.io/rockpack/#getting_started)
 
-*Also, take a look at [iSSR](https://github.com/AlexSergey/issr) — a small module for adding SSR to an existing React app:*
+*Also, take a look at [iSSR](https://github.com/AlexSergey/issr) - a small module for adding SSR to an existing React app:*
 - [ENG: Server-Side Rendering from zero to hero](https://dev.to/alexsergey/server-side-rendering-from-zero-to-hero-2610)
 - [RU: Server-Side Rendering с нуля до профи](https://habr.com/ru/post/527310/)
 
@@ -82,10 +82,10 @@ A CLI scaffolding tool for React applications. Follows a feature-based project s
 
 Supported application types:
 
-- **React SPA** — Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
-- **React SPA + SSR** — Universal React app with SSR, hydration, and a Node.js server.
-- **React Component** — NPM-ready React component with TypeScript declarations and an optimized bundle.
-- **UMD Library** — Framework-agnostic UMD library for NPM, zero configuration required.
+- **React SPA** - Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
+- **React SPA + SSR** - Universal React app with SSR, hydration, and a Node.js server.
+- **React Component** - NPM-ready React component with TypeScript declarations and an optimized bundle.
+- **UMD Library** - Framework-agnostic UMD library for NPM, zero configuration required.
 
 *All project types include:*
 - Import support for many file formats. [Full list](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
@@ -98,8 +98,8 @@ Supported application types:
 - GraphQL support
 
 *Optional add-ons for each project type:*
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) — ESLint with best-practice rules
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) — pre-configured Jest setup
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) - ESLint with best-practice rules
+- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) - pre-configured Jest setup
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>
 
@@ -131,7 +131,7 @@ Pre-configured Jest with TypeScript and Babel support, HTML reporting, and best-
 
 #### @rockpack/codestyle
 
-Opinionated ESLint configuration with Prettier, Stylelint, and Commitlint — ready to use out of the box.
+Opinionated ESLint configuration with Prettier, Stylelint, and Commitlint - ready to use out of the box.
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md" target="_blank">More details...</a>
 
@@ -153,12 +153,12 @@ The **Rockpack** project was inspired by:
 
 ## Why Rockpack?
 
-- **One command to start** — `@rockpack/starter` scaffolds a complete app with TypeScript, Jest, ESLint, and SSR support.
-- **Flexible architecture** — no opinions on state management or libraries; design the app the way you want.
-- **No magic** — Rockpack is a curated set of best practices and libraries, not a black box.
-- **Modular** — use only the packages you need, even in a legacy project.
-- **No eject** — extend the Webpack config directly without losing the ability to update Rockpack.
-- **No reinventing the wheel** — built on top of existing, well-maintained tools.
+- **One command to start** - `@rockpack/starter` scaffolds a complete app with TypeScript, Jest, ESLint, and SSR support.
+- **Flexible architecture** - no opinions on state management or libraries; design the app the way you want.
+- **No magic** - Rockpack is a curated set of best practices and libraries, not a black box.
+- **Modular** - use only the packages you need, even in a legacy project.
+- **No eject** - extend the Webpack config directly without losing the ability to update Rockpack.
+- **No reinventing the wheel** - built on top of existing, well-maintained tools.
 
 # The MIT License
 

@@ -4,7 +4,7 @@
 
 # @rockpack/codestyle
 
-**@rockpack/codestyle** is an opinionated ESLint configuration with best-practice rules, Prettier, Stylelint, and Commitlint — ready to use out of the box.
+**@rockpack/codestyle** is an opinionated ESLint configuration with best-practice rules, Prettier, Stylelint, and Commitlint - ready to use out of the box.
 
 **@rockpack/codestyle** fully supports ESLint 10 flat config.
 
