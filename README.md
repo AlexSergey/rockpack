@@ -20,7 +20,9 @@
 
 Rockpack is designed to make AI-assisted development **safe, fast, and cost-efficient**.
 
-The combination of test coverage, strict quality gates, and a well-tuned `CLAUDE.md` means AI tools like Claude Code can contribute to your codebase without introducing regressions or inconsistencies. Because every Rockpack project starts with linting and tests already configured, AI-generated code is reviewed automatically on every change.
+Beyond tooling, Rockpack establishes a **baseline architecture** — consistent project structure, naming conventions, and module boundaries — that AI models can reason about reliably. A well-structured codebase is not just easier for humans to navigate; it dramatically improves the quality of AI-generated code because the model has clear patterns to follow and fewer ambiguous decisions to make.
+
+The combination of a defined architecture, test coverage, strict quality gates, and a well-tuned `CLAUDE.md` means AI tools like Claude Code can contribute to your codebase without introducing regressions or inconsistencies. Because every Rockpack project starts with linting and tests already configured, AI-generated code is reviewed automatically on every change.
 
 The `CLAUDE.md` configuration is optimized for:
 
