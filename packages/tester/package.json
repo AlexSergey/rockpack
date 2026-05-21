@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tester",
-  "version": "8.0.0-next.4",
+  "version": "8.0.0",
   "private": false,
   "description": "Pre-configured Jest setup for React and TypeScript with testing-library and best-practice defaults",
   "keywords": [
@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.4.4",
-    "@rockpack/babel": "8.0.0-next.4",
-    "@rockpack/utils": "8.0.0-next.4",
+    "@rockpack/babel": "8.0.0",
+    "@rockpack/utils": "8.0.0",
     "@types/jest": "30.0.0",
     "babel-jest": "30.4.1",
     "deep-extend": "0.6.0",
@@ -56,9 +56,9 @@
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0-next.4"
+    "@rockpack/codestyle": "8.0.0"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=23.0.0"
   }
 }

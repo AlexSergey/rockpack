@@ -39,6 +39,10 @@ Every project scaffolded by **@rockpack/starter** is ready for AI-assisted devel
 
 This makes Rockpack projects a reliable foundation for teams working with Claude Code or similar AI tools.
 
+## Requirements
+
+- **Node.js 23 or higher**
+
 ## Using
 
 1. Installation:

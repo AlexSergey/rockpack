@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "8.0.0-next.4",
+  "version": "8.0.0",
   "private": false,
   "description": "Internal utilities shared across Rockpack packages",
   "keywords": [
@@ -35,6 +35,6 @@
     "yargs": "18.0.0"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=23.0.0"
   }
 }

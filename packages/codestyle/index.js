@@ -60,8 +60,6 @@ const ignores = [
   '*.html',
   'docs/',
   'public/',
-  'locales/',
-  'src/locales/',
   'seo_report',
   '**/.last-run.json',
 ];

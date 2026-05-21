@@ -12,6 +12,7 @@ Version 8.0.0 is a major modernization release: the toolchain has been updated t
 ### Changed
 - Codestyle module reworked for ESLint 10 support
 - Full TypeScript 6+ support
+- Minimum Node.js version raised to 23
 - Improved debugging in production
 - Dependency updates
 

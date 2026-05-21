@@ -32,6 +32,10 @@ The `CLAUDE.md` configuration is optimized for:
 - **Safe incremental changes** - small, predictable diffs that are easy to review
 - **Quality enforcement** - ESLint, TypeScript strict mode, and Jest act as automated reviewers on every AI-generated change
 
+## Requirements
+
+- **Node.js 23 or higher**
+
 ## Getting Started
 
 **Rockpack** is a good fit for:

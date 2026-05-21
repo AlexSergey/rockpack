@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "8.0.0-next.4",
+  "version": "8.0.0",
   "private": false,
   "description": "CLI scaffolding tool for React apps with zero-config CSR and SSR setup, Webpack, Jest, and ESLint",
   "keywords": [
@@ -57,6 +57,6 @@
     "yargs": "18.0.0"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=23.0.0"
   }
 }
