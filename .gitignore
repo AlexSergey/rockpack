@@ -88,6 +88,19 @@ test-reports
 .env
 
 # Custom rules
+packages/babel/lib/
+packages/babel/types/
+packages/codestyle/lib/
+packages/codestyle/types/
+packages/compiler/lib/
+packages/compiler/types/
+packages/starter/lib/
+packages/starter/types/
+packages/tester/lib/
+packages/tester/types/
+packages/utils/lib/
+packages/utils/types/
+
 packages/compiler/examples/**/public
 packages/compiler/examples/**/lib
 packages/ussr/examples/**/public
