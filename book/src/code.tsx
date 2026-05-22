@@ -10,8 +10,10 @@ export const Code = ({ code, language }: { code: string; language: Language }): 
     {({ getLineProps, getTokenProps, style, tokens }: RenderProps) => (
       <pre style={style}>
         {tokens.map((line, i) => (
+          // eslint-disable-next-line @eslint-react/no-array-index-key
           <div key={i} {...getLineProps({ line })}>
             {line.map((token, key) => (
+              // eslint-disable-next-line @eslint-react/no-array-index-key
               <span key={key} {...getTokenProps({ token })} />
             ))}
           </div>

@@ -135,6 +135,7 @@ export const Page = (): ReactElement => {
 
       <img alt="Rockpack CLI" className="flexible-image" src={img} style={{ width: '100%' }} />
 
+      {/* eslint-disable-next-line @eslint-react/purity */}
       <div>License MIT, {new Date().getFullYear()}</div>
     </div>
   );

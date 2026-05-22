@@ -42,13 +42,16 @@ fs.cpSync(
   - [ ] Make meta config for rockpack/compiler
   - [ ] Rewrite to TS:
     - [✅] babel
-    - [ ] codestyle
+    - [✅] codestyle
     - [ ] compiler
     - [ ] starter
     - [ ] tester
       - [❌] Drop commonjs babel plugin
-    - [ ] tsconfig
+    - [❌] tsconfig
     - [ ] utils
+- [ ] e2e to type modules
+- [ ] update e2e deps
+- [ ] npm run build priority
 - [ ] Extract examples to the root, connect to version, updater
 - [ ] Update lint-staged to 17
 - [ ] Fix husky initializtion for starter project

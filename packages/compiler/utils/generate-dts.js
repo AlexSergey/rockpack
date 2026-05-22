@@ -24,7 +24,7 @@ module.exports = async function generateDts(conf, root) {
 
     return false;
   }
-  const dists = [conf.types ? conf.types : path.join(path.dirname(conf.dist), 'types'), conf.esm?.dist, conf.cjs?.dist];
+  const dists = [conf.types ? conf.types : path.join(path.dirname(conf.dist), 'types')];
   const validDists = dists.filter((d) => typeof d === 'string');
 
   const uuid = generateString(10);
@@ -55,6 +55,7 @@ module.exports = async function generateDts(conf, root) {
         }
       }
     }
+
     if (baseDir) {
       const tsAndTsx = await getTypeScript(baseDir);
 
@@ -62,7 +63,7 @@ module.exports = async function generateDts(conf, root) {
         if (existsSync(tsConfig)) {
           if (!converted) {
             const compilerOptions = makeCompilerOptions(root, tsConfig, temp, moduleFormats.cjs);
-            const options = { ...compilerOptions.options, declaration: true };
+            const options = { ...compilerOptions.options, declaration: true, noEmit: false };
             const host = ts.createCompilerHost(options);
             const program = ts.createProgram(tsAndTsx, options, host);
             ts.createTypeChecker(program, true);

@@ -17,7 +17,7 @@ async function sourceCompiler(conf = {}) {
   const root = getRootRequireDir();
   const tsConfig = pathToTSConf(root, mode, false);
   const isTypeScript = isString(tsConfig);
-  console.log('fore');
+
   if (isDefined(conf.esm) || isDefined(conf.cjs)) {
     // Transpile source
     try {
@@ -26,6 +26,7 @@ async function sourceCompiler(conf = {}) {
       console.error(e.message);
     }
   }
+
   if (isTypeScript) {
     try {
       await generateDts(conf, root);

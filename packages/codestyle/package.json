@@ -24,11 +24,23 @@
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "type": "module",
-  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.mjs",
+      "require": "./lib/cjs/index.cjs",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
+  "types": "./types/index.d.ts",
   "scripts": {
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "lint": "eslint .",
+    "build": "node scripts.build.cjs",
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
     "production": "npm run lint && npm publish --access public"
   },
   "dependencies": {
@@ -38,7 +50,6 @@
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
     "@rockpack/babel": "8.0.0",
-    "@rockpack/utils": "8.0.0",
     "@typescript-eslint/eslint-plugin": "8.59.4",
     "@typescript-eslint/parser": "8.59.4",
     "deep-extend": "0.6.0",

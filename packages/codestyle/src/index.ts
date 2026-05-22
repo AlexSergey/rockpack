@@ -1,3 +1,5 @@
+import type { ESLint, Linter } from 'eslint';
+
 import reactPlugin from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import json from '@eslint/json';
@@ -19,6 +21,10 @@ import globals from 'globals';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import tseslint from 'typescript-eslint';
+
+interface PackageJson {
+  readonly dependencies?: Readonly<Record<string, string>>;
+}
 
 const ignores = [
   '.idea',
@@ -65,34 +71,35 @@ const ignores = [
 ];
 
 const jsFiles = ['**/*.{js,jsx,mjs,cjs}'];
-
 const tsFiles = ['**/*.{ts,tsx}'];
-
 const sourceFiles = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
 
-export const isString = (value) => typeof value === 'string';
+export const isString = (value: unknown): value is string => typeof value === 'string';
 
-export const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
-
-export const makeConfig = () => {
+export const makeConfig = (): Linter.Config[] => {
   const mode = getMode(['development', 'production'], 'production');
-
   const root = process.cwd();
-
   const packageJsonPath = path.resolve(root, 'package.json');
-  const packageJson = existsSync(packageJsonPath) ? JSON.parse(readFileSync(packageJsonPath, 'utf8')) : {};
-  const { hasReact } = packageJson && isObject(packageJson.dependencies) && isString(packageJson.dependencies.react);
 
-  let tsConfig = false;
+  let packageJson: PackageJson = {};
+  if (existsSync(packageJsonPath)) {
+    try {
+      packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as PackageJson;
+    } catch {
+      // ignore malformed package.json
+    }
+  }
+
+  const hasReact = isString(packageJson.dependencies?.react);
+
+  let tsConfig: false | string = false;
 
   if (existsSync(path.resolve(root, './tsconfig.js'))) {
     tsConfig = path.resolve(root, './tsconfig.js');
   }
-
   if (existsSync(path.resolve(root, './tsconfig.json'))) {
     tsConfig = path.resolve(root, './tsconfig.json');
   }
-
   if (existsSync(path.resolve(root, './tsconfig.development.js')) && mode === 'development') {
     tsConfig = path.resolve(root, './tsconfig.development.js');
   }
@@ -100,7 +107,7 @@ export const makeConfig = () => {
     tsConfig = path.resolve(root, './tsconfig.production.js');
   }
 
-  const languageOptions = {
+  const languageOptions: Linter.Config['languageOptions'] = {
     ecmaVersion: 2024,
     globals: {
       ...globals.browser,
@@ -113,7 +120,7 @@ export const makeConfig = () => {
     sourceType: 'module',
   };
 
-  const customTypescriptConfig = {
+  const customTypescriptConfig: Linter.Config = {
     files: tsFiles,
     languageOptions: {
       ...languageOptions,
@@ -127,7 +134,7 @@ export const makeConfig = () => {
       '@import-lite': importLite,
       '@no-only-tests': noOnlyTests,
       '@sonar': sonar,
-      '@typescript-eslint': tseslintPlugin,
+      '@typescript-eslint': tseslintPlugin as unknown as ESLint.Plugin,
       '@unicorn': unicorn,
       'import/parsers': tsParser,
     },
@@ -232,22 +239,7 @@ export const makeConfig = () => {
     },
   };
 
-  if (hasReact) {
-    Object.assign(customTypescriptConfig.rules, {
-      'react/function-component-definition': [
-        2,
-        {
-          namedComponents: 'arrow-function',
-          unnamedComponents: 'arrow-function',
-        },
-      ],
-      'react/jsx-uses-react': 'off',
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-    });
-  }
-
-  const recommendedTypeScriptConfigs = [
+  const recommendedTypeScriptConfigs: Linter.Config[] = [
     ...tseslint.configs.recommended.map((config) => ({
       ...config,
       files: tsFiles,
@@ -260,24 +252,16 @@ export const makeConfig = () => {
       ...config,
       files: tsFiles,
     })),
-  ];
+  ] as Linter.Config[];
 
-  if (hasReact) {
-    customTypescriptConfig.rules['react/jsx-uses-react'] = 'off';
-    customTypescriptConfig.rules['react/react-in-jsx-scope'] = 'off';
-  }
-
-  const jsonCustomConfig = {
+  const jsonCustomConfig: Linter.Config = {
+    ...json.configs.recommended,
     files: ['**/*.json'],
     ignores: ['**/*-lock.json', 'package.json'],
     language: 'json/json',
-    plugins: {
-      json,
-    },
-    ...json.configs.recommended,
   };
 
-  const customPackageJsonConfig = {
+  const customPackageJsonConfig: Linter.Config = {
     files: ['package.json'],
     ignores: ['**/*-lock.json'],
     rules: {
@@ -289,7 +273,7 @@ export const makeConfig = () => {
     },
   };
 
-  const customJsConfig = {
+  const customJsConfig: Linter.Config = {
     files: jsFiles,
     languageOptions: {
       globals: {
@@ -301,17 +285,17 @@ export const makeConfig = () => {
     ...js.configs.recommended,
   };
 
-  const perfectionistConfig = {
+  const perfectionistConfig: Linter.Config = {
     files: sourceFiles,
     ...perfectionist.configs['recommended-natural'],
   };
 
-  const regexpConfig = {
+  const regexpConfig: Linter.Config = {
     files: sourceFiles,
     ...regexpPlugin.configs['flat/recommended'],
   };
 
-  const disableDefaultExportBlockingForStorybook = {
+  const disableDefaultExportBlockingForStorybook: Linter.Config = {
     files: [
       '**/*.stories.@(js|jsx|ts|tsx|mdx)',
       '**/playwright*.config.ts',
@@ -344,7 +328,7 @@ export const makeConfig = () => {
             },
           },
           ...reactHooksPlugin.configs.flat.recommended,
-          ...reactPlugin.configs['recommended-type-checked'],
+          ...reactPlugin.configs['recommended-typescript'],
           files: sourceFiles,
         }
       : {},
