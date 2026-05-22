@@ -2,7 +2,7 @@
 
 [9.0.0]
 
-- Change eslint ignore to:
+- [ ] Change eslint ignore to:
 ```ts
 '**/coverage/**',
 '**/coverage-e2e/**',
@@ -13,9 +13,9 @@
 '**/dist/**',
 '**/public/**'
 ```
-- Rewrite the code to TS
-- Update lint-staged to 17
-- Rewrite sourceCompiler:
+- [ ] Rewrite the code to TS
+  - [✅] Make sourceCompiler independent compilation module to build packages
+  - [✅] Rewrite sourceCompiler:
 
 ```ts
 // 1. Copy non-ts files first:
@@ -38,4 +38,19 @@ fs.cpSync(
 // 2. Transpile to esm, cjs via TSC
 ```
 
-- Unit tests for all modules
+  - [ ] Make simple transpiling (type module, transpile to esm, cjs, types)
+  - [ ] Make meta config for rockpack/compiler
+  - [ ] Rewrite to TS:
+    - [ ] babel
+    - [ ] codestyle
+    - [ ] compiler
+    - [ ] starter
+    - [ ] tester
+      - [❌] Drop commonjs babel plugin
+    - [ ] tsconfig
+    - [ ] utils
+- [ ] Extract examples to the root, connect to version, updater
+- [ ] Update lint-staged to 17
+- [ ] Fix husky initializtion for starter project
+  - [ ] Add pre-hooks
+- [ ] Unit tests for all modules

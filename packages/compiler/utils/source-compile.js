@@ -1,7 +1,7 @@
 const babel = require('@babel/core');
 const createBabelPresets = require('@rockpack/babel');
 const { getMode, getRootRequireDir } = require('@rockpack/utils');
-const { copyFileSync, existsSync, renameSync } = require('node:fs');
+const { cpSync, existsSync, renameSync } = require('node:fs');
 const path = require('node:path');
 const rimraf = require('rimraf');
 const { isArray, isObject, isString, isUndefined } = require('valid-types');
@@ -141,9 +141,13 @@ module.exports = async function sourceCompile(conf) {
 
       for (const file of copyFiles) {
         try {
+          const formatDist = path.join(root, conf[format].dist);
           const filePth = path.relative(path.join(root, opt.src), file);
-          const fileDest = path.join(dist, filePth);
-          copyFileSync(file, fileDest);
+          const fileDest = path.join(formatDist, filePth);
+
+          cpSync(file, fileDest, {
+            recursive: true,
+          });
         } catch (err) {
           console.error(err);
         }
