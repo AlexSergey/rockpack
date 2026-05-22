@@ -41,7 +41,7 @@ fs.cpSync(
   - [ ] Make simple transpiling (type module, transpile to esm, cjs, types)
   - [ ] Make meta config for rockpack/compiler
   - [ ] Rewrite to TS:
-    - [ ] babel
+    - [✅] babel
     - [ ] codestyle
     - [ ] compiler
     - [ ] starter

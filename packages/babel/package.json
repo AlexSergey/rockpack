@@ -22,11 +22,27 @@
   },
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
-  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.mjs",
+      "require": "./lib/cjs/index.cjs",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
+  "types": "./types/index.d.ts",
   "scripts": {
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "lint": "eslint .",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:cjs": "node scripts/build.cjs.mjs",
+    "build:esm": "node scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.types.json",
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
     "production": "npm run lint && npm publish --access public"
   },
   "dependencies": {
@@ -42,7 +58,9 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@babel/traverse": "7.29.0",
+    "@rockpack/tsconfig": "8.0.0",
     "@rockpack/utils": "8.0.0",
+    "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-typescript-metadata": "0.4.0",
     "deepmerge": "4.3.1",
@@ -51,7 +69,8 @@
     "valid-types": "2.0.5"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0"
+    "@rockpack/codestyle": "8.0.0",
+    "@types/node": "24.10.13"
   },
   "engines": {
     "node": ">=23.0.0"

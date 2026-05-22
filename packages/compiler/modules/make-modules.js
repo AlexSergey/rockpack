@@ -1,4 +1,4 @@
-const createBabelPresets = require('@rockpack/babel');
+const { createBabelPresets } = require('@rockpack/babel');
 
 const createAssetType = require('../utils/asset-type');
 const Collection = require('../utils/collection');

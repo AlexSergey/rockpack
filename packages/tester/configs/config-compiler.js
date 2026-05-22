@@ -13,9 +13,11 @@ const currentProjectFolder = getRootRequireDir();
 
 let jestConfig = {};
 
-if (existsSync(path.resolve(currentProjectFolder, './jest.extend.js'))) {
-  jestConfig = require(path.resolve(currentProjectFolder, './jest.extend.js'));
-}
+['cjs', 'js'].forEach((ext) => {
+  if (existsSync(path.resolve(currentProjectFolder, `./jest.extend.${ext}`))) {
+    jestConfig = require(path.resolve(currentProjectFolder, `./jest.extend.${ext}`));
+  }
+});
 
 const setupFiles = [];
 const setupFilesAfterEnv = [];

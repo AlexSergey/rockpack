@@ -60,7 +60,6 @@
     "async": "3.2.6",
     "autoprefixer": "10.5.0",
     "babel-loader": "10.1.1",
-    "babel-plugin-add-import-extension": "1.6.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
     "colors": "1.4.0",
     "copy-webpack-plugin": "14.0.0",

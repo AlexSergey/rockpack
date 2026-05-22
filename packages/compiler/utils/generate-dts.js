@@ -24,7 +24,7 @@ module.exports = async function generateDts(conf, root) {
 
     return false;
   }
-  const dists = [path.join(path.dirname(conf.dist), 'types'), conf.esm?.dist, conf.cjs?.dist];
+  const dists = [conf.types ? conf.types : path.join(path.dirname(conf.dist), 'types'), conf.esm?.dist, conf.cjs?.dist];
   const validDists = dists.filter((d) => typeof d === 'string');
 
   const uuid = generateString(10);

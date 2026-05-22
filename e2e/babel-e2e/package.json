@@ -7,12 +7,13 @@
     "type": "git",
     "url": "https://github.com/AlexSergey/rockpack.git"
   },
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",
-    "test": "node test.js"
+    "test": "node test.cjs"
   },
   "dependencies": {
     "@rockpack/babel": "8.0.0",

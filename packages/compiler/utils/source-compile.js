@@ -1,5 +1,5 @@
 const babel = require('@babel/core');
-const createBabelPresets = require('@rockpack/babel');
+const { createBabelPresets } = require('@rockpack/babel');
 const { getMode, getRootRequireDir } = require('@rockpack/utils');
 const { cpSync, existsSync, renameSync } = require('node:fs');
 const path = require('node:path');
