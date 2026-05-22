@@ -38,7 +38,7 @@ fs.cpSync(
 // 2. Transpile to esm, cjs via TSC
 ```
 
-  - [ ] Make simple transpiling (type module, transpile to esm, cjs, types)
+  - [✅] Make simple transpiling (type module, transpile to esm, cjs, types)
   - [ ] Make meta config for rockpack/compiler
   - [ ] Rewrite to TS:
     - [✅] babel
@@ -51,7 +51,7 @@ fs.cpSync(
     - [ ] utils
 - [ ] e2e to type modules
 - [ ] update e2e deps
-- [ ] npm run build priority
+- [✅] npm run build priority
 - [ ] Extract examples to the root, connect to version, updater
 - [ ] Update lint-staged to 17
 - [ ] Fix husky initializtion for starter project

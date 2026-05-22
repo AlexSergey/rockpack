@@ -9,6 +9,9 @@
     "packages/*"
   ],
   "scripts": {
+    "build": "npm run build:babel && npm run build:codestyle",
+    "build:babel": "lerna run build --scope=@rockpack/babel",
+    "build:codestyle": "lerna run build --scope=@rockpack/codestyle",
     "lint": "lerna run lint",
     "format": "lerna run format",
     "production": "lerna run production",
