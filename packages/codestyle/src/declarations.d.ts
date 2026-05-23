@@ -3,7 +3,3 @@ declare module 'eslint-plugin-no-only-tests' {
   const plugin: ESLint.Plugin;
   export = plugin;
 }
-
-declare module '@rockpack/utils' {
-  export const getMode: (modes?: readonly string[], defaultMode?: string) => string;
-}

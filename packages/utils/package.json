@@ -17,22 +17,47 @@
   },
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
-  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.mjs",
+      "require": "./lib/cjs/index.cjs",
+      "types": "./types/index.d.ts"
+    },
+    "./polyfills/text-encoder.fix": {
+      "import": "./lib/esm/polyfills/text-encoder.fix.mjs",
+      "require": "./lib/cjs/polyfills/text-encoder.fix.cjs",
+      "types": "./types/polyfills/text-encoder.fix.d.ts"
+    }
+  },
+  "main": "./lib/cjs/index.cjs",
+  "module": "./lib/esm/index.mjs",
+  "types": "./types/index.d.ts",
   "files": [
-    "polyfills",
-    "utils"
+    "src/polyfills",
+    "src/utils"
   ],
   "scripts": {
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "lint": "eslint .",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:cjs": "node scripts/build.cjs.mjs",
+    "build:esm": "node scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.types.json",
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
     "production": "npm run lint && npm publish --access public"
   },
   "dependencies": {
-    "require-main-filename": "2.0.0",
     "semver": "7.8.0",
     "valid-types": "2.0.5",
     "yargs": "18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.13",
+    "@types/semver": "7.7.1",
+    "@types/yargs": "17.0.35"
   },
   "engines": {
     "node": ">=23.0.0"

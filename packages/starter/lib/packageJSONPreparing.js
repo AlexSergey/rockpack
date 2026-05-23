@@ -125,10 +125,10 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
 
   if (appType === 'library' || appType === 'component') {
     packageJSON = addScripts(packageJSON, {
-      analyzer: 'node scripts.build --analyzer',
-      build: 'node scripts.build --mode=production',
-      'build:example': 'node example/scripts.build --mode=production',
-      start: 'node example/scripts.build',
+      analyzer: 'node scripts.build.js --analyzer',
+      build: 'node scripts.build.js --mode=production',
+      'build:example': 'node example/scripts.build.js --mode=production',
+      start: 'node example/scripts.build.js',
     });
 
     const examplePath = path.resolve(currentPath, 'example');
@@ -150,9 +150,9 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
     await writePackageJSON(examplePath, packageJSONExample);
   } else {
     packageJSON = addScripts(packageJSON, {
-      analyzer: 'node scripts.build --analyzer',
-      build: 'node scripts.build --mode=production',
-      start: 'node scripts.build',
+      analyzer: 'node scripts.build.js --analyzer',
+      build: 'node scripts.build.js --mode=production',
+      start: 'node scripts.build.js',
     });
   }
 

@@ -48,11 +48,13 @@ fs.cpSync(
     - [ ] tester
       - [❌] Drop commonjs babel plugin
     - [❌] tsconfig
-    - [ ] utils
+    - [✅] utils
 - [ ] e2e to type modules
 - [ ] update e2e deps
 - [✅] npm run build priority
 - [ ] Extract examples to the root, connect to version, updater
+  - [ ] tester
+  - [ ] compiler
 - [ ] Update lint-staged to 17
 - [ ] Fix husky initializtion for starter project
   - [ ] Add pre-hooks
