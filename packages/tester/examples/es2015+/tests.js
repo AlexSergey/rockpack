@@ -1,3 +1,3 @@
-const tests = require('../../index');
+const tests = require('../../src');
 
 tests();

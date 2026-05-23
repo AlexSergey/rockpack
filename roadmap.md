@@ -45,7 +45,7 @@ fs.cpSync(
     - [✅] codestyle
     - [ ] compiler
     - [ ] starter
-    - [ ] tester
+    - [✅] tester
       - [❌] Drop commonjs babel plugin
     - [❌] tsconfig
     - [✅] utils
@@ -56,6 +56,7 @@ fs.cpSync(
   - [ ] tester
   - [ ] compiler
 - [ ] Update lint-staged to 17
+- [ ] make all deps in starter templates are updatable
 - [ ] Fix husky initializtion for starter project
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules

@@ -1,4 +1,4 @@
-const tests = require('../../index');
-const watch = !!(process.argv.find((arg) => arg === 'watch'));
+const tests = require('../../src');
+const watch = !!process.argv.find((arg) => arg === 'watch');
 
 tests({ watch });
