@@ -10,5 +10,5 @@
     "declaration": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/index.ts", "src/create-presets.ts"]
+  "include": ["src/index.ts"]
 }
