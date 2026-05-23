@@ -26,24 +26,34 @@
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "type": "module",
-  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/bin/index.mjs",
+      "types": "./types/bin/index.d.ts"
+    }
+  },
+  "main": "./lib/bin/index.mjs",
+  "module": "./lib/bin/index.mjs",
+  "types": "./types/bin/index.d.ts",
   "bin": {
-    "rockpack": "./bin/index.js"
+    "rockpack": "./lib/bin/index.mjs"
   },
   "files": [
-    "bin",
     "lib",
     "templates",
-    "constants",
-    "utils"
+    "types"
   ],
   "scripts": {
-    "format": "npm run format:eslint",
-    "format:eslint": "eslint . --fix",
-    "lint": "eslint .",
+    "build": "node scripts.build.cjs",
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
     "production": "npm publish --access public"
   },
   "dependencies": {
+    "@inquirer/select": "5.0.4",
     "chalk": "5.6.2",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",

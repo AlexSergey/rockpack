@@ -1,10 +1,83 @@
 import path from 'node:path';
-import { getPM } from '../utils/other.js';
-import { packageJson } from '../utils/package-json.js';
-import { addFields, addScripts, addDependencies, readPackageJSON, writePackageJSON } from '../utils/project.js';
 
-export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit, testMode }, currentPath) => {
+import type { State } from './wizard';
+
+import { getPM } from '../utils/other';
+import { packageJson } from '../utils/package-json';
+import {
+  addDependencies,
+  addFields,
+  addScripts,
+  type PackageJsonObject,
+  readPackageJSON,
+  writePackageJSON,
+} from '../utils/project';
+
+export const packageJsonPreparing = async (
+  packageJSON: PackageJsonObject,
+  { appType, nogit, tester, testMode }: Pick<State, 'appType' | 'nogit' | 'tester' | 'testMode'>,
+  currentPath: string,
+): Promise<PackageJsonObject> => {
   switch (appType) {
+    case 'component':
+
+    case 'library':
+      if (appType === 'component') {
+        packageJSON = await addDependencies(
+          packageJSON,
+          {
+            devDependencies: [
+              { name: 'react', version: '19' },
+              { name: 'react-dom', version: '19' },
+              { name: '@types/react', version: '19' },
+              { name: '@types/react-dom', version: '19' },
+            ],
+            peerDependencies: [
+              { name: 'react', version: '19' },
+              { name: 'react-dom', version: '19' },
+            ],
+          },
+          testMode,
+        );
+      }
+
+      packageJSON = await addDependencies(
+        packageJSON,
+        {
+          devDependencies: [{ name: '@rockpack/compiler', version: packageJson.version }],
+        },
+        testMode,
+      );
+
+      if (appType === 'component') {
+        packageJSON = addFields(packageJSON, {
+          main: 'dist/index.js',
+          types: 'dist/index.d.ts',
+        });
+      } else if (appType === 'library') {
+        packageJSON = addFields(packageJSON, {
+          exports: {
+            '.': {
+              import: './lib/esm/index.mjs',
+              require: './lib/cjs/index.cjs',
+              types: './dist/types/index.d.ts',
+            },
+          },
+          main: './lib/cjs/index.cjs',
+          module: './lib/esm/index.mjs',
+          types: './dist/types/index.d.ts',
+        });
+      }
+
+      {
+        const production = `${getPM()} run lint && ${
+          tester ? `${getPM()} test && ` : ''
+        }${getPM()} run build && ${getPM()} publish`;
+
+        packageJSON = addScripts(packageJSON, { production });
+      }
+      break;
+
     case 'csr':
       packageJSON = await addDependencies(
         packageJSON,
@@ -55,63 +128,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         },
         testMode,
       );
-      break;
-
-    case 'library':
-    case 'component':
-      if (appType === 'component') {
-        packageJSON = await addDependencies(
-          packageJSON,
-          {
-            peerDependencies: [
-              { name: 'react', version: '19' },
-              { name: 'react-dom', version: '19' },
-            ],
-            devDependencies: [
-              { name: 'react', version: '19' },
-              { name: 'react-dom', version: '19' },
-              { name: '@types/react', version: '19' },
-              { name: '@types/react-dom', version: '19' },
-            ],
-          },
-          testMode,
-        );
-      }
-
-      packageJSON = await addDependencies(
-        packageJSON,
-        {
-          devDependencies: [{ name: '@rockpack/compiler', version: packageJson.version }],
-        },
-        testMode,
-      );
-      if (appType === 'component') {
-        packageJSON = addFields(packageJSON, {
-          main: 'dist/index.js',
-          types: 'dist/index.d.ts',
-        });
-      } else if (appType === 'library') {
-        packageJSON = addFields(packageJSON, {
-          exports: {
-            '.': {
-              import: './lib/esm/index.mjs',
-              require: './lib/cjs/index.cjs',
-              types: './dist/types/index.d.ts',
-            },
-          },
-          main: './lib/cjs/index.cjs',
-          module: './lib/esm/index.mjs',
-          types: './dist/types/index.d.ts',
-        });
-      }
-
-      const production = `${getPM()} run lint && ${
-        tester ? `${getPM()} test && ` : ''
-      }${getPM()} run build && ${getPM()} publish`;
-
-      packageJSON = addScripts(packageJSON, {
-        production,
-      });
       break;
   }
 
@@ -170,9 +186,10 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
         : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
     'lint:code': 'eslint .',
     'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
-    'lint:ts': 'tsc --noEmit',
     'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.{css,scss}"',
+    'lint:ts': 'tsc --noEmit',
   });
+
   packageJSON = await addDependencies(
     packageJSON,
     {
@@ -205,7 +222,6 @@ export const packageJSONPreparing = async (packageJSON, { appType, tester, nogit
           devDependencies: [
             { name: '@testing-library/jest-dom', version: '6' },
             { name: '@testing-library/react', version: '16' },
-            { name: '@testing-library/jest-dom', version: '6' },
           ],
         },
         testMode,

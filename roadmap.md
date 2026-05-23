@@ -44,7 +44,7 @@ fs.cpSync(
     - [✅] babel
     - [✅] codestyle
     - [ ] compiler
-    - [ ] starter
+    - [✅] starter
     - [✅] tester
       - [❌] Drop commonjs babel plugin
     - [❌] tsconfig
@@ -60,3 +60,4 @@ fs.cpSync(
 - [ ] Fix husky initializtion for starter project
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules
+- [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)

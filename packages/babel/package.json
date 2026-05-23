@@ -33,6 +33,10 @@
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs && npm run build:types",
     "build:cjs": "node scripts/build.cjs.mjs",

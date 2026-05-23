@@ -30,8 +30,8 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.init.js'))) {
   setupFiles.push('<rootDir>/jest.init.ts');
 }
 
-if (existsSync(path.resolve(currentProjectFolder, './jest.setup.js'))) {
-  setupFilesAfterEnv.push('<rootDir>/jest.setup.js');
+if (existsSync(path.resolve(currentProjectFolder, './jest.setup.cjs'))) {
+  setupFilesAfterEnv.push('<rootDir>/jest.setup.cjs');
 } else if (existsSync(path.resolve(currentProjectFolder, './jest.setup.ts'))) {
   setupFilesAfterEnv.push('<rootDir>/jest.setup.ts');
 }

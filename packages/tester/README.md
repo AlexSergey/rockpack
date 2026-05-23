@@ -55,7 +55,7 @@ node tests.js --watch
 
 To override Jest configuration - for example, to switch the test environment from jsdom to Node:
 
-1. Create `jest.extend.js` in the root of the project:
+1. Create `jest.extend.cjs` in the root of the project:
 
 ```js
 module.exports = {

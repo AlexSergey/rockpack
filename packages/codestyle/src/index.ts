@@ -3,7 +3,6 @@ import type { ESLint, Linter } from 'eslint';
 import reactPlugin from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import json from '@eslint/json';
-import { getMode } from '@rockpack/utils';
 import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import checkFile from 'eslint-plugin-check-file';
@@ -77,7 +76,6 @@ const sourceFiles = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
 export const isString = (value: unknown): value is string => typeof value === 'string';
 
 export const makeConfig = (): Linter.Config[] => {
-  const mode = getMode(['development', 'production'], 'production');
   const root = process.cwd();
   const packageJsonPath = path.resolve(root, 'package.json');
 
@@ -94,17 +92,12 @@ export const makeConfig = (): Linter.Config[] => {
 
   let tsConfig: false | string = false;
 
-  if (existsSync(path.resolve(root, './tsconfig.js'))) {
-    tsConfig = path.resolve(root, './tsconfig.js');
-  }
   if (existsSync(path.resolve(root, './tsconfig.json'))) {
     tsConfig = path.resolve(root, './tsconfig.json');
   }
-  if (existsSync(path.resolve(root, './tsconfig.development.js')) && mode === 'development') {
-    tsConfig = path.resolve(root, './tsconfig.development.js');
-  }
-  if (existsSync(path.resolve(root, './tsconfig.production.js')) && mode === 'production') {
-    tsConfig = path.resolve(root, './tsconfig.production.js');
+
+  if (existsSync(path.resolve(root, './tsconfig.eslint.json'))) {
+    tsConfig = path.resolve(root, './tsconfig.eslint.json');
   }
 
   const languageOptions: Linter.Config['languageOptions'] = {

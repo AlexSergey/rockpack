@@ -9,7 +9,7 @@ import { rimraf } from 'rimraf';
 import { exists } from './utils/fs';
 import { wait, waitForServer } from './utils/wait';
 
-const starter = require.resolve('../../../packages/starter/bin/index.js');
+const starter = join(__dirname, '../../../packages/starter/lib/bin/index.mjs');
 
 const genFolder = join(__dirname, 'generators');
 const newImages = join(__dirname, '..', 'screenshots', 'new');

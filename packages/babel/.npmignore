@@ -17,3 +17,5 @@ example
 examples
 test-reports
 coverage
+src/
+scripts/

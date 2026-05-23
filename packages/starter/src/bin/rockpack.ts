@@ -4,17 +4,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import semverParse from 'semver/functions/parse.js';
 
-import { defaultApp } from '../constants/names.js';
-import { here } from '../constants/paths.js';
-import { getArgs } from '../lib/getArgs.js';
-import { install } from '../lib/install.js';
-import { argv } from '../utils/argv.js';
-import { packageJson } from '../utils/package-json.js';
-import { getCurrentPath } from '../utils/pathes.js';
+import { defaultApp } from '../constants/names';
+import { here } from '../constants/paths';
+import { getArgs } from '../lib/get-args';
+import { install } from '../lib/install';
+import { argv } from '../utils/argv';
+import { packageJson } from '../utils/package-json';
+import { getCurrentPath } from '../utils/pathes';
 
-export const rockpack = async () => {
+export const rockpack = async (): Promise<void> => {
   const { _, h, help, v, version } = argv;
-  const noName = _.length === 0;
+  const noName = ((_ as unknown[]) ?? []).length === 0;
   const args = getArgs();
 
   if (v || version) {
@@ -45,8 +45,9 @@ export const rockpack = async () => {
   }
 
   const rockpackLatestVersion = await latestVersion(packageJson.name);
+  const parsed = semverParse(rockpackLatestVersion);
 
-  if (semverParse(rockpackLatestVersion).prerelease.length === 0 && rockpackLatestVersion > packageJson.version) {
+  if (parsed && parsed.prerelease.length === 0 && rockpackLatestVersion > packageJson.version) {
     console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
     console.log();
     console.log(` => The current available version is ${rockpackLatestVersion}`);
@@ -72,6 +73,7 @@ export const rockpack = async () => {
     console.log(
       `${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`,
     );
+
     return process.exit(1);
   }
 

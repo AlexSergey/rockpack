@@ -1,7 +1,7 @@
-import { copyFile, mkdir, readdir, stat } from 'fs/promises';
-import { join } from 'path';
+import { copyFile, mkdir, readdir, stat } from 'node:fs/promises';
+import { join } from 'node:path';
 
-export const copy = async (src, dest) => {
+export const copy = async (src: string, dest: string): Promise<void> => {
   const stats = await stat(src);
 
   if (stats.isDirectory()) {

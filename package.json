@@ -9,11 +9,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build:babel && npm run build:codestyle && npm run build:utils && npm run build:tester",
+    "build": "npm run build:babel && npm run build:codestyle && npm run build:utils && npm run build:tester && npm run build:starter",
     "build:babel": "lerna run build --scope=@rockpack/babel",
     "build:codestyle": "lerna run build --scope=@rockpack/codestyle",
     "build:utils": "lerna run build --scope=@rockpack/utils",
     "build:tester": "lerna run build --scope=@rockpack/tester",
+    "build:starter": "lerna run build --scope=@rockpack/starter",
     "lint": "lerna run lint",
     "format": "lerna run format",
     "production": "lerna run production",

@@ -1,32 +1,45 @@
+import chalk from 'chalk';
+import { mkdirp } from 'mkdirp';
 import fs from 'node:fs';
 import path from 'node:path';
 import ora from 'ora';
-import chalk from 'chalk';
-import { mkdirp } from 'mkdirp';
-import { wizard } from './wizard.js';
-import { gitInit } from './gitInit.js';
-import { copyFiles } from './copyFiles.js';
-import { createFiles } from './createFiles.js';
-import { packageJSONPreparing } from './packageJSONPreparing.js';
-import { showError } from '../utils/error.js';
-import { gitHooks } from '../utils/git-hooks.js';
-import { dummies } from '../utils/pathes.js';
-import { createPackageJSON, writePackageJSON, installDependencies, installPeerDependencies } from '../utils/project.js';
-import { getPM } from '../utils/other.js';
 
-const timeouts = {
-  $el1: null,
-  $el2: null,
-  $el3: null,
+import type { Args } from './get-args';
+
+import { showError } from '../utils/error';
+import { gitHooks } from '../utils/git-hooks';
+import { getPM } from '../utils/other';
+import { dummies } from '../utils/pathes';
+import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project';
+import { copyFiles } from './copy-files.ts';
+import { createFiles } from './create-files.ts';
+import { gitInit } from './git-init';
+import { packageJsonPreparing } from './package-json-preparing.ts';
+import { wizard } from './wizard';
+
+interface Timeouts {
+  $el1: null | ReturnType<typeof setTimeout>;
+  $el2: null | ReturnType<typeof setTimeout>;
+  $el3: null | ReturnType<typeof setTimeout>;
+}
+
+const clear = (timeouts: Timeouts): void => {
+  for (const key of Object.keys(timeouts) as (keyof Timeouts)[]) {
+    const t = timeouts[key];
+    if (t !== null) clearTimeout(t);
+  }
 };
 
-const clear = (timeouts) => {
-  Object.keys(timeouts).forEach((k) => {
-    clearTimeout(timeouts[k]);
-  });
-};
-
-export const install = async ({ args, projectName, currentPath }) => {
+export const install = async ({
+  args,
+  currentPath,
+  projectName,
+}: {
+  args: Args;
+  currentPath: string;
+  projectName: string;
+  // eslint-disable-next-line @sonar/cognitive-complexity
+}): Promise<void> => {
   const state = await wizard(args);
   state.projectName = projectName;
 
@@ -49,11 +62,9 @@ export const install = async ({ args, projectName, currentPath }) => {
     }
   }
 
-  let packageJSON;
+  let packageJSON = createPackageJSON(projectName);
 
   try {
-    packageJSON = createPackageJSON(projectName);
-
     if (state.appType === 'library' || state.appType === 'component') {
       const packageJSONExample = createPackageJSON(`${projectName}-example`);
       await writePackageJSON(examplePath, packageJSONExample);
@@ -70,7 +81,7 @@ export const install = async ({ args, projectName, currentPath }) => {
 
   try {
     if (!fs.existsSync(path.join(currentPath, '.git'))) {
-      await gitInit(currentPath, state);
+      gitInit(currentPath, state);
     } else {
       console.log('GIT is already initialized');
     }
@@ -121,10 +132,9 @@ export const install = async ({ args, projectName, currentPath }) => {
   const spinner = ora('package.json is preparing. Dependencies are checking.\n').start();
 
   try {
-    packageJSON = await packageJSONPreparing(packageJSON, state, currentPath);
+    packageJSON = await packageJsonPreparing(packageJSON, state, currentPath);
   } catch (e) {
     spinner.stop();
-
     showError(e, () => {
       console.error('Step: 5. package.json set-up');
     });
@@ -136,23 +146,23 @@ export const install = async ({ args, projectName, currentPath }) => {
     await copyFiles(currentPath, state);
   } catch (e) {
     spinner.stop();
-
     showError(e, () => {
       console.error('Step: 6. Copying files');
     });
   }
 
   try {
-    await createFiles(currentPath, state);
+    createFiles(currentPath, state);
   } catch (e) {
     spinner.stop();
-
     showError(e, () => {
       console.error('Step: 7. Creating files');
     });
   }
 
   spinner.text = 'Project is initializing. It takes 2-5 minutes.';
+
+  const timeouts: Timeouts = { $el1: null, $el2: null, $el3: null };
 
   timeouts.$el1 = setTimeout(() => {
     spinner.text = 'Dependencies are installing. It takes 1-2 minutes.';
@@ -169,7 +179,6 @@ export const install = async ({ args, projectName, currentPath }) => {
   } catch (e) {
     spinner.stop();
     clear(timeouts);
-
     showError(e, () => {
       console.error('Step: 8. package.json updating');
     });
@@ -178,7 +187,6 @@ export const install = async ({ args, projectName, currentPath }) => {
   if (args.noInstall) {
     spinner.stop();
     clear(timeouts);
-
     console.log();
     console.log(chalk.green(`Project "${projectName}" was created successfully!`));
     process.exit();
@@ -188,21 +196,19 @@ export const install = async ({ args, projectName, currentPath }) => {
     await installDependencies(currentPath);
 
     if (state.appType === 'library' || state.appType === 'component') {
-      const examplePath = path.resolve(currentPath, 'example');
       await installDependencies(examplePath);
 
-      if (state.appType === 'component' && packageJSON.peerDependencies) {
+      if (state.appType === 'component' && packageJSON['peerDependencies']) {
         await installPeerDependencies(packageJSON, currentPath);
       }
     }
 
     if (!state.nogit) {
-      await gitHooks(state, currentPath);
+      gitHooks(state, currentPath);
     }
   } catch (e) {
     spinner.stop();
     clear(timeouts);
-
     showError(e, () => {
       console.error('Step: 9. Installing dependencies');
     });

@@ -34,11 +34,8 @@
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
   "files": [
-    "src/configs",
-    "src/core",
-    "src/default-props.js",
-    "src/helpers",
-    "src/modules"
+    "lib",
+    "types"
   ],
   "scripts": {
     "build": "node scripts.build.cjs",

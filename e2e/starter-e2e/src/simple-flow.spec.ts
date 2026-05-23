@@ -1,7 +1,9 @@
 import { execSync } from 'node:child_process';
+import { join } from 'node:path';
 
 import { version } from '../../../package.json';
-const starter = require.resolve('../../../packages/starter/bin/index.js');
+
+const starter = join(__dirname, '../../../packages/starter/lib/bin/index.mjs');
 
 describe('Starter simple flow', () => {
   it('Check Rockpack version - rockpack -v', () => {

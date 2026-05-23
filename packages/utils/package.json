@@ -34,8 +34,8 @@
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
   "files": [
-    "src/polyfills",
-    "src/utils"
+    "lib",
+    "types"
   ],
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs && npm run build:types",
