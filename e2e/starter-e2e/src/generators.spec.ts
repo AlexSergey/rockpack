@@ -6,8 +6,8 @@ import { join } from 'node:path';
 import puppeteer from 'puppeteer';
 import { rimraf } from 'rimraf';
 
-import { exists } from './utils/fs';
-import { wait, waitForServer } from './utils/wait';
+import { exists } from './utils/fs.js';
+import { wait, waitForServer } from './utils/wait.js';
 
 const starter = join(__dirname, '../../../packages/starter/lib/bin/index.mjs');
 
@@ -247,7 +247,7 @@ describe('Generators tests', () => {
           const screenOriginalPth = `screenshots/original/csr-${tests ? 'with' : 'without'}-tests-build`;
           const screenNewPth = `screenshots/new/csr-${tests ? 'with' : 'without'}-tests-build`;
 
-          const serverProcess = spawn('node', ['./src/csr.server.js', tests ? 'with' : 'without'], {
+          const serverProcess = spawn('tsx', ['./src/csr.server.js', tests ? 'with' : 'without'], {
             detached: true,
           });
 

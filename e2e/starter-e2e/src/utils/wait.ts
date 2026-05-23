@@ -1,6 +1,6 @@
 import http from 'node:http';
 
-export const wait = (delay = 1000) => {
+export const wait = (delay = 1000): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, delay));
 };
 

@@ -49,15 +49,15 @@ fs.cpSync(
       - [❌] Drop commonjs babel plugin
     - [❌] tsconfig
     - [✅] utils
-- [ ] e2e to type modules
-- [ ] update e2e deps
+- [✅] e2e to type modules
+- [✅] update e2e deps
 - [✅] npm run build priority
 - [ ] Extract examples to the root, connect to version, updater
   - [ ] tester
   - [ ] compiler
 - [ ] Update lint-staged to 17
 - [ ] make all deps in starter templates are updatable
-- [ ] Fix husky initializtion for starter project
+- [ ] Fix husky initialization for starter project
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules
 - [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
