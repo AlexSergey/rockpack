@@ -1,3 +1,3 @@
-const { frontendCompiler } = require('../../index');
+const { frontendCompiler } = require('../../src');
 
 frontendCompiler();

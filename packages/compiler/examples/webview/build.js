@@ -1,3 +1,3 @@
-const { webViewCompiler } = require('../../index');
+const { webViewCompiler } = require('../../src');
 
 webViewCompiler();

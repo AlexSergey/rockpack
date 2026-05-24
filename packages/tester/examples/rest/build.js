@@ -1,6 +1,6 @@
 const path = require('path');
 
-const { frontendCompiler } = require('../../../compiler');
+const { frontendCompiler } = require('@rockpack/compiler');
 
 frontendCompiler({}, (config) => {
   Object.assign(config.resolve, {

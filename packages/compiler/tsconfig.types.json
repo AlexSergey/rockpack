@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "./src",
+    "outDir": "./types",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src/index.ts", "src/declarations.d.ts", "src/globals.d.ts"],
+  "exclude": ["examples", "node_modules"]
+}

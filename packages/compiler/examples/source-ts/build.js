@@ -1,4 +1,4 @@
-const { libraryCompiler } = require('../../index');
+const { libraryCompiler } = require('../../src');
 
 libraryCompiler({
   cjs: {

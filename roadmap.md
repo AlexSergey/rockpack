@@ -39,11 +39,16 @@ fs.cpSync(
 ```
 
   - [✅] Make simple transpiling (type module, transpile to esm, cjs, types)
-  - [ ] Make meta config for rockpack/compiler
   - [ ] Rewrite to TS:
     - [✅] babel
     - [✅] codestyle
     - [ ] compiler
+      - [✅] Basic TS transformation
+      - [✅] Fix all eslint errors
+      - [ ] Improve valid-types
+      - [ ] drop _ fields from conf
+        - [ ] Make meta config for rockpack/compiler
+      - [ ] extract messages from conf
     - [✅] starter
     - [✅] tester
       - [❌] Drop commonjs babel plugin
@@ -53,11 +58,14 @@ fs.cpSync(
 - [✅] update e2e deps
 - [✅] npm run build priority
 - [ ] Extract examples to the root, connect to version, updater
+  - [ ] all examples to the latest react and TS
   - [ ] tester
   - [ ] compiler
+    - [ ] add type commonjs example to test cjs version
 - [ ] Update lint-staged to 17
 - [ ] make all deps in starter templates are updatable
 - [ ] Fix husky initialization for starter project
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules
 - [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
+- [ ] WebpackBar - https://github.com/unjs/webpackbar/tree/main

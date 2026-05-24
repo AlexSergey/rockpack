@@ -1,4 +1,4 @@
-let { frontendCompiler } = require('../../index');
+let { frontendCompiler } = require('../../src');
 
 frontendCompiler({
   banner: true,

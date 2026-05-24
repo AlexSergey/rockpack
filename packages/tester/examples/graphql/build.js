@@ -1,3 +1,3 @@
-const { frontendCompiler } = require('../../../compiler');
+const { frontendCompiler } = require('@rockpack/compiler');
 
 frontendCompiler();
