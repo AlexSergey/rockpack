@@ -1,6 +1,7 @@
 import { getMode, getRootRequireDir } from '@rockpack/utils';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { isDefined } from 'valid-types';
 import webpack from 'webpack';
 
 import type { CompilerConf, Mode, PackageJson } from '../types.js';
@@ -17,7 +18,6 @@ import { makeResolve } from '../modules/make-resolve.js';
 import { makeStats } from '../modules/make-stats.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
-import { isDefined } from '../utils/valid-types-compat.js';
 
 interface MakeResult {
   conf: CompilerConf;

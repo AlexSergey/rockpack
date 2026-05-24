@@ -15,6 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import NodemonPlugin from 'nodemon-webpack-plugin';
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin';
+import { isArray, isBoolean, isObject, isString } from 'valid-types';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import FlagDependencyUsagePlugin from 'webpack/lib/FlagDependencyUsagePlugin.js';
 import FlagIncludedChunksPlugin from 'webpack/lib/optimize/FlagIncludedChunksPlugin.js';
@@ -28,7 +29,6 @@ import { getRandomInt, getTitle } from '../utils/other.js';
 import { pathToEslintrc } from '../utils/path-to-eslintrc.js';
 import { pathToStylelint } from '../utils/path-to-stylelint.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
-import { isArray, isBoolean, isObject, isString } from '../utils/valid-types-compat.js';
 import { makeBanner } from './make-banner.js';
 import { makeResolve } from './make-resolve.js';
 
@@ -143,24 +143,18 @@ const getPlugins = async (
     let pages: HtmlPage[];
 
     if (conf.html && isArray(conf.html)) {
-      pages = conf.html as HtmlPage[];
+      pages = conf.html;
     } else {
       pages = [
         {
-          code:
-            conf.html && !isBoolean(conf.html) && (conf.html as HtmlPage).code ? (conf.html as HtmlPage).code : null,
-          favicon:
-            conf.html && !isBoolean(conf.html) && (conf.html as HtmlPage).favicon
-              ? (conf.html as HtmlPage).favicon
-              : null,
-          filename: (conf.html && !isBoolean(conf.html) && (conf.html as HtmlPage).filename
-            ? (conf.html as HtmlPage).filename
-            : false) as false | string,
+          code: conf.html && !isBoolean(conf.html) && conf.html.code ? conf.html.code : null,
+          favicon: conf.html && !isBoolean(conf.html) && conf.html.favicon ? conf.html.favicon : null,
+          filename: conf.html && !isBoolean(conf.html) && conf.html.filename ? conf.html.filename : false,
           template:
-            (conf.html && !isBoolean(conf.html) && (conf.html as HtmlPage).template) ||
+            (conf.html && !isBoolean(conf.html) && conf.html.template) ||
             path.resolve(__dirname, '../../..', './index.ejs'),
           title:
-            (conf.html && !isBoolean(conf.html) && (conf.html as HtmlPage).title) ||
+            (conf.html && !isBoolean(conf.html) && conf.html.title) ||
             (getTitle(packageJson) ? String(getTitle(packageJson)) : ''),
         },
       ];
@@ -241,7 +235,7 @@ const getPlugins = async (
         _opts = (copy['opts'] as Record<string, unknown>) ?? {};
       }
     } else if (isArray(conf.copy)) {
-      _prop = conf.copy as unknown[];
+      _prop = conf.copy;
     }
 
     if (_prop) {

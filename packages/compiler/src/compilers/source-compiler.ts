@@ -1,4 +1,5 @@
 import { getRootRequireDir, setMode } from '@rockpack/utils';
+import { isDefined, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
@@ -6,7 +7,6 @@ import { errorHandler } from '../error-handler.js';
 import { generateDts } from '../utils/generate-dts.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { sourceCompile } from '../utils/source-compile.js';
-import { isDefined, isString } from '../utils/valid-types-compat.js';
 
 export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<void> {
   const mode = setMode(['development', 'production'], 'development') as Mode;

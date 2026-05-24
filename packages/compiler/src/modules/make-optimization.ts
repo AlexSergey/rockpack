@@ -1,10 +1,9 @@
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import { isArray } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
-
-import { isArray } from '../utils/valid-types-compat.js';
 
 export const makeOptimization = (mode: Mode, conf: Partial<CompilerConf>): Record<string, unknown> => {
   const optimization: Record<string, unknown> = {};

@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { rimraf } from 'rimraf';
 import ts from 'typescript';
+import { isArray, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
@@ -14,7 +15,6 @@ import { getFiles, getTypeScript } from './file-system-utils.js';
 import { generateString } from './generate-string.js';
 import { makeCompilerOptions } from './make-compiler-options.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
-import { isArray, isString } from './valid-types-compat.js';
 
 const _require = createRequire(import.meta.url);
 const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';

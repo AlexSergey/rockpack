@@ -1,5 +1,6 @@
 import { getMode, setMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
+import { isUndefined } from 'valid-types';
 import webpack from 'webpack';
 
 import type { CompilerConf, Mode } from '../types.js';
@@ -7,7 +8,6 @@ import type { CompilerConf, Mode } from '../types.js';
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
-import { isUndefined } from '../utils/valid-types-compat.js';
 
 interface CompileResult {
   conf: CompilerConf;

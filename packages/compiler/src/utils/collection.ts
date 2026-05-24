@@ -1,6 +1,5 @@
 import deepExtend from 'deep-extend';
-
-import { isArray, isFunction, isObject } from './valid-types-compat.js';
+import { isArray, isFunction, isObject } from 'valid-types';
 
 type CollectionEntry = unknown;
 
@@ -25,9 +24,9 @@ export class Collection {
       const props = this._props[plName];
 
       if (isFunction(entry)) {
-        const d = (entry as (p: unknown) => unknown)(props);
+        const d = entry(props);
         if (isArray(d)) {
-          (d as unknown[]).forEach((_d, index) => {
+          d.forEach((_d, index) => {
             this.__tempData[`${plName}${index}`] = _d;
           });
         } else {
@@ -69,13 +68,13 @@ export class Collection {
 
   remove(name: string | string[]): void {
     if (isArray(name)) {
-      (name as string[]).forEach((n) => {
+      name.forEach((n) => {
         delete this.dict[n];
       });
 
       return;
     }
-    delete this.dict[name as string];
+    delete this.dict[name];
   }
 
   set(name: string, data: unknown): void {

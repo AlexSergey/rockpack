@@ -61,7 +61,7 @@
     "pretty-format": "30.4.1",
     "source-map": "0.7.6",
     "typescript": "6.0.3",
-    "valid-types": "2.0.5",
+    "valid-types": "3.0.0",
     "yargs": "18.0.0",
     "yargs-unparser": "2.0.0"
   },

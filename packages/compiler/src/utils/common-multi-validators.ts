@@ -1,6 +1,6 @@
-import type { CompilerConf } from '../types.js';
+import { isUndefined } from 'valid-types';
 
-import { isUndefined } from './valid-types-compat.js';
+import type { CompilerConf } from '../types.js';
 
 export function commonMultiValidator(props: CompilerConf[]): void {
   if (props.length === 0) {

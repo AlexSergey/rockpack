@@ -1,7 +1,9 @@
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
 
-import { version } from '../../../package.json';
+import pkg from '../../../package.json' with { type: 'json' };
+
+const { version } = pkg;
 
 const starter = join(__dirname, '../../../packages/starter/lib/bin/index.mjs');
 

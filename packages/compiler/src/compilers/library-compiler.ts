@@ -1,12 +1,12 @@
 import { setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
+import { isObject, isString } from 'valid-types';
 
 import type { CompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/library-compiler.js';
-import { isObject, isString } from '../utils/valid-types-compat.js';
 
 type LibraryOpts =
   | string
@@ -30,9 +30,9 @@ export async function libraryCompiler(
   let mergedConf: Partial<CompilerConf> = { ...conf, __library: true };
 
   if (isString(libraryOpts)) {
-    libraryName = libraryOpts as string;
+    libraryName = libraryOpts;
   } else if (isObject(libraryOpts) && isString((libraryOpts as { name?: unknown }).name)) {
-    const opts = libraryOpts as Exclude<LibraryOpts, string>;
+    const opts = libraryOpts;
 
     if (Array.isArray(opts.externals) && opts.externals.length > 0) {
       mergedConf.externals = opts.externals;

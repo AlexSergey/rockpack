@@ -45,7 +45,7 @@ fs.cpSync(
     - [ ] compiler
       - [✅] Basic TS transformation
       - [✅] Fix all eslint errors
-      - [ ] Improve valid-types
+      - [✅] Improve valid-types
       - [ ] drop _ fields from conf
         - [ ] Make meta config for rockpack/compiler
       - [ ] extract messages from conf
@@ -67,5 +67,6 @@ fs.cpSync(
 - [ ] Fix husky initialization for starter project
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules
+- [ ] add ts lint to e2e
 - [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
 - [ ] WebpackBar - https://github.com/unjs/webpackbar/tree/main

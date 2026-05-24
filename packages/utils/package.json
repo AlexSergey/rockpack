@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "semver": "7.8.0",
-    "valid-types": "2.0.5",
+    "valid-types": "3.0.0",
     "yargs": "18.0.0"
   },
   "devDependencies": {

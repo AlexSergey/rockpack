@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isArray, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
 import { distExtension } from '../constants.js';
-import { isArray, isString } from '../utils/valid-types-compat.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
@@ -24,14 +24,14 @@ export const makeEntry = (conf: Partial<CompilerConf>, root: string, mode: Mode)
   const entryPoint = path.basename(conf.dist ?? 'dist/index.js').replace(distExtension, '');
 
   if (isArray(conf.vendor)) {
-    entry['vendor'] = conf.vendor as string[];
+    entry['vendor'] = conf.vendor;
   }
 
   if (conf.__isIsomorphicFrontend && mode === 'development') {
     entry['dev-server'] = path.resolve(__dirname, `../plugins/reloader/ssr${ssrExt}`);
   }
 
-  entry[entryPoint] = path.resolve(root, conf.src as string);
+  entry[entryPoint] = path.resolve(root, conf.src);
   const context = path.dirname(entry[entryPoint]);
 
   return { context, entry };

@@ -5,13 +5,13 @@ import { cpSync, existsSync, renameSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { rimraf } from 'rimraf';
+import { isArray, isObject, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
 import { capitalize } from './other.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
-import { isArray, isObject, isString } from './valid-types-compat.js';
 
 const _require = createRequire(import.meta.url);
 
@@ -34,7 +34,7 @@ export async function sourceCompile(conf: Partial<CompilerConf>): Promise<void> 
 
       const fc = formatConf as { dist?: unknown; src?: unknown };
       if (isString(fc.src) && isString(fc.dist)) {
-        output[format] = { dist: fc.dist as string, src: fc.src as string };
+        output[format] = { dist: fc.dist, src: fc.src };
         output[`has${capitalize(format)}`] = true;
       }
     }

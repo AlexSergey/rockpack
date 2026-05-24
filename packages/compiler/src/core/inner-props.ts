@@ -1,6 +1,6 @@
-import type { CompilerConf, Mode } from '../types.js';
+import { isDefined } from 'valid-types';
 
-import { isDefined } from '../utils/valid-types-compat.js';
+import type { CompilerConf, Mode } from '../types.js';
 
 export const innerProps = (conf: CompilerConf, mode: Mode): CompilerConf => {
   conf.messages = [];

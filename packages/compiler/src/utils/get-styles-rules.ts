@@ -3,11 +3,11 @@ import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isBoolean, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
 import { pathToTsConf } from './path-to-ts-conf.js';
-import { isBoolean, isString } from './valid-types-compat.js';
 
 const _require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
