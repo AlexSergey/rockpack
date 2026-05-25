@@ -1,14 +1,18 @@
 import type { Config } from '@jest/types';
 
+import { createBabelPresets } from '@rockpack/babel';
 import { getRootRequireDir } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 import { existsSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type { TesterOptions } from '../default-props.js';
 
 import { defaultProps } from '../default-props.js';
 import { createTestMatch } from '../modules/create-test-match.js';
+
+const _require = createRequire(import.meta.url);
 
 const rootFolder = path.resolve(__dirname, '..');
 const currentProjectFolder = getRootRequireDir();
@@ -44,6 +48,17 @@ if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js')))
   globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.ts');
 }
 
+const jsPreset = createBabelPresets({
+  framework: 'react',
+  isTest: true,
+});
+
+const tsPreset = createBabelPresets({
+  framework: 'react',
+  isTest: true,
+  typescript: true,
+});
+
 export const configCompiler = (
   opts: TesterOptions = {},
   projectConfig: Config.ProjectConfig,
@@ -66,8 +81,8 @@ export const configCompiler = (
       testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
       transform: {
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/file-transformer${ext}`,
-        '^.+\\.(js|jsx)$': `${rootFolder}/modules/babel-jest${ext}`,
-        '^.+\\.(ts|tsx)$': `${rootFolder}/modules/babel-jest-ts${ext}`,
+        '^.+\\.(js|jsx)$': [_require.resolve('babel-jest'), jsPreset],
+        '^.+\\.(ts|tsx)$': [_require.resolve('babel-jest'), tsPreset],
       },
       transformIgnorePatterns: ['node_modules/'],
     },
