@@ -1,6 +1,5 @@
 export interface CompilerConf {
   analyzer?: boolean;
-  babelPresetsAdditionalOptions?: Record<string, Record<string, unknown>>;
   banner?: false | string;
   cjs?: FormatConf;
   copy?: CopyConf;
@@ -11,7 +10,6 @@ export interface CompilerConf {
   global?: Record<string, string>;
   html?: boolean | HtmlPage | HtmlPage[];
   library?: string;
-  messages: string[];
   name?: string;
   port?: number;
   src: string;
@@ -50,6 +48,7 @@ export interface InternalProps {
   __library?: boolean;
   compilerName?: string;
   distContext?: string;
+  messages?: string[];
   nodejs?: boolean;
 }
 

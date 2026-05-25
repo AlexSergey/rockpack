@@ -18,7 +18,6 @@ describe('babel preset generator', () => {
       isNodejs: false,
       isTest: false,
       modules: false,
-      presetsAdditionalOptions: {},
       typescript: false,
     }) as unknown as Config;
 
@@ -36,7 +35,6 @@ describe('babel preset generator', () => {
       isNodejs: false,
       isTest: false,
       modules: false,
-      presetsAdditionalOptions: {},
       typescript: false,
     }) as unknown as Config;
     const pluginsGlobal = conf.plugins?.[0]?.[0] as string;
@@ -58,7 +56,6 @@ describe('babel preset generator', () => {
       isNodejs: false,
       isTest: false,
       modules: false,
-      presetsAdditionalOptions: {},
       typescript: true,
     }) as unknown as Config;
 
@@ -73,7 +70,6 @@ describe('babel preset generator', () => {
       isNodejs: false,
       isTest: false,
       modules: false,
-      presetsAdditionalOptions: {},
       typescript: true,
     }) as unknown as Config;
 

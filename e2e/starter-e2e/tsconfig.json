@@ -7,5 +7,6 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "types": ["node", "jest"]
-  }
+  },
+  "exclude": ["./src/generators"]
 }

@@ -12,7 +12,9 @@
   "scripts": {
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
-    "lint": "eslint .",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
     "test": "node scripts.test.cjs"
   },
   "dependencies": {

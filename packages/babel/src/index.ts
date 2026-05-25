@@ -10,7 +10,6 @@ export interface CreateBabelPresetsOptions {
   readonly isNodejs?: boolean;
   readonly isTest?: boolean;
   readonly modules?: Modules;
-  readonly presetsAdditionalOptions?: Readonly<Record<string, Record<string, unknown>>>;
   readonly typescript?: boolean;
 }
 
@@ -43,7 +42,6 @@ export const createBabelPresets = ({
   isNodejs = false,
   isTest = false,
   modules = false,
-  presetsAdditionalOptions = {},
   typescript = false,
   // eslint-disable-next-line @sonar/cognitive-complexity
 }: CreateBabelPresetsOptions = {}): TransformOptions => {
@@ -66,12 +64,9 @@ export const createBabelPresets = ({
     corejs = coreJsDep;
   }
 
-  const getPresetAdditionalOptions = (presetName: string): Record<string, unknown> =>
-    presetsAdditionalOptions[presetName] ?? {};
-
   const getPreset = (presetName: string, options: Record<string, unknown> = {}): [string, Record<string, unknown>] => [
     _require.resolve(presetName),
-    { ...options, ...getPresetAdditionalOptions(presetName) },
+    options,
   ];
 
   const plugins: PluginItem[] = [];

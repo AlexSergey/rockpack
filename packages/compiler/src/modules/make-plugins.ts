@@ -65,10 +65,10 @@ const getNodemonOptions = async (
     watch: distFolder,
   };
 
-  conf.messages.push('nodemon is running');
+  conf.messages?.push('nodemon is running');
 
   if (!conf.__isIsomorphicBackend) {
-    conf.messages.push(`node-inspect is available on ${freeInspectPort} port`);
+    conf.messages?.push(`node-inspect is available on ${freeInspectPort} port`);
   }
 
   return opts;
@@ -95,7 +95,7 @@ const getPlugins = async (
 
   plugins['FriendlyErrorsPlugin'] = new FriendlyErrorsWebpackPlugin({
     clearConsole: false,
-    compilationSuccessInfo: { messages: conf.messages },
+    compilationSuccessInfo: { messages: conf.messages ?? [] },
   });
 
   if (isTypeScript) {

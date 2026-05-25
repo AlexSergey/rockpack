@@ -11,7 +11,6 @@ const _require = createRequire(import.meta.url);
 
 function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: string): Record<string, unknown> {
   const { css, less, scss } = getStylesRules(conf, mode, root);
-  const presetsAdditionalOptions = conf.babelPresetsAdditionalOptions ?? {};
   const assetType = createAssetType();
 
   return {
@@ -50,7 +49,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       use: [
         {
           loader: _require.resolve('babel-loader'),
-          options: createBabelPresets({ isNodejs: !!conf.nodejs, presetsAdditionalOptions }),
+          options: createBabelPresets({ isNodejs: !!conf.nodejs }),
         },
       ],
     },
@@ -60,7 +59,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       use: [
         {
           loader: _require.resolve('babel-loader'),
-          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs, presetsAdditionalOptions }),
+          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs }),
         },
       ],
     },
@@ -83,7 +82,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       use: [
         {
           loader: _require.resolve('babel-loader'),
-          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs, presetsAdditionalOptions }),
+          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs }),
         },
         _require.resolve('@mdx-js/loader'),
       ],
@@ -140,7 +139,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       use: [
         {
           loader: _require.resolve('babel-loader'),
-          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs, presetsAdditionalOptions }),
+          options: createBabelPresets({ framework: 'react', isNodejs: !!conf.nodejs }),
         },
         { loader: _require.resolve('@svgr/webpack') },
       ],
@@ -149,7 +148,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       test: /\.ts$/,
       use: {
         loader: _require.resolve('babel-loader'),
-        options: createBabelPresets({ isNodejs: !!conf.nodejs, presetsAdditionalOptions, typescript: true }),
+        options: createBabelPresets({ isNodejs: !!conf.nodejs, typescript: true }),
       },
     },
     tsx: {
@@ -159,7 +158,6 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
         options: createBabelPresets({
           framework: 'react',
           isNodejs: !!conf.nodejs,
-          presetsAdditionalOptions,
           typescript: true,
         }),
       },

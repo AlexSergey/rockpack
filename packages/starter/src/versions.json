@@ -68,7 +68,7 @@
     "common": {
       "devDependencies": [
         { "name": "husky", "version": "9" },
-        { "name": "lint-staged", "version": "16" }
+        { "name": "lint-staged", "version": "17" }
       ]
     }
   }
