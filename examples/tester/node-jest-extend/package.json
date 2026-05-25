@@ -1,0 +1,22 @@
+{
+  "name": "@rockpack/example-tester-node-jest-extend",
+  "version": "1.0.0",
+  "description": "Rockpack example: node-jest-extend",
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "scripts": {
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
+    "test": "node scripts.tests.js",
+    "test:watch": "node scripts.tests.js watch"
+  },
+  "devDependencies": {
+    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
+    "@types/node": "25.9.1"
+  }
+}

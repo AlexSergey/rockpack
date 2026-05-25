@@ -1,0 +1,28 @@
+{
+  "name": "@rockpack/example-compiler-isomorphic",
+  "version": "1.0.0",
+  "description": "Rockpack example: isomorphic",
+  "license": "MIT",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node scripts.build.js",
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
+    "start": "cross-env NODE_ENV=development node scripts.build.js"
+  },
+  "dependencies": {
+    "express": "4.21.2",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/compiler": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
+    "@types/express": "5.0.6",
+    "@types/node": "25.9.1"
+  }
+}

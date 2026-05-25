@@ -101,12 +101,8 @@ packages/tester/types/
 packages/utils/lib/
 packages/utils/types/
 
-packages/compiler/examples/**/public
-packages/compiler/examples/**/lib
-packages/ussr/examples/**/public
-packages/logger/lib
-packages/localazer/lib
-packages/ussr/lib
+examples/**/public
+examples/**/lib
 !packages/starter/templates/**
 starter_test
 elm-stuff

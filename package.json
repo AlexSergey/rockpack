@@ -6,6 +6,8 @@
   "workspaces": [
     "book",
     "e2e/*",
+    "examples/compiler/*",
+    "examples/tester/*",
     "packages/*"
   ],
   "scripts": {

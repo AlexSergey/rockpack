@@ -28,8 +28,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./lib/bin/index.mjs",
-      "types": "./types/bin/index.d.ts"
+      "types": "./types/bin/index.d.ts",
+      "import": "./lib/bin/index.mjs"
     }
   },
   "main": "./lib/bin/index.mjs",
@@ -53,7 +53,7 @@
     "production": "npm publish --access public"
   },
   "dependencies": {
-    "@inquirer/select": "5.0.4",
+    "@inquirer/select": "5.1.5",
     "chalk": "5.6.2",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",
@@ -62,7 +62,7 @@
     "mkdirp": "3.0.1",
     "ncp": "2.0.0",
     "ora": "9.4.0",
-    "semver": "7.8.0",
+    "semver": "7.8.1",
     "sort-package-json": "3.6.1",
     "yargs": "18.0.0"
   },

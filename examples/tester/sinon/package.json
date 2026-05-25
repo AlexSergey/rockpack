@@ -1,0 +1,27 @@
+{
+  "name": "@rockpack/example-tester-sinon",
+  "version": "1.0.0",
+  "description": "Rockpack example: sinon",
+  "license": "ISC",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
+    "test": "node scripts.tests.js",
+    "test:watch": "node scripts.tests.js watch"
+  },
+  "dependencies": {
+    "axios": "0.21.1"
+  },
+  "devDependencies": {
+    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
+    "@types/sinon": "21.0.1",
+    "sinon": "22.0.0"
+  }
+}

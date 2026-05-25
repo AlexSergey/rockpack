@@ -26,9 +26,9 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "import": "./lib/esm/index.mjs",
-      "require": "./lib/cjs/index.cjs",
-      "types": "./types/index.d.ts"
+      "require": "./lib/cjs/index.cjs"
     }
   },
   "main": "./lib/cjs/index.cjs",
@@ -126,7 +126,7 @@
   },
   "devDependencies": {
     "@rockpack/tsconfig": "8.0.0",
-    "@types/node": "24.10.13",
+    "@types/node": "25.9.1",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3"
   },

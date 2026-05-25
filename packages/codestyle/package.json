@@ -26,9 +26,9 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "import": "./lib/esm/index.mjs",
-      "require": "./lib/cjs/index.cjs",
-      "types": "./types/index.d.ts"
+      "require": "./lib/cjs/index.cjs"
     }
   },
   "main": "./lib/cjs/index.cjs",
@@ -50,7 +50,7 @@
   "dependencies": {
     "@commitlint/cli": "21.0.1",
     "@commitlint/config-conventional": "21.0.1",
-    "@eslint-react/eslint-plugin": "5.8.3",
+    "@eslint-react/eslint-plugin": "5.8.5",
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
     "@rockpack/babel": "8.0.0",
@@ -72,7 +72,7 @@
     "eslint-plugin-unicorn": "64.0.0",
     "globals": "17.6.0",
     "prettier": "3.8.3",
-    "stylelint": "17.11.1",
+    "stylelint": "17.12.0",
     "stylelint-config-clean-order": "8.0.2",
     "stylelint-config-prettier-scss": "1.0.0",
     "stylelint-config-recommended-scss": "17.0.1",

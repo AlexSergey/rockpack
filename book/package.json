@@ -6,11 +6,11 @@
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
-    "build": "node build --mode=production && node base.modify.js",
+    "build": "node scripts.build.js --mode=production && node base.modify.js",
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",
-    "start": "node build"
+    "start": "node scripts.build.js"
   },
   "dependencies": {
     "@unhead/react": "3.1.0",

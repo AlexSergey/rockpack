@@ -1,5 +1,5 @@
 {
   "npmClient": "npm",
-  "packages": ["book", "e2e/*", "packages/*"],
+  "packages": ["book", "e2e/*", "examples/compiler/*", "examples/tester/*", "packages/*"],
   "version": "independent"
 }

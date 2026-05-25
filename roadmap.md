@@ -2,7 +2,7 @@
 
 [9.0.0]
 
-- [ ] Change eslint ignore to:
+- [❌] Change eslint ignore to:
 ```ts
 '**/coverage/**',
 '**/coverage-e2e/**',
@@ -57,11 +57,11 @@ fs.cpSync(
 - [✅] e2e to type modules
 - [✅] update e2e deps
 - [✅] npm run build priority
-- [ ] Extract examples to the root, connect to version, updater
-  - [ ] all examples to the latest react and TS
-  - [ ] tester
-  - [ ] compiler
-    - [ ] add type commonjs example to test cjs version
+- [✅] Extract examples to the root, connect to version, updater
+  - [✅] all examples to the latest react and TS
+  - [✅] tester
+  - [✅] compiler
+    - [❌] add type commonjs example to test cjs version
 - [ ] Update lint-staged to 17
 - [ ] make all deps in starter templates are updatable
 - [ ] Fix husky initialization for starter project
@@ -70,3 +70,4 @@ fs.cpSync(
 - [ ] add ts lint to e2e
 - [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
 - [ ] WebpackBar - https://github.com/unjs/webpackbar/tree/main
+- [ ] Fix .eslintrc in webpack plugin

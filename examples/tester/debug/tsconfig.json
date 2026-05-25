@@ -1,0 +1,6 @@
+{
+  "extends": "@rockpack/tsconfig",
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  }
+}
