@@ -2,7 +2,7 @@ import { setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 import { isObject, isString } from 'valid-types';
 
-import type { CompilerConf } from '../types.js';
+import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
 import { errorHandler } from '../error-handler.js';
@@ -27,7 +27,7 @@ export async function libraryCompiler(
   errorHandler();
 
   let libraryName: string | undefined;
-  let mergedConf: Partial<CompilerConf> = { ...conf, __library: true };
+  let mergedConf: Partial<InternalCompilerConf> = { ...conf, __library: true };
 
   if (isString(libraryOpts)) {
     libraryName = libraryOpts;

@@ -55,12 +55,19 @@ node tests.js --watch
 
 To override Jest configuration - for example, to switch the test environment from jsdom to Node:
 
-1. Create `jest.extend.cjs` in the root of the project:
+```ts
+const { tester } = require('@rockpack/tester');
 
-```js
-module.exports = {
-  testEnvironment: 'node',
-};
+tester(
+  {},
+  {
+    moduleNameMapper: {
+      '^(\\.{1,2}/.*)\\.js$': '$1',
+    },
+    modulePathIgnorePatterns: ['./src/generators/'],
+    testEnvironment: 'node',
+  },
+);
 ```
 
 ## The MIT License

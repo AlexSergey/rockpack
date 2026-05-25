@@ -6,8 +6,8 @@ import { join } from 'node:path';
 import puppeteer from 'puppeteer';
 import { rimraf } from 'rimraf';
 
-import { exists } from './utils/fs.js';
-import { wait, waitForServer } from './utils/wait.js';
+import { exists } from './utils/fs.ts';
+import { wait, waitForServer } from './utils/wait.ts';
 
 const starter = join(__dirname, '../../../packages/starter/lib/bin/index.mjs');
 
@@ -143,8 +143,9 @@ describe('Generators tests', () => {
 
           try {
             await kill(35729);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (e) {}
+          } catch (e) {
+            console.error(e);
+          }
         }
 
         const { equal } = await looksSame(`${screenNewPth}.png`, `${screenOriginalPth}.png`, { strict: true });

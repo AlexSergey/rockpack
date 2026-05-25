@@ -44,7 +44,8 @@
     "types"
   ],
   "scripts": {
-    "build": "node scripts.build.cjs",
+    "build": "npm run clean && node scripts.build.cjs",
+    "clean": "node scripts.clean.mjs",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",

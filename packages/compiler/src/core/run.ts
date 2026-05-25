@@ -1,13 +1,13 @@
 import type { Compiler, MultiCompiler, MultiStats, Stats } from 'webpack';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { sourceCompiler } from '../compilers/source-compiler.js';
 import { log } from '../utils/log.js';
 
 interface RunResult {
   compiler: Compiler | MultiCompiler;
-  conf: CompilerConf;
+  conf: InternalCompilerConf;
   webpackConfig: Record<string, unknown> | Record<string, unknown>[];
 }
 
@@ -20,7 +20,7 @@ export const run = (
   webpackConfig: Record<string, unknown> | Record<string, unknown>[],
   mode: Mode,
   webpack: WebpackFn,
-  conf: CompilerConf,
+  conf: InternalCompilerConf,
 ): RunResult => {
   const compiler = webpack(webpackConfig, (err, stats) => {
     if (mode === 'development') {

@@ -1,7 +1,7 @@
 import { getMode } from '@rockpack/utils';
 import webpack from 'webpack';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { addArgs } from './args.js';
@@ -10,14 +10,14 @@ import { make } from './make.js';
 import { run } from './run.js';
 
 interface CompileResult {
-  conf: CompilerConf;
+  conf: InternalCompilerConf;
   webpackConfig: Record<string, unknown>;
 }
 
 type PostFn = Parameters<typeof make>[1];
 
 export const compile = async (
-  conf: Partial<CompilerConf>,
+  conf: Partial<InternalCompilerConf>,
   post: null | PostFn,
   withoutRun = false,
 ): Promise<Awaited<ReturnType<typeof run>> | CompileResult> => {

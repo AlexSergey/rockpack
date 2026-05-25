@@ -46,7 +46,7 @@ fs.cpSync(
       - [✅] Basic TS transformation
       - [✅] Fix all eslint errors
       - [✅] Improve valid-types
-      - [ ] drop _ fields from conf
+      - [✅] drop _ fields from conf
         - [ ] Make meta config for rockpack/compiler
       - [ ] extract messages from conf
     - [✅] starter
@@ -71,3 +71,6 @@ fs.cpSync(
 - [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
 - [ ] WebpackBar - https://github.com/unjs/webpackbar/tree/main
 - [ ] Fix .eslintrc in webpack plugin
+- [✅] Drop rockpack.babel.js
+- [✅] Drop jest.extend
+- [✅] Clean before build

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isBoolean, isString } from 'valid-types';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { pathToTsConf } from './path-to-ts-conf.js';
 
@@ -27,7 +27,7 @@ interface StylesRules {
   scss: { module: LoaderEntry[]; simple: LoaderEntry[] };
 }
 
-export const getStylesRules = (conf: Partial<CompilerConf>, mode: Mode, root: string): StylesRules => {
+export const getStylesRules = (conf: Partial<InternalCompilerConf>, mode: Mode, root: string): StylesRules => {
   const isProduction = mode === 'production';
   const extractStyles = isProduction ? !(isBoolean(conf.styles) && conf.styles === false) : false;
 

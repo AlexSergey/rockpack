@@ -1,8 +1,8 @@
 import { isDefined } from 'valid-types';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
-export const innerProps = (conf: CompilerConf, mode: Mode): CompilerConf => {
+export const innerProps = (conf: InternalCompilerConf, mode: Mode): InternalCompilerConf => {
   conf.messages = [];
 
   if (global.ISOMORPHIC) {

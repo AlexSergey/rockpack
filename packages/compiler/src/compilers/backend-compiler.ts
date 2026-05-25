@@ -1,7 +1,7 @@
 import { setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 
-import type { CompilerConf } from '../types.js';
+import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
 import { errorHandler } from '../error-handler.js';
@@ -19,7 +19,7 @@ export async function backendCompiler(
     compilerName: backendCompiler.name,
     html: false,
     nodejs: true,
-  }) as CompilerConf;
+  }) as InternalCompilerConf;
   mergedConf.name = backendCompiler.name;
 
   return compile(mergedConf, cb ?? null, configOnly);

@@ -11,7 +11,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build:babel && npm run build:codestyle && npm run build:utils && npm run build:tester && npm run build:compiler && npm run build:starter",
+    "build": "npm run build:babel && npm run build:utils && npm run build:compiler && npm run build:codestyle && npm run build:tester && npm run build:starter",
     "build:babel": "lerna run build --scope=@rockpack/babel",
     "build:codestyle": "lerna run build --scope=@rockpack/codestyle",
     "build:compiler": "lerna run build --scope=@rockpack/compiler",

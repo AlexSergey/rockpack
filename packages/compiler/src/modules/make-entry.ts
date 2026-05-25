@@ -2,7 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isArray, isString } from 'valid-types';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { distExtension } from '../constants.js';
 
@@ -14,7 +14,7 @@ interface EntryResult {
   entry: Record<string, string | string[]>;
 }
 
-export const makeEntry = (conf: Partial<CompilerConf>, root: string, mode: Mode): EntryResult => {
+export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mode: Mode): EntryResult => {
   if (!isString(conf.src)) {
     console.error('Src must be a string!');
     process.exit(1);

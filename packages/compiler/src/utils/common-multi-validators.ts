@@ -1,8 +1,8 @@
 import { isUndefined } from 'valid-types';
 
-import type { CompilerConf } from '../types.js';
+import type { InternalCompilerConf } from '../types.js';
 
-export function commonMultiValidator(props: CompilerConf[]): void {
+export function commonMultiValidator(props: InternalCompilerConf[]): void {
   if (props.length === 0) {
     console.error('The config is empty');
     process.exit(1);

@@ -20,7 +20,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import FlagDependencyUsagePlugin from 'webpack/lib/FlagDependencyUsagePlugin.js';
 import FlagIncludedChunksPlugin from 'webpack/lib/optimize/FlagIncludedChunksPlugin.js';
 
-import type { CompilerConf, HtmlPage, Mode, PackageJson } from '../types.js';
+import type { HtmlPage, InternalCompilerConf, Mode, PackageJson } from '../types.js';
 
 import { SsrDevelopment } from '../plugins/ssr-development/index.js';
 import { Collection } from '../utils/collection.js';
@@ -46,7 +46,11 @@ interface NodemonOptions {
   watch: string;
 }
 
-const getNodemonOptions = async (distFolder: string, distPath: string, conf: CompilerConf): Promise<NodemonOptions> => {
+const getNodemonOptions = async (
+  distFolder: string,
+  distPath: string,
+  conf: InternalCompilerConf,
+): Promise<NodemonOptions> => {
   const defaultInspectPort = global.ISOMORPHIC ? getRandomInt(9000, 9999) : 9224;
   const freeInspectPort = await fpPromise(defaultInspectPort);
   const script = path.join(distFolder, path.basename(distPath));
@@ -74,7 +78,7 @@ type WebpackModule = typeof webpack;
 
 /* eslint-disable @sonar/cognitive-complexity */
 const getPlugins = async (
-  conf: CompilerConf,
+  conf: InternalCompilerConf,
   mode: Mode,
   root: string,
   packageJson: PackageJson,
@@ -295,7 +299,7 @@ const getPlugins = async (
 /* eslint-enable @sonar/cognitive-complexity */
 
 export const makePlugins = async (
-  conf: CompilerConf,
+  conf: InternalCompilerConf,
   root: string,
   packageJson: PackageJson,
   mode: Mode,

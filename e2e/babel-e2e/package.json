@@ -13,7 +13,7 @@
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",
-    "test": "node test.cjs"
+    "test": "node scripts.test.cjs"
   },
   "dependencies": {
     "@rockpack/babel": "8.0.0",

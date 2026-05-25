@@ -1,11 +1,11 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import type { CompilerConf } from '../types.js';
+import type { InternalCompilerConf } from '../types.js';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-export const addArgs = (conf: CompilerConf): CompilerConf => {
+export const addArgs = (conf: InternalCompilerConf): InternalCompilerConf => {
   if ((argv as Record<string, unknown>)['analyzer']) {
     if (global.ISOMORPHIC && conf.__isIsomorphicBackend) {
       conf.analyzer = false;

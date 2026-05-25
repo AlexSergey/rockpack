@@ -5,20 +5,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
+import type { DependencyGroups, PackageJsonObject } from '../types/package';
+
 import { getPM } from './other';
 
-export type PackageJsonObject = Record<string, unknown>;
-
-interface Dependency {
-  name: string;
-  version: string;
-}
-
-interface DependencyGroups {
-  dependencies?: Dependency[];
-  devDependencies?: Dependency[];
-  peerDependencies?: Dependency[];
-}
+export type { DependencyGroups, PackageJsonObject };
 
 export const readPackageJSON = (currentPath: string): Promise<PackageJsonObject> => {
   return new Promise((resolve, reject) => {

@@ -2,14 +2,17 @@ import ansiColors from 'ansi-colors';
 import deepExtend from 'deep-extend';
 import path from 'node:path';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { defaultDistFile, distExtension } from '../constants.js';
 import { defaultProps } from '../default-props.js';
 import { fpPromise } from './find-free-port.js';
 
-export const mergeConfWithDefault = async (conf: Partial<CompilerConf>, mode: Mode): Promise<CompilerConf> => {
-  const c = deepExtend({}, defaultProps, conf) as CompilerConf;
+export const mergeConfWithDefault = async (
+  conf: Partial<InternalCompilerConf>,
+  mode: Mode,
+): Promise<InternalCompilerConf> => {
+  const c = deepExtend({}, defaultProps, conf) as InternalCompilerConf;
 
   if (path.extname(path.basename(c.dist)) !== distExtension) {
     if (typeof c.dist === 'string' && c.dist.length > 0) {

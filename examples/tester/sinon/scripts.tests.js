@@ -1,3 +1,8 @@
 const { tester } = require('@rockpack/tester');
 
-tester();
+tester(
+  {},
+  {
+    testEnvironment: 'node',
+  },
+);

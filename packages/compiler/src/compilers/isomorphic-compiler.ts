@@ -3,14 +3,14 @@ import { createServer } from 'livereload';
 import { isUndefined } from 'valid-types';
 import webpack from 'webpack';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
 
 interface CompileResult {
-  conf: CompilerConf;
+  conf: InternalCompilerConf;
   webpackConfig: Record<string, unknown>;
 }
 
@@ -64,5 +64,5 @@ export async function isomorphicCompiler(...props: Promise<CompileResult>[]): Pr
     }
   }
 
-  run(webpackConfigs, mode, webpack as Parameters<typeof run>[2], configs[0] ?? ({} as CompilerConf));
+  run(webpackConfigs, mode, webpack as Parameters<typeof run>[2], configs[0] ?? ({} as InternalCompilerConf));
 }

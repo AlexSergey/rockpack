@@ -1,7 +1,7 @@
 import { createBabelPresets } from '@rockpack/babel';
 import { createRequire } from 'node:module';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { createAssetType } from '../utils/asset-type.js';
 import { Collection } from '../utils/collection.js';
@@ -9,7 +9,7 @@ import { getStylesRules } from '../utils/get-styles-rules.js';
 
 const _require = createRequire(import.meta.url);
 
-function getModules(conf: Partial<CompilerConf>, mode: Mode, root: string): Record<string, unknown> {
+function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: string): Record<string, unknown> {
   const { css, less, scss } = getStylesRules(conf, mode, root);
   const presetsAdditionalOptions = conf.babelPresetsAdditionalOptions ?? {};
   const assetType = createAssetType();
@@ -176,7 +176,7 @@ function getModules(conf: Partial<CompilerConf>, mode: Mode, root: string): Reco
 }
 
 export const makeModules = (
-  conf: Partial<CompilerConf>,
+  conf: Partial<InternalCompilerConf>,
   root: string,
   _packageJson: unknown,
   mode: Mode,

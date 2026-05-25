@@ -41,10 +41,11 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
     "build:cjs": "node scripts/build.cjs.mjs",
     "build:esm": "node scripts/build.mjs",
     "build:types": "tsc -p tsconfig.types.json",
+    "clean": "node scripts/clean.mjs",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",

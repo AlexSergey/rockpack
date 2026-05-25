@@ -1,6 +1,6 @@
 import { setMode } from '@rockpack/utils';
 
-import type { CompilerConf } from '../types.js';
+import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
 import { devServer } from '../core/dev-server.js';
@@ -14,7 +14,7 @@ export async function frontendCompiler(
   const mode = setMode(['development', 'production'], 'development');
   errorHandler();
 
-  const mergedConf: Partial<CompilerConf> = {
+  const mergedConf: Partial<InternalCompilerConf> = {
     ...conf,
     compilerName: frontendCompiler.name,
     name: frontendCompiler.name,

@@ -38,7 +38,11 @@
     "types"
   ],
   "scripts": {
-    "build": "node scripts.build.cjs",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:cjs": "node scripts/build.cjs.mjs",
+    "build:esm": "node scripts/build.mjs",
+    "build:types": "tsc -p tsconfig.types.json",
+    "clean": "node scripts/clean.mjs",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
@@ -66,7 +70,9 @@
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0"
+    "@rockpack/codestyle": "8.0.0",
+    "babel-plugin-add-import-extension": "1.6.0",
+    "babel-plugin-transform-import-meta": "2.3.3"
   },
   "engines": {
     "node": ">=23.0.0"

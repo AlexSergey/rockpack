@@ -1,11 +1,13 @@
+import type { Config } from '@jest/types';
+
 import { runCLI } from 'jest';
 
-import type { TesterOptions } from '../default-props';
+import type { TesterOptions } from '../default-props.js';
 
-import { configCompiler } from '../configs/config-compiler';
+import { configCompiler } from '../configs/config-compiler.js';
 
-export const init = async (opts: TesterOptions = {}): Promise<void> => {
-  const jestConfig = configCompiler(opts);
+export const init = async (opts: TesterOptions = {}, projectConfig: Config.ProjectConfig): Promise<void> => {
+  const jestConfig = configCompiler(opts, projectConfig);
 
   try {
     const { results } = await runCLI(jestConfig as Parameters<typeof runCLI>[0], [process.cwd()]);

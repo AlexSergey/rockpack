@@ -1,19 +1,11 @@
 export interface CompilerConf {
-  __isBackend?: boolean;
-  __isIsomorphic?: boolean;
-  __isIsomorphicBackend?: boolean;
-  __isIsomorphicFrontend?: boolean;
-  __isIsomorphicStyles?: boolean;
-  __library?: boolean;
   analyzer?: boolean;
   babelPresetsAdditionalOptions?: Record<string, Record<string, unknown>>;
   banner?: false | string;
   cjs?: FormatConf;
-  compilerName?: string;
   copy?: CopyConf;
   debug?: boolean;
   dist: string;
-  distContext?: string;
   esm?: FormatConf;
   externals?: unknown;
   global?: Record<string, string>;
@@ -21,7 +13,6 @@ export interface CompilerConf {
   library?: string;
   messages: string[];
   name?: string;
-  nodejs?: boolean;
   port?: number;
   src: string;
   styles?: false | string;
@@ -46,6 +37,20 @@ export interface HtmlPage {
   template?: string;
   templateParameters?: Record<string, unknown>;
   title?: string;
+}
+
+export type InternalCompilerConf = CompilerConf & InternalProps;
+
+export interface InternalProps {
+  __isBackend?: boolean;
+  __isIsomorphic?: boolean;
+  __isIsomorphicBackend?: boolean;
+  __isIsomorphicFrontend?: boolean;
+  __isIsomorphicStyles?: boolean;
+  __library?: boolean;
+  compilerName?: string;
+  distContext?: string;
+  nodejs?: boolean;
 }
 
 export type Mode = 'development' | 'production';

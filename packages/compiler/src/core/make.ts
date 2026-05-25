@@ -4,7 +4,7 @@ import path from 'node:path';
 import { isDefined } from 'valid-types';
 import webpack from 'webpack';
 
-import type { CompilerConf, Mode, PackageJson } from '../types.js';
+import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
 
 import { makeDevServer } from '../modules/make-dev-server.js';
 import { makeDevtool } from '../modules/make-devtool.js';
@@ -20,7 +20,7 @@ import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 
 interface MakeResult {
-  conf: CompilerConf;
+  conf: InternalCompilerConf;
   webpackConfig: Record<string, unknown>;
 }
 
@@ -31,7 +31,7 @@ type PostFn = (
   mode: Mode,
 ) => void;
 
-export const make = async (conf: CompilerConf, post: null | PostFn): Promise<MakeResult> => {
+export const make = async (conf: InternalCompilerConf, post: null | PostFn): Promise<MakeResult> => {
   const mode = getMode() as Mode;
   const root = getRootRequireDir();
 
