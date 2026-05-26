@@ -14,7 +14,7 @@
     "start": "cross-env NODE_ENV=development tsx scripts.build.ts"
   },
   "dependencies": {
-    "express": "4.21.2",
+    "express": "5.2.1",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
@@ -24,6 +24,6 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/express": "5.0.6",
     "@types/node": "25.9.1",
-    "tsx": "4.19.4"
+    "tsx": "4.22.3"
   }
 }

@@ -15,7 +15,7 @@
     "test:watch": "tsx scripts.tests.ts watch"
   },
   "dependencies": {
-    "axios": "0.21.1"
+    "axios": "1.16.1"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
@@ -23,6 +23,6 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/sinon": "21.0.1",
     "sinon": "22.0.0",
-    "tsx": "4.19.4"
+    "tsx": "4.22.3"
   }
 }

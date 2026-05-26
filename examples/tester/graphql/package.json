@@ -30,6 +30,6 @@
     "@rockpack/tsconfig": "8.0.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
-    "tsx": "4.19.4"
+    "tsx": "4.22.3"
   }
 }

@@ -63,7 +63,7 @@ fs.cpSync(
   - [✅] compiler
     - [❌] add type commonjs example to test cjs version
 - [✅] Update lint-staged to 17
-- [ ] make all deps in starter templates are updatable
+- [✅] make all deps in starter templates are updatable
 - [ ] Fix husky initialization for starter project
   - [ ] Add pre-hooks
 - [✅] add ts lint to e2e

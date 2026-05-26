@@ -55,8 +55,8 @@
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
     "@rockpack/babel": "8.0.0",
-    "@typescript-eslint/eslint-plugin": "8.59.4",
-    "@typescript-eslint/parser": "8.59.4",
+    "@typescript-eslint/eslint-plugin": "8.60.0",
+    "@typescript-eslint/parser": "8.60.0",
     "deep-extend": "0.6.0",
     "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
@@ -81,11 +81,11 @@
     "stylelint-config-tailwindcss": "1.0.1",
     "stylelint-scss": "7.1.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.4",
+    "typescript-eslint": "8.60.0",
     "yargs": "18.0.0"
   },
   "devDependencies": {
-    "tsx": "4.19.4"
+    "tsx": "4.22.3"
   },
   "engines": {
     "node": ">=23.0.0"

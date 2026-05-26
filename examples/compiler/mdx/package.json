@@ -14,11 +14,11 @@
     "start": "cross-env NODE_ENV=development tsx scripts.build.ts"
   },
   "dependencies": {
-    "@mdx-js/react": "3.1.0",
-    "prism-react-renderer": "2.3.1",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-live": "4.1.7"
+    "@mdx-js/react": "3.1.1",
+    "prism-react-renderer": "2.4.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-live": "4.1.8"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
@@ -27,6 +27,6 @@
     "@types/mdx": "2.0.13",
     "@types/react": "19.2.15",
     "@types/react-dom": "19.2.3",
-    "tsx": "4.19.4"
+    "tsx": "4.22.3"
   }
 }
