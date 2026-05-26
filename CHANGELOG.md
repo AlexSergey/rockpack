@@ -1,5 +1,26 @@
 # Changelog
 
+## [9.0.0] - Work in Progress
+
+Full TypeScript migration across all packages, modernized build pipeline, and improved developer experience.
+
+### Added
+- All packages (babel, codestyle, compiler, starter, tester, utils) rewritten in TypeScript
+- New build pipeline using `tsx` scripts for all packages and examples
+- Dual ESM/CJS output for all packages
+- Improved tester configuration with better type support for Jest
+
+### Changed
+- All internal scripts migrated to TypeScript (`scripts.build.ts`, `scripts.tests.ts`)
+- Updated examples to use latest React and TypeScript
+- Build process now cleans output before each build
+- Compiler configuration API improved: removed private internal fields
+
+### Removed
+- Dropped `rockpack.babel.js` legacy config file
+- Dropped `jest.extend` from tester
+- Removed CommonJS-only build artifacts
+
 ## [8.0.0]
 
 Version 8.0.0 is a major modernization release: the toolchain has been updated to support ESLint 10, TypeScript 6, and Tailwind CSS v4, while legacy and unmaintained integrations have been removed. It also introduces first-class AI-assisted development support, making Rockpack a solid foundation for teams working with tools like Claude Code.
