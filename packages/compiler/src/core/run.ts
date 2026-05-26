@@ -1,4 +1,4 @@
-import type { Compiler, MultiCompiler, MultiStats, Stats } from 'webpack';
+import type { Compiler, Configuration, MultiCompiler, MultiStats, Stats } from 'webpack';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
@@ -8,7 +8,7 @@ import { log } from '../utils/log.js';
 interface RunResult {
   compiler: Compiler | MultiCompiler;
   conf: InternalCompilerConf;
-  webpackConfig: Record<string, unknown> | Record<string, unknown>[];
+  webpackConfig: Configuration | Configuration[];
 }
 
 type WebpackFn = (
@@ -17,7 +17,7 @@ type WebpackFn = (
 ) => Compiler | MultiCompiler;
 
 export const run = (
-  webpackConfig: Record<string, unknown> | Record<string, unknown>[],
+  webpackConfig: Configuration | Configuration[],
   mode: Mode,
   webpack: WebpackFn,
   conf: InternalCompilerConf,

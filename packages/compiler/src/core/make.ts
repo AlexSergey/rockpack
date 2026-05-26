@@ -1,3 +1,5 @@
+import type { Configuration } from 'webpack';
+
 import { getMode, getRootRequireDir } from '@rockpack/utils';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -21,11 +23,11 @@ import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 
 interface MakeResult {
   conf: InternalCompilerConf;
-  webpackConfig: Record<string, unknown>;
+  webpackConfig: Configuration;
 }
 
 type PostFn = (
-  config: Record<string, unknown>,
+  config: Configuration,
   modules: ReturnType<typeof makeModules>,
   plugins: Awaited<ReturnType<typeof makePlugins>>,
   mode: Mode,

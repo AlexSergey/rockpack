@@ -6,15 +6,15 @@
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node scripts.build.js",
+    "build": "cross-env NODE_ENV=production tsx scripts.build.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "start": "cross-env NODE_ENV=development node scripts.build.js",
-    "test": "node scripts.tests.js",
-    "test:watch": "node scripts.tests.js watch"
+    "start": "cross-env NODE_ENV=development tsx scripts.build.ts",
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts watch"
   },
   "dependencies": {
     "axios": "1.16.1",
@@ -29,6 +29,7 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@testing-library/jest-dom": "6.9.1",
-    "@testing-library/react": "16.3.2"
+    "@testing-library/react": "16.3.2",
+    "tsx": "4.19.4"
   }
 }

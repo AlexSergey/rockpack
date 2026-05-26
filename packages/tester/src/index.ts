@@ -8,7 +8,7 @@ import { init } from './core/init.js';
 
 export type { TesterOptions };
 
-const tester = (opts: TesterOptions = {}, projectConfig: Config.ProjectConfig): void => {
+const tester = (opts: Partial<TesterOptions> = {}, projectConfig: Partial<Config.InitialOptions> = {}): void => {
   setMode(['development', 'production', 'test'], 'test');
 
   init(opts, projectConfig).catch(console.error);

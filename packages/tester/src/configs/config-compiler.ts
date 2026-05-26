@@ -20,32 +20,22 @@ const ext = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
 
 const setupFiles: string[] = [];
 const setupFilesAfterEnv: string[] = [];
-
-if (existsSync(path.resolve(currentProjectFolder, './jest.init.js'))) {
-  setupFiles.push('<rootDir>/jest.init.js');
-} else if (existsSync(path.resolve(currentProjectFolder, './jest.init.ts'))) {
-  setupFiles.push('<rootDir>/jest.init.ts');
-}
-
-if (existsSync(path.resolve(currentProjectFolder, './jest.setup.cjs'))) {
-  setupFilesAfterEnv.push('<rootDir>/jest.setup.cjs');
-} else if (existsSync(path.resolve(currentProjectFolder, './jest.setup.ts'))) {
-  setupFilesAfterEnv.push('<rootDir>/jest.setup.ts');
-}
-
 let globalSetup: string | undefined;
 let globalTeardown: string | undefined;
 
-if (existsSync(path.resolve(currentProjectFolder, './jest.global.setup.js'))) {
-  globalSetup = path.resolve(currentProjectFolder, './jest.global.setup.js');
-} else if (existsSync(path.resolve(currentProjectFolder, './jest.global.setup.ts'))) {
-  globalSetup = path.resolve(currentProjectFolder, './jest.global.setup.ts');
-}
-
-if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.js'))) {
-  globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.js');
-} else if (existsSync(path.resolve(currentProjectFolder, './jest.global.teardown.ts'))) {
-  globalTeardown = path.resolve(currentProjectFolder, './jest.global.teardown.ts');
+for (const ext of ['.js', '.mjs', '.cjs', '.ts']) {
+  if (existsSync(path.resolve(currentProjectFolder, `./jest.init${ext}`))) {
+    setupFiles.push(`<rootDir>/jest.init${ext}`);
+  }
+  if (existsSync(path.resolve(currentProjectFolder, `./jest.setup${ext}`))) {
+    setupFilesAfterEnv.push(`<rootDir>/jest.setup${ext}`);
+  }
+  if (existsSync(path.resolve(currentProjectFolder, `./jest.global.setup${ext}`))) {
+    globalSetup = path.resolve(currentProjectFolder, `./jest.global.setup${ext}`);
+  }
+  if (existsSync(path.resolve(currentProjectFolder, `./jest.global.teardown${ext}`))) {
+    globalTeardown = path.resolve(currentProjectFolder, `./jest.global.teardown${ext}`);
+  }
 }
 
 const jsPreset = createBabelPresets({
@@ -60,14 +50,15 @@ const tsPreset = createBabelPresets({
 });
 
 export const configCompiler = (
-  opts: TesterOptions = {},
-  projectConfig: Config.ProjectConfig,
+  opts: Partial<TesterOptions> = {},
+  projectConfig: Partial<Config.InitialOptions> = {},
 ): Record<string, unknown> => {
-  const options = deepExtend({} as Required<TesterOptions>, defaultProps, opts);
+  const options = deepExtend({}, defaultProps, opts) as Required<TesterOptions>;
   const src: string[] = Array.isArray(options.src) ? options.src : [options.src];
 
   const config = deepExtend(
-    {},
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    {} as Record<string, unknown>,
     {
       globalSetup,
       globalTeardown,

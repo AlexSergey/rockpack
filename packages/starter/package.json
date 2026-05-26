@@ -44,7 +44,7 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && node scripts.build.cjs",
+    "build": "npm run clean && tsx scripts.build.ts",
     "clean": "node scripts.clean.mjs",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
@@ -66,6 +66,9 @@
     "semver": "7.8.1",
     "sort-package-json": "3.6.1",
     "yargs": "18.0.0"
+  },
+  "devDependencies": {
+    "tsx": "4.19.4"
   },
   "engines": {
     "node": ">=23.0.0"

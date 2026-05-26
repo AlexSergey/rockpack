@@ -1,6 +1,6 @@
-const { libraryCompiler } = require('@rockpack/compiler');
+import { libraryCompiler } from '@rockpack/compiler';
 
-libraryCompiler({
+void libraryCompiler({
   cjs: {
     dist: './lib/cjs',
     src: './src',

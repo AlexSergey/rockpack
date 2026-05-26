@@ -1,3 +1,6 @@
 {
-  "extends": "@rockpack/tsconfig"
+  "extends": "@rockpack/tsconfig",
+  "compilerOptions": {
+    "types": ["node"]
+  }
 }

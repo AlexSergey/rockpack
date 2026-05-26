@@ -1,0 +1,38 @@
+import PrerenderSPAPlugin from '@prerenderer/webpack-plugin';
+import { frontendCompiler } from '@rockpack/compiler';
+import path from 'node:path';
+
+void frontendCompiler(
+  {
+    copy: [{ from: path.resolve(__dirname, './readme_assets'), to: './readme_assets' }],
+    dist: path.resolve(__dirname, '../docs'),
+    html: {
+      favicon: path.resolve(__dirname, './favicon.ico'),
+      template: path.resolve(__dirname, './index.ejs'),
+    },
+  },
+  (finalConfig, modules, plugins) => {
+    modules.set('example', {
+      test: /\.example$/,
+      use: [{ loader: 'raw-loader' }],
+    });
+    if (process.env.NODE_ENV === 'production') {
+      plugins.set(
+        'PrerenderSPAPlugin',
+        new PrerenderSPAPlugin({
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          minify: true,
+          renderer: require.resolve('@prerenderer/renderer-puppeteer'),
+          rendererOptions: {
+            executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+            headless: false,
+          },
+          routes: ['/'],
+          staticDir: finalConfig.output!.path,
+        }),
+      );
+      finalConfig.output!.publicPath = './';
+    }
+  },
+);

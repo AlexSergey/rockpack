@@ -190,19 +190,19 @@ const getPlugins = async (
     });
   }
 
-  const eslintRc = pathToEslintrc(root, mode);
+  const eslintRc = pathToEslintrc(root);
   const stylelint = pathToStylelint(root);
 
   if (stylelint) {
     plugins['StylelintWebpackPlugin'] = new StylelintWebpackPlugin({ configFile: stylelint });
   }
 
-  if (isString(eslintRc)) {
+  if (!conf.debug && isString(eslintRc)) {
     plugins['EslintWebpackPlugin'] = new EslintWebpackPlugin({
       context,
       eslintPath: _require.resolve('eslint'),
       extensions,
-      failOnError: mode === 'production' && !conf.debug,
+      failOnError: true,
     });
   }
 

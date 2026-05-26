@@ -6,11 +6,11 @@
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
-    "build": "node scripts.build.js --mode=production && node base.modify.js",
+    "build": "tsx scripts.build.ts --mode=production && node base.modify.js",
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",
-    "start": "node scripts.build.js"
+    "start": "tsx scripts.build.ts"
   },
   "dependencies": {
     "@unhead/react": "3.1.0",
@@ -29,7 +29,8 @@
     "@types/react-helmet": "6.1.7",
     "node-html-parser": "6.1.10",
     "puppeteer": "7.1.0",
-    "raw-loader": "4.0.2"
+    "raw-loader": "4.0.2",
+    "tsx": "4.19.4"
   },
   "peerDependencies": {
     "@prerenderer/renderer-puppeteer": "1.2.4",

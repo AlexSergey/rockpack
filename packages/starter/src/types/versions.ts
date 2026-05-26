@@ -6,6 +6,7 @@ export interface Versions {
   git: {
     common: DependencyGroup;
   };
+  library: LibraryConfig;
   ssr: {
     common: DependencyGroup;
   };
@@ -20,6 +21,12 @@ interface DependencyGroup {
   dependencies?: PackageDependency[];
   devDependencies?: PackageDependency[];
   peerDependencies?: PackageDependency[];
+}
+
+interface LibraryConfig {
+  common: {
+    devDependencies: PackageDependency[];
+  };
 }
 
 interface PackageDependency {

@@ -1,3 +1,5 @@
+import type { Configuration } from 'webpack';
+
 import { getMode } from '@rockpack/utils';
 import webpack from 'webpack';
 
@@ -11,7 +13,7 @@ import { run } from './run.js';
 
 interface CompileResult {
   conf: InternalCompilerConf;
-  webpackConfig: Record<string, unknown>;
+  webpackConfig: Configuration;
 }
 
 type PostFn = Parameters<typeof make>[1];

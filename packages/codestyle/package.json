@@ -39,7 +39,7 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && node scripts.build.cjs",
+    "build": "npm run clean && tsx scripts.build.ts",
     "clean": "node scripts.clean.mjs",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
@@ -83,6 +83,9 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.4",
     "yargs": "18.0.0"
+  },
+  "devDependencies": {
+    "tsx": "4.19.4"
   },
   "engines": {
     "node": ">=23.0.0"

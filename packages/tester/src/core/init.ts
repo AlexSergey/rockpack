@@ -6,7 +6,10 @@ import type { TesterOptions } from '../default-props.js';
 
 import { configCompiler } from '../configs/config-compiler.js';
 
-export const init = async (opts: TesterOptions = {}, projectConfig: Config.ProjectConfig): Promise<void> => {
+export const init = async (
+  opts: Partial<TesterOptions> = {},
+  projectConfig: Partial<Config.InitialOptions> = {},
+): Promise<void> => {
   const jestConfig = configCompiler(opts, projectConfig);
 
   try {

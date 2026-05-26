@@ -5,12 +5,18 @@
         { "name": "react", "version": "19" },
         { "name": "react-dom", "version": "19" },
         { "name": "@types/react", "version": "19" },
-        { "name": "@types/react-dom", "version": "19" }
+        { "name": "@types/react-dom", "version": "19" },
+        { "name": "tsx", "version": "4" }
       ],
       "peerDependencies": [
         { "name": "react", "version": "19" },
         { "name": "react-dom", "version": "19" }
       ]
+    }
+  },
+  "library": {
+    "common": {
+      "devDependencies": [{ "name": "tsx", "version": "4" }]
     }
   },
   "csr": {
@@ -24,7 +30,8 @@
       "devDependencies": [
         { "name": "@types/node", "version": "24" },
         { "name": "@types/react", "version": "19" },
-        { "name": "@types/react-dom", "version": "19" }
+        { "name": "@types/react-dom", "version": "19" },
+        { "name": "tsx", "version": "4" }
       ]
     }
   },
@@ -49,7 +56,8 @@
         { "name": "@types/koa", "version": "3" },
         { "name": "@types/koa-static", "version": "4" },
         { "name": "@types/node", "version": "24" },
-        { "name": "@types/serialize-javascript", "version": "5" }
+        { "name": "@types/serialize-javascript", "version": "5" },
+        { "name": "tsx", "version": "4" }
       ]
     }
   },

@@ -10,13 +10,14 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "node scripts.tests.js",
-    "test:watch": "node scripts.tests.js watch"
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts watch"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "@types/node": "25.9.1"
+    "@types/node": "25.9.1",
+    "tsx": "4.19.4"
   }
 }

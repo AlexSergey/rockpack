@@ -68,9 +68,9 @@ fs.cpSync(
   - [ ] Add pre-hooks
 - [ ] Unit tests for all modules
 - [✅] add ts lint to e2e
-- [ ] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
+- [✅] Transform all configs, scripts to TS (example: tsx scripts.build.ts)
 - [ ] WebpackBar - https://github.com/unjs/webpackbar/tree/main
-- [ ] Fix .eslintrc in webpack plugin
+- [✅] Fix .eslintrc in webpack plugin
 - [✅] Drop rockpack.babel.js
 - [✅] Drop jest.extend
 - [✅] Clean before build

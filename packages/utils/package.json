@@ -39,10 +39,10 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
-    "build:cjs": "node scripts/build.cjs.mjs",
-    "build:esm": "node scripts/build.mjs",
+    "build:cjs": "tsx scripts/build.cjs.ts",
+    "build:esm": "tsx scripts/build.ts",
     "build:types": "tsc -p tsconfig.types.json",
-    "clean": "node scripts/clean.mjs",
+    "clean": "tsx scripts/clean.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
@@ -52,13 +52,14 @@
   },
   "dependencies": {
     "semver": "7.8.0",
-    "valid-types": "3.0.0",
+    "valid-types": "3.1.0",
     "yargs": "18.0.0"
   },
   "devDependencies": {
     "@types/node": "25.9.1",
     "@types/semver": "7.7.1",
-    "@types/yargs": "17.0.35"
+    "@types/yargs": "17.0.35",
+    "tsx": "4.19.4"
   },
   "engines": {
     "node": ">=23.0.0"

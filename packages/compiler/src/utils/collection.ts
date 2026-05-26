@@ -56,7 +56,7 @@ export class Collection {
     return Object.keys(this.dict).map((n) => this.dict[n]);
   }
 
-  modify(name: string, cb: (item: unknown) => void): void {
+  modify<T extends object = object>(name: string, cb: (item: T) => void): void {
     if (!this.dict[name]) {
       throw new Error(`Provided name "${name}" was not found in the collection`);
     }

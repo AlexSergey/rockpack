@@ -42,10 +42,10 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
-    "build:cjs": "node scripts/build.cjs.mjs",
-    "build:esm": "node scripts/build.mjs",
+    "build:cjs": "tsx scripts/build.cjs.ts",
+    "build:esm": "tsx scripts/build.ts",
     "build:types": "tsc -p tsconfig.types.json",
-    "clean": "node scripts/clean.mjs",
+    "clean": "tsx scripts/clean.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
@@ -116,7 +116,7 @@
     "svgo-loader": "5.0.0",
     "terser-webpack-plugin": "5.6.0",
     "typescript": "6.0.3",
-    "valid-types": "3.0.0",
+    "valid-types": "3.1.0",
     "wasm-loader": "1.3.0",
     "webpack": "5.106.2",
     "webpack-bundle-analyzer": "5.3.0",
@@ -129,7 +129,8 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/node": "25.9.1",
     "babel-plugin-add-import-extension": "1.6.0",
-    "babel-plugin-transform-import-meta": "2.3.3"
+    "babel-plugin-transform-import-meta": "2.3.3",
+    "tsx": "4.19.4"
   },
   "engines": {
     "node": ">=23.0.0"

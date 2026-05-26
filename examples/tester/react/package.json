@@ -11,8 +11,8 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "node scripts.tests.js",
-    "test:watch": "node scripts.tests.js watch"
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts watch"
   },
   "dependencies": {
     "react": "19.2.6",
@@ -22,6 +22,7 @@
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "@testing-library/react": "16.3.2"
+    "@testing-library/react": "16.3.2",
+    "tsx": "4.19.4"
   }
 }

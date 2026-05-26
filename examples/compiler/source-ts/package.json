@@ -7,13 +7,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node scripts.build.js",
+    "build": "cross-env NODE_ENV=production tsx scripts.build.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "start": "cross-env NODE_ENV=development node scripts.build.js"
+    "start": "cross-env NODE_ENV=development tsx scripts.build.ts"
   },
   "dependencies": {
     "react": "19.2.6",
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/compiler": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0"
+    "@rockpack/tsconfig": "8.0.0",
+    "tsx": "4.19.4"
   }
 }

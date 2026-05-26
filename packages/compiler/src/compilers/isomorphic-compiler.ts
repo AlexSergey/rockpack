@@ -1,3 +1,5 @@
+import type { Configuration } from 'webpack';
+
 import { getMode, setMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 import { isUndefined } from 'valid-types';
@@ -11,10 +13,10 @@ import * as errors from '../errors/isomorphic-compiler.js';
 
 interface CompileResult {
   conf: InternalCompilerConf;
-  webpackConfig: Record<string, unknown>;
+  webpackConfig: Configuration | Configuration[];
 }
 
-export async function isomorphicCompiler(...props: Promise<CompileResult>[]): Promise<void> {
+export async function isomorphicCompiler(...props: Promise<CompileResult | void>[]): Promise<void> {
   setMode(['development', 'production'], 'development');
   errorHandler();
   const mode = getMode() as Mode;
@@ -24,7 +26,7 @@ export async function isomorphicCompiler(...props: Promise<CompileResult>[]): Pr
   global.LIVE_RELOAD_PORT = lrserver.config.port;
   global.LIVE_RELOAD_SERVER = lrserver;
 
-  const resolved = await Promise.all(props);
+  const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
 
   const webpackConfigs = resolved.map((c) => c.webpackConfig);
   const configs = resolved.map((c) => c.conf);
@@ -64,5 +66,10 @@ export async function isomorphicCompiler(...props: Promise<CompileResult>[]): Pr
     }
   }
 
-  run(webpackConfigs, mode, webpack as Parameters<typeof run>[2], configs[0] ?? ({} as InternalCompilerConf));
+  run(
+    webpackConfigs as Configuration[],
+    mode,
+    webpack as Parameters<typeof run>[2],
+    configs[0] ?? ({} as InternalCompilerConf),
+  );
 }

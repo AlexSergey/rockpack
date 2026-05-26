@@ -10,7 +10,7 @@ export async function backendCompiler(
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
-): Promise<ReturnType<typeof compile>> {
+): Promise<Awaited<ReturnType<typeof compile>>> {
   setMode(['development', 'production'], 'development');
   errorHandler();
 

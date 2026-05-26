@@ -26,11 +26,17 @@ export const packageJsonPreparing = async (
     case 'component':
     case 'library':
       packageJSON = addScripts(packageJSON, {
-        analyzer: 'node scripts.build.js --analyzer',
-        build: 'node scripts.build.js --mode=production',
-        'build:example': 'node example/scripts.build.js --mode=production',
-        start: 'node example/scripts.build.js',
+        analyzer: 'tsx scripts.build.ts --analyzer',
+        build: 'tsx scripts.build.ts --mode=production',
+        'build:example': 'node example/scripts.build.ts --mode=production',
+        start: 'node example/scripts.build.ts',
       });
+
+      if (appType === 'library') {
+        const libDeps = typedVersions.library.common;
+
+        packageJSON = await addDependencies(packageJSON, libDeps, testMode);
+      }
 
       if (appType === 'component') {
         const compDeps = typedVersions.component.common;
@@ -84,7 +90,9 @@ export const packageJsonPreparing = async (
 
         packageJSONExample = await addDependencies(
           packageJSONExample,
-          { dependencies: Array.isArray(deps) ? deps : [] },
+          {
+            dependencies: Array.isArray(deps) ? deps : [],
+          },
           testMode,
         );
       }
@@ -94,9 +102,9 @@ export const packageJsonPreparing = async (
 
     case 'csr':
       packageJSON = addScripts(packageJSON, {
-        analyzer: 'node scripts.build.js --analyzer',
-        build: 'node scripts.build.js --mode=production',
-        start: 'node scripts.build.js',
+        analyzer: 'tsx scripts.build.ts --analyzer',
+        build: 'tsx scripts.build.ts --mode=production',
+        start: 'tsx scripts.build.ts',
       });
 
       const csrDeps = typedVersions.csr.common.dependencies;
@@ -120,9 +128,9 @@ export const packageJsonPreparing = async (
 
     case 'ssr':
       packageJSON = addScripts(packageJSON, {
-        analyzer: 'node scripts.build.js --analyzer',
-        build: 'node scripts.build.js --mode=production',
-        start: 'node scripts.build.js',
+        analyzer: 'tsx scripts.build.ts --analyzer',
+        build: 'tsx scripts.build.ts --mode=production',
+        start: 'tsx scripts.build.ts',
       });
 
       const ssrDeps = typedVersions.ssr.common.dependencies;
@@ -174,8 +182,8 @@ export const packageJsonPreparing = async (
 
   if (tester) {
     packageJSON = addScripts(packageJSON, {
-      test: 'node scripts.tests.js',
-      'test:watch': 'node scripts.tests.js --watch',
+      test: 'tsx scripts.tests.ts',
+      'test:watch': 'tsx scripts.tests.ts --watch',
     });
     const testerCommonDeps = typedVersions.tester.common.devDependencies;
     packageJSON = await addDependencies(

@@ -5,13 +5,13 @@
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node scripts.build.js",
+    "build": "cross-env NODE_ENV=production tsx scripts.build.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "start": "cross-env NODE_ENV=development node scripts.build.js"
+    "start": "cross-env NODE_ENV=development tsx scripts.build.ts"
   },
   "dependencies": {
     "@mdx-js/react": "3.1.0",
@@ -26,6 +26,7 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/mdx": "2.0.13",
     "@types/react": "19.2.15",
-    "@types/react-dom": "19.2.3"
+    "@types/react-dom": "19.2.3",
+    "tsx": "4.19.4"
   }
 }

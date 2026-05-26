@@ -24,10 +24,10 @@ export const createFiles = (
         prefix += isNumber ? 'Library' : '';
       }
       build = build.replace(/%libraryName%/g, pascalCase(`${prefix}${projectName ?? ''}`));
-      fs.writeFileSync(path.join(currentPath, 'scripts.build.js'), build);
+      fs.writeFileSync(path.join(currentPath, 'scripts.build.ts'), build);
     } catch (e) {
       showError(e, () => {
-        console.error('Step: 7.1. Creating library scripts.build.js');
+        console.error('Step: 7.1. Creating library scripts.build.ts');
       });
     }
   }
@@ -41,10 +41,10 @@ export const createFiles = (
         prefix += isNumber ? 'Component' : '';
       }
       build = build.replace(/%componentName%/g, pascalCase(`${prefix}${projectName ?? ''}`));
-      fs.writeFileSync(path.join(currentPath, 'scripts.build.js'), build);
+      fs.writeFileSync(path.join(currentPath, 'scripts.build.ts'), build);
     } catch (e) {
       showError(e, () => {
-        console.error('Step: 7.1. Creating component scripts.build.js');
+        console.error('Step: 7.1. Creating component scripts.build.ts');
       });
     }
   }

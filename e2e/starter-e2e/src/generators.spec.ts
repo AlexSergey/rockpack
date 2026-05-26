@@ -59,7 +59,7 @@ describe('Generators tests', () => {
         });
 
         it(`checks if ${tests ? ' the project has tests files' : ' the project has not tests files'}`, async () => {
-          const scriptsTests = await exists(join(genFolder, projectFolder, 'scripts.tests.js'));
+          const scriptsTests = await exists(join(genFolder, projectFolder, 'scripts.tests.ts'));
 
           if (tests) {
             expect(scriptsTests).toBeTruthy();

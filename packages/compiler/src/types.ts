@@ -1,6 +1,6 @@
 export interface CompilerConf {
   analyzer?: boolean;
-  banner?: false | string;
+  banner?: boolean | string;
   cjs?: FormatConf;
   copy?: CopyConf;
   debug?: boolean;

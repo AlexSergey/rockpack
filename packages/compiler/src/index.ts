@@ -11,7 +11,8 @@ import { sourceCompiler } from './compilers/source-compiler.js';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-const getArgs = (): typeof argv => argv;
+const getArgs = <T extends Record<string, unknown> = Record<never, never>>(): T & typeof argv =>
+  argv as T & typeof argv;
 
 const getWebpack = (): typeof webpack => webpack;
 
