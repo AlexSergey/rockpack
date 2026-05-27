@@ -21,7 +21,10 @@
     "lint": "lerna run lint",
     "format": "lerna run format",
     "production": "lerna run production",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "cloc": "tsx cloc.ts",
+    "updater": "tsx updater.ts",
+    "version:set": "tsx version.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run lint",

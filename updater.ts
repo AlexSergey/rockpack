@@ -4,7 +4,22 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
-async function updateAllDeps() {
+type PackageJson = {
+  name: string;
+  version: string;
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+  [key: string]: unknown;
+};
+
+type VersionEntry = {
+  name: string;
+  version: string;
+};
+
+type VersionsJson = Record<string, Record<string, Record<string, VersionEntry[]>>>;
+
+async function updateAllDeps(): Promise<void> {
   const paths = [
     './e2e/babel-e2e/package.json',
     './e2e/starter-e2e/package.json',
@@ -46,24 +61,21 @@ async function updateAllDeps() {
     './packages/utils/package.json',
   ];
 
-  const fields = ['dependencies', 'devDependencies'];
+  const fields: ReadonlyArray<'dependencies' | 'devDependencies'> = ['dependencies', 'devDependencies'];
 
-  const pkgs = paths.map((p) => {
-    const data = readFileSync(p, 'utf8');
-    return {
-      data: JSON.parse(data),
-      path: p,
-    };
-  });
+  const pkgs = paths.map((p) => ({
+    data: JSON.parse(readFileSync(p, 'utf8')) as PackageJson,
+    path: p,
+  }));
 
   for (let i = 0; i < pkgs.length; i++) {
     const pkg = pkgs[i].data;
     const p = pkgs[i].path;
     for (let y = 0; y < fields.length; y++) {
       const field = fields[y];
-      const deps = pkg[field] || {};
+      const deps = pkg[field] ?? {};
       const names = Object.keys(deps);
-      const forUpdate = {};
+      const forUpdate: Record<string, string> = {};
       for (let j = 0; j < names.length; j++) {
         const dep = names[j];
         if (dep.indexOf('@rockpack/') !== -1) {
@@ -88,9 +100,7 @@ async function updateAllDeps() {
         console.warn(`[${pkg.name}] package.json will be updated`);
         const sorted = sortPackageJson({
           ...pkg,
-          ...{
-            [field]: { ...deps, ...forUpdate },
-          },
+          [field]: { ...deps, ...forUpdate },
         });
 
         if (p.indexOf('starter-e2e') > 0) {
@@ -110,7 +120,9 @@ async function updateAllDeps() {
 
             if (indexA >= 0 && indexB >= 0) {
               [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
-              sorted.devDependencies = Object.fromEntries(orderedKeys.map((key) => [key, sorted.devDependencies[key]]));
+              sorted.devDependencies = Object.fromEntries(
+                orderedKeys.map((key) => [key, (sorted.devDependencies as Record<string, string>)[key]]),
+              );
             }
           }
         }
@@ -122,29 +134,30 @@ async function updateAllDeps() {
   }
 }
 
-async function updateStarterDeps() {
+async function updateStarterDeps(): Promise<void> {
   const pth = './packages/starter/src/versions.json';
 
-  const data = JSON.parse(readFileSync(pth, 'utf8'));
+  const data = JSON.parse(readFileSync(pth, 'utf8')) as VersionsJson;
   let wasUpdated = false;
 
   console.log('---');
   console.log('Dependencies checking in @rockpack/starter');
   console.log('---');
 
-  for (let type in data) {
-    for (let variations in data[type]) {
-      for (let depType in data[type][variations]) {
+  for (const type in data) {
+    for (const variations in data[type]) {
+      for (const depType in data[type][variations]) {
         const dependencies = data[type][variations][depType];
 
-        for (let dependency of dependencies) {
+        for (const dependency of dependencies) {
           const { name, version } = dependency;
           const newVersion = await latestVersion(name);
-          const { major } = parse(newVersion);
+          const parsed = parse(newVersion);
+          const major = parsed?.major ?? 0;
 
-          if (major > version) {
+          if (major > Number(version)) {
             console.log(`[${name}] will be updated from ${version} to ${major}`);
-            const index = dependencies.findIndex(({ name }) => name === dependency.name);
+            const index = dependencies.findIndex(({ name: n }) => n === dependency.name);
             dependencies[index] = { name, version: `${major}` };
             wasUpdated = true;
           }
@@ -158,7 +171,7 @@ async function updateStarterDeps() {
   }
 }
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   await updateAllDeps();
   await updateStarterDeps();
 }

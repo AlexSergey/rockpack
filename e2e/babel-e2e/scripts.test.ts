@@ -1,4 +1,4 @@
-const { tester } = require('@rockpack/tester');
+import { tester } from '@rockpack/tester';
 
 tester(
   {},

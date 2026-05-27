@@ -1,6 +1,6 @@
-const { spawn } = require('child_process');
+import { spawn } from 'node:child_process';
 
-const exclude_folders = [
+const excludeFolders = [
   'node_modules',
   '.git',
   '.idea',
@@ -17,21 +17,21 @@ const exclude_folders = [
   'coverage',
   'seo_report',
   '.storybook',
-  'test-reports'
+  'test-reports',
 ];
 
-const exclude_ext = ['json'];
+const excludeExt = ['json'];
 
-const cl = spawn('cloc', [`--exclude-dir=${exclude_folders.join(',')}`, `--exclude-ext=${exclude_ext.join(',')}`, '.']);
+const cl = spawn('cloc', [`--exclude-dir=${excludeFolders.join(',')}`, `--exclude-ext=${excludeExt.join(',')}`, '.']);
 
-cl.stdout.on('data', data => {
+cl.stdout.on('data', (data: Buffer) => {
   console.log(`stdout: ${data}`);
 });
 
-cl.stderr.on('data', data => {
+cl.stderr.on('data', (data: Buffer) => {
   console.log(`stderr: ${data}`);
 });
 
-cl.on('close', code => {
+cl.on('close', (code: number | null) => {
   console.log(`child process exited with code ${code}`);
 });

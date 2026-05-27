@@ -6,6 +6,7 @@ import deepExtend from 'deep-extend';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import type { TesterOptions } from '../default-props.js';
 
@@ -14,7 +15,7 @@ import { createTestMatch } from '../modules/create-test-match.js';
 
 const _require = createRequire(import.meta.url);
 
-const rootFolder = path.resolve(__dirname, '..');
+const rootFolder = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const currentProjectFolder = getRootRequireDir();
 const ext = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
 
@@ -67,7 +68,7 @@ export const configCompiler = (
         '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy${ext}`,
       },
       setupFiles,
-      setupFilesAfterEnv: [require.resolve('@rockpack/utils/polyfills/text-encoder.fix'), ...setupFilesAfterEnv],
+      setupFilesAfterEnv: [_require.resolve('@rockpack/utils/polyfills/text-encoder.fix'), ...setupFilesAfterEnv],
       testEnvironment: 'jsdom',
       testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
       transform: {
@@ -89,7 +90,7 @@ export const configCompiler = (
     config['reporters'] = [
       'default',
       [
-        require.resolve('jest-html-reporters'),
+        _require.resolve('jest-html-reporters'),
         {
           expand: true,
           filename: 'jest_reporter.html',

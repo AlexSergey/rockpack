@@ -15,7 +15,7 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "node --experimental-vm-modules scripts.test.cjs"
+    "test": "NODE_OPTIONS='--experimental-vm-modules' tsx scripts.test.ts"
   },
   "dependencies": {
     "@rockpack/tester": "8.0.0",

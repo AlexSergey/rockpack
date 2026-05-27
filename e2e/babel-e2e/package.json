@@ -15,7 +15,7 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "node scripts.test.cjs"
+    "test": "tsx scripts.test.ts"
   },
   "dependencies": {
     "@rockpack/babel": "8.0.0",

@@ -1,16 +1,24 @@
-const yargs = require('yargs');
-const { hideBin } = require('yargs/helpers');
-const { join } = require('path');
-const { writeFileSync } = require('fs');
-const { EOL } = require('os');
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import { join } from 'node:path';
+import { writeFileSync, readFileSync } from 'node:fs';
+import { EOL } from 'node:os';
 
-const argv = yargs(hideBin(process.argv)).parse();
+type PackageJson = {
+  name?: string;
+  version: string;
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+  [key: string]: unknown;
+};
+
+const argv = yargs(hideBin(process.argv)).parseSync();
 
 if (argv._.length !== 1) {
   throw new Error('Provide version x.x.x to the argument');
 }
 
-const version = argv._[0];
+const version = String(argv._[0]);
 const part = version.split('-')[0];
 const format = part.split('.');
 
@@ -63,9 +71,9 @@ const projects = [
   './package.json',
 ];
 
-for (let projectPath of projects) {
-  const pthPackageJson = join(__dirname, projectPath);
-  const file = require(pthPackageJson);
+for (const projectPath of projects) {
+  const pthPackageJson = join(process.cwd(), projectPath);
+  const file = JSON.parse(readFileSync(pthPackageJson, 'utf8')) as PackageJson;
   const { dependencies, devDependencies } = file;
   const depKeys = dependencies ? Object.keys(dependencies) : [];
   const devDepKeys = devDependencies ? Object.keys(devDependencies) : [];
@@ -75,11 +83,11 @@ for (let projectPath of projects) {
   file.version = version;
 
   depKeysExisted.forEach((k) => {
-    file.dependencies[k] = version;
+    (file.dependencies as Record<string, string>)[k] = version;
   });
 
   devDepKeysExisted.forEach((k) => {
-    file.devDependencies[k] = version;
+    (file.devDependencies as Record<string, string>)[k] = version;
   });
 
   writeFileSync(pthPackageJson, JSON.stringify(file, null, 2) + EOL, 'utf-8');
