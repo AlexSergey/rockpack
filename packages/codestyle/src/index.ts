@@ -295,6 +295,7 @@ export const makeConfig = (): Linter.Config[] => {
       '**/.storybook/**',
       '**/vite.config.ts',
       '**/vitest.config.ts',
+      '**/eslint.config.ts',
     ],
     rules: {
       '@import-lite/no-default-export': 'off',

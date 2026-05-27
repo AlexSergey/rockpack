@@ -6,7 +6,7 @@
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "main": "index.js",
   "scripts": {
-    "build": "tsx scripts.build.ts --mode=production && node base.modify.js",
+    "build": "tsx scripts.build.ts --mode=production && tsx base.modify.ts",
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
     "lint": "eslint .",

@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "build": "npm run clean && tsx scripts.build.ts",
-    "clean": "node scripts.clean.mjs",
+    "clean": "tsx scripts/clean.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
     "lint": "npm run lint:ts && npm run lint:code",

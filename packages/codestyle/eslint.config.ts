@@ -1,4 +1,4 @@
-import { makeConfig } from './lib/esm/index.mjs';
+import { makeConfig } from './src';
 
 const config = makeConfig();
 
