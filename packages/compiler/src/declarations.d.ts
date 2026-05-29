@@ -4,26 +4,26 @@ declare module 'deep-extend' {
 }
 
 declare module 'find-package-json' {
-  type PackageJSON = {
+  interface Iterator {
+    next(): PackageJSON;
+  }
+  interface PackageJSON {
+    [key: string]: unknown;
+    author?: string;
+    done?: boolean;
+    filename?: string;
     name?: string;
     version?: string;
-    author?: string;
-    filename?: string;
-    done?: boolean;
-    [key: string]: unknown;
-  };
-  type Iterator = {
-    next(): PackageJSON;
-  };
+  }
   function finder(path?: string): Iterator;
   export = finder;
 }
 
 declare module 'livereload' {
-  type LiveReloadServer = {
+  interface LiveReloadServer {
     config: { port: number };
     refresh(path: string): void;
-  };
+  }
   function createServer(opts?: Record<string, unknown>): LiveReloadServer;
   export { createServer };
 }
@@ -63,6 +63,7 @@ declare module '@statoscope/webpack-plugin' {
   class StatoscopeWebpackPlugin {
     constructor(opts?: Record<string, unknown>);
   }
+
   export default StatoscopeWebpackPlugin;
 }
 
@@ -82,7 +83,10 @@ declare module 'webpack/lib/optimize/FlagIncludedChunksPlugin.js' {
 
 declare module 'webpack-format-messages' {
   import type { Stats } from 'webpack';
-  type Messages = { errors: string[]; warnings: string[] };
+  interface Messages {
+    errors: string[];
+    warnings: string[];
+  }
   function formatMessages(stats: Stats): Messages;
   export = formatMessages;
 }

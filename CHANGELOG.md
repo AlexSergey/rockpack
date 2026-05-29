@@ -9,6 +9,9 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - New build pipeline using `tsx` scripts for all packages and examples
 - Dual ESM/CJS output for all packages
 - Improved tester configuration with better type support for Jest
+- `eslint-config-flat-gitignore` integration in `@rockpack/codestyle` - ignore patterns are now loaded from `.eslintflatignore` file instead of being hardcoded
+- `.eslintflatignore` support: `makeConfig` searches for the file recursively from `process.cwd()` upward, enabling monorepo setups where a single file at the repo root covers all packages
+- ESLint rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are now disabled for `.d.ts` files
 
 ### Changed
 - All internal scripts migrated to TypeScript (`scripts.build.ts`, `scripts.tests.ts`)
@@ -20,6 +23,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - Dropped `rockpack.babel.js` legacy config file
 - Dropped `jest.extend` from tester
 - Removed CommonJS-only build artifacts
+- Removed hardcoded `ignores` array from `@rockpack/codestyle` in favor of `.eslintflatignore`
 
 ## [8.0.0]
 

@@ -5,6 +5,7 @@ import js from '@eslint/js';
 import json from '@eslint/json';
 import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import gitignore from 'eslint-config-flat-gitignore';
 import checkFile from 'eslint-plugin-check-file';
 import importLite from 'eslint-plugin-import-lite';
 import noOnlyTests from 'eslint-plugin-no-only-tests';
@@ -15,7 +16,6 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import regexpPlugin from 'eslint-plugin-regexp';
 import sonar from 'eslint-plugin-sonarjs';
 import unicorn from 'eslint-plugin-unicorn';
-import { globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -25,53 +25,26 @@ interface PackageJson {
   readonly dependencies?: Readonly<Record<string, string>>;
 }
 
-const ignores = [
-  '.idea',
-  '.last-run.json',
-  '**/*.d.ts',
-  '*.d.ts',
-  'node_modules',
-  'logs',
-  '*.log',
-  'lib-cov/',
-  'coverage/',
-  'coverage-e2e/',
-  'NO_COMMIT/',
-  'test-reports/**',
-  'docs/*',
-  'build/*',
-  'lib/*',
-  'dist/*',
-  'example/*',
-  '*.css',
-  '*.scss',
-  '*.less',
-  '*.ico',
-  '*.jpg',
-  '*.jpeg',
-  '*.png',
-  '*.svg',
-  '*.bmp',
-  '*.gif',
-  '*.webp',
-  '*.woff',
-  '*.woff2',
-  '*.txt',
-  '*.mdx',
-  '*.md',
-  '*.ejs',
-  '*.hbs',
-  '*.jade',
-  '*.html',
-  'docs/',
-  'public/',
-  'seo_report',
-  '**/.last-run.json',
-];
+const FLAT_IGNORE_FILE = '.eslintflatignore';
 
 const jsFiles = ['**/*.{js,jsx,mjs,cjs}'];
 const tsFiles = ['**/*.{ts,tsx}'];
 const sourceFiles = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
+
+function findFlatIgnoreFile(startDir: string): string | undefined {
+  let dir = startDir;
+  for (;;) {
+    const candidate = path.join(dir, FLAT_IGNORE_FILE);
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) {
+      return undefined;
+    }
+    dir = parent;
+  }
+}
 
 export const isString = (value: unknown): value is string => typeof value === 'string';
 
@@ -288,6 +261,14 @@ export const makeConfig = (): Linter.Config[] => {
     ...regexpPlugin.configs['flat/recommended'],
   };
 
+  const dtsOverrides: Linter.Config = {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@import-lite/no-default-export': 'off',
+      '@typescript-eslint/naming-convention': 'off',
+    },
+  };
+
   const disableDefaultExportBlockingForStorybook: Linter.Config = {
     files: [
       '**/*.stories.@(js|jsx|ts|tsx|mdx)',
@@ -302,8 +283,11 @@ export const makeConfig = (): Linter.Config[] => {
     },
   };
 
+  const flatIgnoreFile = findFlatIgnoreFile(root);
+  const ignoreConfig = flatIgnoreFile ? [gitignore({ files: flatIgnoreFile, strict: false })] : [];
+
   return [
-    globalIgnores(ignores),
+    ...ignoreConfig,
     ...recommendedTypeScriptConfigs,
     prettierRecommended,
     perfectionistConfig,
@@ -327,5 +311,6 @@ export const makeConfig = (): Linter.Config[] => {
         }
       : {},
     disableDefaultExportBlockingForStorybook,
+    dtsOverrides,
   ];
 };

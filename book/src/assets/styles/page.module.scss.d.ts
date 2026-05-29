@@ -1,6 +1,6 @@
 export interface IPageModuleScss {
-  'page': string;
-  'github': string;
+  github: string;
+  page: string;
 }
 declare const styles: IPageModuleScss;
 export = styles;

@@ -14,5 +14,11 @@
 - All configs and scripts migrated to TypeScript
 - Fixed `.eslintrc` in webpack plugin
 
+#### Completed
+- Integrated `eslint-config-flat-gitignore` into `@rockpack/codestyle`
+- Replaced hardcoded `ignores` array with `.eslintflatignore` file-based approach
+- Recursive `.eslintflatignore` lookup from `process.cwd()` upward for monorepo support
+- Disabled `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` for `.d.ts` files
+
 #### Pending
 - Fix husky initialization for starter projects (add pre-commit hooks)

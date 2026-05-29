@@ -28,6 +28,7 @@
 - eslint-plugin-no-only-tests
 - eslint-plugin-check-file
 - eslint-plugin-package-json
+- eslint-config-flat-gitignore - file-based ignore patterns via `.eslintflatignore`
 
 ### Additional tools:
 
@@ -57,7 +58,22 @@ const { makeConfig } = require('@rockpack/codestyle');
 module.exports = makeConfig();
 ```
 
-4. Put the code in **.prettierrc**
+4. Create **.eslintflatignore** in the root of the project to define ignored paths:
+
+```
+node_modules
+dist/
+build/
+lib/
+coverage/
+*.log
+```
+
+`makeConfig` searches for `.eslintflatignore` starting from the current working directory and walks up the directory tree. This means it works in both single repos and monorepos - place the file at the monorepo root and all packages will pick it up automatically.
+
+> **Note:** `.d.ts` files are linted but the rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are disabled for them.
+
+5. Put the code in **.prettierrc**
 
 ```json
 {
