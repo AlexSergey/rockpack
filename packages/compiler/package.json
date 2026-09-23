@@ -59,7 +59,6 @@
     "@mdx-js/loader": "3.1.1",
     "@nuxt/friendly-errors-webpack-plugin": "2.6.0",
     "@rockpack/babel": "8.0.0",
-    "@rockpack/codestyle": "8.0.0",
     "@rockpack/utils": "8.0.0",
     "@statoscope/webpack-plugin": "5.29.0",
     "@svgr/webpack": "8.1.0",
@@ -126,6 +125,10 @@
     "yargs": "18.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "7.29.7",
+    "@babel/preset-env": "7.29.7",
+    "@babel/preset-typescript": "7.29.7",
+    "@rockpack/codestyle": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/node": "26.6.2",
     "babel-plugin-add-import-extension": "1.6.0",

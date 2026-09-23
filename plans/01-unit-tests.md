@@ -223,6 +223,8 @@ Mock `node:fs.existsSync` with a path set. `utils/path-to-eslintrc` (precedence,
 
 ### 6.6 Integration workspace `e2e/compiler-e2e` (M)
 
+Superseded by [Plan 4, section 5](./04-e2e.md): the compiler e2e workspace is specified there in full. The paragraph below is kept as the original scope note.
+
 Mirror `e2e/babel-e2e`: a workspace with `scripts.test.ts` running the tester in node environment against the built `@rockpack/compiler`. Fixture projects under `src/fixtures/{frontend,backend,library,isomorphic,source}`. Each test runs the real compiler in production mode into a temp `dist`, with `process.exit` stubbed, and asserts emitted files (`index.js`, `index.html`, css extraction, library `umd` wrapper, `types/*.d.ts`, sourcemaps by mode). One dev-mode test uses `makeWebpackConfig` only (no dev server). No browser. Budget: under two minutes total. This suite does not count toward the compiler unit thresholds; it protects the wiring the unit tests mock away.
 
 Coverage exclusions for the compiler: `src/declarations.d.ts`, `src/globals.d.ts`, `src/types.ts`, `src/configs/postcss.config.cjs` (covered by a single smoke test but excluded from thresholds).

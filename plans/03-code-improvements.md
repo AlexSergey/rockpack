@@ -89,7 +89,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 ## 10. `@rockpack/starter`
 
 - [ ] **ST1.** Templating: replace the `%libraryName%` string replacement with a tiny render step (`{{name}}` in `templates/dummies/*` via a 10-line replacer) so more fields (author, description, license) can be filled from prompts.
-- [ ] **ST2.** Offline test mode: in `--mode=test`, resolve every dependency from `versions.json` majors to `<major>.0.0` without touching the registry (today only `@rockpack/*` are pinned), making `starter-e2e` network-free (Plan 2 A6 depends on this).
+- [ ] **ST2.** Add an `--offline` flag that resolves every dependency from `versions.json` majors as `^<major>.0.0` without touching the registry. `--mode=test` keeps resolving current versions inside majors, because Plan 4 `latest` mode relies on it; Plan 4 `pinned` mode pins versions on the test side.
 - [ ] **ST3.** Wizard on `@inquirer/*` only (Plan 2 C5), with `--yes` to accept defaults and input validation for the project name (`validate-npm-package-name`).
 - [ ] **ST4.** `install.ts` (259 LOC): extract `prepareProjectDir`, `writeMetaFiles`, `installAll`, `printSummary`; replace the three 60-second `setTimeout` spinner texts with one progress helper; remove `process.exit` from `install` and `rockpack.ts` and return a result the bin turns into an exit code.
 - [ ] **ST5.** Share the byte-identical csr and ssr template `components/` directories (`templates/backbone/shared/components`) with `copyFiles` copying the shared dir first; the 8 duplicated spec files collapse to 4.
@@ -97,7 +97,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 11. Build and repository tooling
 
-- [ ] **R1.** `book` build in CI: switch `book/scripts.build.ts` prerender to puppeteer's bundled headless Chromium, and have `pages.yml` build `book` into `docs/` at deploy time so `docs/` is no longer committed (keep `docs/plans`).
+- [ ] **R1.** `book` build in CI: switch `book/scripts.build.ts` prerender to puppeteer's bundled headless Chromium, and have `pages.yml` build `book` into `docs/` at deploy time so `docs/` is no longer committed (plans live in `plans/` at the repository root).
 - [ ] **R2.** Turborepo or nx task caching for `build`, `lint`, `test` (lerna 9 already ships nx; enable `useNx` caching with `nx.json` and the `lib`/`types`/`coverage` outputs). Record cold vs warm timings here.
 - [ ] **R3.** `updater.ts`: after Plan 2 B4, add `--filter <glob>` to update a subset and `--interactive` for majors (using `@inquirer/checkbox`), and make it write `CHANGELOG.md` stubs for major bumps.
 - [ ] **R4.** `cloc.ts` spawns a system `cloc` binary; replace with a Node implementation (`sloc` or a 30-line walker) so `npm run cloc` works on any machine, or delete it.

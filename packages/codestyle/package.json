@@ -39,7 +39,10 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && tsx scripts.build.ts",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:cjs": "tsx scripts/build.cjs.ts",
+    "build:esm": "tsx scripts/build.ts",
+    "build:types": "tsc -p tsconfig.types.json",
     "clean": "tsx scripts/clean.ts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
@@ -54,7 +57,6 @@
     "@eslint-react/eslint-plugin": "5.8.5",
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",
-    "@rockpack/babel": "8.0.0",
     "@typescript-eslint/eslint-plugin": "8.60.0",
     "@typescript-eslint/parser": "8.60.0",
     "deep-extend": "0.6.0",
@@ -86,7 +88,12 @@
     "yargs": "18.0.0"
   },
   "devDependencies": {
-    "@rockpack/compiler": "8.0.0",
+    "@babel/core": "7.29.7",
+    "@babel/plugin-transform-modules-commonjs": "7.29.7",
+    "@babel/preset-env": "7.29.7",
+    "@babel/preset-typescript": "7.29.7",
+    "babel-plugin-add-import-extension": "1.6.0",
+    "babel-plugin-transform-import-meta": "2.3.3",
     "tsx": "4.23.15"
   },
   "engines": {
