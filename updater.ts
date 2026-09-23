@@ -1,7 +1,6 @@
 import latestVersion from 'latest-version';
-import { parse } from 'semver';
+import { parse, satisfies, valid } from 'semver';
 import { writeFileSync, readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
 type PackageJson = {
@@ -18,6 +17,186 @@ type VersionEntry = {
 };
 
 type VersionsJson = Record<string, Record<string, Record<string, VersionEntry[]>>>;
+
+type RegistryVersionMeta = {
+  peerDependencies?: Record<string, string>;
+  peerDependenciesMeta?: Record<string, { optional?: boolean }>;
+};
+
+type PlanEntry = {
+  current: ReadonlySet<string>;
+  next: string;
+};
+
+type Plan = ReadonlyMap<string, PlanEntry>;
+
+type PeerConflict = {
+  dep: string;
+  version: string;
+  peer: string;
+  peerVersion: string;
+  range: string;
+};
+
+const DEP_FIELDS: ReadonlyArray<'dependencies' | 'devDependencies'> = ['dependencies', 'devDependencies'];
+
+const latestVersionCache = new Map<string, Promise<string>>();
+const requiredPeersCache = new Map<string, Promise<Record<string, string>>>();
+
+function getLatestVersion(name: string): Promise<string> {
+  let cached = latestVersionCache.get(name);
+  if (!cached) {
+    cached = latestVersion(name);
+    latestVersionCache.set(name, cached);
+  }
+  return cached;
+}
+
+async function fetchRequiredPeers(name: string, version: string): Promise<Record<string, string>> {
+  const url = `https://registry.npmjs.org/${name.replace('/', '%2F')}/${version}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Unable to fetch metadata for ${name}@${version}: HTTP ${response.status}`);
+  }
+  const meta = (await response.json()) as RegistryVersionMeta;
+  const peers = meta.peerDependencies ?? {};
+  const peersMeta = meta.peerDependenciesMeta ?? {};
+
+  return Object.fromEntries(Object.entries(peers).filter(([peer]) => !peersMeta[peer]?.optional));
+}
+
+function getRequiredPeers(name: string, version: string): Promise<Record<string, string>> {
+  const key = `${name}@${version}`;
+  let cached = requiredPeersCache.get(key);
+  if (!cached) {
+    cached = fetchRequiredPeers(name, version);
+    requiredPeersCache.set(key, cached);
+  }
+  return cached;
+}
+
+function collectDeclaredVersions(pkgs: ReadonlyArray<PackageJson>): Map<string, Set<string>> {
+  const declared = new Map<string, Set<string>>();
+  for (const pkg of pkgs) {
+    for (const field of DEP_FIELDS) {
+      for (const [dep, version] of Object.entries(pkg[field] ?? {})) {
+        if (dep.startsWith('@rockpack/')) {
+          continue;
+        }
+        const versions = declared.get(dep) ?? new Set<string>();
+        versions.add(version);
+        declared.set(dep, versions);
+      }
+    }
+  }
+  return declared;
+}
+
+async function buildPlan(pkgs: ReadonlyArray<PackageJson>): Promise<Plan> {
+  const plan = new Map<string, PlanEntry>();
+  for (const [dep, current] of collectDeclaredVersions(pkgs)) {
+    plan.set(dep, { current, next: await getLatestVersion(dep) });
+  }
+  return plan;
+}
+
+function isUpdated(entry: PlanEntry): boolean {
+  return [...entry.current].some((version) => version !== entry.next);
+}
+
+function effectiveVersions(plan: Plan, dep: string, skipped: ReadonlySet<string>): ReadonlySet<string> {
+  const entry = plan.get(dep);
+  if (!entry) {
+    return new Set();
+  }
+  return skipped.has(dep) ? entry.current : new Set([entry.next]);
+}
+
+async function findPeerConflict(
+  plan: Plan,
+  dep: string,
+  skipped: ReadonlySet<string>,
+): Promise<PeerConflict | undefined> {
+  for (const version of effectiveVersions(plan, dep, skipped)) {
+    if (!valid(version)) {
+      continue;
+    }
+    const peers = await getRequiredPeers(dep, version);
+    for (const [peer, range] of Object.entries(peers)) {
+      for (const peerVersion of effectiveVersions(plan, peer, skipped)) {
+        if (valid(peerVersion) && !satisfies(peerVersion, range)) {
+          return { dep, peer, peerVersion, range, version };
+        }
+      }
+    }
+  }
+  return undefined;
+}
+
+function formatConflict({ dep, peer, peerVersion, range, version }: PeerConflict): string {
+  return `${dep}@${version} requires ${peer}@"${range}", but ${peer}@${peerVersion} is planned`;
+}
+
+/*
+ * Every dependency (updated or not) is checked against the peer ranges of the version
+ * it will have after the update. When a conflict is found, the update that caused it
+ * is skipped: the dependency itself if it is being updated, otherwise its peer.
+ * Re-checked until stable, because skipping one update changes the versions
+ * available to the others.
+ */
+async function resolveSkipped(plan: Plan): Promise<Set<string>> {
+  const skipped = new Set<string>();
+  const reported = new Set<string>();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const [dep, entry] of plan) {
+      const conflict = await findPeerConflict(plan, dep, skipped);
+      if (!conflict) {
+        continue;
+      }
+      const culprit = isUpdated(entry) && !skipped.has(dep) ? dep : conflict.peer;
+      const culpritEntry = plan.get(culprit);
+      if (!culpritEntry || skipped.has(culprit) || !isUpdated(culpritEntry)) {
+        const message = `[conflict] ${formatConflict(conflict)}; cannot be resolved automatically`;
+        if (!reported.has(message)) {
+          reported.add(message);
+          console.warn(message);
+        }
+        continue;
+      }
+      console.warn(`[skip] ${culprit}@${culpritEntry.next}: ${formatConflict(conflict)}`);
+      skipped.add(culprit);
+      changed = true;
+    }
+  }
+  return skipped;
+}
+
+function fixStarterE2eOrder(sorted: PackageJson): void {
+  if (!sorted.devDependencies) {
+    return;
+  }
+  /*
+   * eslint-plugin-package-json has different logic of sorting collections:
+   * sortPackageJson by default sort the keys like this:
+   *  - @types/koa__router
+   *  - @types/koa-static
+   * eslint-plugin-package-json expects to have order:
+   *  - @types/koa-static
+   *  - @types/koa__router
+   * */
+  const orderedKeys = Object.keys(sorted.devDependencies);
+  const indexA = orderedKeys.indexOf('@types/koa__router');
+  const indexB = orderedKeys.indexOf('@types/koa-static');
+
+  if (indexA >= 0 && indexB >= 0) {
+    [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
+    sorted.devDependencies = Object.fromEntries(
+      orderedKeys.map((key) => [key, (sorted.devDependencies as Record<string, string>)[key]]),
+    );
+  }
+}
 
 async function updateAllDeps(): Promise<void> {
   const paths = [
@@ -61,76 +240,56 @@ async function updateAllDeps(): Promise<void> {
     './packages/utils/package.json',
   ];
 
-  const fields: ReadonlyArray<'dependencies' | 'devDependencies'> = ['dependencies', 'devDependencies'];
-
   const pkgs = paths.map((p) => ({
     data: JSON.parse(readFileSync(p, 'utf8')) as PackageJson,
     path: p,
   }));
 
-  for (let i = 0; i < pkgs.length; i++) {
-    const pkg = pkgs[i].data;
-    const p = pkgs[i].path;
-    for (let y = 0; y < fields.length; y++) {
-      const field = fields[y];
-      const deps = pkg[field] ?? {};
-      const names = Object.keys(deps);
+  const plan = await buildPlan(pkgs.map(({ data }) => data));
+  const skipped = await resolveSkipped(plan);
+
+  for (const { data: pkg, path: p } of pkgs) {
+    const updated: PackageJson = { ...pkg };
+    let hasUpdates = false;
+
+    for (const field of DEP_FIELDS) {
+      const deps = pkg[field];
+      if (!deps) {
+        continue;
+      }
       const forUpdate: Record<string, string> = {};
-      for (let j = 0; j < names.length; j++) {
-        const dep = names[j];
-        if (dep.indexOf('@rockpack/') !== -1) {
+      for (const [dep, oldVersion] of Object.entries(deps)) {
+        const entry = plan.get(dep);
+        if (!entry || skipped.has(dep) || entry.next === oldVersion) {
           continue;
         }
-        const newVersion = await latestVersion(dep);
-        const oldVersion = deps[dep];
-        if (newVersion !== oldVersion) {
-          console.log(
-            `[${pkg.name}] dependency ${dep} from "${field}" will be updated from ${oldVersion} to ${newVersion}`,
-          );
-          const newVersionParsed = parse(newVersion);
-          const oldVersionParsed = parse(oldVersion);
-          if (newVersionParsed?.major !== oldVersionParsed?.major) {
-            console.warn(`Major dependency for ${dep} will be updated`);
-          }
-          forUpdate[dep] = newVersion;
+        const newVersion = entry.next;
+        console.log(
+          `[${pkg.name}] dependency ${dep} from "${field}" will be updated from ${oldVersion} to ${newVersion}`,
+        );
+        if (parse(newVersion)?.major !== parse(oldVersion)?.major) {
+          console.warn(`Major dependency for ${dep} will be updated`);
         }
+        forUpdate[dep] = newVersion;
       }
       if (Object.keys(forUpdate).length > 0) {
-        const pathToPackageJson = dirname(p);
-        console.warn(`[${pkg.name}] package.json will be updated`);
-        const sorted = sortPackageJson({
-          ...pkg,
-          [field]: { ...deps, ...forUpdate },
-        });
-
-        if (p.indexOf('starter-e2e') > 0) {
-          if (sorted.devDependencies) {
-            /*
-             * eslint-plugin-package-json has different logic of sorting collections:
-             * sortPackageJson by default sort the keys like this:
-             *  - @types/koa__router
-             *  - @types/koa-static
-             * eslint-plugin-package-json expects to have order:
-             *  - @types/koa-static
-             *  - @types/koa__router
-             * */
-            const orderedKeys = Object.keys(sorted.devDependencies);
-            const indexA = orderedKeys.indexOf('@types/koa__router');
-            const indexB = orderedKeys.indexOf('@types/koa-static');
-
-            if (indexA >= 0 && indexB >= 0) {
-              [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
-              sorted.devDependencies = Object.fromEntries(
-                orderedKeys.map((key) => [key, (sorted.devDependencies as Record<string, string>)[key]]),
-              );
-            }
-          }
-        }
-
-        const updatedPackageJson = JSON.stringify(sorted, null, 2) + '\n';
-        writeFileSync(join(pathToPackageJson, 'package.json'), updatedPackageJson);
+        updated[field] = { ...deps, ...forUpdate };
+        hasUpdates = true;
       }
     }
+
+    if (!hasUpdates) {
+      continue;
+    }
+
+    console.warn(`[${pkg.name}] package.json will be updated`);
+    const sorted = sortPackageJson(updated);
+
+    if (p.indexOf('starter-e2e') > 0) {
+      fixStarterE2eOrder(sorted);
+    }
+
+    writeFileSync(p, JSON.stringify(sorted, null, 2) + '\n');
   }
 }
 
@@ -151,7 +310,7 @@ async function updateStarterDeps(): Promise<void> {
 
         for (const dependency of dependencies) {
           const { name, version } = dependency;
-          const newVersion = await latestVersion(name);
+          const newVersion = await getLatestVersion(name);
           const parsed = parse(newVersion);
           const major = parsed?.major ?? 0;
 

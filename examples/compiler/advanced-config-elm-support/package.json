@@ -22,7 +22,7 @@
     "@rockpack/compiler": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "elm-webpack-loader": "8.0.0",
-    "tsx": "4.22.3",
-    "webpack-notifier": "1.15.0"
+    "tsx": "4.23.15",
+    "webpack-notifier": "1.17.0"
   }
 }

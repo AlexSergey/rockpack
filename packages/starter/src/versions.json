@@ -68,7 +68,7 @@
       "devDependencies": [
         {
           "name": "@types/node",
-          "version": "25"
+          "version": "26"
         },
         {
           "name": "@types/react",
@@ -152,7 +152,7 @@
         },
         {
           "name": "@types/node",
-          "version": "25"
+          "version": "26"
         },
         {
           "name": "@types/serialize-javascript",
@@ -178,7 +178,7 @@
       "devDependencies": [
         {
           "name": "@testing-library/jest-dom",
-          "version": "6"
+          "version": "7"
         },
         {
           "name": "@testing-library/react",

@@ -26,10 +26,11 @@
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
+    "@rockpack/compiler": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "@testing-library/jest-dom": "6.9.1",
-    "@testing-library/react": "16.3.2",
-    "tsx": "4.22.3"
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "tsx": "4.23.15"
   }
 }

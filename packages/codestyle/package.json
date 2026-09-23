@@ -86,7 +86,8 @@
     "yargs": "18.0.0"
   },
   "devDependencies": {
-    "tsx": "4.22.3"
+    "@rockpack/compiler": "8.0.0",
+    "tsx": "4.23.15"
   },
   "engines": {
     "node": ">=23.0.0"

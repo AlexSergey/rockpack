@@ -127,10 +127,11 @@
   },
   "devDependencies": {
     "@rockpack/tsconfig": "8.0.0",
-    "@types/node": "25.9.1",
+    "@types/node": "26.6.2",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3",
-    "tsx": "4.22.3"
+    "eslint": "10.4.0",
+    "tsx": "4.23.15"
   },
   "engines": {
     "node": ">=23.0.0"

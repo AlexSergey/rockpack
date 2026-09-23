@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@adobe/css-tools": "4.5.0",
+    "@jest/types": "30.4.1",
     "@rockpack/babel": "8.0.0",
     "@rockpack/utils": "8.0.0",
     "@types/jest": "30.0.0",
@@ -70,10 +71,12 @@
     "yargs-unparser": "2.0.0"
   },
   "devDependencies": {
+    "@babel/core": "7.29.7",
     "@rockpack/codestyle": "8.0.0",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3",
-    "tsx": "4.22.3"
+    "eslint": "10.4.0",
+    "tsx": "4.23.15"
   },
   "engines": {
     "node": ">=23.0.0"
