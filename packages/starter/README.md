@@ -65,11 +65,23 @@ rockpack <project-name>
 
 ## Arguments
 
-`--yarn` - use Yarn as the default package manager:
+| Argument | Description |
+|---|---|
+| `--type=<csr\|ssr\|component\|library>` | Skip the application type question |
+| `--tests=<true\|false>` | Skip the tests question |
+| `--folder=<path>` | Create the project inside this folder |
+| `--no-install` | Write the project without installing its dependencies |
+| `--yarn` | Use Yarn instead of npm when it is installed |
+| `--mode=test` | Pin the `@rockpack/*` dependencies to the starter's own version and skip the update check (used by the e2e tests) |
+| `-v`, `--version` / `-h`, `--help` | Print the version / the usage |
 
 ```shell
-rockpack <project-name> --yarn
+rockpack my-app --type=csr --tests=true --yarn
 ```
+
+Use `.` as the project name to scaffold into the current directory.
+
+Generated projects install their git hooks with `simple-git-hooks` on `npm install`: `pre-commit` runs lint-staged, `commit-msg` checks the message with commitlint, and `pre-push` runs the tests when the project has them.
 
 ***
 
