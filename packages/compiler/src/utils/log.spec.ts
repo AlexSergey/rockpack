@@ -46,6 +46,12 @@ describe('log', () => {
       expect(logSpy.mock.calls).toEqual([['[COMPILE]', '1:5 minutes'], ['Compiled successfully!']]);
     });
 
+    it('keeps hours in the minutes of a long compilation', () => {
+      log(createStats(3_725_000));
+
+      expect(logSpy).toHaveBeenCalledWith('[COMPILE]', '62:5 minutes');
+    });
+
     it('prints every compilation of multi stats', () => {
       const stats = { stats: [createStats(1000), createStats(2000)] } as MultiStats;
 

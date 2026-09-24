@@ -1,15 +1,19 @@
 import type { MultiStats, Stats } from 'webpack';
 
-import moment from 'moment';
 import formatMessages from 'webpack-format-messages';
+
+const formatDuration = (milliseconds: number): string => {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+
+  return `${Math.floor(totalSeconds / 60)}:${totalSeconds % 60} minutes`;
+};
 
 export const log = (compilation: MultiStats | null | Stats | undefined): void => {
   const stats = compilation && 'stats' in compilation ? compilation.stats : compilation ? [compilation] : [];
 
   for (const s of stats) {
     const messages = formatMessages(s);
-    const duration = moment.duration(s.endTime - s.startTime, 'milliseconds');
-    console.log('[COMPILE]', `${duration.minutes()}:${duration.seconds()} minutes`);
+    console.log('[COMPILE]', formatDuration(s.endTime - s.startTime));
 
     if (!messages.errors.length) {
       console.log('Compiled successfully!');
