@@ -5,22 +5,25 @@ import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
 import { errorHandler } from '../error-handler.js';
+import { withErrorBoundary } from './error-boundary.js';
 
 export async function backendCompiler(
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
 ): Promise<Awaited<ReturnType<typeof compile>>> {
-  setMode(['development', 'production'], 'development');
-  errorHandler();
+  return withErrorBoundary(async () => {
+    setMode(['development', 'production'], 'development');
+    errorHandler();
 
-  const mergedConf = deepExtend({}, conf, {
-    __isBackend: true,
-    compilerName: backendCompiler.name,
-    html: false,
-    nodejs: true,
-  }) as InternalCompilerConf;
-  mergedConf.name = backendCompiler.name;
+    const mergedConf = deepExtend({}, conf, {
+      __isBackend: true,
+      compilerName: backendCompiler.name,
+      html: false,
+      nodejs: true,
+    }) as InternalCompilerConf;
+    mergedConf.name = backendCompiler.name;
 
-  return compile(mergedConf, cb ?? null, configOnly);
+    return compile(mergedConf, cb ?? null, configOnly);
+  });
 }

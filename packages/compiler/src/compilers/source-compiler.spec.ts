@@ -14,6 +14,17 @@ jest.mock('../utils/source-compile.js', () => ({ sourceCompile: jest.fn() }));
 const format = { dist: 'lib/esm', src: 'src' };
 
 describe('sourceCompiler', () => {
+  const originalExitCode = process.exitCode;
+
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // The error boundary marks the exit code on purpose; keep the Jest process status clean.
+    process.exitCode = originalExitCode;
+  });
+
   let errorSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -38,21 +49,25 @@ describe('sourceCompiler', () => {
       expect(generateDts).not.toHaveBeenCalled();
     });
 
-    it('logs and rethrows a failed source compilation without generating declarations', async () => {
+    it('rejects a failed source compilation as BUILD_FAILED without generating declarations', async () => {
       (pathToTsConf as jest.Mock).mockReturnValue('/project/tsconfig.json');
       (sourceCompile as jest.Mock).mockRejectedValue(new Error('babel failed'));
 
-      await expect(sourceCompiler({ esm: format })).rejects.toThrow('babel failed');
-      expect(errorSpy).toHaveBeenCalledWith('babel failed');
+      await expect(sourceCompiler({ esm: format })).rejects.toMatchObject({
+        code: 'BUILD_FAILED',
+        message: 'babel failed',
+      });
+      expect(errorSpy).toHaveBeenCalledWith('[rockpack] BUILD_FAILED: babel failed');
       expect(generateDts).not.toHaveBeenCalled();
+      expect(process.exitCode).toBe(1);
     });
 
-    it('logs and rethrows a failed declaration build', async () => {
+    it('rejects a failed declaration build as DTS_FAILED', async () => {
       (pathToTsConf as jest.Mock).mockReturnValue('/project/tsconfig.json');
       (generateDts as jest.Mock).mockRejectedValue(new Error('tsc failed'));
 
-      await expect(sourceCompiler()).rejects.toThrow('tsc failed');
-      expect(errorSpy).toHaveBeenCalledWith('tsc failed');
+      await expect(sourceCompiler()).rejects.toMatchObject({ code: 'DTS_FAILED', message: 'tsc failed' });
+      expect(errorSpy).toHaveBeenCalledWith('[rockpack] DTS_FAILED: tsc failed');
     });
   });
 

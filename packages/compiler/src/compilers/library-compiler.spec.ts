@@ -9,6 +9,17 @@ const compileMock = compile as jest.MockedFunction<typeof compile>;
 const compiledConf = (): Record<string, unknown> => compileMock.mock.calls[0]?.[0] as Record<string, unknown>;
 
 describe('libraryCompiler', () => {
+  const originalExitCode = process.exitCode;
+
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // The error boundary marks the exit code on purpose; keep the Jest process status clean.
+    process.exitCode = originalExitCode;
+  });
+
   beforeEach(() => {});
 
   afterEach(() => {

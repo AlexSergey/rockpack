@@ -2,7 +2,6 @@ import type { MultiStats, Stats } from 'webpack';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { sourceCompiler } from '../compilers/source-compiler.js';
 import { log } from '../utils/log.js';
 import { run } from './run.js';
@@ -21,10 +20,10 @@ const runWith = (
   error: Error | null,
   runConf: InternalCompilerConf = conf,
   runStats: Stats = stats,
-): jest.Mock => {
-  const compiler = { name: 'compiler' };
+): { close: jest.Mock } => {
+  const compiler = { close: jest.fn((callback: () => void) => callback()), name: 'compiler' };
   const webpack = jest.fn((_config: unknown, callback: WebpackCallback) => {
-    callback(error, error ? undefined : runStats);
+    setImmediate(() => callback(error, error ? undefined : runStats));
 
     return compiler;
   });
@@ -35,87 +34,95 @@ const runWith = (
     webpackConfig: [{ mode }],
   });
 
-  return webpack;
+  return compiler;
 };
 
-const flushPromises = async (): Promise<void> => {
-  await new Promise(process.nextTick);
+const settle = async (): Promise<void> => {
+  for (let i = 0; i < 5; i += 1) {
+    await new Promise(setImmediate);
+  }
 };
 
 describe('run', () => {
-  let exitSpy: jest.SpyInstance;
+  const originalExitCode = process.exitCode;
   let errorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => undefined) as never);
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
+    process.exitCode = originalExitCode;
     jest.restoreAllMocks();
     jest.clearAllMocks();
   });
 
   describe('negative cases', () => {
-    it('logs a development error and keeps watching', () => {
-      runWith('development', new Error('syntax error'));
+    it('logs a development error and keeps watching', async () => {
+      const compiler = runWith('development', new Error('syntax error'));
+      await settle();
 
       expect(errorSpy).toHaveBeenCalledWith('syntax error');
-      expect(exitSpy).not.toHaveBeenCalled();
+      expect(compiler.close).not.toHaveBeenCalled();
+      expect(process.exitCode).toBe(originalExitCode);
     });
 
-    it('exits with code 1 on a production error', () => {
-      exitSpy.mockRestore();
-      mockProcessExit();
+    it('marks a fatal production error and closes the compiler', async () => {
+      const compiler = runWith('production', new Error('broken'));
+      await settle();
 
-      expect(() => runWith('production', new Error('broken'))).toThrow(new ExitError(1));
       expect(errorSpy).toHaveBeenCalledWith('broken');
+      expect(process.exitCode).toBe(1);
       expect(log).not.toHaveBeenCalled();
+      expect(compiler.close).toHaveBeenCalled();
     });
 
-    it('exits with code 1 when compiling the library sources fails', async () => {
+    it('marks a failed library source build without logging the stats', async () => {
       (sourceCompiler as jest.Mock).mockRejectedValueOnce(new Error('babel failed'));
 
-      runWith('production', null, { ...conf, library: 'MyLib' });
-      await flushPromises();
+      const compiler = runWith('production', null, { ...conf, library: 'MyLib' });
+      await settle();
 
-      expect(exitSpy).toHaveBeenCalledWith(1);
+      expect(process.exitCode).toBe(1);
       expect(log).not.toHaveBeenCalled();
+      expect(compiler.close).toHaveBeenCalled();
     });
 
-    it('exits with code 1 when a production build has compilation errors', async () => {
+    it('marks a production build with compilation errors', async () => {
       const failedStats = createStats(true);
 
       runWith('production', null, conf, failedStats);
-      await flushPromises();
+      await settle();
 
       expect(log).toHaveBeenCalledWith(failedStats);
-      expect(exitSpy).toHaveBeenCalledWith(1);
+      expect(process.exitCode).toBe(1);
     });
   });
 
   describe('positive cases', () => {
-    it('does nothing after a successful development build', () => {
-      runWith('development', null);
+    it('does nothing after a successful development build', async () => {
+      const compiler = runWith('development', null);
+      await settle();
 
       expect(log).not.toHaveBeenCalled();
-      expect(exitSpy).not.toHaveBeenCalled();
+      expect(compiler.close).not.toHaveBeenCalled();
     });
 
-    it('logs the stats and exits with code 0 after a production build', async () => {
-      runWith('production', null);
-      await flushPromises();
+    it('logs the stats and closes the compiler after a successful production build', async () => {
+      const compiler = runWith('production', null);
+      await settle();
 
       expect(sourceCompiler).not.toHaveBeenCalled();
       expect(log).toHaveBeenCalledWith(stats);
-      expect(exitSpy).toHaveBeenCalledWith(0);
+      expect(process.exitCode).toBe(originalExitCode);
+      expect(compiler.close).toHaveBeenCalled();
     });
 
     it('compiles library sources before logging a production library build', async () => {
       const libraryConf = { ...conf, library: 'MyLib' };
 
       runWith('production', null, libraryConf);
-      await flushPromises();
+      await settle();
 
       expect(sourceCompiler).toHaveBeenCalledWith(libraryConf);
       expect((sourceCompiler as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(

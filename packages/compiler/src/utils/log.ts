@@ -2,10 +2,16 @@ import type { MultiStats, Stats } from 'webpack';
 
 import formatMessages from 'webpack-format-messages';
 
+import type { RockpackError } from '../errors/rockpack-error.js';
+
 const formatDuration = (milliseconds: number): string => {
   const totalSeconds = Math.floor(milliseconds / 1000);
 
   return `${Math.floor(totalSeconds / 60)}:${totalSeconds % 60} minutes`;
+};
+
+export const logError = (error: RockpackError): void => {
+  console.error(`[rockpack] ${error.code}: ${error.message}`);
 };
 
 export const log = (compilation: MultiStats | null | Stats | undefined): void => {

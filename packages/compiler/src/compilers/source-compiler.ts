@@ -4,33 +4,35 @@ import { isDefined, isString } from 'valid-types';
 import type { CompilerConf, Mode } from '../types.js';
 
 import { errorHandler } from '../error-handler.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 import { generateDts } from '../utils/generate-dts.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { sourceCompile } from '../utils/source-compile.js';
+import { withErrorBoundary } from './error-boundary.js';
 
 export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<void> {
-  const mode = setMode(['development', 'production'], 'development') as Mode;
-  errorHandler();
+  return withErrorBoundary(async () => {
+    const mode = setMode(['development', 'production'], 'development') as Mode;
+    errorHandler();
 
-  const root = getRootRequireDir();
-  const tsConfig = pathToTsConf(root, mode, false);
-  const isTypeScript = isString(tsConfig);
+    const root = getRootRequireDir();
+    const tsConfig = pathToTsConf(root, mode, false);
+    const isTypeScript = isString(tsConfig);
 
-  if (isDefined(conf.esm) || isDefined(conf.cjs)) {
-    try {
-      await sourceCompile(conf);
-    } catch (e) {
-      console.error((e as Error).message);
-      throw e;
+    if (isDefined(conf.esm) || isDefined(conf.cjs)) {
+      try {
+        await sourceCompile(conf);
+      } catch (e) {
+        throw new RockpackError('BUILD_FAILED', (e as Error).message, { cause: e });
+      }
     }
-  }
 
-  if (isTypeScript) {
-    try {
-      await generateDts(conf, root);
-    } catch (e) {
-      console.error((e as Error).message);
-      throw e;
+    if (isTypeScript) {
+      try {
+        await generateDts(conf, root);
+      } catch (e) {
+        throw new RockpackError('DTS_FAILED', (e as Error).message, { cause: e });
+      }
     }
-  }
+  });
 }

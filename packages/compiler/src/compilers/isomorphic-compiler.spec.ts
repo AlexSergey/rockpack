@@ -26,6 +26,17 @@ const result = (compilerName: string, overrides: Partial<InternalCompilerConf> =
   });
 
 describe('isomorphicCompiler', () => {
+  const originalExitCode = process.exitCode;
+
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // The error boundary marks the exit code on purpose; keep the Jest process status clean.
+    process.exitCode = originalExitCode;
+  });
+
   beforeEach(() => {
     (getMode as jest.Mock).mockReturnValue('development');
     (createServer as jest.Mock).mockReturnValue(lrServer);

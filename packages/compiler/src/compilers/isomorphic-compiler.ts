@@ -10,6 +10,7 @@ import type { InternalCompilerConf, Mode } from '../types.js';
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
+import { withErrorBoundary } from './error-boundary.js';
 
 type CompileResult = {
   conf: InternalCompilerConf;
@@ -39,31 +40,36 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
 };
 
 export async function isomorphicCompiler(...props: Promise<CompileResult | void>[]): Promise<void> {
-  setMode(['development', 'production'], 'development');
-  errorHandler();
-  const mode = getMode() as Mode;
-  global.ISOMORPHIC = true;
-  global.CONFIG_ONLY = true;
-  const lrserver = createServer();
-  global.LIVE_RELOAD_PORT = lrserver.config.port;
-  global.LIVE_RELOAD_SERVER = lrserver;
+  return withErrorBoundary(async () => {
+    setMode(['development', 'production'], 'development');
+    errorHandler();
+    const mode = getMode() as Mode;
+    global.ISOMORPHIC = true;
+    global.CONFIG_ONLY = true;
+    // Live reload is a development feature; in production the server would keep the process alive.
+    const lrserver = mode === 'development' ? createServer() : undefined;
+    if (lrserver) {
+      global.LIVE_RELOAD_PORT = lrserver.config.port;
+      global.LIVE_RELOAD_SERVER = lrserver;
+    }
 
-  let configs: InternalCompilerConf[];
-  let webpackConfigs: (Configuration | Configuration[])[];
-  try {
-    const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
-    webpackConfigs = resolved.map((c) => c.webpackConfig);
-    configs = resolved.map((c) => c.conf);
-    validateConfigs(configs);
-  } catch (error) {
-    lrserver.close();
-    throw error;
-  }
+    let configs: InternalCompilerConf[];
+    let webpackConfigs: (Configuration | Configuration[])[];
+    try {
+      const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
+      webpackConfigs = resolved.map((c) => c.webpackConfig);
+      configs = resolved.map((c) => c.conf);
+      validateConfigs(configs);
+    } catch (error) {
+      lrserver?.close();
+      throw error;
+    }
 
-  run(
-    webpackConfigs as Configuration[],
-    mode,
-    webpack as Parameters<typeof run>[2],
-    configs[0] ?? ({} as InternalCompilerConf),
-  );
+    run(
+      webpackConfigs as Configuration[],
+      mode,
+      webpack as Parameters<typeof run>[2],
+      configs[0] ?? ({} as InternalCompilerConf),
+    );
+  });
 }
