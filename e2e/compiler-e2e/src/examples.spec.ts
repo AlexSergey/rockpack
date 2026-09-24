@@ -7,6 +7,8 @@ import { loadPage, read } from './fixtures';
 const examplesDir = path.join(repoRoot, 'examples/compiler');
 const goldenDir = path.join(__dirname, '..', 'golden');
 const OUTPUT_DIRS = ['dist', 'lib', 'public'];
+// Minified images differ in bytes between platforms, so the golden lists compare names without content hashes.
+const CONTENT_HASH = /\.[\da-f]{20}\./;
 // Examples that need an external binary run only when it is installed.
 const REQUIRED_BINARIES: Readonly<Record<string, string>> = { 'advanced-config-elm-support': 'elm' };
 
@@ -61,7 +63,7 @@ describe('compiler examples', () => {
       it('builds the expected artifacts', () => {
         expect({ code: built.code, output: built.output }).toMatchObject({ code: 0 });
         const artifacts = OUTPUT_DIRS.filter((output) => existsSync(path.join(dir, output))).flatMap((output) =>
-          listFiles(path.join(dir, output)).map((file) => `${output}/${file}`),
+          listFiles(path.join(dir, output)).map((file) => `${output}/${file.replace(CONTENT_HASH, '.[hash].')}`),
         );
         const { actual, expected } = matchGolden(path.join(goldenDir, `${name}.txt`), `${artifacts.join('\n')}\n`);
 
