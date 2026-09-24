@@ -47,6 +47,7 @@ templates/addons/tester/csr/src/hooks/rockpack-description.hooks.spec.tsx
 templates/addons/tester/csr/tsconfig.json
 templates/addons/tester/library/scripts.tests.ts
 templates/addons/tester/library/src/index.spec.ts
+templates/addons/tester/library/tsconfig.json
 templates/addons/tester/ssr/jest.setup.ts
 templates/addons/tester/ssr/scripts.tests.ts
 templates/addons/tester/ssr/src/api/rockpack.api.spec.ts
