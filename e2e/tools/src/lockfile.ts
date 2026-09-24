@@ -15,14 +15,24 @@ type PackageJson = Record<string, unknown> & {
 
 const DEPENDENCY_FIELDS = ['dependencies', 'devDependencies'] as const;
 
-// Versions installed at the root of the monorepo (the ones a project inside the repository resolves to).
-export const readLockedVersions = (lockfilePath = path.join(repoRoot, 'package-lock.json')): Map<string, string> => {
+// Versions a project resolves to: the root node_modules, overridden by the nested node_modules of the given workspaces
+// (a project generated inside e2e/starter-e2e sees e2e/starter-e2e/node_modules first).
+export const readLockedVersions = (
+  lockfilePath = path.join(repoRoot, 'package-lock.json'),
+  workspaces: readonly string[] = [],
+): Map<string, string> => {
   const { packages } = JSON.parse(readFileSync(lockfilePath, 'utf8')) as Lockfile;
   const versions = new Map<string, string>();
-  for (const [location, { version }] of Object.entries(packages)) {
-    const match = /^node_modules\/((?:@[^/]+\/)?[^/]+)$/.exec(location);
-    if (match?.[1] && version) {
-      versions.set(match[1], version);
+  const prefixes = ['', ...workspaces.map((workspace) => `${workspace}/`)];
+  for (const prefix of prefixes) {
+    for (const [location, { version }] of Object.entries(packages)) {
+      if (!location.startsWith(`${prefix}node_modules/`)) {
+        continue;
+      }
+      const name = location.slice(`${prefix}node_modules/`.length);
+      if (version && /^(?:@[^/]+\/)?[^/]+$/.test(name)) {
+        versions.set(name, version);
+      }
     }
   }
 

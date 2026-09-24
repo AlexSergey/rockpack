@@ -62,6 +62,27 @@ describe('lockfile', () => {
       );
     });
 
+    it('lets the nested node_modules of a workspace override the root', () => {
+      const lockfile = path.join(dir, 'package-lock.json');
+      writeFileSync(
+        lockfile,
+        JSON.stringify({
+          packages: {
+            'e2e/app/node_modules/jest-dom': { version: '7.0.0' },
+            'node_modules/jest-dom': { version: '6.0.0' },
+            'node_modules/react': { version: '19.3.0' },
+          },
+        }),
+      );
+
+      expect(readLockedVersions(lockfile, ['e2e/app'])).toEqual(
+        new Map([
+          ['jest-dom', '7.0.0'],
+          ['react', '19.3.0'],
+        ]),
+      );
+    });
+
     it('pins dependencies and devDependencies to the locked versions', () => {
       const { missing, packageJson } = pinToLockfile(
         { dependencies: { react: '19.0.0' }, devDependencies: { tsx: '4.0.0' }, name: 'app' },
