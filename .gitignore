@@ -112,3 +112,7 @@ e2e/starter-e2e/screenshots/new
 
 # Nx workspace data and cache
 .nx/
+
+# Workspaces install through the root lockfile only
+**/package-lock.json
+!/package-lock.json
