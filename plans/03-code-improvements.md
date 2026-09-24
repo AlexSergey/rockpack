@@ -1,6 +1,6 @@
 # Plan 3: Code improvements, optimisation and TypeScript coverage
 
-Status: proposed
+Status: in progress (started 2026-09-24)
 Order: third, after Plan 1 (tests) and Plan 2 (recommendations)
 Owner: TBD
 
@@ -23,7 +23,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 4. Measuring TypeScript coverage
 
-- [ ] **T1. Baseline.** Add `type-coverage` at the root (`npx type-coverage --strict --detail --ignore-files 'packages/*/src/**/*.spec.ts'` per package) and record the numbers in this document. Add a `"type-coverage"` script that fails below 99% per package (`--at-least 99`) once the baseline is reached; run it in the CI `check` job.
+- [x] **T1. Baseline.** Add `type-coverage` at the root (`npx type-coverage --strict --detail --ignore-files 'packages/*/src/**/*.spec.ts'` per package) and record the numbers in this document. Add a `"type-coverage"` script that fails below 99% per package (`--at-least 99`) once the baseline is reached; run it in the CI `check` job. _Done 2026-09-24: `type-coverage` 2.30.1 at the root, config in each package's `typeCoverage` (strict, `atLeast: 99`, specs, fixtures, mocks and `types/` ignored), `npm run type-coverage` runs in the CI `check` job. Baseline: babel 100% (245/245), codestyle 100% (397/397), compiler 99.26% (4055/4085), starter 99.52% (2087/2097), tester 99.51% (414/416), utils 100% (208/208); the remaining misses are type assertions, which C1, C9 and U1 remove._
 - [ ] **T2. Compiler strictness.** Enable `noPropertyAccessFromIndexSignature`, `noFallthroughCasesInSwitch` and `useUnknownInCatchVariables` in `@rockpack/tsconfig` (the latter is already implied by `strict`; make it explicit). Fix the resulting errors package by package. `exactOptionalPropertyTypes` and `noUncheckedIndexedAccess` are already on.
 - [ ] **T3. typescript-eslint preset.** Switch codestyle to `strictTypeChecked` plus `stylisticTypeChecked` (currently a hand-picked set). Turn on `@typescript-eslint/no-unnecessary-condition`, `switch-exhaustiveness-check`, `prefer-readonly`, `explicit-module-boundary-types` (public API only). Apply the autofixes and review the rest.
 - [ ] **T4. Public API type tests.** Add `expect-type` (or `tsd`) tests next to the public entry points: `CompilerConf`, `TesterOptions`, `CreateBabelPresetsOptions`, `makeConfig` return type, the starter `Args`. They compile as part of `lint:ts` and catch accidental widening (for example `html: boolean | HtmlPage | HtmlPage[]` losing a member).

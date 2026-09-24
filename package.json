@@ -29,6 +29,7 @@
     "updater": "tsx updater.ts",
     "version:set": "tsx version.ts",
     "lint:deps": "syncpack lint && knip",
+    "type-coverage": "lerna run type-coverage --scope=@rockpack/babel --scope=@rockpack/codestyle --scope=@rockpack/compiler --scope=@rockpack/starter --scope=@rockpack/tester --scope=@rockpack/utils",
     "e2e": "npm test -w e2e/babel-e2e && npm test -w e2e/packaging-e2e && npm test -w e2e/compiler-e2e -- frontend backend library config assets lint examples && npm test -w e2e/starter-e2e -- cli generation quality",
     "e2e:runtime": "npm test -w e2e/starter-e2e -- runtime && npm test -w e2e/compiler-e2e -- dev",
     "e2e:latest": "npm test -w e2e/packaging-e2e && E2E_MODE=latest npm test -w e2e/starter-e2e -- quality runtime"
@@ -52,6 +53,7 @@
     "sort-package-json": "3.6.1",
     "syncpack": "15.3.3",
     "tsx": "4.23.15",
+    "type-coverage": "2.30.1",
     "typescript": "6.0.3",
     "yargs": "18.0.0"
   },
