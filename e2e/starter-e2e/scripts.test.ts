@@ -7,7 +7,7 @@ tester(
     moduleNameMapper: {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
-    modulePathIgnorePatterns: ['./src/generators/'],
+    modulePathIgnorePatterns: ['<rootDir>/.out/'],
     testEnvironment: 'node',
   },
 );

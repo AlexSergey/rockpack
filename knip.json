@@ -176,9 +176,7 @@
     },
     "e2e/starter-e2e": {
       "entry": [
-        "src/**/*.spec.ts",
-        "src/csr.server.ts",
-        "jest.setup.ts"
+        "src/**/*.spec.ts"
       ],
       "project": [
         "src/**/*.ts",
@@ -188,10 +186,14 @@
         "@issr/*",
         "@koa/router",
         "@testing-library/*",
+        "@types/koa",
+        "@types/koa-static",
         "@types/koa__router",
         "@types/serialize-javascript",
         "@unhead/react",
         "axios-mock-adapter",
+        "koa",
+        "koa-static",
         "react",
         "react-dom",
         "serialize-javascript",
