@@ -86,7 +86,10 @@ export const createBabelPresets = ({
   }
 
   if (isTest) {
-    plugins.push(_require.resolve('@babel/plugin-transform-modules-commonjs'));
+    plugins.push(
+      _require.resolve('babel-plugin-transform-import-meta'),
+      _require.resolve('@babel/plugin-transform-modules-commonjs'),
+    );
   }
 
   const presets: PluginItem[] = typescript

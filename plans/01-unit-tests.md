@@ -59,7 +59,7 @@ These apply to every spec written under this plan.
 
 Small, additive changes that make the packages testable with the tester. Each item is verified by running `npm run build`, `npm test -w e2e/babel-e2e` and `npm test -w examples/tester/react` before moving on. Nothing here changes a public default in a way an existing consumer would notice, except item 0.3 (documented in CHANGELOG).
 
-- [ ] **0.1 `@rockpack/babel`: transform `import.meta` in test mode.**
+- [x] **0.1 `@rockpack/babel`: transform `import.meta` in test mode.**
   In `packages/babel/src/index.ts`, when `isTest` is true, also push `babel-plugin-transform-import-meta` (it is already a devDependency of babel, compiler and tester). Move it from `devDependencies` to `dependencies` in `packages/babel/package.json`. Reason: `import.meta.url` is used in 12 source files across babel, compiler, starter and tester, and babel-jest compiles to CJS where `import.meta` is a syntax error.
 - [ ] **0.2 `@rockpack/tester`: NodeNext-style imports and coverage settings.**
   In `packages/tester/src/configs/config-compiler.ts`:
