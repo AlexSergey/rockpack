@@ -12,15 +12,17 @@ const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
 
 type EntryResult = {
   context: string;
-  entry: Record<string, string | string[]>;
+  entry: Record<string, EntryValue>;
 };
+
+type EntryValue = string | string[] | { dependOn: string; import: string };
 
 export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mode: Mode): EntryResult => {
   if (!isString(conf.src)) {
     throw new RockpackError('INVALID_ENTRY', 'Src must be a string!');
   }
 
-  const entry: Record<string, string | string[]> = {};
+  const entry: Record<string, EntryValue> = {};
   const entryPoint = path.basename(conf.dist ?? 'dist/index.js').replace(distExtension, '');
 
   if (isArray(conf.vendor)) {
@@ -31,8 +33,10 @@ export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mod
     entry['dev-server'] = path.resolve(__dirname, `../plugins/reloader/ssr${ssrExt}`);
   }
 
-  entry[entryPoint] = path.resolve(root, conf.src);
-  const context = path.dirname(entry[entryPoint]);
+  const src = path.resolve(root, conf.src);
+  // dependOn keeps the vendor modules only in vendor.js instead of bundling them into both entries.
+  entry[entryPoint] = isArray(conf.vendor) ? { dependOn: 'vendor', import: src } : src;
+  const context = path.dirname(src);
 
   return { context, entry };
 };

@@ -40,10 +40,18 @@ describe('makeEntry', () => {
       expect(Object.keys(makeEntry({ src: 'src/index.tsx' }, '/project', 'production').entry)).toEqual(['index']);
     });
 
-    it('adds a vendor entry', () => {
-      const { entry } = makeEntry({ src: 'src/index.tsx', vendor: ['react', 'react-dom'] }, '/project', 'production');
+    it('adds a vendor entry the main entry depends on', () => {
+      const { context, entry } = makeEntry(
+        { src: 'src/index.tsx', vendor: ['react', 'react-dom'] },
+        '/project',
+        'production',
+      );
 
-      expect(entry['vendor']).toEqual(['react', 'react-dom']);
+      expect(entry).toEqual({
+        index: { dependOn: 'vendor', import: path.resolve('/project', 'src/index.tsx') },
+        vendor: ['react', 'react-dom'],
+      });
+      expect(context).toBe(path.resolve('/project', 'src'));
     });
 
     it('adds the live reload client to an isomorphic frontend in development', () => {

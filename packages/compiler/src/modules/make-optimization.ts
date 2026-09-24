@@ -1,7 +1,6 @@
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-import { isArray } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
@@ -75,20 +74,6 @@ export const makeOptimization = (mode: Mode, conf: Partial<CompilerConf>): Recor
         minSize: 30000,
       },
       usedExports: true,
-    });
-  }
-
-  if (isArray(conf.vendor)) {
-    const splitChunks = optimization['splitChunks'] as Record<string, unknown>;
-    Object.assign(splitChunks, {
-      cacheGroups: {
-        defaultVendors: {
-          chunks: 'initial',
-          enforce: true,
-          name: 'vendor',
-          test: 'vendor',
-        },
-      },
     });
   }
 

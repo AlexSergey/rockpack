@@ -14,10 +14,6 @@ const terserMock = TerserPlugin as unknown as jest.Mock;
 const imageMinimizerMock = ImageMinimizerPlugin as unknown as jest.Mock;
 const cssMinimizerMock = CssMinimizerPlugin as unknown as jest.Mock;
 
-const vendorCacheGroups = {
-  defaultVendors: { chunks: 'initial', enforce: true, name: 'vendor', test: 'vendor' },
-};
-
 describe('makeOptimization', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -33,8 +29,8 @@ describe('makeOptimization', () => {
       expect(makeOptimization('test' as Mode, {})).toEqual({});
     });
 
-    it('adds no vendor cache group without a vendor list', () => {
-      const optimization = makeOptimization('production', {});
+    it.each(['development', 'production'] as const)('adds no cache groups for a vendor list in %s', (mode) => {
+      const optimization = makeOptimization(mode, { vendor: ['react'] });
 
       expect(optimization['splitChunks']).not.toHaveProperty('cacheGroups');
     });
@@ -64,12 +60,6 @@ describe('makeOptimization', () => {
         // eslint-disable-next-line camelcase
         terserOptions: expect.objectContaining({ compress: { drop_console: false } }) as unknown,
       });
-    });
-
-    it.each(['development', 'production'] as const)('splits the vendor chunk in %s', (mode) => {
-      const optimization = makeOptimization(mode, { vendor: ['react'] });
-
-      expect(optimization['splitChunks']).toMatchObject({ cacheGroups: vendorCacheGroups });
     });
   });
 });
