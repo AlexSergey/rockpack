@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.get('/*', (_req: Request, res: Response) => {
+app.get('/{*splat}', (_req: Request, res: Response) => {
   const html = renderToString(<App />);
 
   res.send(`
