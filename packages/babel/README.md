@@ -17,7 +17,7 @@ To add custom plugins, create `rockpack.babel.js` in the root of your project. P
 
 ### React
 - `@babel/preset-react`
-- `babel-plugin-react-compiler` - enables the React Compiler for automatic memoization
+- `babel-plugin-react-compiler` - enables the React Compiler for automatic memoization. On React 19 it uses the runtime built into `react`; on React 17 and 18 install the optional peer dependency `react-compiler-runtime` in your project
 - `@babel/plugin-transform-react-constant-elements` - hoists static JSX elements out of render
 
 ### TypeScript

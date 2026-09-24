@@ -55,8 +55,6 @@
   },
   "dependencies": {
     "@babel/core": "7.29.7",
-    "@babel/generator": "7.29.7",
-    "@babel/parser": "7.29.7",
     "@babel/plugin-proposal-decorators": "7.29.7",
     "@babel/plugin-proposal-do-expressions": "7.29.7",
     "@babel/plugin-proposal-pipeline-operator": "7.29.7",
@@ -65,23 +63,28 @@
     "@babel/preset-env": "7.29.7",
     "@babel/preset-react": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
-    "@babel/traverse": "7.29.7",
-    "@rockpack/tsconfig": "8.0.0",
-    "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-import-meta": "2.3.3",
     "babel-plugin-transform-typescript-metadata": "0.4.0",
-    "deepmerge": "4.3.1",
-    "react-compiler-runtime": "1.0.0",
-    "update-browserslist-db": "1.2.3",
-    "valid-types": "3.1.0"
+    "deepmerge": "4.3.1"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
     "@types/node": "26.6.2",
+    "babel-plugin-add-import-extension": "1.6.0",
+    "react-compiler-runtime": "1.0.0",
     "tsx": "4.23.15"
+  },
+  "peerDependencies": {
+    "react-compiler-runtime": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-compiler-runtime": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=23.0.0"
