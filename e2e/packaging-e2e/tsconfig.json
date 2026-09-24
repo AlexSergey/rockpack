@@ -1,0 +1,8 @@
+{
+  "extends": "@rockpack/tsconfig/tsconfig.node.json",
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "noEmit": true
+  },
+  "exclude": ["node_modules", "golden"]
+}

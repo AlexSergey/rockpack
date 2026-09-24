@@ -1,0 +1,7 @@
+LICENSE
+README.md
+lib/cjs/index.cjs
+lib/esm/index.mjs
+package.json
+plugins/rename-cjs-globals.cjs
+types/index.d.ts

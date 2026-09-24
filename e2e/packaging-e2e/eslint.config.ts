@@ -1,0 +1,15 @@
+import { makeConfig } from '@rockpack/codestyle';
+import { globalIgnores } from 'eslint/config';
+
+const config = makeConfig();
+
+config.push({
+  rules: {
+    'package-json/require-type': 'off',
+    'package-json/valid-description': 'off',
+  },
+});
+
+config.push(globalIgnores(['./golden']));
+
+export default config;

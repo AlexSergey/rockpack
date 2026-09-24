@@ -1,0 +1,25 @@
+{
+  "name": "@rockpack/packaging-e2e",
+  "version": "8.0.0",
+  "private": true,
+  "description": "Checks the npm tarballs of the published Rockpack packages",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexSergey/rockpack.git"
+  },
+  "type": "module",
+  "scripts": {
+    "format": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
+    "test": "tsx scripts.test.ts"
+  },
+  "devDependencies": {
+    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/e2e-tools": "8.0.0",
+    "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
+    "@types/jest": "30.0.0"
+  }
+}
