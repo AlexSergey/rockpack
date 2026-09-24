@@ -43,8 +43,9 @@ export const packageJsonPreparing = async (
 
         packageJSON = await addDependencies(packageJSON, compDeps, resolution);
         packageJSON = addFields(packageJSON, {
+          files: ['dist'],
           main: 'dist/index.js',
-          types: 'dist/index.d.ts',
+          types: 'dist/types/index.d.ts',
         });
       }
 
@@ -68,6 +69,7 @@ export const packageJsonPreparing = async (
               types: './dist/types/index.d.ts',
             },
           },
+          files: ['dist', 'lib'],
           main: './lib/cjs/index.cjs',
           module: './lib/esm/index.mjs',
           types: './dist/types/index.d.ts',

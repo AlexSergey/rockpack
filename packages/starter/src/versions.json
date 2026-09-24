@@ -109,10 +109,6 @@
           "version": "19"
         },
         {
-          "name": "react-router-dom",
-          "version": "7"
-        },
-        {
           "name": "@issr/core",
           "version": "4"
         },

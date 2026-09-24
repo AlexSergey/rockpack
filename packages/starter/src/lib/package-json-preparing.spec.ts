@@ -143,6 +143,7 @@ describe('packageJsonPreparing', () => {
             types: './dist/types/index.d.ts',
           },
         },
+        files: ['dist', 'lib'],
         main: './lib/cjs/index.cjs',
         module: './lib/esm/index.mjs',
         types: './dist/types/index.d.ts',
@@ -161,7 +162,7 @@ describe('packageJsonPreparing', () => {
     it('prepares a component whose example depends on the peer dependencies', async () => {
       const result = await prepare({ appType: 'component', nogit: true, tester: true });
 
-      expect(result).toMatchObject({ main: 'dist/index.js', types: 'dist/index.d.ts' });
+      expect(result).toMatchObject({ files: ['dist'], main: 'dist/index.js', types: 'dist/types/index.d.ts' });
       expect(getScripts(result)['production']).toBe('npm run lint && npm test && npm run build && npm publish');
       expect(addedGroups().slice(0, 3)).toEqual([
         versions.component.common,
