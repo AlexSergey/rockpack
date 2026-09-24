@@ -41,6 +41,17 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
         expect(output.trim()).toBe('Hello, node');
       });
 
+      it('builds with the deprecated name-only form', async () => {
+        const { dir: legacyDir } = await buildFixture('library-umd', 'scripts.legacy.ts');
+        const { code, output } = await node(legacyDir, [
+          '-e',
+          "console.log(require('./dist/index.js').greet('legacy'))",
+        ]);
+
+        expect(code).toBe(0);
+        expect(output.trim()).toBe('Hello, legacy');
+      });
+
       it('exposes the library as a global to a script tag', () => {
         const dom = loadPage('<!DOCTYPE html><html><body></body></html>', [read(dir, 'dist/index.js')]);
         const lib = (dom.window as unknown as { MyLib?: { greet: (name: string) => string } }).MyLib;

@@ -48,7 +48,7 @@ describe('libraryCompiler', () => {
 
   describe('positive cases', () => {
     it('builds a library from a name', async () => {
-      await expect(libraryCompiler('MyLib', { src: 'src/index.ts' })).resolves.toBe('compiled');
+      await expect(libraryCompiler({ name: 'MyLib' }, { src: 'src/index.ts' })).resolves.toBe('compiled');
 
       expect(compile).toHaveBeenCalledWith(
         {
@@ -62,6 +62,13 @@ describe('libraryCompiler', () => {
         null,
         false,
       );
+    });
+
+    it('still accepts the deprecated name string', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
+      await libraryCompiler('MyLib');
+
+      expect(compiledConf()).toMatchObject({ library: 'MyLib' });
     });
 
     it('builds a library with externals and esm/cjs outputs', async () => {
@@ -81,13 +88,13 @@ describe('libraryCompiler', () => {
     });
 
     it('keeps an explicit html option', async () => {
-      await libraryCompiler('MyLib', { html: { title: 'Demo' } });
+      await libraryCompiler({ name: 'MyLib' }, { html: { title: 'Demo' } });
 
       expect(compiledConf()['html']).toEqual({ title: 'Demo' });
     });
 
     it('builds a node library as a backend without html', async () => {
-      await libraryCompiler('MyLib', { html: true, nodejs: true } as never, undefined, true);
+      await libraryCompiler({ name: 'MyLib' }, { html: true, nodejs: true } as never, undefined, true);
 
       expect(compiledConf()).toMatchObject({ __isBackend: true, html: false, nodejs: true });
       expect(compileMock.mock.calls[0]?.[2]).toBe(true);

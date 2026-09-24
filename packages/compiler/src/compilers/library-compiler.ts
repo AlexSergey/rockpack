@@ -8,17 +8,33 @@ import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/library-compiler.js';
 import { withErrorBoundary } from './error-boundary.js';
 
-type LibraryOpts =
-  | string
-  | {
-      cjs?: { dist: string; src: string };
-      esm?: { dist: string; src: string };
-      externals?: unknown[];
-      name: string;
-    };
+export type LibraryCompilerOptions = {
+  readonly cjs?: { dist: string; src: string };
+  readonly esm?: { dist: string; src: string };
+  readonly externals?: unknown[];
+  // The global the UMD bundle exposes.
+  readonly name: string;
+};
 
+type Compiled = Awaited<ReturnType<typeof compile>>;
+type PostFn = Parameters<typeof compile>[1];
+
+export function libraryCompiler(
+  options: LibraryCompilerOptions,
+  conf?: Partial<CompilerConf>,
+  cb?: PostFn,
+  configOnly?: boolean,
+): Promise<Compiled>;
+/** @deprecated Pass `{ name }` instead of the name string; this form is removed in 10.0. */
+export function libraryCompiler(
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- a separate signature so only this form is deprecated
+  name: string,
+  conf?: Partial<CompilerConf>,
+  cb?: PostFn,
+  configOnly?: boolean,
+): Promise<Compiled>;
 export async function libraryCompiler(
-  libraryOpts: LibraryOpts,
+  libraryOpts: LibraryCompilerOptions | string,
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
@@ -60,8 +76,8 @@ export async function libraryCompiler(
       library: libraryName,
     });
 
-    mergedConf.name = libraryCompiler.name;
-    mergedConf.compilerName = libraryCompiler.name;
+    mergedConf.name = 'libraryCompiler';
+    mergedConf.compilerName = 'libraryCompiler';
 
     if (mergedConf.nodejs) {
       mergedConf = deepExtend({}, mergedConf, {

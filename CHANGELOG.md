@@ -73,6 +73,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
 
 ### Deprecated
+- `libraryCompiler('MyLib', ...)`: pass `{ name: 'MyLib' }` (the `LibraryCompilerOptions` type is exported). The string form keeps working until 10.0
 - `isomorphicCompiler(frontendCompiler(...), backendCompiler(...))`: pass the confs instead, `isomorphicCompiler({ frontend: {...}, backend: {...} })`, moving each compiler's callback to `frontendCallback`/`backendCallback`. The old form keeps working until 10.0
 
 ### Removed

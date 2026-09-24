@@ -162,17 +162,17 @@ backendCompiler(options, (config) => {
 });
 ```
 
-### libraryCompiler(libraryName[needed], options[optional], callback[optional]);
+### libraryCompiler({ name, cjs, esm, externals }[needed], options[optional], callback[optional]);
 
-Compile React Component or VanillaJS UMD library
+Compile React Component or VanillaJS UMD library. `name` is the global the UMD bundle exposes; `cjs` and `esm` add per-file builds, `externals` keeps packages out of the bundle.
 
 ```js
 const { libraryCompiler } = require('@rockpack/compiler');
 
-libraryCompiler('MyLib', options);
+libraryCompiler({ name: 'MyLib' }, options);
 ```
 
-*libraryName* also accepts an object with additional options:
+With the per-file builds:
 
 ```js
 const { libraryCompiler } = require('@rockpack/compiler');
@@ -193,6 +193,8 @@ libraryCompiler({
   ]
 }, options);
 ```
+
+The name-only form `libraryCompiler('MyLib', options)` still works but is deprecated and will be removed in 10.0.
 ### isomorphicCompiler({ frontend, backend, frontendCallback, backendCallback });
 
 Compiles an SSR application: the frontend and backend options are the same as for `frontendCompiler` and `backendCompiler`, the callbacks are their optional second arguments. The two builds must write to different files.
@@ -233,7 +235,7 @@ The compilers print `[rockpack] <code>: <message>`, set `process.exitCode = 1` a
 import { libraryCompiler, RockpackError } from '@rockpack/compiler';
 
 try {
-  await libraryCompiler('MyLib');
+  await libraryCompiler({ name: 'MyLib' });
 } catch (error) {
   if (error instanceof RockpackError && error.code === 'INVALID_CONFIG') {
     // fix the options or fall back

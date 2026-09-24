@@ -48,7 +48,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 ### 5.3 Public API (M)
 
 - [ ] **C9.** `frontendCompiler`/`backendCompiler`/`libraryCompiler` return a typed discriminated union: `{ kind: 'config', conf, webpackConfig } | { kind: 'build', stats } | { kind: 'dev-server', server, stop(): Promise<void> }` instead of `CompileResult | RunResult | void`. The dev-server variant exposes `stop()` so tests and scripts can shut it down; today only a process exit does.
-- [ ] **C10.** `libraryCompiler` options: accept only the object form (`{ name, esm?, cjs?, externals? }`), keep the string form as a deprecated overload for one major.
+- [x] **C10.** `libraryCompiler` options: accept only the object form (`{ name, esm?, cjs?, externals? }`), keep the string form as a deprecated overload for one major. _Done 2026-09-24: overloads `libraryCompiler(options: LibraryCompilerOptions, ...)` and a `@deprecated` `libraryCompiler(name: string, ...)`; README, the library example and the e2e fixture use `{ name }`, and the fixture keeps a build of the string form._
 - [ ] **C11.** `sourceCompiler({ ignore })` option (defaults from Plan 1 Phase 0.3) and a `watch` mode using `@parcel/watcher` (already a transitive dependency through nx) or `chokidar`, so codestyle and starter get a `build:watch`.
 - [ ] **C12.** Options validation: replace the ad-hoc `isString`/`isObject` checks with one `validateConf(conf)` that returns a list of `RockpackError`s (from Plan 2 F1) with the offending path (`html[1].template`), and call it once in `compile`.
 
