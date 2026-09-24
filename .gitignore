@@ -109,3 +109,6 @@ elm-stuff
 storage
 e2e/starter-e2e/src/generators
 e2e/starter-e2e/screenshots/new
+
+# Nx workspace data and cache
+.nx/
