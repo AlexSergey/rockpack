@@ -10,8 +10,7 @@ import { getPM } from '../utils/other';
 import { packageJson } from '../utils/package-json';
 import { addDependencies, addFields, addScripts, readPackageJSON, writePackageJSON } from '../utils/project';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export const packageJsonPreparing = async (
   packageJSON: PackageJsonObject,
@@ -19,7 +18,7 @@ export const packageJsonPreparing = async (
   currentPath: string,
   // eslint-disable-next-line @sonar/cognitive-complexity
 ): Promise<PackageJsonObject> => {
-  const versions = readFileSync(join(__dirname, '../versions.json'), 'utf8');
+  const versions = readFileSync(join(currentDir, '../versions.json'), 'utf8');
   const typedVersions: Versions = JSON.parse(versions) as Versions;
 
   switch (appType) {
