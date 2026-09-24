@@ -4,6 +4,6 @@
   "include": ["./src/**/*"],
   "compilerOptions": {
     "rootDir": "src/",
-    "types": ["node", "jest"]
+    "types": ["node"]
   }
 }
