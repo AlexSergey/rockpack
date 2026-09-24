@@ -175,6 +175,16 @@ npm test          # all workspaces: package unit tests, examples and e2e
 npm run test:unit # unit tests of the packages only
 ```
 
+### Release
+
+All workspaces share one version (Lerna fixed mode). Set it with:
+
+```sh
+npm run version:set -- 9.0.0
+```
+
+The script validates the version, then updates `lerna.json`, the root and every workspace `package.json`, and the `@rockpack/*` cross-references. It reads all files before writing any, so a malformed file leaves the tree untouched.
+
 # The MIT License
 
 [LICENSE](https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md)

@@ -1,5 +1,11 @@
 {
   "npmClient": "npm",
-  "packages": ["book", "e2e/*", "examples/compiler/*", "examples/tester/*", "packages/*"],
-  "version": "independent"
+  "packages": [
+    "book",
+    "e2e/*",
+    "examples/compiler/*",
+    "examples/tester/*",
+    "packages/*"
+  ],
+  "version": "8.0.0"
 }

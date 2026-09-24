@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-mdx",
-  "version": "1.0.0",
+  "version": "8.0.0",
   "description": "Rockpack example: mdx",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",

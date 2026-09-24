@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-graphql",
-  "version": "2.0.0",
+  "version": "8.0.0",
   "description": "Rockpack example: graphql",
   "license": "ISC",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
