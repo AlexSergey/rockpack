@@ -1,4 +1,4 @@
-import { capitalize, getRandomInt, getTitle } from './other.js';
+import { getRandomInt, getTitle } from './other.js';
 
 describe('other utils', () => {
   afterEach(() => {
@@ -6,10 +6,6 @@ describe('other utils', () => {
   });
 
   describe('negative cases', () => {
-    it('returns an empty string when capitalizing a non-string', () => {
-      expect(capitalize(42 as unknown as string)).toBe('');
-    });
-
     it('returns false for a missing package.json', () => {
       expect(getTitle(null)).toBe(false);
       expect(getTitle(undefined)).toBe(false);
@@ -21,10 +17,6 @@ describe('other utils', () => {
   });
 
   describe('positive cases', () => {
-    it('capitalizes the first letter', () => {
-      expect(capitalize('esm')).toBe('Esm');
-    });
-
     it('turns underscores in the package name into spaces', () => {
       expect(getTitle({ name: 'my_app' })).toBe('my app');
     });

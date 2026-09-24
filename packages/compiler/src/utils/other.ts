@@ -1,13 +1,5 @@
 import type { PackageJson } from '../types.js';
 
-export const capitalize = (s: string): string => {
-  if (typeof s !== 'string') {
-    return '';
-  }
-
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
-
 export function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);

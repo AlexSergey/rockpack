@@ -62,6 +62,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/compiler` emits no declarations for specs and fixtures
 - `@rockpack/compiler`: the `vendor` option moves the listed modules into `vendor.js` only (the main entry now `dependOn`s it); before, they were bundled into both files
 - `@rockpack/compiler`: `isomorphicCompiler` fails with `INVALID_CONFIG` when the frontend and the backend write to the same file (one bundle silently overwrote the other)
+- `@rockpack/compiler`: `sourceCompiler`/`libraryCompiler` skip an `esm` or `cjs` format that lacks `src` or `dist`; before, such a format was built with empty paths and the output cleanup deleted the project folder
 - `@rockpack/compiler` keeps no state on `global` (`ISOMORPHIC`, `CONFIG_ONLY`, `LIVE_RELOAD_PORT`, `LIVE_RELOAD_SERVER` are gone)
 - Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
 - Generated csr and ssr projects pass `value` to `UnheadProvider` (the `head` prop is deprecated)

@@ -14,73 +14,57 @@ import { getFiles, getTypeScript } from './file-system-utils.js';
 import { makeCompilerOptions } from './make-compiler-options.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
 
-// eslint-disable-next-line @sonar/cognitive-complexity
-export async function generateDts(conf: Partial<CompilerConf>, root: string): Promise<void> {
-  const { extensions } = makeResolve(root);
-  const mode = getMode();
-  const tsConfig = pathToTsConf(root, mode, false);
-  const isTypeScript = isString(tsConfig);
+// The folder of the entry file: `src` itself when it has an extension, otherwise the first `src<ext>` that exists.
+const findSourceDir = (src: string, extensions: readonly string[]): string | undefined => {
+  if (path.extname(src)) {
+    return path.dirname(src);
+  }
+  const index = extensions.map((ext) => `${src}${ext}`).find((file) => existsSync(file));
 
-  if (!isTypeScript) {
+  return index === undefined ? undefined : path.dirname(index);
+};
+
+const emitDeclarations = async (root: string, tsConfig: string, files: string[], outDir: string): Promise<string[]> => {
+  const compilerOptions = makeCompilerOptions(root, tsConfig, outDir, moduleFormats.cjs);
+  const options = { ...compilerOptions.options, declaration: true, noEmit: false };
+  const program = ts.createProgram(files, options, ts.createCompilerHost(options));
+  program.getTypeChecker();
+  program.emit();
+
+  return getFiles(outDir, '**/*.d.ts');
+};
+
+const copyDeclarations = (files: readonly string[], from: string, to: string): void => {
+  for (const file of files) {
+    const fileDest = path.join(to, path.relative(from, file));
+    mkdirp.sync(path.dirname(fileDest));
+    copyFileSync(file, fileDest);
+  }
+};
+
+export async function generateDts(conf: Partial<CompilerConf>, root: string): Promise<void> {
+  const tsConfig = pathToTsConf(root, getMode(), false);
+  if (!isString(tsConfig)) {
     console.error("It's not TS project");
 
     return;
   }
-  const dists = [conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types')];
-  const validDists = dists.filter((d): d is string => typeof d === 'string');
 
-  const temp = mkdtempSync(path.join(tmpdir(), 'rockpack-dts-'));
-  let dts: string[] = [];
-  let converted = false;
-
-  for (const dst of validDists) {
-    const dist = path.join(root, dst);
-    const src = path.join(root, conf.src ?? 'src/index');
-    let baseDir: string | undefined;
-
-    if (path.extname(src)) {
-      baseDir = path.dirname(src);
-    } else {
-      for (const ext of extensions) {
-        const index = `${src}${ext}`;
-        if (existsSync(index)) {
-          baseDir = index.slice(0, index.lastIndexOf(path.sep));
-          break;
-        }
-      }
-    }
-
-    if (baseDir) {
-      const tsAndTsx = await getTypeScript(baseDir, testFilesIgnore);
-
-      if (Array.isArray(tsAndTsx) && tsAndTsx.length > 0) {
-        if (typeof tsConfig === 'string' && existsSync(tsConfig)) {
-          if (!converted) {
-            const compilerOptions = makeCompilerOptions(root, tsConfig, temp, moduleFormats.cjs);
-            const options = { ...compilerOptions.options, declaration: true, noEmit: false };
-            const host = ts.createCompilerHost(options);
-            const program = ts.createProgram(tsAndTsx, options, host);
-            program.getTypeChecker();
-            program.emit();
-            dts = await getFiles(temp, '**/*.d.ts');
-            converted = true;
-          }
-
-          if (dts.length > 0) {
-            mkdirp.sync(dist);
-            for (const file of dts) {
-              const filePth = path.relative(temp, file);
-              const fileDest = path.join(dist, filePth);
-              mkdirp.sync(path.dirname(fileDest));
-              copyFileSync(file, fileDest);
-            }
-          }
-        } else {
-          throw new Error('tsconfig not found');
-        }
-      }
-    }
+  const baseDir = findSourceDir(path.join(root, conf.src ?? 'src/index'), makeResolve(root).extensions);
+  const files = baseDir === undefined ? [] : await getTypeScript(baseDir, testFilesIgnore);
+  if (files.length === 0) {
+    return;
+  }
+  if (!existsSync(tsConfig)) {
+    throw new Error('tsconfig not found');
   }
 
-  await rimraf(temp);
+  const temp = mkdtempSync(path.join(tmpdir(), 'rockpack-dts-'));
+  try {
+    const dts = await emitDeclarations(root, tsConfig, files, temp);
+    const dist = path.join(root, conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types'));
+    copyDeclarations(dts, temp, dist);
+  } finally {
+    await rimraf(temp);
+  }
 }

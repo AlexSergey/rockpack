@@ -37,6 +37,17 @@ describe('sourceCompile', () => {
       );
     });
 
+    it('skips a format without src or dist instead of building into the project root', async () => {
+      await sourceCompile({
+        cjs: { dist: 'lib/cjs', src: 'src' },
+        esm: { dist: 'lib/esm' } as { dist: string; src: string },
+      });
+
+      expect(existsSync(path.join(root, 'tsconfig.json'))).toBe(true);
+      expect(existsSync(path.join(root, 'lib', 'cjs', 'index.cjs'))).toBe(true);
+      expect(existsSync(path.join(root, 'lib', 'esm'))).toBe(false);
+    });
+
     it('throws for TypeScript sources without a tsconfig', async () => {
       rmSync(path.join(root, 'tsconfig.json'));
 

@@ -1,3 +1,5 @@
+import type { TransformOptions } from '@babel/core';
+
 import * as babel from '@babel/core';
 import { createBabelPresets } from '@rockpack/babel';
 import { getMode, getRootRequireDir, isRecord, isString } from '@rockpack/utils';
@@ -10,153 +12,147 @@ import type { InternalCompilerConf } from '../types.js';
 
 import { testFilesIgnore } from '../constants.js';
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
-import { capitalize } from './other.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
+
+type Format = 'cjs' | 'esm';
+
+type FormatPaths = {
+  readonly dist: string;
+  readonly src: string;
+};
+
+const FORMATS: readonly Format[] = ['cjs', 'esm'];
+
+const EXTENSIONS: Readonly<Record<Format, string>> = { cjs: '.cjs', esm: '.mjs' };
 
 const _require = createRequire(import.meta.url);
 
-// eslint-disable-next-line @sonar/cognitive-complexity
-export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {
-  const root = getRootRequireDir();
-  const mode = getMode();
+// The formats with both a string src and dist; a format missing either is skipped, never built into the root.
+const resolveFormats = (conf: Partial<InternalCompilerConf>): [Format, FormatPaths][] => {
+  const formats = FORMATS.flatMap((format): [Format, FormatPaths][] => {
+    const formatConf: unknown = conf[format];
+    if (isRecord(formatConf) && isString(formatConf['src']) && isString(formatConf['dist'])) {
+      return [[format, { dist: formatConf['dist'], src: formatConf['src'] }]];
+    }
 
+    return [];
+  });
+  if (formats.length === 0) {
+    throw new Error(`${FORMATS.join(', ')} fields are not object`);
+  }
+
+  return formats;
+};
+
+const babelOptionsFor = (
+  format: Format,
+  conf: Partial<InternalCompilerConf>,
+  typescript: boolean,
+): TransformOptions => {
+  const options = createBabelPresets({
+    framework: 'react',
+    isNodejs: !!conf.nodejs,
+    modules: format === 'esm' ? false : 'commonjs',
+    typescript,
+  });
+  const importExtension = [
+    _require.resolve('babel-plugin-add-import-extension'),
+    { extension: EXTENSIONS[format].slice(1) },
+  ];
+  options.plugins =
+    format === 'esm'
+      ? [importExtension, ...(options.plugins ?? [])]
+      : [importExtension, _require.resolve('@babel/plugin-transform-modules-commonjs'), ...(options.plugins ?? [])];
+
+  return options;
+};
+
+const transpileFile = (file: string, src: string, dist: string, format: Format, options: TransformOptions): void => {
+  const result = babel.transformFileSync(file, options);
+  if (!result?.code) {
+    return;
+  }
+  const relativePath = path.relative(src, file);
+  const outputPath = `${relativePath.substring(0, relativePath.lastIndexOf('.'))}${EXTENSIONS[format]}`;
+  writeFile(path.join(dist, outputPath), result.code);
+};
+
+const copyAssets = (files: readonly string[], src: string, dist: string): void => {
+  console.log('Files will copy:\n');
+  console.log(files.join('\n'));
+  console.log('\n');
+  for (const file of files) {
+    try {
+      cpSync(file, path.join(dist, path.relative(src, file)), { recursive: true });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
+
+// Files another step left as .js/.js.map get the extension of their format.
+const renameOutputs = async (dist: string, format: Format): Promise<void> => {
+  const ext = EXTENSIONS[format];
+  for (const file of await getFiles(dist, '*.js')) {
+    renameSync(file, file.substring(0, file.lastIndexOf('.')) + ext);
+  }
+  for (const file of await getFiles(dist, '*.js.map')) {
+    renameSync(file, `${file.substring(0, file.lastIndexOf('.js.map'))}${ext}.map`);
+  }
+};
+
+const compileFormat = async (
+  format: Format,
+  paths: FormatPaths,
+  conf: Partial<InternalCompilerConf>,
+  tsConfig: false | string,
+): Promise<void> => {
+  const root = getRootRequireDir();
+  const dist = path.join(root, paths.dist);
+  const src = path.join(root, paths.src);
+
+  const tsAndTsx = await getTypeScript(paths.src, testFilesIgnore);
+  const copyFiles = await getFiles(paths.src, undefined, [
+    ...testFilesIgnore,
+    '**/*.ts',
+    '**/*.tsx',
+    '**/*.js',
+    '**/*.jsx',
+  ]);
+  const jsAndJsx = await getFiles(paths.src, '*.+(js|jsx)', testFilesIgnore);
+
+  rimraf.sync(dist);
+  console.log(`=========${format} format is starting=========`);
+
+  const isTs = tsAndTsx.length > 0;
+  const sourceFiles = isTs ? tsAndTsx : jsAndJsx;
+  if (sourceFiles.length > 0) {
+    if (isTs && (!isString(tsConfig) || !existsSync(tsConfig))) {
+      throw new Error('tsconfig not found');
+    }
+    const options = babelOptionsFor(format, conf, isTs);
+    console.log('Babel convert:\n');
+    console.log(sourceFiles.join('\n'));
+    console.log('\n');
+    for (const file of sourceFiles) {
+      transpileFile(file, src, dist, format, options);
+    }
+  }
+
+  if (copyFiles.length > 0) {
+    copyAssets(copyFiles, src, dist);
+  }
+  await renameOutputs(dist, format);
+  console.log(`=========${format} format finished=========`);
+};
+
+export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {
+  const mode = getMode();
   console.log('=========Source compile is starting....=========');
 
-  const formats = ['cjs', 'esm'] as const;
-
-  const output: Record<string, boolean | { dist: string; src: string }> = {};
-
-  for (const format of formats) {
-    const formatConf = conf[format];
-    if (isRecord(formatConf)) {
-      output[format] = { dist: '', src: '' };
-      output[`has${capitalize(format)}`] = false;
-
-      const fc = formatConf as { dist?: unknown; src?: unknown };
-      if (isString(fc.src) && isString(fc.dist)) {
-        output[format] = { dist: fc.dist, src: fc.src };
-        output[`has${capitalize(format)}`] = true;
-      }
-    }
-  }
-
-  const state = Object.keys(output)
-    .filter((key) => key.startsWith('has'))
-    .some((item) => !!output[item]);
-
-  if (!state) {
-    throw new Error(`${formats.join(', ')} fields are not object`);
-  }
-
-  const debug = mode === 'development' || !!conf.debug;
-
-  for (const format of formats) {
-    const opt = output[format] as undefined | { dist: string; src: string };
-    if (opt === undefined) {
-      continue;
-    }
-
-    const dist = path.join(root, opt.dist);
-    const src = path.join(root, opt.src);
-
-    const tsAndTsx = await getTypeScript(opt.src, testFilesIgnore);
-    const copyFiles = await getFiles(opt.src, undefined, [
-      ...testFilesIgnore,
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.js',
-      '**/*.jsx',
-    ]);
-    const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)', testFilesIgnore);
-
-    const tsConfig = pathToTsConf(root, mode, debug);
-
-    rimraf.sync(dist);
-
-    console.log(`=========${format} format is starting=========`);
-
-    const isTs = Array.isArray(tsAndTsx) && tsAndTsx.length > 0;
-    const isJs = Array.isArray(jsAndJsx) && jsAndJsx.length > 0;
-
-    if (isTs || isJs) {
-      const sourceFiles = isTs ? tsAndTsx : jsAndJsx;
-
-      if (isTs && !existsSync(tsConfig as string)) {
-        throw new Error('tsconfig not found');
-      }
-
-      const babelOptions = createBabelPresets({
-        framework: 'react',
-        isNodejs: !!conf.nodejs,
-        modules: format === 'esm' ? false : 'commonjs',
-        typescript: isTs,
-      });
-
-      const cachedPlugins = babelOptions.plugins ?? [];
-
-      if (format === 'esm') {
-        babelOptions.plugins = [
-          [_require.resolve('babel-plugin-add-import-extension'), { extension: 'mjs' }],
-          ...cachedPlugins,
-        ];
-      } else {
-        babelOptions.plugins = [
-          [_require.resolve('babel-plugin-add-import-extension'), { extension: 'cjs' }],
-          _require.resolve('@babel/plugin-transform-modules-commonjs'),
-          ...cachedPlugins,
-        ];
-      }
-
-      console.log('Babel convert:\n');
-      console.log(sourceFiles.join('\n'));
-      console.log('\n');
-
-      for (const file of sourceFiles) {
-        const result = babel.transformFileSync(file, babelOptions);
-        if (!result?.code) continue;
-        const relativePath = path.relative(src, file);
-        const ext = format === 'esm' ? '.mjs' : '.cjs';
-        const outputPath = `${relativePath.substring(0, relativePath.lastIndexOf('.'))}${ext}`;
-        writeFile(path.join(dist, outputPath), result.code);
-      }
-    }
-
-    if (Array.isArray(copyFiles) && copyFiles.length > 0) {
-      console.log('Files will copy:\n');
-      console.log(copyFiles.join('\n'));
-      console.log('\n');
-
-      for (const file of copyFiles) {
-        try {
-          const formatDist = path.join(root, (conf[format] as { dist: string }).dist);
-          const filePth = path.relative(path.join(root, opt.src), file);
-          const fileDest = path.join(formatDist, filePth);
-          cpSync(file, fileDest, { recursive: true });
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    }
-
-    const jsFiles = await getFiles(dist, '*.js');
-    const jsMapFiles = await getFiles(dist, '*.js.map');
-    const ext = format === 'cjs' ? '.cjs' : '.mjs';
-
-    if (Array.isArray(jsFiles) && jsFiles.length > 0) {
-      for (const file of jsFiles) {
-        const modified = file.substring(0, file.lastIndexOf('.')) + ext;
-        renameSync(file, modified);
-      }
-    }
-
-    if (Array.isArray(jsMapFiles) && jsMapFiles.length > 0) {
-      const mapExt = format === 'cjs' ? '.cjs.map' : '.mjs.map';
-      for (const file of jsMapFiles) {
-        const modified = file.substring(0, file.lastIndexOf('.js.map')) + mapExt;
-        renameSync(file, modified);
-      }
-    }
-
-    console.log(`=========${format} format finished=========`);
+  const formats = resolveFormats(conf);
+  const tsConfig = pathToTsConf(getRootRequireDir(), mode, mode === 'development' || !!conf.debug);
+  for (const [format, paths] of formats) {
+    await compileFormat(format, paths, conf, tsConfig);
   }
 }
