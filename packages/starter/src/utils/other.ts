@@ -2,7 +2,7 @@ import { execSync } from 'node:child_process';
 
 import { argv } from './argv';
 
-export const yarnIsAvailable = (): boolean => {
+const yarnIsAvailable = (): boolean => {
   if (!argv['yarn']) {
     return false;
   }

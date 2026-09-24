@@ -19,13 +19,6 @@ export interface CompilerConf {
   version?: string;
 }
 
-export type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: Record<string, unknown> };
-
-export interface FormatConf {
-  dist: string;
-  src: string;
-}
-
 export interface HtmlPage {
   code?: null | string | undefined;
   favicon?: null | string | undefined;
@@ -39,19 +32,6 @@ export interface HtmlPage {
 
 export type InternalCompilerConf = CompilerConf & InternalProps;
 
-export interface InternalProps {
-  __isBackend?: boolean;
-  __isIsomorphic?: boolean;
-  __isIsomorphicBackend?: boolean;
-  __isIsomorphicFrontend?: boolean;
-  __isIsomorphicStyles?: boolean;
-  __library?: boolean;
-  compilerName?: string;
-  distContext?: string;
-  messages?: string[];
-  nodejs?: boolean;
-}
-
 export type Mode = 'development' | 'production';
 
 export interface PackageJson {
@@ -64,7 +44,27 @@ export interface PackageJson {
   version?: string;
 }
 
+type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: Record<string, unknown> };
+
 interface CopySpec {
   from: string;
   to: string;
+}
+
+interface FormatConf {
+  dist: string;
+  src: string;
+}
+
+interface InternalProps {
+  __isBackend?: boolean;
+  __isIsomorphic?: boolean;
+  __isIsomorphicBackend?: boolean;
+  __isIsomorphicFrontend?: boolean;
+  __isIsomorphicStyles?: boolean;
+  __library?: boolean;
+  compilerName?: string;
+  distContext?: string;
+  messages?: string[];
+  nodejs?: boolean;
 }
