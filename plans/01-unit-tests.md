@@ -233,7 +233,7 @@ Mock `node:fs.existsSync` with a path set. `utils/path-to-eslintrc` (precedence,
 
 ### 6.6 Integration workspace `e2e/compiler-e2e` (M)
 
-Superseded by [Plan 4, section 5](./04-e2e.md): the compiler e2e workspace is specified there in full. The paragraph below is kept as the original scope note.
+Superseded by [Plan 4, section 5](./04-e2e.md): the compiler e2e workspace is specified there in full. The paragraph below is kept as the original scope note. _Done in Plan 4 steps 5 and 7 (2026-09-24): `e2e/compiler-e2e` with fixture projects under `fixtures/`, production builds, dev mode and the examples corpus (95 tests)._
 
 Mirror `e2e/babel-e2e`: a workspace with `scripts.test.ts` running the tester in node environment against the built `@rockpack/compiler`. Fixture projects under `src/fixtures/{frontend,backend,library,isomorphic,source}`. Each test runs the real compiler in production mode into a temp `dist`, with `process.exit` stubbed, and asserts emitted files (`index.js`, `index.html`, css extraction, library `umd` wrapper, `types/*.d.ts`, sourcemaps by mode). One dev-mode test uses `makeWebpackConfig` only (no dev server). No browser. Budget: under two minutes total. This suite does not count toward the compiler unit thresholds; it protects the wiring the unit tests mock away.
 
@@ -246,7 +246,7 @@ Status: 6.1-6.5 done on 2026-09-24 (6.6 is Plan 4). Actual coverage 97.56/93.97/
 ## 11. Phase 7: enforcement
 
 - [x] `npm run test:unit` added to the pre-push hook (Plan 2 replaces the full `npm test` there). _Done in Plan 2 A4._
-- [x] CI job (defined in Plan 2) runs build, then `test:unit`, then `e2e/babel-e2e`, `e2e/compiler-e2e` and the tester examples, and uploads `coverage/lcov.info` per package. _Done in Plan 2 A1; `e2e/compiler-e2e` joins when Plan 4 adds it._
+- [x] CI job (defined in Plan 2) runs build, then `test:unit`, then `e2e/babel-e2e`, `e2e/compiler-e2e` and the tester examples, and uploads `coverage/lcov.info` per package. _Done in Plan 2 A1; `e2e/compiler-e2e` joined in Plan 4 step 5 and runs in the `e2e-pinned` job since Plan 4 step 8. Earlier note: `e2e/compiler-e2e` joins when Plan 4 adds it._
 - [x] Final threshold pass: set each package's thresholds to `floor(actual) - 2`, never below 80/80/80/75, and record the numbers in this document. _Done 2026-09-24 (statements/branches/functions/lines): babel, codestyle, utils 98/98/98/98; compiler 96/92/98/96; starter 97/91/98/97; tester 98/94/98/98._
 - [x] Remove or repurpose `e2e/babel-e2e` (decision recorded in Plan 2). _Repurposed in Plan 2 I3 as a smoke test of the built entries._
 

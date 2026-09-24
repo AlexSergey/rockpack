@@ -58,6 +58,14 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [ ] **C14.** Production: enable webpack `cache: { type: 'filesystem' }` scoped to `node_modules/.cache/rockpack` for repeated builds (already used in dev); measure with `examples/compiler/react-app` before and after and record the numbers here.
 - [ ] **C15.** `generateDts` writes into `node_modules/.rockpack/<random>` and copies; write directly to `conf.types` with `outDir` and skip the copy and `rimraf`.
 
+### 5.5 Found by Plan 4 e2e (S to M)
+
+- [ ] **C16.** Lint during builds never runs in Rockpack projects: `pathToEslintrc` only knows `eslint.config.{js,json,mjs,cjs}` and `pathToStylelint` only `.stylelintrc` and `stylelint.config.js`, while templates and examples use `eslint.config.ts` and `.stylelintrc.cjs`. Supporting them turns lint errors into build failures for every generated project, so it needs a decision; the README section still describes `.eslintrc.js`.
+- [ ] **C17.** `stylelint-webpack-plugin` cannot `require('stylelint')` under `tsx` (`ERR_PACKAGE_PATH_NOT_EXPORTED` for `unicorn-magic/node`); run the build scripts on Node's own TypeScript support or load stylelint through `import()`.
+- [ ] **C18.** A clean TypeScript build with CSS modules fails the type check until `dts-css-modules-loader` has written the declarations (the second build passes); generate them before the checker runs or ship them like the component template does.
+- [ ] **C19.** Production builds drop `console.*` in Node backends too (`drop_console` unless `debug`), so server logs disappear; limit it to browser targets.
+- [ ] **C20.** dotenv is enabled only when `.env` exists, so a project with `.env.defaults` alone gets raw `process.env.X` in the browser bundle.
+
 ## 6. `@rockpack/tester`
 
 - [ ] **T6.** `tester()` returns `Promise<AggregatedResult>` and never calls `process.exit` itself; the decision to exit moves to the caller (`scripts.tests.ts` template: `tester().then(r => process.exit(r.success ? 0 : 1))`, or `process.exitCode`). Keep a `tester.run()` alias for scripts that do not await.
@@ -89,11 +97,13 @@ With the unit tests in place and the audit findings closed, improve the packages
 ## 10. `@rockpack/starter`
 
 - [ ] **ST1.** Templating: replace the `%libraryName%` string replacement with a tiny render step (`{{name}}` in `templates/dummies/*` via a 10-line replacer) so more fields (author, description, license) can be filled from prompts.
-- [ ] **ST2.** Add an `--offline` flag that resolves every dependency from `versions.json` majors as `^<major>.0.0` without touching the registry. `--mode=test` keeps resolving current versions inside majors, because Plan 4 `latest` mode relies on it; Plan 4 `pinned` mode pins versions on the test side.
+- [x] **ST2.** Add an `--offline` flag that resolves every dependency from `versions.json` majors as `^<major>.0.0` without touching the registry. `--mode=test` keeps resolving current versions inside majors, because Plan 4 `latest` mode relies on it; Plan 4 `pinned` mode pins versions on the test side. _Done in Plan 4 section 4.5 (2026-09-24): `--offline` writes the ranges from `versions.json` as they are (not `^<major>.0.0`) and skips the update check._
 - [ ] **ST3.** Wizard on `@inquirer/*` only (Plan 2 C5), with `--yes` to accept defaults and input validation for the project name (`validate-npm-package-name`).
 - [ ] **ST4.** `install.ts` (259 LOC): extract `prepareProjectDir`, `writeMetaFiles`, `installAll`, `printSummary`; replace the three 60-second `setTimeout` spinner texts with one progress helper; remove `process.exit` from `install` and `rockpack.ts` and return a result the bin turns into an exit code.
 - [ ] **ST5.** Share the byte-identical csr and ssr template `components/` directories (`templates/backbone/shared/components`) with `copyFiles` copying the shared dir first; the 8 duplicated spec files collapse to 4.
 - [ ] **ST6.** Generated projects: pin exact versions in the generated `package.json` (the starter already computes them) and write a `.nvmrc` matching the starter's engine.
+
+- [ ] **ST7.** Found by Plan 4: projects without tests keep npm's failing default `test` script; library projects declare `lint:styles` and `format:styles` without styles; `rockpack .` outside a git repository names the project `app` instead of the directory.
 
 ## 11. Build and repository tooling
 
@@ -105,6 +115,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 12. Documentation
 
+- [ ] **D4.** Found by Plan 4: `@rockpack/utils` and `@rockpack/tsconfig` publish no README, and `@rockpack/codestyle` exports its internal `isString`.
 - [ ] **D1.** Architecture note per package in its README ("how a build is assembled", "how the tester builds the jest config"), generated diagrams optional.
 - [ ] **D2.** Migration guide `9.0.0` listing every API change from Plan 2 F and Plan 3 C9, C10, T6, B3.
 - [ ] **D3.** Keep this document updated: check items off, record measured numbers (type coverage, build timings, test run time).
