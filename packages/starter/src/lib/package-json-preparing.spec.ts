@@ -84,6 +84,7 @@ describe('packageJsonPreparing', () => {
       const result = await prepare({ appType: 'csr', nogit: true, tester: false });
 
       expect(getScripts(result)).not.toHaveProperty('pre-commit');
+      expect(result).not.toHaveProperty('simple-git-hooks');
       expect(addedGroups()).not.toContainEqual(versions.git.common);
     });
   });
@@ -187,11 +188,24 @@ describe('packageJsonPreparing', () => {
       });
     });
 
-    it('adds git dependencies and the pre-commit script when git is enabled', async () => {
+    it('adds git dependencies, the pre-commit script and simple-git-hooks when git is enabled', async () => {
       const result = await prepare({ appType: 'csr', tester: false });
 
-      expect(getScripts(result)['pre-commit']).toBe('lint-staged --config .lintstagedrc.cjs');
+      expect(getScripts(result)).toMatchObject({
+        'pre-commit': 'lint-staged --config .lintstagedrc.cjs',
+        prepare: 'simple-git-hooks',
+      });
+      expect(result['simple-git-hooks']).toEqual({
+        'commit-msg': 'npm run lint:commit',
+        'pre-commit': 'npm run pre-commit',
+      });
       expect(addedGroups()[addedGroups().length - 1]).toEqual(versions.git.common);
+    });
+
+    it('runs the tests before push when the project has tests', async () => {
+      const result = await prepare({ appType: 'csr', tester: true });
+
+      expect(result['simple-git-hooks']).toMatchObject({ 'pre-push': 'npm test' });
     });
   });
 });

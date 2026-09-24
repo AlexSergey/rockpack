@@ -2,7 +2,6 @@
 .git
 
 # GIT Hooks
-.husky
 
 # Logs
 logs

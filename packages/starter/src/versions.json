@@ -191,8 +191,8 @@
     "common": {
       "devDependencies": [
         {
-          "name": "husky",
-          "version": "9"
+          "name": "simple-git-hooks",
+          "version": "2"
         },
         {
           "name": "lint-staged",

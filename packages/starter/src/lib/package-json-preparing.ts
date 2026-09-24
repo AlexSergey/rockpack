@@ -208,6 +208,14 @@ export const packageJsonPreparing = async (
 
     packageJSON = addScripts(packageJSON, {
       'pre-commit': 'lint-staged --config .lintstagedrc.cjs',
+      prepare: 'simple-git-hooks',
+    });
+    packageJSON = addFields(packageJSON, {
+      'simple-git-hooks': {
+        'commit-msg': `${getPM()} run lint:commit`,
+        'pre-commit': `${getPM()} run pre-commit`,
+        ...(tester ? { 'pre-push': `${getPM()} test` } : {}),
+      },
     });
   }
 

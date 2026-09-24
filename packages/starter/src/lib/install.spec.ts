@@ -318,10 +318,10 @@ describe('install', () => {
       );
     });
 
-    it('installs git hooks with the wizard state', async () => {
+    it('installs git hooks in the project directory', async () => {
       await runInstall({ tester: true });
 
-      expect(mocks.gitHooks).toHaveBeenCalledWith(expect.objectContaining({ tester: true }), currentPath);
+      expect(mocks.gitHooks).toHaveBeenCalledWith(currentPath);
     });
 
     it('updates the spinner text while dependencies are installing', async () => {

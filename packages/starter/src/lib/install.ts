@@ -204,7 +204,7 @@ export const install = async ({
     }
 
     if (!state.nogit) {
-      gitHooks(state, currentPath);
+      gitHooks(currentPath);
     }
   } catch (e) {
     spinner.stop();
