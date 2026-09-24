@@ -116,3 +116,7 @@ e2e/starter-e2e/screenshots/new
 # Workspaces install through the root lockfile only
 **/package-lock.json
 !/package-lock.json
+
+# e2e outputs
+e2e/.tarballs/
+e2e/*/.out/
