@@ -49,6 +49,7 @@ packages/tester/lib/
 packages/tester/types/
 packages/utils/lib/
 packages/utils/types/
+packages/*/src/__fixtures__/**
 examples/**/public
 examples/**/lib
 examples/**/dist-types

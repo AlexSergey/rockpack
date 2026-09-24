@@ -18,6 +18,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - Updated examples to use latest React and TypeScript
 - Build process now cleans output before each build
 - Compiler configuration API improved: removed private internal fields
+- `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
 
 ### Removed
 - Dropped `rockpack.babel.js` legacy config file

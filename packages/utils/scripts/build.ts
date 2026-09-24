@@ -28,7 +28,10 @@ const collectFiles = (dir: string): string[] => {
   });
 };
 
+const testFilePattern = /\.(?:spec|test)\.tsx?$|(?:^|[/\\])__(?:fixtures|mocks|tests)__[/\\]/;
+
 const files = collectFiles(srcDir).filter((f) => {
+  if (testFilePattern.test(relative(srcDir, f))) return false;
   const ext = extname(f);
 
   return (ext === '.ts' || ext === '.tsx') && !f.endsWith('.d.ts');

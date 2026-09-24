@@ -11,9 +11,9 @@ export async function getFiles(srcFolder: string, query = '*', ignore: string[] 
   return files.filter((file) => !lstatSync(file).isDirectory());
 }
 
-export async function getTypeScript(srcFolder: string): Promise<string[]> {
+export async function getTypeScript(srcFolder: string, ignore: string[] = []): Promise<string[]> {
   const root = getRootRequireDir();
-  const files = await glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`);
+  const files = await glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`, { ignore });
 
   return files
     .filter((file) => !lstatSync(file).isDirectory())

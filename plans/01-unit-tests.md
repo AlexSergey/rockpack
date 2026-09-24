@@ -66,7 +66,7 @@ Small, additive changes that make the packages testable with the tester. Each it
   - add a default `moduleNameMapper` entry `'^(\\.{1,2}/.*)\\.js$': '$1'` so that `./core/init.js` imports in compiler and tester resolve to `.ts` sources (starter-e2e already passes this mapping by hand);
   - only apply `collectCoverage`, `coverageReporters` and `reporters` defaults when the user has not provided them (`config.coverageReporters ??= [...]`), and add `text-summary` and `lcov` to the default reporters list so CI can read the numbers;
   - keep `coverageThreshold`, `collectCoverageFrom` and `coverageDirectory` as pass-through (they already are).
-- [ ] **0.3 Keep spec files and fixtures out of build output.**
+- [x] **0.3 Keep spec files and fixtures out of build output.**
   - `packages/{babel,utils,tester,compiler}/scripts/build.ts` and `build.cjs.ts`: extend the file filter to skip `*.spec.ts(x)`, `*.test.ts(x)` and any path containing `__fixtures__`, `__tests__` or `__mocks__`.
   - `packages/compiler/src/utils/source-compile.ts`: pass the same patterns as the default `ignore` list to `getFiles` for TS, JS and copy globs. This also fixes the consumer-facing problem that `sourceCompiler` currently ships colocated specs into `lib`. Add a CHANGELOG entry.
   - `packages/utils/tsconfig.types.json`: add `"exclude": ["src/**/*.spec.ts", "src/__fixtures__"]` (it is the only `tsconfig.types.json` that includes globs instead of `src/index.ts`).

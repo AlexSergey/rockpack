@@ -10,5 +10,6 @@
     "declaration": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/index.ts", "src/utils/*.ts", "src/polyfills/*.ts"]
+  "include": ["src/index.ts", "src/utils/*.ts", "src/polyfills/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "src/__fixtures__"]
 }

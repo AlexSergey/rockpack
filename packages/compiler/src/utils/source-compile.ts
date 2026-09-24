@@ -15,6 +15,14 @@ import { pathToTsConf } from './path-to-ts-conf.js';
 
 const _require = createRequire(import.meta.url);
 
+const testFilesIgnore = [
+  '**/*.spec.{ts,tsx,js,jsx}',
+  '**/*.test.{ts,tsx,js,jsx}',
+  '**/__fixtures__/**',
+  '**/__mocks__/**',
+  '**/__tests__/**',
+];
+
 // eslint-disable-next-line @sonar/cognitive-complexity
 export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {
   const root = getRootRequireDir();
@@ -59,9 +67,15 @@ export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promis
     const dist = path.join(root, opt.dist);
     const src = path.join(root, opt.src);
 
-    const tsAndTsx = await getTypeScript(opt.src);
-    const copyFiles = await getFiles(opt.src, undefined, ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
-    const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)');
+    const tsAndTsx = await getTypeScript(opt.src, testFilesIgnore);
+    const copyFiles = await getFiles(opt.src, undefined, [
+      ...testFilesIgnore,
+      '**/*.ts',
+      '**/*.tsx',
+      '**/*.js',
+      '**/*.jsx',
+    ]);
+    const jsAndJsx = await getFiles(opt.src, '*.+(js|jsx)', testFilesIgnore);
 
     const tsConfig = pathToTsConf(root, mode, debug);
 
