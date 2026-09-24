@@ -32,15 +32,18 @@
     "pre-commit": "npx lint-staged",
     "pre-push": "npm run lint && npm run test:unit"
   },
-  "dependencies": {
-    "@inquirer/select": "5.0.4",
-    "sort-package-json": "3.6.0"
-  },
   "devDependencies": {
     "@types/node": "24.10.13",
+    "@types/semver": "7.8.0",
+    "@types/yargs": "17.0.35",
     "cross-env": "7.0.3",
+    "latest-version": "9.0.0",
     "lerna": "9.0.7",
     "lint-staged": "17.5.1",
-    "simple-git-hooks": "2.13.1"
+    "semver": "7.8.1",
+    "simple-git-hooks": "2.13.1",
+    "sort-package-json": "3.6.1",
+    "tsx": "4.23.15",
+    "yargs": "18.0.0"
   }
 }
