@@ -155,6 +155,13 @@ describe('configCompiler', () => {
       expect(compile({ serial: true })).toMatchObject({ maxWorkers: 1, noCache: true, runInBand: true });
     });
 
+    it('filters the spec files by path patterns', () => {
+      expect(compile({ testPathPatterns: ['cli', 'generation'] })).toMatchObject({
+        testPathPatterns: ['cli', 'generation'],
+      });
+      expect(compile()).not.toHaveProperty('testPathPatterns');
+    });
+
     it('keeps watch mode fast in serial mode', () => {
       expect(compile({ serial: true, watch: true })).toMatchObject({ maxWorkers: 1, noCache: false, runInBand: false });
     });

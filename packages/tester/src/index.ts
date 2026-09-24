@@ -11,7 +11,13 @@ export type { TesterOptions };
 const tester = (opts: Partial<TesterOptions> = {}, projectConfig: Partial<Config.InitialOptions> = {}): void => {
   setMode(['development', 'production', 'test'], 'test');
 
-  const options = typeof opts.watch === 'boolean' ? opts : { ...opts, watch: process.argv.includes('--watch') };
+  const args = process.argv.slice(2);
+  const positional = args.filter((arg) => !arg.startsWith('-'));
+  const options = {
+    ...opts,
+    ...(typeof opts.watch === 'boolean' ? {} : { watch: args.includes('--watch') }),
+    ...(opts.testPathPatterns === undefined && positional.length > 0 ? { testPathPatterns: positional } : {}),
+  };
 
   init(options, projectConfig).catch(console.error);
 };

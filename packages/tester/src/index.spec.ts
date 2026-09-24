@@ -52,6 +52,20 @@ describe('tester', () => {
       expect(initMock).toHaveBeenCalledWith(opts, projectConfig);
     });
 
+    it('turns positional command line arguments into spec path patterns', () => {
+      initMock.mockResolvedValue();
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', 'cli', '--watch', 'generation'];
+
+      try {
+        tester();
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith({ testPathPatterns: ['cli', 'generation'], watch: true }, {});
+    });
+
     it('defaults to no watch and an empty project config', () => {
       initMock.mockResolvedValue();
 

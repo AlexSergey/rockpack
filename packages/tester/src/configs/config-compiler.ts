@@ -116,6 +116,7 @@ export const configCompiler = (
     noCache: serial && noWatch,
     runInBand: serial && noWatch,
     testMatch: createTestMatch(src, options.prefix),
+    ...(options.testPathPatterns.length > 0 ? { testPathPatterns: options.testPathPatterns } : {}),
     watch,
   };
 };
