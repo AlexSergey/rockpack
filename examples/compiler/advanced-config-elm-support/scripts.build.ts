@@ -13,7 +13,7 @@ void frontendCompiler(
     }
 
     config.resolve ??= {};
-    config.resolve.extensions = ['.js', '.elm'];
+    config.resolve.extensions = [...(config.resolve.extensions ?? []), '.elm'];
 
     modules.add('elm', {
       exclude: [/elm-stuff/, /node_modules/],
