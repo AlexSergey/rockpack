@@ -7,6 +7,7 @@ export type AppType = 'component' | 'csr' | 'library' | 'ssr';
 export type State = {
   appType: AppType | undefined;
   nogit?: boolean;
+  offline?: boolean;
   projectName?: string;
   tester: boolean | undefined;
   testMode?: boolean;

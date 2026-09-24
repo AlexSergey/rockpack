@@ -32,8 +32,9 @@ const versions = JSON.parse(readFileSync(path.resolve(__dirname, '../versions.js
 const { version } = packageJson;
 const currentPath = '/work/app';
 
-const prepare = (state: Pick<State, 'appType' | 'nogit' | 'tester' | 'testMode'>): Promise<PackageJsonObject> =>
-  packageJsonPreparing({ name: 'app' }, state, currentPath);
+const prepare = (
+  state: Pick<State, 'appType' | 'nogit' | 'offline' | 'tester' | 'testMode'>,
+): Promise<PackageJsonObject> => packageJsonPreparing({ name: 'app' }, state, currentPath);
 
 const addedGroups = (): DependencyGroups[] => addDependenciesMock.mock.calls.map(([, groups]) => groups);
 
@@ -108,8 +109,14 @@ describe('packageJsonPreparing', () => {
           dependencies: versions.csr.common.dependencies,
           devDependencies: [...(versions.csr.common.devDependencies ?? []), ...compilerAndTsconfig],
         },
-        true,
+        { offline: false, testMode: true },
       ]);
+    });
+
+    it('passes offline resolution to every dependency group', async () => {
+      await prepare({ appType: 'csr', nogit: true, offline: true, tester: false });
+
+      expect(addDependenciesMock.mock.calls.every(([, , resolution]) => resolution?.offline === true)).toBe(true);
     });
 
     it('prepares an ssr application with @rockpack/babel', async () => {

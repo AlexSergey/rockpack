@@ -77,6 +77,12 @@ describe('getArgs', () => {
       expect(getArgs().appType).toBe(type);
     });
 
+    it('reads --offline', () => {
+      setArgv({ offline: true });
+
+      expect(getArgs().offline).toBe(true);
+    });
+
     it('reads --folder', () => {
       setArgv({ folder: 'projects' });
 

@@ -72,6 +72,7 @@ rockpack <project-name>
 | `--folder=<path>` | Create the project inside this folder |
 | `--no-install` | Write the project without installing its dependencies |
 | `--yarn` | Use Yarn instead of npm when it is installed |
+| `--offline` | Write the dependency ranges from the starter's `versions.json` without asking the registry, and skip the update check |
 | `--mode=test` | Pin the `@rockpack/*` dependencies to the starter's own version and skip the update check (used by the e2e tests) |
 | `-v`, `--version` / `-h`, `--help` | Print the version / the usage |
 

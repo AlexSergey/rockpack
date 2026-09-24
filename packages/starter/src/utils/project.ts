@@ -29,48 +29,34 @@ export const readPackageJSON = (currentPath: string): Promise<PackageJsonObject>
   });
 };
 
+export type VersionResolution = {
+  // Write the versions from versions.json as they are, without asking the registry.
+  readonly offline?: boolean;
+  // Pin @rockpack/* to the starter's own version.
+  readonly testMode?: boolean;
+};
+
+type Dependency = NonNullable<DependencyGroups['dependencies']>[number];
+
+const resolveVersion = (dep: Dependency, { offline = false, testMode = false }: VersionResolution): Promise<string> =>
+  offline || (testMode && dep.name.startsWith('@rockpack/'))
+    ? Promise.resolve(dep.version)
+    : latestVersion(dep.name, { version: dep.version });
+
 export const addDependencies = async (
   packageJSON: PackageJsonObject,
-  { dependencies = [], devDependencies = [], peerDependencies = [] }: DependencyGroups,
-  testMode = false,
+  groups: DependencyGroups,
+  resolution: VersionResolution = {},
 ): Promise<PackageJsonObject> => {
-  const toMerge: {
-    dependencies: Record<string, string>;
-    devDependencies: Record<string, string>;
-    peerDependencies: Record<string, string>;
-  } = {
-    dependencies: {},
-    devDependencies: {},
-    peerDependencies: {},
-  };
+  const toMerge: Record<string, Record<string, string>> = {};
 
-  for (const dep of dependencies) {
-    if (testMode && dep.name.startsWith('@rockpack/')) {
-      toMerge.dependencies[dep.name] = dep.version;
-    } else {
-      toMerge.dependencies[dep.name] = await latestVersion(dep.name, { version: dep.version });
+  for (const type of ['dependencies', 'devDependencies', 'peerDependencies'] as const) {
+    const resolved: Record<string, string> = {};
+    for (const dep of groups[type] ?? []) {
+      resolved[dep.name] = await resolveVersion(dep, resolution);
     }
-  }
-
-  for (const devDep of devDependencies) {
-    if (testMode && devDep.name.startsWith('@rockpack/')) {
-      toMerge.devDependencies[devDep.name] = devDep.version;
-    } else {
-      toMerge.devDependencies[devDep.name] = await latestVersion(devDep.name, { version: devDep.version });
-    }
-  }
-
-  for (const peerDep of peerDependencies) {
-    if (testMode && peerDep.name.startsWith('@rockpack/')) {
-      toMerge.peerDependencies[peerDep.name] = peerDep.version;
-    } else {
-      toMerge.peerDependencies[peerDep.name] = await latestVersion(peerDep.name, { version: peerDep.version });
-    }
-  }
-
-  for (const type of Object.keys(toMerge) as (keyof typeof toMerge)[]) {
-    if (Object.keys(toMerge[type]).length === 0) {
-      delete toMerge[type];
+    if (Object.keys(resolved).length > 0) {
+      toMerge[type] = resolved;
     }
   }
 

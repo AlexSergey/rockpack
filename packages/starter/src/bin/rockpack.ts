@@ -7,7 +7,7 @@ import semverParse from 'semver/functions/parse.js';
 
 import { defaultApp } from '../constants/names.js';
 import { here } from '../constants/paths.js';
-import { getArgs } from '../lib/get-args.js';
+import { APP_TYPES, getArgs } from '../lib/get-args.js';
 import { install } from '../lib/install.js';
 import { argv } from '../utils/argv.js';
 import { packageJson } from '../utils/package-json.js';
@@ -67,7 +67,14 @@ export const rockpack = async (): Promise<void> => {
     process.exit(1);
   }
 
-  if (!args.testMode) {
+  if (typeof argv['type'] === 'string' && !(APP_TYPES as string[]).includes(argv['type'])) {
+    console.error(`Unknown type "${argv['type']}". Use one of: ${APP_TYPES.join(', ')}`);
+    process.exit(1);
+
+    return;
+  }
+
+  if (!args.testMode && !args.offline) {
     await warnIfOutdated();
   }
 

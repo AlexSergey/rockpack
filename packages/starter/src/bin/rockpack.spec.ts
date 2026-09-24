@@ -81,6 +81,22 @@ describe('rockpack', () => {
       expect(installMock).not.toHaveBeenCalled();
     });
 
+    it('exits with code 1 and lists the types for an unknown --type', async () => {
+      setArgv({ _: ['app'], type: 'desktop' });
+
+      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      expect(errorSpy).toHaveBeenCalledWith('Unknown type "desktop". Use one of: csr, ssr, component, library');
+      expect(installMock).not.toHaveBeenCalled();
+    });
+
+    it('skips the update check offline', async () => {
+      setArgv({ _: ['app'], offline: true });
+
+      await rockpack();
+
+      expect(latestVersionMock).not.toHaveBeenCalled();
+    });
+
     it('does not warn about a prerelease on the registry', async () => {
       setArgv({ _: ['app'] });
       latestVersionMock.mockResolvedValue('99.0.0-next.1');

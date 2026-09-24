@@ -14,10 +14,11 @@ const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export const packageJsonPreparing = async (
   packageJSON: PackageJsonObject,
-  { appType, nogit, tester, testMode }: Pick<State, 'appType' | 'nogit' | 'tester' | 'testMode'>,
+  { appType, nogit, offline, tester, testMode }: Pick<State, 'appType' | 'nogit' | 'offline' | 'tester' | 'testMode'>,
   currentPath: string,
   // eslint-disable-next-line @sonar/cognitive-complexity
 ): Promise<PackageJsonObject> => {
+  const resolution = { offline: offline === true, testMode: testMode === true };
   const versions = readFileSync(join(currentDir, '../versions.json'), 'utf8');
   const typedVersions: Versions = JSON.parse(versions) as Versions;
 
@@ -34,13 +35,13 @@ export const packageJsonPreparing = async (
       if (appType === 'library') {
         const libDeps = typedVersions.library.common;
 
-        packageJSON = await addDependencies(packageJSON, libDeps, testMode);
+        packageJSON = await addDependencies(packageJSON, libDeps, resolution);
       }
 
       if (appType === 'component') {
         const compDeps = typedVersions.component.common;
 
-        packageJSON = await addDependencies(packageJSON, compDeps, testMode);
+        packageJSON = await addDependencies(packageJSON, compDeps, resolution);
         packageJSON = addFields(packageJSON, {
           main: 'dist/index.js',
           types: 'dist/index.d.ts',
@@ -55,7 +56,7 @@ export const packageJsonPreparing = async (
             { name: '@rockpack/tsconfig', version: packageJson.version },
           ],
         },
-        testMode,
+        resolution,
       );
 
       if (appType === 'library') {
@@ -92,7 +93,7 @@ export const packageJsonPreparing = async (
           {
             dependencies: Array.isArray(deps) ? deps : [],
           },
-          testMode,
+          resolution,
         );
       }
 
@@ -121,7 +122,7 @@ export const packageJsonPreparing = async (
             { name: '@rockpack/tsconfig', version: packageJson.version },
           ],
         },
-        testMode,
+        resolution,
       );
       break;
 
@@ -148,7 +149,7 @@ export const packageJsonPreparing = async (
             { name: '@rockpack/tsconfig', version: packageJson.version },
           ],
         },
-        testMode,
+        resolution,
       );
       break;
   }
@@ -176,7 +177,7 @@ export const packageJsonPreparing = async (
     {
       devDependencies: [{ name: '@rockpack/codestyle', version: packageJson.version }],
     },
-    testMode,
+    resolution,
   );
 
   if (tester) {
@@ -193,18 +194,18 @@ export const packageJsonPreparing = async (
           ...(Array.isArray(testerCommonDeps) ? testerCommonDeps : []),
         ],
       },
-      testMode,
+      resolution,
     );
 
     if (appType === 'csr' || appType === 'ssr' || appType === 'component') {
       const testerReactDeps = typedVersions.tester.react;
-      packageJSON = await addDependencies(packageJSON, testerReactDeps, testMode);
+      packageJSON = await addDependencies(packageJSON, testerReactDeps, resolution);
     }
   }
 
   if (!nogit) {
     const gitDeps = typedVersions.git.common;
-    packageJSON = await addDependencies(packageJSON, gitDeps, testMode);
+    packageJSON = await addDependencies(packageJSON, gitDeps, resolution);
 
     packageJSON = addScripts(packageJSON, {
       'pre-commit': 'lint-staged --config .lintstagedrc.cjs',

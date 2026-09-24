@@ -46,6 +46,9 @@ export const install = async ({
   if (args.testMode) {
     state.testMode = args.testMode;
   }
+  if (args.offline) {
+    state.offline = true;
+  }
   console.log();
 
   await mkdirp(currentPath);

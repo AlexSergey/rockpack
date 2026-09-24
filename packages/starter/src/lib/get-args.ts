@@ -2,10 +2,13 @@ import type { AppType } from './wizard.js';
 
 import { argv } from '../utils/argv.js';
 
+export const APP_TYPES: readonly AppType[] = ['csr', 'ssr', 'component', 'library'];
+
 export type Args = {
   appType?: AppType;
   folder?: string;
   noInstall?: boolean;
+  offline?: boolean;
   testMode: boolean;
   tests?: boolean;
 };
@@ -27,7 +30,11 @@ export const getArgs = (): Args => {
     args.tests = argv['tests'] === 'true';
   }
 
-  if (typeof argv['type'] === 'string' && (['csr', 'ssr', 'component', 'library'] as string[]).includes(argv['type'])) {
+  if (argv['offline'] === true) {
+    args.offline = true;
+  }
+
+  if (typeof argv['type'] === 'string' && (APP_TYPES as string[]).includes(argv['type'])) {
     args.appType = argv['type'] as AppType;
   }
 

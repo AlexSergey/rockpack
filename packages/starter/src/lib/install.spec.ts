@@ -308,6 +308,16 @@ describe('install', () => {
       expect(mocks.installPeerDependencies).not.toHaveBeenCalled();
     });
 
+    it('passes offline mode to the next steps', async () => {
+      await runInstall({}, { offline: true });
+
+      expect(mocks.packageJsonPreparing).toHaveBeenCalledWith(
+        { name: 'app' },
+        expect.objectContaining({ offline: true }),
+        currentPath,
+      );
+    });
+
     it('passes test mode and the project name to the next steps', async () => {
       await runInstall({}, { testMode: true });
 

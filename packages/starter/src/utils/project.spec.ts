@@ -167,7 +167,7 @@ describe('project utils', () => {
           devDependencies: [{ name: '@rockpack/tester', version: '8.0.0' }],
           peerDependencies: [{ name: '@rockpack/babel', version: '8.0.0' }],
         },
-        true,
+        { testMode: true },
       );
 
       expect(result).toEqual({
@@ -179,9 +179,27 @@ describe('project utils', () => {
     });
 
     it('still resolves third-party packages in test mode', async () => {
-      const result = await addDependencies({}, { devDependencies: [{ name: 'typescript', version: '6' }] }, true);
+      const result = await addDependencies(
+        {},
+        { devDependencies: [{ name: 'typescript', version: '6' }] },
+        { testMode: true },
+      );
 
       expect(result).toEqual({ devDependencies: { typescript: '6.9.9-typescript' } });
+    });
+
+    it('writes the versions.json ranges without the registry when offline', async () => {
+      const result = await addDependencies(
+        {},
+        {
+          dependencies: [{ name: 'react', version: '19' }],
+          devDependencies: [{ name: '@rockpack/tester', version: '8.0.0' }],
+        },
+        { offline: true },
+      );
+
+      expect(result).toEqual({ dependencies: { react: '19' }, devDependencies: { '@rockpack/tester': '8.0.0' } });
+      expect(latestVersionMock).not.toHaveBeenCalled();
     });
 
     it('drops empty dependency groups and keeps existing entries', async () => {
