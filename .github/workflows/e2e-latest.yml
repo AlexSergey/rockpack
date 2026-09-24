@@ -12,6 +12,11 @@ on:
 permissions:
   contents: read
 
+env:
+  # Only the browser jobs need Chrome and install it explicitly; npm ci downloading it in every job also raced
+  # between the two puppeteer copies.
+  PUPPETEER_SKIP_DOWNLOAD: 'true'
+
 jobs:
   e2e-latest:
     runs-on: ubuntu-latest
@@ -33,7 +38,7 @@ jobs:
         run: npm run build
 
       - name: Install Chrome
-        run: npx puppeteer browsers install chrome
+        run: npm exec -w e2e/tools -- puppeteer browsers install chrome
 
       - name: E2E (latest)
         run: npm run e2e:latest

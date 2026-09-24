@@ -17,8 +17,7 @@
     "test": "NODE_OPTIONS='--experimental-vm-modules' tsx scripts.test.ts"
   },
   "dependencies": {
-    "@rockpack/tester": "8.0.0",
-    "puppeteer": "25.1.0"
+    "@rockpack/tester": "8.0.0"
   },
   "devDependencies": {
     "@issr/babel-plugin": "4.0.1",

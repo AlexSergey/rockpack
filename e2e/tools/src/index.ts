@@ -1,3 +1,4 @@
+export type { Browser, Page } from './browser.js';
 export { launchBrowser } from './browser.js';
 export type { GoldenResult } from './files.js';
 export { listFiles, matchGolden } from './files.js';

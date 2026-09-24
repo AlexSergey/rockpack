@@ -1,5 +1,7 @@
 import type { Browser } from 'puppeteer';
 
+export type { Browser, Page } from 'puppeteer';
+
 import { existsSync } from 'node:fs';
 
 // Puppeteer reads PUPPETEER_EXECUTABLE_PATH when it loads, so a path that does not exist is dropped before the import

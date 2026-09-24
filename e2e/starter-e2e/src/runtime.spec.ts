@@ -1,5 +1,4 @@
-import type { StartedProcess } from '@rockpack/e2e-tools';
-import type { Browser, Page } from 'puppeteer';
+import type { Browser, Page, StartedProcess } from '@rockpack/e2e-tools';
 
 import { getFreePort, launchBrowser, serveStatic, start, waitForUrl } from '@rockpack/e2e-tools';
 import { readFileSync, writeFileSync } from 'node:fs';
