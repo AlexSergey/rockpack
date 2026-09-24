@@ -5,7 +5,8 @@
     "e2e/*",
     "examples/compiler/*",
     "examples/tester/*",
-    "packages/*"
+    "packages/*",
+    "tools/build-tools"
   ],
   "version": "8.0.0"
 }

@@ -8,7 +8,8 @@
     "e2e/*",
     "examples/compiler/*",
     "examples/tester/*",
-    "packages/*"
+    "packages/*",
+    "tools/build-tools"
   ],
   "scripts": {
     "build": "npm run build:utils && npm run build:babel && npm run build:compiler && npm run build:codestyle && npm run build:tester && npm run build:starter",

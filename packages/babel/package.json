@@ -40,9 +40,8 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
-    "build:cjs": "tsx scripts/build.cjs.ts",
-    "build:esm": "tsx scripts/build.ts",
+    "build": "npm run clean && npm run build:js && npm run build:types",
+    "build:js": "tsx scripts/build.ts",
     "build:types": "tsc -p tsconfig.types.json",
     "clean": "tsx scripts/clean.ts",
     "format": "npm run format:code",
@@ -73,11 +72,11 @@
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
+    "@rockpack/build-tools": "8.0.0",
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
-    "babel-plugin-add-import-extension": "1.6.0",
     "react-compiler-runtime": "1.0.0"
   },
   "peerDependencies": {

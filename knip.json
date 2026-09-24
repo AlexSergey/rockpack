@@ -31,10 +31,6 @@
         "src/**/*.ts",
         "scripts/**/*.ts",
         "*.ts"
-      ],
-      "ignoreDependencies": [
-        "@babel/*",
-        "babel-plugin-*"
       ]
     },
     "packages/babel": {
@@ -66,8 +62,6 @@
         "*.ts"
       ],
       "ignoreDependencies": [
-        "@babel/*",
-        "babel-plugin-*",
         "@commitlint/*",
         "eslint-plugin-json",
         "stylelint",
@@ -137,8 +131,6 @@
         "*.ts"
       ],
       "ignoreDependencies": [
-        "@babel/*",
-        "babel-plugin-*",
         "babel-jest",
         "jest-environment-jsdom",
         "jest-html-reporters"
@@ -168,10 +160,6 @@
         "src/**/*.ts",
         "scripts/**/*.ts",
         "*.ts"
-      ],
-      "ignoreDependencies": [
-        "@babel/*",
-        "babel-plugin-*"
       ]
     },
     "e2e/starter-e2e": {
@@ -197,6 +185,18 @@
         "serialize-javascript",
         "source-map",
         "stylelint-config-*"
+      ]
+    },
+    "tools/build-tools": {
+      "project": [
+        "src/**/*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/preset-env",
+        "@babel/preset-typescript",
+        "babel-plugin-add-import-extension",
+        "babel-plugin-transform-import-meta"
       ]
     }
   }

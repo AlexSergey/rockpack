@@ -70,6 +70,7 @@
     "yargs": "18.0.0"
   },
   "devDependencies": {
+    "@rockpack/build-tools": "8.0.0",
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/compiler": "8.0.0",
     "@rockpack/tester": "8.0.0",

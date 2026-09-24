@@ -1,5 +1,4 @@
-import { rmSync } from 'node:fs';
+import { cleanPackage } from '@rockpack/build-tools';
+import path from 'node:path';
 
-for (const dir of ['lib', 'types']) {
-  rmSync(dir, { force: true, recursive: true });
-}
+cleanPackage(path.resolve(import.meta.dirname, '..'));
