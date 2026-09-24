@@ -3,19 +3,18 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
+import { compilerRoot } from './package-root.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
 
 const _require = createRequire(import.meta.url);
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const getPostcssConfig = (root: string): Record<string, unknown> => {
   const pth = existsSync(path.resolve(root, './postcss.config.js'))
     ? path.resolve(root, './postcss.config.js')
-    : path.resolve(__dirname, '../configs/postcss.config.cjs');
+    : path.join(compilerRoot(), 'configs/postcss.config.cjs');
 
   return _require(pth) as Record<string, unknown>;
 };

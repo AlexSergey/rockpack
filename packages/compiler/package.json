@@ -36,6 +36,7 @@
   "types": "./types/index.d.ts",
   "files": [
     "banner",
+    "configs",
     "index.ejs",
     "lib",
     "types"

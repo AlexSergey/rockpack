@@ -1,6 +1,7 @@
 LICENSE
 README.md
 banner
+configs/postcss.config.cjs
 index.ejs
 lib/cjs/compilers/backend-compiler.cjs
 lib/cjs/compilers/error-boundary.cjs
@@ -9,7 +10,6 @@ lib/cjs/compilers/isomorphic-compiler.cjs
 lib/cjs/compilers/library-compiler.cjs
 lib/cjs/compilers/make-webpack-config.cjs
 lib/cjs/compilers/source-compiler.cjs
-lib/cjs/configs/postcss.config.cjs
 lib/cjs/constants.cjs
 lib/cjs/core/args.cjs
 lib/cjs/core/compile.cjs
@@ -71,7 +71,6 @@ lib/esm/compilers/isomorphic-compiler.mjs
 lib/esm/compilers/library-compiler.mjs
 lib/esm/compilers/make-webpack-config.mjs
 lib/esm/compilers/source-compiler.mjs
-lib/esm/configs/postcss.config.cjs
 lib/esm/constants.mjs
 lib/esm/core/args.mjs
 lib/esm/core/compile.mjs

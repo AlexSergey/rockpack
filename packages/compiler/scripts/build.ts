@@ -3,4 +3,4 @@ import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
 
-buildPackage({ copyDirs: ['configs'], importMeta: true, root });
+buildPackage({ importMeta: true, root });

@@ -73,11 +73,12 @@
         "src/index.ts",
         "src/**/*.spec.ts",
         "src/plugins/reloader/ssr.ts",
-        "src/configs/postcss.config.cjs",
+        "configs/postcss.config.cjs",
         "scripts/*.ts"
       ],
       "project": [
-        "src/**/*.{ts,cjs}",
+        "src/**/*.ts",
+        "configs/*.cjs",
         "scripts/**/*.ts",
         "*.ts"
       ],
