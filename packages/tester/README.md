@@ -53,6 +53,25 @@ npx tsx scripts.tests.ts --watch
 
 **See the `examples` folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
 
+## Options
+
+`tester(options, jestConfig)`:
+
+| Option | Default | Description |
+|---|---|---|
+| `src` | `'./src'` | Folder (or folders) with the specs |
+| `prefix` | `'(spec\|test)'` | Spec file suffix: `*.spec.ts`, `*.test.ts` |
+| `watch` | `--watch` on the command line | Jest watch mode |
+| `serial` | `false` | Run the suites one by one without cache, for tests that share ports or files |
+
+Outside watch mode coverage is collected from every file under `src` (not only the imported ones) and reported as `json`, `html`, `text-summary` and `lcov`. Everything can be overridden through the Jest config, for example thresholds:
+
+```ts
+tester({}, { coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 85 } } });
+```
+
+Sources that use NodeNext-style `.js` extensions in relative imports work out of the box: `import { sum } from './sum.js'` resolves to `sum.ts`.
+
 ## Configuration
 
 To override Jest configuration - for example, to switch the test environment from jsdom to Node:
@@ -60,16 +79,7 @@ To override Jest configuration - for example, to switch the test environment fro
 ```ts
 import { tester } from '@rockpack/tester';
 
-tester(
-  {},
-  {
-    moduleNameMapper: {
-      '^(\\.{1,2}/.*)\\.js$': '$1',
-    },
-    modulePathIgnorePatterns: ['./src/generators/'],
-    testEnvironment: 'node',
-  },
-);
+tester({}, { testEnvironment: 'node' });
 ```
 
 ## The MIT License
