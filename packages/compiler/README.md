@@ -214,6 +214,33 @@ isomorphicCompiler(
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 
+## Errors and exit codes
+
+Invalid options and failed builds are reported as a `RockpackError` with a `code`:
+
+| Code | Meaning |
+|---|---|
+| `INVALID_CONFIG` | The compiler options are incomplete or have the wrong shape |
+| `INVALID_ENTRY` | `src` is not a string |
+| `BUILD_FAILED` | Compiling the library sources (`esm`/`cjs`) failed |
+| `DTS_FAILED` | Generating the TypeScript declarations failed |
+
+The compilers print `[rockpack] <code>: <message>`, set `process.exitCode = 1` and reject, so a build script can react to the failure:
+
+```ts
+import { libraryCompiler, RockpackError } from '@rockpack/compiler';
+
+try {
+  await libraryCompiler('MyLib');
+} catch (error) {
+  if (error instanceof RockpackError && error.code === 'INVALID_CONFIG') {
+    // fix the options or fall back
+  }
+}
+```
+
+A production build ends with exit code `1` when webpack reports errors and `0` otherwise; the process exits on its own after the build instead of being killed. `Ctrl+C` exits with `130` and `SIGTERM` with `143`.
+
 ## Production debugging
 
 **Rockpack** provides the ability to debug code in production by disabling all obfuscated code.

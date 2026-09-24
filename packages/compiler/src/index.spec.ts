@@ -22,6 +22,7 @@ describe('@rockpack/compiler', () => {
   describe('positive cases', () => {
     it('exports the compilers and helpers', () => {
       expect(Object.keys(compiler).sort()).toEqual([
+        'RockpackError',
         'backendCompiler',
         'frontendCompiler',
         'getArgs',

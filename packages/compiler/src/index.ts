@@ -8,6 +8,7 @@ import { isomorphicCompiler } from './compilers/isomorphic-compiler.js';
 import { libraryCompiler } from './compilers/library-compiler.js';
 import { makeWebpackConfig } from './compilers/make-webpack-config.js';
 import { sourceCompiler } from './compilers/source-compiler.js';
+import { RockpackError } from './errors/rockpack-error.js';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
@@ -24,5 +25,8 @@ export {
   isomorphicCompiler,
   libraryCompiler,
   makeWebpackConfig,
+  RockpackError,
   sourceCompiler,
 };
+
+export type { RockpackErrorCode } from './errors/rockpack-error.js';
