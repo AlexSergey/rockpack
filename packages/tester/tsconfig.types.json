@@ -10,6 +10,6 @@
     "declaration": true,
     "emitDeclarationOnly": true
   },
-  "include": ["src/index.ts", "src/declarations.d.ts", "src/globals.d.ts"],
+  "include": ["src/index.ts", "src/declarations.d.ts"],
   "exclude": ["examples", "node_modules"]
 }

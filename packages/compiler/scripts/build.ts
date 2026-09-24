@@ -1,7 +1,7 @@
 import { transformFileSync } from '@babel/core';
 import { copyFileSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { basename, dirname, extname, join, relative, resolve } from 'node:path';
+import { dirname, extname, join, relative, resolve } from 'node:path';
 
 const _require = createRequire(import.meta.url);
 const root = resolve(import.meta.dirname, '..');
@@ -34,7 +34,7 @@ const files = collectFiles(srcDir).filter((f) => {
   if (testFilePattern.test(relative(srcDir, f))) return false;
   const ext = extname(f);
 
-  return (ext === '.ts' || ext === '.tsx') && !f.endsWith('.d.ts') && basename(f) !== 'index.cts';
+  return (ext === '.ts' || ext === '.tsx') && !f.endsWith('.d.ts');
 });
 
 for (const file of files) {
