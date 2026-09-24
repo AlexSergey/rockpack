@@ -8,6 +8,7 @@ const { workspaces } = JSON.parse(readFileSync(new URL('./package.json', import.
 const workspaceDirs = workspaces
   .flatMap((pattern) => globSync(pattern))
   .filter((dir) => existsSync(path.join(dir, 'package.json')))
+  .filter((dir) => ['ts', 'js', 'mjs', 'cjs'].some((ext) => existsSync(path.join(dir, `eslint.config.${ext}`))))
   .map((dir) => path.resolve(dir))
   .sort((a, b) => b.length - a.length);
 
