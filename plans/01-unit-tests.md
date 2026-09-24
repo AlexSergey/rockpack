@@ -205,6 +205,8 @@ Coverage exclusions: `src/types/**`, `src/declarations.d.ts`, `src/constants/**`
 
 Exit: thresholds 85/85/85/80.
 
+Status: done on 2026-09-24. Actual coverage 99.79/92.7/100/99.79 (142 tests in 17 specs). ESM-only stand-ins (chalk, ora, sort-package-json, change-case) live in `src/__fixtures__/mocks.ts` and are wired with `jest.mock('<name>', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').<name>Module)`; `latest-version`, `@inquirer/select` and `inquirer` are plain `jest.fn()` factories per spec. `jest.resetAllMocks()` wipes the fixture's `ora` implementation, so `install.spec.ts` re-arms it in `beforeEach`. The mocked `showError` throws, mirroring the real `never` return, so each failed step stops the flow like `process.exit` would. Found and fixed: `lib/package-json-preparing.ts` declared `const __filename = fileURLToPath(import.meta.url)`, which the test-mode `import.meta` transform turns into a TDZ read; renamed to `currentDir`, and the general case is Plan 2 E11. The string version comparison and the inverted update warning in `bin/rockpack.ts` are pinned with `TODO Plan 2 (E1)` comments. `src/constants/**` and `src/types/**` are excluded from coverage.
+
 ## 10. Phase 6: `@rockpack/compiler` (size XL)
 
 Split into six work packages, each independently mergeable. The order goes from pure code to code that needs the most mocking.
