@@ -11,7 +11,7 @@ This module is part of the **Rockpack** project. See more details on [the offici
 ## Application types
 
 - **React SPA** - Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
-- **React SPA + SSR** - Universal React app with SSR, hydration, and a Node.js server. No setup needed.
+- **React SPA + SSR** - Universal React app with SSR, hydration, and a Node.js server. No setup needed. The server listens on `PORT` from `.env` (8888 by default).
 - **React Component** - NPM-ready React component with TypeScript declarations and an optimized bundle.
 - **UMD Library** - Framework-agnostic UMD library for NPM, zero configuration required.
 

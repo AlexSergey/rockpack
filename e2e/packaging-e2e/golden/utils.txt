@@ -1,4 +1,5 @@
 LICENSE
+README.md
 lib/cjs/index.cjs
 lib/cjs/polyfills/text-encoder.fix.cjs
 lib/cjs/utils/get-major-version.cjs

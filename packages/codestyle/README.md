@@ -71,7 +71,9 @@ coverage/
 
 `makeConfig` searches for `.eslintflatignore` starting from the current working directory and walks up the directory tree. This means it works in both single repos and monorepos - place the file at the monorepo root and all packages will pick it up automatically.
 
-> **Note:** `.d.ts` files are linted but the rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are disabled for them.
+> **Note:** `.d.ts` files are linted but the rules `@import-lite/no-default-export`, `@typescript-eslint/naming-convention` and `@typescript-eslint/no-extraneous-class` are disabled for them.
+
+TypeScript files use the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets plus `prefer-readonly` and `switch-exhaustiveness-check`. A few preset rules are tuned: numbers are allowed in template literals, void arrow shorthands are allowed, `||` stays allowed for strings (an empty string often means "not set"), and `no-dynamic-delete` and `non-nullable-type-assertion-style` are off.
 
 5. Put the code in **.prettierrc**
 

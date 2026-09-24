@@ -246,7 +246,7 @@ Invalid options and failed builds are reported as a `RockpackError` with a `code
 
 | Code | Meaning |
 |---|---|
-| `INVALID_CONFIG` | The compiler options are incomplete or have the wrong shape |
+| `INVALID_CONFIG` | The compiler options are incomplete or have the wrong shape; every option is checked before the build and the message names each problem with its path, for example `html[1].template must be a string` |
 | `INVALID_ENTRY` | `src` is not a string |
 | `BUILD_FAILED` | Compiling the library sources (`esm`/`cjs`) failed |
 | `DTS_FAILED` | Generating the TypeScript declarations failed |
