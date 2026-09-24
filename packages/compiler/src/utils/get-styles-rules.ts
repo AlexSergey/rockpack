@@ -1,9 +1,9 @@
+import { isString } from '@rockpack/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isBoolean, isString } from 'valid-types';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
@@ -29,7 +29,7 @@ type StylesRules = {
 
 export const getStylesRules = (conf: Partial<InternalCompilerConf>, mode: Mode, root: string): StylesRules => {
   const isProduction = mode === 'production';
-  const extractStyles = isProduction ? !(isBoolean(conf.styles) && !conf.styles) : false;
+  const extractStyles = isProduction ? !(typeof conf.styles === 'boolean' && !conf.styles) : false;
 
   const debug = !isProduction || !!conf.debug;
   const tsConfig = pathToTsConf(root, mode, debug);

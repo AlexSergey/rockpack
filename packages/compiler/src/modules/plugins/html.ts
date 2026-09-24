@@ -1,6 +1,5 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'node:path';
-import { isArray, isBoolean } from 'valid-types';
 
 import type { HtmlPage } from '../../types.js';
 import type { PluginContext, PluginEntries } from './types.js';
@@ -9,10 +8,10 @@ import { getTitle } from '../../utils/other.js';
 import { compilerRoot } from '../../utils/package-root.js';
 
 const getPages = ({ conf, packageJson }: PluginContext, defaultTemplate: string): HtmlPage[] => {
-  if (conf.html && isArray(conf.html)) {
+  if (conf.html && Array.isArray(conf.html)) {
     return conf.html;
   }
-  const page = conf.html && !isBoolean(conf.html) ? conf.html : undefined;
+  const page = conf.html && typeof conf.html !== 'boolean' ? conf.html : undefined;
 
   return [
     {
@@ -27,7 +26,7 @@ const getPages = ({ conf, packageJson }: PluginContext, defaultTemplate: string)
 
 export const makeHtmlPlugins = (ctx: PluginContext): PluginEntries => {
   const { conf, mode } = ctx;
-  if ((isBoolean(conf.html) && !conf.html) || global.ISOMORPHIC) {
+  if ((typeof conf.html === 'boolean' && !conf.html) || global.ISOMORPHIC) {
     return {};
   }
   const defaultTemplate = path.join(compilerRoot(), 'index.ejs');

@@ -1,6 +1,5 @@
-import { setMode } from '@rockpack/utils';
+import { isRecord, isString, setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
-import { isObject, isString } from 'valid-types';
 
 import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
@@ -33,7 +32,7 @@ export async function libraryCompiler(
 
     if (isString(libraryOpts)) {
       libraryName = libraryOpts;
-    } else if (isObject(libraryOpts) && isString((libraryOpts as { name?: unknown }).name)) {
+    } else if (isRecord(libraryOpts) && isString((libraryOpts as { name?: unknown }).name)) {
       const opts = libraryOpts;
 
       if (Array.isArray(opts.externals) && opts.externals.length > 0) {
@@ -42,10 +41,10 @@ export async function libraryCompiler(
 
       libraryName = opts.name;
 
-      if (isObject(opts.esm)) {
+      if (isRecord(opts.esm)) {
         mergedConf = deepExtend({}, mergedConf, { esm: opts.esm });
       }
-      if (isObject(opts.cjs)) {
+      if (isRecord(opts.cjs)) {
         mergedConf = deepExtend({}, mergedConf, { cjs: opts.cjs });
       }
     } else {

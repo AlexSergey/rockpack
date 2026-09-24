@@ -1,6 +1,6 @@
+import { isString } from '@rockpack/utils';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isArray, isString } from 'valid-types';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
@@ -25,7 +25,7 @@ export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mod
   const entry: Record<string, EntryValue> = {};
   const entryPoint = path.basename(conf.dist ?? 'dist/index.js').replace(distExtension, '');
 
-  if (isArray(conf.vendor)) {
+  if (Array.isArray(conf.vendor)) {
     entry['vendor'] = conf.vendor;
   }
 
@@ -35,7 +35,7 @@ export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mod
 
   const src = path.resolve(root, conf.src);
   // dependOn keeps the vendor modules only in vendor.js instead of bundling them into both entries.
-  entry[entryPoint] = isArray(conf.vendor) ? { dependOn: 'vendor', import: src } : src;
+  entry[entryPoint] = Array.isArray(conf.vendor) ? { dependOn: 'vendor', import: src } : src;
   const context = path.dirname(src);
 
   return { context, entry };

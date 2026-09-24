@@ -5,7 +5,10 @@ import path from 'node:path';
 
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
 
-jest.mock('@rockpack/utils', () => ({ getRootRequireDir: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getRootRequireDir: jest.fn(),
+}));
 
 const getRootRequireDirMock = getRootRequireDir as jest.MockedFunction<typeof getRootRequireDir>;
 

@@ -9,7 +9,10 @@ import { innerProps } from './inner-props.js';
 import { make } from './make.js';
 import { run } from './run.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getMode: jest.fn(),
+}));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../utils/merge-conf-with-default.js', () => ({ mergeConfWithDefault: jest.fn() }));
 jest.mock('./args.js', () => ({ addArgs: jest.fn() }));

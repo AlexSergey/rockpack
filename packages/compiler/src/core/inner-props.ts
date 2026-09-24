@@ -1,5 +1,3 @@
-import { isDefined } from 'valid-types';
-
 import type { InternalCompilerConf, Mode } from '../types.js';
 
 export const innerProps = (conf: InternalCompilerConf, mode: Mode): InternalCompilerConf => {
@@ -19,9 +17,7 @@ export const innerProps = (conf: InternalCompilerConf, mode: Mode): InternalComp
           conf.__isIsomorphicStyles = true;
         }
         conf.__isIsomorphicFrontend = true;
-        if (!isDefined(conf.html)) {
-          conf.html = false;
-        }
+        conf.html ??= false;
         break;
 
       case undefined:

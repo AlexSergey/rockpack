@@ -4,7 +4,10 @@ import { compile } from '../core/compile.js';
 import { errorHandler } from '../error-handler.js';
 import { backendCompiler } from './backend-compiler.js';
 
-jest.mock('@rockpack/utils', () => ({ setMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  setMode: jest.fn(),
+}));
 jest.mock('../core/compile.js', () => ({ compile: jest.fn(() => Promise.resolve('compiled')) }));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 

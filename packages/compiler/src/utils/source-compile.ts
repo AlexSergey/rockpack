@@ -1,11 +1,10 @@
 import * as babel from '@babel/core';
 import { createBabelPresets } from '@rockpack/babel';
-import { getMode, getRootRequireDir } from '@rockpack/utils';
+import { getMode, getRootRequireDir, isRecord, isString } from '@rockpack/utils';
 import { cpSync, existsSync, renameSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { rimraf } from 'rimraf';
-import { isArray, isObject, isString } from 'valid-types';
 
 import type { InternalCompilerConf } from '../types.js';
 
@@ -29,7 +28,7 @@ export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promis
 
   for (const format of formats) {
     const formatConf = conf[format];
-    if (isObject(formatConf)) {
+    if (isRecord(formatConf)) {
       output[format] = { dist: '', src: '' };
       output[`has${capitalize(format)}`] = false;
 
@@ -76,8 +75,8 @@ export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promis
 
     console.log(`=========${format} format is starting=========`);
 
-    const isTs = isArray(tsAndTsx) && tsAndTsx.length > 0;
-    const isJs = isArray(jsAndJsx) && jsAndJsx.length > 0;
+    const isTs = Array.isArray(tsAndTsx) && tsAndTsx.length > 0;
+    const isJs = Array.isArray(jsAndJsx) && jsAndJsx.length > 0;
 
     if (isTs || isJs) {
       const sourceFiles = isTs ? tsAndTsx : jsAndJsx;
@@ -122,7 +121,7 @@ export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promis
       }
     }
 
-    if (isArray(copyFiles) && copyFiles.length > 0) {
+    if (Array.isArray(copyFiles) && copyFiles.length > 0) {
       console.log('Files will copy:\n');
       console.log(copyFiles.join('\n'));
       console.log('\n');

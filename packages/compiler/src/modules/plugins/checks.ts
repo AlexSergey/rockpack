@@ -1,9 +1,9 @@
 import FriendlyErrorsWebpackPlugin from '@nuxt/friendly-errors-webpack-plugin';
+import { isString } from '@rockpack/utils';
 import EslintWebpackPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { createRequire } from 'node:module';
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin';
-import { isString } from 'valid-types';
 
 import type { PluginContext, PluginEntries } from './types.js';
 

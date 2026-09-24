@@ -3,7 +3,10 @@ import { setMode } from '@rockpack/utils';
 import { compile } from '../core/compile.js';
 import { makeWebpackConfig } from './make-webpack-config.js';
 
-jest.mock('@rockpack/utils', () => ({ setMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  setMode: jest.fn(),
+}));
 jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
 
 describe('makeWebpackConfig', () => {

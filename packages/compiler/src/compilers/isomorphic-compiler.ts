@@ -3,7 +3,6 @@ import type { Configuration } from 'webpack';
 import { getMode, setMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 import path from 'node:path';
-import { isUndefined } from 'valid-types';
 import webpack from 'webpack';
 
 import type { InternalCompilerConf } from '../types.js';
@@ -33,7 +32,9 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
 
   for (const prop of configs) {
     for (const option of ['dist', 'src'] as const) {
-      if (isUndefined(prop[option])) {
+      // Typed as required, but the configs come from user code.
+      const value: unknown = prop[option];
+      if (value === undefined) {
         throw errors.optionIsRequired(prop.compilerName ?? '', option);
       }
     }

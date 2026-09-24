@@ -7,7 +7,11 @@ import path from 'node:path';
 
 import { generateDts } from './generate-dts.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getMode: jest.fn(),
+  getRootRequireDir: jest.fn(),
+}));
 const fixture = path.resolve(__dirname, '../__fixtures__/source-project');
 
 describe('generateDts', () => {

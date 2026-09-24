@@ -5,7 +5,10 @@ import { devServer } from '../core/dev-server.js';
 import { errorHandler } from '../error-handler.js';
 import { frontendCompiler } from './frontend-compiler.js';
 
-jest.mock('@rockpack/utils', () => ({ setMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  setMode: jest.fn(),
+}));
 jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
 jest.mock('../core/dev-server.js', () => ({ devServer: jest.fn() }));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));

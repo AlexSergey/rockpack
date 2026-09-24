@@ -1,5 +1,4 @@
-import { getRootRequireDir, setMode } from '@rockpack/utils';
-import { isDefined, isString } from 'valid-types';
+import { getRootRequireDir, isString, setMode } from '@rockpack/utils';
 
 import type { CompilerConf } from '../types.js';
 
@@ -19,7 +18,7 @@ export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<
     const tsConfig = pathToTsConf(root, mode, false);
     const isTypeScript = isString(tsConfig);
 
-    if (isDefined(conf.esm) || isDefined(conf.cjs)) {
+    if (conf.esm !== undefined || conf.cjs !== undefined) {
       try {
         await sourceCompile(conf);
       } catch (e) {

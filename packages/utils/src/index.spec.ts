@@ -13,6 +13,9 @@ describe('@rockpack/utils', () => {
         'getMajorVersion',
         'getMode',
         'getRootRequireDir',
+        'isRecord',
+        'isString',
+        'packageRoot',
         'readPackageJson',
         'setMode',
       ]);

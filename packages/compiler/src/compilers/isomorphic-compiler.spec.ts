@@ -6,7 +6,11 @@ import type { InternalCompilerConf } from '../types.js';
 import { run } from '../core/run.js';
 import { isomorphicCompiler } from './isomorphic-compiler.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), setMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getMode: jest.fn(),
+  setMode: jest.fn(),
+}));
 jest.mock('livereload', () => ({ createServer: jest.fn() }));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../core/run.js', () => ({ run: jest.fn() }));

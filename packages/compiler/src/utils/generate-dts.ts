@@ -1,11 +1,10 @@
-import { getMode } from '@rockpack/utils';
+import { getMode, isString } from '@rockpack/utils';
 import { mkdirp } from 'mkdirp';
 import { copyFileSync, existsSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { rimraf } from 'rimraf';
 import ts from 'typescript';
-import { isArray, isString } from 'valid-types';
 
 import type { CompilerConf } from '../types.js';
 
@@ -54,7 +53,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
     if (baseDir) {
       const tsAndTsx = await getTypeScript(baseDir, testFilesIgnore);
 
-      if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
+      if (Array.isArray(tsAndTsx) && tsAndTsx.length > 0) {
         if (typeof tsConfig === 'string' && existsSync(tsConfig)) {
           if (!converted) {
             const compilerOptions = makeCompilerOptions(root, tsConfig, temp, moduleFormats.cjs);

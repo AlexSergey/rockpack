@@ -22,6 +22,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)
+- `@rockpack/utils` exports `packageRoot(import.meta.url)` and the `isRecord` and `isString` guards; `@rockpack/compiler` no longer depends on `valid-types`
 - Generated projects install git hooks with `simple-git-hooks` (`pre-commit` lint-staged, `commit-msg` commitlint, `pre-push` tests)
 
 ### Changed

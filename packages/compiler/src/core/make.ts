@@ -1,7 +1,6 @@
 import type { Configuration } from 'webpack';
 
 import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
-import { isDefined } from 'valid-types';
 import webpack from 'webpack';
 
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
@@ -67,7 +66,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
     finalConfig['name'] = mergedConf.name;
   }
 
-  if (isDefined(mergedConf.externals)) {
+  if (mergedConf.externals !== undefined) {
     finalConfig['externals'] = mergedConf.externals;
   }
 

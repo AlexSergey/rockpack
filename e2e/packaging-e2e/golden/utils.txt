@@ -3,14 +3,18 @@ lib/cjs/index.cjs
 lib/cjs/polyfills/text-encoder.fix.cjs
 lib/cjs/utils/get-major-version.cjs
 lib/cjs/utils/get-mode.cjs
+lib/cjs/utils/guards.cjs
 lib/cjs/utils/package-json.cjs
+lib/cjs/utils/package-root.cjs
 lib/cjs/utils/require-dir.cjs
 lib/cjs/utils/set-mode.cjs
 lib/esm/index.mjs
 lib/esm/polyfills/text-encoder.fix.mjs
 lib/esm/utils/get-major-version.mjs
 lib/esm/utils/get-mode.mjs
+lib/esm/utils/guards.mjs
 lib/esm/utils/package-json.mjs
+lib/esm/utils/package-root.mjs
 lib/esm/utils/require-dir.mjs
 lib/esm/utils/set-mode.mjs
 package.json
@@ -18,6 +22,8 @@ types/index.d.ts
 types/polyfills/text-encoder.fix.d.ts
 types/utils/get-major-version.d.ts
 types/utils/get-mode.d.ts
+types/utils/guards.d.ts
 types/utils/package-json.d.ts
+types/utils/package-root.d.ts
 types/utils/require-dir.d.ts
 types/utils/set-mode.d.ts

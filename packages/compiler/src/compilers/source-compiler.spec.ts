@@ -5,7 +5,11 @@ import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { sourceCompile } from '../utils/source-compile.js';
 import { sourceCompiler } from './source-compiler.js';
 
-jest.mock('@rockpack/utils', () => ({ getRootRequireDir: jest.fn(), setMode: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getRootRequireDir: jest.fn(),
+  setMode: jest.fn(),
+}));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 jest.mock('../utils/generate-dts.js', () => ({ generateDts: jest.fn() }));
 jest.mock('../utils/path-to-ts-conf.js', () => ({ pathToTsConf: jest.fn() }));

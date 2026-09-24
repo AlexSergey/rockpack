@@ -1,7 +1,10 @@
+import { isRecord } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
-import { isArray, isFunction, isObject } from 'valid-types';
 
 type CollectionEntry = unknown;
+
+// Entries may be factories that build the plugin or rule from its props.
+const isFactory = (entry: unknown): entry is (props: unknown) => unknown => typeof entry === 'function';
 
 type CollectionOpts = {
   data: Record<string, CollectionEntry>;
@@ -23,16 +26,16 @@ export class Collection {
       const entry = this._data[plName];
       const props = this._props[plName];
 
-      if (isFunction(entry)) {
+      if (isFactory(entry)) {
         const d = entry(props);
-        if (isArray(d)) {
+        if (Array.isArray(d)) {
           d.forEach((_d, index) => {
             this.__tempData[`${plName}${index}`] = _d;
           });
         } else {
           acc[plName] = d;
         }
-      } else if (isObject(entry)) {
+      } else if (isRecord(entry)) {
         acc[plName] = deepExtend(entry as object, props as object);
       }
 
@@ -61,14 +64,14 @@ export class Collection {
     if (!this.dict[name]) {
       throw new Error(`Provided name "${name}" was not found in the collection`);
     }
-    if (!isFunction(cb)) {
+    if (typeof cb !== 'function') {
       throw new Error('The second argument should be a function');
     }
-    cb(this.dict[name]);
+    cb(this.dict[name] as T);
   }
 
   remove(name: string | string[]): void {
-    if (isArray(name)) {
+    if (Array.isArray(name)) {
       name.forEach((n) => {
         delete this.dict[n];
       });

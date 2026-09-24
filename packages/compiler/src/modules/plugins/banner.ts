@@ -1,4 +1,4 @@
-import { isString } from 'valid-types';
+import { isString } from '@rockpack/utils';
 
 import type { PluginContext, PluginEntries } from './types.js';
 

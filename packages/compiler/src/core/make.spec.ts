@@ -11,7 +11,12 @@ import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { make } from './make.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn(), readPackageJson: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getMode: jest.fn(),
+  getRootRequireDir: jest.fn(),
+  readPackageJson: jest.fn(),
+}));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../modules/make-dev-server.js', () => ({ makeDevServer: jest.fn(() => Promise.resolve('devServer')) }));
 jest.mock('../modules/make-devtool.js', () => ({ makeDevtool: jest.fn(() => 'devtool') }));
