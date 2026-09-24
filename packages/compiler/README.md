@@ -115,6 +115,7 @@ const {
 | global  | Object[undefined]           | Allows forcing global variables using webpack.ProvidePlugin                                                                                                    |
 | copy    | Object/Array[undefined]     | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                 |
 | version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
+| ignore  | String[][specs, tests, fixtures] | Globs that the per-file `esm`/`cjs` builds and the generated declarations skip |
 
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');

@@ -14,6 +14,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - ESLint rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are now disabled for `.d.ts` files
 - `@rockpack/codestyle` enables Jest globals for `*.spec.{ts,tsx}` and `__fixtures__` files and turns off `@typescript-eslint/no-empty-function` and `@typescript-eslint/unbound-method` there
 - `@rockpack/codestyle` lints specs with `eslint-plugin-jest` (`no-disabled-tests`, `no-focused-tests`, `valid-expect`, `prefer-to-have-length`) and allows non-kebab-case folder names inside `__fixtures__`
+- `@rockpack/compiler`: `ignore` option (globs) for the per-file `esm`/`cjs` builds and the generated declarations, instead of the fixed specs/tests/fixtures list
 - `@rockpack/compiler` validates every documented option before building and reports all problems at once with their paths, for example `INVALID_CONFIG: html[1].template must be a string`
 - `@rockpack/compiler`: the `modules` and `plugins` collections passed to the compiler callbacks are typed (`Collection<RuleSetRule>`, `Collection<WebpackPluginInstance>`); `get(name)` returns `[]` for a missing name
 - `@rockpack/compiler`: `isomorphicCompiler({ frontend, backend, frontendCallback, backendCallback })` takes the two confs and builds them with an explicit context; the `IsomorphicCompilerOptions` type is exported

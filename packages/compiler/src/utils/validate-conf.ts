@@ -79,6 +79,7 @@ const CHECKS: Readonly<Record<string, Check>> = {
 
     return Array.isArray(value) ? list(htmlPage)(value, path) : htmlPage(value, path);
   }),
+  ignore: optional(list(string)),
   port: optional(expect((value) => Number.isInteger(value) && Number(value) > 0, 'a positive integer')),
   styles: optional(expect((value) => value === false || isString(value), 'false or a string')),
   types: optional(string),

@@ -11,6 +11,8 @@ export type CompilerConf = {
   externals?: unknown;
   global?: Record<string, string>;
   html?: boolean | HtmlPage | HtmlPage[];
+  // Globs the per-file builds (esm, cjs) and the declarations skip; defaults to specs, tests and fixtures.
+  ignore?: string[];
   library?: string;
   name?: string;
   port?: number;

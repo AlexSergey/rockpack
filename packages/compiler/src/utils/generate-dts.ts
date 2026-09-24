@@ -51,7 +51,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
   }
 
   const baseDir = findSourceDir(path.join(root, conf.src ?? 'src/index'), makeResolve(root).extensions);
-  const files = baseDir === undefined ? [] : await getTypeScript(baseDir, testFilesIgnore);
+  const files = baseDir === undefined ? [] : await getTypeScript(baseDir, conf.ignore ?? testFilesIgnore);
   if (files.length === 0) {
     return;
   }

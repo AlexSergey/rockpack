@@ -111,15 +111,10 @@ const compileFormat = async (
   const dist = path.join(root, paths.dist);
   const src = path.join(root, paths.src);
 
-  const tsAndTsx = await getTypeScript(paths.src, testFilesIgnore);
-  const copyFiles = await getFiles(paths.src, undefined, [
-    ...testFilesIgnore,
-    '**/*.ts',
-    '**/*.tsx',
-    '**/*.js',
-    '**/*.jsx',
-  ]);
-  const jsAndJsx = await getFiles(paths.src, '*.+(js|jsx)', testFilesIgnore);
+  const ignore = conf.ignore ?? testFilesIgnore;
+  const tsAndTsx = await getTypeScript(paths.src, ignore);
+  const copyFiles = await getFiles(paths.src, undefined, [...ignore, '**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']);
+  const jsAndJsx = await getFiles(paths.src, '*.+(js|jsx)', ignore);
 
   rimraf.sync(dist);
   console.log(`=========${format} format is starting=========`);

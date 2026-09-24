@@ -66,6 +66,15 @@ describe('sourceCompile', () => {
   });
 
   describe('positive cases', () => {
+    it('skips the files matching a custom ignore list instead of the default one', async () => {
+      writeFileSync(path.join(root, 'src', 'draft.ts'), 'export const draft = 1;');
+
+      await sourceCompile({ cjs: { dist: 'lib/cjs', src: 'src' }, ignore: ['**/draft.ts'] });
+
+      expect(existsSync(path.join(root, 'lib', 'cjs', 'draft.cjs'))).toBe(false);
+      expect(existsSync(path.join(root, 'lib', 'cjs', 'index.cjs'))).toBe(true);
+    });
+
     it('compiles TypeScript to cjs and esm with extension-mapped imports and copied assets', async () => {
       await sourceCompile({ cjs: { dist: 'lib/cjs', src: 'src' }, esm: { dist: 'lib/esm', src: 'src' } });
 
