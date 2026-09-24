@@ -82,7 +82,7 @@ export const configCompiler = (
     projectConfig,
   ) as Config.InitialOptions;
 
-  const watch = options.watch || opts['watch'];
+  const watch = options.watch === true;
   const noWatch = !watch;
 
   if (noWatch) {
