@@ -1,11 +1,7 @@
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
-
 import type { CompilerConf } from '../types.js';
 
+import { getArgv } from '../core/argv.js';
 import { fpPromise } from '../utils/find-free-port.js';
-
-const argv = yargs(hideBin(process.argv)).parseSync();
 
 type DevServerConfig = {
   devMiddleware: { writeToDisk: boolean };
@@ -27,6 +23,6 @@ export const makeDevServer = async (conf: Partial<CompilerConf>): Promise<DevSer
   historyApiFallback: true,
   host: 'localhost',
   hot: true,
-  open: !(argv as Record<string, unknown>)['_rockpack_testing'],
+  open: !getArgv()['_rockpack_testing'],
   port: conf.port ?? (await fpPromise(3000)),
 });

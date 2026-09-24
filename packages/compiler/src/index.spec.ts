@@ -3,8 +3,7 @@ import webpack from 'webpack';
 import * as compiler from './index.js';
 
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
-jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => ({ mode: 'production' }) })));
-jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
+jest.mock('./core/argv.js', () => ({ getArgv: (): Record<string, unknown> => ({ mode: 'production' }) }));
 jest.mock('./compilers/backend-compiler.js', () => ({ backendCompiler: 'backendCompiler' }));
 jest.mock('./compilers/frontend-compiler.js', () => ({ frontendCompiler: 'frontendCompiler' }));
 jest.mock('./compilers/isomorphic-compiler.js', () => ({ isomorphicCompiler: 'isomorphicCompiler' }));

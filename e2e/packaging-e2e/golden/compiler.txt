@@ -12,6 +12,7 @@ lib/cjs/compilers/make-webpack-config.cjs
 lib/cjs/compilers/source-compiler.cjs
 lib/cjs/constants.cjs
 lib/cjs/core/args.cjs
+lib/cjs/core/argv.cjs
 lib/cjs/core/compile.cjs
 lib/cjs/core/dev-server.cjs
 lib/cjs/core/inner-props.cjs
@@ -73,6 +74,7 @@ lib/esm/compilers/make-webpack-config.mjs
 lib/esm/compilers/source-compiler.mjs
 lib/esm/constants.mjs
 lib/esm/core/args.mjs
+lib/esm/core/argv.mjs
 lib/esm/core/compile.mjs
 lib/esm/core/dev-server.mjs
 lib/esm/core/inner-props.mjs
@@ -135,6 +137,7 @@ types/compilers/make-webpack-config.d.ts
 types/compilers/source-compiler.d.ts
 types/constants.d.ts
 types/core/args.d.ts
+types/core/argv.d.ts
 types/core/compile.d.ts
 types/core/dev-server.d.ts
 types/core/inner-props.d.ts
