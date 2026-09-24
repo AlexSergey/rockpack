@@ -31,6 +31,13 @@ describe('getRootRequireDir', () => {
   });
 
   describe('positive cases', () => {
+    it('uses an explicitly given script path instead of the process arguments', () => {
+      process.argv = ['node', '/ignored/script.js'];
+      mockStat(true);
+
+      expect(getRootRequireDir('/project/scripts.build.ts')).toBe('/project');
+    });
+
     it('returns the directory of the entry file', () => {
       process.argv = ['node', '/project/scripts/build.js'];
       mockStat(true);
