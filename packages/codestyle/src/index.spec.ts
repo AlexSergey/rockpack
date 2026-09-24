@@ -38,9 +38,8 @@ jest.mock('eslint-plugin-sonarjs', () => ({ rules: {} }));
 jest.mock('eslint-plugin-unicorn', () => ({ rules: {} }));
 jest.mock('typescript-eslint', () => ({
   configs: {
-    recommended: [{ name: 'ts/recommended' }],
-    recommendedTypeChecked: [{ name: 'ts/recommended-type-checked' }],
-    stylistic: [{ name: 'ts/stylistic' }],
+    strictTypeChecked: [{ name: 'ts/strict-type-checked' }],
+    stylisticTypeChecked: [{ name: 'ts/stylistic-type-checked' }],
   },
   plugin: { rules: {} },
 }));
@@ -143,9 +142,8 @@ describe('makeConfig', () => {
       createProject();
 
       expect(getNames(makeConfig())).toEqual([
-        'ts/recommended',
-        'ts/stylistic',
-        'ts/recommended-type-checked',
+        'ts/strict-type-checked',
+        'ts/stylistic-type-checked',
         'prettier',
         'perfectionist',
         'regexp',
@@ -166,9 +164,9 @@ describe('makeConfig', () => {
     it('scopes the typescript-eslint presets to ts files', () => {
       createProject();
 
-      const configs = makeConfig().slice(0, 3);
+      const configs = makeConfig().slice(0, 2);
 
-      expect(configs.map((config) => config.files)).toEqual([['**/*.{ts,tsx}'], ['**/*.{ts,tsx}'], ['**/*.{ts,tsx}']]);
+      expect(configs.map((config) => config.files)).toEqual([['**/*.{ts,tsx}'], ['**/*.{ts,tsx}']]);
     });
 
     it('scopes the recommended js rules to js files with node, jest and browser globals', () => {
@@ -216,7 +214,7 @@ describe('makeConfig', () => {
 
       expect(gitignoreMock).toHaveBeenCalledWith({ files: path.join(dir, '.eslintflatignore'), strict: false });
       expect(configs[0]).toEqual({ name: 'gitignore' });
-      expect(configs).toHaveLength(18);
+      expect(configs).toHaveLength(17);
     });
 
     it('finds .eslintflatignore in an ancestor directory', () => {
@@ -254,12 +252,13 @@ describe('makeConfig', () => {
       });
     });
 
-    it('allows default exports and any type names in declaration files', () => {
+    it('allows default exports, any type names and constructor-only classes in declaration files', () => {
       createProject();
 
       expect(findByFiles(makeConfig(), '**/*.d.ts')?.rules).toEqual({
         '@import-lite/no-default-export': 'off',
         '@typescript-eslint/naming-convention': 'off',
+        '@typescript-eslint/no-extraneous-class': 'off',
       });
     });
 

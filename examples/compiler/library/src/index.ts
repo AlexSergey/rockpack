@@ -1,5 +1,5 @@
 export class MyLib {
-  private name: string;
+  private readonly name: string;
 
   constructor(name: string) {
     this.name = name;

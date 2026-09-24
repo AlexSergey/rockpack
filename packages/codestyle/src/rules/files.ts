@@ -70,6 +70,8 @@ export const makeOverrideConfigs = (): Linter.Config[] => {
     rules: {
       '@import-lite/no-default-export': 'off',
       '@typescript-eslint/naming-convention': 'off',
+      // Ambient declarations of third-party classes often list only the constructor.
+      '@typescript-eslint/no-extraneous-class': 'off',
     },
   };
 

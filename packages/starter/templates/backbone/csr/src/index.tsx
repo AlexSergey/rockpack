@@ -13,12 +13,13 @@ const head = createHead();
 
 root.render(
   <StrictMode>
-    <UnheadProvider head={head}>
+    <UnheadProvider value={head}>
       <App />
     </UnheadProvider>
   </StrictMode>,
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- undefined outside HMR builds, typed as always set
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept();
 }

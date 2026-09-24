@@ -19,7 +19,6 @@ type WebpackCompilerWithHooks = {
     watchRun: { tapAsync(plugin: { name: string }, fn: (comp: unknown, cb: WebpackHookCallback) => void): void };
   };
   outputPath: string;
-  plugin?(event: string, fn: unknown): void;
 };
 
 type WebpackHookCallback = () => void;
@@ -27,7 +26,7 @@ type WebpackHookCallback = () => void;
 export class SsrDevelopment {
   private isNodemonRunning: boolean;
   private isWebpackWatching: boolean;
-  private nodemonOptions: NodemonOptions;
+  private readonly nodemonOptions: NodemonOptions;
 
   constructor(nodemonOptions: NodemonOptions) {
     this.nodemonOptions = nodemonOptions;
@@ -55,13 +54,8 @@ export class SsrDevelopment {
 
     const plugin = { name: 'nodemon-webpack-plugin' };
 
-    if (compiler.hooks) {
-      compiler.hooks.afterEmit.tapAsync(plugin, onAfterEmit);
-      compiler.hooks.watchRun.tapAsync(plugin, onWatchRun);
-    } else {
-      compiler.plugin?.('after-emit', onAfterEmit);
-      compiler.plugin?.('watch-run', onWatchRun);
-    }
+    compiler.hooks.afterEmit.tapAsync(plugin, onAfterEmit);
+    compiler.hooks.watchRun.tapAsync(plugin, onWatchRun);
   }
 
   startMonitoring(relativeFileName: string): void {

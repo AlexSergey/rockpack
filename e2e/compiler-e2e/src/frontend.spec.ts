@@ -107,7 +107,7 @@ describe('frontendCompiler production builds', () => {
         const text = await waitFor(() => dom.window.document.querySelector('.title')?.textContent ?? undefined);
 
         expect(text).toBe('full-fixture');
-        expect(read(dir, 'dist/index.js')).not.toContain('process.env.APP_NAME');
+        expect(read(dir, 'dist/index.js')).not.toContain('APP_NAME');
         dom.window.close();
       });
     });

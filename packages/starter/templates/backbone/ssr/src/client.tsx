@@ -24,7 +24,7 @@ hydrateRoot(
   document.getElementById('root') as Element,
   <StrictMode>
     <SSR>
-      <UnheadProvider head={head}>
+      <UnheadProvider value={head}>
         <App />
       </UnheadProvider>
     </SSR>

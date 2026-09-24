@@ -12,6 +12,7 @@ import { RockpackError } from './errors/rockpack-error.js';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- public API: callers name the argv shape
 const getArgs = <T extends Record<string, unknown> = Record<never, never>>(): T & typeof argv =>
   argv as T & typeof argv;
 

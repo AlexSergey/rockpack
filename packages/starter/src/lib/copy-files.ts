@@ -21,8 +21,6 @@ export const copyFiles = async (
 
   if (tester) {
     await copy(path.join(addons, 'tester', 'common'), path.join(currentPath));
-    if (appType === 'csr' || appType === 'ssr' || appType === 'component' || appType === 'library') {
-      await copy(path.join(addons, 'tester', appType), path.join(currentPath));
-    }
+    await copy(path.join(addons, 'tester', appType), path.join(currentPath));
   }
 };

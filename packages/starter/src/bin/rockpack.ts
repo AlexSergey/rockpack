@@ -23,7 +23,7 @@ const warnIfOutdated = async (): Promise<void> => {
   }
   const parsed = semverParse(rockpackLatestVersion);
 
-  if (parsed && parsed.prerelease.length === 0 && semverGt(rockpackLatestVersion, packageJson.version)) {
+  if (parsed?.prerelease.length === 0 && semverGt(rockpackLatestVersion, packageJson.version)) {
     console.warn(chalk.red('WARNING:   A newer Rockpack version is available!'));
     console.log();
     console.log(` => The current available version is ${rockpackLatestVersion}`);
@@ -37,7 +37,7 @@ const warnIfOutdated = async (): Promise<void> => {
 
 export const rockpack = async (): Promise<void> => {
   const { _, h, help, v, version } = argv;
-  const noName = ((_ as unknown[]) ?? []).length === 0;
+  const noName = _.length === 0;
   const args = getArgs();
 
   if (v || version) {

@@ -45,7 +45,7 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
   }
 };
 
-export async function isomorphicCompiler(...props: Promise<CompileResult | void>[]): Promise<void> {
+export async function isomorphicCompiler(...props: Promise<CompileResult | undefined>[]): Promise<void> {
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();

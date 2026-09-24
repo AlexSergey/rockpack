@@ -86,9 +86,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
 
   if (mode === 'production') {
     finalConfig['performance'] = { hints: 'warning' };
-    if (!finalConfig['output']) {
-      finalConfig['output'] = {};
-    }
+    finalConfig['output'] ??= {};
     (finalConfig['output'] as Record<string, unknown>)['pathinfo'] = false;
   }
 

@@ -41,7 +41,7 @@ const openPage = async (browser: Browser, url: string): Promise<OpenedPage> => {
 };
 
 const waitForText = (page: Page, text: string, timeout = 30_000): Promise<unknown> =>
-  page.waitForFunction((expected: string) => document.body.textContent?.includes(expected), { timeout }, text);
+  page.waitForFunction((expected: string) => document.body.textContent.includes(expected), { timeout }, text);
 
 const isPortFree = (port: number): Promise<boolean> =>
   new Promise((resolve) => {
@@ -122,7 +122,7 @@ describe(`generated project runtime (${latest ? 'latest' : 'pinned'})`, () => {
           await waitForText(opened.page, DESCRIPTION);
           const { background, tags, title } = await opened.page.evaluate(() => ({
             background: getComputedStyle(document.querySelector('.bg-slate-950') as Element).backgroundColor,
-            tags: document.body.textContent?.includes('React 19'),
+            tags: document.body.textContent.includes('React 19'),
             title: document.title,
           }));
 

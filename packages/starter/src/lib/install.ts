@@ -107,9 +107,9 @@ export const install = async ({
   if (!state.nogit) {
     try {
       const gitignore = fs.readFileSync(path.join(dummies, 'gitignore'), 'utf8');
-      fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore.toString());
+      fs.writeFileSync(path.join(currentPath, '.gitignore'), gitignore);
       const gitattributes = fs.readFileSync(path.join(dummies, 'gitattributes'), 'utf8');
-      fs.writeFileSync(path.join(currentPath, '.gitattributes'), gitattributes.toString());
+      fs.writeFileSync(path.join(currentPath, '.gitattributes'), gitattributes);
     } catch (e) {
       showError(e, () => {
         console.error('Step: 4.1. .gitignore creating');
@@ -122,7 +122,7 @@ export const install = async ({
   if (state.appType === 'library' || state.appType === 'component') {
     try {
       const npmignore = fs.readFileSync(path.join(dummies, 'npmignore'), 'utf8');
-      fs.writeFileSync(path.join(currentPath, '.npmignore'), npmignore.toString());
+      fs.writeFileSync(path.join(currentPath, '.npmignore'), npmignore);
     } catch (e) {
       showError(e, () => {
         console.error('Step: 4.2. .npmignore creating');

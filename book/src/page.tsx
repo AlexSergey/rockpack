@@ -15,7 +15,7 @@ import codeCreateExample from './code-samples/create.example';
 import codeInstallationExample from './code-samples/installation.example';
 
 export const Page = (): ReactElement => {
-  const hash = window?.location?.hash;
+  const hash = window.location.hash;
 
   useEffect(() => {
     if (hash) {

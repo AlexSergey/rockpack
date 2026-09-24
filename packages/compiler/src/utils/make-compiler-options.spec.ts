@@ -35,6 +35,7 @@ describe('makeCompilerOptions', () => {
 
       expect(options).toMatchObject({
         module: ts.ModuleKind.CommonJS,
+        // eslint-disable-next-line @typescript-eslint/no-deprecated -- the source still sets `node`; Plan 3 C21
         moduleResolution: ts.ModuleResolutionKind.Node10,
         outDir,
       });

@@ -154,6 +154,9 @@ export const packageJsonPreparing = async (
         resolution,
       );
       break;
+
+    case undefined:
+      break;
   }
 
   packageJSON = addScripts(packageJSON, {

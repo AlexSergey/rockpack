@@ -15,14 +15,18 @@ export const readPackageJSON = (currentPath: string): Promise<PackageJsonObject>
   return new Promise((resolve, reject) => {
     fs.readFile(path.resolve(currentPath, 'package.json'), (err, data) => {
       if (err) {
-        return reject(err);
+        reject(err);
+
+        return;
       }
       let parsed: PackageJsonObject;
       try {
         parsed = JSON.parse(data.toString()) as PackageJsonObject;
       } catch (e) {
         // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-        return reject(e);
+        reject(e);
+
+        return;
       }
       resolve(parsed);
     });
@@ -89,8 +93,12 @@ export const writePackageJSON = (currentPath: string, packageJSON: PackageJsonOb
     const indexA = orderedKeys.indexOf('@types/koa__router');
     const indexB = orderedKeys.indexOf('@types/koa-static');
 
-    if (indexA >= 0 && indexB >= 0) {
-      [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB]!, orderedKeys[indexA]!];
+    const keyA = orderedKeys[indexA];
+    const keyB = orderedKeys[indexB];
+
+    if (keyA !== undefined && keyB !== undefined) {
+      orderedKeys[indexA] = keyB;
+      orderedKeys[indexB] = keyA;
       sorted['devDependencies'] = Object.fromEntries(
         orderedKeys.map((key) => [key, (sorted['devDependencies'] as Record<string, unknown>)[key]]),
       );
@@ -100,7 +108,9 @@ export const writePackageJSON = (currentPath: string, packageJSON: PackageJsonOb
   return new Promise((resolve, reject) => {
     fs.writeFile(path.join(currentPath, 'package.json'), JSON.stringify(sorted, null, 2) + '\n', (err) => {
       if (err) {
-        return reject(err);
+        reject(err);
+
+        return;
       }
       resolve();
     });
@@ -124,7 +134,9 @@ export const installDependencies = (cwd: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     childProcess.exec(`${getPM()} install -q`, { cwd }, (err) => {
       if (err) {
-        return reject(err);
+        reject(err);
+
+        return;
       }
       resolve();
     });
@@ -135,7 +147,9 @@ export const installDependency = (cwd: string, dependency: string): Promise<void
   return new Promise((resolve, reject) => {
     childProcess.exec(`${getPM()} install ${dependency} -q`, { cwd }, (err) => {
       if (err) {
-        return reject(err);
+        reject(err);
+
+        return;
       }
       resolve();
     });

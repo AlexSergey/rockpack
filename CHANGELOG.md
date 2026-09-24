@@ -33,6 +33,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed
 - **Breaking:** `@rockpack/tester` runs suites in parallel with the Jest cache by default; pass `serial: true` for the previous one-by-one behaviour
 - **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)
+- **Breaking:** `@rockpack/codestyle` uses the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets (was `recommended`, `stylistic` and `recommendedTypeChecked`) and adds `prefer-readonly` and `switch-exhaustiveness-check`; numbers are allowed in template literals, void arrow shorthands are allowed, `||` stays allowed for strings and `no-dynamic-delete` is off
 - **Breaking:** `@rockpack/tsconfig` turns on `noPropertyAccessFromIndexSignature` (and states `useUnknownInCatchVariables`): read index signatures with brackets, for example `process.env['API_URL']`; webpack and dotenv still inline them. To keep the old behaviour set `"noPropertyAccessFromIndexSignature": false` in your `tsconfig.json`
 - `@rockpack/babel`: `react-compiler-runtime` is an optional peer dependency (only needed on React 17 and 18); unused dependencies were removed from babel, compiler, codestyle, tester, utils and starter
 - `@rockpack/babel` test mode keeps a module-level `const __filename = fileURLToPath(import.meta.url)` working under `@rockpack/tester`
@@ -55,6 +56,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/compiler`: the `vendor` option moves the listed modules into `vendor.js` only (the main entry now `dependOn`s it); before, they were bundled into both files
 - `@rockpack/compiler`: `isomorphicCompiler` fails with `INVALID_CONFIG` when the frontend and the backend write to the same file (one bundle silently overwrote the other)
 - Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
+- Generated csr and ssr projects pass `value` to `UnheadProvider` (the `head` prop is deprecated)
 - Generated ssr projects listen on `PORT` from `.env` (the template shipped `PORT=8888` but always listened on `4000`)
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
 - Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)

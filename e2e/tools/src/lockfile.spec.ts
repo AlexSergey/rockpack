@@ -40,7 +40,7 @@ describe('lockfile', () => {
       );
 
       expect(missing).toEqual(['left-pad']);
-      expect(packageJson['dependencies']).toEqual({ '@rockpack/compiler': '8.0.0', 'left-pad': '^1.0.0' });
+      expect(packageJson.dependencies).toEqual({ '@rockpack/compiler': '8.0.0', 'left-pad': '^1.0.0' });
     });
   });
 

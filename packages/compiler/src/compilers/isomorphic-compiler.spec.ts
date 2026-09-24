@@ -83,7 +83,7 @@ describe('isomorphicCompiler', () => {
     });
 
     it('ignores compilers that resolved to nothing', async () => {
-      await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve())).rejects.toThrow(
+      await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve(undefined))).rejects.toThrow(
         'backendCompiler is required to set isomorphicCompiler',
       );
       expect(lrServer.close).toHaveBeenCalled();

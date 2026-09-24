@@ -110,16 +110,6 @@ describe('SsrDevelopment', () => {
       expect(nodemonMock).toHaveBeenCalledWith({ ext: 'js', script: 'custom.js', watch: ['dist/server.js'] });
     });
 
-    it('registers through the legacy plugin API without hooks', () => {
-      const plugin = jest.fn();
-
-      new SsrDevelopment({}).apply({ outputPath: '/dist', plugin } as unknown as Parameters<
-        SsrDevelopment['apply']
-      >[0]);
-
-      expect(plugin.mock.calls.map(([event]) => event as string)).toEqual(['after-emit', 'watch-run']);
-    });
-
     it('forwards nodemon logs and refreshes live reload on restart', () => {
       const refresh = jest.fn();
       global.LIVE_RELOAD_SERVER = { refresh };

@@ -11,7 +11,7 @@ const preset = createBabelPresets({
   typescript: true,
 });
 
-preset.plugins!.unshift(_require.resolve('@issr/babel-plugin'));
+(preset.plugins ??= []).unshift(_require.resolve('@issr/babel-plugin'));
 
 tester(
   {},

@@ -27,7 +27,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
 
     return;
   }
-  const dists = [conf.types ? conf.types : path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types')];
+  const dists = [conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types')];
   const validDists = dists.filter((d): d is string => typeof d === 'string');
 
   const temp = mkdtempSync(path.join(tmpdir(), 'rockpack-dts-'));

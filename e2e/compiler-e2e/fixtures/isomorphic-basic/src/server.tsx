@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 
 import { App } from './app';
 
-const port = Number(process.env.PORT ?? 4000);
+const port = Number(process.env['PORT'] ?? 4000);
 
 createServer((_req, res) => {
   res.setHeader('Content-Type', 'text/html');

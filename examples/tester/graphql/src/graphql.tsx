@@ -42,7 +42,7 @@ const GraphqlContext = createContext<false | GraphqlClient>(false);
 const useGraphql = (): false | GraphqlClient => useContext(GraphqlContext);
 
 const resolveQuery = (q: GraphqlQuery): string => {
-  if (q && typeof q === 'object' && 'loc' in q && q.loc?.source.body) {
+  if (q && typeof q === 'object' && 'loc' in q && q.loc.source.body) {
     return q.loc.source.body;
   }
 

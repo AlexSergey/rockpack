@@ -117,7 +117,7 @@ export const createBabelPresets = ({
 
   if (existsSync(babelMergePath)) {
     try {
-      const babelMergeModule = _require(babelMergePath) as BabelMergeFunction | Record<string, unknown>;
+      const babelMergeModule: unknown = _require(babelMergePath);
 
       if (
         typeof babelMergeModule === 'object' &&
@@ -126,7 +126,8 @@ export const createBabelPresets = ({
       ) {
         opts = deepmerge(opts, babelMergeModule as Partial<TransformOptions>);
       } else if (typeof babelMergeModule === 'function') {
-        const result = babelMergeModule({ framework, isNodejs, isTest, modules, typescript }, opts, deepmerge);
+        const merge = babelMergeModule as BabelMergeFunction;
+        const result = merge({ framework, isNodejs, isTest, modules, typescript }, opts, deepmerge);
         if (typeof result === 'object' && Object.keys(result).length > 0) {
           opts = result;
         }

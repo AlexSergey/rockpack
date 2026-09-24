@@ -12,7 +12,7 @@ const root = createRoot(container as HTMLElement);
 const head = createHead();
 
 root.render(
-  <UnheadProvider head={head}>
+  <UnheadProvider value={head}>
     <App />
   </UnheadProvider>,
 );

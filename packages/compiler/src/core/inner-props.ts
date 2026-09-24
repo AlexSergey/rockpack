@@ -23,6 +23,10 @@ export const innerProps = (conf: InternalCompilerConf, mode: Mode): InternalComp
           conf.html = false;
         }
         break;
+
+      case undefined:
+      default:
+        break;
     }
   }
 

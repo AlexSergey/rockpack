@@ -57,7 +57,7 @@ export async function libraryCompiler(
     }
 
     mergedConf = deepExtend({}, mergedConf, {
-      html: mergedConf.html ? mergedConf.html : false,
+      html: mergedConf.html ?? false,
       library: libraryName,
     });
 

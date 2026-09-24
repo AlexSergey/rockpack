@@ -22,7 +22,8 @@ export const latest = process.env['E2E_MODE'] === 'latest';
 export const npm = (cwd: string, args: readonly string[], timeout = 300_000): ReturnType<typeof run> =>
   run('npm', args, { cwd, timeout });
 
-const readJson = <T>(file: string): T => JSON.parse(readFileSync(file, 'utf8')) as T;
+const readJson = (file: string): Record<string, unknown> =>
+  JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>;
 
 const writeJson = (file: string, value: unknown): void => {
   writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
@@ -44,7 +45,7 @@ const pin = (dir: string, locked: ReadonlyMap<string, string>, missing: Map<stri
   for (const file of ['package.json', 'example/package.json']) {
     const packageJsonPath = path.join(dir, file);
     if (existsSync(packageJsonPath)) {
-      const pinned = pinToLockfile(readJson<Record<string, unknown>>(packageJsonPath), locked);
+      const pinned = pinToLockfile(readJson(packageJsonPath), locked);
       writeJson(packageJsonPath, pinned.packageJson);
       missing.set(`${path.basename(dir)}/${file}`, pinned.missing);
     }
@@ -53,7 +54,7 @@ const pin = (dir: string, locked: ReadonlyMap<string, string>, missing: Map<stri
 
 const install = async (dir: string, tarballs: ReadonlyMap<string, string>): Promise<void> => {
   const packageJsonPath = path.join(dir, 'package.json');
-  const packageJson = readJson<Record<string, unknown>>(packageJsonPath);
+  const packageJson = readJson(packageJsonPath);
   // The @rockpack packages depend on each other: the transitive ones come from the tarballs too.
   const overrides = Object.fromEntries([...tarballs].map(([dep, tarball]) => [dep, `file:${tarball}`]));
   // Keys keep the standard package.json order, which the generated project's lint checks.

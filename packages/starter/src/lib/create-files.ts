@@ -17,9 +17,9 @@ export const createFiles = (
 
   if (appType === 'library') {
     try {
-      let build = fs.readFileSync(path.join(dummies, 'build.library'), 'utf8').toString();
+      let build = fs.readFileSync(path.join(dummies, 'build.library'), 'utf8');
       let prefix = '';
-      if (projectName && projectName.length === 1) {
+      if (projectName?.length === 1) {
         const isNumber = !isNaN(parseFloat(projectName));
         prefix += isNumber ? 'Library' : '';
       }
@@ -34,9 +34,9 @@ export const createFiles = (
 
   if (appType === 'component') {
     try {
-      let build = fs.readFileSync(path.join(dummies, 'build.component'), 'utf8').toString();
+      let build = fs.readFileSync(path.join(dummies, 'build.component'), 'utf8');
       let prefix = '';
-      if (projectName && projectName.length === 1) {
+      if (projectName?.length === 1) {
         const isNumber = !isNaN(parseFloat(projectName));
         prefix += isNumber ? 'Component' : '';
       }

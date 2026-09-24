@@ -72,9 +72,9 @@ describe('makeModules', () => {
       makeModules({ debug: true }, '/project', {}, 'development');
 
       expect(getStylesRules).toHaveBeenCalledWith({ debug: true }, 'development', '/project');
-      expect(getRule('cssModules')['use']).toEqual(['css-module']);
-      expect(getRule('less')['use']).toEqual(['less-simple']);
-      expect(getRule('scssModules')['use']).toEqual(['scss-module']);
+      expect(getRule('cssModules').use).toEqual(['css-module']);
+      expect(getRule('less').use).toEqual(['less-simple']);
+      expect(getRule('scssModules').use).toEqual(['scss-module']);
     });
 
     it.each([true, false])('forwards nodejs=%s to the babel presets', (nodejs) => {

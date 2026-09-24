@@ -26,15 +26,11 @@ const languageOptions: Linter.Config['languageOptions'] = {
 
 export const makeRecommendedTypescriptConfigs = (): Linter.Config[] =>
   [
-    ...tseslint.configs.recommended.map((config) => ({
+    ...tseslint.configs.strictTypeChecked.map((config) => ({
       ...config,
       files: tsFiles,
     })),
-    ...tseslint.configs.stylistic.map((config) => ({
-      ...config,
-      files: tsFiles,
-    })),
-    ...tseslint.configs.recommendedTypeChecked.map((config) => ({
+    ...tseslint.configs.stylisticTypeChecked.map((config) => ({
       ...config,
       files: tsFiles,
     })),
@@ -104,6 +100,9 @@ export const makeTypescriptConfig = (tsConfig: false | string): Linter.Config =>
         selector: 'class',
       },
     ],
+    '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
+    // Records used as dictionaries (collections, process.env) are deleted from by key.
+    '@typescript-eslint/no-dynamic-delete': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
@@ -112,7 +111,14 @@ export const makeTypescriptConfig = (tsConfig: false | string): Linter.Config =>
         vars: 'all',
       },
     ],
+    // Conflicts with no-non-null-assertion from the strict preset: keep explicit `as` casts.
+    '@typescript-eslint/non-nullable-type-assertion-style': 'off',
+    // An empty string means "not set" in configs, so `||` stays allowed for strings.
+    '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignorePrimitives: { string: true } }],
+    '@typescript-eslint/prefer-readonly': 'error',
+    '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
     '@typescript-eslint/return-await': 'off',
+    '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
     '@unicorn/no-useless-undefined': ['error', { checkArguments: false, checkArrowFunctionBody: false }],
     '@unicorn/prefer-array-flat': 'error',

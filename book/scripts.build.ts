@@ -17,6 +17,7 @@ void frontendCompiler(
       use: [{ loader: 'raw-loader' }],
     });
     if (process.env['NODE_ENV'] === 'production') {
+      const output = (finalConfig.output ??= {});
       plugins.set(
         'PrerenderSPAPlugin',
         new PrerenderSPAPlugin({
@@ -29,10 +30,10 @@ void frontendCompiler(
             headless: false,
           },
           routes: ['/'],
-          staticDir: finalConfig.output!.path,
+          staticDir: output.path,
         }),
       );
-      finalConfig.output!.publicPath = './';
+      output.publicPath = './';
     }
   },
 );

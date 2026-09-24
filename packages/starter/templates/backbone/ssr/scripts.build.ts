@@ -18,7 +18,7 @@ void isomorphicCompiler(
         isNodejs: false,
         typescript: true,
       });
-      preset.plugins.unshift(require.resolve('@issr/babel-plugin'));
+      (preset.plugins ??= []).unshift(require.resolve('@issr/babel-plugin'));
 
       modules.set('tsx', {
         test: /\.tsx$/,
@@ -47,7 +47,7 @@ void isomorphicCompiler(
         isNodejs: true,
         typescript: true,
       });
-      preset.plugins!.unshift(require.resolve('@issr/babel-plugin'));
+      (preset.plugins ??= []).unshift(require.resolve('@issr/babel-plugin'));
 
       modules.set('ts', {
         test: /\.ts$/,

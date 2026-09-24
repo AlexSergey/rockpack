@@ -11,8 +11,8 @@ type CollectionOpts = {
 export class Collection {
   dict: Record<string, unknown>;
   private __tempData: Record<string, unknown>;
-  private _data: Record<string, CollectionEntry>;
-  private _props: Record<string, unknown>;
+  private readonly _data: Record<string, CollectionEntry>;
+  private readonly _props: Record<string, unknown>;
 
   constructor(opt: CollectionOpts) {
     this._data = opt.data;
@@ -56,6 +56,7 @@ export class Collection {
     return Object.keys(this.dict).map((n) => this.dict[n]);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- public API: callers name the item type
   modify<T extends object = object>(name: string, cb: (item: T) => void): void {
     if (!this.dict[name]) {
       throw new Error(`Provided name "${name}" was not found in the collection`);

@@ -35,7 +35,7 @@ app.use(serve(path.resolve(__dirname, '../public')));
 router.get(/.*/, async (ctx: Context) => {
   const head = createHead();
   const rendered = await serverRender.string(() => (
-    <UnheadProvider head={head}>
+    <UnheadProvider value={head}>
       <App />
     </UnheadProvider>
   ));
@@ -45,7 +45,7 @@ router.get(/.*/, async (ctx: Context) => {
   ctx.body = transformHtmlTemplate(
     head,
     template
-      .replace(`<!--app-html-->`, rendered.html ?? '')
+      .replace(`<!--app-html-->`, rendered.html)
       .replace('<!--app-state-->', `window.SSR_DATA = ${serialize(rendered.state, { isJSON: true })}`),
   );
 });

@@ -23,5 +23,5 @@ export function getTitle(packageJson: null | PackageJson | undefined): false | s
     return false;
   }
 
-  return `${packageJson.name.split('_').join(' ')}`;
+  return packageJson.name.split('_').join(' ');
 }

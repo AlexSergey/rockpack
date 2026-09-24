@@ -82,9 +82,9 @@ export const configCompiler = (
     projectConfig,
   ) as Config.InitialOptions;
 
-  const watch = options.watch === true;
+  const watch = options.watch;
   const noWatch = !watch;
-  const serial = options.serial === true;
+  const serial = options.serial;
 
   if (noWatch) {
     config.collectCoverage ??= true;

@@ -11,7 +11,7 @@ export async function frontendCompiler(
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
-): Promise<Awaited<ReturnType<typeof compile>> | void> {
+): Promise<Awaited<ReturnType<typeof compile>> | undefined> {
   return withErrorBoundary(async () => {
     const mode = setMode(['development', 'production'], 'development');
     errorHandler();

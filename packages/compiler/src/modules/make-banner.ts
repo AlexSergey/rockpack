@@ -21,7 +21,7 @@ export const makeBanner = (packageJson: PackageJson): false | string => {
 
     for (const type of types) {
       if (banner.includes(`$\{${type}}`) && !!packageJson[type]) {
-        banner = banner.replace(`$\{${type}}`, String(packageJson[type]));
+        banner = banner.replace(`$\{${type}}`, packageJson[type]);
       }
     }
     for (const type of types) {

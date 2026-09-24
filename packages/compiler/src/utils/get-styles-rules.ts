@@ -29,7 +29,7 @@ type StylesRules = {
 
 export const getStylesRules = (conf: Partial<InternalCompilerConf>, mode: Mode, root: string): StylesRules => {
   const isProduction = mode === 'production';
-  const extractStyles = isProduction ? !(isBoolean(conf.styles) && conf.styles === false) : false;
+  const extractStyles = isProduction ? !(isBoolean(conf.styles) && !conf.styles) : false;
 
   const debug = !isProduction || !!conf.debug;
   const tsConfig = pathToTsConf(root, mode, debug);

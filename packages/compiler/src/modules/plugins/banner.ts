@@ -1,4 +1,4 @@
-import { isBoolean, isString } from 'valid-types';
+import { isString } from 'valid-types';
 
 import type { PluginContext, PluginEntries } from './types.js';
 
@@ -12,7 +12,7 @@ export const makeBannerPlugins = ({ conf, packageJson, wp }: PluginContext): Plu
     if (isString(conf.banner)) {
       banner = conf.banner;
     }
-  } else if (isBoolean(conf.banner) && conf.banner === false) {
+  } else if (conf.banner === false) {
     banner = false;
   }
 
