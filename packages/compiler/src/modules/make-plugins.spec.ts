@@ -26,14 +26,9 @@ jest.mock('case-sensitive-paths-webpack-plugin', () =>
 jest.mock('copy-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Copy'),
 );
-jest.mock('dotenv-webpack', () => {
-  const { createPluginMock } = jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js');
-  const Base = createPluginMock('Dotenv');
-
-  return class extends Base {
-    definitions = { 'process.env': '{}', 'process.env.API': '"url"' };
-  };
-});
+jest.mock('dotenv-webpack', () =>
+  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Dotenv'),
+);
 jest.mock('eslint-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Eslint'),
 );
@@ -202,18 +197,15 @@ describe('makePlugins', () => {
       expect(pathToTsConfMock).toHaveBeenCalledWith(root, 'production', false);
     });
 
-    it('loads .env with safe and defaults flags and drops the process.env definition', async () => {
+    it('loads .env with safe and defaults flags', async () => {
       mockFiles('.env', '.env.example', '.env.defaults');
 
-      const dotenv = (await build())['Dotenv'] as { definitions: Record<string, string> };
-
-      expect(getPluginOptions(dotenv)).toEqual({
+      expect(getPluginOptions((await build())['Dotenv'])).toEqual({
         allowEmptyValues: true,
         defaults: true,
         path: path.resolve(root, '.env'),
         safe: true,
       });
-      expect(dotenv.definitions).toEqual({ 'process.env.API': '"url"' });
     });
 
     it('loads .env without example and defaults files', async () => {
@@ -238,7 +230,6 @@ describe('makePlugins', () => {
     it('renders the default page from the bundled template with the package title', async () => {
       expect(getPluginOptions((await build({}, 'production', { name: 'my_app' }))['HtmlWebpackPlugin0'])).toEqual({
         code: null,
-        favicon: null,
         filename: 'index.html',
         inject: false,
         minify: { collapseWhitespace: true },
@@ -352,7 +343,7 @@ describe('makePlugins', () => {
         quiet: true,
         script: path.resolve(root, 'build/server.js'),
         verbose: false,
-        watch: path.resolve(root, 'build'),
+        watch: [path.resolve(root, 'build')],
       });
       expect(conf.messages).toEqual(['nodemon is running', 'node-inspect is available on 9225 port']);
     });
@@ -366,7 +357,7 @@ describe('makePlugins', () => {
       const inspectPort = fpPromiseMock.mock.calls[0]?.[0] ?? 0;
       expect(inspectPort).toBeGreaterThanOrEqual(9000);
       expect(inspectPort).toBeLessThanOrEqual(9999);
-      expect(getPluginOptions(dict['SSRDevelopment'])).toMatchObject({ script: '/abs/server.js', watch: '/abs' });
+      expect(getPluginOptions(dict['SSRDevelopment'])).toMatchObject({ script: '/abs/server.js', watch: ['/abs'] });
       expect(conf.messages).toEqual(['nodemon is running']);
     });
 

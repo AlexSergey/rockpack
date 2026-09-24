@@ -1,9 +1,8 @@
-import type { ESLint, Linter } from 'eslint';
+import type { Linter } from 'eslint';
 
 import reactPlugin from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import json from '@eslint/json';
-import tseslintPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import gitignore from 'eslint-config-flat-gitignore';
 import checkFile from 'eslint-plugin-check-file';
@@ -101,7 +100,7 @@ export const makeConfig = (): Linter.Config[] => {
       '@import-lite': importLite,
       '@no-only-tests': noOnlyTests,
       '@sonar': sonar,
-      '@typescript-eslint': tseslintPlugin as unknown as ESLint.Plugin,
+      '@typescript-eslint': tseslint.plugin,
       '@unicorn': unicorn,
       'import/parsers': tsParser,
     },

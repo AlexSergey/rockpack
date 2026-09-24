@@ -1,3 +1,5 @@
+import type CopyWebpackPlugin from 'copy-webpack-plugin';
+
 export type CompilerConf = {
   analyzer?: boolean;
   banner?: boolean | string;
@@ -44,7 +46,9 @@ export type PackageJson = {
   version?: string;
 };
 
-type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: Record<string, unknown> };
+type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: CopyPluginOptions };
+
+type CopyPluginOptions = NonNullable<NonNullable<ConstructorParameters<typeof CopyWebpackPlugin>[0]>['options']>;
 
 type CopySpec = {
   from: string;

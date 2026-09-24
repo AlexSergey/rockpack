@@ -38,10 +38,9 @@ export const makeOptimization = (mode: Mode, conf: Partial<CompilerConf>): Recor
       mangleExports: false,
       minimize: true,
       minimizer: [
-        new ImageMinimizerPlugin({
+        new ImageMinimizerPlugin<Parameters<typeof ImageMinimizerPlugin.sharpMinify>[1]>({
           minimizer: {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-            implementation: ImageMinimizerPlugin.sharpMinify as any,
+            implementation: ImageMinimizerPlugin.sharpMinify,
             options: {
               encodeOptions: {
                 jpeg: { quality: 80 },

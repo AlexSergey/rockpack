@@ -38,5 +38,5 @@ export const compile = async (
     };
   }
 
-  return run(finalConfig.webpackConfig, mode, webpack as unknown as Parameters<typeof run>[2], finalConfig.conf);
+  return run(finalConfig.webpackConfig, mode, webpack as Parameters<typeof run>[2], finalConfig.conf);
 };

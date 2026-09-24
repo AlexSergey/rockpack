@@ -19,7 +19,6 @@ jest.mock(
 );
 jest.mock('@eslint/js', () => ({ configs: { recommended: { rules: { 'js/marker': 'error' } } } }));
 jest.mock('@eslint/json', () => ({ configs: { recommended: { rules: { 'json/marker': 'error' } } } }));
-jest.mock('@typescript-eslint/eslint-plugin', () => ({ rules: {} }));
 jest.mock('@typescript-eslint/parser', () => ({ parse: jest.fn() }));
 jest.mock('eslint-config-flat-gitignore', () => jest.fn(() => ({ name: 'gitignore' })));
 jest.mock('eslint-plugin-check-file', () => ({ rules: {} }));
@@ -43,6 +42,7 @@ jest.mock('typescript-eslint', () => ({
     recommendedTypeChecked: [{ name: 'ts/recommended-type-checked' }],
     stylistic: [{ name: 'ts/stylistic' }],
   },
+  plugin: { rules: {} },
 }));
 
 const gitignoreMock = gitignore as unknown as jest.Mock;

@@ -107,7 +107,7 @@ describe('SsrDevelopment', () => {
 
       emit({ assets: { 'server.js': {} }, errors: [] });
 
-      expect(nodemonMock).toHaveBeenCalledWith({ ext: 'js', script: 'custom.js', watch: 'dist/server.js' });
+      expect(nodemonMock).toHaveBeenCalledWith({ ext: 'js', script: 'custom.js', watch: ['dist/server.js'] });
     });
 
     it('registers through the legacy plugin API without hooks', () => {

@@ -1,12 +1,10 @@
+import type { NodemonSettings } from 'nodemon';
+
 import nodemon from 'nodemon';
 
 import { getOutputFileMeta } from './webpack-utils.js';
 
-type NodemonOptions = {
-  [key: string]: unknown;
-  script?: string;
-  watch?: string;
-};
+type NodemonOptions = Partial<NodemonSettings>;
 
 type WebpackCompilation = {
   assets: Record<string, unknown>;
@@ -67,13 +65,13 @@ export class SsrDevelopment {
   }
 
   startMonitoring(relativeFileName: string): void {
-    const nodemonOptions: NodemonOptions = {
-      script: relativeFileName,
-      watch: relativeFileName,
+    const settings: NodemonSettings = {
       ...this.nodemonOptions,
+      script: this.nodemonOptions.script ?? relativeFileName,
+      watch: this.nodemonOptions.watch ?? [relativeFileName],
     };
 
-    const monitor = nodemon(nodemonOptions as unknown as Parameters<typeof nodemon>[0]);
+    const monitor = nodemon(settings);
 
     monitor.on('log', ({ colour: colouredMessage }: { colour: string }) => console.log(colouredMessage));
     monitor.on('restart', () => {

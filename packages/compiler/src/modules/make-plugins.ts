@@ -1,3 +1,4 @@
+import type { NodemonSettings } from 'nodemon';
 import type webpack from 'webpack';
 
 import FriendlyErrorsWebpackPlugin from '@nuxt/friendly-errors-webpack-plugin';
@@ -15,7 +16,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import NodemonPlugin from 'nodemon-webpack-plugin';
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin';
-import { isArray, isBoolean, isObject, isString } from 'valid-types';
+import { isArray, isBoolean, isString } from 'valid-types';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import FlagDependencyUsagePlugin from 'webpack/lib/FlagDependencyUsagePlugin.js';
 import FlagIncludedChunksPlugin from 'webpack/lib/optimize/FlagIncludedChunksPlugin.js';
@@ -35,15 +36,14 @@ import { makeResolve } from './make-resolve.js';
 const _require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-type NodemonOptions = {
-  [key: string]: unknown;
+type NodemonOptions = NodemonSettings & {
   ext: string;
   ignore: string[];
   nodeArgs: string[];
   quiet: boolean;
   script: string;
   verbose: boolean;
-  watch: string;
+  watch: string[];
 };
 
 const getNodemonOptions = async (
@@ -62,7 +62,7 @@ const getNodemonOptions = async (
     quiet: true,
     script,
     verbose: false,
-    watch: distFolder,
+    watch: [distFolder],
   };
 
   conf.messages?.push('nodemon is running');
@@ -74,6 +74,9 @@ const getNodemonOptions = async (
   return opts;
 };
 
+type CopyOptions = NonNullable<CopyPluginConfig['options']>;
+type CopyPatterns = CopyPluginConfig['patterns'];
+type CopyPluginConfig = NonNullable<ConstructorParameters<typeof CopyWebpackPlugin>[0]>;
 type WebpackModule = typeof webpack;
 
 /* eslint-disable @sonar/cognitive-complexity */
@@ -105,17 +108,12 @@ const getPlugins = async (
   if (existsSync(path.resolve(root, '.env'))) {
     const isExample = existsSync(path.resolve(root, '.env.example'));
     const isDefaults = existsSync(path.resolve(root, '.env.defaults'));
-    const dotenv = new Dotenv({
+    plugins['Dotenv'] = new Dotenv({
       allowEmptyValues: true,
       defaults: isDefaults,
       path: path.resolve(root, '.env'),
       safe: isExample,
     });
-    const dotenvAny = dotenv as unknown as Record<string, unknown>;
-    if (dotenvAny['definitions'] && (dotenvAny['definitions'] as Record<string, unknown>)['process.env']) {
-      delete (dotenvAny['definitions'] as Record<string, unknown>)['process.env'];
-    }
-    plugins['Dotenv'] = dotenv;
   }
 
   let banner: false | string = makeBanner(packageJson);
@@ -184,9 +182,12 @@ const getPlugins = async (
       return page;
     });
 
-    pages.forEach((page, index) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-      plugins[`HtmlWebpackPlugin${index}`] = new HtmlWebpackPlugin(page as any);
+    pages.forEach(({ favicon, filename, ...page }, index) => {
+      plugins[`HtmlWebpackPlugin${index}`] = new HtmlWebpackPlugin({
+        ...page,
+        ...(favicon ? { favicon } : {}),
+        ...(filename ? { filename } : {}),
+      });
     });
   }
 
@@ -227,27 +228,21 @@ const getPlugins = async (
   plugins['DefinePlugin'] = new wp.DefinePlugin(definePluginOpts);
 
   if (conf.copy) {
-    let _prop: null | unknown[] = null;
-    let _opts: Record<string, unknown> = {};
+    const { copy } = conf;
+    let patterns: CopyPatterns | null = null;
+    let options: CopyOptions = {};
 
-    if (isObject(conf.copy)) {
-      const copy = conf.copy as Record<string, unknown>;
-      if (copy['from'] && copy['to']) {
-        _prop = [conf.copy];
-      } else if (copy['files']) {
-        _prop = copy['files'] as unknown[];
-        _opts = (copy['opts'] as Record<string, unknown>) ?? {};
-      }
-    } else if (isArray(conf.copy)) {
-      _prop = conf.copy;
+    if (Array.isArray(copy)) {
+      patterns = copy;
+    } else if ('files' in copy) {
+      patterns = copy.files;
+      options = copy.opts ?? {};
+    } else if (copy.from && copy.to) {
+      patterns = [copy];
     }
 
-    if (_prop) {
-      plugins['CopyWebpackPlugin'] = new CopyWebpackPlugin({
-        options: _opts,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-        patterns: _prop as any,
-      });
+    if (patterns) {
+      plugins['CopyWebpackPlugin'] = new CopyWebpackPlugin({ options, patterns });
     }
   }
 
