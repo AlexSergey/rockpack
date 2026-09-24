@@ -5,7 +5,7 @@ import type { InternalCompilerConf, Mode } from '../types.js';
 import { sourceCompiler } from '../compilers/source-compiler.js';
 import { log } from '../utils/log.js';
 
-export type BuildOutcome = {
+type BuildOutcome = {
   readonly stats: MultiStats | Stats | undefined;
   readonly success: boolean;
 };

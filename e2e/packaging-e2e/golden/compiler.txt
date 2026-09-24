@@ -14,6 +14,7 @@ lib/cjs/constants.cjs
 lib/cjs/core/args.cjs
 lib/cjs/core/argv.cjs
 lib/cjs/core/compile-context.cjs
+lib/cjs/core/compile-result.cjs
 lib/cjs/core/compile.cjs
 lib/cjs/core/dev-server.cjs
 lib/cjs/core/inner-props.cjs
@@ -71,6 +72,7 @@ lib/cjs/utils/path-to-eslintrc.cjs
 lib/cjs/utils/path-to-stylelint.cjs
 lib/cjs/utils/path-to-ts-conf.cjs
 lib/cjs/utils/source-compile.cjs
+lib/cjs/utils/validate-conf.cjs
 lib/esm/compilers/backend-compiler.mjs
 lib/esm/compilers/error-boundary.mjs
 lib/esm/compilers/frontend-compiler.mjs
@@ -82,6 +84,7 @@ lib/esm/constants.mjs
 lib/esm/core/args.mjs
 lib/esm/core/argv.mjs
 lib/esm/core/compile-context.mjs
+lib/esm/core/compile-result.mjs
 lib/esm/core/compile.mjs
 lib/esm/core/dev-server.mjs
 lib/esm/core/inner-props.mjs
@@ -139,6 +142,7 @@ lib/esm/utils/path-to-eslintrc.mjs
 lib/esm/utils/path-to-stylelint.mjs
 lib/esm/utils/path-to-ts-conf.mjs
 lib/esm/utils/source-compile.mjs
+lib/esm/utils/validate-conf.mjs
 package.json
 types/compilers/backend-compiler.d.ts
 types/compilers/error-boundary.d.ts
@@ -151,6 +155,7 @@ types/constants.d.ts
 types/core/args.d.ts
 types/core/argv.d.ts
 types/core/compile-context.d.ts
+types/core/compile-result.d.ts
 types/core/compile.d.ts
 types/core/dev-server.d.ts
 types/core/inner-props.d.ts
@@ -207,3 +212,4 @@ types/utils/path-to-eslintrc.d.ts
 types/utils/path-to-stylelint.d.ts
 types/utils/path-to-ts-conf.d.ts
 types/utils/source-compile.d.ts
+types/utils/validate-conf.d.ts
