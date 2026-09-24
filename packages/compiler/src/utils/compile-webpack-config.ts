@@ -4,9 +4,6 @@ import type { Collection } from './collection.js';
 
 export const compileWebpackConfig = (
   finalConfig: Record<string, unknown>,
-  _conf: unknown,
-  _mode: string,
-  _root: string,
   modules: Collection | null,
   plugins: Collection | null,
 ): Configuration => {

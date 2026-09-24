@@ -43,7 +43,7 @@ const ruleKeys = [
 type Rule = Record<string, unknown> & { use?: unknown };
 
 const getRule = (name: string, nodejs = false): Rule =>
-  makeModules({ nodejs }, '/project', {}, 'production').dict[name] as Rule;
+  makeModules({ nodejs }, '/project', 'production').dict[name] as Rule;
 
 describe('makeModules', () => {
   afterEach(() => {
@@ -52,7 +52,7 @@ describe('makeModules', () => {
 
   describe('negative cases', () => {
     it('drops excluded rules', () => {
-      const { dict } = makeModules({}, '/project', {}, 'production', ['graphql', 'mdx']);
+      const { dict } = makeModules({}, '/project', 'production', ['graphql', 'mdx']);
 
       expect(Object.keys(dict)).toEqual(ruleKeys.filter((key) => key !== 'graphql' && key !== 'mdx'));
     });
@@ -65,11 +65,11 @@ describe('makeModules', () => {
 
   describe('positive cases', () => {
     it('defines every rule', () => {
-      expect(Object.keys(makeModules({}, '/project', {}, 'production').dict)).toEqual(ruleKeys);
+      expect(Object.keys(makeModules({}, '/project', 'production').dict)).toEqual(ruleKeys);
     });
 
     it('wires the style chains from getStylesRules', () => {
-      makeModules({ debug: true }, '/project', {}, 'development');
+      makeModules({ debug: true }, '/project', 'development');
 
       expect(getStylesRules).toHaveBeenCalledWith({ debug: true }, 'development', '/project');
       expect(getRule('cssModules').use).toEqual(['css-module']);

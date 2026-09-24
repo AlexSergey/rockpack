@@ -45,6 +45,11 @@ lib/cjs/modules/plugins/env.cjs
 lib/cjs/modules/plugins/html.cjs
 lib/cjs/modules/plugins/production.cjs
 lib/cjs/modules/plugins/types.cjs
+lib/cjs/modules/rules/assets.cjs
+lib/cjs/modules/rules/misc.cjs
+lib/cjs/modules/rules/scripts.cjs
+lib/cjs/modules/rules/styles.cjs
+lib/cjs/modules/rules/types.cjs
 lib/cjs/plugins/reloader/ssr.cjs
 lib/cjs/plugins/ssr-development/index.cjs
 lib/cjs/plugins/ssr-development/webpack-utils.cjs
@@ -108,6 +113,11 @@ lib/esm/modules/plugins/env.mjs
 lib/esm/modules/plugins/html.mjs
 lib/esm/modules/plugins/production.mjs
 lib/esm/modules/plugins/types.mjs
+lib/esm/modules/rules/assets.mjs
+lib/esm/modules/rules/misc.mjs
+lib/esm/modules/rules/scripts.mjs
+lib/esm/modules/rules/styles.mjs
+lib/esm/modules/rules/types.mjs
 lib/esm/plugins/reloader/ssr.mjs
 lib/esm/plugins/ssr-development/index.mjs
 lib/esm/plugins/ssr-development/webpack-utils.mjs
@@ -172,6 +182,11 @@ types/modules/plugins/env.d.ts
 types/modules/plugins/html.d.ts
 types/modules/plugins/production.d.ts
 types/modules/plugins/types.d.ts
+types/modules/rules/assets.d.ts
+types/modules/rules/misc.d.ts
+types/modules/rules/scripts.d.ts
+types/modules/rules/styles.d.ts
+types/modules/rules/types.d.ts
 types/plugins/ssr-development/index.d.ts
 types/plugins/ssr-development/webpack-utils.d.ts
 types/types.d.ts

@@ -46,7 +46,7 @@ export const make = async (
   const devtool = makeDevtool(mode);
   const devServer = await makeDevServer(conf);
   const optimization = makeOptimization(mode, conf);
-  const modules = makeModules(conf, root, packageJson, mode);
+  const modules = makeModules(conf, root, mode);
   const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context, compileContext);
   const resolve = makeResolve(root);
   const stats = makeStats(conf);
@@ -96,7 +96,7 @@ export const make = async (
     post(finalConfig, modules, plugins, mode);
   }
 
-  const webpackConfig = compileWebpackConfig(finalConfig, conf, mode, root, modules, plugins);
+  const webpackConfig = compileWebpackConfig(finalConfig, modules, plugins);
 
   return { conf: conf, webpackConfig };
 };

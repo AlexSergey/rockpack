@@ -6,7 +6,7 @@ const createCollection = (items: Record<string, unknown>): Collection => new Col
 describe('compileWebpackConfig', () => {
   describe('negative cases', () => {
     it('adds no module rules or plugins without collections', () => {
-      expect(compileWebpackConfig({ mode: 'production' }, {}, 'production', '/root', null, null)).toEqual({
+      expect(compileWebpackConfig({ mode: 'production' }, null, null)).toEqual({
         mode: 'production',
       });
     });
@@ -17,7 +17,7 @@ describe('compileWebpackConfig', () => {
       const modules = createCollection({ js: { test: 'js' } });
       const plugins = createCollection({ define: { name: 'define' } });
 
-      expect(compileWebpackConfig({ mode: 'development' }, {}, 'development', '/root', modules, plugins)).toEqual({
+      expect(compileWebpackConfig({ mode: 'development' }, modules, plugins)).toEqual({
         mode: 'development',
         module: { rules: [{ test: 'js' }] },
         plugins: [{ name: 'define' }],
@@ -27,7 +27,7 @@ describe('compileWebpackConfig', () => {
     it('does not mutate the final config', () => {
       const finalConfig = { mode: 'production' };
 
-      compileWebpackConfig(finalConfig, {}, 'production', '/root', createCollection({}), createCollection({}));
+      compileWebpackConfig(finalConfig, createCollection({}), createCollection({}));
 
       expect(finalConfig).toEqual({ mode: 'production' });
     });

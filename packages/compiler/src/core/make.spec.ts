@@ -5,7 +5,6 @@ import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
-import { makeModules } from '../modules/make-modules.js';
 import { makeOutput } from '../modules/make-output.js';
 import { makePlugins } from '../modules/make-plugins.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
@@ -74,7 +73,15 @@ describe('make', () => {
       await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(readPackageJsonMock).toHaveBeenCalledWith('/project');
-      expect(makeModules).toHaveBeenCalledWith(expect.anything(), '/project', {}, 'production');
+      expect(makePlugins).toHaveBeenCalledWith(
+        expect.anything(),
+        '/project',
+        {},
+        'production',
+        'webpack',
+        '/project/src',
+        STANDALONE_CONTEXT,
+      );
     });
 
     it('does not name the config without a string name', async () => {
@@ -129,7 +136,7 @@ describe('make', () => {
         resolve: 'resolve',
         stats: 'stats',
       });
-      expect(compileMock).toHaveBeenCalledWith(expect.anything(), conf, 'production', '/project', 'modules', 'plugins');
+      expect(compileMock).toHaveBeenCalledWith(expect.anything(), 'modules', 'plugins');
       expect(result.conf).toBe(conf);
       expect(result.webpackConfig).toMatchObject({ compiled: true });
     });
