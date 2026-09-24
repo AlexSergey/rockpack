@@ -112,6 +112,8 @@ Order matters only for the first phase: utils is small and every other package d
 
 Exit: thresholds raised to 95/95/95/90.
 
+Status: done on 2026-09-24. Actual coverage 100/100/100/100 (28 tests). `yargs` 18 is ESM-only, so `get-mode` and `set-mode` specs mock `yargs` and `yargs/helpers` and load the unit with `jest.isolateModules` + `jest.requireActual` after arranging the parsed argv (import-time parsing makes a top-level import hit the mock factory before `mockArgv` is initialised). Jest sets `NODE_ENV=test`, so specs clear and restore it explicitly.
+
 ## 6. Phase 2: `@rockpack/babel` (size S)
 
 Single file, one spec `src/index.spec.ts`, with a helper that creates a temp project dir, writes an optional `package.json` and `rockpack.babel.js`, and points `process.cwd` at it via `jest.spyOn(process, 'cwd')`. Because `createBabelPresets` uses a real `createRequire`, `jest.mock` cannot intercept `rockpack.babel.js`; every case gets its own temp dir so the Node module cache never returns a stale config.
