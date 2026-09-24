@@ -14,8 +14,8 @@
     "start": "cross-env NODE_ENV=development tsx scripts.build.ts"
   },
   "dependencies": {
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
