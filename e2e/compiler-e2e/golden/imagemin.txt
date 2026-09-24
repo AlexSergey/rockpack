@@ -1,0 +1,11 @@
+dist/index.html
+dist/index.js
+dist/index.js.LICENSE.txt
+dist/index.js.map
+dist/static/images/gif-test.10d2d56ac7c4a4f4dd8e.gif
+dist/static/images/jpg-test.08da824cbc34af4187bf.jpg
+dist/static/images/png-test.073e0b9668c5d6bfe072.png
+dist/style.css
+dist/vendor.js
+dist/vendor.js.LICENSE.txt
+dist/vendor.js.map

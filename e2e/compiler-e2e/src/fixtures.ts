@@ -1,6 +1,6 @@
-import type { RunResult } from '@rockpack/e2e-tools';
+import type { RunResult, StartedProcess } from '@rockpack/e2e-tools';
 
-import { run } from '@rockpack/e2e-tools';
+import { run, start } from '@rockpack/e2e-tools';
 import { JSDOM } from 'jsdom';
 import { cpSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
@@ -38,6 +38,10 @@ export const buildFixture = async (
 
   return { dir, output };
 };
+
+// Starts a fixture's build script in development mode; --_rockpack_testing keeps the dev server from opening a browser.
+export const startDev = (dir: string, script = 'scripts.build.ts', env: NodeJS.ProcessEnv = {}): StartedProcess =>
+  start('npx', ['tsx', script, '--_rockpack_testing'], { cwd: dir, env: { ...env, NODE_ENV: 'development' } });
 
 export const node = (dir: string, args: readonly string[]): Promise<RunResult> =>
   run(process.execPath, args, { cwd: dir });

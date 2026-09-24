@@ -1,0 +1,4 @@
+dist/favicon.ico
+dist/index.html
+dist/index.js
+dist/index.js.LICENSE.txt

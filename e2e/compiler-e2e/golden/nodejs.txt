@@ -1,0 +1,3 @@
+dist/index.js
+dist/index.js.LICENSE.txt
+dist/index.js.map
