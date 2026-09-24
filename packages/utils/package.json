@@ -54,8 +54,7 @@
     "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "semver": "7.8.1",
-    "yargs": "18.0.0"
+    "semver": "7.8.1"
   },
   "devDependencies": {
     "@babel/core": "7.29.7",
@@ -67,7 +66,6 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
     "@types/semver": "7.8.0",
-    "@types/yargs": "17.0.35",
     "babel-plugin-add-import-extension": "1.6.0"
   },
   "engines": {

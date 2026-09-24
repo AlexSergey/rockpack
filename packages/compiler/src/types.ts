@@ -36,15 +36,7 @@ export type InternalCompilerConf = CompilerConf & InternalProps;
 
 export type Mode = 'development' | 'production';
 
-export type PackageJson = {
-  [key: string]: unknown;
-  author?: string;
-  description?: string;
-  email?: string;
-  license?: string;
-  name?: string;
-  version?: string;
-};
+export type { PackageJson } from '@rockpack/utils';
 
 type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: CopyPluginOptions };
 

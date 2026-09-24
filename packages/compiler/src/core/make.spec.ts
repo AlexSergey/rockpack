@@ -1,7 +1,6 @@
 import type { Configuration } from 'webpack';
 
-import { getMode, getRootRequireDir } from '@rockpack/utils';
-import { existsSync, readFileSync } from 'node:fs';
+import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 
 import type { InternalCompilerConf } from '../types.js';
 
@@ -12,8 +11,7 @@ import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { make } from './make.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn() }));
-jest.mock('node:fs', () => ({ existsSync: jest.fn(), readFileSync: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn(), readPackageJson: jest.fn() }));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../modules/make-dev-server.js', () => ({ makeDevServer: jest.fn(() => Promise.resolve('devServer')) }));
 jest.mock('../modules/make-devtool.js', () => ({ makeDevtool: jest.fn(() => 'devtool') }));
@@ -31,8 +29,7 @@ jest.mock('../utils/compile-webpack-config.js', () => ({ compileWebpackConfig: j
 jest.mock('../utils/merge-conf-with-default.js', () => ({ mergeConfWithDefault: jest.fn() }));
 
 const getModeMock = getMode as jest.MockedFunction<typeof getMode>;
-const existsSyncMock = existsSync as jest.MockedFunction<typeof existsSync>;
-const readFileSyncMock = readFileSync as unknown as jest.Mock<string>;
+const readPackageJsonMock = readPackageJson as jest.MockedFunction<typeof readPackageJson>;
 const makeOutputMock = makeOutput as jest.MockedFunction<typeof makeOutput>;
 const mergeConfMock = mergeConfWithDefault as jest.MockedFunction<typeof mergeConfWithDefault>;
 const compileMock = compileWebpackConfig as jest.MockedFunction<typeof compileWebpackConfig>;
@@ -49,7 +46,7 @@ describe('make', () => {
   beforeEach(() => {
     getModeMock.mockReturnValue('production');
     (getRootRequireDir as jest.Mock).mockReturnValue('/project');
-    existsSyncMock.mockReturnValue(false);
+    readPackageJsonMock.mockReturnValue(undefined);
     makeOutputMock.mockReturnValue({
       clean: true,
       filename: '[name].js',
@@ -72,7 +69,7 @@ describe('make', () => {
     it('uses an empty package.json when the project has none', async () => {
       await make(createConf(), null);
 
-      expect(readFileSyncMock).not.toHaveBeenCalled();
+      expect(readPackageJsonMock).toHaveBeenCalledWith('/project');
       expect(makeModules).toHaveBeenCalledWith(expect.anything(), '/project', {}, 'production');
     });
 
@@ -96,8 +93,7 @@ describe('make', () => {
 
   describe('positive cases', () => {
     it('reads package.json from the project root', async () => {
-      existsSyncMock.mockReturnValue(true);
-      readFileSyncMock.mockReturnValue('{"name":"app"}');
+      readPackageJsonMock.mockReturnValue({ name: 'app' });
 
       await make(createConf(), null);
 

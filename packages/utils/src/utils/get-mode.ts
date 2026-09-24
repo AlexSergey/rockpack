@@ -1,20 +1,27 @@
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
+// Reads `--mode=<value>` or `--mode <value>` (arguments after `--` are ignored).
+const readModeArgument = (args: readonly string[]): string | undefined => {
+  for (const [index, arg] of args.entries()) {
+    if (arg === '--') {
+      return undefined;
+    }
+    if (arg.startsWith('--mode=')) {
+      return arg.slice('--mode='.length);
+    }
+    if (arg === '--mode') {
+      const value = args[index + 1];
 
-// Parsed on every call, so importing @rockpack/utils has no side effects; only --mode is read.
-const readModeArgument = (): unknown => yargs(hideBin(process.argv)).help(false).version(false).parseSync()['mode'];
+      return value !== undefined && !value.startsWith('-') ? value : undefined;
+    }
+  }
+
+  return undefined;
+};
 
 export const getMode = (
   modes: readonly string[] = ['development', 'production'],
   defaultMode = 'development',
 ): string => {
-  const modeArgument = readModeArgument();
-  let mode = defaultMode;
-  if (typeof modeArgument === 'string') {
-    mode = modeArgument;
-  } else if (typeof process.env.NODE_ENV === 'string') {
-    mode = process.env.NODE_ENV;
-  }
+  const mode = readModeArgument(process.argv.slice(2)) ?? process.env.NODE_ENV ?? defaultMode;
 
   return modes.includes(mode) ? mode : defaultMode;
 };

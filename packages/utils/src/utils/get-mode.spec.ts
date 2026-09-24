@@ -1,114 +1,86 @@
-import type { getMode } from './get-mode.js';
+import { getMode } from './get-mode.js';
 
-const mockArgv: Record<string, unknown> = {};
-
-type MockParser = {
-  help: () => MockParser;
-  parseSync: () => Record<string, unknown>;
-  version: () => MockParser;
-};
-
-jest.mock('yargs', () =>
-  jest.fn(() => {
-    const parser: MockParser = {
-      help: () => parser,
-      parseSync: (): Record<string, unknown> => mockArgv,
-      version: () => parser,
-    };
-
-    return parser;
-  }),
-);
-jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
-
-type Loaded = {
-  readonly getMode: typeof getMode;
-  readonly yargs: jest.Mock;
-};
-
-const load = (): Loaded => {
-  let loaded: Loaded | undefined;
-  jest.isolateModules(() => {
-    loaded = {
-      getMode: jest.requireActual<{ getMode: typeof getMode }>('./get-mode.js').getMode,
-      yargs: jest.requireMock<jest.Mock>('yargs'),
-    };
-  });
-  if (!loaded) {
-    throw new Error('./get-mode was not loaded');
-  }
-
-  return loaded;
-};
-
+const originalArgv = process.argv;
 const originalNodeEnv = process.env.NODE_ENV;
+
+const setArgs = (...args: string[]): void => {
+  process.argv = ['node', 'script.js', ...args];
+};
 
 describe('getMode', () => {
   beforeEach(() => {
+    setArgs();
     delete process.env.NODE_ENV;
   });
 
   afterEach(() => {
-    delete mockArgv['mode'];
+    process.argv = originalArgv;
     process.env.NODE_ENV = originalNodeEnv;
   });
 
   describe('negative cases', () => {
-    it('does not parse the command line on import', () => {
-      expect(load().yargs).not.toHaveBeenCalled();
-    });
-
     it('falls back to the default mode when --mode is not an allowed mode', () => {
-      mockArgv['mode'] = 'staging';
+      setArgs('--mode=staging');
 
-      expect(load().getMode()).toBe('development');
+      expect(getMode()).toBe('development');
     });
 
     it('falls back to NODE_ENV when --mode has no value', () => {
-      mockArgv['mode'] = true;
+      setArgs('--mode');
       process.env.NODE_ENV = 'production';
 
-      expect(load().getMode()).toBe('production');
+      expect(getMode()).toBe('production');
+    });
+
+    it('does not take the next flag as the --mode value', () => {
+      setArgs('--mode', '--debug');
+      process.env.NODE_ENV = 'production';
+
+      expect(getMode()).toBe('production');
+    });
+
+    it('ignores --mode after the end of options', () => {
+      setArgs('--', '--mode=production');
+
+      expect(getMode()).toBe('development');
     });
 
     it('falls back to the default mode when NODE_ENV is not an allowed mode', () => {
       process.env.NODE_ENV = 'test';
 
-      expect(load().getMode()).toBe('development');
+      expect(getMode()).toBe('development');
     });
   });
 
   describe('positive cases', () => {
-    it('parses process.argv without the node binary and script path when called', () => {
-      const loaded = load();
-
-      loaded.getMode();
-
-      expect(loaded.yargs).toHaveBeenCalledWith(process.argv.slice(2));
-    });
-
-    it('prefers --mode over NODE_ENV', () => {
-      mockArgv['mode'] = 'production';
+    it('prefers --mode=value over NODE_ENV', () => {
+      setArgs('--mode=production');
       process.env.NODE_ENV = 'development';
 
-      expect(load().getMode()).toBe('production');
+      expect(getMode()).toBe('production');
+    });
+
+    it('reads --mode followed by a separate value', () => {
+      setArgs('--analyzer', '--mode', 'production');
+
+      expect(getMode()).toBe('production');
     });
 
     it('uses NODE_ENV when --mode is not set', () => {
       process.env.NODE_ENV = 'production';
 
-      expect(load().getMode()).toBe('production');
+      expect(getMode()).toBe('production');
     });
 
     it('returns the default mode when nothing is set', () => {
-      expect(load().getMode()).toBe('development');
+      expect(getMode()).toBe('development');
     });
 
     it('accepts custom modes and default mode', () => {
-      mockArgv['mode'] = 'staging';
+      setArgs('--mode=staging');
 
-      expect(load().getMode(['staging', 'qa'], 'qa')).toBe('staging');
-      expect(load().getMode(['qa'], 'qa')).toBe('qa');
+      expect(getMode(['staging', 'qa'], 'qa')).toBe('staging');
+      expect(getMode(['qa'], 'qa')).toBe('qa');
     });
   });
 });

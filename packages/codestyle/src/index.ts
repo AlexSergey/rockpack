@@ -3,6 +3,7 @@ import type { Linter } from 'eslint';
 import reactPlugin from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import json from '@eslint/json';
+import { readPackageJson } from '@rockpack/utils';
 import tsParser from '@typescript-eslint/parser';
 import gitignore from 'eslint-config-flat-gitignore';
 import checkFile from 'eslint-plugin-check-file';
@@ -17,13 +18,9 @@ import regexpPlugin from 'eslint-plugin-regexp';
 import sonar from 'eslint-plugin-sonarjs';
 import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import tseslint from 'typescript-eslint';
-
-type PackageJson = {
-  readonly dependencies?: Readonly<Record<string, string>>;
-};
 
 const FLAT_IGNORE_FILE = '.eslintflatignore';
 
@@ -50,16 +47,7 @@ export const isString = (value: unknown): value is string => typeof value === 's
 
 export const makeConfig = (): Linter.Config[] => {
   const root = process.cwd();
-  const packageJsonPath = path.resolve(root, 'package.json');
-
-  let packageJson: PackageJson = {};
-  if (existsSync(packageJsonPath)) {
-    try {
-      packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as PackageJson;
-    } catch {
-      // ignore malformed package.json
-    }
-  }
+  const packageJson = readPackageJson(root) ?? {};
 
   const hasReact = isString(packageJson.dependencies?.react);
 

@@ -5,7 +5,7 @@ import path from 'node:path';
 
 import { sourceCompile } from './source-compile.js';
 
-jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn() }));
+jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn(), readPackageJson: jest.fn() }));
 
 const fixture = path.resolve(__dirname, '../__fixtures__/source-project');
 

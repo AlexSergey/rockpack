@@ -1,8 +1,6 @@
 import type { Configuration } from 'webpack';
 
-import { getMode, getRootRequireDir } from '@rockpack/utils';
-import { existsSync, readFileSync } from 'node:fs';
-import path from 'node:path';
+import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 import { isDefined } from 'valid-types';
 import webpack from 'webpack';
 
@@ -37,9 +35,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
   const mode = getMode() as Mode;
   const root = getRootRequireDir();
 
-  const packageJson: PackageJson = existsSync(path.resolve(root, 'package.json'))
-    ? (JSON.parse(readFileSync(path.resolve(root, 'package.json'), 'utf8')) as PackageJson)
-    : {};
+  const packageJson: PackageJson = readPackageJson(root) ?? {};
 
   const mergedConf = await mergeConfWithDefault(conf, mode);
 

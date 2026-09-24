@@ -1,51 +1,10 @@
-import type { setMode } from './set-mode.js';
+import { setMode } from './set-mode.js';
 
-const mockArgv: Record<string, unknown> = {};
+const originalArgv = process.argv;
+const originalNodeEnv = process.env.NODE_ENV;
+const originalBabelEnv = process.env['BABEL_ENV'];
 
-type MockParser = {
-  help: () => MockParser;
-  parseSync: () => Record<string, unknown>;
-  version: () => MockParser;
-};
-
-jest.mock('yargs', () =>
-  jest.fn(() => {
-    const parser: MockParser = {
-      help: () => parser,
-      parseSync: (): Record<string, unknown> => mockArgv,
-      version: () => parser,
-    };
-
-    return parser;
-  }),
-);
-jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
-
-type Loaded = {
-  readonly setMode: typeof setMode;
-  readonly yargs: jest.Mock;
-};
-
-const load = (): Loaded => {
-  let loaded: Loaded | undefined;
-  jest.isolateModules(() => {
-    loaded = {
-      setMode: jest.requireActual<{ setMode: typeof setMode }>('./set-mode.js').setMode,
-      yargs: jest.requireMock<jest.Mock>('yargs'),
-    };
-  });
-  if (!loaded) {
-    throw new Error('./set-mode was not loaded');
-  }
-
-  return loaded;
-};
-
-const modes = ['development', 'production'];
-const originalEnv = { BABEL_ENV: process.env.BABEL_ENV, NODE_ENV: process.env.NODE_ENV };
-
-const restoreEnv = (name: keyof typeof originalEnv): void => {
-  const value = originalEnv[name];
+const restoreEnv = (name: string, value: string | undefined): void => {
   if (value === undefined) {
     delete process.env[name];
   } else {
@@ -55,64 +14,46 @@ const restoreEnv = (name: keyof typeof originalEnv): void => {
 
 describe('setMode', () => {
   beforeEach(() => {
+    process.argv = ['node', 'script.js'];
     delete process.env.NODE_ENV;
-    delete process.env.BABEL_ENV;
+    delete process.env['BABEL_ENV'];
   });
 
   afterEach(() => {
-    delete mockArgv['mode'];
-    restoreEnv('NODE_ENV');
-    restoreEnv('BABEL_ENV');
+    process.argv = originalArgv;
+    restoreEnv('NODE_ENV', originalNodeEnv);
+    restoreEnv('BABEL_ENV', originalBabelEnv);
   });
 
   describe('negative cases', () => {
-    it('falls back to the default mode when --mode is not an allowed mode', () => {
-      mockArgv['mode'] = 'staging';
-
-      expect(load().setMode(modes, 'development')).toBe('development');
-      expect(process.env.NODE_ENV).toBe('development');
-    });
-
-    it('falls back to NODE_ENV when --mode has no value', () => {
-      mockArgv['mode'] = true;
-      process.env.NODE_ENV = 'production';
-
-      expect(load().setMode(modes, 'development')).toBe('production');
-    });
-
     it('overwrites a NODE_ENV that is not an allowed mode', () => {
-      process.env.NODE_ENV = 'test';
+      process.env.NODE_ENV = 'staging';
 
-      expect(load().setMode(modes, 'development')).toBe('development');
+      expect(setMode(['development', 'production'], 'development')).toBe('development');
       expect(process.env.NODE_ENV).toBe('development');
+    });
+
+    it('falls back to the default mode when --mode is not an allowed mode', () => {
+      process.argv = ['node', 'script.js', '--mode=staging'];
+
+      expect(setMode(['development', 'production'], 'development')).toBe('development');
     });
   });
 
   describe('positive cases', () => {
-    it('prefers --mode over NODE_ENV', () => {
-      mockArgv['mode'] = 'production';
+    it('resolves the mode like getMode', () => {
+      process.argv = ['node', 'script.js', '--mode=production'];
       process.env.NODE_ENV = 'development';
 
-      expect(load().setMode(modes, 'development')).toBe('production');
-    });
-
-    it('uses NODE_ENV when --mode is not set', () => {
-      process.env.NODE_ENV = 'production';
-
-      expect(load().setMode(modes, 'development')).toBe('production');
-    });
-
-    it('returns the default mode when nothing is set', () => {
-      expect(load().setMode(modes, 'production')).toBe('production');
+      expect(setMode(['development', 'production'], 'development')).toBe('production');
     });
 
     it('writes the resolved mode to NODE_ENV and BABEL_ENV', () => {
-      mockArgv['mode'] = 'production';
+      process.env.NODE_ENV = 'test';
 
-      load().setMode(modes, 'development');
+      setMode(['development', 'production', 'test'], 'test');
 
-      expect(process.env.NODE_ENV).toBe('production');
-      expect(process.env.BABEL_ENV).toBe('production');
+      expect([process.env.NODE_ENV, process.env['BABEL_ENV']]).toEqual(['test', 'test']);
     });
   });
 });

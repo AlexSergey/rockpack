@@ -1,7 +1,8 @@
 import type { PluginItem, TransformOptions } from '@babel/core';
 
+import { readPackageJson } from '@rockpack/utils';
 import deepmerge from 'deepmerge';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
@@ -31,10 +32,6 @@ type Framework = 'none' | 'react';
 
 type Modules = 'amd' | 'auto' | 'cjs' | 'commonjs' | 'systemjs' | 'umd' | false;
 
-type PackageJson = {
-  readonly dependencies?: Readonly<Record<string, string>>;
-};
-
 const _require = createRequire(import.meta.url);
 
 export const createBabelPresets = ({
@@ -46,17 +43,9 @@ export const createBabelPresets = ({
   // eslint-disable-next-line @sonar/cognitive-complexity
 }: CreateBabelPresetsOptions = {}): TransformOptions => {
   const root = process.cwd();
-  const packageJsonPath = path.resolve(root, 'package.json');
   const babelMergePath = path.resolve(root, 'rockpack.babel.js');
 
-  let packageJson: PackageJson = {};
-  if (existsSync(packageJsonPath)) {
-    try {
-      packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as PackageJson;
-    } catch {
-      // ignore malformed package.json
-    }
-  }
+  const packageJson = readPackageJson(root) ?? {};
 
   let corejs: false | string = false;
   const coreJsDep = packageJson.dependencies?.['core-js'];
