@@ -11,6 +11,6 @@ config.push({
   },
 });
 
-config.push(globalIgnores(['./src/generators']));
+config.push(globalIgnores(['./src/generators', './golden', './.out']));
 
 export default config;

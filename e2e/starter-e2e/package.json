@@ -28,6 +28,7 @@
     "@issr/core": "4.0.1",
     "@koa/router": "15.7.0",
     "@rockpack/codestyle": "8.0.0",
+    "@rockpack/e2e-tools": "8.0.0",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/jest": "30.0.0",

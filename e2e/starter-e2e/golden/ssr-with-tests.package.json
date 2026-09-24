@@ -1,0 +1,66 @@
+{
+  "name": "ssr-with-tests",
+  "version": "1.0.0",
+  "description": "<description>",
+  "keywords": [
+    "ssr-with-tests"
+  ],
+  "license": "ISC",
+  "author": "email@email.com",
+  "main": "index.js",
+  "scripts": {
+    "analyzer": "tsx scripts.build.ts --analyzer",
+    "build": "tsx scripts.build.ts --mode=production",
+    "format": "npm run format:prettier && npm run format:code && npm run format:styles",
+    "format:code": "eslint . --fix",
+    "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
+    "format:styles": "stylelint \"src/**/*.{css,scss}\" --fix",
+    "lint": "npm run lint:ts && npm run lint:code && npm run lint:styles",
+    "lint:code": "eslint .",
+    "lint:commit": "commitlint --config .commitlintrc.cjs --edit",
+    "lint:styles": "stylelint --config .stylelintrc.cjs \"src/**/*.{css,scss}\"",
+    "lint:ts": "tsc --noEmit",
+    "pre-commit": "lint-staged --config .lintstagedrc.cjs",
+    "prepare": "simple-git-hooks",
+    "start": "tsx scripts.build.ts",
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts --watch"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run pre-commit",
+    "commit-msg": "npm run lint:commit",
+    "pre-push": "npm test"
+  },
+  "dependencies": {
+    "@issr/core": "4",
+    "@koa/router": "15",
+    "@unhead/react": "3",
+    "koa": "3",
+    "koa-static": "5",
+    "react": "19",
+    "react-dom": "19",
+    "react-router-dom": "7",
+    "serialize-javascript": "7",
+    "tailwindcss": "4"
+  },
+  "devDependencies": {
+    "@issr/babel-plugin": "4",
+    "@rockpack/babel": "<rockpack>",
+    "@rockpack/codestyle": "<rockpack>",
+    "@rockpack/compiler": "<rockpack>",
+    "@rockpack/tester": "<rockpack>",
+    "@rockpack/tsconfig": "<rockpack>",
+    "@testing-library/jest-dom": "7",
+    "@testing-library/react": "16",
+    "@types/koa": "3",
+    "@types/koa-static": "4",
+    "@types/node": "26",
+    "@types/react": "19",
+    "@types/react-dom": "19",
+    "@types/serialize-javascript": "5",
+    "lint-staged": "17",
+    "simple-git-hooks": "2",
+    "source-map": "0.8.0-beta.0",
+    "tsx": "4"
+  }
+}

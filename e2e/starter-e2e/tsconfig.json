@@ -8,5 +8,5 @@
     "allowJs": true,
     "types": ["node", "jest"]
   },
-  "exclude": ["./src/generators"]
+  "exclude": ["./src/generators", "./.out"]
 }
