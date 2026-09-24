@@ -94,6 +94,7 @@
     "@babel/preset-env": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
     "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3"

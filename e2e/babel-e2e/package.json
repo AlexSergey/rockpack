@@ -8,7 +8,6 @@
     "url": "https://github.com/AlexSergey/rockpack.git"
   },
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "format": "npm run format:eslint",
     "format:eslint": "eslint . --fix",
@@ -22,6 +21,7 @@
     "@rockpack/tester": "8.0.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0"
+    "@rockpack/codestyle": "8.0.0",
+    "@types/jest": "30.0.0"
   }
 }

@@ -63,6 +63,7 @@
     "@babel/preset-env": "7.29.7",
     "@babel/preset-react": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
+    "@types/babel__core": "7.20.5",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-import-meta": "2.3.3",
     "babel-plugin-transform-typescript-metadata": "0.4.0",

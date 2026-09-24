@@ -128,7 +128,8 @@
     "@types/jest": "30.0.0",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3",
-    "eslint": "10.4.0"
+    "eslint": "10.4.0",
+    "jest-environment-jsdom": "30.4.1"
   },
   "engines": {
     "node": ">=23.0.0"
