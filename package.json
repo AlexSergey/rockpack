@@ -20,6 +20,7 @@
     "build:starter": "lerna run build --scope=@rockpack/starter",
     "lint": "lerna run lint",
     "format": "lerna run format",
+    "prepare": "simple-git-hooks",
     "production": "lerna run production",
     "test": "lerna run test --stream",
     "test:unit": "lerna run test --scope=@rockpack/babel --scope=@rockpack/utils --scope=@rockpack/tester --scope=@rockpack/codestyle --scope=@rockpack/starter --scope=@rockpack/compiler",
