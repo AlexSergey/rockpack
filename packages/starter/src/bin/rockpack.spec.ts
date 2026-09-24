@@ -90,14 +90,31 @@ describe('rockpack', () => {
       expect(warnSpy).not.toHaveBeenCalled();
     });
 
-    // TODO Plan 2 (E1): versions are compared as strings, so a newer major with more digits is missed.
-    it('does not warn about a newer major with more digits', async () => {
+    it('does not warn about an older version on the registry', async () => {
       setArgv({ _: ['app'] });
-      latestVersionMock.mockResolvedValue('100.0.0');
+      latestVersionMock.mockResolvedValue('0.0.1');
 
       await rockpack();
 
       expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('still installs when the registry is unreachable', async () => {
+      setArgv({ _: ['app'] });
+      latestVersionMock.mockRejectedValue(new Error('getaddrinfo ENOTFOUND registry.npmjs.org'));
+
+      await rockpack();
+
+      expect(warnSpy).not.toHaveBeenCalled();
+      expect(installMock).toHaveBeenCalled();
+    });
+
+    it('skips the update check in test mode', async () => {
+      setArgv({ _: ['app'], mode: 'test' });
+
+      await rockpack();
+
+      expect(latestVersionMock).not.toHaveBeenCalled();
     });
   });
 
@@ -118,7 +135,6 @@ describe('rockpack', () => {
       expect(logSpy).toHaveBeenCalledWith('  rockpack proj');
     });
 
-    // TODO Plan 2 (E1): the warning text is inverted; it should say that a newer version is available.
     it('warns when a newer version is published', async () => {
       setArgv({ _: ['app'] });
       latestVersionMock.mockResolvedValue('99.0.0');
@@ -126,8 +142,17 @@ describe('rockpack', () => {
       await rockpack();
 
       expect(latestVersionMock).toHaveBeenCalledWith('@rockpack/starter');
-      expect(warnSpy).toHaveBeenCalledWith('WARNING:   Your Rockpack version is up to date!');
+      expect(warnSpy).toHaveBeenCalledWith('WARNING:   A newer Rockpack version is available!');
       expect(logSpy).toHaveBeenCalledWith(' => The current available version is 99.0.0');
+    });
+
+    it('compares versions numerically', async () => {
+      setArgv({ _: ['app'] });
+      latestVersionMock.mockResolvedValue('100.0.0');
+
+      await rockpack();
+
+      expect(warnSpy).toHaveBeenCalledWith('WARNING:   A newer Rockpack version is available!');
     });
 
     it('installs into a new project directory', async () => {

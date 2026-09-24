@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import latestVersion from 'latest-version';
 import fs from 'node:fs';
 import path from 'node:path';
+import semverGt from 'semver/functions/gt.js';
 import semverParse from 'semver/functions/parse.js';
 
 import { defaultApp } from '../constants/names';
@@ -11,6 +12,28 @@ import { install } from '../lib/install';
 import { argv } from '../utils/argv';
 import { packageJson } from '../utils/package-json';
 import { getCurrentPath } from '../utils/pathes';
+
+const warnIfOutdated = async (): Promise<void> => {
+  let rockpackLatestVersion: string;
+  try {
+    rockpackLatestVersion = await latestVersion(packageJson.name);
+  } catch {
+    // Offline or the registry is unavailable: the update check is optional.
+    return;
+  }
+  const parsed = semverParse(rockpackLatestVersion);
+
+  if (parsed && parsed.prerelease.length === 0 && semverGt(rockpackLatestVersion, packageJson.version)) {
+    console.warn(chalk.red('WARNING:   A newer Rockpack version is available!'));
+    console.log();
+    console.log(` => The current available version is ${rockpackLatestVersion}`);
+    console.log();
+    console.log('Please run:');
+    console.log();
+    console.log(`  ${chalk.blue('npm i -g @rockpack/starter')}`);
+    console.log();
+  }
+};
 
 export const rockpack = async (): Promise<void> => {
   const { _, h, help, v, version } = argv;
@@ -44,18 +67,8 @@ export const rockpack = async (): Promise<void> => {
     process.exit(1);
   }
 
-  const rockpackLatestVersion = await latestVersion(packageJson.name);
-  const parsed = semverParse(rockpackLatestVersion);
-
-  if (parsed && parsed.prerelease.length === 0 && rockpackLatestVersion > packageJson.version) {
-    console.warn(chalk.red('WARNING:   Your Rockpack version is up to date!'));
-    console.log();
-    console.log(` => The current available version is ${rockpackLatestVersion}`);
-    console.log();
-    console.log('Please run:');
-    console.log();
-    console.log(`  ${chalk.blue('npm i -g @rockpack/starter')}`);
-    console.log();
+  if (!args.testMode) {
+    await warnIfOutdated();
   }
 
   let projectName = String(_[0]);
