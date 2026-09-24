@@ -1,80 +1,32 @@
 import { createBabelPresets } from '@rockpack/babel';
+import { execFileSync } from 'node:child_process';
 
-type Config = {
-  babelrc: boolean;
-  env: {
-    production: {
-      plugins: string[];
-    };
-  };
-  plugins: string[][];
-  presets: string[][];
-};
+// Smoke test of the built package; the preset details are covered by the packages/babel unit tests.
+// Jest resolves every import through the CommonJS condition, so the entries are loaded by a real Node process.
+const runNode = (args: string[]): string =>
+  execFileSync(process.execPath, args, { cwd: __dirname, encoding: 'utf8' }).trim();
 
-describe('babel preset generator', () => {
-  it('generates config with babel preset', () => {
-    const conf = createBabelPresets({
-      framework: 'none',
-      isNodejs: false,
-      isTest: false,
-      modules: false,
-      typescript: false,
-    }) as unknown as Config;
+const probe =
+  'typeof m.createBabelPresets + " " + JSON.stringify(m.createBabelPresets().presets).includes("preset-env")';
 
-    const preset = conf.presets?.[0]?.[0] as string;
+describe('@rockpack/babel build', () => {
+  describe('negative cases', () => {
+    it('adds no React preset without the react framework', () => {
+      const { presets } = createBabelPresets({ framework: 'none' });
 
-    expect(typeof preset === 'string' && preset.includes('@babel/preset-env')).toBe(true);
-    expect(typeof preset === 'string' && preset.includes('babel-plugin-react-compiler')).toBe(false);
-
-    expect(conf.env.production.plugins).toBeUndefined();
+      expect(JSON.stringify(presets)).not.toContain('@babel/preset-react');
+    });
   });
 
-  it('generates config with react framework', () => {
-    const conf = createBabelPresets({
-      framework: 'react',
-      isNodejs: false,
-      isTest: false,
-      modules: false,
-      typescript: false,
-    }) as unknown as Config;
-    const pluginsGlobal = conf.plugins?.[0]?.[0] as string;
-    const preset2 = conf.presets?.[1]?.[0] as string;
-    const plugins = conf.env.production.plugins[0] as string;
+  describe('positive cases', () => {
+    it('loads createBabelPresets from the ESM entry', () => {
+      expect(
+        runNode(['--input-type=module', '-e', `const m = await import('@rockpack/babel'); console.log(${probe});`]),
+      ).toBe('function true');
+    });
 
-    expect(pluginsGlobal.includes('babel-plugin-react-compiler')).toBe(true);
-
-    expect(plugins.includes('@babel/plugin-transform-react-constant-elements')).toBe(true);
-
-    expect(plugins.includes('@babel/plugin-transform-react-constant-elements')).toBe(true);
-
-    expect(preset2.includes('@babel/preset-react')).toBe(true);
-  });
-
-  it('generates config with typescript preset', () => {
-    const conf: Config = createBabelPresets({
-      framework: 'react',
-      isNodejs: false,
-      isTest: false,
-      modules: false,
-      typescript: true,
-    }) as unknown as Config;
-
-    const preset = conf.presets?.[0]?.[0] as string;
-
-    expect(preset.includes('@babel/preset-typescript')).toBe(true);
-  });
-
-  it('generates config with isomorphic preset', () => {
-    const conf = createBabelPresets({
-      framework: 'react',
-      isNodejs: false,
-      isTest: false,
-      modules: false,
-      typescript: true,
-    }) as unknown as Config;
-
-    const preset = conf.presets?.[0]?.[0] as string;
-
-    expect(preset.includes('@babel/preset-typescript')).toBe(true);
+    it('loads createBabelPresets from the CommonJS entry', () => {
+      expect(runNode(['-e', `const m = require('@rockpack/babel'); console.log(${probe});`])).toBe('function true');
+    });
   });
 });
