@@ -1,10 +1,10 @@
 import { spawnSync } from 'node:child_process';
 
-import { gitHooks } from './git-hooks';
-import { getPM } from './other';
+import { gitHooks } from './git-hooks.js';
+import { getPM } from './other.js';
 
 jest.mock('node:child_process', () => ({ spawnSync: jest.fn() }));
-jest.mock('./other', () => ({ getPM: jest.fn() }));
+jest.mock('./other.js', () => ({ getPM: jest.fn() }));
 
 const spawnSyncMock = spawnSync as jest.MockedFunction<typeof spawnSync>;
 const getPMMock = getPM as jest.MockedFunction<typeof getPM>;

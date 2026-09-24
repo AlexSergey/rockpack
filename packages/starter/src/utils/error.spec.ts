@@ -1,12 +1,12 @@
 import os from 'node:os';
 
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit';
-import { showError } from './error';
+import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
+import { showError } from './error.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
-jest.mock('./other', () => ({ getPM: (): string => 'npm', getPMVersion: (): string => '11.6.0' }));
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
+jest.mock('./other.js', () => ({ getPM: (): string => 'npm', getPMVersion: (): string => '11.6.0' }));
 
 describe('showError', () => {
   let exitSpy: jest.SpyInstance;

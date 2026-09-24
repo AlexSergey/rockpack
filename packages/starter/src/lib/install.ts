@@ -4,18 +4,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ora from 'ora';
 
-import type { Args } from './get-args';
+import type { Args } from './get-args.js';
 
-import { showError } from '../utils/error';
-import { gitHooks } from '../utils/git-hooks';
-import { getPM } from '../utils/other';
-import { dummies } from '../utils/pathes';
-import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project';
-import { copyFiles } from './copy-files.ts';
-import { createFiles } from './create-files.ts';
-import { gitInit } from './git-init';
-import { packageJsonPreparing } from './package-json-preparing.ts';
-import { wizard } from './wizard';
+import { showError } from '../utils/error.js';
+import { gitHooks } from '../utils/git-hooks.js';
+import { getPM } from '../utils/other.js';
+import { dummies } from '../utils/pathes.js';
+import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project.js';
+import { copyFiles } from './copy-files.js';
+import { createFiles } from './create-files.js';
+import { gitInit } from './git-init.js';
+import { packageJsonPreparing } from './package-json-preparing.js';
+import { wizard } from './wizard.js';
 
 type Timeouts = {
   $el1: null | ReturnType<typeof setTimeout>;

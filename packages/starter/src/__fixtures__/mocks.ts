@@ -1,5 +1,5 @@
 // Stand-ins for ESM-only dependencies that babel-jest's CJS output cannot load.
-// Use them from jest.mock factories: jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule
+// Use them from jest.mock factories: jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule
 
 type ChalkMock = ((text: string) => string) & { readonly [style: string]: ChalkMock };
 

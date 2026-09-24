@@ -2,17 +2,17 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import type * as Mocks from '../__fixtures__/mocks';
-import type * as PathesModule from '../utils/pathes';
+import type * as Mocks from '../__fixtures__/mocks.js';
+import type * as PathesModule from '../utils/pathes.js';
 
-import { showError } from '../utils/error';
-import { dummies } from '../utils/pathes';
-import { createFiles } from './create-files';
+import { showError } from '../utils/error.js';
+import { dummies } from '../utils/pathes.js';
+import { createFiles } from './create-files.js';
 
-jest.mock('change-case', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').changeCaseModule);
-jest.mock('../utils/error', () => ({ showError: jest.fn() }));
-jest.mock('../utils/pathes', () => {
-  const actual = jest.requireActual<typeof PathesModule>('../utils/pathes');
+jest.mock('change-case', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').changeCaseModule);
+jest.mock('../utils/error.js', () => ({ showError: jest.fn() }));
+jest.mock('../utils/pathes.js', () => {
+  const actual = jest.requireActual<typeof PathesModule>('../utils/pathes.js');
 
   return {
     ...actual,
@@ -32,7 +32,7 @@ describe('createFiles', () => {
   let realDummies: string;
 
   beforeAll(() => {
-    realDummies = jest.requireActual<{ dummies: string }>('../utils/pathes').dummies;
+    realDummies = jest.requireActual<{ dummies: string }>('../utils/pathes.js').dummies;
   });
 
   beforeEach(() => {

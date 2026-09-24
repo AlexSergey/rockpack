@@ -4,7 +4,7 @@ describe('text-encoder polyfill', () => {
   describe('negative cases', () => {
     it('does not export anything', () => {
       jest.isolateModules(() => {
-        expect(Object.keys(jest.requireActual('./text-encoder.fix'))).toEqual([]);
+        expect(Object.keys(jest.requireActual('./text-encoder.fix.js'))).toEqual([]);
       });
     });
   });
@@ -15,7 +15,7 @@ describe('text-encoder polyfill', () => {
       Reflect.deleteProperty(global, 'TextDecoder');
 
       jest.isolateModules(() => {
-        jest.requireActual('./text-encoder.fix');
+        jest.requireActual('./text-encoder.fix.js');
       });
 
       expect(global.TextEncoder).toBe(TextEncoder);

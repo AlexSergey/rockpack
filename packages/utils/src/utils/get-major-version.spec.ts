@@ -1,4 +1,4 @@
-import { getMajorVersion } from './get-major-version';
+import { getMajorVersion } from './get-major-version.js';
 
 describe('getMajorVersion', () => {
   describe('negative cases', () => {

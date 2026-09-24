@@ -1,6 +1,6 @@
-import type { AppType } from './wizard';
+import type { AppType } from './wizard.js';
 
-import { argv } from '../utils/argv';
+import { argv } from '../utils/argv.js';
 
 export type Args = {
   appType?: AppType;

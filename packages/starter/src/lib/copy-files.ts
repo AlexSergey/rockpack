@@ -1,9 +1,9 @@
 import path from 'node:path';
 
-import type { State } from './wizard';
+import type { State } from './wizard.js';
 
-import { copy } from '../utils/copy';
-import { addons, backbone } from '../utils/pathes';
+import { copy } from '../utils/copy.js';
+import { addons, backbone } from '../utils/pathes.js';
 
 export const copyFiles = async (
   currentPath: string,

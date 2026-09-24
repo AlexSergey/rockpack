@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { runInThisContext } from 'node:vm';
 
-import { createBabelPresets } from './index';
+import { createBabelPresets } from './index.js';
 
 type ProjectFiles = {
   readonly babelConfig?: string;

@@ -1,12 +1,12 @@
 import path from 'node:path';
 
-import type { AppType } from './wizard';
+import type { AppType } from './wizard.js';
 
-import { copy } from '../utils/copy';
-import { addons, backbone } from '../utils/pathes';
-import { copyFiles } from './copy-files';
+import { copy } from '../utils/copy.js';
+import { addons, backbone } from '../utils/pathes.js';
+import { copyFiles } from './copy-files.js';
 
-jest.mock('../utils/copy', () => ({ copy: jest.fn() }));
+jest.mock('../utils/copy.js', () => ({ copy: jest.fn() }));
 
 const copyMock = copy as jest.MockedFunction<typeof copy>;
 const target = '/work/app';

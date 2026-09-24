@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { here } from '../constants/paths';
+import { here } from '../constants/paths.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 

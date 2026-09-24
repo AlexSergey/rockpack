@@ -2,10 +2,10 @@ import { pascalCase } from 'change-case';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { State } from './wizard';
+import type { State } from './wizard.js';
 
-import { showError } from '../utils/error';
-import { dummies } from '../utils/pathes';
+import { showError } from '../utils/error.js';
+import { dummies } from '../utils/pathes.js';
 
 export const createFiles = (
   currentPath: string,

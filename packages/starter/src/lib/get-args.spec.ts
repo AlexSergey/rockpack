@@ -1,8 +1,8 @@
-import { getArgs } from './get-args';
+import { getArgs } from './get-args.js';
 
 const mockArgv: Record<string, unknown> = {};
 
-jest.mock('../utils/argv', () => ({
+jest.mock('../utils/argv.js', () => ({
   get argv(): Record<string, unknown> {
     return mockArgv;
   },

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import os from 'node:os';
 
-import { getPM, getPMVersion } from './other';
+import { getPM, getPMVersion } from './other.js';
 
 export const showError = (e: unknown, cb?: () => void): never => {
   console.log();

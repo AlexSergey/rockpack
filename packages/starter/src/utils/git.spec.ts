@@ -2,11 +2,11 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { findGitRepoInParent, gitIsAvailable, makeRepo } from './git';
+import { findGitRepoInParent, gitIsAvailable, makeRepo } from './git.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('node:child_process', () => ({ execSync: jest.fn() }));
 jest.mock('node:fs', () => ({ existsSync: jest.fn() }));
 

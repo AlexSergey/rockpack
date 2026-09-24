@@ -1,11 +1,11 @@
 import { execSync } from 'node:child_process';
 
-import { getPM, getPMVersion } from './other';
+import { getPM, getPMVersion } from './other.js';
 
 const mockArgv: Record<string, unknown> = {};
 
 jest.mock('node:child_process', () => ({ execSync: jest.fn() }));
-jest.mock('./argv', () => ({
+jest.mock('./argv.js', () => ({
   get argv(): Record<string, unknown> {
     return mockArgv;
   },

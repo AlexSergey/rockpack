@@ -1,4 +1,4 @@
-import type { getMode } from './get-mode';
+import type { getMode } from './get-mode.js';
 
 const mockArgv: Record<string, unknown> = {};
 
@@ -14,7 +14,7 @@ const load = (): Loaded => {
   let loaded: Loaded | undefined;
   jest.isolateModules(() => {
     loaded = {
-      getMode: jest.requireActual<{ getMode: typeof getMode }>('./get-mode').getMode,
+      getMode: jest.requireActual<{ getMode: typeof getMode }>('./get-mode.js').getMode,
       yargs: jest.requireMock<jest.Mock>('yargs'),
     };
   });

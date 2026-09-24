@@ -1,4 +1,4 @@
-import * as utils from './index';
+import * as utils from './index.js';
 
 jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => ({}) })));
 jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));

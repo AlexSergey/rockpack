@@ -1,12 +1,12 @@
 import confirm from '@inquirer/confirm';
 import select from '@inquirer/select';
 
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit';
-import { wizard } from './wizard';
+import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
+import { wizard } from './wizard.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('@inquirer/select', () => ({ __esModule: true, default: jest.fn() }));
 jest.mock('@inquirer/confirm', () => ({ __esModule: true, default: jest.fn() }));
 

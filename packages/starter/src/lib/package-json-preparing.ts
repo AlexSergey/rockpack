@@ -2,13 +2,13 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { PackageJsonObject } from '../types/package';
-import type { Versions } from '../types/versions';
-import type { State } from './wizard';
+import type { PackageJsonObject } from '../types/package.js';
+import type { Versions } from '../types/versions.js';
+import type { State } from './wizard.js';
 
-import { getPM } from '../utils/other';
-import { packageJson } from '../utils/package-json';
-import { addDependencies, addFields, addScripts, readPackageJSON, writePackageJSON } from '../utils/project';
+import { getPM } from '../utils/other.js';
+import { packageJson } from '../utils/package-json.js';
+import { addDependencies, addFields, addScripts, readPackageJSON, writePackageJSON } from '../utils/project.js';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 

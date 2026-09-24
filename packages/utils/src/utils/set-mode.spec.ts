@@ -1,4 +1,4 @@
-import type { setMode } from './set-mode';
+import type { setMode } from './set-mode.js';
 
 const mockArgv: Record<string, unknown> = {};
 
@@ -14,7 +14,7 @@ const load = (): Loaded => {
   let loaded: Loaded | undefined;
   jest.isolateModules(() => {
     loaded = {
-      setMode: jest.requireActual<{ setMode: typeof setMode }>('./set-mode').setMode,
+      setMode: jest.requireActual<{ setMode: typeof setMode }>('./set-mode.js').setMode,
       yargs: jest.requireMock<jest.Mock>('yargs'),
     };
   });

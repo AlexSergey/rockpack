@@ -5,13 +5,13 @@ import path from 'node:path';
 import semverGt from 'semver/functions/gt.js';
 import semverParse from 'semver/functions/parse.js';
 
-import { defaultApp } from '../constants/names';
-import { here } from '../constants/paths';
-import { getArgs } from '../lib/get-args';
-import { install } from '../lib/install';
-import { argv } from '../utils/argv';
-import { packageJson } from '../utils/package-json';
-import { getCurrentPath } from '../utils/pathes';
+import { defaultApp } from '../constants/names.js';
+import { here } from '../constants/paths.js';
+import { getArgs } from '../lib/get-args.js';
+import { install } from '../lib/install.js';
+import { argv } from '../utils/argv.js';
+import { packageJson } from '../utils/package-json.js';
+import { getCurrentPath } from '../utils/pathes.js';
 
 const warnIfOutdated = async (): Promise<void> => {
   let rockpackLatestVersion: string;

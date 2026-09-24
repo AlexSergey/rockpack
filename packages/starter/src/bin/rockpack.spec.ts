@@ -2,30 +2,30 @@ import latestVersion from 'latest-version';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit';
-import { install } from '../lib/install';
-import { packageJson } from '../utils/package-json';
-import { rockpack } from './rockpack';
+import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
+import { install } from '../lib/install.js';
+import { packageJson } from '../utils/package-json.js';
+import { rockpack } from './rockpack.js';
 
 const mockArgv: Record<string, unknown> = {};
 const mockCwd = '/work/my project';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('latest-version', () => ({ __esModule: true, default: jest.fn() }));
 jest.mock('node:fs', () => ({
   ...jest.requireActual<typeof fs>('node:fs'),
   existsSync: jest.fn(),
   readdirSync: jest.fn(),
 }));
-jest.mock('../lib/install', () => ({ install: jest.fn() }));
-jest.mock('../utils/argv', () => ({
+jest.mock('../lib/install.js', () => ({ install: jest.fn() }));
+jest.mock('../utils/argv.js', () => ({
   get argv(): Record<string, unknown> {
     return mockArgv;
   },
 }));
-jest.mock('../utils/pathes', () => ({
+jest.mock('../utils/pathes.js', () => ({
   getCurrentPath: (projectName: string): string => (projectName === '.' ? mockCwd : `${mockCwd}/${projectName}`),
 }));
 

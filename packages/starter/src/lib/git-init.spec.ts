@@ -1,11 +1,15 @@
-import type * as Mocks from '../__fixtures__/mocks';
-import type { State } from './wizard';
+import type * as Mocks from '../__fixtures__/mocks.js';
+import type { State } from './wizard.js';
 
-import { findGitRepoInParent, gitIsAvailable, makeRepo } from '../utils/git';
-import { gitInit } from './git-init';
+import { findGitRepoInParent, gitIsAvailable, makeRepo } from '../utils/git.js';
+import { gitInit } from './git-init.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
-jest.mock('../utils/git', () => ({ findGitRepoInParent: jest.fn(), gitIsAvailable: jest.fn(), makeRepo: jest.fn() }));
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
+jest.mock('../utils/git.js', () => ({
+  findGitRepoInParent: jest.fn(),
+  gitIsAvailable: jest.fn(),
+  makeRepo: jest.fn(),
+}));
 
 const gitIsAvailableMock = gitIsAvailable as jest.MockedFunction<typeof gitIsAvailable>;
 const findGitRepoInParentMock = findGitRepoInParent as jest.MockedFunction<typeof findGitRepoInParent>;

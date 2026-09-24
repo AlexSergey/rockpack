@@ -1,9 +1,9 @@
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit';
+import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
-jest.mock('./rockpack', () => ({ rockpack: jest.fn() }));
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
+jest.mock('./rockpack.js', () => ({ rockpack: jest.fn() }));
 
 const originalNodeVersion = process.versions.node;
 
@@ -11,9 +11,9 @@ const runBin = (nodeVersion: string): jest.Mock => {
   Object.defineProperty(process.versions, 'node', { value: nodeVersion });
   let rockpack: jest.Mock | undefined;
   jest.isolateModules(() => {
-    rockpack = jest.requireMock<{ rockpack: jest.Mock }>('./rockpack').rockpack;
+    rockpack = jest.requireMock<{ rockpack: jest.Mock }>('./rockpack.js').rockpack;
     rockpack.mockResolvedValue(undefined);
-    jest.requireActual('./index');
+    jest.requireActual('./index.js');
   });
   if (!rockpack) {
     throw new Error('./rockpack mock was not loaded');

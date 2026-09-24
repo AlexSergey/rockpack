@@ -2,7 +2,8 @@
   "extends": "@rockpack/tsconfig/tsconfig.node.json",
   "compilerOptions": {
     "types": ["node", "jest"],
-    "noEmit": true
+    "noEmit": true,
+    "allowImportingTsExtensions": false
   },
   "exclude": ["templates", "node_modules"]
 }

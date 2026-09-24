@@ -2,7 +2,7 @@ import type { Stats } from 'node:fs';
 
 import { statSync } from 'node:fs';
 
-import { getRootRequireDir } from './require-dir';
+import { getRootRequireDir } from './require-dir.js';
 
 jest.mock('node:fs', () => ({ statSync: jest.fn() }));
 

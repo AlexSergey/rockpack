@@ -4,9 +4,9 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import type * as Mocks from '../__fixtures__/mocks';
+import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { getPM } from './other';
+import { getPM } from './other.js';
 import {
   addDependencies,
   addFields,
@@ -17,12 +17,15 @@ import {
   installPeerDependencies,
   readPackageJSON,
   writePackageJSON,
-} from './project';
+} from './project.js';
 
 jest.mock('latest-version', () => ({ __esModule: true, default: jest.fn() }));
-jest.mock('sort-package-json', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').sortPackageJsonModule);
+jest.mock(
+  'sort-package-json',
+  () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').sortPackageJsonModule,
+);
 jest.mock('node:child_process', () => ({ exec: jest.fn() }));
-jest.mock('./other', () => ({ getPM: jest.fn() }));
+jest.mock('./other.js', () => ({ getPM: jest.fn() }));
 
 type ExecCallback = (error: Error | null) => void;
 

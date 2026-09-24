@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
 
-import { rockpack } from './rockpack';
+import { rockpack } from './rockpack.js';
 
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');

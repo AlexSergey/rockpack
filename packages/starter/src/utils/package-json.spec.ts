@@ -1,8 +1,8 @@
 import { tmpdir } from 'node:os';
 
-import type * as PackageJsonModule from './package-json';
+import type * as PackageJsonModule from './package-json.js';
 
-import { packageJson } from './package-json';
+import { packageJson } from './package-json.js';
 
 describe('packageJson', () => {
   afterEach(() => {
@@ -14,7 +14,7 @@ describe('packageJson', () => {
       jest.spyOn(process, 'cwd').mockReturnValue(tmpdir());
       let loaded: typeof PackageJsonModule | undefined;
       jest.isolateModules(() => {
-        loaded = jest.requireActual<typeof PackageJsonModule>('./package-json');
+        loaded = jest.requireActual<typeof PackageJsonModule>('./package-json.js');
       });
 
       expect(loaded?.packageJson.name).toBe('@rockpack/starter');

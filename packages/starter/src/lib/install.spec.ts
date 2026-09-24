@@ -3,24 +3,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ora from 'ora';
 
-import type * as Mocks from '../__fixtures__/mocks';
-import type { SpinnerMock } from '../__fixtures__/mocks';
-import type { Args } from './get-args';
-import type { AppType, State } from './wizard';
+import type * as Mocks from '../__fixtures__/mocks.js';
+import type { SpinnerMock } from '../__fixtures__/mocks.js';
+import type { Args } from './get-args.js';
+import type { AppType, State } from './wizard.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit';
-import { showError } from '../utils/error';
-import { gitHooks } from '../utils/git-hooks';
-import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project';
-import { copyFiles } from './copy-files';
-import { createFiles } from './create-files';
-import { gitInit } from './git-init';
-import { install } from './install';
-import { packageJsonPreparing } from './package-json-preparing';
-import { wizard } from './wizard';
+import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
+import { showError } from '../utils/error.js';
+import { gitHooks } from '../utils/git-hooks.js';
+import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project.js';
+import { copyFiles } from './copy-files.js';
+import { createFiles } from './create-files.js';
+import { gitInit } from './git-init.js';
+import { install } from './install.js';
+import { packageJsonPreparing } from './package-json-preparing.js';
+import { wizard } from './wizard.js';
 
-jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
-jest.mock('ora', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').oraModule);
+jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
+jest.mock('ora', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').oraModule);
 jest.mock('mkdirp', () => ({ mkdirp: jest.fn() }));
 jest.mock('node:fs', () => ({
   existsSync: jest.fn(),
@@ -28,21 +28,21 @@ jest.mock('node:fs', () => ({
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
 }));
-jest.mock('../utils/error', () => ({ showError: jest.fn() }));
-jest.mock('../utils/git-hooks', () => ({ gitHooks: jest.fn() }));
-jest.mock('../utils/other', () => ({ getPM: (): string => 'npm' }));
-jest.mock('../utils/pathes', () => ({ dummies: '/dummies' }));
-jest.mock('../utils/project', () => ({
+jest.mock('../utils/error.js', () => ({ showError: jest.fn() }));
+jest.mock('../utils/git-hooks.js', () => ({ gitHooks: jest.fn() }));
+jest.mock('../utils/other.js', () => ({ getPM: (): string => 'npm' }));
+jest.mock('../utils/pathes.js', () => ({ dummies: '/dummies' }));
+jest.mock('../utils/project.js', () => ({
   createPackageJSON: jest.fn(),
   installDependencies: jest.fn(),
   installPeerDependencies: jest.fn(),
   writePackageJSON: jest.fn(),
 }));
-jest.mock('./copy-files', () => ({ copyFiles: jest.fn() }));
-jest.mock('./create-files', () => ({ createFiles: jest.fn() }));
-jest.mock('./git-init', () => ({ gitInit: jest.fn() }));
-jest.mock('./package-json-preparing', () => ({ packageJsonPreparing: jest.fn() }));
-jest.mock('./wizard', () => ({ wizard: jest.fn() }));
+jest.mock('./copy-files.js', () => ({ copyFiles: jest.fn() }));
+jest.mock('./create-files.js', () => ({ createFiles: jest.fn() }));
+jest.mock('./git-init.js', () => ({ gitInit: jest.fn() }));
+jest.mock('./package-json-preparing.js', () => ({ packageJsonPreparing: jest.fn() }));
+jest.mock('./wizard.js', () => ({ wizard: jest.fn() }));
 
 class ShowErrorCalled extends Error {}
 
@@ -106,7 +106,7 @@ describe('install', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     mockProcessExit();
-    oraMock.mockImplementation(jest.requireActual<typeof Mocks>('../__fixtures__/mocks').createSpinner);
+    oraMock.mockImplementation(jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').createSpinner);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     mocks.createPackageJSON.mockImplementation((name) => ({ name }));
     mocks.existsSync.mockReturnValue(false);

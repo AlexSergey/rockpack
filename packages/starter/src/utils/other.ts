@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process';
 
-import { argv } from './argv';
+import { argv } from './argv.js';
 
 const yarnIsAvailable = (): boolean => {
   if (!argv['yarn']) {

@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import { isString, makeConfig } from './index';
+import { isString, makeConfig } from './index.js';
 
 // Every plugin is replaced with the minimal shape makeConfig reads, so specs assert on the
 // structure makeConfig builds. Several plugins are ESM-only and cannot be loaded by babel-jest's

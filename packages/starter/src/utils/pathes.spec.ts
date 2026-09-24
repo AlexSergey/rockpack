@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-import type * as PathesModule from './pathes';
+import type * as PathesModule from './pathes.js';
 
 type Pathes = typeof PathesModule;
 
@@ -9,7 +9,7 @@ const loadPathes = (cwd: string): Pathes => {
   jest.spyOn(process, 'cwd').mockReturnValue(cwd);
   let loaded: Pathes | undefined;
   jest.isolateModules(() => {
-    loaded = jest.requireActual<Pathes>('./pathes');
+    loaded = jest.requireActual<Pathes>('./pathes.js');
   });
   if (!loaded) {
     throw new Error('./pathes was not loaded');

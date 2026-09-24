@@ -1,21 +1,24 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import type * as Mocks from '../__fixtures__/mocks';
-import type { DependencyGroups, PackageJsonObject } from '../types/package';
-import type { Versions } from '../types/versions';
-import type * as ProjectModule from '../utils/project';
-import type { State } from './wizard';
+import type * as Mocks from '../__fixtures__/mocks.js';
+import type { DependencyGroups, PackageJsonObject } from '../types/package.js';
+import type { Versions } from '../types/versions.js';
+import type * as ProjectModule from '../utils/project.js';
+import type { State } from './wizard.js';
 
-import { packageJson } from '../utils/package-json';
-import { addDependencies, readPackageJSON, writePackageJSON } from '../utils/project';
-import { packageJsonPreparing } from './package-json-preparing';
+import { packageJson } from '../utils/package-json.js';
+import { addDependencies, readPackageJSON, writePackageJSON } from '../utils/project.js';
+import { packageJsonPreparing } from './package-json-preparing.js';
 
 jest.mock('latest-version', () => ({ __esModule: true, default: jest.fn() }));
-jest.mock('sort-package-json', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').sortPackageJsonModule);
-jest.mock('../utils/other', () => ({ getPM: (): string => 'npm' }));
-jest.mock('../utils/project', () => ({
-  ...jest.requireActual<typeof ProjectModule>('../utils/project'),
+jest.mock(
+  'sort-package-json',
+  () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').sortPackageJsonModule,
+);
+jest.mock('../utils/other.js', () => ({ getPM: (): string => 'npm' }));
+jest.mock('../utils/project.js', () => ({
+  ...jest.requireActual<typeof ProjectModule>('../utils/project.js'),
   addDependencies: jest.fn(),
   readPackageJSON: jest.fn(),
   writePackageJSON: jest.fn(),

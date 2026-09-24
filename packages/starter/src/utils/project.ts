@@ -5,9 +5,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
-import type { DependencyGroups, PackageJsonObject } from '../types/package';
+import type { DependencyGroups, PackageJsonObject } from '../types/package.js';
 
-import { getPM } from './other';
+import { getPM } from './other.js';
 
 export type { DependencyGroups, PackageJsonObject };
 
