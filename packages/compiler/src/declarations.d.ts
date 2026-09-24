@@ -21,6 +21,7 @@ declare module 'find-package-json' {
 
 declare module 'livereload' {
   type LiveReloadServer = {
+    close(): void;
     config: { port: number };
     refresh(path: string): void;
   };

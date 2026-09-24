@@ -1,4 +1,10 @@
-export const MUST_BE_STRING = "libraryName mus't be a string!";
+import { RockpackError } from './rockpack-error.js';
 
-export const LIBRARY_OPTS_ERROR =
-  'Object is not correct. You should set { name: String, esm?:{ src: String, dist: String }, cjs?:{ src: String, dist: String } }';
+export const invalidLibraryOptions = (): RockpackError =>
+  new RockpackError(
+    'INVALID_CONFIG',
+    'Object is not correct. You should set { name: String, esm?:{ src: String, dist: String }, cjs?:{ src: String, dist: String } }',
+  );
+
+export const libraryNameMustBeString = (): RockpackError =>
+  new RockpackError('INVALID_CONFIG', "libraryName mus't be a string!");

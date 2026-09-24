@@ -3,7 +3,6 @@ import { createServer } from 'livereload';
 
 import type { InternalCompilerConf } from '../types.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { run } from '../core/run.js';
 import { isomorphicCompiler } from './isomorphic-compiler.js';
 
@@ -18,7 +17,7 @@ type CompileResult = {
   webpackConfig: { name: string };
 };
 
-const lrServer = { config: { port: 35729 }, refresh: jest.fn() };
+const lrServer = { close: jest.fn(), config: { port: 35729 }, refresh: jest.fn() };
 
 const result = (compilerName: string, overrides: Partial<InternalCompilerConf> = {}): Promise<CompileResult> =>
   Promise.resolve({
@@ -27,11 +26,7 @@ const result = (compilerName: string, overrides: Partial<InternalCompilerConf> =
   });
 
 describe('isomorphicCompiler', () => {
-  let errorSpy: jest.SpyInstance;
-
   beforeEach(() => {
-    mockProcessExit();
-    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     (getMode as jest.Mock).mockReturnValue('development');
     (createServer as jest.Mock).mockReturnValue(lrServer);
   });
@@ -47,25 +42,31 @@ describe('isomorphicCompiler', () => {
 
   describe('negative cases', () => {
     it('exits without a frontend compiler', async () => {
-      await expect(isomorphicCompiler(result('backendCompiler'))).rejects.toEqual(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith('isomorphicCompiler supported only frontendCompiler');
+      await expect(isomorphicCompiler(result('backendCompiler'))).rejects.toThrow(
+        'isomorphicCompiler supported only frontendCompiler',
+      );
+      expect(lrServer.close).toHaveBeenCalled();
     });
 
     it('exits without a backend compiler', async () => {
-      await expect(isomorphicCompiler(result('frontendCompiler'))).rejects.toEqual(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith('backendCompiler is required to set isomorphicCompiler');
+      await expect(isomorphicCompiler(result('frontendCompiler'))).rejects.toThrow(
+        'backendCompiler is required to set isomorphicCompiler',
+      );
+      expect(lrServer.close).toHaveBeenCalled();
     });
 
     it.each(['dist', 'src'] as const)('exits when a compiler has no %s', async (option) => {
       await expect(
         isomorphicCompiler(result('frontendCompiler'), result('backendCompiler', { [option]: undefined })),
-      ).rejects.toEqual(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith(`You should set ${option} option to backendCompiler`);
+      ).rejects.toThrow(`You should set ${option} option to backendCompiler`);
+      expect(lrServer.close).toHaveBeenCalled();
     });
 
     it('ignores compilers that resolved to nothing', async () => {
-      await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve())).rejects.toEqual(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith('backendCompiler is required to set isomorphicCompiler');
+      await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve())).rejects.toThrow(
+        'backendCompiler is required to set isomorphicCompiler',
+      );
+      expect(lrServer.close).toHaveBeenCalled();
     });
   });
 

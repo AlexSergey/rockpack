@@ -1,4 +1,3 @@
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { compile } from '../core/compile.js';
 import { libraryCompiler } from './library-compiler.js';
 
@@ -10,12 +9,7 @@ const compileMock = compile as jest.MockedFunction<typeof compile>;
 const compiledConf = (): Record<string, unknown> => compileMock.mock.calls[0]?.[0] as Record<string, unknown>;
 
 describe('libraryCompiler', () => {
-  let errorSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    mockProcessExit();
-    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
+  beforeEach(() => {});
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -24,10 +18,10 @@ describe('libraryCompiler', () => {
 
   describe('negative cases', () => {
     it('exits for options that are neither a name nor an object with a name', async () => {
-      await expect(libraryCompiler({ esm: { dist: 'lib', src: 'src' } } as never)).rejects.toEqual(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Object is not correct. You should set { name: String, esm?:{ src: String, dist: String }, cjs?:{ src: String, dist: String } }',
-      );
+      await expect(libraryCompiler({ esm: { dist: 'lib', src: 'src' } } as never)).rejects.toMatchObject({
+        code: 'INVALID_CONFIG',
+        message: expect.stringContaining('Object is not correct') as unknown,
+      });
       expect(compile).not.toHaveBeenCalled();
     });
 

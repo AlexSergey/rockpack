@@ -47,14 +47,11 @@ export async function libraryCompiler(
       mergedConf = deepExtend({}, mergedConf, { cjs: opts.cjs });
     }
   } else {
-    console.error(errors.LIBRARY_OPTS_ERROR);
-    console.error(errors.MUST_BE_STRING);
-    process.exit(1);
+    throw errors.invalidLibraryOptions();
   }
 
   if (!isString(libraryName)) {
-    console.error(errors.MUST_BE_STRING);
-    process.exit(1);
+    throw errors.libraryNameMustBeString();
   }
 
   mergedConf = deepExtend({}, mergedConf, {

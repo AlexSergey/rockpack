@@ -5,6 +5,7 @@ import { isArray, isString } from 'valid-types';
 import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { distExtension } from '../constants.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
@@ -16,8 +17,7 @@ type EntryResult = {
 
 export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mode: Mode): EntryResult => {
   if (!isString(conf.src)) {
-    console.error('Src must be a string!');
-    process.exit(1);
+    throw new RockpackError('INVALID_ENTRY', 'Src must be a string!');
   }
 
   const entry: Record<string, string | string[]> = {};

@@ -16,6 +16,28 @@ type CompileResult = {
   webpackConfig: Configuration | Configuration[];
 };
 
+const validateConfigs = (configs: InternalCompilerConf[]): void => {
+  if (!configs.some((p) => p.compilerName === 'frontendCompiler')) {
+    throw errors.frontendIsRequired();
+  }
+
+  if (!configs.some((p) => p.compilerName === 'backendCompiler')) {
+    throw errors.backendIsRequired();
+  }
+
+  if (configs.length <= 1) {
+    throw errors.moreThanOneCompilerIsRequired();
+  }
+
+  for (const prop of configs) {
+    for (const option of ['dist', 'src'] as const) {
+      if (isUndefined(prop[option])) {
+        throw errors.optionIsRequired(prop.compilerName ?? '', option);
+      }
+    }
+  }
+};
+
 export async function isomorphicCompiler(...props: Promise<CompileResult | void>[]): Promise<void> {
   setMode(['development', 'production'], 'development');
   errorHandler();
@@ -26,44 +48,16 @@ export async function isomorphicCompiler(...props: Promise<CompileResult | void>
   global.LIVE_RELOAD_PORT = lrserver.config.port;
   global.LIVE_RELOAD_SERVER = lrserver;
 
-  const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
-
-  const webpackConfigs = resolved.map((c) => c.webpackConfig);
-  const configs = resolved.map((c) => c.conf);
-
-  const backend = configs.find((p) => p.compilerName === 'backendCompiler');
-  const frontend = configs.find((p) => p.compilerName === 'frontendCompiler');
-
-  if (!frontend) {
-    console.error(errors.SUPPORT);
-    process.exit(1);
-
-    return;
-  }
-
-  if (!backend) {
-    console.error(errors.BACKEND_IS_REQUIRED);
-    process.exit(1);
-
-    return;
-  }
-
-  if (configs.length <= 1) {
-    console.error(errors.SHOULD_SET_MORE_THEN_ONE_COMPILERS);
-    process.exit(1);
-
-    return;
-  }
-
-  for (const prop of configs) {
-    for (const option of ['dist', 'src'] as const) {
-      if (isUndefined(prop[option])) {
-        console.error(errors.SHOULD_SET_OPTION(prop.compilerName ?? '', option));
-        process.exit(1);
-
-        return;
-      }
-    }
+  let configs: InternalCompilerConf[];
+  let webpackConfigs: (Configuration | Configuration[])[];
+  try {
+    const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
+    webpackConfigs = resolved.map((c) => c.webpackConfig);
+    configs = resolved.map((c) => c.conf);
+    validateConfigs(configs);
+  } catch (error) {
+    lrserver.close();
+    throw error;
   }
 
   run(

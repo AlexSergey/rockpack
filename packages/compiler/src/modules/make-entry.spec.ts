@@ -1,15 +1,10 @@
 import path from 'node:path';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 import { makeEntry } from './make-entry.js';
 
 describe('makeEntry', () => {
-  let errorSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    mockProcessExit();
-    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
+  beforeEach(() => {});
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -17,8 +12,9 @@ describe('makeEntry', () => {
 
   describe('negative cases', () => {
     it('exits when src is not a string', () => {
-      expect(() => makeEntry({ src: 42 as unknown as string }, '/project', 'production')).toThrow(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith('Src must be a string!');
+      expect(() => makeEntry({ src: 42 as unknown as string }, '/project', 'production')).toThrow(
+        new RockpackError('INVALID_ENTRY', 'Src must be a string!'),
+      );
     });
 
     it('adds no dev-server entry to an isomorphic frontend in production', () => {

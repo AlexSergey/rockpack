@@ -1,14 +1,16 @@
 import {
-  BACKEND_IS_REQUIRED,
-  SHOULD_SET_MORE_THEN_ONE_COMPILERS,
-  SHOULD_SET_OPTION,
-  SUPPORT,
+  backendIsRequired,
+  frontendIsRequired,
+  moreThanOneCompilerIsRequired,
+  optionIsRequired,
 } from './isomorphic-compiler.js';
 
 describe('isomorphic compiler errors', () => {
   describe('negative cases', () => {
     it('explains which compilers are missing or unsupported', () => {
-      expect([BACKEND_IS_REQUIRED, SUPPORT, SHOULD_SET_MORE_THEN_ONE_COMPILERS]).toEqual([
+      expect(
+        [backendIsRequired(), frontendIsRequired(), moreThanOneCompilerIsRequired()].map((e) => e.message),
+      ).toEqual([
         'backendCompiler is required to set isomorphicCompiler',
         'isomorphicCompiler supported only frontendCompiler',
         'You should set more then 1 compiler. For example: backendCompiler and frontendCompiler',
@@ -17,8 +19,11 @@ describe('isomorphic compiler errors', () => {
   });
 
   describe('positive cases', () => {
-    it('names the compiler and the missing option', () => {
-      expect(SHOULD_SET_OPTION('frontendCompiler', 'src')).toBe('You should set src option to frontendCompiler');
+    it('reports invalid configuration with the compiler and the missing option', () => {
+      expect(optionIsRequired('frontendCompiler', 'src')).toMatchObject({
+        code: 'INVALID_CONFIG',
+        message: 'You should set src option to frontendCompiler',
+      });
     });
   });
 });
