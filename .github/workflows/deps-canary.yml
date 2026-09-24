@@ -1,0 +1,81 @@
+name: Dependency canary
+
+# Plan 4 section 3.2: checks that the monorepo still works with current dependency versions. Nothing is committed;
+# a failure opens or updates an issue with the bumped versions and the failing step.
+# The nightly schedule is off for now; to enable it add `schedule: [{ cron: '0 2 * * *' }]` under `on`.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  canary:
+    strategy:
+      fail-fast: false
+      matrix:
+        updates: [minor, major]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Update dependencies
+        id: update
+        run: |
+          if [ "${{ matrix.updates }}" = minor ]; then npm run updater -- --no-major; else npm run updater; fi
+          npm install --no-audit --no-fund
+          git diff --unified=0 -- '*package.json' '**/versions.json' | grep -E '^[-+] ' > bumped.txt || true
+
+      - name: Build
+        id: build
+        run: npm run build
+
+      - name: Unit tests
+        id: unit
+        run: npm run test:unit
+
+      - name: E2E (pinned)
+        id: e2e
+        run: npm run e2e
+
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: Dependency canary failed (${{ matrix.updates }} updates)
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            echo "Run: $RUN_URL"
+            echo
+            echo "| Step | Outcome |"
+            echo "|---|---|"
+            echo "| Update dependencies | ${{ steps.update.outcome }} |"
+            echo "| Build | ${{ steps.build.outcome }} |"
+            echo "| Unit tests | ${{ steps.unit.outcome }} |"
+            echo "| E2E (pinned) | ${{ steps.e2e.outcome }} |"
+            echo
+            echo "Bumped versions:"
+            echo
+            echo '```diff'
+            cat bumped.txt 2>/dev/null || true
+            echo '```'
+          } > issue.md
+          number=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --body-file issue.md
+          else
+            gh issue create --title "$TITLE" --body-file issue.md
+          fi

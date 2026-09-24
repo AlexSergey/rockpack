@@ -6,6 +6,8 @@ on:
       - next
       - master
   pull_request:
+    # labeled: adding the e2e:runtime label starts the runtime job on a pull request.
+    types: [opened, synchronize, reopened, labeled]
   workflow_dispatch:
 
 permissions:
@@ -51,9 +53,12 @@ jobs:
           path: packages/*/coverage/lcov.info
           if-no-files-found: ignore
 
-  e2e-light:
+  # Pinned dependency mode (Plan 4 section 3): babel, packaging, compiler builds and examples, starter CLI, generation
+  # and project quality, tester examples. No browser.
+  e2e-pinned:
     needs: check
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -70,45 +75,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Babel e2e
-        run: npm test -w e2e/babel-e2e
-
-      - name: Compiler e2e
-        run: npm test -w e2e/compiler-e2e
-
-      - name: Packaging e2e
-        run: npm test -w e2e/packaging-e2e
+      - name: E2E (pinned)
+        run: npm run e2e
 
       - name: Tester examples
         run: npx lerna run test --scope='@rockpack/example-tester-*'
 
-  examples-build:
+  # Browser and dev-server checks: on pushes to next, on manual runs and on pull requests labelled e2e:runtime.
+  e2e-runtime:
     needs: check
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/next') ||
+      contains(github.event.pull_request.labels.*.name, 'e2e:runtime')
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Setup Node
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      - name: Install
-        run: npm ci
-
-      - name: Build packages
-        run: npm run build
-
-      - name: Build compiler examples
-        run: npx lerna run build --scope='@rockpack/example-compiler-*'
-
-  # Manual only until Plan 4 rewrites the suite; Plan 4 adds its own nightly job.
-  starter-e2e:
-    needs: check
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -125,8 +106,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install Chromium
+      - name: Install Chrome
         run: npx puppeteer browsers install chrome
 
-      - name: Starter e2e
-        run: npm test -w e2e/starter-e2e
+      - name: E2E (runtime)
+        run: npm run e2e:runtime

@@ -28,7 +28,10 @@
     "cloc": "tsx cloc.ts",
     "updater": "tsx updater.ts",
     "version:set": "tsx version.ts",
-    "lint:deps": "syncpack lint && knip"
+    "lint:deps": "syncpack lint && knip",
+    "e2e": "npm test -w e2e/babel-e2e && npm test -w e2e/packaging-e2e && npm test -w e2e/compiler-e2e -- frontend backend library config assets lint examples && npm test -w e2e/starter-e2e -- cli generation quality",
+    "e2e:runtime": "npm test -w e2e/starter-e2e -- runtime && npm test -w e2e/compiler-e2e -- dev",
+    "e2e:latest": "npm test -w e2e/packaging-e2e && E2E_MODE=latest npm test -w e2e/starter-e2e -- quality runtime"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",

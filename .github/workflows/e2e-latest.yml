@@ -1,0 +1,39 @@
+name: E2E latest
+
+# Latest dependency mode (Plan 4 section 3): generated projects are installed for real, @rockpack/* from local
+# tarballs, and `npm outdated` must be clean; majors ahead of versions.json go to the job summary.
+# The nightly schedule is off for now; to enable it add `schedule: [{ cron: '0 3 * * *' }]` under `on`.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  e2e-latest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Chrome
+        run: npx puppeteer browsers install chrome
+
+      - name: E2E (latest)
+        run: npm run e2e:latest

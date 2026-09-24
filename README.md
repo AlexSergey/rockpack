@@ -176,10 +176,13 @@ npm run build      # builds the packages in dependency order
 npm run lint       # ESLint and tsc in every workspace
 npm run lint:deps  # syncpack (one version per dependency) and knip (unused files and dependencies)
 npm run test:unit  # unit tests of the packages
+npm run e2e        # e2e in pinned mode: packaging, compiler fixtures and examples, generated starter projects
+npm run e2e:runtime  # browser and dev-server checks (run `npx puppeteer browsers install chrome` once)
+npm run e2e:latest   # generated projects installed for real with the local packages as tarballs
 npm test           # all workspaces: package unit tests, examples and e2e
 ```
 
-CI (`.github/workflows/ci.yml`) runs the same checks on every push and pull request, builds the compiler examples, and runs the starter e2e nightly.
+CI (`.github/workflows/ci.yml`) runs the checks and `npm run e2e` on every push and pull request, and `npm run e2e:runtime` on pushes to `next` and on pull requests labelled `e2e:runtime`. `e2e-latest.yml` (manual and on release tags) runs `npm run e2e:latest`, and `deps-canary.yml` (manual) builds and tests the monorepo with updated dependencies and opens an issue when that fails.
 
 ### Updating dependencies
 
