@@ -12,6 +12,7 @@ describe('defaultProps', () => {
       expect(defaultProps).toEqual({
         coverage: true,
         prefix: '(spec|test)',
+        replaceArrays: false,
         serial: false,
         src: './src',
         testPathPatterns: [],

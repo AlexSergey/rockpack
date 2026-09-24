@@ -17,6 +17,9 @@ export type TesterOptions = {
   // Collect coverage outside watch mode (default), turn it off with false, or adjust it.
   readonly coverage?: boolean | CoverageOptions;
   readonly prefix?: string;
+  // Let arrays in the jest config replace the defaults instead of extending setupFiles, setupFilesAfterEnv,
+  // moduleFileExtensions and testPathIgnorePatterns.
+  readonly replaceArrays?: boolean;
   // Run tests one by one without cache (maxWorkers 1, runInBand, noCache); for suites that share ports or files.
   readonly serial?: boolean;
   readonly src?: string | string[];
@@ -28,6 +31,7 @@ export type TesterOptions = {
 export const defaultProps: Required<TesterOptions> = {
   coverage: true,
   prefix: '(spec|test)',
+  replaceArrays: false,
   serial: false,
   src: './src',
   testPathPatterns: [],

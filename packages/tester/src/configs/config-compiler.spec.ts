@@ -43,8 +43,10 @@ describe('configCompiler', () => {
       expect(config.collectCoverageFrom).toEqual(['project/**']);
     });
 
-    it('replaces the text-encoder polyfill when the user passes setupFilesAfterEnv', () => {
-      const config = parseConfig(compile({}, { setupFilesAfterEnv: ['<rootDir>/custom.setup.ts'] }));
+    it('replaces the default arrays only with replaceArrays', () => {
+      const config = parseConfig(
+        compile({ replaceArrays: true }, { setupFilesAfterEnv: ['<rootDir>/custom.setup.ts'] }),
+      );
 
       expect(config.setupFilesAfterEnv).toEqual(['<rootDir>/custom.setup.ts']);
     });
@@ -66,6 +68,21 @@ describe('configCompiler', () => {
   });
 
   describe('positive cases', () => {
+    it('extends the default setup files and ignore patterns with the jest config', () => {
+      const config = parseConfig(
+        compile({}, { setupFilesAfterEnv: ['<rootDir>/custom.setup.ts'], testPathIgnorePatterns: ['/fixtures/'] }),
+      );
+
+      expect(config.setupFilesAfterEnv).toEqual([
+        expect.stringContaining('text-encoder.fix'),
+        '<rootDir>/custom.setup.ts',
+      ]);
+      expect(config.testPathIgnorePatterns).toEqual([
+        '<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/',
+        '/fixtures/',
+      ]);
+    });
+
     it('applies coverage thresholds, reporters and files from the coverage option', () => {
       const config = parseConfig(
         compile({
