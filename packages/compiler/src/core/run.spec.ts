@@ -73,6 +73,16 @@ describe('run', () => {
       expect(log).not.toHaveBeenCalled();
     });
 
+    it('exits with code 1 when compiling the library sources fails', async () => {
+      (sourceCompiler as jest.Mock).mockRejectedValueOnce(new Error('babel failed'));
+
+      runWith('production', null, { ...conf, library: 'MyLib' });
+      await flushPromises();
+
+      expect(exitSpy).toHaveBeenCalledWith(1);
+      expect(log).not.toHaveBeenCalled();
+    });
+
     it('exits with code 1 when a production build has compilation errors', async () => {
       const failedStats = createStats(true);
 

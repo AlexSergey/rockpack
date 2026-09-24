@@ -38,22 +38,20 @@ describe('sourceCompiler', () => {
       expect(generateDts).not.toHaveBeenCalled();
     });
 
-    it('logs a failed source compilation and still generates declarations', async () => {
+    it('logs and rethrows a failed source compilation without generating declarations', async () => {
       (pathToTsConf as jest.Mock).mockReturnValue('/project/tsconfig.json');
       (sourceCompile as jest.Mock).mockRejectedValue(new Error('babel failed'));
 
-      await sourceCompiler({ esm: format });
-
+      await expect(sourceCompiler({ esm: format })).rejects.toThrow('babel failed');
       expect(errorSpy).toHaveBeenCalledWith('babel failed');
-      expect(generateDts).toHaveBeenCalled();
+      expect(generateDts).not.toHaveBeenCalled();
     });
 
-    it('logs a failed declaration build', async () => {
+    it('logs and rethrows a failed declaration build', async () => {
       (pathToTsConf as jest.Mock).mockReturnValue('/project/tsconfig.json');
       (generateDts as jest.Mock).mockRejectedValue(new Error('tsc failed'));
 
-      await sourceCompiler();
-
+      await expect(sourceCompiler()).rejects.toThrow('tsc failed');
       expect(errorSpy).toHaveBeenCalledWith('tsc failed');
     });
   });

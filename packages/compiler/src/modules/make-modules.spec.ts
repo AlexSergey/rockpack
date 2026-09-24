@@ -85,6 +85,10 @@ describe('makeModules', () => {
       expect(createBabelPresets).toHaveBeenCalledWith({ framework: 'react', isNodejs: nodejs, typescript: true });
     });
 
+    it('loads .wasm files with wasm-loader', () => {
+      expect(getRule('wasm')).toEqual({ test: /\.wasm$/, use: expect.stringContaining('wasm-loader') as unknown });
+    });
+
     it('spreads the asset types into asset rules', () => {
       expect(getRule('images')).toMatchObject({ type: 'asset' });
       expect(getRule('video')).toMatchObject({ type: 'asset/resource' });

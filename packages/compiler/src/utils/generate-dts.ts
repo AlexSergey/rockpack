@@ -1,7 +1,7 @@
 import { getMode } from '@rockpack/utils';
 import { mkdirp } from 'mkdirp';
-import { copyFileSync, existsSync } from 'node:fs';
-import { createRequire } from 'node:module';
+import { copyFileSync, existsSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { rimraf } from 'rimraf';
 import ts from 'typescript';
@@ -12,12 +12,8 @@ import type { CompilerConf, Mode } from '../types.js';
 import { moduleFormats } from '../constants.js';
 import { makeResolve } from '../modules/make-resolve.js';
 import { getFiles, getTypeScript } from './file-system-utils.js';
-import { generateString } from './generate-string.js';
 import { makeCompilerOptions } from './make-compiler-options.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
-
-const _require = createRequire(import.meta.url);
-const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
 
 // eslint-disable-next-line @sonar/cognitive-complexity
 export async function generateDts(conf: Partial<CompilerConf>, root: string): Promise<void> {
@@ -34,11 +30,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
   const dists = [conf.types ? conf.types : path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types')];
   const validDists = dists.filter((d): d is string => typeof d === 'string');
 
-  const uuid = generateString(10);
-  const nodeModules = path.resolve(_require.resolve(`../constants${ssrExt}`), '../../..');
-  const tempFolder = path.join(nodeModules, '.rockpack');
-  const temp = path.join(tempFolder, uuid);
-  mkdirp.sync(temp);
+  const temp = mkdtempSync(path.join(tmpdir(), 'rockpack-dts-'));
   let dts: string[] = [];
   let converted = false;
 
@@ -91,5 +83,5 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
     }
   }
 
-  await rimraf(tempFolder);
+  await rimraf(temp);
 }

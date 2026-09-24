@@ -55,7 +55,7 @@ export class SsrDevelopment {
       callback();
     };
 
-    const plugin = { name: 'nodemon-webpack-plugin"' };
+    const plugin = { name: 'nodemon-webpack-plugin' };
 
     if (compiler.hooks) {
       compiler.hooks.afterEmit.tapAsync(plugin, onAfterEmit);

@@ -1,3 +1,5 @@
+import type * as fs from 'node:fs';
+
 import { getMode } from '@rockpack/utils';
 import { cpSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -6,12 +8,6 @@ import path from 'node:path';
 import { generateDts } from './generate-dts.js';
 
 jest.mock('@rockpack/utils', () => ({ getMode: jest.fn(), getRootRequireDir: jest.fn() }));
-// generateDts puts its temp folder three levels above the resolved constants module; point it into the test dir.
-jest.mock('node:module', () => ({
-  createRequire: (): { resolve: () => string } => ({ resolve: (): string => mockPaths.constants }),
-}));
-
-const mockPaths = { constants: '' };
 const fixture = path.resolve(__dirname, '../__fixtures__/source-project');
 
 describe('generateDts', () => {
@@ -22,7 +18,6 @@ describe('generateDts', () => {
     dir = mkdtempSync(path.join(tmpdir(), 'rockpack-compiler-'));
     root = path.join(dir, 'project');
     cpSync(fixture, root, { recursive: true });
-    mockPaths.constants = path.join(dir, 'package', 'lib', 'constants.cjs');
     (getMode as jest.Mock).mockReturnValue('production');
   });
 
@@ -45,12 +40,14 @@ describe('generateDts', () => {
 
   describe('positive cases', () => {
     it('emits declarations next to dist and removes the temp folder', async () => {
+      const mkdtempSpy = jest.spyOn(jest.requireActual<typeof fs>('node:fs'), 'mkdtempSync');
+
       await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
 
       ['index.d.ts', 'label.d.ts', path.join('utils', 'sum.d.ts')].forEach((file) => {
         expect(existsSync(path.join(root, 'dist', 'types', file))).toBe(true);
       });
-      expect(existsSync(path.join(dir, '.rockpack'))).toBe(false);
+      expect(existsSync(String(mkdtempSpy.mock.results[0]?.value))).toBe(false);
     });
 
     it('emits declarations into the types folder for a src with extension', async () => {

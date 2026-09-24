@@ -21,6 +21,7 @@ export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<
       await sourceCompile(conf);
     } catch (e) {
       console.error((e as Error).message);
+      throw e;
     }
   }
 
@@ -29,6 +30,7 @@ export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<
       await generateDts(conf, root);
     } catch (e) {
       console.error((e as Error).message);
+      throw e;
     }
   }
 }

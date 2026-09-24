@@ -167,7 +167,7 @@ function getModules(conf: Partial<InternalCompilerConf>, mode: Mode, root: strin
       ...assetType.video,
     },
     wasm: {
-      test: /\.wasm(\.js)$/,
+      test: /\.wasm$/,
       use: _require.resolve('wasm-loader'),
     },
   };
