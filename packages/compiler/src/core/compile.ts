@@ -3,7 +3,7 @@ import type { Configuration } from 'webpack';
 import { getMode } from '@rockpack/utils';
 import webpack from 'webpack';
 
-import type { InternalCompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf } from '../types.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { addArgs } from './args.js';
@@ -23,7 +23,7 @@ export const compile = async (
   post: null | PostFn,
   withoutRun = false,
 ): Promise<Awaited<ReturnType<typeof run>> | CompileResult> => {
-  const mode = getMode() as Mode;
+  const mode = getMode();
   let merged = await mergeConfWithDefault(conf, mode);
   merged = innerProps(merged, mode);
   merged = addArgs(merged);

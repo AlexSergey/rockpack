@@ -1,7 +1,7 @@
 import { getRootRequireDir, setMode } from '@rockpack/utils';
 import { isDefined, isString } from 'valid-types';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { CompilerConf } from '../types.js';
 
 import { errorHandler } from '../error-handler.js';
 import { RockpackError } from '../errors/rockpack-error.js';
@@ -12,7 +12,7 @@ import { withErrorBoundary } from './error-boundary.js';
 
 export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<void> {
   return withErrorBoundary(async () => {
-    const mode = setMode(['development', 'production'], 'development') as Mode;
+    const mode = setMode(['development', 'production'], 'development');
     errorHandler();
 
     const root = getRootRequireDir();

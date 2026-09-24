@@ -85,7 +85,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 8. `@rockpack/utils`
 
-- [ ] **U1.** `getMode(options?: { argv?: string[]; env?: NodeJS.ProcessEnv })` and `setMode` on top of it (Plan 2 H2 does the lazy part; this adds injection so callers and tests pass values explicitly).
+- [x] **U1.** `getMode(options?: { argv?: string[]; env?: NodeJS.ProcessEnv })` and `setMode` on top of it (Plan 2 H2 does the lazy part; this adds injection so callers and tests pass values explicitly). _Done 2026-09-24: `getMode(modes, defaultMode, { argv, env })` with overloads (`getMode()` returns `DefaultMode`), `setMode` generic and writing to the given env; the compiler's six `as Mode` casts are gone (type coverage 99.26% to 99.40%)._
 - [ ] **U2.** Add `readPackageJson` (Plan 2 H1), `packageRoot(importMetaUrl)` (used by compiler C8, tester, starter `pathes.ts`), and `isRecord`/`isString` guards so `valid-types` can be dropped everywhere.
 - [ ] **U3.** `getRootRequireDir` depends on `process.argv[1]`, which is the `tsx` script path in practice; document it or replace call sites with an explicit `cwd`/`projectDir` argument (tester T7 does this).
 

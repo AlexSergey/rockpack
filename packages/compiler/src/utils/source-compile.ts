@@ -7,7 +7,7 @@ import path from 'node:path';
 import { rimraf } from 'rimraf';
 import { isArray, isObject, isString } from 'valid-types';
 
-import type { InternalCompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf } from '../types.js';
 
 import { testFilesIgnore } from '../constants.js';
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
@@ -19,7 +19,7 @@ const _require = createRequire(import.meta.url);
 // eslint-disable-next-line @sonar/cognitive-complexity
 export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {
   const root = getRootRequireDir();
-  const mode = getMode() as Mode;
+  const mode = getMode();
 
   console.log('=========Source compile is starting....=========');
 

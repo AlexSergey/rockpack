@@ -7,7 +7,7 @@ import { rimraf } from 'rimraf';
 import ts from 'typescript';
 import { isArray, isString } from 'valid-types';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { CompilerConf } from '../types.js';
 
 import { moduleFormats, testFilesIgnore } from '../constants.js';
 import { makeResolve } from '../modules/make-resolve.js';
@@ -18,7 +18,7 @@ import { pathToTsConf } from './path-to-ts-conf.js';
 // eslint-disable-next-line @sonar/cognitive-complexity
 export async function generateDts(conf: Partial<CompilerConf>, root: string): Promise<void> {
   const { extensions } = makeResolve(root);
-  const mode = getMode() as Mode;
+  const mode = getMode();
   const tsConfig = pathToTsConf(root, mode, false);
   const isTypeScript = isString(tsConfig);
 

@@ -32,7 +32,7 @@ type PostFn = (
 ) => void;
 
 export const make = async (conf: InternalCompilerConf, post: null | PostFn): Promise<MakeResult> => {
-  const mode = getMode() as Mode;
+  const mode = getMode();
   const root = getRootRequireDir();
 
   const packageJson: PackageJson = readPackageJson(root) ?? {};

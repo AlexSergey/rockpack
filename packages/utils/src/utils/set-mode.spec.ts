@@ -41,6 +41,16 @@ describe('setMode', () => {
   });
 
   describe('positive cases', () => {
+    it('writes the mode to the given env and leaves process.env alone', () => {
+      const env: NodeJS.ProcessEnv = {};
+
+      expect(setMode(['development', 'production'], 'development', { argv: ['--mode=production'], env })).toBe(
+        'production',
+      );
+      expect(env).toEqual({ BABEL_ENV: 'production', NODE_ENV: 'production' });
+      expect(process.env['NODE_ENV']).toBeUndefined();
+    });
+
     it('resolves the mode like getMode', () => {
       process.argv = ['node', 'script.js', '--mode=production'];
       process.env['NODE_ENV'] = 'development';

@@ -19,6 +19,13 @@ describe('getMode', () => {
   });
 
   describe('negative cases', () => {
+    it('ignores the process arguments and environment when sources are given', () => {
+      setArgs('--mode=production');
+      process.env['NODE_ENV'] = 'production';
+
+      expect(getMode(['development', 'production'], 'development', { argv: [], env: {} })).toBe('development');
+    });
+
     it('falls back to the default mode when --mode is not an allowed mode', () => {
       setArgs('--mode=staging');
 
@@ -53,6 +60,11 @@ describe('getMode', () => {
   });
 
   describe('positive cases', () => {
+    it('reads the mode from the given argv and env', () => {
+      expect(getMode(['build', 'serve'], 'serve', { argv: ['--mode', 'build'], env: {} })).toBe('build');
+      expect(getMode(['build', 'serve'], 'build', { argv: [], env: { NODE_ENV: 'serve' } })).toBe('serve');
+    });
+
     it('prefers --mode=value over NODE_ENV', () => {
       setArgs('--mode=production');
       process.env['NODE_ENV'] = 'development';

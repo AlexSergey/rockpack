@@ -6,7 +6,7 @@ import path from 'node:path';
 import { isUndefined } from 'valid-types';
 import webpack from 'webpack';
 
-import type { InternalCompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf } from '../types.js';
 
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
@@ -49,7 +49,7 @@ export async function isomorphicCompiler(...props: Promise<CompileResult | undef
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();
-    const mode = getMode() as Mode;
+    const mode = getMode();
     global.ISOMORPHIC = true;
     global.CONFIG_ONLY = true;
     // Live reload is a development feature; in production the server would keep the process alive.
