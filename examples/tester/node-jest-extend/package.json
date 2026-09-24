@@ -17,7 +17,7 @@
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "@types/node": "26.6.2",
+    "@types/node": "24.13.6",
     "tsx": "4.23.15"
   }
 }

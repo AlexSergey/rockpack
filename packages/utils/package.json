@@ -65,11 +65,9 @@
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@types/jest": "30.0.0",
-    "@types/node": "26.6.2",
     "@types/semver": "7.8.0",
     "@types/yargs": "17.0.35",
-    "babel-plugin-add-import-extension": "1.6.0",
-    "tsx": "4.23.15"
+    "babel-plugin-add-import-extension": "1.6.0"
   },
   "engines": {
     "node": ">=23.0.0"

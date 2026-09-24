@@ -23,7 +23,7 @@
     "@rockpack/compiler": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/express": "5.0.6",
-    "@types/node": "26.6.2",
+    "@types/node": "24.13.6",
     "tsx": "4.23.15"
   }
 }

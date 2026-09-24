@@ -96,8 +96,7 @@
     "@rockpack/tester": "8.0.0",
     "@types/jest": "30.0.0",
     "babel-plugin-add-import-extension": "1.6.0",
-    "babel-plugin-transform-import-meta": "2.3.3",
-    "tsx": "4.23.15"
+    "babel-plugin-transform-import-meta": "2.3.3"
   },
   "engines": {
     "node": ">=23.0.0"

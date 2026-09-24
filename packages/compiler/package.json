@@ -126,11 +126,9 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
-    "@types/node": "26.6.2",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3",
-    "eslint": "10.4.0",
-    "tsx": "4.23.15"
+    "eslint": "10.4.0"
   },
   "engines": {
     "node": ">=23.0.0"

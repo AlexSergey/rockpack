@@ -73,10 +73,8 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
-    "@types/node": "26.6.2",
     "babel-plugin-add-import-extension": "1.6.0",
-    "react-compiler-runtime": "1.0.0",
-    "tsx": "4.23.15"
+    "react-compiler-runtime": "1.0.0"
   },
   "peerDependencies": {
     "react-compiler-runtime": "^1.0.0"
