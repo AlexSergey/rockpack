@@ -1,5 +1,6 @@
 // These specs cover the deprecated promise form next to the options form.
 /* eslint-disable @typescript-eslint/no-deprecated */
+
 import { getMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 
@@ -23,6 +24,7 @@ jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 
 type CompileResult = {
   conf: InternalCompilerConf;
+  kind: 'config';
   webpackConfig: { name: string };
 };
 
@@ -33,6 +35,7 @@ const DISTS: Record<string, string> = { backendCompiler: 'dist/index.js', fronte
 const result = (compilerName: string, overrides: Partial<InternalCompilerConf> = {}): Promise<CompileResult> =>
   Promise.resolve({
     conf: { compilerName, dist: DISTS[compilerName] ?? 'dist/index.js', src: 'src/index.ts', ...overrides },
+    kind: 'config',
     webpackConfig: { name: compilerName },
   });
 

@@ -11,7 +11,7 @@ jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
 
 describe('makeWebpackConfig', () => {
   beforeEach(() => {
-    (compile as jest.Mock).mockResolvedValue({ conf: {}, webpackConfig: { mode: 'production' } });
+    (compile as jest.Mock).mockResolvedValue({ conf: {}, kind: 'config', webpackConfig: { mode: 'production' } });
   });
 
   afterEach(() => {

@@ -1,22 +1,27 @@
-import type { Configuration } from 'webpack';
-
 import WebpackDevServer from 'webpack-dev-server';
 
-import type { InternalCompilerConf } from '../types.js';
+import type { DevServerResult, RunningResult } from './compile-result.js';
 
-type CompilerResult = {
-  compiler: unknown;
-  conf: InternalCompilerConf;
-  webpackConfig: Configuration;
-};
+import { closeCompiler } from './compile-result.js';
 
-export const devServer = ({ compiler, conf, webpackConfig }: CompilerResult): void => {
-  const devServerConfig = (webpackConfig as { devServer?: ConstructorParameters<typeof WebpackDevServer>[0] })
-    .devServer as ConstructorParameters<typeof WebpackDevServer>[0];
-  const server = new WebpackDevServer(devServerConfig, compiler as ConstructorParameters<typeof WebpackDevServer>[1]);
-  server.startCallback(() => {
-    const cfg = devServerConfig as Record<string, unknown>;
-    conf.messages?.push(`=> Starting server on http://${String(cfg['host'])}:${String(cfg['port'])}`);
-    conf.messages?.push('\n');
-  });
+type DevServerConfig = NonNullable<ConstructorParameters<typeof WebpackDevServer>[0]>;
+
+// Starts webpack-dev-server on a watching build and resolves once it listens; stop() shuts the server and the
+// compiler down.
+export const devServer = async ({ compiler, conf, webpackConfig }: RunningResult): Promise<DevServerResult> => {
+  const devServerConfig = (webpackConfig as { devServer?: DevServerConfig }).devServer ?? {};
+  const url = `http://${String(devServerConfig.host)}:${String(devServerConfig.port)}`;
+  const server = new WebpackDevServer(devServerConfig, compiler);
+  await server.start();
+  conf.messages?.push(`=> Starting server on ${url}`);
+  conf.messages?.push('\n');
+
+  return {
+    kind: 'dev-server',
+    stop: async (): Promise<void> => {
+      await server.stop();
+      await closeCompiler(compiler);
+    },
+    url,
+  };
 };

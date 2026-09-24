@@ -1,6 +1,6 @@
 import type { StartedProcess } from '@rockpack/e2e-tools';
 
-import { getFreePort, waitForUrl } from '@rockpack/e2e-tools';
+import { getFreePort, run, waitForUrl } from '@rockpack/e2e-tools';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
@@ -87,6 +87,19 @@ describe('development mode', () => {
 
         expect(existsSync(path.join(dir, 'dist/index.js'))).toBe(true);
       }, 60_000);
+
+      it('stops the dev server through the result so the process can exit', async () => {
+        const script = run('npx', ['tsx', 'scripts.result.ts', '--_rockpack_testing'], {
+          cwd: dir,
+          env: { NODE_ENV: 'development' },
+          timeout: 120_000,
+        });
+        const { code, output } = await script;
+
+        expect(output).toMatch(/result: dev-server http:\/\/localhost:\d+/);
+        expect(output).toContain('stopped');
+        expect(code).toBe(0);
+      }, 150_000);
 
       it('uses the configured port when it is free', async () => {
         const port = await getFreePort();

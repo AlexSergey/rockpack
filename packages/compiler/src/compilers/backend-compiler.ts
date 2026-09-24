@@ -1,6 +1,7 @@
 import { setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 
+import type { CompilerResult } from '../core/compile-result.js';
 import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
@@ -24,7 +25,7 @@ export async function backendCompiler(
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
-): Promise<Awaited<ReturnType<typeof compile>>> {
+): Promise<CompilerResult> {
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();

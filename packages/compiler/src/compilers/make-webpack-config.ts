@@ -12,6 +12,9 @@ export async function makeWebpackConfig(
 ): Promise<Configuration> {
   setMode(['development', 'production'], 'development');
   const result = await compile(options, cb ?? null, true);
+  if (result.kind !== 'config') {
+    throw new Error('makeWebpackConfig expected a config-only compile');
+  }
 
-  return (result as { webpackConfig: Configuration }).webpackConfig;
+  return result.webpackConfig;
 }

@@ -31,6 +31,7 @@ const runWith = (
   expect(run([{ mode }], mode, webpack as never, runConf)).toEqual({
     compiler,
     conf: runConf,
+    finished: expect.any(Promise) as unknown,
     webpackConfig: [{ mode }],
   });
 
@@ -100,6 +101,20 @@ describe('run', () => {
   });
 
   describe('positive cases', () => {
+    it('settles finished with the outcome once the compiler is closed', async () => {
+      const compiler = { close: jest.fn((callback: () => void) => callback()) };
+      const webpack = jest.fn((_config: unknown, callback: WebpackCallback) => {
+        setImmediate(() => callback(null, createStats(true)));
+
+        return compiler;
+      });
+
+      const { finished } = run([{ mode: 'production' }], 'production', webpack as never, conf);
+
+      await expect(finished).resolves.toMatchObject({ success: false });
+      expect(compiler.close).toHaveBeenCalled();
+    });
+
     it('does nothing after a successful development build', async () => {
       const compiler = runWith('development', null);
       await settle();

@@ -24,6 +24,11 @@ jest.mock('./run.js', () => ({ run: jest.fn() }));
 
 const conf = { dist: 'dist/index.js', src: 'src/index.ts' } as InternalCompilerConf;
 const finalConf = { ...conf, messages: [] } as InternalCompilerConf;
+const compiler = {
+  close: jest.fn((callback: () => void) => {
+    callback();
+  }),
+};
 const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
 const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
 
@@ -34,7 +39,10 @@ describe('compile', () => {
     (innerProps as jest.Mock).mockImplementation((value: object) => ({ ...value, inner: true }));
     (addArgs as jest.Mock).mockImplementation((value: object) => ({ ...value, args: true }));
     (make as jest.Mock).mockResolvedValue({ conf: finalConf, webpackConfig: { mode: 'production' } });
-    (run as jest.Mock).mockReturnValue('run result');
+    (run as jest.Mock).mockReturnValue({
+      compiler,
+      finished: Promise.resolve({ stats: 'stats', success: true }),
+    });
   });
 
   afterEach(() => {
@@ -46,6 +54,7 @@ describe('compile', () => {
     it('returns only the config when asked not to run', async () => {
       await expect(compile(conf, null, true)).resolves.toEqual({
         conf: finalConf,
+        kind: 'config',
         webpackConfig: { mode: 'production' },
       });
       expect(run).not.toHaveBeenCalled();
@@ -86,9 +95,19 @@ describe('compile', () => {
       );
     });
 
-    it('runs webpack with the made config', async () => {
-      await expect(compile(conf, null)).resolves.toBe('run result');
+    it('runs a production build to the end and reports its outcome', async () => {
+      await expect(compile(conf, null)).resolves.toEqual({ kind: 'build', stats: 'stats', success: true });
       expect(run).toHaveBeenCalledWith({ mode: 'production' }, 'production', 'webpack', finalConf);
+    });
+
+    it('returns a watching build in development that closes the compiler when stopped', async () => {
+      (getMode as jest.Mock).mockReturnValue('development');
+
+      const result = await compile(conf, null);
+
+      expect(result).toMatchObject({ compiler, conf: finalConf, kind: 'watch' });
+      await (result as { stop: () => Promise<void> }).stop();
+      expect(compiler.close).toHaveBeenCalled();
     });
 
     it('lets an explicit context override the config-only argument', async () => {

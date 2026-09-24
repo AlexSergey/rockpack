@@ -36,6 +36,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - Build process now cleans output before each build
 - Compiler configuration API improved: removed private internal fields
 - **Breaking:** Node.js 24 or newer is required by every package and by the starter CLI; `engine-strict` is on in the monorepo
+- **Breaking:** `frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a typed result (`CompilerResult`: `config`, `build` with `stats` and `success`, `dev-server` with `url` and `stop()`, `watch` with `stop()`); an awaited production build now resolves after the build has finished, and the dev server result once it listens
 - **Breaking:** the compilers no longer call `process.exit` on invalid options: they log `[rockpack] <code>: <message>`, set `process.exitCode = 1` and reject with a `RockpackError`
 - **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed
 - **Breaking:** `@rockpack/tester` runs suites in parallel with the Jest cache by default; pass `serial: true` for the previous one-by-one behaviour

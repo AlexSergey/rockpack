@@ -1,6 +1,7 @@
 import { isRecord, isString, setMode } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 
+import type { CompilerResult } from '../core/compile-result.js';
 import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { compile } from '../core/compile.js';
@@ -16,7 +17,6 @@ export type LibraryCompilerOptions = {
   readonly name: string;
 };
 
-type Compiled = Awaited<ReturnType<typeof compile>>;
 type PostFn = Parameters<typeof compile>[1];
 
 export function libraryCompiler(
@@ -24,7 +24,7 @@ export function libraryCompiler(
   conf?: Partial<CompilerConf>,
   cb?: PostFn,
   configOnly?: boolean,
-): Promise<Compiled>;
+): Promise<CompilerResult>;
 /** @deprecated Pass `{ name }` instead of the name string; this form is removed in 10.0. */
 export function libraryCompiler(
   // eslint-disable-next-line @typescript-eslint/unified-signatures -- a separate signature so only this form is deprecated
@@ -32,13 +32,13 @@ export function libraryCompiler(
   conf?: Partial<CompilerConf>,
   cb?: PostFn,
   configOnly?: boolean,
-): Promise<Compiled>;
+): Promise<CompilerResult>;
 export async function libraryCompiler(
   libraryOpts: LibraryCompilerOptions | string,
   conf: Partial<CompilerConf> = {},
   cb?: Parameters<typeof compile>[1],
   configOnly = false,
-): Promise<Awaited<ReturnType<typeof compile>>> {
+): Promise<CompilerResult> {
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();

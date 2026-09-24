@@ -218,6 +218,27 @@ The previous form, `isomorphicCompiler(frontendCompiler({...}), backendCompiler(
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 
+## Results
+
+`frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a result that says what happened:
+
+| `kind` | When | Fields |
+|---|---|---|
+| `config` | `configOnly` (and the parts of an isomorphic build) | `conf`, `webpackConfig` |
+| `build` | Production, after the build has finished | `stats`, `success` |
+| `dev-server` | `frontendCompiler` in development, once the server listens | `url`, `stop()` |
+| `watch` | `backendCompiler` and `libraryCompiler` in development | `stop()` |
+
+```ts
+import { frontendCompiler } from '@rockpack/compiler';
+
+const result = await frontendCompiler();
+if (result.kind === 'dev-server') {
+  console.log(`Open ${result.url}`);
+  // later: await result.stop();
+}
+```
+
 ## Errors and exit codes
 
 Invalid options and failed builds are reported as a `RockpackError` with a `code`:

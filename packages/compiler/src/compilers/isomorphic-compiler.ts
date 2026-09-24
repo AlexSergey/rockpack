@@ -6,6 +6,7 @@ import path from 'node:path';
 import webpack from 'webpack';
 
 import type { CompileContext } from '../core/compile-context.js';
+import type { CompileOutcome, CompilerResult, ConfigResult } from '../core/compile-result.js';
 import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
 import { setLegacyIsomorphicContext } from '../core/compile-context.js';
@@ -16,11 +17,6 @@ import * as errors from '../errors/isomorphic-compiler.js';
 import { backendConf } from './backend-compiler.js';
 import { withErrorBoundary } from './error-boundary.js';
 import { frontendConf } from './frontend-compiler.js';
-
-type CompileResult = {
-  conf: InternalCompilerConf;
-  webpackConfig: Configuration | Configuration[];
-};
 
 type PostFn = NonNullable<Parameters<typeof compile>[1]>;
 
@@ -65,17 +61,16 @@ const isOptions = (value: unknown): value is IsomorphicCompilerOptions => isReco
 const compileBoth = (
   { backend, backendCallback, frontend, frontendCallback }: IsomorphicCompilerOptions,
   context: CompileContext,
-): Promise<CompileResult>[] =>
-  [
-    compile(frontendConf(frontend), frontendCallback ?? null, true, context),
-    compile(backendConf(backend), backendCallback ?? null, true, context),
-  ] as Promise<CompileResult>[];
+): Promise<CompileOutcome>[] => [
+  compile(frontendConf(frontend), frontendCallback ?? null, true, context),
+  compile(backendConf(backend), backendCallback ?? null, true, context),
+];
 
 export function isomorphicCompiler(options: IsomorphicCompilerOptions): Promise<void>;
 /** @deprecated Pass `{ frontend, backend }` confs instead; this form is removed in 10.0. */
-export function isomorphicCompiler(...compilers: Promise<CompileResult | undefined>[]): Promise<void>;
+export function isomorphicCompiler(...compilers: Promise<CompilerResult | undefined>[]): Promise<void>;
 export async function isomorphicCompiler(
-  ...args: [IsomorphicCompilerOptions] | Promise<CompileResult | undefined>[]
+  ...args: [IsomorphicCompilerOptions] | Promise<CompilerResult | undefined>[]
 ): Promise<void> {
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
@@ -97,8 +92,8 @@ export async function isomorphicCompiler(
     let configs: InternalCompilerConf[];
     let webpackConfigs: (Configuration | Configuration[])[];
     try {
-      const pending = isOptions(first) ? compileBoth(first, context) : (args as Promise<CompileResult | undefined>[]);
-      const resolved = (await Promise.all(pending)).filter((c): c is CompileResult => c != null);
+      const pending = isOptions(first) ? compileBoth(first, context) : (args as Promise<CompilerResult | undefined>[]);
+      const resolved = (await Promise.all(pending)).filter((c): c is ConfigResult => c?.kind === 'config');
       webpackConfigs = resolved.map((c) => c.webpackConfig);
       configs = resolved.map((c) => c.conf);
       validateConfigs(configs);

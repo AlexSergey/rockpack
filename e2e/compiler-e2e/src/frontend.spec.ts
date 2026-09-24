@@ -75,6 +75,14 @@ describe('frontendCompiler production builds', () => {
       });
     });
 
+    it('resolves an awaited production build with its outcome', async () => {
+      const dir = prepareFixture('frontend-basic');
+      const { code, output } = await build(dir, 'scripts.result.ts');
+
+      expect(code).toBe(0);
+      expect(output).toContain('result: build true');
+    });
+
     describe('frontend-full', () => {
       let dir: string;
 

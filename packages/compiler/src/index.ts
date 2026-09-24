@@ -32,4 +32,5 @@ export {
 
 export type { IsomorphicCompilerOptions } from './compilers/isomorphic-compiler.js';
 export type { LibraryCompilerOptions } from './compilers/library-compiler.js';
+export type { BuildResult, CompilerResult, ConfigResult, DevServerResult, WatchResult } from './core/compile-result.js';
 export type { RockpackErrorCode } from './errors/rockpack-error.js';
