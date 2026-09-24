@@ -32,6 +32,15 @@ const isPortFree = (port: number): Promise<boolean> =>
     server.listen(port, () => server.close(() => resolve(true)));
   });
 
+// Waits for the dev server to answer; on failure the error carries the server output, which is what explains a hang.
+const waitForServer = async (server: StartedProcess, url: string): Promise<void> => {
+  try {
+    await waitForUrl(url, 120_000);
+  } catch (error) {
+    throw new Error(`${(error as Error).message}\n--- server output ---\n${server.output()}`, { cause: error });
+  }
+};
+
 const text = async (url: string): Promise<string> => (await fetch(url)).text();
 
 const count = (output: string, pattern: RegExp): number => output.match(new RegExp(pattern, 'g'))?.length ?? 0;
@@ -44,7 +53,7 @@ describe('development mode', () => {
       const server = startDev(prepareFixture('frontend-basic'), 'scripts.port.ts', { FIXTURE_PORT: String(busy) });
       try {
         const [, url = ''] = await server.waitForOutput(SERVER_URL, 120_000);
-        await waitForUrl(url);
+        await waitForServer(server, url);
 
         expect(url).not.toBe(`http://localhost:${busy}`);
         expect(await text(url)).toContain('index.js');
@@ -65,7 +74,7 @@ describe('development mode', () => {
         dir = prepareFixture('frontend-basic');
         server = startDev(dir);
         [, url = ''] = await server.waitForOutput(SERVER_URL, 120_000);
-        await waitForUrl(url);
+        await waitForServer(server, url);
       }, 180_000);
 
       afterAll(async () => {
@@ -153,7 +162,7 @@ describe('development mode', () => {
         const port = await getFreePort();
         url = `http://localhost:${port}`;
         server = startDev(dir, 'scripts.build.ts', { PORT: String(port) });
-        await waitForUrl(url, 120_000);
+        await waitForServer(server, url);
       }, 180_000);
 
       afterAll(async () => {
