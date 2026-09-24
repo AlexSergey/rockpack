@@ -1,6 +1,6 @@
 import type { Config } from '@jest/types';
 
-import type { configCompiler } from './config-compiler.js';
+import { configCompiler } from './config-compiler.js';
 
 const mockProjectDir = '/project';
 const mockExistingFiles = new Set<string>();
@@ -13,27 +13,13 @@ jest.mock('@rockpack/babel', () => ({
   createBabelPresets: (opts: Record<string, unknown>): Record<string, unknown> => ({ presetFor: opts }),
 }));
 
-type CompiledConfig = Record<string, unknown> & {
-  readonly config: string;
-};
+const compile = (
+  opts?: Parameters<typeof configCompiler>[0],
+  projectConfig?: Parameters<typeof configCompiler>[1],
+): Record<string, unknown> => configCompiler(opts, projectConfig, { projectDir: mockProjectDir }).argv;
 
-const loadConfigCompiler = (): typeof configCompiler => {
-  let loaded: typeof configCompiler | undefined;
-  jest.isolateModules(() => {
-    loaded = jest.requireActual<{ configCompiler: typeof configCompiler }>('./config-compiler.js').configCompiler;
-  });
-  if (!loaded) {
-    throw new Error('./config-compiler was not loaded');
-  }
-
-  return loaded;
-};
-
-const compile = (...args: Parameters<typeof configCompiler>): CompiledConfig =>
-  loadConfigCompiler()(...args) as CompiledConfig;
-
-const parseConfig = (compiled: CompiledConfig): Config.InitialOptions =>
-  JSON.parse(compiled.config) as Config.InitialOptions;
+const parseConfig = (compiled: Record<string, unknown>): Config.InitialOptions =>
+  JSON.parse(compiled['config'] as string) as Config.InitialOptions;
 
 describe('configCompiler', () => {
   afterEach(() => {

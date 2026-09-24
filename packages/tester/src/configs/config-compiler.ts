@@ -15,45 +15,63 @@ import { createTestMatch } from '../modules/create-test-match.js';
 
 const _require = createRequire(import.meta.url);
 
-const rootFolder = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const currentProjectFolder = getRootRequireDir();
-const ext = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
+export type CompiledConfig = {
+  // The runCLI arguments; `config` in there is the JSON of `config` below.
+  readonly argv: Record<string, unknown>;
+  readonly config: Config.InitialOptions;
+};
 
-const setupFiles: string[] = [];
-const setupFilesAfterEnv: string[] = [];
-let globalSetup: string | undefined;
-let globalTeardown: string | undefined;
+// Where the tester runs: the project whose setup files are detected, the tester's own build folder (the modules the
+// config points at) and the extension of that build.
+export type TesterEnvironment = {
+  readonly ext: '.cjs' | '.mjs';
+  readonly packageDir: string;
+  readonly projectDir: string;
+};
 
-for (const ext of ['.js', '.mjs', '.cjs', '.ts']) {
-  if (existsSync(path.resolve(currentProjectFolder, `./jest.init${ext}`))) {
-    setupFiles.push(`<rootDir>/jest.init${ext}`);
-  }
-  if (existsSync(path.resolve(currentProjectFolder, `./jest.setup${ext}`))) {
-    setupFilesAfterEnv.push(`<rootDir>/jest.setup${ext}`);
-  }
-  if (existsSync(path.resolve(currentProjectFolder, `./jest.global.setup${ext}`))) {
-    globalSetup = path.resolve(currentProjectFolder, `./jest.global.setup${ext}`);
-  }
-  if (existsSync(path.resolve(currentProjectFolder, `./jest.global.teardown${ext}`))) {
-    globalTeardown = path.resolve(currentProjectFolder, `./jest.global.teardown${ext}`);
-  }
-}
-
-const jsPreset = createBabelPresets({
-  framework: 'react',
-  isTest: true,
+const defaultEnvironment = (): TesterEnvironment => ({
+  ext: import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs',
+  packageDir: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'),
+  projectDir: getRootRequireDir(),
 });
 
-const tsPreset = createBabelPresets({
-  framework: 'react',
-  isTest: true,
-  typescript: true,
-});
+type SetupFiles = {
+  globalSetup?: string;
+  globalTeardown?: string;
+  setupFiles: string[];
+  setupFilesAfterEnv: string[];
+};
 
+const findSetupFiles = (projectDir: string): SetupFiles => {
+  const found: SetupFiles = { setupFiles: [], setupFilesAfterEnv: [] };
+  for (const ext of ['.js', '.mjs', '.cjs', '.ts']) {
+    if (existsSync(path.resolve(projectDir, `./jest.init${ext}`))) {
+      found.setupFiles.push(`<rootDir>/jest.init${ext}`);
+    }
+    if (existsSync(path.resolve(projectDir, `./jest.setup${ext}`))) {
+      found.setupFilesAfterEnv.push(`<rootDir>/jest.setup${ext}`);
+    }
+    if (existsSync(path.resolve(projectDir, `./jest.global.setup${ext}`))) {
+      found.globalSetup = path.resolve(projectDir, `./jest.global.setup${ext}`);
+    }
+    if (existsSync(path.resolve(projectDir, `./jest.global.teardown${ext}`))) {
+      found.globalTeardown = path.resolve(projectDir, `./jest.global.teardown${ext}`);
+    }
+  }
+
+  return found;
+};
+
+// Builds the jest config; nothing is read from disk or the process until it is called.
 export const configCompiler = (
   opts: Partial<TesterOptions> = {},
   projectConfig: Partial<Config.InitialOptions> = {},
-): Record<string, unknown> => {
+  environment: Partial<TesterEnvironment> = {},
+): CompiledConfig => {
+  const { ext, packageDir, projectDir } = { ...defaultEnvironment(), ...environment };
+  const { globalSetup, globalTeardown, setupFiles, setupFilesAfterEnv } = findSetupFiles(projectDir);
+  const jsPreset = createBabelPresets({ framework: 'react', isTest: true });
+  const tsPreset = createBabelPresets({ framework: 'react', isTest: true, typescript: true });
   const options = deepExtend({}, defaultProps, opts) as Required<TesterOptions>;
   const src: string[] = Array.isArray(options.src) ? options.src : [options.src];
 
@@ -65,7 +83,7 @@ export const configCompiler = (
       globalTeardown,
       moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
       moduleNameMapper: {
-        '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy${ext}`,
+        '\\.(css|less|scss|sss|styl)$': `${packageDir}/modules/identity-obj-proxy${ext}`,
         '^(\\.{1,2}/.*)\\.js$': '$1',
       },
       setupFiles,
@@ -73,7 +91,7 @@ export const configCompiler = (
       testEnvironment: 'jsdom',
       testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
       transform: {
-        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${rootFolder}/modules/file-transformer${ext}`,
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${packageDir}/modules/file-transformer${ext}`,
         '^.+\\.(js|jsx)$': [_require.resolve('babel-jest'), jsPreset],
         '^.+\\.(ts|tsx)$': [_require.resolve('babel-jest'), tsPreset],
       },
@@ -110,7 +128,7 @@ export const configCompiler = (
     ];
   }
 
-  return {
+  const argv = {
     config: JSON.stringify({ ...config }),
     ...(serial ? { maxWorkers: 1 } : {}),
     noCache: serial && noWatch,
@@ -119,4 +137,6 @@ export const configCompiler = (
     ...(options.testPathPatterns.length > 0 ? { testPathPatterns: options.testPathPatterns } : {}),
     watch,
   };
+
+  return { argv, config };
 };

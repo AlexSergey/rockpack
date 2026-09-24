@@ -15,8 +15,8 @@ export const init = async (
   projectConfig: Partial<Config.InitialOptions> = {},
 ): Promise<TestResults | undefined> => {
   try {
-    const jestConfig = configCompiler(opts, projectConfig);
-    const { results } = await runCLI(jestConfig as Parameters<typeof runCLI>[0], [process.cwd()]);
+    const { argv } = configCompiler(opts, projectConfig);
+    const { results } = await runCLI(argv as Parameters<typeof runCLI>[0], [process.cwd()]);
 
     if (results.success) {
       console.log('✅ All tests have passed successfully!');

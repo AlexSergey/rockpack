@@ -23,7 +23,7 @@ describe('init', () => {
     exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
-    configCompilerMock.mockReturnValue({ config: '{}' });
+    configCompilerMock.mockReturnValue({ argv: { config: '{}' }, config: {} });
   });
 
   afterEach(() => {
