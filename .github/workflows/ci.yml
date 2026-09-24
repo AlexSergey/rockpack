@@ -7,8 +7,6 @@ on:
       - master
   pull_request:
   workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * *'
 
 permissions:
   contents: read
@@ -100,9 +98,10 @@ jobs:
       - name: Build compiler examples
         run: npx lerna run build --scope='@rockpack/example-compiler-*'
 
+  # Manual only until Plan 4 rewrites the suite; Plan 4 adds its own nightly job.
   starter-e2e:
     needs: check
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
