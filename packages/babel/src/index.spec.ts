@@ -1,8 +1,10 @@
 import type { PluginItem } from '@babel/core';
 
+import { transformSync } from '@babel/core';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { runInThisContext } from 'node:vm';
 
 import { createBabelPresets } from './index';
 
@@ -178,10 +180,33 @@ describe('createBabelPresets', () => {
 
       const { plugins } = createBabelPresets({ isTest: true });
 
-      expect(getItemIds(plugins).slice(-2)).toEqual([
+      expect(getItemIds(plugins).slice(-3)).toEqual([
+        expect.stringContaining('rename-cjs-globals'),
         expect.stringContaining('babel-plugin-transform-import-meta'),
         expect.stringContaining('@babel/plugin-transform-modules-commonjs'),
       ]);
+    });
+
+    it('keeps a module-level __filename declared from import.meta.url working in test mode', () => {
+      createProject();
+      const source = [
+        "import { fileURLToPath } from 'node:url';",
+        'const __filename = fileURLToPath(import.meta.url);',
+        'export const file = __filename;',
+      ].join('\n');
+
+      const result = transformSync(source, {
+        ...createBabelPresets({ isTest: true }),
+        configFile: false,
+        filename: '/project/src/module.ts',
+      });
+      const module = { exports: {} as Record<string, unknown> };
+      const run = runInThisContext(`(function (require, module, exports, __filename) {${result?.code ?? ''}\n})`) as (
+        ...args: unknown[]
+      ) => void;
+      run(require, module, module.exports, '/project/src/module.ts');
+
+      expect(module.exports['file']).toBe('/project/src/module.ts');
     });
 
     it('deep-merges an object exported from rockpack.babel.js', () => {

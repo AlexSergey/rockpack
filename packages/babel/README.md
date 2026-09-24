@@ -31,6 +31,7 @@ To add custom plugins, create `rockpack.babel.js` in the root of your project. P
 
 ### Jest compatibility
 - `@babel/plugin-transform-modules-commonjs`
+- `babel-plugin-transform-import-meta`, preceded by a small Rockpack plugin that renames module-level `__filename`/`__dirname`, so `const __filename = fileURLToPath(import.meta.url)` keeps working in tests
 
 ## The MIT License
 

@@ -87,6 +87,7 @@ export const createBabelPresets = ({
 
   if (isTest) {
     plugins.push(
+      _require.resolve('@rockpack/babel/plugins/rename-cjs-globals'),
       _require.resolve('babel-plugin-transform-import-meta'),
       _require.resolve('@babel/plugin-transform-modules-commonjs'),
     );

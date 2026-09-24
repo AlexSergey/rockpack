@@ -28,13 +28,15 @@
       "types": "./types/index.d.ts",
       "import": "./lib/esm/index.mjs",
       "require": "./lib/cjs/index.cjs"
-    }
+    },
+    "./plugins/rename-cjs-globals": "./plugins/rename-cjs-globals.cjs"
   },
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
   "files": [
     "lib",
+    "plugins",
     "types"
   ],
   "scripts": {
