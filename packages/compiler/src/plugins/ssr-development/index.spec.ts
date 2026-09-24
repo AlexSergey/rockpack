@@ -132,17 +132,15 @@ describe('SsrDevelopment', () => {
       expect(refresh).toHaveBeenCalledWith('');
     });
 
-    it('stops nodemon on exit and exits on SIGINT', () => {
-      const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => undefined) as never);
+    it('stops nodemon when the process exits', () => {
       const monitorExit = jest.fn();
       monitor.on('exit', monitorExit);
       new SsrDevelopment({}).startMonitoring('dist/server.js');
 
       onceListeners.get('exit')?.();
-      onceListeners.get('SIGINT')?.();
 
       expect(monitorExit).toHaveBeenCalled();
-      expect(exitSpy).toHaveBeenCalledWith(0);
+      expect(onceListeners.has('SIGINT')).toBe(false);
     });
   });
 });

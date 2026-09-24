@@ -83,8 +83,5 @@ export class SsrDevelopment {
     process.once('exit', () => {
       monitor.emit('exit');
     });
-    process.once('SIGINT', () => {
-      process.exit(0);
-    });
   }
 }
