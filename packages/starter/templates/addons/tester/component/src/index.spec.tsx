@@ -1,10 +1,21 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import RockpackComponent from './index';
 
-it('Render React Component', () => {
-  const { getByText } = render(<RockpackComponent />);
-  const element = getByText(/Rockpack/i);
+describe('RockpackComponent', () => {
+  describe('negative cases', () => {
+    it('renders no interactive elements', () => {
+      render(<RockpackComponent />);
 
-  expect(element).toBeInTheDocument();
+      expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('positive cases', () => {
+    it('renders the Rockpack title', () => {
+      render(<RockpackComponent />);
+
+      expect(screen.getByText(/Rockpack/i)).toBeInTheDocument();
+    });
+  });
 });

@@ -19,9 +19,18 @@ const renderApp = () =>
   );
 
 describe('Test rest api', () => {
-  test("/getData - response should be { id: 1, name: 'John Smith' }", async () => {
-    renderApp();
-    fireEvent.click(screen.getByRole('button'));
-    expect(await screen.findByText('John Smith')).toBeInTheDocument();
+  describe('negative cases', () => {
+    test('shows no user before the request is sent', () => {
+      renderApp();
+      expect(screen.queryByText('John Smith')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('positive cases', () => {
+    test("/getData - response should be { id: 1, name: 'John Smith' }", async () => {
+      renderApp();
+      fireEvent.click(screen.getByRole('button'));
+      expect(await screen.findByText('John Smith')).toBeInTheDocument();
+    });
   });
 });

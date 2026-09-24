@@ -1,9 +1,15 @@
 import HelloWorld from './index';
 
-const mock = 'Hello world';
+describe('HelloWorld', () => {
+  describe('negative cases', () => {
+    it('keeps an empty name empty', () => {
+      expect(new HelloWorld('').show()).toBe('');
+    });
+  });
 
-it('Test library', () => {
-  const hello = new HelloWorld(mock);
-
-  expect(hello.show()).toBe(mock);
+  describe('positive cases', () => {
+    it('shows the name it was created with', () => {
+      expect(new HelloWorld('Hello world').show()).toBe('Hello world');
+    });
+  });
 });

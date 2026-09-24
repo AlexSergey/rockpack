@@ -22,24 +22,34 @@ const renderApp = () =>
   );
 
 describe('Test queries', () => {
-  test('GET_BOOKS - get the array of books with the book It', async () => {
-    renderApp();
-    expect(await screen.findByText('It')).toBeInTheDocument();
-  });
-
-  test('BOOK_READ - set the book It as read', async () => {
-    renderApp();
-    const book = await screen.findByText('It');
-    fireEvent.click(book);
-    await waitFor(() => {
-      expect(book).toHaveStyle('text-decoration: line-through');
+  describe('negative cases', () => {
+    test('shows no favorite book until it is requested', async () => {
+      renderApp();
+      await screen.findByText('It');
+      expect(screen.queryByText('Jurassic Park')).not.toBeInTheDocument();
     });
   });
 
-  test('GET_BOOK - get the favorite book Jurassic Park', async () => {
-    renderApp();
-    await screen.findByText('It');
-    fireEvent.click(screen.getByRole('button'));
-    expect(await screen.findByText('Jurassic Park')).toBeInTheDocument();
+  describe('positive cases', () => {
+    test('GET_BOOKS - get the array of books with the book It', async () => {
+      renderApp();
+      expect(await screen.findByText('It')).toBeInTheDocument();
+    });
+
+    test('BOOK_READ - set the book It as read', async () => {
+      renderApp();
+      const book = await screen.findByText('It');
+      fireEvent.click(book);
+      await waitFor(() => {
+        expect(book).toHaveStyle('text-decoration: line-through');
+      });
+    });
+
+    test('GET_BOOK - get the favorite book Jurassic Park', async () => {
+      renderApp();
+      await screen.findByText('It');
+      fireEvent.click(screen.getByRole('button'));
+      expect(await screen.findByText('Jurassic Park')).toBeInTheDocument();
+    });
   });
 });

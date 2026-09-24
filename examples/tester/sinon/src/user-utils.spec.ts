@@ -17,26 +17,46 @@ function aUser(id: number): User {
   };
 }
 
-let getPageOfUsersStub: SinonStub;
-
-beforeAll(() => {
-  getPageOfUsersStub = stub(userApi, 'getPageOfUsers');
-
-  getPageOfUsersStub.returns(
-    Promise.resolve({
-      data: [aUser(1), aUser(2), aUser(3)],
-      page: 1,
-      total_pages: 1, // eslint-disable-line camelcase
-    }),
-  );
+const aPage = (data: User[], page: number, totalPages: number): Awaited<ReturnType<typeof userApi.getPageOfUsers>> => ({
+  data,
+  page,
+  total_pages: totalPages, // eslint-disable-line camelcase
 });
 
-afterAll(() => {
-  getPageOfUsersStub.restore();
-});
+describe('getAllUsers', () => {
+  let getPageOfUsersStub: SinonStub;
 
-test('test getAllUsers', async () => {
-  const userList = await users.getAllUsers();
-  expect(userList).toHaveLength(3);
-  expect(userList[1]?.email).toBe('someemail@user2.com');
+  beforeEach(() => {
+    getPageOfUsersStub = stub(userApi, 'getPageOfUsers');
+  });
+
+  afterEach(() => {
+    getPageOfUsersStub.restore();
+  });
+
+  describe('negative cases', () => {
+    it('returns no users when the api has none', async () => {
+      getPageOfUsersStub.returns(Promise.resolve(aPage([], 1, 1)));
+
+      await expect(users.getAllUsers()).resolves.toEqual([]);
+    });
+  });
+
+  describe('positive cases', () => {
+    it('returns the users of a single page', async () => {
+      getPageOfUsersStub.returns(Promise.resolve(aPage([aUser(1), aUser(2), aUser(3)], 1, 1)));
+
+      const userList = await users.getAllUsers();
+
+      expect(userList).toHaveLength(3);
+      expect(userList[1]?.email).toBe('someemail@user2.com');
+    });
+
+    it('collects the users of every page', async () => {
+      getPageOfUsersStub.onFirstCall().returns(Promise.resolve(aPage([aUser(1)], 1, 2)));
+      getPageOfUsersStub.onSecondCall().returns(Promise.resolve(aPage([aUser(2)], 2, 2)));
+
+      expect((await users.getAllUsers()).map(({ id }) => id)).toEqual([1, 2]);
+    });
+  });
 });

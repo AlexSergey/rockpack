@@ -3,6 +3,14 @@ import { render, screen } from '@testing-library/react';
 import { Tags } from './tags.component';
 
 describe('Tags', () => {
+  describe('negative cases', () => {
+    it('renders each tag only once', () => {
+      render(<Tags />);
+
+      expect(screen.getAllByText('SSR')).toHaveLength(1);
+    });
+  });
+
   describe('positive cases', () => {
     it('renders all tags', () => {
       render(<Tags />);

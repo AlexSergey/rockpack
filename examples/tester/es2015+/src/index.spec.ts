@@ -1,15 +1,52 @@
 import { idMaker, timeout } from './index';
 
-test('generator test', () => {
-  const gen = idMaker();
-  expect(gen.next().value).toBe(0);
-  expect(gen.next().value).toBe(1);
-  expect(gen.next().value).toBe(2);
+describe('idMaker', () => {
+  describe('negative cases', () => {
+    it('stops after three ids', () => {
+      const gen = idMaker();
+      gen.next();
+      gen.next();
+      gen.next();
+
+      expect(gen.next().done).toBe(true);
+    });
+  });
+
+  describe('positive cases', () => {
+    it('yields 0, 1 and 2', () => {
+      expect([...idMaker()]).toEqual([0, 1, 2]);
+    });
+  });
 });
 
-test('timeout test', async () => {
-  const start = Date.now();
-  await timeout(1000);
-  const stop = Date.now();
-  expect(stop - start >= 1000).toBe(true);
+describe('timeout', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  describe('negative cases', () => {
+    it('is still pending before the delay passes', async () => {
+      const onResolve = jest.fn();
+      void timeout(1000).then(onResolve);
+
+      await jest.advanceTimersByTimeAsync(999);
+
+      expect(onResolve).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('positive cases', () => {
+    it('resolves after the delay', async () => {
+      const onResolve = jest.fn();
+      void timeout(1000).then(onResolve);
+
+      await jest.advanceTimersByTimeAsync(1000);
+
+      expect(onResolve).toHaveBeenCalledTimes(1);
+    });
+  });
 });
