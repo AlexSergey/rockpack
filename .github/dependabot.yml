@@ -1,0 +1,39 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    target-branch: next
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
+    groups:
+      babel:
+        patterns:
+          - '@babel/*'
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
+          - 'typescript-eslint'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+      jest:
+        patterns:
+          - 'jest'
+          - 'jest-*'
+          - 'babel-jest'
+          - '@jest/*'
+      webpack:
+        patterns:
+          - 'webpack'
+          - 'webpack-*'
+          - '*-webpack-plugin'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    target-branch: next
