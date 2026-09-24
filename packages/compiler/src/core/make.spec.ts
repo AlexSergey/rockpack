@@ -8,7 +8,6 @@ import { makeModules } from '../modules/make-modules.js';
 import { makeOutput } from '../modules/make-output.js';
 import { makePlugins } from '../modules/make-plugins.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
-import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { make } from './make.js';
 
 jest.mock('@rockpack/utils', () => ({
@@ -31,12 +30,10 @@ jest.mock('../modules/make-plugins.js', () => ({ makePlugins: jest.fn(() => Prom
 jest.mock('../modules/make-resolve.js', () => ({ makeResolve: jest.fn(() => 'resolve') }));
 jest.mock('../modules/make-stats.js', () => ({ makeStats: jest.fn(() => 'stats') }));
 jest.mock('../utils/compile-webpack-config.js', () => ({ compileWebpackConfig: jest.fn() }));
-jest.mock('../utils/merge-conf-with-default.js', () => ({ mergeConfWithDefault: jest.fn() }));
 
 const getModeMock = getMode as jest.MockedFunction<typeof getMode>;
 const readPackageJsonMock = readPackageJson as jest.MockedFunction<typeof readPackageJson>;
 const makeOutputMock = makeOutput as jest.MockedFunction<typeof makeOutput>;
-const mergeConfMock = mergeConfWithDefault as jest.MockedFunction<typeof mergeConfWithDefault>;
 const compileMock = compileWebpackConfig as jest.MockedFunction<typeof compileWebpackConfig>;
 
 const createConf = (overrides: Partial<InternalCompilerConf> = {}): InternalCompilerConf => ({
@@ -59,7 +56,6 @@ describe('make', () => {
       pathinfo: true,
       publicPath: '/',
     });
-    mergeConfMock.mockImplementation((conf) => Promise.resolve({ ...conf, merged: true } as InternalCompilerConf));
     compileMock.mockImplementation(
       (config) => ({ ...config, compiled: true }) as ReturnType<typeof compileWebpackConfig>,
     );
@@ -113,7 +109,8 @@ describe('make', () => {
     });
 
     it('assembles the production config from the modules', async () => {
-      const result = await make(createConf(), null);
+      const conf = createConf();
+      const result = await make(conf, null);
 
       expect(finalConfig()).toEqual({
         devServer: 'devServer',
@@ -128,15 +125,8 @@ describe('make', () => {
         resolve: 'resolve',
         stats: 'stats',
       });
-      expect(compileMock).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({ merged: true }),
-        'production',
-        '/project',
-        'modules',
-        'plugins',
-      );
-      expect(result.conf).toMatchObject({ merged: true });
+      expect(compileMock).toHaveBeenCalledWith(expect.anything(), conf, 'production', '/project', 'modules', 'plugins');
+      expect(result.conf).toBe(conf);
       expect(result.webpackConfig).toMatchObject({ compiled: true });
     });
 

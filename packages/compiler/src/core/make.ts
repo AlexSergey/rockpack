@@ -16,7 +16,6 @@ import { makePlugins } from '../modules/make-plugins.js';
 import { makeResolve } from '../modules/make-resolve.js';
 import { makeStats } from '../modules/make-stats.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
-import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 
 type MakeResult = {
   conf: InternalCompilerConf;
@@ -30,24 +29,23 @@ type PostFn = (
   mode: Mode,
 ) => void;
 
+// `conf` is already merged with the defaults by compile().
 export const make = async (conf: InternalCompilerConf, post: null | PostFn): Promise<MakeResult> => {
   const mode = getMode();
   const root = getRootRequireDir();
 
   const packageJson: PackageJson = readPackageJson(root) ?? {};
 
-  const mergedConf = await mergeConfWithDefault(conf, mode);
-
-  const { context, entry } = makeEntry(mergedConf, root, mode);
-  const output = makeOutput(mergedConf, root, mode);
+  const { context, entry } = makeEntry(conf, root, mode);
+  const output = makeOutput(conf, root, mode);
   const devtool = makeDevtool(mode);
-  const devServer = await makeDevServer(mergedConf);
-  const optimization = makeOptimization(mode, mergedConf);
-  const modules = makeModules(mergedConf, root, packageJson, mode);
-  const plugins = await makePlugins(mergedConf, root, packageJson, mode, webpack, context);
+  const devServer = await makeDevServer(conf);
+  const optimization = makeOptimization(mode, conf);
+  const modules = makeModules(conf, root, packageJson, mode);
+  const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
   const resolve = makeResolve(root);
-  const stats = makeStats(mergedConf);
-  const externals = makeExternals(mergedConf, root);
+  const stats = makeStats(conf);
+  const externals = makeExternals(conf, root);
 
   const finalConfig: Record<string, unknown> = {
     devServer,
@@ -62,15 +60,15 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
     stats,
   };
 
-  if (typeof mergedConf.name === 'string') {
-    finalConfig['name'] = mergedConf.name;
+  if (typeof conf.name === 'string') {
+    finalConfig['name'] = conf.name;
   }
 
-  if (mergedConf.externals !== undefined) {
-    finalConfig['externals'] = mergedConf.externals;
+  if (conf.externals !== undefined) {
+    finalConfig['externals'] = conf.externals;
   }
 
-  if (mergedConf.nodejs) {
+  if (conf.nodejs) {
     finalConfig['target'] = 'node';
     finalConfig['externalsPresets'] = { node: true };
   } else if (global.ISOMORPHIC) {
@@ -93,7 +91,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
     post(finalConfig, modules, plugins, mode);
   }
 
-  const webpackConfig = compileWebpackConfig(finalConfig, mergedConf, mode, root, modules, plugins);
+  const webpackConfig = compileWebpackConfig(finalConfig, conf, mode, root, modules, plugins);
 
-  return { conf: mergedConf, webpackConfig };
+  return { conf: conf, webpackConfig };
 };
