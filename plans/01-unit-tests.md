@@ -61,7 +61,7 @@ Small, additive changes that make the packages testable with the tester. Each it
 
 - [x] **0.1 `@rockpack/babel`: transform `import.meta` in test mode.**
   In `packages/babel/src/index.ts`, when `isTest` is true, also push `babel-plugin-transform-import-meta` (it is already a devDependency of babel, compiler and tester). Move it from `devDependencies` to `dependencies` in `packages/babel/package.json`. Reason: `import.meta.url` is used in 12 source files across babel, compiler, starter and tester, and babel-jest compiles to CJS where `import.meta` is a syntax error.
-- [ ] **0.2 `@rockpack/tester`: NodeNext-style imports and coverage settings.**
+- [x] **0.2 `@rockpack/tester`: NodeNext-style imports and coverage settings.**
   In `packages/tester/src/configs/config-compiler.ts`:
   - add a default `moduleNameMapper` entry `'^(\\.{1,2}/.*)\\.js$': '$1'` so that `./core/init.js` imports in compiler and tester resolve to `.ts` sources (starter-e2e already passes this mapping by hand);
   - only apply `collectCoverage`, `coverageReporters` and `reporters` defaults when the user has not provided them (`config.coverageReporters ??= [...]`), and add `text-summary` and `lcov` to the default reporters list so CI can read the numbers;

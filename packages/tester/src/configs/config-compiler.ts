@@ -66,6 +66,7 @@ export const configCompiler = (
       moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
       moduleNameMapper: {
         '\\.(css|less|scss|sss|styl)$': `${rootFolder}/modules/identity-obj-proxy${ext}`,
+        '^(\\.{1,2}/.*)\\.js$': '$1',
       },
       setupFiles,
       setupFilesAfterEnv: [_require.resolve('@rockpack/utils/polyfills/text-encoder.fix'), ...setupFilesAfterEnv],
@@ -79,15 +80,15 @@ export const configCompiler = (
       transformIgnorePatterns: ['node_modules/'],
     },
     projectConfig,
-  ) as Config.ProjectConfig;
+  ) as Config.InitialOptions;
 
   const watch = options.watch || opts['watch'];
   const noWatch = !watch;
 
   if (noWatch) {
-    config['collectCoverage'] = true;
-    config['coverageReporters'] = ['json', 'html'];
-    config['reporters'] = [
+    config.collectCoverage ??= true;
+    config.coverageReporters ??= ['json', 'html', 'text-summary', 'lcov'];
+    config.reporters ??= [
       'default',
       [
         _require.resolve('jest-html-reporters'),
