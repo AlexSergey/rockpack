@@ -10,6 +10,6 @@ void frontendCompiler({
     template: path.resolve(import.meta.dirname, './index.ejs'),
   },
   styles: 'styles.css',
-  vendor: ['react', 'react-dom'],
+  vendor: ['react', 'react-dom', 'react-dom/client'],
   version: packageJson.version,
 });

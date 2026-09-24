@@ -39,6 +39,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - The isomorphic compiler starts the live reload server only in development
 - The starter update check compares versions with semver, says when a newer version is available, works offline and is skipped with `--mode=test`
 - `@rockpack/starter` exits with code `1` and lists the valid types when `--type` is unknown
+- The csr template puts `react-dom/client` into the vendor bundle
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
@@ -50,6 +51,8 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/starter`: `-h`/`--help` and `-v`/`--version` print the Rockpack usage and version instead of the yargs defaults
 - Generated libraries and components publish only their built files, and the component `types` path points at the emitted declarations
 - `@rockpack/compiler` emits no declarations for specs and fixtures
+- `@rockpack/compiler`: the `vendor` option moves the listed modules into `vendor.js` only (the main entry now `dependOn`s it); before, they were bundled into both files
+- Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
 - Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
