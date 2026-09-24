@@ -1,5 +1,5 @@
 import './styles.css';
 
-let legacy = 'lint';
+var legacy = 'lint';
 
 document.title = legacy;

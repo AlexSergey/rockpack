@@ -12,10 +12,13 @@ const workspaceDirs = workspaces
   .map((dir) => path.resolve(dir))
   .sort((a, b) => b.length - a.length);
 
+// e2e fixture projects are inputs of the suites: deliberately broken code must stay as it is.
+const isE2eFixture = (file) => /[/\\]e2e[/\\][^/\\]+[/\\]fixtures[/\\]/.test(file);
+
 const groupByWorkspace = (files) => {
   const groups = new Map();
 
-  for (const file of files) {
+  for (const file of files.filter((staged) => !isE2eFixture(staged))) {
     const dir = workspaceDirs.find((workspace) => file.startsWith(`${workspace}${path.sep}`));
     if (dir) {
       groups.set(dir, [...(groups.get(dir) ?? []), file]);
