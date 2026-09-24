@@ -7,7 +7,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 ### Added
 - All packages (babel, codestyle, compiler, starter, tester, utils) rewritten in TypeScript
 - New build pipeline using `tsx` scripts for all packages and examples
-- Dual ESM/CJS output for all packages
+- Dual ESM/CJS output for all packages except `@rockpack/codestyle` (ESM only)
 - Improved tester configuration with better type support for Jest
 - `eslint-config-flat-gitignore` integration in `@rockpack/codestyle` - ignore patterns are now loaded from `.eslintflatignore` file instead of being hardcoded
 - `.eslintflatignore` support: `makeConfig` searches for the file recursively from `process.cwd()` upward, enabling monorepo setups where a single file at the repo root covers all packages
@@ -17,6 +17,8 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/compiler` exports `RockpackError` (codes `INVALID_CONFIG`, `INVALID_ENTRY`, `BUILD_FAILED`, `DTS_FAILED`) and the `RockpackErrorCode` type
 - `@rockpack/tester`: `serial` option (one suite at a time, no cache) and a default `collectCoverageFrom` that counts every source file
 - `@rockpack/tester` reads `--watch` from the command line when `watch` is not passed
+- `@rockpack/tester` runs only the specs matching the positional command-line arguments or the `testPathPatterns` option
+- `@rockpack/starter`: `--offline` writes the dependency ranges from `versions.json` without asking the registry and skips the update check
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - Generated projects install git hooks with `simple-git-hooks` (`pre-commit` lint-staged, `commit-msg` commitlint, `pre-push` tests)
@@ -36,6 +38,8 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/utils` reads `--mode` without yargs and has no import-time side effects
 - The isomorphic compiler starts the live reload server only in development
 - The starter update check compares versions with semver, says when a newer version is available, works offline and is skipped with `--mode=test`
+- `@rockpack/starter` exits with code `1` and lists the valid types when `--type` is unknown
+- `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
 - `@rockpack/compiler`: the `banner` file is published, banner placeholders are filled by name, and the banner and default `index.ejs` are found from the package root
@@ -43,11 +47,16 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/compiler`: the Babel plugins `sourceCompile` resolves at runtime are regular dependencies
 - `@rockpack/tester`: `watch` is always a boolean
 - `@rockpack/starter`: the SSR template stops loading when the request fails
+- `@rockpack/starter`: `-h`/`--help` and `-v`/`--version` print the Rockpack usage and version instead of the yargs defaults
+- Generated libraries and components publish only their built files, and the component `types` path points at the emitted declarations
+- `@rockpack/compiler` emits no declarations for specs and fixtures
+- `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
 - Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
 
 ### Removed
 - The SSR template no longer ships a `rockpack.babel.js` (custom Babel config through `rockpack.babel.js` is still supported by `@rockpack/babel`)
+- The SSR template no longer depends on the unused `react-router-dom`
 - Dropped `jest.extend` from tester
 - Removed CommonJS-only build artifacts
 - Removed hardcoded `ignores` array from `@rockpack/codestyle` in favor of `.eslintflatignore`
