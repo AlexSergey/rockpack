@@ -3,6 +3,7 @@ import { hideBin } from 'yargs/helpers';
 import { join } from 'node:path';
 import { writeFileSync, readFileSync } from 'node:fs';
 import { EOL } from 'node:os';
+import { valid } from 'semver';
 
 import { getWorkspacePackageJsons } from './tools/workspaces';
 
@@ -21,33 +22,35 @@ if (argv._.length !== 1) {
 }
 
 const version = String(argv._[0]);
-const part = version.split('-')[0];
-const format = part.split('.');
 
-if (format.filter((f) => f !== '').length !== 3) {
-  throw new Error('The version should be matched to the x.x.x format');
+if (!valid(version)) {
+  throw new Error(`"${version}" is not a valid semver version`);
 }
+
+const pinRockpack = (deps: Record<string, string> | undefined): void => {
+  for (const dep of Object.keys(deps ?? {})) {
+    if (dep.startsWith('@rockpack/') && deps) {
+      deps[dep] = version;
+    }
+  }
+};
 
 const projects = [...getWorkspacePackageJsons(), 'package.json'];
 
-for (const projectPath of projects) {
+// Read and update every file first, so a missing or malformed file leaves the tree untouched.
+const updates = projects.map((projectPath) => {
   const pthPackageJson = join(process.cwd(), projectPath);
   const file = JSON.parse(readFileSync(pthPackageJson, 'utf8')) as PackageJson;
-  const { dependencies, devDependencies } = file;
-  const depKeys = dependencies ? Object.keys(dependencies) : [];
-  const devDepKeys = devDependencies ? Object.keys(devDependencies) : [];
-  const depKeysExisted = depKeys.filter((dep) => dep.indexOf('@rockpack/') === 0);
-  const devDepKeysExisted = devDepKeys.filter((dep) => dep.indexOf('@rockpack/') === 0);
 
   file.version = version;
+  pinRockpack(file.dependencies);
+  pinRockpack(file.devDependencies);
 
-  depKeysExisted.forEach((k) => {
-    (file.dependencies as Record<string, string>)[k] = version;
-  });
+  return { content: JSON.stringify(file, null, 2) + EOL, path: pthPackageJson };
+});
 
-  devDepKeysExisted.forEach((k) => {
-    (file.devDependencies as Record<string, string>)[k] = version;
-  });
-
-  writeFileSync(pthPackageJson, JSON.stringify(file, null, 2) + EOL, 'utf-8');
+for (const { content, path } of updates) {
+  writeFileSync(path, content, 'utf-8');
 }
+
+console.log(`Version ${version} is set in ${updates.length} package.json files`);
