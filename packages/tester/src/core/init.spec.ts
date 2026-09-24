@@ -1,6 +1,5 @@
 import { runCLI } from 'jest';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { configCompiler } from '../configs/config-compiler.js';
 import { init } from './init.js';
 
@@ -15,36 +14,53 @@ const mockRunResult = (success: boolean): void => {
 };
 
 describe('init', () => {
+  const originalExitCode = process.exitCode;
   let exitSpy: jest.SpyInstance;
   let logSpy: jest.SpyInstance;
   let errorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    exitSpy = mockProcessExit();
+    exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
     configCompilerMock.mockReturnValue({ config: '{}' });
   });
 
   afterEach(() => {
+    process.exitCode = originalExitCode;
     jest.restoreAllMocks();
     jest.resetAllMocks();
   });
 
   describe('negative cases', () => {
-    it('reports failed tests and exits with code 1', async () => {
+    it('reports failed tests through the exit code without exiting', async () => {
       mockRunResult(false);
 
-      await expect(init()).rejects.toEqual(new ExitError(1));
+      await expect(init()).resolves.toEqual({ success: false });
       expect(errorSpy).toHaveBeenCalledWith('❌ Some tests have failed!');
+      expect(process.exitCode).toBe(1);
+      expect(exitSpy).not.toHaveBeenCalled();
     });
 
-    it('reports a jest error and exits with code 1', async () => {
+    it('reports a jest error through the exit code and resolves to undefined', async () => {
       const error = new Error('jest crashed');
       runCLIMock.mockRejectedValue(error);
 
-      await expect(init()).rejects.toEqual(new ExitError(1));
+      await expect(init()).resolves.toBeUndefined();
       expect(errorSpy).toHaveBeenCalledWith('Jest encountered an error:', error);
+      expect(process.exitCode).toBe(1);
+      expect(exitSpy).not.toHaveBeenCalled();
+    });
+
+    it('reports an invalid config like a jest error', async () => {
+      const error = new Error('bad config');
+      configCompilerMock.mockImplementation(() => {
+        throw error;
+      });
+
+      await expect(init()).resolves.toBeUndefined();
+      expect(errorSpy).toHaveBeenCalledWith('Jest encountered an error:', error);
+      expect(runCLIMock).not.toHaveBeenCalled();
     });
   });
 
@@ -52,7 +68,7 @@ describe('init', () => {
     it('reports passed tests without exiting', async () => {
       mockRunResult(true);
 
-      await init();
+      await expect(init()).resolves.toEqual({ success: true });
 
       expect(logSpy).toHaveBeenCalledWith('✅ All tests have passed successfully!');
       expect(exitSpy).not.toHaveBeenCalled();

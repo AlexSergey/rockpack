@@ -2,13 +2,19 @@ import type { Config } from '@jest/types';
 
 import { setMode } from '@rockpack/utils';
 
+import type { TestResults } from './core/init.js';
 import type { TesterOptions } from './default-props.js';
 
 import { init } from './core/init.js';
 
-export type { TesterOptions };
+export type { TesterOptions, TestResults };
 
-const tester = (opts: Partial<TesterOptions> = {}, projectConfig: Partial<Config.InitialOptions> = {}): void => {
+// Runs the tests and resolves to jest's results (undefined when jest could not run); a failure sets
+// process.exitCode to 1, so scripts that do not await still exit with an error.
+const tester = (
+  opts: Partial<TesterOptions> = {},
+  projectConfig: Partial<Config.InitialOptions> = {},
+): Promise<TestResults | undefined> => {
   setMode(['development', 'production', 'test'], 'test');
 
   const args = process.argv.slice(2);
@@ -19,7 +25,7 @@ const tester = (opts: Partial<TesterOptions> = {}, projectConfig: Partial<Config
     ...(opts.testPathPatterns === undefined && positional.length > 0 ? { testPathPatterns: positional } : {}),
   };
 
-  init(options, projectConfig).catch(console.error);
+  return init(options, projectConfig);
 };
 
 export { tester };

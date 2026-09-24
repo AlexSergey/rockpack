@@ -34,7 +34,14 @@ yarn add @rockpack/tester --dev
 ```ts
 import { tester } from '@rockpack/tester';
 
-tester();
+void tester();
+```
+
+`tester()` resolves to Jest's aggregated results (or `undefined` when Jest could not run) and never exits the process itself: a failure sets `process.exitCode = 1`. Await it to act on the results:
+
+```ts
+const results = await tester();
+console.log(results?.numPassedTests);
 ```
 
 3. Run tests:
@@ -67,7 +74,7 @@ npx tsx scripts.tests.ts --watch
 Outside watch mode coverage is collected from every file under `src` (not only the imported ones) and reported as `json`, `html`, `text-summary` and `lcov`. Everything can be overridden through the Jest config, for example thresholds:
 
 ```ts
-tester({}, { coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 85 } } });
+void tester({}, { coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 85 } } });
 ```
 
 Sources that use NodeNext-style `.js` extensions in relative imports work out of the box: `import { sum } from './sum.js'` resolves to `sum.ts`.
@@ -79,7 +86,7 @@ To override Jest configuration - for example, to switch the test environment fro
 ```ts
 import { tester } from '@rockpack/tester';
 
-tester({}, { testEnvironment: 'node' });
+void tester({}, { testEnvironment: 'node' });
 ```
 
 ## The MIT License

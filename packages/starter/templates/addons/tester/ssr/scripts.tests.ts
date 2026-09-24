@@ -13,7 +13,7 @@ const preset = createBabelPresets({
 
 (preset.plugins ??= []).unshift(_require.resolve('@issr/babel-plugin'));
 
-tester(
+void tester(
   {},
   {
     transform: {

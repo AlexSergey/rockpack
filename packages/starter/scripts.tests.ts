@@ -2,7 +2,7 @@ import { tester } from '@rockpack/tester';
 
 const watch = process.argv.includes('--watch');
 
-tester(
+void tester(
   { src: './src', watch },
   {
     collectCoverageFrom: [

@@ -1,3 +1,3 @@
 import { tester } from '@rockpack/tester';
 
-tester();
+void tester();

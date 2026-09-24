@@ -1,4 +1,4 @@
 import { tester } from '@rockpack/tester';
 
 // Fixtures are built into a shared .out folder by child processes, so the suites run one at a time.
-tester({ serial: true }, { collectCoverage: false, testEnvironment: 'node', testTimeout: 300_000 });
+void tester({ serial: true }, { collectCoverage: false, testEnvironment: 'node', testTimeout: 300_000 });
