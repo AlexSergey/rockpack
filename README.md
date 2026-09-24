@@ -34,7 +34,7 @@ The `CLAUDE.md` configuration is optimized for:
 
 ## Requirements
 
-- **Node.js 23 or higher**
+- **Node.js 24 or higher**
 
 ## Getting Started
 

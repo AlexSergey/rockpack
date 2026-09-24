@@ -41,7 +41,7 @@ This makes Rockpack projects a reliable foundation for teams working with Claude
 
 ## Requirements
 
-- **Node.js 23 or higher**
+- **Node.js 24 or higher**
 
 ## Using
 

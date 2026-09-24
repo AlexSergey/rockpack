@@ -37,14 +37,14 @@ describe('bin', () => {
 
   describe('negative cases', () => {
     it('exits with code 1 on Node below the minimum version', () => {
-      expect(() => runBin('19.9.0')).toThrow(new ExitError(1));
-      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('You are running Node 19.9.0.'));
+      expect(() => runBin('23.11.0')).toThrow(new ExitError(1));
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('You are running Node 23.11.0.'));
     });
   });
 
   describe('positive cases', () => {
     it('starts the CLI on a supported Node version', () => {
-      const rockpack = runBin('20.0.0');
+      const rockpack = runBin('24.0.0');
 
       expect(rockpack).toHaveBeenCalledTimes(1);
       expect(errorSpy).not.toHaveBeenCalled();

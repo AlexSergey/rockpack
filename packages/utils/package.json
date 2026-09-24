@@ -71,6 +71,6 @@
     "babel-plugin-add-import-extension": "1.6.0"
   },
   "engines": {
-    "node": ">=23.0.0"
+    "node": ">=24.0.0"
   }
 }

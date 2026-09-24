@@ -6,7 +6,7 @@ import { rockpack } from './rockpack';
 const currentNodeVersion = process.versions.node;
 const semver = currentNodeVersion.split('.');
 const major = Number(semver[0] ?? '0');
-const minVer = 20;
+const minVer = 24;
 
 if (major < minVer) {
   console.error(
