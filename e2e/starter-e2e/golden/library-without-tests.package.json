@@ -17,6 +17,10 @@
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
   "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "analyzer": "tsx scripts.build.ts --analyzer",
     "build": "tsx scripts.build.ts --mode=production",

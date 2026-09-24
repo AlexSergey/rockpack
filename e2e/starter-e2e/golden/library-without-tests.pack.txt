@@ -1,0 +1,8 @@
+README.md
+dist/index.js
+dist/index.js.LICENSE.txt
+dist/index.js.map
+dist/types/index.d.ts
+lib/cjs/index.cjs
+lib/esm/index.mjs
+package.json
