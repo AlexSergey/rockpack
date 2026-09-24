@@ -73,5 +73,10 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "!@rockpack/codestyle"
+    ]
   }
 }
