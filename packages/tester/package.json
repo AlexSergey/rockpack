@@ -48,6 +48,7 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "production": "npm run lint && npm publish --access public",
     "test": "tsx scripts.tests.ts",
     "test:watch": "tsx scripts.tests.ts --watch"

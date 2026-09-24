@@ -35,8 +35,8 @@
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
   "files": [
+    "banner",
     "index.ejs",
-    "index.webview.ejs",
     "lib",
     "types"
   ],
@@ -51,6 +51,7 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "production": "npm run lint && npm publish --access public",
     "test": "tsx scripts.tests.ts",
     "test:watch": "tsx scripts.tests.ts --watch"
