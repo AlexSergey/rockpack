@@ -5,15 +5,15 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import React, { createContext, isValidElement, useContext, useRef } from 'react';
 
-interface MockRestProps {
+type MockRestProps = {
   children: ReactNode;
   mock: (mocker: MockAdapter) => void;
-}
+};
 
-interface RestProps {
+type RestProps = {
   children: ((client: AxiosInstance) => ReactNode) | ReactNode;
   options?: AxiosRequestConfig;
-}
+};
 
 const RestContext = createContext<AxiosInstance | false>(false);
 

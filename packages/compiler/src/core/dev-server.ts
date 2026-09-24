@@ -4,11 +4,11 @@ import WebpackDevServer from 'webpack-dev-server';
 
 import type { InternalCompilerConf } from '../types.js';
 
-interface CompilerResult {
+type CompilerResult = {
   compiler: unknown;
   conf: InternalCompilerConf;
   webpackConfig: Configuration;
-}
+};
 
 export const devServer = ({ compiler, conf, webpackConfig }: CompilerResult): void => {
   const devServerConfig = (webpackConfig as { devServer?: ConstructorParameters<typeof WebpackDevServer>[0] })

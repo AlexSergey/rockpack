@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 
-interface FeatureCardProps {
+type FeatureCardProps = {
   readonly description: string;
   readonly icon: string;
   readonly title: string;
-}
+};
 
 export const FeatureCard = ({ description, icon, title }: FeatureCardProps): ReactElement => (
   <div className="rounded-lg border border-slate-800 bg-slate-900 p-5 transition-colors duration-150 hover:border-slate-700">

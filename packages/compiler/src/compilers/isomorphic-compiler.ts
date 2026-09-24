@@ -11,10 +11,10 @@ import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
 
-interface CompileResult {
+type CompileResult = {
   conf: InternalCompilerConf;
   webpackConfig: Configuration | Configuration[];
-}
+};
 
 export async function isomorphicCompiler(...props: Promise<CompileResult | void>[]): Promise<void> {
   setMode(['development', 'production'], 'development');

@@ -3,10 +3,10 @@ import { isArray, isFunction, isObject } from 'valid-types';
 
 type CollectionEntry = unknown;
 
-interface CollectionOpts {
+type CollectionOpts = {
   data: Record<string, CollectionEntry>;
   props: Record<string, unknown>;
-}
+};
 
 export class Collection {
   dict: Record<string, unknown>;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-interface ClockState {
+type ClockState = {
   color: string;
-}
+};
 
 export class ColorString extends Component<ClockState> {
   override render(): React.ReactNode {

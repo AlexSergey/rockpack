@@ -35,7 +35,7 @@ import { makeResolve } from './make-resolve.js';
 const _require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-interface NodemonOptions {
+type NodemonOptions = {
   [key: string]: unknown;
   ext: string;
   ignore: string[];
@@ -44,7 +44,7 @@ interface NodemonOptions {
   script: string;
   verbose: boolean;
   watch: string;
-}
+};
 
 const getNodemonOptions = async (
   distFolder: string,

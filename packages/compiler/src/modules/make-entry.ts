@@ -9,10 +9,10 @@ import { distExtension } from '../constants.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ssrExt = import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs';
 
-interface EntryResult {
+type EntryResult = {
   context: string;
   entry: Record<string, string | string[]>;
-}
+};
 
 export const makeEntry = (conf: Partial<InternalCompilerConf>, root: string, mode: Mode): EntryResult => {
   if (!isString(conf.src)) {

@@ -21,10 +21,10 @@ import { makeStats } from '../modules/make-stats.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 
-interface MakeResult {
+type MakeResult = {
   conf: InternalCompilerConf;
   webpackConfig: Configuration;
-}
+};
 
 type PostFn = (
   config: Configuration,

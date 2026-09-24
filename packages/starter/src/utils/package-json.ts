@@ -4,10 +4,10 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-interface PackageJson {
+type PackageJson = {
   name: string;
   version: string;
-}
+};
 
 export const packageJson = JSON.parse(
   fs.readFileSync(join(__dirname, '../../', 'package.json'), 'utf8'),

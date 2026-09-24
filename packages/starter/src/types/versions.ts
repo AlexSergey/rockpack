@@ -1,4 +1,4 @@
-export interface Versions {
+export type Versions = {
   component: ComponentConfig;
   csr: {
     common: DependencyGroup;
@@ -11,30 +11,30 @@ export interface Versions {
     common: DependencyGroup;
   };
   tester: TesterConfig;
-}
+};
 
-interface ComponentConfig {
+type ComponentConfig = {
   common: DependencyGroup;
-}
+};
 
-interface DependencyGroup {
+type DependencyGroup = {
   dependencies?: PackageDependency[];
   devDependencies?: PackageDependency[];
   peerDependencies?: PackageDependency[];
-}
+};
 
-interface LibraryConfig {
+type LibraryConfig = {
   common: {
     devDependencies: PackageDependency[];
   };
-}
+};
 
-interface PackageDependency {
+type PackageDependency = {
   name: string;
   version: string;
-}
+};
 
-interface TesterConfig {
+type TesterConfig = {
   common: DependencyGroup;
   react: DependencyGroup;
-}
+};

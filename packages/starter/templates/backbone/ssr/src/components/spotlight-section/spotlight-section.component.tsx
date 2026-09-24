@@ -1,13 +1,13 @@
 import type { ReactElement } from 'react';
 
-interface SpotlightSectionProps {
+type SpotlightSectionProps = {
   readonly badge: string;
   readonly description: string;
   readonly points: readonly string[];
   readonly reversed?: boolean;
   readonly title: string;
   readonly visual: ReactElement;
-}
+};
 
 export const SpotlightSection = ({
   badge,

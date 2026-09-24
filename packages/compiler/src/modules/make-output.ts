@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import type { CompilerConf, Mode } from '../types.js';
 
-interface OutputConfig {
+type OutputConfig = {
   clean: boolean;
   filename: string;
   globalObject?: string;
@@ -11,7 +11,7 @@ interface OutputConfig {
   path: string;
   pathinfo: boolean;
   publicPath: string;
-}
+};
 
 export const makeOutput = (conf: Partial<CompilerConf>, root: string, mode: Mode): OutputConfig => {
   const distPath =

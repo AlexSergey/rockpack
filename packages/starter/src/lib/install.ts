@@ -17,11 +17,11 @@ import { gitInit } from './git-init';
 import { packageJsonPreparing } from './package-json-preparing.ts';
 import { wizard } from './wizard';
 
-interface Timeouts {
+type Timeouts = {
   $el1: null | ReturnType<typeof setTimeout>;
   $el2: null | ReturnType<typeof setTimeout>;
   $el3: null | ReturnType<typeof setTimeout>;
-}
+};
 
 const clear = (timeouts: Timeouts): void => {
   for (const key of Object.keys(timeouts) as (keyof Timeouts)[]) {

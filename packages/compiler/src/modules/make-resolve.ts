@@ -1,9 +1,9 @@
 import path from 'node:path';
 
-interface ResolveConfig {
+type ResolveConfig = {
   extensions: string[];
   modules: string[];
-}
+};
 
 export const makeResolve = (root: string): ResolveConfig => ({
   extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs'],

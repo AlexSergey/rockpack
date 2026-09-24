@@ -1,12 +1,12 @@
-export interface DependencyGroups {
+export type DependencyGroups = {
   dependencies?: Dependency[];
   devDependencies?: Dependency[];
   peerDependencies?: Dependency[];
-}
+};
 
 export type PackageJsonObject = Record<string, unknown>;
 
-interface Dependency {
+type Dependency = {
   name: string;
   version: string;
-}
+};

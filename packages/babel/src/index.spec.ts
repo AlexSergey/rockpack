@@ -8,10 +8,10 @@ import { runInThisContext } from 'node:vm';
 
 import { createBabelPresets } from './index';
 
-interface ProjectFiles {
+type ProjectFiles = {
   readonly babelConfig?: string;
   readonly packageJson?: string;
-}
+};
 
 const projectDirs: string[] = [];
 

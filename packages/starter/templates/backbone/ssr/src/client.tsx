@@ -9,6 +9,8 @@ import './types/global.declarations';
 import { App } from './app';
 
 declare global {
+  // Global augmentation merges with the built-in Window, which only works with an interface.
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     SSR_DATA: IInitState;
   }

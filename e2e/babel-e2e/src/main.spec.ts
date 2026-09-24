@@ -1,6 +1,6 @@
 import { createBabelPresets } from '@rockpack/babel';
 
-interface Config {
+type Config = {
   babelrc: boolean;
   env: {
     production: {
@@ -9,7 +9,7 @@ interface Config {
   };
   plugins: string[][];
   presets: string[][];
-}
+};
 
 describe('babel preset generator', () => {
   it('generates config with babel preset', () => {

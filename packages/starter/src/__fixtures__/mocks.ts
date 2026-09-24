@@ -12,11 +12,11 @@ const createChalk = (): ChalkMock => {
 
 export const chalkModule = { __esModule: true, default: createChalk() };
 
-export interface SpinnerMock {
+export type SpinnerMock = {
   readonly start: jest.Mock<SpinnerMock>;
   readonly stop: jest.Mock;
   text: string;
-}
+};
 
 export const createSpinner = (initialText = ''): SpinnerMock => {
   const spinner: SpinnerMock = {

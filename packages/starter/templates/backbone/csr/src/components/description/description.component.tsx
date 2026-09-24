@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 
-interface DescriptionProps {
+type DescriptionProps = {
   readonly error: boolean;
   readonly loading: boolean;
   readonly text: string;
-}
+};
 
 export const Description = ({ error, loading, text }: DescriptionProps): ReactElement => {
   if (loading) {

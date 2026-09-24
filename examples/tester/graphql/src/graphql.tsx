@@ -5,7 +5,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import React, { createContext, isValidElement, useContext, useRef } from 'react';
 
-interface GraphqlClient {
+type GraphqlClient = {
   axios: AxiosInstance;
   mutation: (
     mutation: GraphqlQuery,
@@ -17,25 +17,25 @@ interface GraphqlClient {
     variables?: Record<string, unknown>,
     config?: AxiosRequestConfig,
   ) => Promise<{ data: unknown }>;
-}
+};
 
-interface GraphqlProps {
+type GraphqlProps = {
   children: ((client: GraphqlClient) => ReactNode) | ReactNode;
   options?: AxiosRequestConfig;
-}
+};
 
 type GraphqlQuery = string | { loc?: { source: { body: string } } };
 
-interface MockGraphqlProps {
+type MockGraphqlProps = {
   children: ReactNode;
   mocks?: MockItem | MockItem[];
-}
+};
 
-interface MockItem {
+type MockItem = {
   data: unknown;
   mutation?: GraphqlQuery;
   query?: GraphqlQuery;
-}
+};
 
 const GraphqlContext = createContext<false | GraphqlClient>(false);
 

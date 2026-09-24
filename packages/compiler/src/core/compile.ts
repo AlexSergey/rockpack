@@ -11,10 +11,10 @@ import { innerProps } from './inner-props.js';
 import { make } from './make.js';
 import { run } from './run.js';
 
-interface CompileResult {
+type CompileResult = {
   conf: InternalCompilerConf;
   webpackConfig: Configuration;
-}
+};
 
 type PostFn = Parameters<typeof make>[1];
 

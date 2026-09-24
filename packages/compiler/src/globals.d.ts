@@ -1,6 +1,6 @@
-interface LiveReloadServer {
+type LiveReloadServer = {
   refresh(path: string): void;
-}
+};
 
 declare global {
   var ISOMORPHIC: boolean | undefined;

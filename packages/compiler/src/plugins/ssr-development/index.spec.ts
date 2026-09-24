@@ -6,10 +6,10 @@ import { SsrDevelopment } from './index.js';
 jest.mock('nodemon', () => jest.fn());
 
 type AfterEmit = (compilation: Compilation, callback: HookCallback) => void;
-interface Compilation {
+type Compilation = {
   assets: Record<string, unknown>;
   errors: unknown[];
-}
+};
 type HookCallback = () => void;
 type WatchRun = (compiler: unknown, callback: HookCallback) => void;
 

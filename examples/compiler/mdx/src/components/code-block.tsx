@@ -5,12 +5,12 @@ import { Highlight } from 'prism-react-renderer';
 import React from 'react';
 import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
 
-interface CodeBlockProps {
+type CodeBlockProps = {
   children?: ReactNode;
   className?: string | undefined;
   live?: boolean | undefined;
   render?: boolean | undefined;
-}
+};
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({ children, className = '', live, render: renderLive }) => {
   const language = className.replace(/language-/, '');

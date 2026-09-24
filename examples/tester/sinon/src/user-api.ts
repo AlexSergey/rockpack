@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-export interface User {
+export type User = {
   avatar: string;
   email: string;
   first_name: string;
   id: number;
   last_name: string;
-}
+};
 
-interface UserApiResponse {
+type UserApiResponse = {
   data: User[];
   page: number;
   total_pages: number;
-}
+};
 
 export async function getPageOfUsers(page: number): Promise<UserApiResponse> {
   const result = await axios({

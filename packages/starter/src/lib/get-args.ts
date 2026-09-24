@@ -2,13 +2,13 @@ import type { AppType } from './wizard';
 
 import { argv } from '../utils/argv';
 
-export interface Args {
+export type Args = {
   appType?: AppType;
   folder?: string;
   noInstall?: boolean;
   testMode: boolean;
   tests?: boolean;
-}
+};
 
 export const getArgs = (): Args => {
   const args: Args = {

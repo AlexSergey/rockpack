@@ -5,10 +5,10 @@ const mockArgv: Record<string, unknown> = {};
 jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => mockArgv })));
 jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
 
-interface Loaded {
+type Loaded = {
   readonly getMode: typeof getMode;
   readonly yargs: jest.Mock;
-}
+};
 
 const load = (): Loaded => {
   let loaded: Loaded | undefined;

@@ -2,18 +2,18 @@ import nodemon from 'nodemon';
 
 import { getOutputFileMeta } from './webpack-utils.js';
 
-interface NodemonOptions {
+type NodemonOptions = {
   [key: string]: unknown;
   script?: string;
   watch?: string;
-}
+};
 
-interface WebpackCompilation {
+type WebpackCompilation = {
   assets: Record<string, unknown>;
   errors: unknown[];
-}
+};
 
-interface WebpackCompilerWithHooks {
+type WebpackCompilerWithHooks = {
   hooks: {
     afterEmit: {
       tapAsync(plugin: { name: string }, fn: (compilation: WebpackCompilation, cb: WebpackHookCallback) => void): void;
@@ -22,7 +22,7 @@ interface WebpackCompilerWithHooks {
   };
   outputPath: string;
   plugin?(event: string, fn: unknown): void;
-}
+};
 
 type WebpackHookCallback = () => void;
 

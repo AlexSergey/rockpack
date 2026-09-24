@@ -13,10 +13,10 @@ jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../core/run.js', () => ({ run: jest.fn() }));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 
-interface CompileResult {
+type CompileResult = {
   conf: InternalCompilerConf;
   webpackConfig: { name: string };
-}
+};
 
 const lrServer = { config: { port: 35729 }, refresh: jest.fn() };
 

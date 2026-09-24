@@ -21,11 +21,11 @@ const getPostcssConfig = (root: string): Record<string, unknown> => {
 };
 
 type LoaderEntry = string | { loader: string; options?: Record<string, unknown> };
-interface StylesRules {
+type StylesRules = {
   css: { module: LoaderEntry[]; simple: LoaderEntry[] };
   less: { module: LoaderEntry[]; simple: LoaderEntry[] };
   scss: { module: LoaderEntry[]; simple: LoaderEntry[] };
-}
+};
 
 export const getStylesRules = (conf: Partial<InternalCompilerConf>, mode: Mode, root: string): StylesRules => {
   const isProduction = mode === 'production';

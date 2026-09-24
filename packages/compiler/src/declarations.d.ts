@@ -4,26 +4,26 @@ declare module 'deep-extend' {
 }
 
 declare module 'find-package-json' {
-  interface Iterator {
+  type Iterator = {
     next(): PackageJSON;
-  }
-  interface PackageJSON {
+  };
+  type PackageJSON = {
     [key: string]: unknown;
     author?: string;
     done?: boolean;
     filename?: string;
     name?: string;
     version?: string;
-  }
+  };
   function finder(path?: string): Iterator;
   export = finder;
 }
 
 declare module 'livereload' {
-  interface LiveReloadServer {
+  type LiveReloadServer = {
     config: { port: number };
     refresh(path: string): void;
-  }
+  };
   function createServer(opts?: Record<string, unknown>): LiveReloadServer;
   export { createServer };
 }
@@ -83,10 +83,10 @@ declare module 'webpack/lib/optimize/FlagIncludedChunksPlugin.js' {
 
 declare module 'webpack-format-messages' {
   import type { Stats } from 'webpack';
-  interface Messages {
+  type Messages = {
     errors: string[];
     warnings: string[];
-  }
+  };
   function formatMessages(stats: Stats): Messages;
   export = formatMessages;
 }

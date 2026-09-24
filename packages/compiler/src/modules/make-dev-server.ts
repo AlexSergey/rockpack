@@ -7,7 +7,7 @@ import { fpPromise } from '../utils/find-free-port.js';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-interface DevServerConfig {
+type DevServerConfig = {
   devMiddleware: { writeToDisk: boolean };
   headers: Record<string, string>;
   historyApiFallback: boolean;
@@ -15,7 +15,7 @@ interface DevServerConfig {
   hot: boolean;
   open: boolean;
   port: number;
-}
+};
 
 export const makeDevServer = async (conf: Partial<CompilerConf>): Promise<DevServerConfig> => ({
   devMiddleware: { writeToDisk: true },

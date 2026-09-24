@@ -5,21 +5,21 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
-export interface CreateBabelPresetsOptions {
+export type CreateBabelPresetsOptions = {
   readonly framework?: Framework;
   readonly isNodejs?: boolean;
   readonly isTest?: boolean;
   readonly modules?: Modules;
   readonly typescript?: boolean;
-}
+};
 
-interface BabelMergeContext {
+type BabelMergeContext = {
   readonly framework: Framework;
   readonly isNodejs: boolean;
   readonly isTest: boolean;
   readonly modules: Modules;
   readonly typescript: boolean;
-}
+};
 
 type BabelMergeFunction = (
   context: BabelMergeContext,
@@ -31,9 +31,9 @@ type Framework = 'none' | 'react';
 
 type Modules = 'amd' | 'auto' | 'cjs' | 'commonjs' | 'systemjs' | 'umd' | false;
 
-interface PackageJson {
+type PackageJson = {
   readonly dependencies?: Readonly<Record<string, string>>;
-}
+};
 
 const _require = createRequire(import.meta.url);
 

@@ -1,10 +1,10 @@
 // Recording stand-ins for webpack plugins: each instance keeps its plugin name and constructor arguments.
 // Use them from jest.mock factories: jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks')
 
-export interface RecordedPlugin {
+export type RecordedPlugin = {
   readonly args: unknown[];
   readonly pluginName: string;
-}
+};
 
 export type RecordingPluginClass = new (...args: unknown[]) => RecordedPlugin;
 

@@ -4,18 +4,18 @@ import chalk from 'chalk';
 
 export type AppType = 'component' | 'csr' | 'library' | 'ssr';
 
-export interface State {
+export type State = {
   appType: AppType | undefined;
   nogit?: boolean;
   projectName?: string;
   tester: boolean | undefined;
   testMode?: boolean;
-}
+};
 
-interface WizardArgs {
+type WizardArgs = {
   appType?: AppType;
   tests?: boolean;
-}
+};
 
 export const wizard = async (args: WizardArgs): Promise<State> => {
   let appType = args.appType;

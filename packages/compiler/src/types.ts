@@ -1,4 +1,4 @@
-export interface CompilerConf {
+export type CompilerConf = {
   analyzer?: boolean;
   banner?: boolean | string;
   cjs?: FormatConf;
@@ -17,9 +17,9 @@ export interface CompilerConf {
   types?: string;
   vendor?: string[];
   version?: string;
-}
+};
 
-export interface HtmlPage {
+export type HtmlPage = {
   code?: null | string | undefined;
   favicon?: null | string | undefined;
   filename?: false | string;
@@ -28,13 +28,13 @@ export interface HtmlPage {
   template?: string;
   templateParameters?: Record<string, unknown>;
   title?: string;
-}
+};
 
 export type InternalCompilerConf = CompilerConf & InternalProps;
 
 export type Mode = 'development' | 'production';
 
-export interface PackageJson {
+export type PackageJson = {
   [key: string]: unknown;
   author?: string;
   description?: string;
@@ -42,21 +42,21 @@ export interface PackageJson {
   license?: string;
   name?: string;
   version?: string;
-}
+};
 
 type CopyConf = CopySpec | CopySpec[] | { files: CopySpec[]; opts?: Record<string, unknown> };
 
-interface CopySpec {
+type CopySpec = {
   from: string;
   to: string;
-}
+};
 
-interface FormatConf {
+type FormatConf = {
   dist: string;
   src: string;
-}
+};
 
-interface InternalProps {
+type InternalProps = {
   __isBackend?: boolean;
   __isIsomorphic?: boolean;
   __isIsomorphicBackend?: boolean;
@@ -67,4 +67,4 @@ interface InternalProps {
   distContext?: string;
   messages?: string[];
   nodejs?: boolean;
-}
+};

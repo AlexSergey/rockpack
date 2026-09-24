@@ -46,10 +46,10 @@ jest.mock('typescript-eslint', () => ({
 
 const gitignoreMock = gitignore as unknown as jest.Mock;
 
-interface ProjectFiles {
+type ProjectFiles = {
   readonly files?: Readonly<Record<string, string>>;
   readonly nestedCwd?: string;
-}
+};
 
 const projectDirs: string[] = [];
 
@@ -239,7 +239,7 @@ describe('makeConfig', () => {
       expect(rules?.['@check-file/folder-naming-convention']).toEqual(['error', { 'src/**/': 'KEBAB_CASE' }]);
     });
 
-    it('limits cognitive complexity and forbids console, default exports and focused tests', () => {
+    it('prefers type aliases, limits cognitive complexity and forbids console, default exports and focused tests', () => {
       createProject();
 
       const { rules } = getTypescriptConfig(makeConfig());
@@ -248,6 +248,7 @@ describe('makeConfig', () => {
         '@import-lite/no-default-export': 'error',
         '@no-only-tests/no-only-tests': 'error',
         '@sonar/cognitive-complexity': ['error', 20],
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
         'no-console': 'error',
       });
     });

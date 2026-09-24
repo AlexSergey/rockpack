@@ -4,9 +4,9 @@ import { renderText } from './render-text';
 import css from './styles/index.module.css';
 import { check } from './utils/nested/check';
 
-interface ClockState {
+type ClockState = {
   color: string;
-}
+};
 
 export class ColorString extends Component<ClockState> {
   override render(): React.ReactNode {

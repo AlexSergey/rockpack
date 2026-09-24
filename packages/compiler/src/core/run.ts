@@ -5,11 +5,11 @@ import type { InternalCompilerConf, Mode } from '../types.js';
 import { sourceCompiler } from '../compilers/source-compiler.js';
 import { log } from '../utils/log.js';
 
-interface RunResult {
+type RunResult = {
   compiler: Compiler | MultiCompiler;
   conf: InternalCompilerConf;
   webpackConfig: Configuration | Configuration[];
-}
+};
 
 type WebpackFn = (
   config: unknown,

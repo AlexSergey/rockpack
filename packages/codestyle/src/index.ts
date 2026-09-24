@@ -21,9 +21,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import tseslint from 'typescript-eslint';
 
-interface PackageJson {
+type PackageJson = {
   readonly dependencies?: Readonly<Record<string, string>>;
-}
+};
 
 const FLAT_IGNORE_FILE = '.eslintflatignore';
 
@@ -136,15 +136,11 @@ export const makeConfig = (): Linter.Config[] => {
       '@sonar/prefer-immediate-return': 'error',
 
       '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/ban-types': 'off',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/explicit-function-return-type': 'warn',
       '@typescript-eslint/naming-convention': [
         'error',
-        {
-          format: ['UPPER_CASE', 'StrictPascalCase'],
-          selector: 'interface',
-        },
         {
           format: ['PascalCase'],
           selector: 'typeLike',
@@ -152,12 +148,6 @@ export const makeConfig = (): Linter.Config[] => {
         {
           format: ['UPPER_CASE', 'StrictPascalCase'],
           selector: 'class',
-        },
-      ],
-      '@typescript-eslint/no-empty-interface': [
-        'error',
-        {
-          allowSingleExtends: true,
         },
       ],
       '@typescript-eslint/no-unused-vars': [

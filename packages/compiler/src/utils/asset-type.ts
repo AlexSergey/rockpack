@@ -1,18 +1,18 @@
 const _4kb = 4 * 1024;
 
-interface AssetRule {
+type AssetRule = {
   generator?: { filename: string };
   parser?: { dataUrlCondition: { maxSize: number } };
   type: string;
-}
+};
 
-interface AssetTypes {
+type AssetTypes = {
   fonts: AssetRule;
   images: AssetRule;
   pdf: AssetRule;
   svg: AssetRule;
   video: AssetRule;
-}
+};
 
 export const createAssetType = (): AssetTypes => ({
   fonts: {
