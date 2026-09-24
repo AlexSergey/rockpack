@@ -73,6 +73,12 @@ jobs:
       - name: Babel e2e
         run: npm test -w e2e/babel-e2e
 
+      - name: Compiler e2e
+        run: npm test -w e2e/compiler-e2e
+
+      - name: Packaging e2e
+        run: npm test -w e2e/packaging-e2e
+
       - name: Tester examples
         run: npx lerna run test --scope='@rockpack/example-tester-*'
 

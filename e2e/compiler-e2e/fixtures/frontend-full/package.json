@@ -1,0 +1,8 @@
+{
+  "name": "frontend-full",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Every frontendCompiler option at once",
+  "license": "MIT",
+  "author": "Rockpack e2e"
+}

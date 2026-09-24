@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="version" content="<%= version %>">
+  <script><%= htmlWebpackPlugin.options.code %></script>
+  <% htmlWebpackPlugin.files.css.forEach(function (css) { %><link href="<%- css %>" rel="stylesheet"><% }); %>
+  <% htmlWebpackPlugin.files.js.forEach(function (js) { %><script src="<%- js %>" defer></script><% }); %>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

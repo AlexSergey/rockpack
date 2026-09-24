@@ -162,6 +162,18 @@
         "*.ts"
       ]
     },
+    "e2e/compiler-e2e": {
+      "entry": [
+        "src/**/*.spec.ts",
+        "fixtures/*/scripts.*.ts",
+        "fixtures/*/src/**/*.{ts,tsx}"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "fixtures/**/*.{ts,tsx}",
+        "*.ts"
+      ]
+    },
     "e2e/starter-e2e": {
       "entry": [
         "src/**/*.spec.ts",

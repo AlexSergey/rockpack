@@ -86,6 +86,7 @@ test-reports
 
 # dotenv environment variables file
 .env
+!e2e/compiler-e2e/fixtures/*/.env
 
 # Custom rules
 packages/babel/lib/
