@@ -128,6 +128,18 @@ describe('isomorphicCompiler', () => {
       expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
 
+    it('starts no live reload server in production', async () => {
+      (getMode as jest.Mock).mockReturnValue('production');
+      (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+        result(conf.compilerName ?? '', { dist: conf.dist ?? '' }),
+      );
+
+      await isomorphicCompiler({ backend: { dist: 'dist/index.js' }, frontend: { dist: 'public/index.js' } });
+
+      expect(createServer).not.toHaveBeenCalled();
+      expect(compile).toHaveBeenCalledWith(expect.anything(), null, true, { configOnly: true, isomorphic: true });
+    });
+
     it('runs every webpack config together', async () => {
       await isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'));
 

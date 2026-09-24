@@ -53,6 +53,20 @@ describe('validateConf', () => {
       ]);
     });
 
+    it('reports a wrong type at the container level', () => {
+      expect(messages({ global: 'x', html: 'page', vendor: 'react' })).toEqual([
+        'global must be an object',
+        'html must be an object',
+        'vendor must be an array',
+      ]);
+    });
+
+    it('throws a single problem as it is', () => {
+      expect(() => {
+        assertValidConf({ ...valid, src: 1 } as unknown as Partial<InternalCompilerConf>);
+      }).toThrow(new RockpackError('INVALID_ENTRY', 'src must be a string'));
+    });
+
     it('throws every problem at once with the code of the first', () => {
       expect(() => {
         assertValidConf({ ...valid, debug: 'no', port: 0 } as unknown as Partial<InternalCompilerConf>);

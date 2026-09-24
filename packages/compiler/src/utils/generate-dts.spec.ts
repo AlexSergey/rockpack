@@ -41,6 +41,16 @@ describe('generateDts', () => {
       expect(existsSync(path.join(root, 'dist'))).toBe(false);
     });
 
+    it('emits nothing when the entry folder has no TypeScript files', async () => {
+      const jsDir = path.join(root, 'js-only');
+      cpSync(path.join(root, 'src'), jsDir, { filter: (file) => !/\.tsx?$/.test(file), recursive: true });
+      writeFileSync(path.join(jsDir, 'index.js'), 'export const value = 1;\n');
+
+      await generateDts({ dist: 'dist/index.js', src: 'js-only/index' }, root);
+
+      expect(existsSync(path.join(root, 'dist'))).toBe(false);
+    });
+
     it('emits no declarations for specs', async () => {
       writeFileSync(
         path.join(root, 'src', 'index.spec.ts'),

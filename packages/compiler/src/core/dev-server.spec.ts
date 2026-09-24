@@ -44,6 +44,12 @@ describe('devServer', () => {
       expect(start).toHaveBeenCalled();
     });
 
+    it('starts with an empty config when webpack has no devServer section', async () => {
+      await devServer(running({}));
+
+      expect(WebpackDevServerMock).toHaveBeenCalledWith({}, expect.anything());
+    });
+
     it('does not resolve before the server listens', async () => {
       let listening = false;
       start.mockImplementationOnce(async () => {
