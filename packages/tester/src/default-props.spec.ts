@@ -2,14 +2,14 @@ import { defaultProps } from './default-props.js';
 
 describe('defaultProps', () => {
   describe('negative cases', () => {
-    it('does not enable watch mode', () => {
-      expect(defaultProps.watch).toBe(false);
+    it('does not enable watch or serial mode', () => {
+      expect([defaultProps.watch, defaultProps.serial]).toEqual([false, false]);
     });
   });
 
   describe('positive cases', () => {
     it('matches spec and test files under ./src', () => {
-      expect(defaultProps).toEqual({ prefix: '(spec|test)', src: './src', watch: false });
+      expect(defaultProps).toEqual({ prefix: '(spec|test)', serial: false, src: './src', watch: false });
     });
   });
 });

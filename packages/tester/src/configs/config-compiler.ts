@@ -84,9 +84,17 @@ export const configCompiler = (
 
   const watch = options.watch === true;
   const noWatch = !watch;
+  const serial = options.serial === true;
 
   if (noWatch) {
     config.collectCoverage ??= true;
+    // Counting every source file, not only the imported ones, keeps the coverage honest.
+    config.collectCoverageFrom ??= [
+      ...src.map((dir) => `${dir.replace(/^\.\//, '')}/**/*.{ts,tsx,js,jsx}`),
+      '!**/*.d.ts',
+      '!**/*.spec.*',
+      '!**/*.test.*',
+    ];
     config.coverageReporters ??= ['json', 'html', 'text-summary', 'lcov'];
     config.reporters ??= [
       'default',
@@ -104,9 +112,9 @@ export const configCompiler = (
 
   return {
     config: JSON.stringify({ ...config }),
-    maxWorkers: 1,
-    noCache: noWatch,
-    runInBand: noWatch,
+    ...(serial ? { maxWorkers: 1 } : {}),
+    noCache: serial && noWatch,
+    runInBand: serial && noWatch,
     testMatch: createTestMatch(src, options.prefix),
     watch,
   };

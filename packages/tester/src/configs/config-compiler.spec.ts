@@ -137,17 +137,45 @@ describe('configCompiler', () => {
       const compiled = compile({ watch: true });
       const config = parseConfig(compiled);
 
-      expect(compiled).toMatchObject({ maxWorkers: 1, noCache: false, runInBand: false, watch: true });
+      expect(compiled).toMatchObject({ noCache: false, runInBand: false, watch: true });
+      expect(compiled).not.toHaveProperty('maxWorkers');
       expect(config.collectCoverage).toBeUndefined();
       expect(config.coverageReporters).toBeUndefined();
       expect(config.reporters).toBeUndefined();
     });
 
-    it('forces coverage and the html reporter outside of watch mode', () => {
+    it('runs in parallel with cache by default', () => {
       const compiled = compile();
-      const config = parseConfig(compiled);
 
-      expect(compiled).toMatchObject({ maxWorkers: 1, noCache: true, runInBand: true, watch: false });
+      expect(compiled).toMatchObject({ noCache: false, runInBand: false, watch: false });
+      expect(compiled).not.toHaveProperty('maxWorkers');
+    });
+
+    it('runs one test file at a time without cache in serial mode', () => {
+      expect(compile({ serial: true })).toMatchObject({ maxWorkers: 1, noCache: true, runInBand: true });
+    });
+
+    it('keeps watch mode fast in serial mode', () => {
+      expect(compile({ serial: true, watch: true })).toMatchObject({ maxWorkers: 1, noCache: false, runInBand: false });
+    });
+
+    it('collects coverage from every source file of the src folders', () => {
+      expect(parseConfig(compile({ src: ['./src', 'lib'] })).collectCoverageFrom).toEqual([
+        'src/**/*.{ts,tsx,js,jsx}',
+        'lib/**/*.{ts,tsx,js,jsx}',
+        '!**/*.d.ts',
+        '!**/*.spec.*',
+        '!**/*.test.*',
+      ]);
+    });
+
+    it('keeps the collectCoverageFrom of the project', () => {
+      expect(parseConfig(compile({}, { collectCoverageFrom: ['app/**'] })).collectCoverageFrom).toEqual(['app/**']);
+    });
+
+    it('forces coverage and the html reporter outside of watch mode', () => {
+      const config = parseConfig(compile());
+
       expect(config.collectCoverage).toBe(true);
       expect(config.coverageReporters).toEqual(['json', 'html', 'text-summary', 'lcov']);
       expect(config.reporters).toEqual([
