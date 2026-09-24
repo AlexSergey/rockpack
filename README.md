@@ -166,14 +166,30 @@ The **Rockpack** project was inspired by:
 
 ## Contributing
 
+Requirements: Node.js 24 (see `.nvmrc`) and npm 11. `npm install` also installs the git hooks: `pre-commit` lints the staged files, `pre-push` runs the full lint and the unit tests.
+
 The packages are tested with the built `@rockpack/tester` from `packages/tester/lib`, so build before running tests:
 
 ```sh
 npm install
-npm run build
-npm test          # all workspaces: package unit tests, examples and e2e
-npm run test:unit # unit tests of the packages only
+npm run build      # builds the packages in dependency order
+npm run lint       # ESLint and tsc in every workspace
+npm run lint:deps  # syncpack (one version per dependency) and knip (unused files and dependencies)
+npm run test:unit  # unit tests of the packages
+npm test           # all workspaces: package unit tests, examples and e2e
 ```
+
+CI (`.github/workflows/ci.yml`) runs the same checks on every push and pull request, builds the compiler examples, and runs the starter e2e nightly.
+
+### Updating dependencies
+
+```sh
+npm run updater -- --dry-run    # print the plan, write nothing
+npm run updater -- --no-major   # skip major updates and list them at the end
+npm run updater
+```
+
+The updater bumps every workspace to the latest versions, skips an update when it would break a peer range of another dependency, and updates the dependency majors the starter writes into generated projects (`packages/starter/src/versions.json`).
 
 ### Release
 
@@ -184,6 +200,8 @@ npm run version:set -- 9.0.0
 ```
 
 The script validates the version, then updates `lerna.json`, the root and every workspace `package.json`, and the `@rockpack/*` cross-references. It reads all files before writing any, so a malformed file leaves the tree untouched.
+
+Publish with `npm run production`: every package runs its lint and `npm publish`, and `prepublishOnly` rebuilds the package first.
 
 # The MIT License
 
