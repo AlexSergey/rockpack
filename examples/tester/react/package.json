@@ -12,7 +12,7 @@
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
     "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts watch"
+    "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
     "react": "19.3.0",

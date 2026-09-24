@@ -11,7 +11,9 @@ export type { TesterOptions };
 const tester = (opts: Partial<TesterOptions> = {}, projectConfig: Partial<Config.InitialOptions> = {}): void => {
   setMode(['development', 'production', 'test'], 'test');
 
-  init(opts, projectConfig).catch(console.error);
+  const options = typeof opts.watch === 'boolean' ? opts : { ...opts, watch: process.argv.includes('--watch') };
+
+  init(options, projectConfig).catch(console.error);
 };
 
 export { tester };

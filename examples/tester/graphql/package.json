@@ -14,7 +14,7 @@
     "lint:ts": "tsc --noEmit",
     "start": "cross-env NODE_ENV=development tsx scripts.build.ts",
     "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts watch"
+    "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
     "axios": "1.16.1",

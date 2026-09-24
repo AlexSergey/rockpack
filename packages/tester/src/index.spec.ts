@@ -52,12 +52,40 @@ describe('tester', () => {
       expect(initMock).toHaveBeenCalledWith(opts, projectConfig);
     });
 
-    it('defaults the options and project config to empty objects', () => {
+    it('defaults to no watch and an empty project config', () => {
       initMock.mockResolvedValue();
 
       tester();
 
-      expect(initMock).toHaveBeenCalledWith({}, {});
+      expect(initMock).toHaveBeenCalledWith({ watch: false }, {});
+    });
+
+    it('reads --watch from the command line when watch is not passed', () => {
+      initMock.mockResolvedValue();
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', '--watch'];
+
+      try {
+        tester({ src: './app' });
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith({ src: './app', watch: true }, {});
+    });
+
+    it('lets an explicit watch option win over the command line', () => {
+      initMock.mockResolvedValue();
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', '--watch'];
+
+      try {
+        tester({ watch: false });
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith({ watch: false }, {});
     });
   });
 });
