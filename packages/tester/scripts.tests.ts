@@ -6,6 +6,7 @@ tester(
   { src: './src', watch },
   {
     collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/*.spec.ts', '!src/__fixtures__/**'],
+    coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 85 } },
     testEnvironment: 'node',
   },
 );

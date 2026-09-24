@@ -160,6 +160,8 @@ The tester is tested by its own built `lib`, so `npm run build:tester` must run 
 
 Exit: thresholds 85/85/85/80.
 
+Status: done on 2026-09-24. Actual coverage 100/95.45/100/100 (46 tests); the only uncovered branch is the `.mjs` side of the `import.meta.url` extension check, which the CJS test build cannot reach. Found and fixed along the way: `configCompiler` returned `watch: undefined` instead of `false` when watch was not requested (`options.watch || opts['watch']`, and deep-extend copies explicit `undefined`); it is now `options.watch === true`. `@rockpack/codestyle` gained a `**/__fixtures__/**` override that turns off `@check-file/folder-naming-convention`, otherwise the fixture layout from ground rule 2 fails lint. The shared `mockProcessExit()` helper lives in `src/__fixtures__/process-exit.ts`.
+
 ## 8. Phase 4: `@rockpack/codestyle` (size M)
 
 `makeConfig` imports about 17 ESLint plugins at module level, several of them ESM-only. Mock every plugin import with a factory that returns a minimal stub (`{ configs: {}, rules: {} }` or the shape `makeConfig` reads), and mock `eslint-config-flat-gitignore` with a `jest.fn()` that records its arguments. The test then asserts on the structure that `makeConfig` builds, not on ESLint internals.
