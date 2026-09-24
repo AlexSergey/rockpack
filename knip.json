@@ -1,0 +1,203 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreWorkspaces": [
+    "book",
+    "examples/**"
+  ],
+  "ignoreBinaries": [
+    "cloc",
+    "yarnpkg"
+  ],
+  "workspaces": {
+    ".": {
+      "entry": [
+        "tools/**/*.ts"
+      ],
+      "project": [
+        "*.{ts,mjs}",
+        "tools/**/*.ts"
+      ],
+      "ignoreDependencies": [
+        "cross-env"
+      ]
+    },
+    "packages/*": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*"
+      ]
+    },
+    "packages/babel": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*",
+        "react-compiler-runtime"
+      ]
+    },
+    "packages/codestyle": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*",
+        "@commitlint/*",
+        "eslint-plugin-json",
+        "stylelint",
+        "stylelint-*"
+      ]
+    },
+    "packages/compiler": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "src/plugins/reloader/ssr.ts",
+        "src/configs/postcss.config.cjs",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.{ts,cjs}",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignore": [
+        "src/__fixtures__/**"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*",
+        "@graphql-tools/webpack-loader",
+        "@svgr/webpack",
+        "babel-loader",
+        "css-loader",
+        "dts-css-modules-loader",
+        "html-loader",
+        "less-loader",
+        "markdown-loader",
+        "node-loader",
+        "postcss-loader",
+        "sass-loader",
+        "shader-loader",
+        "style-loader",
+        "svgo-loader",
+        "wasm-loader",
+        "sharp",
+        "svgo",
+        "source-map-support"
+      ]
+    },
+    "packages/starter": {
+      "entry": [
+        "src/bin/index.ts",
+        "src/**/*.spec.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "*.ts"
+      ]
+    },
+    "packages/tester": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "src/modules/file-transformer.ts",
+        "src/modules/identity-obj-proxy.ts",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*",
+        "babel-jest",
+        "jest-environment-jsdom",
+        "jest-html-reporters"
+      ]
+    },
+    "packages/tsconfig": {
+      "entry": [],
+      "project": []
+    },
+    "e2e/*": {
+      "entry": [
+        "src/**/*.spec.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "*.ts"
+      ]
+    },
+    "packages/utils": {
+      "entry": [
+        "src/index.ts",
+        "src/**/*.spec.ts",
+        "src/polyfills/text-encoder.fix.ts",
+        "scripts/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@babel/*",
+        "babel-plugin-*"
+      ]
+    },
+    "e2e/starter-e2e": {
+      "entry": [
+        "src/**/*.spec.ts",
+        "src/csr.server.ts",
+        "jest.setup.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "*.ts"
+      ],
+      "ignoreDependencies": [
+        "@issr/*",
+        "@koa/router",
+        "@testing-library/*",
+        "@types/koa__router",
+        "@types/serialize-javascript",
+        "@unhead/react",
+        "axios-mock-adapter",
+        "react",
+        "react-dom",
+        "serialize-javascript",
+        "source-map",
+        "stylelint-config-*"
+      ]
+    }
+  }
+}

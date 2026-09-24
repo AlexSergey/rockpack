@@ -26,7 +26,8 @@
     "test:unit": "lerna run test --scope=@rockpack/babel --scope=@rockpack/utils --scope=@rockpack/tester --scope=@rockpack/codestyle --scope=@rockpack/starter --scope=@rockpack/compiler",
     "cloc": "tsx cloc.ts",
     "updater": "tsx updater.ts",
-    "version:set": "tsx version.ts"
+    "version:set": "tsx version.ts",
+    "lint:deps": "syncpack lint && knip"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",
@@ -37,12 +38,15 @@
     "@types/semver": "7.8.0",
     "@types/yargs": "17.0.35",
     "cross-env": "10.1.0",
+    "eslint": "10.4.0",
+    "knip": "6.38.0",
     "latest-version": "9.0.0",
     "lerna": "9.0.7",
     "lint-staged": "17.5.1",
     "semver": "7.8.1",
     "simple-git-hooks": "2.13.1",
     "sort-package-json": "3.6.1",
+    "syncpack": "15.3.3",
     "tsx": "4.23.15",
     "typescript": "6.0.3",
     "yargs": "18.0.0"
