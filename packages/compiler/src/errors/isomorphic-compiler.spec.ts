@@ -1,5 +1,6 @@
 import {
   backendIsRequired,
+  distsMustDiffer,
   frontendIsRequired,
   moreThanOneCompilerIsRequired,
   optionIsRequired,
@@ -9,11 +10,14 @@ describe('isomorphic compiler errors', () => {
   describe('negative cases', () => {
     it('explains which compilers are missing or unsupported', () => {
       expect(
-        [backendIsRequired(), frontendIsRequired(), moreThanOneCompilerIsRequired()].map((e) => e.message),
+        [backendIsRequired(), frontendIsRequired(), moreThanOneCompilerIsRequired(), distsMustDiffer()].map(
+          (e) => e.message,
+        ),
       ).toEqual([
         'backendCompiler is required to set isomorphicCompiler',
         'isomorphicCompiler supported only frontendCompiler',
         'You should set more then 1 compiler. For example: backendCompiler and frontendCompiler',
+        'frontendCompiler and backendCompiler write to the same file: set a different dist, for example public for the frontend',
       ]);
     });
   });

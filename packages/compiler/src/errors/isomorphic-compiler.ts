@@ -14,3 +14,9 @@ export const moreThanOneCompilerIsRequired = (): RockpackError =>
 
 export const optionIsRequired = (compilerName: string, option: string): RockpackError =>
   new RockpackError('INVALID_CONFIG', `You should set ${option} option to ${compilerName}`);
+
+export const distsMustDiffer = (): RockpackError =>
+  new RockpackError(
+    'INVALID_CONFIG',
+    'frontendCompiler and backendCompiler write to the same file: set a different dist, for example public for the frontend',
+  );

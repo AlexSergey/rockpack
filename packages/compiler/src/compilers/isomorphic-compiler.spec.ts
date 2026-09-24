@@ -19,9 +19,11 @@ type CompileResult = {
 
 const lrServer = { close: jest.fn(), config: { port: 35729 }, refresh: jest.fn() };
 
+const DISTS: Record<string, string> = { backendCompiler: 'dist/index.js', frontendCompiler: 'public/index.js' };
+
 const result = (compilerName: string, overrides: Partial<InternalCompilerConf> = {}): Promise<CompileResult> =>
   Promise.resolve({
-    conf: { compilerName, dist: 'dist/index.js', src: 'src/index.ts', ...overrides },
+    conf: { compilerName, dist: DISTS[compilerName] ?? 'dist/index.js', src: 'src/index.ts', ...overrides },
     webpackConfig: { name: compilerName },
   });
 
@@ -70,6 +72,13 @@ describe('isomorphicCompiler', () => {
       await expect(
         isomorphicCompiler(result('frontendCompiler'), result('backendCompiler', { [option]: undefined })),
       ).rejects.toThrow(`You should set ${option} option to backendCompiler`);
+      expect(lrServer.close).toHaveBeenCalled();
+    });
+
+    it('exits when the frontend and the backend write to the same file', async () => {
+      await expect(
+        isomorphicCompiler(result('frontendCompiler', { dist: 'dist/index.js' }), result('backendCompiler')),
+      ).rejects.toThrow('frontendCompiler and backendCompiler write to the same file');
       expect(lrServer.close).toHaveBeenCalled();
     });
 

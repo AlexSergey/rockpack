@@ -2,6 +2,7 @@ import type { Configuration } from 'webpack';
 
 import { getMode, setMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
+import path from 'node:path';
 import { isUndefined } from 'valid-types';
 import webpack from 'webpack';
 
@@ -36,6 +37,11 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
         throw errors.optionIsRequired(prop.compilerName ?? '', option);
       }
     }
+  }
+
+  const dists = configs.map((prop) => path.resolve(prop.dist));
+  if (new Set(dists).size < dists.length) {
+    throw errors.distsMustDiffer();
   }
 };
 

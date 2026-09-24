@@ -52,6 +52,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - Generated libraries and components publish only their built files, and the component `types` path points at the emitted declarations
 - `@rockpack/compiler` emits no declarations for specs and fixtures
 - `@rockpack/compiler`: the `vendor` option moves the listed modules into `vendor.js` only (the main entry now `dependOn`s it); before, they were bundled into both files
+- `@rockpack/compiler`: `isomorphicCompiler` fails with `INVALID_CONFIG` when the frontend and the backend write to the same file (one bundle silently overwrote the other)
 - Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
 - Generated ssr projects listen on `PORT` from `.env` (the template shipped `PORT=8888` but always listened on `4000`)
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
