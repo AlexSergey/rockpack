@@ -1,7 +1,7 @@
 import { getMode } from './get-mode.js';
 
 const originalArgv = process.argv;
-const originalNodeEnv = process.env.NODE_ENV;
+const originalNodeEnv = process.env['NODE_ENV'];
 
 const setArgs = (...args: string[]): void => {
   process.argv = ['node', 'script.js', ...args];
@@ -10,12 +10,12 @@ const setArgs = (...args: string[]): void => {
 describe('getMode', () => {
   beforeEach(() => {
     setArgs();
-    delete process.env.NODE_ENV;
+    delete process.env['NODE_ENV'];
   });
 
   afterEach(() => {
     process.argv = originalArgv;
-    process.env.NODE_ENV = originalNodeEnv;
+    process.env['NODE_ENV'] = originalNodeEnv;
   });
 
   describe('negative cases', () => {
@@ -27,14 +27,14 @@ describe('getMode', () => {
 
     it('falls back to NODE_ENV when --mode has no value', () => {
       setArgs('--mode');
-      process.env.NODE_ENV = 'production';
+      process.env['NODE_ENV'] = 'production';
 
       expect(getMode()).toBe('production');
     });
 
     it('does not take the next flag as the --mode value', () => {
       setArgs('--mode', '--debug');
-      process.env.NODE_ENV = 'production';
+      process.env['NODE_ENV'] = 'production';
 
       expect(getMode()).toBe('production');
     });
@@ -46,7 +46,7 @@ describe('getMode', () => {
     });
 
     it('falls back to the default mode when NODE_ENV is not an allowed mode', () => {
-      process.env.NODE_ENV = 'test';
+      process.env['NODE_ENV'] = 'test';
 
       expect(getMode()).toBe('development');
     });
@@ -55,7 +55,7 @@ describe('getMode', () => {
   describe('positive cases', () => {
     it('prefers --mode=value over NODE_ENV', () => {
       setArgs('--mode=production');
-      process.env.NODE_ENV = 'development';
+      process.env['NODE_ENV'] = 'development';
 
       expect(getMode()).toBe('production');
     });
@@ -67,7 +67,7 @@ describe('getMode', () => {
     });
 
     it('uses NODE_ENV when --mode is not set', () => {
-      process.env.NODE_ENV = 'production';
+      process.env['NODE_ENV'] = 'production';
 
       expect(getMode()).toBe('production');
     });

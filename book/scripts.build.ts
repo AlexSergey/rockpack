@@ -16,7 +16,7 @@ void frontendCompiler(
       test: /\.example$/,
       use: [{ loader: 'raw-loader' }],
     });
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env['NODE_ENV'] === 'production') {
       plugins.set(
         'PrerenderSPAPlugin',
         new PrerenderSPAPlugin({

@@ -21,7 +21,7 @@ export const getMode = (
   modes: readonly string[] = ['development', 'production'],
   defaultMode = 'development',
 ): string => {
-  const mode = readModeArgument(process.argv.slice(2)) ?? process.env.NODE_ENV ?? defaultMode;
+  const mode = readModeArgument(process.argv.slice(2)) ?? process.env['NODE_ENV'] ?? defaultMode;
 
   return modes.includes(mode) ? mode : defaultMode;
 };

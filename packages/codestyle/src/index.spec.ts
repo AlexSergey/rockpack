@@ -125,7 +125,7 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.parserOptions).toEqual({ project: './tsconfig.json' });
+      expect(languageOptions?.['parserOptions']).toEqual({ project: './tsconfig.json' });
     });
 
     it('adds no ignore config when .eslintflatignore is not found', () => {
@@ -177,7 +177,7 @@ describe('makeConfig', () => {
       const config = findByFiles(makeConfig(), '**/*.{js,jsx,mjs,cjs}');
 
       expect(config?.rules).toEqual({ 'js/marker': 'error' });
-      expect(config?.languageOptions?.globals).toMatchObject({ describe: false, document: false, process: false });
+      expect(config?.languageOptions?.['globals']).toMatchObject({ describe: false, document: false, process: false });
     });
 
     it('adds the react hooks and @eslint-react block when react is a dependency', () => {
@@ -198,7 +198,7 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.parserOptions).toEqual({ project: path.join(dir, 'tsconfig.json') });
+      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.json') });
     });
 
     it('prefers tsconfig.eslint.json over tsconfig.json', () => {
@@ -206,7 +206,7 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.parserOptions).toEqual({ project: path.join(dir, 'tsconfig.eslint.json') });
+      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.eslint.json') });
     });
 
     it('adds the ignore config from .eslintflatignore in the current directory', () => {
@@ -278,7 +278,7 @@ describe('makeConfig', () => {
       const config = findByFiles(makeConfig(), '**/*.spec.{ts,tsx}');
 
       expect(config?.files).toContain('**/__fixtures__/**');
-      expect(config?.languageOptions?.globals).toMatchObject({ describe: false, expect: false, jest: false });
+      expect(config?.languageOptions?.['globals']).toMatchObject({ describe: false, expect: false, jest: false });
       expect(config?.rules).toEqual({
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/unbound-method': 'off',

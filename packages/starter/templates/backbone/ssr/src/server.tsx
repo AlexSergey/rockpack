@@ -52,7 +52,7 @@ router.get(/.*/, async (ctx: Context) => {
 
 app.use(router.routes()).use(router.allowedMethods());
 
-const port = Number(process.env.PORT ?? 4000);
+const port = Number(process.env['PORT'] ?? 4000);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console

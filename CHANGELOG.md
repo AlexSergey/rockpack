@@ -33,6 +33,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed
 - **Breaking:** `@rockpack/tester` runs suites in parallel with the Jest cache by default; pass `serial: true` for the previous one-by-one behaviour
 - **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)
+- **Breaking:** `@rockpack/tsconfig` turns on `noPropertyAccessFromIndexSignature` (and states `useUnknownInCatchVariables`): read index signatures with brackets, for example `process.env['API_URL']`; webpack and dotenv still inline them. To keep the old behaviour set `"noPropertyAccessFromIndexSignature": false` in your `tsconfig.json`
 - `@rockpack/babel`: `react-compiler-runtime` is an optional peer dependency (only needed on React 17 and 18); unused dependencies were removed from babel, compiler, codestyle, tester, utils and starter
 - `@rockpack/babel` test mode keeps a module-level `const __filename = fileURLToPath(import.meta.url)` working under `@rockpack/tester`
 - `@rockpack/utils` reads `--mode` without yargs and has no import-time side effects

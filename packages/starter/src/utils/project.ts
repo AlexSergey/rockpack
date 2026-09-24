@@ -84,15 +84,15 @@ export const writePackageJSON = (currentPath: string, packageJSON: PackageJsonOb
    *  - @types/koa__router
    * This fix important only in generation stage, after generation package json will be sorted by eslint-plugin-package-json
    * */
-  if (sorted.devDependencies) {
-    const orderedKeys = Object.keys(sorted.devDependencies);
+  if (sorted['devDependencies']) {
+    const orderedKeys = Object.keys(sorted['devDependencies']);
     const indexA = orderedKeys.indexOf('@types/koa__router');
     const indexB = orderedKeys.indexOf('@types/koa-static');
 
     if (indexA >= 0 && indexB >= 0) {
       [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB]!, orderedKeys[indexA]!];
-      sorted.devDependencies = Object.fromEntries(
-        orderedKeys.map((key) => [key, (sorted.devDependencies as Record<string, unknown>)[key]]),
+      sorted['devDependencies'] = Object.fromEntries(
+        orderedKeys.map((key) => [key, (sorted['devDependencies'] as Record<string, unknown>)[key]]),
       );
     }
   }

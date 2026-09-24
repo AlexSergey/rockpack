@@ -53,7 +53,7 @@ export const makeConfig = (): Linter.Config[] => {
     ...makeStyleConfigs(),
     makeTypescriptConfig(findTsConfig(root)),
     ...makeFileTypeConfigs(),
-    makeReactConfig(isString(packageJson.dependencies?.react)),
+    makeReactConfig(isString(packageJson.dependencies?.['react'])),
     ...makeOverrideConfigs(),
     ...makeTestConfigs(),
   ];

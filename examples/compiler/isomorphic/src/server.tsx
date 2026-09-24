@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 
 import { App } from './app';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env['NODE_ENV'] === 'production';
 const app = express();
 
 app.use(express.static('public'));

@@ -19,7 +19,7 @@ void frontendCompiler(
       exclude: [/elm-stuff/, /node_modules/],
       test: /\.elm$/,
       use:
-        process.env.NODE_ENV === 'development'
+        process.env['NODE_ENV'] === 'development'
           ? [
               {
                 loader: 'elm-webpack-loader',

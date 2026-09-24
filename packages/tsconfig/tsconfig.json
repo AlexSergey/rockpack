@@ -28,6 +28,8 @@
     "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useUnknownInCatchVariables": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
     "preserveConstEnums": true
