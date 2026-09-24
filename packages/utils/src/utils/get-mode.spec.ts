@@ -2,7 +2,23 @@ import type { getMode } from './get-mode.js';
 
 const mockArgv: Record<string, unknown> = {};
 
-jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => mockArgv })));
+type MockParser = {
+  help: () => MockParser;
+  parseSync: () => Record<string, unknown>;
+  version: () => MockParser;
+};
+
+jest.mock('yargs', () =>
+  jest.fn(() => {
+    const parser: MockParser = {
+      help: () => parser,
+      parseSync: (): Record<string, unknown> => mockArgv,
+      version: () => parser,
+    };
+
+    return parser;
+  }),
+);
 jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
 
 type Loaded = {
@@ -38,6 +54,10 @@ describe('getMode', () => {
   });
 
   describe('negative cases', () => {
+    it('does not parse the command line on import', () => {
+      expect(load().yargs).not.toHaveBeenCalled();
+    });
+
     it('falls back to the default mode when --mode is not an allowed mode', () => {
       mockArgv['mode'] = 'staging';
 
@@ -59,8 +79,12 @@ describe('getMode', () => {
   });
 
   describe('positive cases', () => {
-    it('parses process.argv without the node binary and script path', () => {
-      expect(load().yargs).toHaveBeenCalledWith(process.argv.slice(2));
+    it('parses process.argv without the node binary and script path when called', () => {
+      const loaded = load();
+
+      loaded.getMode();
+
+      expect(loaded.yargs).toHaveBeenCalledWith(process.argv.slice(2));
     });
 
     it('prefers --mode over NODE_ENV', () => {

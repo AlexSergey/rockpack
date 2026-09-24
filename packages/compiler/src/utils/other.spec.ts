@@ -1,4 +1,4 @@
-import { capitalize, getMajorVersion, getRandomInt, getTitle } from './other.js';
+import { capitalize, getRandomInt, getTitle } from './other.js';
 
 describe('other utils', () => {
   afterEach(() => {
@@ -8,14 +8,6 @@ describe('other utils', () => {
   describe('negative cases', () => {
     it('returns an empty string when capitalizing a non-string', () => {
       expect(capitalize(42 as unknown as string)).toBe('');
-    });
-
-    it('returns false for a version without a dot', () => {
-      expect(getMajorVersion('19')).toBe(false);
-    });
-
-    it('returns false for a non-string version', () => {
-      expect(getMajorVersion(19 as unknown as string)).toBe(false);
     });
 
     it('returns false for a missing package.json', () => {
@@ -31,10 +23,6 @@ describe('other utils', () => {
   describe('positive cases', () => {
     it('capitalizes the first letter', () => {
       expect(capitalize('esm')).toBe('Esm');
-    });
-
-    it('returns the major part of a version', () => {
-      expect(getMajorVersion('19.2.0')).toBe('19');
     });
 
     it('turns underscores in the package name into spaces', () => {

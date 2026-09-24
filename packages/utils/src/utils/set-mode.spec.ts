@@ -2,7 +2,23 @@ import type { setMode } from './set-mode.js';
 
 const mockArgv: Record<string, unknown> = {};
 
-jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => mockArgv })));
+type MockParser = {
+  help: () => MockParser;
+  parseSync: () => Record<string, unknown>;
+  version: () => MockParser;
+};
+
+jest.mock('yargs', () =>
+  jest.fn(() => {
+    const parser: MockParser = {
+      help: () => parser,
+      parseSync: (): Record<string, unknown> => mockArgv,
+      version: () => parser,
+    };
+
+    return parser;
+  }),
+);
 jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
 
 type Loaded = {

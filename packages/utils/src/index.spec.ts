@@ -1,6 +1,22 @@
 import * as utils from './index.js';
 
-jest.mock('yargs', () => jest.fn(() => ({ parseSync: (): Record<string, unknown> => ({}) })));
+type MockParser = {
+  help: () => MockParser;
+  parseSync: () => Record<string, unknown>;
+  version: () => MockParser;
+};
+
+jest.mock('yargs', () =>
+  jest.fn(() => {
+    const parser: MockParser = {
+      help: () => parser,
+      parseSync: (): Record<string, unknown> => ({}),
+      version: () => parser,
+    };
+
+    return parser;
+  }),
+);
 jest.mock('yargs/helpers', () => ({ hideBin: (argv: string[]): string[] => argv.slice(2) }));
 
 describe('@rockpack/utils', () => {
