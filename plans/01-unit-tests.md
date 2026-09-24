@@ -127,7 +127,7 @@ Positive cases:
 - defaults: `framework: 'none'`, no react preset, preset-env with `browsers: ['> 5%']`, `modules: false`, pipeline/do-expressions/decorators plugins present, `env.production` is `{}`;
 - `isNodejs: true` gives `targets: { node: 'current' }`;
 - `modules: 'commonjs'` is forwarded to preset-env;
-- `core-js` in `dependencies` gives `corejs: '<version>'` and `useBuiltIns: 'usage'`; `core-js` in `devDependencies` too;
+- `core-js` in `dependencies` gives `corejs: '<version>'` and `useBuiltIns: 'usage'` (only `dependencies` is read: `core-js` in `devDependencies` alone leaves polyfills off, pinned as a negative case);
 - `framework: 'react'` puts `babel-plugin-react-compiler` first, adds `@babel/preset-react` with `runtime: 'automatic'`, sets `env.production.plugins` to the constant-elements plugin;
 - `typescript: true` replaces preset-env with preset-typescript and adds `babel-plugin-transform-typescript-metadata`;
 - `isTest: true` adds `@babel/plugin-transform-modules-commonjs` and (after 0.1) `babel-plugin-transform-import-meta`;
@@ -141,6 +141,8 @@ Assert on plugin/preset identity with `expect.stringContaining('babel-plugin-rea
 After this phase, `e2e/babel-e2e` is redundant. Keep it until Plan 2 decides whether it stays as a smoke test of the built `lib` or is deleted.
 
 Exit: thresholds 90/90/90/85.
+
+Status: done on 2026-09-24. Actual coverage 100/100/100/100 (16 tests). `rockpack.babel.js` is loaded through the real `createRequire`, so each case writes it into its own `mkdtemp` project and points `process.cwd` there with `jest.spyOn`. The plan listed `core-js` in `devDependencies` as a positive case, but the code reads only `dependencies`; the spec pins the current behaviour and any change belongs to Plan 3 (B1/B3).
 
 ## 7. Phase 3: `@rockpack/tester` (size M)
 
