@@ -241,6 +241,8 @@ Coverage exclusions for the compiler: `src/declarations.d.ts`, `src/globals.d.ts
 
 Exit: thresholds 80/85/85/80 (branches 80).
 
+Status: 6.1-6.5 done on 2026-09-24 (6.6 is Plan 4). Actual coverage 97.56/93.97/100/97.62 (276 tests); thresholds set to statements 80, functions 85, lines 85, branches 80. Webpack plugins are replaced by recording classes from `src/__fixtures__/plugin-mocks.ts` (each instance keeps its constructor arguments), and `make-plugins.spec.ts` passes a fake `webpack` object instead of mocking the module. Under Jest `createRequire` goes through the Jest registry, so the bundled `configs/postcss.config.cjs` pulls ESM-only postcss plugins; `get-styles-rules.spec.ts` mocks the four plugins. `generate-dts.spec.ts` mocks `node:module` so the `.rockpack` temp folder (three levels above the resolved `constants` module) lands in the test's temp dir instead of `packages/`. `source-compile` and `generate-dts` run real Babel and TypeScript against a temp copy of `src/__fixtures__/source-project` (8 tests). Pinned known bugs: `mergeConfWithDefault` folder `distContext` (Plan 2 E4) and the `makeBanner` `indexOf(type) > 0` check (Plan 2 E5). Found: `utils/common-multi-validators.ts` and `utils/find-html.ts` are dead code (Plan 2 H6), covered by small specs until they are removed. Not reachable without deeper mocks and left uncovered: the leftover `.js`/`.js.map` rename and the asset copy error branch in `source-compile`, the `tsconfig not found` branch in `generate-dts`, and the `.mjs` side of the `import.meta.url` extension checks.
+
 ## 11. Phase 7: enforcement
 
 - [ ] `npm run test:unit` added to the pre-push hook (Plan 2 replaces the full `npm test` there).

@@ -5,7 +5,14 @@ const watch = process.argv.includes('--watch');
 tester(
   { src: './src', watch },
   {
-    collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/*.spec.ts', '!src/__fixtures__/**'],
+    collectCoverageFrom: [
+      'src/**/*.ts',
+      '!src/**/*.d.ts',
+      '!src/**/*.spec.ts',
+      '!src/__fixtures__/**',
+      '!src/types.ts',
+    ],
+    coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 80 } },
     testEnvironment: 'node',
   },
 );
