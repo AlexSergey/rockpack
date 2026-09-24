@@ -87,7 +87,9 @@ export const rockpack = async (): Promise<void> => {
       `${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`,
     );
 
-    return process.exit(1);
+    process.exit(1);
+
+    return;
   }
 
   if (projectName === here) {

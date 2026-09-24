@@ -165,6 +165,7 @@ describe('rockpack', () => {
         currentPath: `${mockCwd}/app`,
         projectName: 'app',
       });
+      expect(readdirSyncMock).not.toHaveBeenCalled();
     });
 
     it('installs into an existing empty directory', async () => {
