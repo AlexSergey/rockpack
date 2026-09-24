@@ -95,7 +95,7 @@ Small, additive changes that make the packages testable with the tester. Each it
   - `"test:unit": "lerna run test --scope=@rockpack/babel --scope=@rockpack/utils --scope=@rockpack/tester --scope=@rockpack/codestyle --scope=@rockpack/starter --scope=@rockpack/compiler"`.
   - `"test"` stays `lerna run test --stream` (it now includes the package tests).
   - Document in README "Contributing" that `npm run build` must precede `npm test` because the tester used by the packages is the built `packages/tester/lib`.
-- [ ] **0.6 Prove the pipeline** with one trivial spec per package (for example `utils/src/utils/get-major-version.spec.ts`) and confirm: `npm run build`, `npm run lint`, `npm run test:unit` all pass, coverage report is written to `packages/<name>/coverage`, and `lib/` contains no spec files.
+- [x] **0.6 Prove the pipeline** with one trivial spec per package (for example `utils/src/utils/get-major-version.spec.ts`) and confirm: `npm run build`, `npm run lint`, `npm run test:unit` all pass, coverage report is written to `packages/<name>/coverage`, and `lib/` contains no spec files.
 
 ## 5. Phase 1: `@rockpack/utils` (size S)
 
