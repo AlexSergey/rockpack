@@ -13,11 +13,15 @@ describe('getMajorVersion', () => {
 
   describe('positive cases', () => {
     it('returns the major of an exact version', () => {
-      expect(getMajorVersion('19.2.0')).toBe(19);
+      expect(getMajorVersion('1.2.3')).toBe(1);
     });
 
-    it('returns the minimum major of a range', () => {
-      expect(getMajorVersion('^18.3.1')).toBe(18);
+    it('returns the minimum major of a caret range', () => {
+      expect(getMajorVersion('^18.0.0')).toBe(18);
+    });
+
+    it('returns the minimum major of a bounded range', () => {
+      expect(getMajorVersion('>=2 <3')).toBe(2);
     });
   });
 });
