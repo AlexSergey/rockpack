@@ -16,6 +16,27 @@ const SSR = createSsr(
 );
 
 describe('useRockpack', () => {
+  describe('negative cases', () => {
+    it('stops loading and reports an error when the request fails', async () => {
+      mockFetch.mockRejectedValueOnce(new Error('Network Error'));
+
+      const { result } = renderHook(() => useRockpack(), {
+        wrapper: ({ children }) => {
+          return <SSR>{children}</SSR>;
+        },
+      });
+
+      await waitFor(() => {
+        expect(result.current[1]).toBe(true);
+      });
+
+      const [loading, , description] = result.current;
+
+      expect(loading).toBe(false);
+      expect(description).toBe('');
+    });
+  });
+
   describe('positive cases', () => {
     it('returns description on success', async () => {
       mockFetch.mockResolvedValueOnce('Lorem ipsum');

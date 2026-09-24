@@ -15,8 +15,8 @@ export const useRockpack = (): [boolean, boolean, string] => {
         setLoading(false);
         setError(false);
         setDescription(description);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (e) {
+      } catch {
+        setLoading(false);
         setError(true);
       }
     });
