@@ -175,6 +175,8 @@ Extract `findFlatIgnoreFile` and `readPackageJson` into small internal modules f
 
 Exit: thresholds 85/85/85/80.
 
+Status: done on 2026-09-24. Actual coverage 100/100/100/100 (20 tests). All 17 plugin imports are stubbed with the minimal shape `makeConfig` reads, so no ESLint plugin is loaded. `findFlatIgnoreFile` and the `package.json` read are tested through `makeConfig` with `mkdtemp` projects; nothing was extracted. The spec also pins the `__fixtures__` folder-naming override added in Phase 3.
+
 ## 9. Phase 5: `@rockpack/starter` (size L)
 
 Work bottom-up: utils, then lib, then bin. ESM-only dependencies are mocked with factories in a shared `src/__fixtures__/mocks.ts` (chalk returns identity functions, ora returns an object with `start/succeed/fail/text`, `latest-version` returns a fixed version, `@inquirer/select` and `inquirer` return canned answers, `sort-package-json` is identity, `change-case.pascalCase` is the real implementation re-exported from a CJS-compatible copy or a small local implementation).
