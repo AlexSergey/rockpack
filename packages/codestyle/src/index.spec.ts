@@ -24,6 +24,7 @@ jest.mock('@typescript-eslint/parser', () => ({ parse: jest.fn() }));
 jest.mock('eslint-config-flat-gitignore', () => jest.fn(() => ({ name: 'gitignore' })));
 jest.mock('eslint-plugin-check-file', () => ({ rules: {} }));
 jest.mock('eslint-plugin-import-lite', () => ({ rules: {} }));
+jest.mock('eslint-plugin-jest', () => ({ rules: {} }));
 jest.mock('eslint-plugin-no-only-tests', () => ({ rules: {} }));
 jest.mock('eslint-plugin-package-json', () => ({
   configs: { recommended: { name: 'package-json/recommended' }, stylistic: { name: 'package-json/stylistic' } },
@@ -281,6 +282,10 @@ describe('makeConfig', () => {
       expect(config?.rules).toEqual({
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/unbound-method': 'off',
+        'jest/no-disabled-tests': 'error',
+        'jest/no-focused-tests': 'error',
+        'jest/prefer-to-have-length': 'error',
+        'jest/valid-expect': 'error',
       });
     });
 

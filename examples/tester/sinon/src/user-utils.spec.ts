@@ -37,6 +37,6 @@ afterAll(() => {
 
 test('test getAllUsers', async () => {
   const userList = await users.getAllUsers();
-  expect(userList.length).toBe(3);
+  expect(userList).toHaveLength(3);
   expect(userList[1]?.email).toBe('someemail@user2.com');
 });

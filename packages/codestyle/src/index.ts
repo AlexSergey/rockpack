@@ -8,6 +8,7 @@ import tsParser from '@typescript-eslint/parser';
 import gitignore from 'eslint-config-flat-gitignore';
 import checkFile from 'eslint-plugin-check-file';
 import importLite from 'eslint-plugin-import-lite';
+import jestPlugin from 'eslint-plugin-jest';
 import noOnlyTests from 'eslint-plugin-no-only-tests';
 import packageJsonConfig from 'eslint-plugin-package-json';
 import perfectionist from 'eslint-plugin-perfectionist';
@@ -266,9 +267,16 @@ export const makeConfig = (): Linter.Config[] => {
         ...globals.jest,
       },
     },
+    plugins: {
+      jest: jestPlugin,
+    },
     rules: {
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/unbound-method': 'off',
+      'jest/no-disabled-tests': 'error',
+      'jest/no-focused-tests': 'error',
+      'jest/prefer-to-have-length': 'error',
+      'jest/valid-expect': 'error',
     },
   };
 
