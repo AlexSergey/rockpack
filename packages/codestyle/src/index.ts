@@ -282,6 +282,13 @@ export const makeConfig = (): Linter.Config[] => {
     },
   };
 
+  const fixturesOverrides: Linter.Config = {
+    files: ['**/__fixtures__/**'],
+    rules: {
+      '@check-file/folder-naming-convention': 'off',
+    },
+  };
+
   const disableDefaultExportBlockingForStorybook: Linter.Config = {
     files: [
       '**/*.stories.@(js|jsx|ts|tsx|mdx)',
@@ -326,5 +333,6 @@ export const makeConfig = (): Linter.Config[] => {
     disableDefaultExportBlockingForStorybook,
     dtsOverrides,
     testOverrides,
+    fixturesOverrides,
   ];
 };
