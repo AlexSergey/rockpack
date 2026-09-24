@@ -5,6 +5,7 @@ void isomorphicCompiler(
     src: 'src/server.tsx',
   }),
   frontendCompiler({
+    dist: 'public',
     src: 'src/client.tsx',
   }),
 );

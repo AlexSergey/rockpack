@@ -2,8 +2,8 @@ import './global.scss';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import stylesLess from './styles.module.less';
-import stylesScss from './styles.module.scss';
+import * as stylesLess from './styles.module.less';
+import * as stylesScss from './styles.module.scss';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
