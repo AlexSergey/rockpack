@@ -12,6 +12,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `eslint-config-flat-gitignore` integration in `@rockpack/codestyle` - ignore patterns are now loaded from `.eslintflatignore` file instead of being hardcoded
 - `.eslintflatignore` support: `makeConfig` searches for the file recursively from `process.cwd()` upward, enabling monorepo setups where a single file at the repo root covers all packages
 - ESLint rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are now disabled for `.d.ts` files
+- `@rockpack/codestyle` enables Jest globals for `*.spec.{ts,tsx}` and `__fixtures__` files and turns off `@typescript-eslint/no-empty-function` and `@typescript-eslint/unbound-method` there
 
 ### Changed
 - All internal scripts migrated to TypeScript (`scripts.build.ts`, `scripts.tests.ts`)

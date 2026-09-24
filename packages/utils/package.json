@@ -48,7 +48,9 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "production": "npm run lint && npm publish --access public"
+    "production": "npm run lint && npm publish --access public",
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
     "semver": "7.8.1",
@@ -61,6 +63,8 @@
     "@babel/preset-env": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
     "@rockpack/codestyle": "8.0.0",
+    "@rockpack/tester": "8.0.0",
+    "@types/jest": "30.0.0",
     "@types/node": "26.6.2",
     "@types/semver": "7.8.0",
     "@types/yargs": "17.0.35",

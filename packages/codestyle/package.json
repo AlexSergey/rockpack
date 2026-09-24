@@ -49,7 +49,9 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "production": "npm run lint && npm publish --access public"
+    "production": "npm run lint && npm publish --access public",
+    "test": "tsx scripts.tests.ts",
+    "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
     "@commitlint/cli": "21.0.1",
@@ -92,6 +94,8 @@
     "@babel/plugin-transform-modules-commonjs": "7.29.7",
     "@babel/preset-env": "7.29.7",
     "@babel/preset-typescript": "7.29.7",
+    "@rockpack/tester": "8.0.0",
+    "@types/jest": "30.0.0",
     "babel-plugin-add-import-extension": "1.6.0",
     "babel-plugin-transform-import-meta": "2.3.3",
     "tsx": "4.23.15"

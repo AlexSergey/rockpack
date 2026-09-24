@@ -71,7 +71,7 @@ Small, additive changes that make the packages testable with the tester. Each it
   - `packages/compiler/src/utils/source-compile.ts`: pass the same patterns as the default `ignore` list to `getFiles` for TS, JS and copy globs. This also fixes the consumer-facing problem that `sourceCompiler` currently ships colocated specs into `lib`. Add a CHANGELOG entry.
   - `packages/utils/tsconfig.types.json`: add `"exclude": ["src/**/*.spec.ts", "src/__fixtures__"]` (it is the only `tsconfig.types.json` that includes globs instead of `src/index.ts`).
   - `.eslintflatignore`: add `packages/*/src/__fixtures__/**` and `packages/*/coverage`.
-- [ ] **0.4 Per-package test wiring** (babel, utils, tester, codestyle, starter, compiler):
+- [x] **0.4 Per-package test wiring** (babel, utils, tester, codestyle, starter, compiler):
   - `devDependencies`: `@types/jest` (same version as `packages/tester`), `@rockpack/tester: 8.0.0` (for babel, utils, codestyle, compiler, starter; tester tests itself through its own built `lib`).
   - `tsconfig.json`: `"types": ["node", "jest"]`.
   - `package.json` scripts: `"test": "tsx scripts.tests.ts"`, `"test:watch": "tsx scripts.tests.ts --watch"` (watch is read from `process.argv` inside the script, as `examples/tester/debug` does).
@@ -85,12 +85,12 @@ Small, additive changes that make the packages testable with the tester. Each it
       { src: './src', watch },
       {
         collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/**/*.spec.ts', '!src/__fixtures__/**'],
-        coverageThreshold: { global: { branches: 75, functions: 80, lines: 80, statements: 80 } },
         testEnvironment: 'node',
       },
     );
     ```
-  - `packages/codestyle/src/index.ts`: add an override for `**/*.spec.{ts,tsx}` and `**/__fixtures__/**` that enables jest globals and relaxes `@typescript-eslint/unbound-method`, `@typescript-eslint/no-empty-function` and `max-lines-per-function`. Today jest globals are only enabled for JS files.
+    `coverageThreshold` is not set here: `npm test` runs in the pre-push hook, and thresholds enforced before a package has specs would block every push. The first task of each package's phase adds `coverageThreshold: { global: { branches: 75, functions: 80, lines: 80, statements: 80 } }`, and the last task raises it to the phase's exit numbers.
+  - `packages/codestyle/src/index.ts`: add an override for `**/*.spec.{ts,tsx}` and `**/__fixtures__/**` that enables jest globals and relaxes `@typescript-eslint/unbound-method` and `@typescript-eslint/no-empty-function` (`max-lines-per-function` is not enabled by the config, so it needs no override). Today jest globals are only enabled for JS files.
 - [ ] **0.5 Root scripts.**
   - `"test:unit": "lerna run test --scope=@rockpack/babel --scope=@rockpack/utils --scope=@rockpack/tester --scope=@rockpack/codestyle --scope=@rockpack/starter --scope=@rockpack/compiler"`.
   - `"test"` stays `lerna run test --stream` (it now includes the package tests).

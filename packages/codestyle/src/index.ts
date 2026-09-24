@@ -269,6 +269,19 @@ export const makeConfig = (): Linter.Config[] => {
     },
   };
 
+  const testOverrides: Linter.Config = {
+    files: ['**/*.spec.{ts,tsx}', '**/__fixtures__/**'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+    },
+  };
+
   const disableDefaultExportBlockingForStorybook: Linter.Config = {
     files: [
       '**/*.stories.@(js|jsx|ts|tsx|mdx)',
@@ -312,5 +325,6 @@ export const makeConfig = (): Linter.Config[] => {
       : {},
     disableDefaultExportBlockingForStorybook,
     dtsOverrides,
+    testOverrides,
   ];
 };
