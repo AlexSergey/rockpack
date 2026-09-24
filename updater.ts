@@ -2,6 +2,8 @@ import latestVersion from 'latest-version';
 import { parse, satisfies, valid } from 'semver';
 import { writeFileSync, readFileSync } from 'node:fs';
 import sortPackageJson from 'sort-package-json';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { getWorkspacePackageJsons } from './tools/workspaces';
 
@@ -41,6 +43,46 @@ type PeerConflict = {
 };
 
 const DEP_FIELDS: ReadonlyArray<'dependencies' | 'devDependencies'> = ['dependencies', 'devDependencies'];
+const REGISTRY_CONCURRENCY = 8;
+
+const argv = yargs(hideBin(process.argv))
+  .options({
+    'dry-run': { default: false, describe: 'Print the plan without writing files', type: 'boolean' },
+    major: { default: true, describe: 'Allow major updates (--no-major skips and lists them)', type: 'boolean' },
+  })
+  .strict()
+  .parseSync();
+
+const dryRun = argv['dry-run'];
+const allowMajor = argv.major;
+
+function createLimiter(concurrency: number): <T>(task: () => Promise<T>) => Promise<T> {
+  let active = 0;
+  const waiting: (() => void)[] = [];
+
+  return async <T>(task: () => Promise<T>): Promise<T> => {
+    if (active >= concurrency) {
+      await new Promise<void>((resolve) => waiting.push(resolve));
+    }
+    active += 1;
+    try {
+      return await task();
+    } finally {
+      active -= 1;
+      waiting.shift()?.();
+    }
+  };
+}
+
+const limitRegistry = createLimiter(REGISTRY_CONCURRENCY);
+
+function write(path: string, content: string): void {
+  if (dryRun) {
+    console.log(`[dry-run] ${path} would be written`);
+    return;
+  }
+  writeFileSync(path, content);
+}
 
 const latestVersionCache = new Map<string, Promise<string>>();
 const requiredPeersCache = new Map<string, Promise<Record<string, string>>>();
@@ -48,7 +90,7 @@ const requiredPeersCache = new Map<string, Promise<Record<string, string>>>();
 function getLatestVersion(name: string): Promise<string> {
   let cached = latestVersionCache.get(name);
   if (!cached) {
-    cached = latestVersion(name);
+    cached = limitRegistry(() => latestVersion(name));
     latestVersionCache.set(name, cached);
   }
   return cached;
@@ -56,7 +98,7 @@ function getLatestVersion(name: string): Promise<string> {
 
 async function fetchRequiredPeers(name: string, version: string): Promise<Record<string, string>> {
   const url = `https://registry.npmjs.org/${name.replace('/', '%2F')}/${version}`;
-  const response = await fetch(url);
+  const response = await limitRegistry(() => fetch(url));
   if (!response.ok) {
     throw new Error(`Unable to fetch metadata for ${name}@${version}: HTTP ${response.status}`);
   }
@@ -95,11 +137,32 @@ function collectDeclaredVersions(pkgs: ReadonlyArray<PackageJson>): Map<string, 
 }
 
 async function buildPlan(pkgs: ReadonlyArray<PackageJson>): Promise<Plan> {
-  const plan = new Map<string, PlanEntry>();
-  for (const [dep, current] of collectDeclaredVersions(pkgs)) {
-    plan.set(dep, { current, next: await getLatestVersion(dep) });
-  }
-  return plan;
+  const entries = await Promise.all(
+    [...collectDeclaredVersions(pkgs)].map(
+      async ([dep, current]): Promise<[string, PlanEntry]> => [dep, { current, next: await getLatestVersion(dep) }],
+    ),
+  );
+  return new Map(entries);
+}
+
+function isMajorUpdate(entry: PlanEntry): boolean {
+  const next = parse(entry.next);
+  return [...entry.current].some((version) => {
+    const current = parse(version);
+    return !!current && !!next && current.major !== next.major;
+  });
+}
+
+function findMajorUpdates(plan: Plan): Set<string> {
+  return new Set([...plan].filter(([, entry]) => isMajorUpdate(entry)).map(([dep]) => dep));
+}
+
+async function prefetchPeers(plan: Plan): Promise<void> {
+  await Promise.allSettled(
+    [...plan].flatMap(([dep, entry]) =>
+      [entry.next, ...entry.current].filter((version) => valid(version)).map((version) => getRequiredPeers(dep, version)),
+    ),
+  );
 }
 
 function isUpdated(entry: PlanEntry): boolean {
@@ -146,8 +209,9 @@ function formatConflict({ dep, peer, peerVersion, range, version }: PeerConflict
  * Re-checked until stable, because skipping one update changes the versions
  * available to the others.
  */
-async function resolveSkipped(plan: Plan): Promise<Set<string>> {
-  const skipped = new Set<string>();
+async function resolveSkipped(plan: Plan, initiallySkipped: ReadonlySet<string>): Promise<Set<string>> {
+  await prefetchPeers(plan);
+  const skipped = new Set<string>(initiallySkipped);
   const reported = new Set<string>();
   let changed = true;
   while (changed) {
@@ -200,7 +264,7 @@ function fixStarterE2eOrder(sorted: PackageJson): void {
   }
 }
 
-async function updateAllDeps(): Promise<void> {
+async function updateAllDeps(): Promise<Set<string>> {
   const paths = ['package.json', ...getWorkspacePackageJsons()];
 
   const pkgs = paths.map((p) => ({
@@ -209,7 +273,8 @@ async function updateAllDeps(): Promise<void> {
   }));
 
   const plan = await buildPlan(pkgs.map(({ data }) => data));
-  const skipped = await resolveSkipped(plan);
+  const skippedMajors = allowMajor ? new Set<string>() : findMajorUpdates(plan);
+  const skipped = await resolveSkipped(plan, skippedMajors);
 
   for (const { data: pkg, path: p } of pkgs) {
     const updated: PackageJson = { ...pkg };
@@ -252,11 +317,14 @@ async function updateAllDeps(): Promise<void> {
       fixStarterE2eOrder(sorted);
     }
 
-    writeFileSync(p, JSON.stringify(sorted, null, 2) + '\n');
+    write(p, JSON.stringify(sorted, null, 2) + '\n');
   }
+
+  return new Set([...skippedMajors].map((dep) => `${dep}: ${[...(plan.get(dep)?.current ?? [])].join(', ')} -> ${plan.get(dep)?.next}`));
 }
 
-async function updateStarterDeps(): Promise<void> {
+async function updateStarterDeps(): Promise<Set<string>> {
+  const skippedMajors = new Set<string>();
   const pth = './packages/starter/src/versions.json';
 
   const data = JSON.parse(readFileSync(pth, 'utf8')) as VersionsJson;
@@ -278,6 +346,10 @@ async function updateStarterDeps(): Promise<void> {
           const major = parsed?.major ?? 0;
 
           if (major > Number(version)) {
+            if (!allowMajor) {
+              skippedMajors.add(`starter versions.json ${name}: ${version} -> ${major}`);
+              continue;
+            }
             console.log(`[${name}] will be updated from ${version} to ${major}`);
             const index = dependencies.findIndex(({ name: n }) => n === dependency.name);
             dependencies[index] = { name, version: `${major}` };
@@ -289,13 +361,20 @@ async function updateStarterDeps(): Promise<void> {
   }
   if (wasUpdated) {
     const updatedPackageJson = JSON.stringify(data, null, 2) + '\n';
-    writeFileSync(pth, updatedPackageJson);
+    write(pth, updatedPackageJson);
   }
+
+  return skippedMajors;
 }
 
 async function bootstrap(): Promise<void> {
-  await updateAllDeps();
-  await updateStarterDeps();
+  const skippedMajors = [...(await updateAllDeps()), ...(await updateStarterDeps())];
+
+  if (skippedMajors.length > 0) {
+    console.log('---');
+    console.log('Major updates skipped (--no-major):');
+    skippedMajors.forEach((entry) => console.log(`  ${entry}`));
+  }
 }
 
 void bootstrap();
