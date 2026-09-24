@@ -1,7 +1,7 @@
 import { Collection } from './collection.js';
 import { compileWebpackConfig } from './compile-webpack-config.js';
 
-const createCollection = (items: Record<string, unknown>): Collection => new Collection({ data: items, props: {} });
+const createCollection = <T>(items: Record<string, T>): Collection<T> => new Collection(items);
 
 describe('compileWebpackConfig', () => {
   describe('negative cases', () => {
@@ -15,12 +15,13 @@ describe('compileWebpackConfig', () => {
   describe('positive cases', () => {
     it('turns the collections into module rules and plugins', () => {
       const modules = createCollection({ js: { test: 'js' } });
-      const plugins = createCollection({ define: { name: 'define' } });
+      const define = { apply: (): void => undefined, name: 'define' };
+      const plugins = createCollection({ define });
 
       expect(compileWebpackConfig({ mode: 'development' }, modules, plugins)).toEqual({
         mode: 'development',
         module: { rules: [{ test: 'js' }] },
-        plugins: [{ name: 'define' }],
+        plugins: [define],
       });
     });
 

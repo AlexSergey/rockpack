@@ -1,4 +1,5 @@
 import type webpack from 'webpack';
+import type { WebpackPluginInstance } from 'webpack';
 
 import type { CompileContext } from '../core/compile-context.js';
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
@@ -22,7 +23,7 @@ export const makePlugins = async (
   wp: typeof webpack,
   context: string,
   compileContext: CompileContext,
-): Promise<Collection> => {
+): Promise<Collection<WebpackPluginInstance>> => {
   const ctx: PluginContext = { compileContext, conf, context, mode, packageJson, root, wp };
 
   // The order is part of the public shape: plugins are applied and exposed in this order.
@@ -39,5 +40,5 @@ export const makePlugins = async (
     ...(await makeAnalyzerPlugins(ctx)),
   };
 
-  return new Collection({ data: plugins, props: {} });
+  return new Collection(plugins);
 };

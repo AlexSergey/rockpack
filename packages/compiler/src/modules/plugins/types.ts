@@ -1,4 +1,5 @@
 import type webpack from 'webpack';
+import type { WebpackPluginInstance } from 'webpack';
 
 import type { CompileContext } from '../../core/compile-context.js';
 import type { InternalCompilerConf, Mode, PackageJson } from '../../types.js';
@@ -13,4 +14,4 @@ export type PluginContext = {
   readonly wp: typeof webpack;
 };
 
-export type PluginEntries = Record<string, unknown>;
+export type PluginEntries = Record<string, WebpackPluginInstance>;

@@ -1,3 +1,5 @@
+import type { RuleSetRule } from 'webpack';
+
 import type { InternalCompilerConf, Mode } from '../types.js';
 import type { Rules } from './rules/types.js';
 
@@ -13,7 +15,7 @@ export const makeModules = (
   root: string,
   mode: Mode,
   excludeModules: readonly string[] = [],
-): Collection => {
+): Collection<RuleSetRule> => {
   const ctx = { conf, mode, root };
   const rules: Rules = {
     ...makeAssetRules(ctx),
@@ -22,11 +24,10 @@ export const makeModules = (
     ...makeStyleRules(ctx),
   };
   const data = Object.fromEntries(
-    Object.keys(rules)
-      .filter((key) => !excludeModules.includes(key))
-      .sort()
-      .map((key) => [key, rules[key]]),
+    Object.entries(rules)
+      .filter(([key]) => !excludeModules.includes(key))
+      .sort(([a], [b]) => (a < b ? -1 : 1)),
   );
 
-  return new Collection({ data, props: {} });
+  return new Collection(data);
 };

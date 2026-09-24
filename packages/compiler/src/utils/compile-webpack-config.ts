@@ -1,11 +1,11 @@
-import type { Configuration } from 'webpack';
+import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 
 import type { Collection } from './collection.js';
 
 export const compileWebpackConfig = (
   finalConfig: Record<string, unknown>,
-  modules: Collection | null,
-  plugins: Collection | null,
+  modules: Collection<RuleSetRule> | null,
+  plugins: Collection<WebpackPluginInstance> | null,
 ): Configuration => {
   const webpackConfig: Record<string, unknown> = { ...finalConfig };
 
