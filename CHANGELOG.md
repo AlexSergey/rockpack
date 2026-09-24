@@ -13,16 +13,41 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `.eslintflatignore` support: `makeConfig` searches for the file recursively from `process.cwd()` upward, enabling monorepo setups where a single file at the repo root covers all packages
 - ESLint rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are now disabled for `.d.ts` files
 - `@rockpack/codestyle` enables Jest globals for `*.spec.{ts,tsx}` and `__fixtures__` files and turns off `@typescript-eslint/no-empty-function` and `@typescript-eslint/unbound-method` there
+- `@rockpack/codestyle` lints specs with `eslint-plugin-jest` (`no-disabled-tests`, `no-focused-tests`, `valid-expect`, `prefer-to-have-length`) and allows non-kebab-case folder names inside `__fixtures__`
+- `@rockpack/compiler` exports `RockpackError` (codes `INVALID_CONFIG`, `INVALID_ENTRY`, `BUILD_FAILED`, `DTS_FAILED`) and the `RockpackErrorCode` type
+- `@rockpack/tester`: `serial` option (one suite at a time, no cache) and a default `collectCoverageFrom` that counts every source file
+- `@rockpack/tester` reads `--watch` from the command line when `watch` is not passed
+- `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
+- `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
+- Generated projects install git hooks with `simple-git-hooks` (`pre-commit` lint-staged, `commit-msg` commitlint, `pre-push` tests)
 
 ### Changed
 - All internal scripts migrated to TypeScript (`scripts.build.ts`, `scripts.tests.ts`)
 - Updated examples to use latest React and TypeScript
 - Build process now cleans output before each build
 - Compiler configuration API improved: removed private internal fields
+- **Breaking:** Node.js 24 or newer is required by every package and by the starter CLI; `engine-strict` is on in the monorepo
+- **Breaking:** the compilers no longer call `process.exit` on invalid options: they log `[rockpack] <code>: <message>`, set `process.exitCode = 1` and reject with a `RockpackError`
+- **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed
+- **Breaking:** `@rockpack/tester` runs suites in parallel with the Jest cache by default; pass `serial: true` for the previous one-by-one behaviour
+- **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)
+- `@rockpack/babel`: `react-compiler-runtime` is an optional peer dependency (only needed on React 17 and 18); unused dependencies were removed from babel, compiler, codestyle, tester, utils and starter
+- `@rockpack/babel` test mode keeps a module-level `const __filename = fileURLToPath(import.meta.url)` working under `@rockpack/tester`
+- `@rockpack/utils` reads `--mode` without yargs and has no import-time side effects
+- The isomorphic compiler starts the live reload server only in development
+- The starter update check compares versions with semver, says when a newer version is available, works offline and is skipped with `--mode=test`
+
+### Fixed
+- `@rockpack/compiler`: the `banner` file is published, banner placeholders are filled by name, and the banner and default `index.ejs` are found from the package root
+- `@rockpack/compiler`: `distContext` is the dist folder when `dist` is a folder; the `.wasm` rule matches `.wasm` files; library source and declaration build errors fail the build instead of being swallowed
+- `@rockpack/compiler`: the Babel plugins `sourceCompile` resolves at runtime are regular dependencies
+- `@rockpack/tester`: `watch` is always a boolean
+- `@rockpack/starter`: the SSR template stops loading when the request fails
+- Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
 
 ### Removed
-- Dropped `rockpack.babel.js` legacy config file
+- The SSR template no longer ships a `rockpack.babel.js` (custom Babel config through `rockpack.babel.js` is still supported by `@rockpack/babel`)
 - Dropped `jest.extend` from tester
 - Removed CommonJS-only build artifacts
 - Removed hardcoded `ignores` array from `@rockpack/codestyle` in favor of `.eslintflatignore`
