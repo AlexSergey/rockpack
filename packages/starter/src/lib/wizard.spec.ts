@@ -1,5 +1,5 @@
+import confirm from '@inquirer/confirm';
 import select from '@inquirer/select';
-import inquirer from 'inquirer';
 
 import type * as Mocks from '../__fixtures__/mocks';
 
@@ -8,11 +8,10 @@ import { wizard } from './wizard';
 
 jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks').chalkModule);
 jest.mock('@inquirer/select', () => ({ __esModule: true, default: jest.fn() }));
-jest.mock('inquirer', () => ({ __esModule: true, default: { createPromptModule: jest.fn() } }));
+jest.mock('@inquirer/confirm', () => ({ __esModule: true, default: jest.fn() }));
 
 const selectMock = select as unknown as jest.Mock<Promise<string>>;
-const createPromptModuleMock = inquirer.createPromptModule as unknown as jest.Mock;
-const promptMock = jest.fn<Promise<{ tester: boolean }>, unknown[]>();
+const confirmMock = confirm as unknown as jest.Mock<Promise<boolean>>;
 
 const exitPromptError = (): Error =>
   Object.assign(new Error('User force closed the prompt'), { name: 'ExitPromptError' });
@@ -23,7 +22,6 @@ describe('wizard', () => {
   beforeEach(() => {
     exitSpy = mockProcessExit();
     jest.spyOn(console, 'log').mockImplementation(() => {});
-    createPromptModuleMock.mockReturnValue(promptMock);
   });
 
   afterEach(() => {
@@ -40,14 +38,14 @@ describe('wizard', () => {
     });
 
     it('exits with code 0 when the tests prompt is closed', async () => {
-      promptMock.mockRejectedValue(exitPromptError());
+      confirmMock.mockRejectedValue(exitPromptError());
 
       await expect(wizard({ appType: 'csr' })).rejects.toEqual(new ExitError(0));
     });
 
     it('leaves the answers undefined when the prompts fail for another reason', async () => {
       selectMock.mockRejectedValue(new Error('no tty'));
-      promptMock.mockRejectedValue(new Error('no tty'));
+      confirmMock.mockRejectedValue(new Error('no tty'));
 
       await expect(wizard({})).resolves.toEqual({ appType: undefined, tester: undefined });
       expect(exitSpy).not.toHaveBeenCalled();
@@ -61,7 +59,7 @@ describe('wizard', () => {
         tester: false,
       });
       expect(selectMock).not.toHaveBeenCalled();
-      expect(promptMock).not.toHaveBeenCalled();
+      expect(confirmMock).not.toHaveBeenCalled();
     });
 
     it('asks for the project type', async () => {
@@ -82,12 +80,12 @@ describe('wizard', () => {
     });
 
     it('asks whether to add tests', async () => {
-      promptMock.mockResolvedValue({ tester: true });
+      confirmMock.mockResolvedValue(true);
 
       const state = await wizard({ appType: 'csr' });
 
       expect(state.tester).toBe(true);
-      expect(promptMock).toHaveBeenCalledWith({ message: 'Do you want tests?', name: 'tester', type: 'confirm' });
+      expect(confirmMock).toHaveBeenCalledWith({ message: 'Do you want tests?' });
     });
   });
 });

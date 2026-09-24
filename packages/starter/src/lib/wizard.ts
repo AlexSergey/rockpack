@@ -1,6 +1,6 @@
+import confirm from '@inquirer/confirm';
 import select from '@inquirer/select';
 import chalk from 'chalk';
-import inquirer from 'inquirer';
 
 export type AppType = 'component' | 'csr' | 'library' | 'ssr';
 
@@ -18,7 +18,6 @@ interface WizardArgs {
 }
 
 export const wizard = async (args: WizardArgs): Promise<State> => {
-  const prompt = inquirer.createPromptModule();
   let appType = args.appType;
   let tester = args.tests;
 
@@ -63,13 +62,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
 
   if (typeof tester === 'undefined') {
     try {
-      tester = (
-        await prompt<{ tester: boolean }>({
-          message: 'Do you want tests?',
-          name: 'tester',
-          type: 'confirm',
-        })
-      ).tester;
+      tester = await confirm({ message: 'Do you want tests?' });
     } catch (error) {
       if ((error as { name?: string }).name === 'ExitPromptError') {
         process.exit(0);
