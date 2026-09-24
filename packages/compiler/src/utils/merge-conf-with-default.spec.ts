@@ -54,11 +54,10 @@ describe('mergeConfWithDefault', () => {
       });
     });
 
-    // Plan 2 (E4): the folder branch stores the file path as distContext, unlike the other branches.
     it('turns a dist folder into an index.js file inside it', async () => {
       expect(await mergeConfWithDefault({ dist: 'build' }, 'production')).toMatchObject({
         dist: 'build/index.js',
-        distContext: 'build/index.js',
+        distContext: 'build',
       });
       expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('build/index.js'));
     });

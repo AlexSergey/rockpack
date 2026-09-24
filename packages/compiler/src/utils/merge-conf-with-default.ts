@@ -17,7 +17,7 @@ export const mergeConfWithDefault = async (
   if (path.extname(path.basename(c.dist)) !== distExtension) {
     if (typeof c.dist === 'string' && c.dist.length > 0) {
       c.dist = path.join(c.dist, `${defaultDistFile}${distExtension}`);
-      c.distContext = c.dist;
+      c.distContext = path.dirname(c.dist);
     } else {
       c.dist = defaultProps.dist;
       c.distContext = path.dirname(defaultProps.dist);
