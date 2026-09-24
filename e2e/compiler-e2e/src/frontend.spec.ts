@@ -21,6 +21,14 @@ describe('frontendCompiler production builds', () => {
       expect(output).toContain('broken.ts');
     });
 
+    it('fails on an invalid option with its path', async () => {
+      const dir = prepareFixture('frontend-basic');
+      const { code, output } = await build(dir, 'scripts.invalid-conf.ts');
+
+      expect(code).toBe(1);
+      expect(output).toContain('[rockpack] INVALID_CONFIG: html.template must be a string');
+    });
+
     it('fails on a type error with the file in the output', async () => {
       const dir = prepareFixture('frontend-ts');
       writeFileSync(path.join(dir, 'src/invalid.ts'), "export const count: number = 'not a number';\n");

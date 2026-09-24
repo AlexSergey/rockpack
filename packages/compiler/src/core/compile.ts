@@ -7,6 +7,7 @@ import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
+import { assertValidConf } from '../utils/validate-conf.js';
 import { addArgs } from './args.js';
 import { getLegacyIsomorphicContext, standaloneContext } from './compile-context.js';
 import { innerProps } from './inner-props.js';
@@ -28,6 +29,7 @@ export const compile = async (
 ): Promise<Awaited<ReturnType<typeof run>> | CompileResult> => {
   const mode = getMode();
   let merged = await mergeConfWithDefault(conf, mode);
+  assertValidConf(merged);
   // Read after the first await: see getLegacyIsomorphicContext.
   const ctx = context ?? getLegacyIsomorphicContext() ?? standaloneContext(withoutRun);
   merged = innerProps(merged, mode, ctx);
