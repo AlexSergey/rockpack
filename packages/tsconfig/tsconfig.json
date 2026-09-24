@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "jsx": "react-jsx",
 
     // Node.js 24
@@ -23,7 +22,6 @@
     "newLine": "lf",
 
     "strict": true,
-    "strictPropertyInitialization": false,
     "skipLibCheck": true,
 
     "forceConsistentCasingInFileNames": true,

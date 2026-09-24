@@ -1,5 +1,5 @@
 {
-  "extends": "@rockpack/tsconfig",
+  "extends": "@rockpack/tsconfig/tsconfig.node.json",
   "compilerOptions": {
     "types": ["node", "jest"],
     "noEmit": true
