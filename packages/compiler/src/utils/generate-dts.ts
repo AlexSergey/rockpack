@@ -9,7 +9,7 @@ import { isArray, isString } from 'valid-types';
 
 import type { CompilerConf, Mode } from '../types.js';
 
-import { moduleFormats } from '../constants.js';
+import { moduleFormats, testFilesIgnore } from '../constants.js';
 import { makeResolve } from '../modules/make-resolve.js';
 import { getFiles, getTypeScript } from './file-system-utils.js';
 import { makeCompilerOptions } from './make-compiler-options.js';
@@ -52,7 +52,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
     }
 
     if (baseDir) {
-      const tsAndTsx = await getTypeScript(baseDir);
+      const tsAndTsx = await getTypeScript(baseDir, testFilesIgnore);
 
       if (isArray(tsAndTsx) && tsAndTsx.length > 0) {
         if (typeof tsConfig === 'string' && existsSync(tsConfig)) {

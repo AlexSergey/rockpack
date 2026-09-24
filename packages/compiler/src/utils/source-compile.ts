@@ -9,19 +9,12 @@ import { isArray, isObject, isString } from 'valid-types';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
+import { testFilesIgnore } from '../constants.js';
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
 import { capitalize } from './other.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
 
 const _require = createRequire(import.meta.url);
-
-const testFilesIgnore = [
-  '**/*.spec.{ts,tsx,js,jsx}',
-  '**/*.test.{ts,tsx,js,jsx}',
-  '**/__fixtures__/**',
-  '**/__mocks__/**',
-  '**/__tests__/**',
-];
 
 // eslint-disable-next-line @sonar/cognitive-complexity
 export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {

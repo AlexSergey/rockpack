@@ -1,7 +1,7 @@
 import type * as fs from 'node:fs';
 
 import { getMode } from '@rockpack/utils';
-import { cpSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -35,6 +35,18 @@ describe('generateDts', () => {
 
       expect(errorSpy).toHaveBeenCalledWith("It's not TS project");
       expect(existsSync(path.join(root, 'dist'))).toBe(false);
+    });
+
+    it('emits no declarations for specs', async () => {
+      writeFileSync(
+        path.join(root, 'src', 'index.spec.ts'),
+        "import { total } from './index';\n\nexport const check = total([1]);\n",
+      );
+
+      await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
+
+      expect(existsSync(path.join(root, 'dist', 'types', 'index.d.ts'))).toBe(true);
+      expect(existsSync(path.join(root, 'dist', 'types', 'index.spec.d.ts'))).toBe(false);
     });
   });
 
