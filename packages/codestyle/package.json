@@ -27,11 +27,10 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "import": "./lib/esm/index.mjs",
-      "require": "./lib/cjs/index.cjs"
+      "default": "./lib/esm/index.mjs"
     }
   },
-  "main": "./lib/cjs/index.cjs",
+  "main": "./lib/esm/index.mjs",
   "module": "./lib/esm/index.mjs",
   "types": "./types/index.d.ts",
   "files": [
