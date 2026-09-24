@@ -1,27 +1,12 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import type { PackageJson } from '../types.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// The nearest package.json is the compiler root both for src/modules and lib/<format>/modules.
-const findPackageRoot = (from: string): string => {
-  let dir = from;
-  while (!existsSync(path.join(dir, 'package.json'))) {
-    const parent = path.dirname(dir);
-    if (parent === dir) {
-      return from;
-    }
-    dir = parent;
-  }
-
-  return dir;
-};
+import { compilerRoot } from '../utils/package-root.js';
 
 export const makeBanner = (packageJson: PackageJson): false | string => {
-  const bannerPath = path.join(findPackageRoot(__dirname), 'banner');
+  const bannerPath = path.join(compilerRoot(), 'banner');
   let banner = existsSync(bannerPath) ? readFileSync(bannerPath, 'utf8') : '';
 
   if (banner) {

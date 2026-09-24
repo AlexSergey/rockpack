@@ -67,6 +67,7 @@ jest.mock('../utils/path-to-eslintrc.js', () => ({ pathToEslintrc: jest.fn() }))
 jest.mock('../utils/path-to-stylelint.js', () => ({ pathToStylelint: jest.fn() }));
 jest.mock('../utils/path-to-ts-conf.js', () => ({ pathToTsConf: jest.fn() }));
 jest.mock('./make-banner.js', () => ({ makeBanner: jest.fn() }));
+jest.mock('../utils/package-root.js', () => ({ compilerRoot: (): string => '/compiler' }));
 
 const { createPluginMock } = jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js');
 
@@ -86,7 +87,7 @@ const pathToTsConfMock = pathToTsConf as jest.MockedFunction<typeof pathToTsConf
 const makeBannerMock = makeBanner as jest.MockedFunction<typeof makeBanner>;
 
 const root = '/project';
-const defaultTemplate = path.resolve(__dirname, '../../..', './index.ejs');
+const defaultTemplate = path.join('/compiler', 'index.ejs');
 
 type ConfOverrides = { [K in keyof InternalCompilerConf]?: InternalCompilerConf[K] | undefined };
 
@@ -183,6 +184,40 @@ describe('makePlugins', () => {
   });
 
   describe('positive cases', () => {
+    it('keeps the plugin order of a full production build', async () => {
+      pathToTsConfMock.mockReturnValue('/project/tsconfig.json');
+      pathToStylelintMock.mockReturnValue('/project/.stylelintrc');
+      pathToEslintrcMock.mockReturnValue('/project/eslint.config.js');
+      makeBannerMock.mockReturnValue('banner');
+      mockFiles('.env');
+
+      expect(Object.keys(await build({ analyzer: true, copy: { from: 'a', to: 'b' } }))).toEqual([
+        'FriendlyErrorsPlugin',
+        'ForkTsCheckerPlugin',
+        'Dotenv',
+        'BannerPlugin',
+        'HtmlWebpackPlugin0',
+        'StylelintWebpackPlugin',
+        'EslintWebpackPlugin',
+        'DefinePlugin',
+        'CopyWebpackPlugin',
+        'CaseSensitivePathsPlugin',
+        'MiniCssExtractPlugin',
+        'FlagDependencyUsagePlugin',
+        'FlagIncludedChunksPlugin',
+        'NoEmitOnErrorsPlugin',
+        'SideEffectsFlagPlugin',
+        'BundleAnalyzerPlugin',
+        'StatoscopeWebpackPlugin',
+      ]);
+    });
+
+    it('keeps the plugin order of a node development build', async () => {
+      expect(
+        Object.keys(await build({ __isIsomorphicStyles: true, html: false, nodejs: true }, 'development')),
+      ).toEqual(['FriendlyErrorsPlugin', 'DefinePlugin', 'NodemonPlugin', 'WatchIgnorePlugin', 'MiniCssExtractPlugin']);
+    });
+
     it('always reports errors with the compilation messages', async () => {
       expect(getPluginOptions((await build({ messages: ['ready'] }))['FriendlyErrorsPlugin'])).toEqual({
         clearConsole: false,
