@@ -54,7 +54,6 @@
     "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "@adobe/css-tools": "4.5.0",
     "@jest/types": "30.4.1",
     "@rockpack/babel": "8.0.0",
     "@rockpack/utils": "8.0.0",
@@ -62,16 +61,10 @@
     "babel-jest": "30.4.1",
     "deep-extend": "0.6.0",
     "identity-obj-proxy": "3.0.0",
-    "isomorphic-fetch": "3.0.0",
     "jest": "30.4.2",
     "jest-environment-jsdom": "30.4.1",
     "jest-html-reporters": "3.1.7",
-    "pretty-format": "30.4.1",
-    "source-map": "0.7.6",
-    "typescript": "6.0.3",
-    "valid-types": "3.1.0",
-    "yargs": "18.0.0",
-    "yargs-unparser": "2.0.0"
+    "typescript": "6.0.3"
   },
   "devDependencies": {
     "@babel/core": "7.29.7",

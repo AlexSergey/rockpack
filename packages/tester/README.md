@@ -27,6 +27,8 @@ npm install @rockpack/tester --save-dev
 yarn add @rockpack/tester --dev
 ```
 
+`@types/jest` is a regular dependency of `@rockpack/tester` on purpose: specs use the Jest globals (`describe`, `it`, `expect`, `jest`), so their types come with the tester and need no separate install.
+
 2. Create **tests.js** in the root of the project:
 
 ```js
