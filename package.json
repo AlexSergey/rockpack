@@ -29,8 +29,8 @@
     "version:set": "tsx version.ts"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run lint",
-    "pre-push": "npm run lint && npm test"
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run lint && npm run test:unit"
   },
   "dependencies": {
     "@inquirer/select": "5.0.4",
@@ -40,6 +40,7 @@
     "@types/node": "24.10.13",
     "cross-env": "7.0.3",
     "lerna": "9.0.7",
+    "lint-staged": "17.5.1",
     "simple-git-hooks": "2.13.1"
   }
 }
