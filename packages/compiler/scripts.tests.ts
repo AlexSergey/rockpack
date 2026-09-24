@@ -12,7 +12,7 @@ tester(
       '!src/__fixtures__/**',
       '!src/types.ts',
     ],
-    coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 80 } },
+    coverageThreshold: { global: { branches: 92, functions: 98, lines: 96, statements: 96 } },
     testEnvironment: 'node',
   },
 );

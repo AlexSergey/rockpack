@@ -13,7 +13,7 @@ tester(
       '!src/constants/**',
       '!src/types/**',
     ],
-    coverageThreshold: { global: { branches: 80, functions: 85, lines: 85, statements: 85 } },
+    coverageThreshold: { global: { branches: 91, functions: 98, lines: 97, statements: 97 } },
     testEnvironment: 'node',
   },
 );
