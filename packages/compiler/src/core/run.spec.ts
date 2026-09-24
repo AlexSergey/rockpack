@@ -13,12 +13,18 @@ jest.mock('../utils/log.js', () => ({ log: jest.fn() }));
 type WebpackCallback = (err: Error | null, stats: MultiStats | Stats | undefined) => void;
 
 const conf: InternalCompilerConf = { dist: 'dist/index.js', src: 'src/index.ts' };
-const stats = { hash: 'abc' } as unknown as Stats;
+const createStats = (hasErrors: boolean): Stats => ({ hasErrors: () => hasErrors }) as unknown as Stats;
+const stats = createStats(false);
 
-const runWith = (mode: Mode, error: Error | null, runConf: InternalCompilerConf = conf): jest.Mock => {
+const runWith = (
+  mode: Mode,
+  error: Error | null,
+  runConf: InternalCompilerConf = conf,
+  runStats: Stats = stats,
+): jest.Mock => {
   const compiler = { name: 'compiler' };
   const webpack = jest.fn((_config: unknown, callback: WebpackCallback) => {
-    callback(error, error ? undefined : stats);
+    callback(error, error ? undefined : runStats);
 
     return compiler;
   });
@@ -65,6 +71,16 @@ describe('run', () => {
       expect(() => runWith('production', new Error('broken'))).toThrow(new ExitError(1));
       expect(errorSpy).toHaveBeenCalledWith('broken');
       expect(log).not.toHaveBeenCalled();
+    });
+
+    it('exits with code 1 when a production build has compilation errors', async () => {
+      const failedStats = createStats(true);
+
+      runWith('production', null, conf, failedStats);
+      await flushPromises();
+
+      expect(log).toHaveBeenCalledWith(failedStats);
+      expect(exitSpy).toHaveBeenCalledWith(1);
     });
   });
 

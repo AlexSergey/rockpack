@@ -37,7 +37,7 @@ export const run = (
     void (async (): Promise<void> => {
       if (conf.library) await sourceCompiler(conf);
       log(stats ?? null);
-      process.exit(0);
+      process.exit(stats?.hasErrors() ? 1 : 0);
     })();
   });
 
