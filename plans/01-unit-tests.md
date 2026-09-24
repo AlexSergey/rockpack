@@ -245,10 +245,10 @@ Status: 6.1-6.5 done on 2026-09-24 (6.6 is Plan 4). Actual coverage 97.56/93.97/
 
 ## 11. Phase 7: enforcement
 
-- [ ] `npm run test:unit` added to the pre-push hook (Plan 2 replaces the full `npm test` there).
-- [ ] CI job (defined in Plan 2) runs build, then `test:unit`, then `e2e/babel-e2e`, `e2e/compiler-e2e` and the tester examples, and uploads `coverage/lcov.info` per package.
-- [ ] Final threshold pass: set each package's thresholds to `floor(actual) - 2`, never below 80/80/80/75, and record the numbers in this document.
-- [ ] Remove or repurpose `e2e/babel-e2e` (decision recorded in Plan 2).
+- [x] `npm run test:unit` added to the pre-push hook (Plan 2 replaces the full `npm test` there). _Done in Plan 2 A4._
+- [x] CI job (defined in Plan 2) runs build, then `test:unit`, then `e2e/babel-e2e`, `e2e/compiler-e2e` and the tester examples, and uploads `coverage/lcov.info` per package. _Done in Plan 2 A1; `e2e/compiler-e2e` joins when Plan 4 adds it._
+- [x] Final threshold pass: set each package's thresholds to `floor(actual) - 2`, never below 80/80/80/75, and record the numbers in this document. _Done 2026-09-24 (statements/branches/functions/lines): babel, codestyle, utils 98/98/98/98; compiler 96/92/98/96; starter 97/91/98/97; tester 98/94/98/98._
+- [x] Remove or repurpose `e2e/babel-e2e` (decision recorded in Plan 2). _Repurposed in Plan 2 I3 as a smoke test of the built entries._
 
 ## 12. Acceptance criteria
 
