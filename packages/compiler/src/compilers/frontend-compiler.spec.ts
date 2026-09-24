@@ -1,5 +1,6 @@
 import { setMode } from '@rockpack/utils';
 
+import { setLegacyIsomorphicContext } from '../core/compile-context.js';
 import { compile } from '../core/compile.js';
 import { devServer } from '../core/dev-server.js';
 import { errorHandler } from '../error-handler.js';
@@ -23,7 +24,7 @@ describe('frontendCompiler', () => {
   });
 
   afterEach(() => {
-    global.ISOMORPHIC = undefined;
+    setLegacyIsomorphicContext(undefined);
     jest.clearAllMocks();
   });
 
@@ -40,8 +41,8 @@ describe('frontendCompiler', () => {
       expect(devServer).not.toHaveBeenCalled();
     });
 
-    it('returns the config without a dev server in isomorphic builds', async () => {
-      global.ISOMORPHIC = true;
+    it('returns the config without a dev server in legacy isomorphic builds', async () => {
+      setLegacyIsomorphicContext({ configOnly: true, isomorphic: true });
 
       await expect(frontendCompiler()).resolves.toBe(compileResult);
       expect(devServer).not.toHaveBeenCalled();

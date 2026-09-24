@@ -3,12 +3,16 @@ import type { Configuration } from 'webpack';
 import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 
 import type { InternalCompilerConf } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
 import { makeModules } from '../modules/make-modules.js';
 import { makeOutput } from '../modules/make-output.js';
 import { makePlugins } from '../modules/make-plugins.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 import { make } from './make.js';
+
+const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
+const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
 
 jest.mock('@rockpack/utils', () => ({
   ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
@@ -62,33 +66,32 @@ describe('make', () => {
   });
 
   afterEach(() => {
-    global.ISOMORPHIC = undefined;
     jest.clearAllMocks();
   });
 
   describe('negative cases', () => {
     it('uses an empty package.json when the project has none', async () => {
-      await make(createConf(), null);
+      await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(readPackageJsonMock).toHaveBeenCalledWith('/project');
       expect(makeModules).toHaveBeenCalledWith(expect.anything(), '/project', {}, 'production');
     });
 
     it('does not name the config without a string name', async () => {
-      await make(createConf({ name: 42 as unknown as string }), null);
+      await make(createConf({ name: 42 as unknown as string }), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).not.toHaveProperty('name');
     });
 
     it('adds no node target or externals presets for a browser build', async () => {
-      await make(createConf(), null);
+      await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).not.toHaveProperty('target');
       expect(finalConfig()).not.toHaveProperty('externalsPresets');
     });
 
     it('does not call a null post hook', async () => {
-      await expect(make(createConf(), null)).resolves.toBeDefined();
+      await expect(make(createConf(), null, STANDALONE_CONTEXT)).resolves.toBeDefined();
     });
   });
 
@@ -96,7 +99,7 @@ describe('make', () => {
     it('reads package.json from the project root', async () => {
       readPackageJsonMock.mockReturnValue({ name: 'app' });
 
-      await make(createConf(), null);
+      await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(makePlugins).toHaveBeenCalledWith(
         expect.anything(),
@@ -105,12 +108,13 @@ describe('make', () => {
         'production',
         'webpack',
         '/project/src',
+        STANDALONE_CONTEXT,
       );
     });
 
     it('assembles the production config from the modules', async () => {
       const conf = createConf();
-      const result = await make(conf, null);
+      const result = await make(conf, null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).toEqual({
         devServer: 'devServer',
@@ -133,7 +137,7 @@ describe('make', () => {
     it('creates the output object in production when makeOutput returns none', async () => {
       makeOutputMock.mockReturnValue(undefined as unknown as ReturnType<typeof makeOutput>);
 
-      await make(createConf(), null);
+      await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()['output']).toEqual({ pathinfo: false });
     });
@@ -141,7 +145,7 @@ describe('make', () => {
     it('watches with cache and no performance hints in development', async () => {
       getModeMock.mockReturnValue('development');
 
-      await make(createConf(), null);
+      await make(createConf(), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).toMatchObject({
         cache: true,
@@ -152,21 +156,19 @@ describe('make', () => {
     });
 
     it('names the config and overrides the externals', async () => {
-      await make(createConf({ externals: ['react'], name: 'client' }), null);
+      await make(createConf({ externals: ['react'], name: 'client' }), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).toMatchObject({ externals: ['react'], name: 'client' });
     });
 
     it('targets node for a nodejs build', async () => {
-      await make(createConf({ nodejs: true }), null);
+      await make(createConf({ nodejs: true }), null, STANDALONE_CONTEXT);
 
       expect(finalConfig()).toMatchObject({ externalsPresets: { node: true }, target: 'node' });
     });
 
     it('adds node externals presets to isomorphic builds', async () => {
-      global.ISOMORPHIC = true;
-
-      await make(createConf(), null);
+      await make(createConf(), null, ISOMORPHIC_CONTEXT);
 
       expect(finalConfig()).toMatchObject({ externalsPresets: { node: true } });
       expect(finalConfig()).not.toHaveProperty('target');
@@ -177,7 +179,7 @@ describe('make', () => {
         Object.assign(config, { custom: true });
       });
 
-      await make(createConf(), post);
+      await make(createConf(), post, STANDALONE_CONTEXT);
 
       expect(post).toHaveBeenCalledWith(
         expect.objectContaining({ mode: 'production' }),

@@ -1,21 +1,28 @@
 import type { Configuration } from 'webpack';
 
-import { getMode, setMode } from '@rockpack/utils';
+import { getMode, isRecord, setMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 import path from 'node:path';
 import webpack from 'webpack';
 
-import type { InternalCompilerConf } from '../types.js';
+import type { CompileContext } from '../core/compile-context.js';
+import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
+import { setLegacyIsomorphicContext } from '../core/compile-context.js';
+import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
+import { backendConf } from './backend-compiler.js';
 import { withErrorBoundary } from './error-boundary.js';
+import { frontendConf } from './frontend-compiler.js';
 
 type CompileResult = {
   conf: InternalCompilerConf;
   webpackConfig: Configuration | Configuration[];
 };
+
+type PostFn = NonNullable<Parameters<typeof compile>[1]>;
 
 const validateConfigs = (configs: InternalCompilerConf[]): void => {
   if (!configs.some((p) => p.compilerName === 'frontendCompiler')) {
@@ -46,30 +53,62 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
   }
 };
 
-export async function isomorphicCompiler(...props: Promise<CompileResult | undefined>[]): Promise<void> {
+export type IsomorphicCompilerOptions = {
+  readonly backend: Partial<CompilerConf>;
+  readonly backendCallback?: PostFn;
+  readonly frontend: Partial<CompilerConf>;
+  readonly frontendCallback?: PostFn;
+};
+
+const isOptions = (value: unknown): value is IsomorphicCompilerOptions => isRecord(value) && 'frontend' in value;
+
+const compileBoth = (
+  { backend, backendCallback, frontend, frontendCallback }: IsomorphicCompilerOptions,
+  context: CompileContext,
+): Promise<CompileResult>[] =>
+  [
+    compile(frontendConf(frontend), frontendCallback ?? null, true, context),
+    compile(backendConf(backend), backendCallback ?? null, true, context),
+  ] as Promise<CompileResult>[];
+
+export function isomorphicCompiler(options: IsomorphicCompilerOptions): Promise<void>;
+/** @deprecated Pass `{ frontend, backend }` confs instead; this form is removed in 10.0. */
+export function isomorphicCompiler(...compilers: Promise<CompileResult | undefined>[]): Promise<void>;
+export async function isomorphicCompiler(
+  ...args: [IsomorphicCompilerOptions] | Promise<CompileResult | undefined>[]
+): Promise<void> {
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();
     const mode = getMode();
-    global.ISOMORPHIC = true;
-    global.CONFIG_ONLY = true;
     // Live reload is a development feature; in production the server would keep the process alive.
     const lrserver = mode === 'development' ? createServer() : undefined;
-    if (lrserver) {
-      global.LIVE_RELOAD_PORT = lrserver.config.port;
-      global.LIVE_RELOAD_SERVER = lrserver;
+    const context: CompileContext = {
+      configOnly: true,
+      isomorphic: true,
+      ...(lrserver ? { liveReload: { port: lrserver.config.port, server: lrserver } } : {}),
+    };
+    const [first] = args;
+    const legacy = !isOptions(first);
+    if (legacy) {
+      setLegacyIsomorphicContext(context);
     }
 
     let configs: InternalCompilerConf[];
     let webpackConfigs: (Configuration | Configuration[])[];
     try {
-      const resolved = (await Promise.all(props)).filter((c): c is CompileResult => c != null);
+      const pending = isOptions(first) ? compileBoth(first, context) : (args as Promise<CompileResult | undefined>[]);
+      const resolved = (await Promise.all(pending)).filter((c): c is CompileResult => c != null);
       webpackConfigs = resolved.map((c) => c.webpackConfig);
       configs = resolved.map((c) => c.conf);
       validateConfigs(configs);
     } catch (error) {
       lrserver?.close();
       throw error;
+    } finally {
+      if (legacy) {
+        setLegacyIsomorphicContext(undefined);
+      }
     }
 
     run(

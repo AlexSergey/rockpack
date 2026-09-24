@@ -193,24 +193,26 @@ libraryCompiler({
   ]
 }, options);
 ```
-### isomorphicCompiler(configs[needed]);
+### isomorphicCompiler({ frontend, backend, frontendCallback, backendCallback });
 
-Compiles an SSR application.
+Compiles an SSR application: the frontend and backend options are the same as for `frontendCompiler` and `backendCompiler`, the callbacks are their optional second arguments. The two builds must write to different files.
 
 ```js
-const { isomorphicCompiler, backendCompiler, frontendCompiler } = require('@rockpack/compiler');
+const { isomorphicCompiler } = require('@rockpack/compiler');
 
-isomorphicCompiler(
-  frontendCompiler({
+isomorphicCompiler({
+  frontend: {
     src: 'src/client.jsx',
     dist: 'public',
-  }),
-  backendCompiler({
+  },
+  backend: {
     src: 'src/server.jsx',
     dist: 'dist',
-  })
-);
+  },
+});
 ```
+
+The previous form, `isomorphicCompiler(frontendCompiler({...}), backendCompiler({...}))`, still works but is deprecated and will be removed in 10.0.
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
 

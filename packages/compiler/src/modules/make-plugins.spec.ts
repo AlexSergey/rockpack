@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import type * as PluginMocks from '../__fixtures__/plugin-mocks.js';
+import type { CompileContext } from '../core/compile-context.js';
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
 
 import { getPluginOptions } from '../__fixtures__/plugin-mocks.js';
@@ -99,12 +100,16 @@ const createConf = (overrides: ConfOverrides = {}): InternalCompilerConf =>
     ...overrides,
   }) as InternalCompilerConf;
 
+const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
+const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
+
 const build = async (
   overrides: ConfOverrides = {},
   mode: Mode = 'production',
   packageJson: PackageJson = { name: 'my_app' },
+  compileContext: CompileContext = STANDALONE_CONTEXT,
 ): Promise<Record<string, unknown>> =>
-  (await makePlugins(createConf(overrides), root, packageJson, mode, fakeWebpack, '/project/src')).dict;
+  (await makePlugins(createConf(overrides), root, packageJson, mode, fakeWebpack, '/project/src', compileContext)).dict;
 
 const mockFiles = (...files: string[]): void => {
   existsSyncMock.mockImplementation((file) => files.map((name) => path.resolve(root, name)).includes(String(file)));
@@ -121,8 +126,6 @@ describe('makePlugins', () => {
   });
 
   afterEach(() => {
-    global.ISOMORPHIC = undefined;
-    global.LIVE_RELOAD_PORT = undefined;
     jest.resetAllMocks();
   });
 
@@ -147,10 +150,9 @@ describe('makePlugins', () => {
 
     it('skips html pages when html is false or the build is isomorphic', async () => {
       expect(await build({ html: false })).not.toHaveProperty('HtmlWebpackPlugin0');
-
-      global.ISOMORPHIC = true;
-
-      expect(await build({ html: true })).not.toHaveProperty('HtmlWebpackPlugin0');
+      expect(await build({ html: true }, 'production', undefined, ISOMORPHIC_CONTEXT)).not.toHaveProperty(
+        'HtmlWebpackPlugin0',
+      );
     });
 
     it('skips linters without configs and eslint in debug mode', async () => {
@@ -339,9 +341,14 @@ describe('makePlugins', () => {
     });
 
     it('defines ROOT_DIRNAME for a backend and the live reload port', async () => {
-      global.LIVE_RELOAD_PORT = 35729;
+      const context: CompileContext = {
+        ...ISOMORPHIC_CONTEXT,
+        liveReload: { port: 35729, server: { refresh: jest.fn() } },
+      };
 
-      expect(getPluginOptions((await build({ __isBackend: true }, 'development'))['DefinePlugin'])).toEqual({
+      expect(
+        getPluginOptions((await build({ __isBackend: true }, 'development', undefined, context))['DefinePlugin']),
+      ).toEqual({
         'process.env.LIVE_RELOAD_PORT': '"35729"',
         'process.env.NODE_ENV': '"development"',
         'process.env.ROOT_DIRNAME': '"/project"',
@@ -368,7 +375,15 @@ describe('makePlugins', () => {
     it('runs nodemon with a free inspect port for a node build in development', async () => {
       const conf = createConf({ dist: 'build/server.js', nodejs: true });
 
-      const { dict } = await makePlugins(conf, root, {}, 'development', fakeWebpack, '/project/src');
+      const { dict } = await makePlugins(
+        conf,
+        root,
+        {},
+        'development',
+        fakeWebpack,
+        '/project/src',
+        STANDALONE_CONTEXT,
+      );
 
       expect(fpPromiseMock).toHaveBeenCalledWith(9224);
       expect(getPluginOptions(dict['NodemonPlugin'])).toEqual({
@@ -384,10 +399,17 @@ describe('makePlugins', () => {
     });
 
     it('runs the ssr development plugin for an isomorphic backend without the inspect message', async () => {
-      global.ISOMORPHIC = true;
       const conf = createConf({ __isIsomorphicBackend: true, dist: '/abs/server.js' });
 
-      const { dict } = await makePlugins(conf, root, {}, 'development', fakeWebpack, '/project/src');
+      const { dict } = await makePlugins(
+        conf,
+        root,
+        {},
+        'development',
+        fakeWebpack,
+        '/project/src',
+        ISOMORPHIC_CONTEXT,
+      );
 
       const inspectPort = fpPromiseMock.mock.calls[0]?.[0] ?? 0;
       expect(inspectPort).toBeGreaterThanOrEqual(9000);

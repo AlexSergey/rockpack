@@ -19,14 +19,14 @@ export const makeDotenvPlugins = ({ root }: PluginContext): PluginEntries => {
   };
 };
 
-export const makeDefinePlugins = ({ conf, mode, root, wp }: PluginContext): PluginEntries => {
+export const makeDefinePlugins = ({ compileContext, conf, mode, root, wp }: PluginContext): PluginEntries => {
   const env = conf.global ?? {};
 
   if (conf.__isBackend) {
     env['ROOT_DIRNAME'] = root;
   }
-  if (typeof global.LIVE_RELOAD_PORT === 'number') {
-    env['LIVE_RELOAD_PORT'] = String(global.LIVE_RELOAD_PORT);
+  if (compileContext.liveReload) {
+    env['LIVE_RELOAD_PORT'] = String(compileContext.liveReload.port);
   }
 
   const definitions: Record<string, string> = {

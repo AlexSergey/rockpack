@@ -1,9 +1,11 @@
 import { getMode } from '@rockpack/utils';
 
 import type { InternalCompilerConf } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { addArgs } from './args.js';
+import { setLegacyIsomorphicContext } from './compile-context.js';
 import { compile } from './compile.js';
 import { innerProps } from './inner-props.js';
 import { make } from './make.js';
@@ -22,6 +24,8 @@ jest.mock('./run.js', () => ({ run: jest.fn() }));
 
 const conf = { dist: 'dist/index.js', src: 'src/index.ts' } as InternalCompilerConf;
 const finalConf = { ...conf, messages: [] } as InternalCompilerConf;
+const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
+const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
 
 describe('compile', () => {
   beforeEach(() => {
@@ -34,7 +38,7 @@ describe('compile', () => {
   });
 
   afterEach(() => {
-    global.CONFIG_ONLY = undefined;
+    setLegacyIsomorphicContext(undefined);
     jest.clearAllMocks();
   });
 
@@ -47,11 +51,18 @@ describe('compile', () => {
       expect(run).not.toHaveBeenCalled();
     });
 
-    it('lets CONFIG_ONLY=true skip the run', async () => {
-      global.CONFIG_ONLY = true;
+    it('does not run webpack for a config-only context', async () => {
+      await compile(conf, null, false, ISOMORPHIC_CONTEXT);
 
-      await compile(conf, null, false);
+      expect(run).not.toHaveBeenCalled();
+    });
 
+    it('picks up the legacy isomorphic context set after the call started', async () => {
+      const pending = compile(conf, null);
+      setLegacyIsomorphicContext(ISOMORPHIC_CONTEXT);
+      await pending;
+
+      expect(innerProps).toHaveBeenCalledWith(expect.anything(), 'production', ISOMORPHIC_CONTEXT);
       expect(run).not.toHaveBeenCalled();
     });
   });
@@ -63,8 +74,16 @@ describe('compile', () => {
       await compile(conf, post);
 
       expect(mergeConfWithDefault).toHaveBeenCalledWith(conf, 'production');
-      expect(innerProps).toHaveBeenCalledWith(expect.objectContaining({ merged: true }), 'production');
-      expect(make).toHaveBeenCalledWith(expect.objectContaining({ args: true, inner: true, merged: true }), post);
+      expect(innerProps).toHaveBeenCalledWith(
+        expect.objectContaining({ merged: true }),
+        'production',
+        STANDALONE_CONTEXT,
+      );
+      expect(make).toHaveBeenCalledWith(
+        expect.objectContaining({ args: true, inner: true, merged: true }),
+        post,
+        STANDALONE_CONTEXT,
+      );
     });
 
     it('runs webpack with the made config', async () => {
@@ -72,10 +91,8 @@ describe('compile', () => {
       expect(run).toHaveBeenCalledWith({ mode: 'production' }, 'production', 'webpack', finalConf);
     });
 
-    it('lets CONFIG_ONLY=false force the run', async () => {
-      global.CONFIG_ONLY = false;
-
-      await compile(conf, null, true);
+    it('lets an explicit context override the config-only argument', async () => {
+      await compile(conf, null, true, STANDALONE_CONTEXT);
 
       expect(run).toHaveBeenCalled();
     });

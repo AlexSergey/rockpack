@@ -25,8 +25,8 @@ const getPages = ({ conf, packageJson }: PluginContext, defaultTemplate: string)
 };
 
 export const makeHtmlPlugins = (ctx: PluginContext): PluginEntries => {
-  const { conf, mode } = ctx;
-  if ((typeof conf.html === 'boolean' && !conf.html) || global.ISOMORPHIC) {
+  const { compileContext, conf, mode } = ctx;
+  if ((typeof conf.html === 'boolean' && !conf.html) || compileContext.isomorphic) {
     return {};
   }
   const defaultTemplate = path.join(compilerRoot(), 'index.ejs');

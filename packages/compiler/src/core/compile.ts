@@ -4,9 +4,11 @@ import { getMode } from '@rockpack/utils';
 import webpack from 'webpack';
 
 import type { InternalCompilerConf } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { addArgs } from './args.js';
+import { getLegacyIsomorphicContext, standaloneContext } from './compile-context.js';
 import { innerProps } from './inner-props.js';
 import { make } from './make.js';
 import { run } from './run.js';
@@ -22,16 +24,17 @@ export const compile = async (
   conf: Partial<InternalCompilerConf>,
   post: null | PostFn,
   withoutRun = false,
+  context?: CompileContext,
 ): Promise<Awaited<ReturnType<typeof run>> | CompileResult> => {
   const mode = getMode();
   let merged = await mergeConfWithDefault(conf, mode);
-  merged = innerProps(merged, mode);
-  merged = addArgs(merged);
-  const finalConfig = await make(merged, post);
+  // Read after the first await: see getLegacyIsomorphicContext.
+  const ctx = context ?? getLegacyIsomorphicContext() ?? standaloneContext(withoutRun);
+  merged = innerProps(merged, mode, ctx);
+  merged = addArgs(merged, ctx);
+  const finalConfig = await make(merged, post, ctx);
 
-  const configOnly = typeof global.CONFIG_ONLY === 'boolean' ? global.CONFIG_ONLY : withoutRun;
-
-  if (configOnly) {
+  if (ctx.configOnly) {
     return {
       conf: finalConfig.conf,
       webpackConfig: finalConfig.webpackConfig,

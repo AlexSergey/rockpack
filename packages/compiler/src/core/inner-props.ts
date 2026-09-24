@@ -1,9 +1,10 @@
 import type { InternalCompilerConf, Mode } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
-export const innerProps = (conf: InternalCompilerConf, mode: Mode): InternalCompilerConf => {
+export const innerProps = (conf: InternalCompilerConf, mode: Mode, context: CompileContext): InternalCompilerConf => {
   conf.messages = [];
 
-  if (global.ISOMORPHIC) {
+  if (context.isomorphic) {
     switch (conf.compilerName) {
       case 'backendCompiler':
         conf.__isIsomorphic = true;

@@ -1,8 +1,12 @@
+// These specs cover the deprecated promise form next to the options form.
+/* eslint-disable @typescript-eslint/no-deprecated */
 import { getMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 
-import type { InternalCompilerConf } from '../types.js';
+import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
+import { getLegacyIsomorphicContext } from '../core/compile-context.js';
+import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
 import { isomorphicCompiler } from './isomorphic-compiler.js';
 
@@ -14,6 +18,7 @@ jest.mock('@rockpack/utils', () => ({
 jest.mock('livereload', () => ({ createServer: jest.fn() }));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../core/run.js', () => ({ run: jest.fn() }));
+jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 
 type CompileResult = {
@@ -49,10 +54,6 @@ describe('isomorphicCompiler', () => {
   });
 
   afterEach(() => {
-    global.ISOMORPHIC = undefined;
-    global.CONFIG_ONLY = undefined;
-    global.LIVE_RELOAD_PORT = undefined;
-    global.LIVE_RELOAD_SERVER = undefined;
     jest.restoreAllMocks();
     jest.clearAllMocks();
   });
@@ -86,6 +87,17 @@ describe('isomorphicCompiler', () => {
       expect(lrServer.close).toHaveBeenCalled();
     });
 
+    it('rejects option confs whose outputs collide', async () => {
+      (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+        result(conf.compilerName ?? '', { dist: 'dist/index.js' }),
+      );
+
+      await expect(isomorphicCompiler({ backend: {}, frontend: {} })).rejects.toThrow(
+        'frontendCompiler and backendCompiler write to the same file',
+      );
+      expect(lrServer.close).toHaveBeenCalled();
+    });
+
     it('ignores compilers that resolved to nothing', async () => {
       await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve(undefined))).rejects.toThrow(
         'backendCompiler is required to set isomorphicCompiler',
@@ -95,13 +107,22 @@ describe('isomorphicCompiler', () => {
   });
 
   describe('positive cases', () => {
-    it('starts live reload and marks the build as isomorphic', async () => {
-      await isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'));
+    it('shares an isomorphic context with the live reload server while the legacy children resolve', async () => {
+      let seen: ReturnType<typeof getLegacyIsomorphicContext>;
+      const frontend = result('frontendCompiler').then((value) => {
+        seen = getLegacyIsomorphicContext();
 
-      expect(global.ISOMORPHIC).toBe(true);
-      expect(global.CONFIG_ONLY).toBe(true);
-      expect(global.LIVE_RELOAD_PORT).toBe(35729);
-      expect(global.LIVE_RELOAD_SERVER).toBe(lrServer);
+        return value;
+      });
+
+      await isomorphicCompiler(frontend, result('backendCompiler'));
+
+      expect(seen).toEqual({
+        configOnly: true,
+        isomorphic: true,
+        liveReload: { port: 35729, server: lrServer },
+      });
+      expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
 
     it('runs every webpack config together', async () => {
@@ -113,6 +134,38 @@ describe('isomorphicCompiler', () => {
         'webpack',
         expect.objectContaining({ compilerName: 'frontendCompiler' }),
       );
+    });
+
+    it('compiles the frontend and backend confs with an isomorphic context', async () => {
+      const frontendCallback = jest.fn();
+      (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+        result(conf.compilerName ?? '', { dist: conf.dist ?? '' }),
+      );
+      const frontend: Partial<CompilerConf> = { dist: 'public/index.js', src: 'src/client.tsx' };
+      const backend: Partial<CompilerConf> = { dist: 'dist/index.js', src: 'src/server.tsx' };
+
+      await isomorphicCompiler({ backend, frontend, frontendCallback });
+
+      const context = { configOnly: true, isomorphic: true, liveReload: { port: 35729, server: lrServer } };
+      expect(compile).toHaveBeenCalledWith(
+        expect.objectContaining({ ...frontend, compilerName: 'frontendCompiler' }),
+        frontendCallback,
+        true,
+        context,
+      );
+      expect(compile).toHaveBeenCalledWith(
+        expect.objectContaining({ ...backend, compilerName: 'backendCompiler', nodejs: true }),
+        null,
+        true,
+        context,
+      );
+      expect(run).toHaveBeenCalledWith(
+        [{ name: 'frontendCompiler' }, { name: 'backendCompiler' }],
+        'development',
+        'webpack',
+        expect.objectContaining({ compilerName: 'frontendCompiler' }),
+      );
+      expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
   });
 });

@@ -2,6 +2,8 @@ import type { NodemonSettings } from 'nodemon';
 
 import nodemon from 'nodemon';
 
+import type { LiveReloadServer } from '../../core/compile-context.js';
+
 import { getOutputFileMeta } from './webpack-utils.js';
 
 type NodemonOptions = Partial<NodemonSettings>;
@@ -26,10 +28,12 @@ type WebpackHookCallback = () => void;
 export class SsrDevelopment {
   private isNodemonRunning: boolean;
   private isWebpackWatching: boolean;
+  private readonly liveReload: LiveReloadServer | undefined;
   private readonly nodemonOptions: NodemonOptions;
 
-  constructor(nodemonOptions: NodemonOptions) {
+  constructor(nodemonOptions: NodemonOptions, liveReload?: LiveReloadServer) {
     this.nodemonOptions = nodemonOptions;
+    this.liveReload = liveReload;
     this.isWebpackWatching = false;
     this.isNodemonRunning = false;
   }
@@ -69,7 +73,7 @@ export class SsrDevelopment {
 
     monitor.on('log', ({ colour: colouredMessage }: { colour: string }) => console.log(colouredMessage));
     monitor.on('restart', () => {
-      global.LIVE_RELOAD_SERVER?.refresh('');
+      this.liveReload?.refresh('');
     });
 
     this.isNodemonRunning = true;

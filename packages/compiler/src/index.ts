@@ -21,6 +21,7 @@ export {
   frontendCompiler,
   getArgs,
   getWebpack,
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- the options overload is current; one overload is deprecated
   isomorphicCompiler,
   libraryCompiler,
   makeWebpackConfig,
@@ -28,4 +29,5 @@ export {
   sourceCompiler,
 };
 
+export type { IsomorphicCompilerOptions } from './compilers/isomorphic-compiler.js';
 export type { RockpackErrorCode } from './errors/rockpack-error.js';

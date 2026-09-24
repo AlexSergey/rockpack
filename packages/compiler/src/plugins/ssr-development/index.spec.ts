@@ -60,7 +60,6 @@ describe('SsrDevelopment', () => {
   });
 
   afterEach(() => {
-    global.LIVE_RELOAD_SERVER = undefined;
     jest.restoreAllMocks();
     jest.clearAllMocks();
   });
@@ -112,8 +111,7 @@ describe('SsrDevelopment', () => {
 
     it('forwards nodemon logs and refreshes live reload on restart', () => {
       const refresh = jest.fn();
-      global.LIVE_RELOAD_SERVER = { refresh };
-      new SsrDevelopment({}).startMonitoring('dist/server.js');
+      new SsrDevelopment({}, { refresh }).startMonitoring('dist/server.js');
 
       monitor.emit('log', { colour: 'restarting' });
       monitor.emit('restart');

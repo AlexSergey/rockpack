@@ -1,6 +1,6 @@
-import { backendCompiler, frontendCompiler, isomorphicCompiler } from '@rockpack/compiler';
+import { isomorphicCompiler } from '@rockpack/compiler';
 
-void isomorphicCompiler(
-  frontendCompiler({ dist: 'public', src: 'src/client.tsx' }),
-  backendCompiler({ dist: 'dist', src: 'src/server.tsx' }),
-);
+void isomorphicCompiler({
+  backend: { dist: 'dist', src: 'src/server.tsx' },
+  frontend: { dist: 'public', src: 'src/client.tsx' },
+});

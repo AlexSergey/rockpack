@@ -47,6 +47,15 @@ describe('backendCompiler and isomorphicCompiler production builds', () => {
         expect(readdirSync(path.join(dir, 'public')).filter((file) => file.endsWith('.js'))).toEqual(['index.js']);
       });
 
+      it('builds with the deprecated promise form', async () => {
+        const { dir: legacyDir } = await buildFixture('isomorphic-basic', 'scripts.legacy.ts');
+
+        expect(readdirSync(path.join(legacyDir, 'public')).filter((file) => file.endsWith('.js'))).toEqual([
+          'index.js',
+        ]);
+        expect(read(legacyDir, 'dist/index.js')).toContain('Hello SSR');
+      });
+
       it('serves the server-rendered markup', async () => {
         const port = await getFreePort();
         const server = start(process.execPath, ['dist/index.js'], { cwd: dir, env: { PORT: String(port) } });

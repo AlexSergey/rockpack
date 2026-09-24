@@ -4,6 +4,7 @@ import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 import webpack from 'webpack';
 
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
 import { makeDevServer } from '../modules/make-dev-server.js';
 import { makeDevtool } from '../modules/make-devtool.js';
@@ -30,7 +31,11 @@ type PostFn = (
 ) => void;
 
 // `conf` is already merged with the defaults by compile().
-export const make = async (conf: InternalCompilerConf, post: null | PostFn): Promise<MakeResult> => {
+export const make = async (
+  conf: InternalCompilerConf,
+  post: null | PostFn,
+  compileContext: CompileContext,
+): Promise<MakeResult> => {
   const mode = getMode();
   const root = getRootRequireDir();
 
@@ -42,7 +47,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
   const devServer = await makeDevServer(conf);
   const optimization = makeOptimization(mode, conf);
   const modules = makeModules(conf, root, packageJson, mode);
-  const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context);
+  const plugins = await makePlugins(conf, root, packageJson, mode, webpack, context, compileContext);
   const resolve = makeResolve(root);
   const stats = makeStats(conf);
   const externals = makeExternals(conf, root);
@@ -71,7 +76,7 @@ export const make = async (conf: InternalCompilerConf, post: null | PostFn): Pro
   if (conf.nodejs) {
     finalConfig['target'] = 'node';
     finalConfig['externalsPresets'] = { node: true };
-  } else if (global.ISOMORPHIC) {
+  } else if (compileContext.isomorphic) {
     finalConfig['externalsPresets'] = { node: true };
   }
 

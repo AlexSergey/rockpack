@@ -1,6 +1,10 @@
 import type { InternalCompilerConf } from '../types.js';
+import type { CompileContext } from './compile-context.js';
 
 import { addArgs } from './args.js';
+
+const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
+const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
 
 const mockArgv: Record<string, unknown> = {};
 
@@ -15,19 +19,17 @@ const createConf = (overrides: Partial<InternalCompilerConf> = {}): InternalComp
 describe('addArgs', () => {
   afterEach(() => {
     delete mockArgv['analyzer'];
-    global.ISOMORPHIC = undefined;
   });
 
   describe('negative cases', () => {
     it('leaves the analyzer unset without the flag', () => {
-      expect(addArgs(createConf())).not.toHaveProperty('analyzer');
+      expect(addArgs(createConf(), STANDALONE_CONTEXT)).not.toHaveProperty('analyzer');
     });
 
     it('disables the analyzer for an isomorphic backend', () => {
       mockArgv['analyzer'] = true;
-      global.ISOMORPHIC = true;
 
-      expect(addArgs(createConf({ __isIsomorphicBackend: true })).analyzer).toBe(false);
+      expect(addArgs(createConf({ __isIsomorphicBackend: true }), ISOMORPHIC_CONTEXT).analyzer).toBe(false);
     });
   });
 
@@ -35,14 +37,13 @@ describe('addArgs', () => {
     it('enables the analyzer with --analyzer', () => {
       mockArgv['analyzer'] = true;
 
-      expect(addArgs(createConf()).analyzer).toBe(true);
+      expect(addArgs(createConf(), STANDALONE_CONTEXT).analyzer).toBe(true);
     });
 
     it('enables the analyzer for an isomorphic frontend', () => {
       mockArgv['analyzer'] = true;
-      global.ISOMORPHIC = true;
 
-      expect(addArgs(createConf({ __isIsomorphicFrontend: true })).analyzer).toBe(true);
+      expect(addArgs(createConf({ __isIsomorphicFrontend: true }), ISOMORPHIC_CONTEXT).analyzer).toBe(true);
     });
   });
 });

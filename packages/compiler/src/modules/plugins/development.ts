@@ -21,9 +21,13 @@ type NodemonOptions = NodemonSettings & {
   watch: string[];
 };
 
-const getNodemonOptions = async (distPath: string, conf: InternalCompilerConf): Promise<NodemonOptions> => {
+const getNodemonOptions = async (
+  distPath: string,
+  conf: InternalCompilerConf,
+  isomorphic: boolean,
+): Promise<NodemonOptions> => {
   const distFolder = path.dirname(distPath);
-  const defaultInspectPort = global.ISOMORPHIC ? getRandomInt(9000, 9999) : 9224;
+  const defaultInspectPort = isomorphic ? getRandomInt(9000, 9999) : 9224;
   const freeInspectPort = await fpPromise(defaultInspectPort);
 
   conf.messages?.push('nodemon is running');
@@ -43,14 +47,16 @@ const getNodemonOptions = async (distPath: string, conf: InternalCompilerConf): 
   };
 };
 
-const makeServerPlugins = async ({ conf, root }: PluginContext): Promise<PluginEntries> => {
+const makeServerPlugins = async ({ compileContext, conf, root }: PluginContext): Promise<PluginEntries> => {
   const distPath = path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist);
 
-  if (!conf.__library && conf.nodejs && !global.ISOMORPHIC) {
-    return { NodemonPlugin: new NodemonPlugin(await getNodemonOptions(distPath, conf)) };
+  const { isomorphic, liveReload } = compileContext;
+
+  if (!conf.__library && conf.nodejs && !isomorphic) {
+    return { NodemonPlugin: new NodemonPlugin(await getNodemonOptions(distPath, conf, false)) };
   }
-  if (global.ISOMORPHIC && conf.__isIsomorphicBackend) {
-    return { SSRDevelopment: new SsrDevelopment(await getNodemonOptions(distPath, conf)) };
+  if (isomorphic && conf.__isIsomorphicBackend) {
+    return { SSRDevelopment: new SsrDevelopment(await getNodemonOptions(distPath, conf, true), liveReload?.server) };
   }
 
   return {};

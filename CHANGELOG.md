@@ -14,6 +14,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - ESLint rules `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` are now disabled for `.d.ts` files
 - `@rockpack/codestyle` enables Jest globals for `*.spec.{ts,tsx}` and `__fixtures__` files and turns off `@typescript-eslint/no-empty-function` and `@typescript-eslint/unbound-method` there
 - `@rockpack/codestyle` lints specs with `eslint-plugin-jest` (`no-disabled-tests`, `no-focused-tests`, `valid-expect`, `prefer-to-have-length`) and allows non-kebab-case folder names inside `__fixtures__`
+- `@rockpack/compiler`: `isomorphicCompiler({ frontend, backend, frontendCallback, backendCallback })` takes the two confs and builds them with an explicit context; the `IsomorphicCompilerOptions` type is exported
 - `@rockpack/compiler` exports `RockpackError` (codes `INVALID_CONFIG`, `INVALID_ENTRY`, `BUILD_FAILED`, `DTS_FAILED`) and the `RockpackErrorCode` type
 - `@rockpack/tester`: `serial` option (one suite at a time, no cache) and a default `collectCoverageFrom` that counts every source file
 - `@rockpack/tester` reads `--watch` from the command line when `watch` is not passed
@@ -58,12 +59,16 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/compiler` emits no declarations for specs and fixtures
 - `@rockpack/compiler`: the `vendor` option moves the listed modules into `vendor.js` only (the main entry now `dependOn`s it); before, they were bundled into both files
 - `@rockpack/compiler`: `isomorphicCompiler` fails with `INVALID_CONFIG` when the frontend and the backend write to the same file (one bundle silently overwrote the other)
+- `@rockpack/compiler` keeps no state on `global` (`ISOMORPHIC`, `CONFIG_ONLY`, `LIVE_RELOAD_PORT`, `LIVE_RELOAD_SERVER` are gone)
 - Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
 - Generated csr and ssr projects pass `value` to `UnheadProvider` (the `head` prop is deprecated)
 - Generated ssr projects listen on `PORT` from `.env` (the template shipped `PORT=8888` but always listened on `4000`)
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
 - Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
+
+### Deprecated
+- `isomorphicCompiler(frontendCompiler(...), backendCompiler(...))`: pass the confs instead, `isomorphicCompiler({ frontend: {...}, backend: {...} })`, moving each compiler's callback to `frontendCallback`/`backendCallback`. The old form keeps working until 10.0
 
 ### Removed
 - The SSR template no longer ships a `rockpack.babel.js` (custom Babel config through `rockpack.babel.js` is still supported by `@rockpack/babel`)
