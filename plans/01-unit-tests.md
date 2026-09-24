@@ -91,7 +91,7 @@ Small, additive changes that make the packages testable with the tester. Each it
     ```
     `coverageThreshold` is not set here: `npm test` runs in the pre-push hook, and thresholds enforced before a package has specs would block every push. The first task of each package's phase adds `coverageThreshold: { global: { branches: 75, functions: 80, lines: 80, statements: 80 } }`, and the last task raises it to the phase's exit numbers.
   - `packages/codestyle/src/index.ts`: add an override for `**/*.spec.{ts,tsx}` and `**/__fixtures__/**` that enables jest globals and relaxes `@typescript-eslint/unbound-method` and `@typescript-eslint/no-empty-function` (`max-lines-per-function` is not enabled by the config, so it needs no override). Today jest globals are only enabled for JS files.
-- [ ] **0.5 Root scripts.**
+- [x] **0.5 Root scripts.**
   - `"test:unit": "lerna run test --scope=@rockpack/babel --scope=@rockpack/utils --scope=@rockpack/tester --scope=@rockpack/codestyle --scope=@rockpack/starter --scope=@rockpack/compiler"`.
   - `"test"` stays `lerna run test --stream` (it now includes the package tests).
   - Document in README "Contributing" that `npm run build` must precede `npm test` because the tester used by the packages is the built `packages/tester/lib`.

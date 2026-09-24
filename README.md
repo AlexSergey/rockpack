@@ -164,6 +164,17 @@ The **Rockpack** project was inspired by:
 - **No eject** - extend the Webpack config directly without losing the ability to update Rockpack.
 - **No reinventing the wheel** - built on top of existing, well-maintained tools.
 
+## Contributing
+
+The packages are tested with the built `@rockpack/tester` from `packages/tester/lib`, so build before running tests:
+
+```sh
+npm install
+npm run build
+npm test          # all workspaces: package unit tests, examples and e2e
+npm run test:unit # unit tests of the packages only
+```
+
 # The MIT License
 
 [LICENSE](https://github.com/AlexSergey/rockpack/blob/master/LICENSE.md)
