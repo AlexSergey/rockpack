@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 
 import { makeBanner } from './make-banner.js';
 
@@ -39,14 +40,6 @@ describe('makeBanner', () => {
 
       expect(makeBanner({ name: 'app' })).toBe('app: ');
     });
-
-    // Plan 2 (E5): `indexOf(type) > 0` checks the first occurrence of the word, so a banner that starts with it
-    // gets the placeholder blanked instead of filled.
-    it('blanks a placeholder whose name starts the banner', () => {
-      mockBanner('name ${name}');
-
-      expect(makeBanner({ name: 'app' })).toBe('name ');
-    });
   });
 
   describe('positive cases', () => {
@@ -56,6 +49,20 @@ describe('makeBanner', () => {
       expect(makeBanner({ author: 'Jane', description: 'An app', license: 'MIT', name: 'app', version: '1.0.0' })).toBe(
         ['app: 1.0.0', 'Jane', 'An app', 'MIT'].join('\n'),
       );
+    });
+
+    it('fills a placeholder whose name also starts the banner', () => {
+      mockBanner('name ${name}');
+
+      expect(makeBanner({ name: 'app' })).toBe('name app');
+    });
+
+    it('reads the banner from the compiler package root', () => {
+      existsSyncMock.mockImplementation((file) => String(file) === path.resolve(__dirname, '../../package.json'));
+
+      makeBanner({ name: 'app' });
+
+      expect(existsSyncMock).toHaveBeenLastCalledWith(path.resolve(__dirname, '../../banner'));
     });
 
     it('drops Windows line endings left on their own line', () => {

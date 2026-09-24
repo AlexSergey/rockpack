@@ -6,8 +6,22 @@ import type { PackageJson } from '../types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// The nearest package.json is the compiler root both for src/modules and lib/<format>/modules.
+const findPackageRoot = (from: string): string => {
+  let dir = from;
+  while (!existsSync(path.join(dir, 'package.json'))) {
+    const parent = path.dirname(dir);
+    if (parent === dir) {
+      return from;
+    }
+    dir = parent;
+  }
+
+  return dir;
+};
+
 export const makeBanner = (packageJson: PackageJson): false | string => {
-  const bannerPath = path.resolve(__dirname, '../../../', './banner');
+  const bannerPath = path.join(findPackageRoot(__dirname), 'banner');
   let banner = existsSync(bannerPath) ? readFileSync(bannerPath, 'utf8') : '';
 
   if (banner) {
@@ -21,7 +35,7 @@ export const makeBanner = (packageJson: PackageJson): false | string => {
     ];
 
     for (const type of types) {
-      if (banner.indexOf(type) > 0 && !!packageJson[type]) {
+      if (banner.includes(`$\{${type}}`) && !!packageJson[type]) {
         banner = banner.replace(`$\{${type}}`, String(packageJson[type]));
       }
     }
