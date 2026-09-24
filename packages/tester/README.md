@@ -29,24 +29,24 @@ yarn add @rockpack/tester --dev
 
 `@types/jest` is a regular dependency of `@rockpack/tester` on purpose: specs use the Jest globals (`describe`, `it`, `expect`, `jest`), so their types come with the tester and need no separate install.
 
-2. Create **tests.js** in the root of the project:
+2. Create **scripts.tests.ts** in the root of the project:
 
-```js
-const tests = require('@rockpack/tester');
+```ts
+import { tester } from '@rockpack/tester';
 
-tests();
+tester();
 ```
 
 3. Run tests:
 
 ```shell
-node tests.js
+npx tsx scripts.tests.ts
 ```
 
-or in watch mode:
+or in watch mode (`--watch` is read from the command line unless `watch` is passed explicitly):
 
 ```shell
-node tests.js --watch
+npx tsx scripts.tests.ts --watch
 ```
 
 4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.
@@ -58,7 +58,7 @@ node tests.js --watch
 To override Jest configuration - for example, to switch the test environment from jsdom to Node:
 
 ```ts
-const { tester } = require('@rockpack/tester');
+import { tester } from '@rockpack/tester';
 
 tester(
   {},
