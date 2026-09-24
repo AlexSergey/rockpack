@@ -10,6 +10,7 @@ describe('defaultProps', () => {
   describe('positive cases', () => {
     it('matches spec and test files under ./src', () => {
       expect(defaultProps).toEqual({
+        coverage: true,
         prefix: '(spec|test)',
         serial: false,
         src: './src',

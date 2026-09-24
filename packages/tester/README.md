@@ -70,6 +70,7 @@ npx tsx scripts.tests.ts --watch
 | `prefix` | `'(spec\|test)'` | Spec file suffix: `*.spec.ts`, `*.test.ts` |
 | `watch` | `--watch` on the command line | Jest watch mode |
 | `serial` | `false` | Run the suites one by one without cache, for tests that share ports or files |
+| `coverage` | `true` | `false` turns coverage off; `{ collectCoverageFrom, reporters, thresholds }` adjusts it (values in the Jest config still win) |
 
 Outside watch mode coverage is collected from every file under `src` (not only the imported ones) and reported as `json`, `html`, `text-summary` and `lcov`. Everything can be overridden through the Jest config, for example thresholds:
 

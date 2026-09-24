@@ -81,7 +81,7 @@ export const configCompiler = (
     {
       globalSetup,
       globalTeardown,
-      moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+      moduleFileExtensions: ['js', 'jsx', 'mjs', 'cjs', 'json', 'ts', 'tsx'],
       moduleNameMapper: {
         '\\.(css|less|scss|sss|styl)$': `${packageDir}/modules/identity-obj-proxy${ext}`,
         '^(\\.{1,2}/.*)\\.js$': '$1',
@@ -92,7 +92,7 @@ export const configCompiler = (
       testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
       transform: {
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${packageDir}/modules/file-transformer${ext}`,
-        '^.+\\.(js|jsx)$': [_require.resolve('babel-jest'), jsPreset],
+        '^.+\\.(js|jsx|mjs|cjs)$': [_require.resolve('babel-jest'), jsPreset],
         '^.+\\.(ts|tsx)$': [_require.resolve('babel-jest'), tsPreset],
       },
       transformIgnorePatterns: ['node_modules/'],
@@ -104,16 +104,27 @@ export const configCompiler = (
   const noWatch = !watch;
   const serial = options.serial;
 
-  if (noWatch) {
+  const { coverage } = options;
+
+  if (coverage === false) {
+    config.collectCoverage ??= false;
+  } else if (noWatch) {
     config.collectCoverage ??= true;
     // Counting every source file, not only the imported ones, keeps the coverage honest.
-    config.collectCoverageFrom ??= [
+    const settings = coverage === true ? {} : coverage;
+    config.collectCoverageFrom ??= settings.collectCoverageFrom ?? [
       ...src.map((dir) => `${dir.replace(/^\.\//, '')}/**/*.{ts,tsx,js,jsx}`),
       '!**/*.d.ts',
       '!**/*.spec.*',
       '!**/*.test.*',
     ];
-    config.coverageReporters ??= ['json', 'html', 'text-summary', 'lcov'];
+    config.coverageReporters ??= settings.reporters ?? ['json', 'html', 'text-summary', 'lcov'];
+    if (settings.thresholds) {
+      config.coverageThreshold ??= { global: { ...settings.thresholds } };
+    }
+  }
+
+  if (noWatch) {
     config.reporters ??= [
       'default',
       [

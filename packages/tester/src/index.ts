@@ -3,11 +3,11 @@ import type { Config } from '@jest/types';
 import { setMode } from '@rockpack/utils';
 
 import type { TestResults } from './core/init.js';
-import type { TesterOptions } from './default-props.js';
+import type { CoverageOptions, TesterOptions } from './default-props.js';
 
 import { init } from './core/init.js';
 
-export type { TesterOptions, TestResults };
+export type { CoverageOptions, TesterOptions, TestResults };
 
 // Runs the tests and resolves to jest's results (undefined when jest could not run); a failure sets
 // process.exitCode to 1, so scripts that do not await still exit with an error.

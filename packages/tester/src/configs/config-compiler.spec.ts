@@ -27,6 +27,22 @@ describe('configCompiler', () => {
   });
 
   describe('negative cases', () => {
+    it('collects no coverage when coverage is false', () => {
+      const config = parseConfig(compile({ coverage: false }));
+
+      expect(config.collectCoverage).toBe(false);
+      expect(config.collectCoverageFrom).toBeUndefined();
+      expect(config.coverageThreshold).toBeUndefined();
+    });
+
+    it('lets the jest config win over the coverage option', () => {
+      const config = parseConfig(
+        compile({ coverage: { collectCoverageFrom: ['option/**'] } }, { collectCoverageFrom: ['project/**'] }),
+      );
+
+      expect(config.collectCoverageFrom).toEqual(['project/**']);
+    });
+
     it('replaces the text-encoder polyfill when the user passes setupFilesAfterEnv', () => {
       const config = parseConfig(compile({}, { setupFilesAfterEnv: ['<rootDir>/custom.setup.ts'] }));
 
@@ -50,6 +66,28 @@ describe('configCompiler', () => {
   });
 
   describe('positive cases', () => {
+    it('applies coverage thresholds, reporters and files from the coverage option', () => {
+      const config = parseConfig(
+        compile({
+          coverage: { collectCoverageFrom: ['lib/**'], reporters: ['text'], thresholds: { branches: 80, lines: 90 } },
+        }),
+      );
+
+      expect(config).toMatchObject({
+        collectCoverage: true,
+        collectCoverageFrom: ['lib/**'],
+        coverageReporters: ['text'],
+        coverageThreshold: { global: { branches: 80, lines: 90 } },
+      });
+    });
+
+    it('treats .mjs and .cjs files as modules to transform', () => {
+      const config = parseConfig(compile());
+
+      expect(config.moduleFileExtensions).toEqual(expect.arrayContaining(['mjs', 'cjs']));
+      expect(Object.keys(config.transform ?? {})).toContain('^.+\\.(js|jsx|mjs|cjs)$');
+    });
+
     describe.each(['.js', '.mjs', '.cjs', '.ts'])('with %s setup files', (ext) => {
       it('registers jest.init as a setup file', () => {
         mockExistingFiles.add(`${mockProjectDir}/jest.init${ext}`);
@@ -101,7 +139,10 @@ describe('configCompiler', () => {
       const { transform } = parseConfig(compile());
 
       expect(transform).toMatchObject({
-        '^.+\\.(js|jsx)$': [expect.stringContaining('babel-jest'), { presetFor: { framework: 'react', isTest: true } }],
+        '^.+\\.(js|jsx|mjs|cjs)$': [
+          expect.stringContaining('babel-jest'),
+          { presetFor: { framework: 'react', isTest: true } },
+        ],
         '^.+\\.(ts|tsx)$': [
           expect.stringContaining('babel-jest'),
           { presetFor: { framework: 'react', isTest: true, typescript: true } },

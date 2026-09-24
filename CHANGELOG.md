@@ -19,6 +19,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/tester`: `serial` option (one suite at a time, no cache) and a default `collectCoverageFrom` that counts every source file
 - `@rockpack/tester` reads `--watch` from the command line when `watch` is not passed
 - `@rockpack/tester` runs only the specs matching the positional command-line arguments or the `testPathPatterns` option
+- `@rockpack/tester`: `coverage` option (`false`, or `{ collectCoverageFrom, reporters, thresholds }`); `.mjs` and `.cjs` specs and modules are transformed like `.js`
 - `@rockpack/starter`: `--offline` writes the dependency ranges from `versions.json` without asking the registry and skips the update check
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
