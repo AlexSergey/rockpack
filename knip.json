@@ -65,7 +65,6 @@
       ],
       "ignoreDependencies": [
         "@commitlint/*",
-        "eslint-plugin-json",
         "stylelint",
         "stylelint-*"
       ]
