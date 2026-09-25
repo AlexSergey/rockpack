@@ -83,7 +83,7 @@ Each item is one commit with the package checks and goldens; full verification (
 
 ## 7. Acceptance
 
-1. No `@babel/*` 7.x, `@types/babel__core` or Babel-7-only plugin in any `package.json` or the lockfile.
+1. No `@babel/*` 7.x, `@types/babel__core` or Babel-7-only plugin in any `package.json` or the lockfile. _2026-09-25: met for every `package.json` (the only Babel 7 is the intentional `babel-core-7` test alias). The lockfile still has nested `@babel/core` 7 and `@types/babel__core` pulled by third-party packages (Jest internals, babel-jest's types, svgr, eslint-plugin-react-hooks); Rockpack code never loads them, the hoisted `@babel/core` is 8._
 2. The default presets produce the same code for the unit fixtures as on Babel 7, except the changes decided in D1 to D4 and the drift noted in M2.
 3. All suites (unit, e2e pinned and runtime, tester examples, book) and CI are green; the manual major canary no longer fails on Babel.
 4. CHANGELOG and MIGRATION describe every user-visible change; issue #71 is closed.

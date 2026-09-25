@@ -118,28 +118,6 @@ describe('import-extension plugin', () => {
     });
   });
 
-  describe('on Babel 7', () => {
-    describe('negative cases', () => {
-      it('keeps assets and their import attributes', () => {
-        const code = "import './styles.css';\nimport data from './data.json' with { type: 'json' };";
-
-        expect(transformWithBabel7(code)).toBe(code);
-      });
-    });
-
-    describe('positive cases', () => {
-      it('rewrites imports, folders, re-exports and dynamic imports', () => {
-        expect(
-          transformWithBabel7(
-            "import a from './no-ext';\nimport b from './both';\nexport * from './utils';\nconst l = import('./x.js');",
-          ),
-        ).toBe(
-          "import a from './no-ext.mjs';\nimport b from './both.mjs';\nexport * from './utils/index.mjs';\nconst l = import('./x.mjs');",
-        );
-      });
-    });
-  });
-
   describe('positive cases', () => {
     it.each([
       ["import a from './no-ext';", "import a from './no-ext.mjs';"],
@@ -193,6 +171,28 @@ describe('import-extension plugin', () => {
       expect(transform("import a from './a';\nimport b from './b.ts';\nimport './c.css';", 'mjs', undefined)).toBe(
         "import a from './a.mjs';\nimport b from './b.mjs';\nimport './c.css';",
       );
+    });
+  });
+
+  describe('on Babel 7', () => {
+    describe('negative cases', () => {
+      it('keeps assets and their import attributes', () => {
+        const code = "import './styles.css';\nimport data from './data.json' with { type: 'json' };";
+
+        expect(transformWithBabel7(code)).toBe(code);
+      });
+    });
+
+    describe('positive cases', () => {
+      it('rewrites imports, folders, re-exports and dynamic imports', () => {
+        expect(
+          transformWithBabel7(
+            "import a from './no-ext';\nimport b from './both';\nexport * from './utils';\nconst l = import('./x.js');",
+          ),
+        ).toBe(
+          "import a from './no-ext.mjs';\nimport b from './both.mjs';\nexport * from './utils/index.mjs';\nconst l = import('./x.mjs');",
+        );
+      });
     });
   });
 });
