@@ -16,10 +16,11 @@ type OpenedPage = {
 const PROJECTS = [
   { name: 'csr-app', tests: false, type: 'csr' },
   { name: 'ssr-app', tests: false, type: 'ssr' },
+  { name: 'component-app', tests: false, type: 'component' },
+  { name: 'library-app', tests: false, type: 'library' },
 ] as const;
 
 const DESCRIPTION = 'Zero-config React with built-in SSR';
-// The isomorphic dev server always listens for live reload on this port.
 
 const openPage = async (browser: Browser, url: string): Promise<OpenedPage> => {
   const page = await browser.newPage();
@@ -70,6 +71,88 @@ describe(`generated project runtime (${latest ? 'latest' : 'pinned'})`, () => {
   afterAll(async () => {
     await browser.close();
     cleanupProjects(outDir);
+  });
+
+  // Components and libraries are checked through their example app, which imports the sources.
+  const buildExample = async (name: string): Promise<{ close: () => Promise<void>; url: string }> => {
+    const { code, output } = await npm(project(name), ['run', 'build:example']);
+    if (code !== 0) {
+      throw new Error(output);
+    }
+
+    return serveStatic(path.join(project(name), 'example', 'dist'));
+  };
+
+  describe('component', () => {
+    describe('example app', () => {
+      let opened: OpenedPage;
+      let close: () => Promise<void>;
+
+      beforeAll(async () => {
+        const server = await buildExample('component-app');
+        ({ close } = server);
+        opened = await openPage(browser, server.url);
+      }, 300_000);
+
+      afterAll(async () => {
+        await opened.page.close();
+        await close();
+      });
+
+      describe('negative cases', () => {
+        it('runs without page errors or failed requests', () => {
+          expect(opened.problems).toEqual([]);
+        });
+      });
+
+      describe('positive cases', () => {
+        it('renders the component with its module styles', async () => {
+          await waitForText(opened.page, 'Rockpack');
+          const className = await opened.page.$eval('#root > div', (element) => element.className);
+
+          expect(className).not.toBe('');
+        });
+      });
+    });
+  });
+
+  describe('library', () => {
+    describe('example app', () => {
+      let page: Page;
+      let close: () => Promise<void>;
+      const problems: string[] = [];
+      let alerted = '';
+
+      beforeAll(async () => {
+        const server = await buildExample('library-app');
+        ({ close } = server);
+        page = await browser.newPage();
+        page.on('pageerror', (error) => problems.push(`pageerror: ${String(error)}`));
+        // The example shows the library's output in an alert.
+        page.on('dialog', (dialog) => {
+          alerted = dialog.message();
+          void dialog.accept();
+        });
+        await page.goto(server.url, { waitUntil: 'networkidle0' });
+      }, 300_000);
+
+      afterAll(async () => {
+        await page.close();
+        await close();
+      });
+
+      describe('negative cases', () => {
+        it('runs without page errors', () => {
+          expect(problems).toEqual([]);
+        });
+      });
+
+      describe('positive cases', () => {
+        it('runs the library in the browser', () => {
+          expect(alerted).toBe('Rockpack');
+        });
+      });
+    });
   });
 
   describe('csr', () => {
