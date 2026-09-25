@@ -9,8 +9,8 @@
   "author": "email@email.com",
   "main": "index.js",
   "scripts": {
-    "analyzer": "tsx scripts.build.ts --analyzer",
-    "build": "tsx scripts.build.ts --mode=production",
+    "analyzer": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --analyzer",
+    "build": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --mode=production",
     "format": "npm run format:prettier && npm run format:code && npm run format:styles",
     "format:code": "eslint . --fix",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
@@ -22,7 +22,7 @@
     "lint:ts": "tsc --noEmit",
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
     "prepare": "simple-git-hooks",
-    "start": "tsx scripts.build.ts"
+    "start": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run pre-commit",
@@ -52,7 +52,6 @@
     "@types/react-dom": "19",
     "@types/serialize-javascript": "5",
     "lint-staged": "17",
-    "simple-git-hooks": "2",
-    "tsx": "4"
+    "simple-git-hooks": "2"
   }
 }

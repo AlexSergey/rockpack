@@ -61,6 +61,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/babel` test mode keeps a module-level `const __filename = fileURLToPath(import.meta.url)` working under `@rockpack/tester`
 - `@rockpack/utils` reads `--mode` without yargs and has no import-time side effects
 - The isomorphic compiler starts the live reload server only in development
+- Generated projects run their build and test scripts with Node.js itself (`node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts`) instead of `tsx`, which is no longer installed; under `tsx` the Stylelint plugin could not load `stylelint`
 - The starter update check compares versions with semver, says when a newer version is available, works offline and is skipped with `--mode=test`
 - `@rockpack/starter` exits with code `1` and lists the valid types when `--type` is unknown
 - The csr template puts `react-dom/client` into the vendor bundle

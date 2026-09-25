@@ -22,9 +22,9 @@
     "lib"
   ],
   "scripts": {
-    "analyzer": "tsx scripts.build.ts --analyzer",
-    "build": "tsx scripts.build.ts --mode=production",
-    "build:example": "node example/scripts.build.ts --mode=production",
+    "analyzer": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --analyzer",
+    "build": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --mode=production",
+    "build:example": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON example/scripts.build.ts --mode=production",
     "format": "npm run format:prettier && npm run format:code",
     "format:code": "eslint . --fix",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
@@ -35,7 +35,7 @@
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
     "prepare": "simple-git-hooks",
     "production": "npm run lint && npm run build && npm publish",
-    "start": "node example/scripts.build.ts"
+    "start": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON example/scripts.build.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run pre-commit",
@@ -46,7 +46,6 @@
     "@rockpack/compiler": "<rockpack>",
     "@rockpack/tsconfig": "<rockpack>",
     "lint-staged": "17",
-    "simple-git-hooks": "2",
-    "tsx": "4"
+    "simple-git-hooks": "2"
   }
 }

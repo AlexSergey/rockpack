@@ -1,6 +1,9 @@
 import { createBabelPresets } from '@rockpack/babel';
 import { isomorphicCompiler } from '@rockpack/compiler';
+import { createRequire } from 'node:module';
 import path from 'node:path';
+
+const _require = createRequire(import.meta.url);
 
 void isomorphicCompiler({
   backend: {
@@ -13,12 +16,12 @@ void isomorphicCompiler({
       isNodejs: true,
       typescript: true,
     });
-    (preset.plugins ??= []).unshift(require.resolve('@issr/babel-plugin'));
+    (preset.plugins ??= []).unshift(_require.resolve('@issr/babel-plugin'));
 
     modules.set('ts', {
       test: /\.ts$/,
       use: {
-        loader: require.resolve('babel-loader'),
+        loader: _require.resolve('babel-loader'),
         options: preset,
       },
     });
@@ -26,7 +29,7 @@ void isomorphicCompiler({
     modules.set('tsx', {
       test: /\.tsx$/,
       use: {
-        loader: require.resolve('babel-loader'),
+        loader: _require.resolve('babel-loader'),
         options: preset,
       },
     });
@@ -45,19 +48,19 @@ void isomorphicCompiler({
       isNodejs: false,
       typescript: true,
     });
-    (preset.plugins ??= []).unshift(require.resolve('@issr/babel-plugin'));
+    (preset.plugins ??= []).unshift(_require.resolve('@issr/babel-plugin'));
 
     modules.set('tsx', {
       test: /\.tsx$/,
       use: {
-        loader: require.resolve('babel-loader'),
+        loader: _require.resolve('babel-loader'),
         options: preset,
       },
     });
     modules.set('ts', {
       test: /\.ts$/,
       use: {
-        loader: require.resolve('babel-loader'),
+        loader: _require.resolve('babel-loader'),
         options: preset,
       },
     });

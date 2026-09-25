@@ -17,10 +17,6 @@
         {
           "name": "@types/react-dom",
           "version": "19"
-        },
-        {
-          "name": "tsx",
-          "version": "4"
         }
       ],
       "peerDependencies": [
@@ -37,12 +33,7 @@
   },
   "library": {
     "common": {
-      "devDependencies": [
-        {
-          "name": "tsx",
-          "version": "4"
-        }
-      ]
+      "devDependencies": []
     }
   },
   "csr": {
@@ -77,10 +68,6 @@
         {
           "name": "@types/react-dom",
           "version": "19"
-        },
-        {
-          "name": "tsx",
-          "version": "4"
         }
       ]
     }
@@ -153,10 +140,6 @@
         {
           "name": "@types/serialize-javascript",
           "version": "5"
-        },
-        {
-          "name": "tsx",
-          "version": "4"
         }
       ]
     }
