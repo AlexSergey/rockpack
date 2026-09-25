@@ -1,3 +1,3 @@
 import { frontendCompiler } from '@rockpack/compiler';
 
-void frontendCompiler({ src: 'src/index.js' });
+void frontendCompiler({ lint: true, src: 'src/index.js' });

@@ -156,12 +156,22 @@ describe('makePlugins', () => {
       );
     });
 
+    it('does not lint without the lint option even when configs exist', async () => {
+      pathToStylelintMock.mockReturnValue('/project/.stylelintrc');
+      pathToEslintrcMock.mockReturnValue('/project/eslint.config.js');
+
+      const dict = await build();
+
+      expect(dict).not.toHaveProperty('StylelintWebpackPlugin');
+      expect(dict).not.toHaveProperty('EslintWebpackPlugin');
+    });
+
     it('skips linters without configs and eslint in debug mode', async () => {
-      expect(await build()).not.toHaveProperty('StylelintWebpackPlugin');
+      expect(await build({ lint: true })).not.toHaveProperty('StylelintWebpackPlugin');
 
       pathToEslintrcMock.mockReturnValue('/project/eslint.config.js');
 
-      expect(await build({ debug: true })).not.toHaveProperty('EslintWebpackPlugin');
+      expect(await build({ debug: true, lint: true })).not.toHaveProperty('EslintWebpackPlugin');
     });
 
     it('skips copying for an object without from/to or files', async () => {
@@ -194,7 +204,7 @@ describe('makePlugins', () => {
       makeBannerMock.mockReturnValue('banner');
       mockFiles('.env');
 
-      expect(Object.keys(await build({ analyzer: true, copy: { from: 'a', to: 'b' } }))).toEqual([
+      expect(Object.keys(await build({ analyzer: true, copy: { from: 'a', to: 'b' }, lint: true }))).toEqual([
         'FriendlyErrorsPlugin',
         'ForkTsCheckerPlugin',
         'Dotenv',
@@ -326,13 +336,16 @@ describe('makePlugins', () => {
       });
     });
 
-    it('lints styles and scripts when configs exist', async () => {
+    it('lints styles and scripts with the lint option when configs exist', async () => {
       pathToStylelintMock.mockReturnValue('/project/.stylelintrc');
       pathToEslintrcMock.mockReturnValue('/project/eslint.config.js');
 
-      const dict = await build();
+      const dict = await build({ lint: true });
 
-      expect(getPluginOptions(dict['StylelintWebpackPlugin'])).toEqual({ configFile: '/project/.stylelintrc' });
+      expect(getPluginOptions(dict['StylelintWebpackPlugin'])).toEqual({
+        configFile: '/project/.stylelintrc',
+        context: '/project/src',
+      });
       expect(getPluginOptions(dict['EslintWebpackPlugin'])).toEqual({
         context: '/project/src',
         eslintPath: expect.stringContaining('eslint') as unknown,

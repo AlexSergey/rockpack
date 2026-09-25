@@ -45,6 +45,14 @@ libraryCompiler({ name: 'MyLib' }, conf);
 isomorphicCompiler({ backend: backendConf, backendCallback, frontend: frontendConf, frontendCallback });
 ```
 
+### Linting during the build is opt-in
+
+The compiler no longer runs ESLint and Stylelint just because it finds their configs. Add `lint: true` to keep linting in the build (it now also finds `eslint.config.ts` and `.stylelintrc.cjs`), or rely on your `lint` scripts and git hooks:
+
+```ts
+frontendCompiler({ lint: true });
+```
+
 ### Output changes worth checking
 
 - The `vendor` option moves the listed modules into `vendor.js` only; they are no longer bundled into both files.

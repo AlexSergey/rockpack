@@ -16,6 +16,8 @@ export type CompilerConf = {
   // Globs the per-file builds (esm, cjs) and the declarations skip; defaults to specs, tests and fixtures.
   ignore?: string[];
   library?: string;
+  // Lint with ESLint and Stylelint during the build when their configs exist.
+  lint?: boolean;
   name?: string;
   port?: number;
   src: string;

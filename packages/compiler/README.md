@@ -116,6 +116,7 @@ const {
 | copy    | Object/Array[undefined]     | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                 |
 | version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
 | ignore  | String[][specs, tests, fixtures] | Globs that the per-file `esm`/`cjs` builds and the generated declarations skip |
+| lint    | Boolean[false]              | Lints the sources with ESLint and Stylelint during the build when their configs exist in the project root; an error fails the build |
 | cache   | Boolean[false]              | Production builds cache modules on disk in `node_modules/.cache/rockpack` (one cache per compiler). Repeated builds are faster, the first one is slower because it writes the cache; a change in the build script or in the compiler invalidates it. Delete the folder if a build looks stale |
 
 ```js
@@ -301,11 +302,8 @@ How do I activate TypeScript?
 - *It's enough to put **tsconfig.json** in the root with **@rockpack/compiler***
 - [tsconfig.json examples](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
 ***
-How do I activate Eslint?
-- *It's enough to put **.eslintrc.js** or **.eslintrc.development.js** for DEV mode or **.eslintrc.production.js** for PRODUCTION mode in the root with **@rockpack/compiler***
-***
-How do I activate Stylelint?
-- *It's enough to put **.stylelintrc** or **stylelint.config.js** in the root with **@rockpack/compiler***
+How do I lint during the build?
+- *Set `lint: true`. ESLint runs when the project root has a flat config (`eslint.config.{js,mjs,cjs,ts,mts,cts}`) and Stylelint when it has a Stylelint config (`.stylelintrc`, `.stylelintrc.{json,yaml,yml,js,mjs,cjs}` or `stylelint.config.{js,mjs,cjs}`); both check the sources only, and an error fails the build. ESLint is skipped with `debug: true`. Without the option the build does not lint; lint in your own scripts and git hooks instead (generated projects do).*
 ***
 How do I extend PostCSS?
 - *It's enough to put **postcss.config.js** in the root with **@rockpack/compiler***

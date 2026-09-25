@@ -22,13 +22,19 @@ export const makeReportPlugins = ({ conf, mode, root }: PluginContext): PluginEn
   ...(isString(pathToTsConf(root, mode, false)) ? { ForkTsCheckerPlugin: new ForkTsCheckerWebpackPlugin() } : {}),
 });
 
+// Linting during the build is opt-in (`lint: true`): projects usually lint in their own scripts and hooks.
 export const makeLintPlugins = ({ conf, context, root }: PluginContext): PluginEntries => {
   const plugins: PluginEntries = {};
+  if (!conf.lint) {
+    return plugins;
+  }
+
   const stylelint = pathToStylelint(root);
   const eslintRc = pathToEslintrc(root);
 
   if (stylelint) {
-    plugins['StylelintWebpackPlugin'] = new StylelintWebpackPlugin({ configFile: stylelint });
+    // Only the sources: the project root also holds built and generated styles (dist, coverage reports).
+    plugins['StylelintWebpackPlugin'] = new StylelintWebpackPlugin({ configFile: stylelint, context });
   }
 
   if (!conf.debug && isString(eslintRc)) {

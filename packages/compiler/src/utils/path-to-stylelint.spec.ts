@@ -22,16 +22,16 @@ describe('pathToStylelint', () => {
   });
 
   describe('positive cases', () => {
-    it('finds .stylelintrc', () => {
-      mockFiles('.stylelintrc');
+    it.each(['.stylelintrc', '.stylelintrc.json', '.stylelintrc.cjs', 'stylelint.config.mjs'])('finds %s', (name) => {
+      mockFiles(name);
 
-      expect(pathToStylelint(root)).toBe(path.resolve(root, '.stylelintrc'));
+      expect(pathToStylelint(root)).toBe(path.resolve(root, name));
     });
 
-    it('prefers stylelint.config.js over .stylelintrc', () => {
-      mockFiles('.stylelintrc', 'stylelint.config.js');
+    it('takes the first config in Stylelint order', () => {
+      mockFiles('stylelint.config.js', '.stylelintrc.cjs');
 
-      expect(pathToStylelint(root)).toBe(path.resolve(root, 'stylelint.config.js'));
+      expect(pathToStylelint(root)).toBe(path.resolve(root, '.stylelintrc.cjs'));
     });
   });
 });

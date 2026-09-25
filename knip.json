@@ -64,7 +64,6 @@
       ],
       "ignoreDependencies": [
         "@commitlint/*",
-        "stylelint",
         "stylelint-*"
       ]
     },
@@ -167,6 +166,7 @@
       "entry": [
         "src/**/*.spec.ts",
         "fixtures/*/scripts.*.ts",
+        "fixtures/*/eslint.config.ts",
         "fixtures/*/src/**/*.{ts,tsx}"
       ],
       "project": [

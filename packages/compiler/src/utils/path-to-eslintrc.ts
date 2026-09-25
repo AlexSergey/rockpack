@@ -1,14 +1,18 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
+// ESLint flat config names in the order ESLint itself looks them up, TypeScript included.
+const ESLINT_CONFIGS = [
+  'eslint.config.js',
+  'eslint.config.mjs',
+  'eslint.config.cjs',
+  'eslint.config.ts',
+  'eslint.config.mts',
+  'eslint.config.cts',
+];
+
 export const pathToEslintrc = (root: string): false | string => {
-  let eslintRc: false | string = false;
+  const found = ESLINT_CONFIGS.map((name) => path.resolve(root, name)).find((file) => existsSync(file));
 
-  for (const ext of ['.js', '.json', '.mjs', '.cjs']) {
-    if (existsSync(path.resolve(root, `eslint.config${ext}`))) {
-      eslintRc = path.resolve(root, `eslint.config${ext}`);
-    }
-  }
-
-  return eslintRc;
+  return found ?? false;
 };

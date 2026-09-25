@@ -22,16 +22,16 @@ describe('pathToEslintrc', () => {
   });
 
   describe('positive cases', () => {
-    it.each(['.js', '.json', '.mjs', '.cjs'])('finds eslint.config%s', (ext) => {
+    it.each(['.js', '.mjs', '.cjs', '.ts', '.mts', '.cts'])('finds eslint.config%s', (ext) => {
       mockFiles(`eslint.config${ext}`);
 
       expect(pathToEslintrc(root)).toBe(path.resolve(root, `eslint.config${ext}`));
     });
 
-    it('lets the last matching extension win', () => {
-      mockFiles('eslint.config.js', 'eslint.config.cjs');
+    it('takes the first config in ESLint order', () => {
+      mockFiles('eslint.config.ts', 'eslint.config.js');
 
-      expect(pathToEslintrc(root)).toBe(path.resolve(root, 'eslint.config.cjs'));
+      expect(pathToEslintrc(root)).toBe(path.resolve(root, 'eslint.config.js'));
     });
   });
 });
