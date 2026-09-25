@@ -12,6 +12,7 @@ Working plans for the `9.0.0` cycle. Plans 1, 2 and 3 are executed in order; eac
 | 6 | [Build reporter with a progress bar](./06-progress-reporter.md) | Replace friendly-errors, the ad-hoc logs and the dev messages with one Rockpack reporter: per-compiler progress bars (client and server rows in isomorphic builds), one summary line per build, every error kind in one format, plain mode for CI. | L |
 | 7 | [Own import extension plugin](./07-import-extension-plugin.md) | Replace the unmaintained `babel-plugin-add-import-extension` (Babel 7 only) with `@rockpack/babel/plugins/import-extension` for the per-file builds and build-tools; fixes asset imports, lost import attributes, folder-over-file resolution and dynamic imports. | S |
 | 8 | [Migrate to Babel 8](./08-babel-8.md) | Babel 8 (ESM-only, Node 24.11+) in every package, build tools, templates and examples; decides the removed pipeline `minimal` proposal, legacy decorators, core-js polyfills and the release; closes issue #71. | M |
+| 9 | [TypeScript 7](./09-typescript-7.md) | Type checking on the native TypeScript 7 `tsc` in the monorepo and generated projects, TypeScript 6 kept side by side (`@typescript/typescript6`) for typescript-eslint, the compiler's declarations and fork-ts-checker until 7.1 ships an API. | M |
 
 Conventions used in the plans:
 
