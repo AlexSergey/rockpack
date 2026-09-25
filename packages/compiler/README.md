@@ -349,8 +349,8 @@ frontendCompiler({
 ```
 - [Example here](https://github.com/AlexSergey/rockpack/tree/master/packages/compiler/examples/advanced-config-elm-support)
 ***
-How to make **Rockpack** save changes to HDD on DEV build?
-- *Need to add to config **write: true***
+Does the DEV build write files to disk?
+- *Yes: the development server always writes the bundle to `dist` (`writeToDisk`), so a backend or another tool can read it; there is no option to turn it off.*
 ***
 How do I process the TypeScript library to keep the sources?
 - ***libraryCompiler** takes as the first parameter not only the string-name of the library, but also an object with parameters*

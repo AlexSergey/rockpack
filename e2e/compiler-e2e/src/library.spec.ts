@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { build, buildFixture, loadPage, node, prepareFixture, read } from './fixtures';
@@ -58,6 +58,22 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
 
         expect(lib?.greet('browser')).toBe('Hello, browser');
         dom.window.close();
+      });
+    });
+
+    describe('library-formats with ignore', () => {
+      it('leaves the ignored sources out of the per-file builds and the declarations', async () => {
+        const dir = prepareFixture('library-formats');
+        mkdirSync(path.join(dir, 'src/drafts'));
+        writeFileSync(path.join(dir, 'src/drafts/draft.ts'), 'export const draft = 1;\n');
+        const { code, output } = await build(dir, 'scripts.ignore.mts');
+
+        expect({ code, output }).toMatchObject({ code: 0 });
+        expect(existsSync(path.join(dir, 'lib/esm/format.mjs'))).toBe(true);
+        expect(existsSync(path.join(dir, 'lib/esm/drafts'))).toBe(false);
+        expect(existsSync(path.join(dir, 'lib/cjs/drafts'))).toBe(false);
+        expect(existsSync(path.join(dir, 'dist/types/drafts'))).toBe(false);
+        expect(existsSync(path.join(dir, 'lib/esm/format.spec.mjs'))).toBe(false);
       });
     });
 
