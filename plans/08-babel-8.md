@@ -1,6 +1,6 @@
 # Plan 8: Migrate to Babel 8
 
-Status: approved 2026-09-25 (D1 to D5 as recommended)
+Status: done 2026-09-25 (D1 to D5 as recommended)
 Order: after Plan 7 (the own import extension plugin removes the only dependency that refuses Babel 8); closes issue #71
 Owner: TBD
 
@@ -70,7 +70,7 @@ Each item is one commit with the package checks and goldens; full verification (
 - [x] **M5. Tester.** `babel-jest` against Babel 8 (test mode presets, `esm: true`), tester examples incl. `esm`. _Done 2026-09-25: the tester declares `@babel/core` 8 (the peer of `babel-jest`); tester unit specs and every tester example, including `esm`, pass._
 - [x] **M6. Engines.** `engines.node` `>=24.11.0` in every package and the root, the starter's Node check (`bin/index.ts` compares the minor too), `engine-strict` in the monorepo; CI and `.nvmrc` stay on 24 (the runner's 24.x is newer than 24.11). _Done 2026-09-25: `>=24.11.0` in the root and every package; the starter bin checks `process.versions.node` against its own `engines.node` with `semver` (24.10 is refused, the message names the range); READMEs, MIGRATION and the CHANGELOG entry say 24.11._
 - [x] **M7. Templates and examples.** ssr template with `@issr/babel-plugin` under Babel 8 (starter quality and runtime suites), every compiler and tester example (examples suite), the book build. _Done 2026-09-25: no template, example or fixture uses the pipeline operator, `useBuiltIns` or its own Babel config, so nothing changed; proven on Babel 8 by the starter quality and runtime suites (ssr with `@issr/babel-plugin`, csr with `babel-plugin-react-compiler`), the compiler examples, the tester examples and the book build._
-- [ ] **M8. Canary and issue #71.** Run the major-update deps canary manually (temporary branch with a push trigger, as for Plan 4) and close #71 when the Babel part is green; remaining majors in the canary report are listed separately.
+- [x] **M8. Canary and issue #71.** Run the major-update deps canary manually (temporary branch with a push trigger, as for Plan 4) and close #71 when the Babel part is green; remaining majors in the canary report are listed separately. _Done 2026-09-25: the first run failed in the updater, which took the `babel-core-7` npm alias for a registry name (fixed in `9118b7c0`: aliases, paths and git URLs are skipped). Run 36131885665 on `9118b7c0`: minor canary green; major canary passes update, build and unit tests, E2E fails only on `jsdom` 30 (ESM-only `@exodus/bytes`, not Babel). #71 closed with the list of the remaining majors; the temporary branch is deleted._
 - [x] **M9. Docs.** CHANGELOG: Breaking (Babel 8, Node 24.11, pipeline per D1, decorators per D3 if changed, core-js per D4, `rockpack.babel.*` plugins must support Babel 8); MIGRATION section with before/after for a `rockpack.babel.ts` that adds plugins and for pipeline code; `@rockpack/babel` README. _Done 2026-09-25: CHANGELOG (two Breaking entries plus the decorators/core-js/preset-react and `jsxDEV` notes), MIGRATION (Babel 8 plugins, a hoisted Babel 7, pipeline before/after checked on Babel 8), the compiler README says Babel 8._
 
 ## 6. Risks
