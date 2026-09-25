@@ -7,7 +7,14 @@ import { buildPlugins, buildProductionPlugins } from './plugins.js';
 import { buildPresets } from './presets.js';
 import { applyUserConfig } from './user-config.js';
 
-export type { BabelMergeContext, BabelMergeFunction, CreateBabelPresetsOptions, Framework, Modules } from './types.js';
+export type {
+  BabelMergeContext,
+  BabelMergeFunction,
+  CreateBabelPresetsOptions,
+  Framework,
+  Modules,
+  TypescriptOptions,
+} from './types.js';
 
 export const createBabelPresets = ({
   framework = 'none',
@@ -17,7 +24,14 @@ export const createBabelPresets = ({
   typescript = false,
 }: CreateBabelPresetsOptions = {}): TransformOptions => {
   const root = process.cwd();
-  const context: BabelMergeContext = { framework, isNodejs, isTest, modules, typescript };
+  const context: BabelMergeContext = {
+    framework,
+    isNodejs,
+    isTest,
+    modules,
+    typescript: typescript !== false,
+    typescriptEnv: typeof typescript === 'object' && typescript.env === true,
+  };
   const productionPlugins = buildProductionPlugins(context);
 
   const opts: TransformOptions = {

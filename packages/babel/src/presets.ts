@@ -5,18 +5,21 @@ import type { BabelMergeContext } from './types.js';
 import { getPreset } from './resolve.js';
 
 export const buildPresets = (
-  { framework, isNodejs, modules, typescript }: BabelMergeContext,
+  { framework, isNodejs, modules, typescript, typescriptEnv }: BabelMergeContext,
   corejs: false | string,
 ): PluginItem[] => {
-  const presets: PluginItem[] = typescript
-    ? [getPreset('@babel/preset-typescript')]
-    : [
-        getPreset('@babel/preset-env', {
-          modules,
-          ...(isNodejs ? { targets: { node: 'current' } } : { targets: { browsers: ['> 5%'] } }),
-          ...(typeof corejs === 'string' ? { corejs, useBuiltIns: 'usage' } : {}),
-        }),
-      ];
+  const env = getPreset('@babel/preset-env', {
+    modules,
+    ...(isNodejs ? { targets: { node: 'current' } } : { targets: { browsers: ['> 5%'] } }),
+    ...(typeof corejs === 'string' ? { corejs, useBuiltIns: 'usage' } : {}),
+  });
+  const ts = getPreset('@babel/preset-typescript');
+
+  // Presets run last to first: TypeScript is stripped before preset-env transforms the result.
+  let presets: PluginItem[] = [env];
+  if (typescript) {
+    presets = typescriptEnv ? [env, ts] : [ts];
+  }
 
   if (framework === 'react') {
     presets.push(

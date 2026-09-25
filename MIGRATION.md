@@ -90,6 +90,7 @@ module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;
 
 - `rockpack.babel.js` may also be `.cjs`, `.mjs` or `.ts`; an ES module config uses its default export. A config that relied on the namespace object being merged (a `default` key in the Babel options) no longer gets that key.
 - The `BabelMergeContext`, `BabelMergeFunction`, `Framework` and `Modules` types are exported for typed configs.
+- TypeScript mode still ignores `modules`, `isNodejs` and `core-js` unless you pass `typescript: { env: true }`. In 10.0 this becomes the default; opt in now to check the output.
 
 ## @rockpack/utils
 

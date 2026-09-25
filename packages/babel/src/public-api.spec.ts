@@ -20,6 +20,12 @@ describe('public API types', () => {
       expectTypeOf<Framework>().toEqualTypeOf<'none' | 'react'>();
     });
 
+    it('takes typescript as a boolean or options with env', () => {
+      expectTypeOf<{ typescript: { env: true } }>().toExtend<CreateBabelPresetsOptions>();
+      expectTypeOf<{ typescript: true }>().toExtend<CreateBabelPresetsOptions>();
+      expectTypeOf<{ typescript: 'env' }>().not.toExtend<CreateBabelPresetsOptions>();
+    });
+
     it('types a rockpack.babel merge function', () => {
       expectTypeOf<BabelMergeFunction>().parameter(0).toHaveProperty('framework').toEqualTypeOf<Framework>();
       expectTypeOf<BabelMergeFunction>().returns.toEqualTypeOf<TransformOptions>();

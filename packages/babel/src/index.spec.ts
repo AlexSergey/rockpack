@@ -111,6 +111,14 @@ describe('createBabelPresets', () => {
       expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.mjs");
     });
 
+    it('keeps preset-env out of TypeScript mode without the env flag', () => {
+      createProject();
+
+      expect(getItemIds(createBabelPresets({ typescript: {} }).presets)).toEqual([
+        expect.stringContaining('@babel/preset-typescript'),
+      ]);
+    });
+
     it('does not add test-only transforms outside of test mode', () => {
       createProject();
 
@@ -186,6 +194,37 @@ describe('createBabelPresets', () => {
 
       expect(getItemIds(presets)).toEqual([expect.stringContaining('@babel/preset-typescript')]);
       expect(findItem(plugins, 'babel-plugin-transform-typescript-metadata')).toBeDefined();
+    });
+
+    it('runs preset-env after preset-typescript with typescript.env', () => {
+      createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '3.40.0' } }) });
+
+      const { presets } = createBabelPresets({ isNodejs: true, modules: 'commonjs', typescript: { env: true } });
+
+      expect(getItemIds(presets)).toEqual([
+        expect.stringContaining('@babel/preset-env'),
+        expect.stringContaining('@babel/preset-typescript'),
+      ]);
+      expect(getItemOptions(presets, '@babel/preset-env')).toEqual({
+        corejs: '3.40.0',
+        modules: 'commonjs',
+        targets: { node: 'current' },
+        useBuiltIns: 'usage',
+      });
+    });
+
+    it('compiles TypeScript to CommonJS with typescript.env', () => {
+      createProject();
+      const source = "import { join } from 'node:path';\nexport const value: string = join('a', 'b');\n";
+
+      const result = transformSync(source, {
+        ...createBabelPresets({ modules: 'commonjs', typescript: { env: true } }),
+        configFile: false,
+        filename: '/project/src/module.ts',
+      });
+
+      expect(result?.code).toContain('require("node:path")');
+      expect(result?.code).not.toContain(': string');
     });
 
     it('transforms import.meta and ES modules in test mode', () => {
@@ -302,7 +341,14 @@ describe('createBabelPresets', () => {
       const opts = createBabelPresets({ framework: 'react', isTest: true });
 
       expect(opts as unknown).toEqual({
-        ctx: { framework: 'react', isNodejs: false, isTest: true, modules: false, typescript: false },
+        ctx: {
+          framework: 'react',
+          isNodejs: false,
+          isTest: true,
+          modules: false,
+          typescript: false,
+          typescriptEnv: false,
+        },
         hasDefaults: true,
         hasMerge: true,
       });

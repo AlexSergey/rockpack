@@ -38,6 +38,14 @@ The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modul
 - `@babel/preset-typescript`
 - `babel-plugin-transform-typescript-metadata` - enables TypeScript decorator metadata emission
 
+In TypeScript mode only the types are stripped, so `modules`, `isNodejs` and `core-js` have no effect. Pass `typescript: { env: true }` to run `@babel/preset-env` after `@babel/preset-typescript` and apply them to TypeScript too:
+
+```js
+createBabelPresets({ isNodejs: true, modules: 'commonjs', typescript: { env: true } });
+```
+
+This becomes the default in 10.0.
+
 ### Modern syntax
 - `@babel/plugin-proposal-decorators`
 - `@babel/plugin-proposal-pipeline-operator`
