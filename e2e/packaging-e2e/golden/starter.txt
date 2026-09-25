@@ -8,9 +8,13 @@ lib/lib/copy-files.mjs
 lib/lib/create-files.mjs
 lib/lib/get-args.mjs
 lib/lib/git-init.mjs
+lib/lib/install-all.mjs
 lib/lib/install.mjs
 lib/lib/package-json-preparing.mjs
+lib/lib/prepare-project-dir.mjs
+lib/lib/print-summary.mjs
 lib/lib/wizard.mjs
+lib/lib/write-meta-files.mjs
 lib/types/package.mjs
 lib/types/versions.mjs
 lib/utils/argv.mjs
@@ -21,7 +25,10 @@ lib/utils/git.mjs
 lib/utils/other.mjs
 lib/utils/package-json.mjs
 lib/utils/pathes.mjs
+lib/utils/progress.mjs
 lib/utils/project.mjs
+lib/utils/prompt-exit.mjs
+lib/utils/render.mjs
 lib/versions.json
 package.json
 templates/addons/claude/CLAUDE.md
@@ -117,9 +124,13 @@ types/lib/copy-files.d.ts
 types/lib/create-files.d.ts
 types/lib/get-args.d.ts
 types/lib/git-init.d.ts
+types/lib/install-all.d.ts
 types/lib/install.d.ts
 types/lib/package-json-preparing.d.ts
+types/lib/prepare-project-dir.d.ts
+types/lib/print-summary.d.ts
 types/lib/wizard.d.ts
+types/lib/write-meta-files.d.ts
 types/types/package.d.ts
 types/types/versions.d.ts
 types/utils/argv.d.ts
@@ -130,4 +141,7 @@ types/utils/git.d.ts
 types/utils/other.d.ts
 types/utils/package-json.d.ts
 types/utils/pathes.d.ts
+types/utils/progress.d.ts
 types/utils/project.d.ts
+types/utils/prompt-exit.d.ts
+types/utils/render.d.ts
