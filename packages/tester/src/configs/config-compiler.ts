@@ -1,12 +1,11 @@
 import type { Config } from '@jest/types';
 
 import { createBabelPresets } from '@rockpack/babel';
-import { getRootRequireDir } from '@rockpack/utils';
+import { getRootRequireDir, packageRoot } from '@rockpack/utils';
 import deepExtend from 'deep-extend';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import type { TesterOptions } from '../default-props.js';
 
@@ -23,17 +22,17 @@ export type CompiledConfig = {
   readonly config: Config.InitialOptions;
 };
 
-// Where the tester runs: the project whose setup files are detected, the tester's own build folder (the modules the
-// config points at) and the extension of that build.
+// Where the tester runs: the project whose setup files are detected and the folder of the modules the config points
+// at. Jest loads those modules through its own CommonJS runtime, so they always come from the CommonJS build, even
+// when the tester itself was imported as an ES module (with --experimental-vm-modules Jest would otherwise load the
+// .mjs build as ES modules after Babel turned it into CommonJS).
 export type TesterEnvironment = {
-  readonly ext: '.cjs' | '.mjs';
   readonly packageDir: string;
   readonly projectDir: string;
 };
 
 const defaultEnvironment = (): TesterEnvironment => ({
-  ext: import.meta.url.endsWith('.mjs') ? '.mjs' : '.cjs',
-  packageDir: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'),
+  packageDir: path.join(packageRoot(import.meta.url), 'lib', 'cjs'),
   projectDir: getRootRequireDir(),
 });
 
@@ -114,7 +113,7 @@ export const configCompiler = (
   projectConfig: Partial<Config.InitialOptions> = {},
   environment: Partial<TesterEnvironment> = {},
 ): CompiledConfig => {
-  const { ext, packageDir, projectDir } = { ...defaultEnvironment(), ...environment };
+  const { packageDir, projectDir } = { ...defaultEnvironment(), ...environment };
   const { globalSetup, globalTeardown, setupFiles, setupFilesAfterEnv } = findSetupFiles(projectDir);
   const jsPreset = createBabelPresets({ framework: 'react', isTest: true });
   const tsPreset = createBabelPresets({ framework: 'react', isTest: true, typescript: true });
@@ -126,7 +125,7 @@ export const configCompiler = (
     ...(globalTeardown ? { globalTeardown } : {}),
     moduleFileExtensions: ['js', 'jsx', 'mjs', 'cjs', 'json', 'ts', 'tsx'],
     moduleNameMapper: {
-      '\\.(css|less|scss|sss|styl)$': `${packageDir}/modules/identity-obj-proxy${ext}`,
+      '\\.(css|less|scss|sss|styl)$': `${packageDir}/modules/identity-obj-proxy.cjs`,
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     setupFiles,
@@ -134,7 +133,7 @@ export const configCompiler = (
     testEnvironment: 'jsdom',
     testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
     transform: {
-      '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${packageDir}/modules/file-transformer${ext}`,
+      '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${packageDir}/modules/file-transformer.cjs`,
       '^.+\\.(js|jsx|mjs|cjs)$': [_require.resolve('babel-jest'), jsPreset],
       '^.+\\.(ts|tsx)$': [_require.resolve('babel-jest'), tsPreset],
     },

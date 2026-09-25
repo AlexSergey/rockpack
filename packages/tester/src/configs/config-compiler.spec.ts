@@ -8,7 +8,10 @@ const mockExistingFiles = new Set<string>();
 jest.mock('node:fs', () => ({
   existsSync: jest.fn((file: string): boolean => mockExistingFiles.has(file)),
 }));
-jest.mock('@rockpack/utils', () => ({ getRootRequireDir: (): string => mockProjectDir }));
+jest.mock('@rockpack/utils', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
+  getRootRequireDir: (): string => mockProjectDir,
+}));
 jest.mock('@rockpack/babel', () => ({
   createBabelPresets: (opts: Record<string, unknown>): Record<string, unknown> => ({ presetFor: opts }),
 }));
@@ -171,7 +174,7 @@ describe('configCompiler', () => {
       const { moduleNameMapper } = parseConfig(compile({}, { moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' } }));
 
       expect(moduleNameMapper).toEqual({
-        '\\.(css|less|scss|sss|styl)$': expect.stringMatching(/modules\/identity-obj-proxy\.cjs$/) as unknown,
+        '\\.(css|less|scss|sss|styl)$': expect.stringMatching(/lib\/cjs\/modules\/identity-obj-proxy\.cjs$/) as unknown,
         '^(\\.{1,2}/.*)\\.js$': '$1',
         '^@/(.*)$': '<rootDir>/src/$1',
       });
