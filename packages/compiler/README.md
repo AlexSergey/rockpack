@@ -115,6 +115,7 @@ const {
 | version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
 | ignore  | String[][specs, tests, fixtures] | Globs that the per-file `esm`/`cjs` builds and the generated declarations skip |
 | lint    | Boolean[false]              | Lints the sources with ESLint and Stylelint during the build when their configs exist in the project root; an error fails the build |
+| progress | Boolean[true]              | Progress bars in a terminal (one per compiler); `false` keeps the summaries and the problems but draws no bars. Outside a terminal and in CI there are never bars |
 | watch   | Boolean[false]              | `sourceCompiler` only: after the first build, rebuild the formats and the declarations after every change in the sources until `stop()` of the result; keep `dist` outside the sources |
 | cache   | Boolean[false]              | Production builds cache modules on disk in `node_modules/.cache/rockpack` (one cache per compiler). Repeated builds are faster, the first one is slower because it writes the cache; a change in the build script or in the compiler invalidates it. Delete the folder if a build looks stale |
 
@@ -219,6 +220,29 @@ isomorphicCompiler({
 The previous form, `isomorphicCompiler(frontendCompiler({...}), backendCompiler({...}))`, still works but is deprecated and will be removed in 10.0.
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/examples" target="_blank">here</a>
+
+## Build output
+
+Rockpack prints the build itself: a progress bar per compiler while it builds (two rows, `client` and `server`, in an `isomorphicCompiler` build), then one line per build, and every problem in one format:
+
+```
+ ✔ client  built in 2.4s
+   › Starting server on http://localhost:3000
+ ✔ server  built in 1.1s
+   › nodemon is running
+ ↻ client  src/app.tsx changed
+ ✖ client  1 error
+
+   TypeScript  src/app.tsx:12:5  TS2339: Property 'title' does not exist on type 'Props'.
+     > 12 |     <h1>{props.title}</h1>
+```
+
+- The facts of a compiler (dev server URL, nodemon, inspector port) follow its first successful build.
+- Problem kinds: `Syntax`, `Module not found`, `TypeScript`, `ESLint`, `Stylelint` (with `lint: true`), `CSS` and `Build` for the rest; the same problem from the client and the server is shown once.
+- Warnings are listed when the build has no errors (or with `debug: true`) and counted otherwise.
+- In development the type checker reports after the build, as a separate `✖ client  N TypeScript errors` block.
+- Without a terminal (CI, logs, piped output) the same lines are printed without bars or cursor movement, so the output can be read by tools. Colours follow the terminal, `NO_COLOR` and `FORCE_COLOR`.
+- Production builds add the output folder and the size of the emitted files: ` ✔ frontend  built in 8.2s, dist  1.2 MB`.
 
 ## Results
 

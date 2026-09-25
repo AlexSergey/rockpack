@@ -36,6 +36,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/codestyle` lints `.mts` and `.cts` files as TypeScript
 - `@rockpack/compiler`: `sourceCompiler({ watch: true })` rebuilds the per-file formats and the declarations after every source change and resolves to a result with `stop()`
 - `@rockpack/tester`: `esm: true` runs the specs as ES modules (no CommonJS transform, TypeScript treated as ESM) under `node --experimental-vm-modules`, and explains the flag when it is missing
+- `@rockpack/compiler` build reporter: a progress bar per compiler in a terminal (client and server rows in an isomorphic build), one summary line per build, every problem (syntax, missing module, TypeScript, ESLint, Stylelint, CSS) in one format, plain output without a terminal or in CI; `progress: false` turns the bars off
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)
@@ -57,6 +58,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - **Breaking:** `@rockpack/tester`: `tester()` returns a promise of Jest's results (`undefined` when Jest could not run) and no longer calls `process.exit`; failures set `process.exitCode = 1`. Write `void tester(...)` in `scripts.tests.ts` (the `no-floating-promises` lint rule asks for it) or await it
 - **Breaking:** `@rockpack/compiler` lints during the build only with `lint: true` (it ran ESLint and Stylelint whenever it found `eslint.config.{js,mjs,cjs}`, `.stylelintrc` or `stylelint.config.js`); with the option it also finds `eslint.config.ts`/`.mts`/`.cts` and every Stylelint config name, and Stylelint checks only the sources
 - **Breaking:** `@rockpack/compiler` no longer ships a bundle analyzer: the `analyzer` option (now reported as `INVALID_CONFIG` with a hint), the `--analyzer` flag, `webpack-bundle-analyzer` and `@statoscope/webpack-plugin` are removed; add the analyzer you want in the compiler callback (see MIGRATION.md)
+- **Breaking:** `@rockpack/compiler` output changed: `@nuxt/friendly-errors-webpack-plugin` and `webpack-format-messages` are gone together with the `DONE Compiled successfully`, `[COMPILE] 0:3 minutes`, `Compiled successfully!` and `Failed to compile.` lines; the dev server URL is printed as `› Starting server on <url>` after the first build
 - **Breaking:** `@rockpack/starter` rejects a project name that is not a valid npm package name (for example with capitals or spaces) and exits with code `1` listing the problems; `rockpack .` lower-cases the folder name
 - **Breaking:** `@rockpack/codestyle` no longer exports its internal `isString` helper; import `isString` from `@rockpack/utils`
 - **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)

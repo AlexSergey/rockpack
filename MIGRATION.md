@@ -73,6 +73,10 @@ The compiler no longer runs ESLint and Stylelint just because it finds their con
 frontendCompiler({ lint: true });
 ```
 
+### Build output
+
+The compiler prints its own summary lines instead of friendly-errors (see "Build output" in the compiler README). Scripts that parsed `Compiled successfully!`, `DONE`, `[COMPILE]` or `Failed to compile.` should use the exit code (`1` on errors) or the result of the compiler (`kind: 'build'` with `success`) instead; `Starting server on <url>` is still printed for the dev server. `progress: false` turns the bars off in a terminal.
+
 ### Output changes worth checking
 
 - The `vendor` option moves the listed modules into `vendor.js` only; they are no longer bundled into both files.
