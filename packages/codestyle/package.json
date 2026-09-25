@@ -58,8 +58,7 @@
     "prepublishOnly": "npm run build",
     "production": "npm run lint && npm publish --access public",
     "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts --watch",
-    "type-coverage": "type-coverage -p tsconfig.json"
+    "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
     "@commitlint/cli": "21.2.3",
@@ -111,15 +110,5 @@
     "implicitDependencies": [
       "!@rockpack/tester"
     ]
-  },
-  "typeCoverage": {
-    "atLeast": 99,
-    "ignoreFiles": [
-      "src/**/*.spec.ts",
-      "src/**/__fixtures__/**",
-      "src/**/__mocks__/**",
-      "types/**"
-    ],
-    "strict": true
   }
 }

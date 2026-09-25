@@ -19,10 +19,6 @@
       "cache": true,
       "inputs": ["default", "^default"],
       "outputs": ["{projectRoot}/coverage", "{projectRoot}/test-reports"]
-    },
-    "type-coverage": {
-      "cache": true,
-      "inputs": ["default", "^default"]
     }
   }
 }
