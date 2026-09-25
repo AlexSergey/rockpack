@@ -83,6 +83,12 @@ describe('getArgs', () => {
       expect(getArgs().offline).toBe(true);
     });
 
+    it.each([{ yes: true }, { y: true }])('reads %p as --yes', (flag) => {
+      setArgv(flag);
+
+      expect(getArgs().yes).toBe(true);
+    });
+
     it('reads --folder', () => {
       setArgv({ folder: 'projects' });
 

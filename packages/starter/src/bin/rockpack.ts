@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import semverGt from 'semver/functions/gt.js';
 import semverParse from 'semver/functions/parse.js';
+import validateNpmPackageName from 'validate-npm-package-name';
 
 import { defaultApp } from '../constants/names.js';
 import { here } from '../constants/paths.js';
@@ -55,6 +56,9 @@ export const rockpack = async (): Promise<void> => {
     console.log(chalk.bold('GLOBAL OPTIONS'));
     console.log(`  ${chalk.green('-h')} (--help)              Display this help message`);
     console.log(`  ${chalk.green('-v')} (--version)           Display this application version`);
+    console.log(
+      `  ${chalk.green('-y')} (--yes)               Use the defaults for unanswered questions (csr, with tests)`,
+    );
     process.exit();
   }
 
@@ -100,8 +104,19 @@ export const rockpack = async (): Promise<void> => {
   }
 
   if (projectName === here) {
-    const appName = path.basename(currentPath).replace(/\s/g, '_');
+    const appName = path.basename(currentPath).toLowerCase().replace(/\s/g, '_');
     projectName = appName.length > 0 ? appName : defaultApp;
+  }
+
+  const { errors = [], validForNewPackages, warnings = [] } = validateNpmPackageName(projectName);
+  if (!validForNewPackages) {
+    console.error(chalk.red(`"${projectName}" is not a valid npm package name:`));
+    [...errors, ...warnings].forEach((problem) => {
+      console.error(`  - ${problem}`);
+    });
+    process.exit(1);
+
+    return;
   }
 
   await install({

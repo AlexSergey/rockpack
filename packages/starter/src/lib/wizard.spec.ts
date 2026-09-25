@@ -53,6 +53,19 @@ describe('wizard', () => {
   });
 
   describe('positive cases', () => {
+    it('answers the open questions with the defaults under --yes', async () => {
+      await expect(wizard({ yes: true })).resolves.toEqual({ appType: 'csr', tester: true });
+      expect(selectMock).not.toHaveBeenCalled();
+      expect(confirmMock).not.toHaveBeenCalled();
+    });
+
+    it('prefers the arguments over the --yes defaults', async () => {
+      await expect(wizard({ appType: 'library', tests: false, yes: true })).resolves.toEqual({
+        appType: 'library',
+        tester: false,
+      });
+    });
+
     it('skips the prompts when the answers come from arguments', async () => {
       await expect(wizard({ appType: 'library', tests: false })).resolves.toEqual({
         appType: 'library',

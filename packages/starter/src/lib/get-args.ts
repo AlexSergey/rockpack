@@ -11,6 +11,7 @@ export type Args = {
   offline?: boolean;
   testMode: boolean;
   tests?: boolean;
+  yes?: boolean;
 };
 
 export const getArgs = (): Args => {
@@ -36,6 +37,10 @@ export const getArgs = (): Args => {
 
   if (typeof argv['type'] === 'string' && (APP_TYPES as string[]).includes(argv['type'])) {
     args.appType = argv['type'] as AppType;
+  }
+
+  if (argv['yes'] === true || argv['y'] === true) {
+    args.yes = true;
   }
 
   if (typeof argv['folder'] === 'string') {

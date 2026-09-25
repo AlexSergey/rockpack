@@ -89,6 +89,16 @@ describe('rockpack', () => {
       expect(installMock).not.toHaveBeenCalled();
     });
 
+    it('exits with code 1 and lists the problems of an invalid project name', async () => {
+      setArgv({ _: ['My App'] });
+
+      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      expect(errorSpy).toHaveBeenCalledWith('"My App" is not a valid npm package name:');
+      expect(errorSpy).toHaveBeenCalledWith('  - name can only contain URL-friendly characters');
+      expect(errorSpy).toHaveBeenCalledWith('  - name can no longer contain capital letters');
+      expect(installMock).not.toHaveBeenCalled();
+    });
+
     it('skips the update check offline', async () => {
       setArgv({ _: ['app'], offline: true });
 

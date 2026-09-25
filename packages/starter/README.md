@@ -69,6 +69,7 @@ rockpack <project-name>
 |---|---|
 | `--type=<csr\|ssr\|component\|library>` | Skip the application type question |
 | `--tests=<true\|false>` | Skip the tests question |
+| `-y`, `--yes` | Answer the remaining questions with the defaults (`csr`, with tests) |
 | `--folder=<path>` | Create the project inside this folder |
 | `--no-install` | Write the project without installing its dependencies |
 | `--yarn` | Use Yarn instead of npm when it is installed |
@@ -80,7 +81,7 @@ rockpack <project-name>
 rockpack my-app --type=csr --tests=true --yarn
 ```
 
-Use `.` as the project name to scaffold into the current directory.
+Use `.` as the project name to scaffold into the current directory; the project is named after the folder (lower-cased, spaces replaced with `_`). The project name must be a valid npm package name.
 
 Generated projects install their git hooks with `simple-git-hooks` on `npm install`: `pre-commit` runs lint-staged, `commit-msg` checks the message with commitlint, and `pre-push` runs the tests when the project has them.
 

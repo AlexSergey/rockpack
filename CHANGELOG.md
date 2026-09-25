@@ -28,6 +28,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/codestyle`: `makeConfig({ ignoreFile, jest, react, tsconfig })` overrides the detection of the ignore file, the Jest rules, React and the tsconfig; the `MakeConfigOptions` type is exported
 - `@rockpack/codestyle` exports the shared Stylelint and Commitlint configs from `@rockpack/codestyle/stylelint` (`stylelintConfig`) and `@rockpack/codestyle/commitlint` (`commitlintConfig`); generated projects use them, so their presets no longer have to be hoisted next to the project
 - Generated projects get a `.nvmrc` with the Node.js major the starter requires
+- `@rockpack/starter`: `-y`/`--yes` answers the remaining questions with the defaults (`csr`, with tests)
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)
@@ -47,6 +48,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - **Breaking:** `@rockpack/tester` runs suites in parallel with the Jest cache by default; pass `serial: true` for the previous one-by-one behaviour
 - **Breaking:** `@rockpack/tester`: `setupFiles`, `setupFilesAfterEnv`, `moduleFileExtensions` and `testPathIgnorePatterns` from the Jest config extend the defaults instead of replacing them (the text-encoder polyfill stays); pass `replaceArrays: true` for the old behaviour
 - **Breaking:** `@rockpack/tester`: `tester()` returns a promise of Jest's results (`undefined` when Jest could not run) and no longer calls `process.exit`; failures set `process.exitCode = 1`. Write `void tester(...)` in `scripts.tests.ts` (the `no-floating-promises` lint rule asks for it) or await it
+- **Breaking:** `@rockpack/starter` rejects a project name that is not a valid npm package name (for example with capitals or spaces) and exits with code `1` listing the problems; `rockpack .` lower-cases the folder name
 - **Breaking:** `@rockpack/codestyle` no longer exports its internal `isString` helper; import `isString` from `@rockpack/utils`
 - **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)
 - **Breaking:** `@rockpack/codestyle` uses the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets (was `recommended`, `stylistic` and `recommendedTypeChecked`) and adds `prefer-readonly` and `switch-exhaustiveness-check`; numbers are allowed in template literals, void arrow shorthands are allowed, `||` stays allowed for strings and `no-dynamic-delete` is off

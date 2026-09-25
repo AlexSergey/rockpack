@@ -41,6 +41,13 @@ describe('starter CLI', () => {
       expect(output).toContain('Unknown type "desktop". Use one of: csr, ssr, component, library');
     });
 
+    it('exits with code 1 for a project name npm does not accept', async () => {
+      const { code, output } = await rockpack(dir, ['My App', ...GENERATE]);
+
+      expect(code).toBe(1);
+      expect(output).toContain('"My App" is not a valid npm package name');
+    });
+
     it('exits with code 1 when the project directory is not empty', async () => {
       mkdirSync(path.join(dir, 'app'));
       writeFileSync(path.join(dir, 'app', 'notes.txt'), '');
@@ -76,6 +83,16 @@ describe('starter CLI', () => {
       expect(code).toBe(0);
       expect(output).toContain('USAGE');
       expect(output).toContain('rockpack proj');
+    });
+
+    it('creates a csr project with tests without prompts under --yes', async () => {
+      const { code } = await rockpack(dir, ['app', '--yes', '--no-install', '--offline']);
+      const { devDependencies = {} } = JSON.parse(readFileSync(path.join(dir, 'app', 'package.json'), 'utf8')) as {
+        devDependencies?: Record<string, string>;
+      };
+
+      expect(code).toBe(0);
+      expect(Object.keys(devDependencies)).toEqual(expect.arrayContaining(['@rockpack/compiler', '@rockpack/tester']));
     });
 
     it('creates the project inside --folder', async () => {

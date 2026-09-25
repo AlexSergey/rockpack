@@ -16,11 +16,16 @@ export type State = {
 type WizardArgs = {
   appType?: AppType;
   tests?: boolean;
+  yes?: boolean;
 };
 
+// --yes answers every question that has no flag with its default.
+const DEFAULT_APP_TYPE: AppType = 'csr';
+const DEFAULT_TESTER = true;
+
 export const wizard = async (args: WizardArgs): Promise<State> => {
-  let appType = args.appType;
-  let tester = args.tests;
+  let appType = args.appType ?? (args.yes ? DEFAULT_APP_TYPE : undefined);
+  let tester = args.tests ?? (args.yes ? DEFAULT_TESTER : undefined);
 
   console.log();
   console.log(`Hello there! ${chalk.bold('Rockpack')} greets you!`);
