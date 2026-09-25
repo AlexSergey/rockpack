@@ -1,6 +1,6 @@
 # Plan 8: Migrate to Babel 8
 
-Status: proposed
+Status: approved 2026-09-25 (D1 to D5 as recommended)
 Order: after Plan 7 (the own import extension plugin removes the only dependency that refuses Babel 8); closes issue #71
 Owner: TBD
 
