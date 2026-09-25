@@ -72,7 +72,12 @@ export const serveStatic = async (root: string): Promise<StaticServer> => {
   await new Promise<void>((resolve) => server.listen(port, resolve));
 
   return {
-    close: () => new Promise((resolve) => server.close(() => resolve())),
+    // Browsers keep spare sockets open without sending a request; close() alone would wait for their headers timeout.
+    close: () =>
+      new Promise((resolve) => {
+        server.close(() => resolve());
+        server.closeAllConnections();
+      }),
     requests,
     url: `http://localhost:${port}`,
   };
