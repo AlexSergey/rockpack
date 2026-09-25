@@ -19,7 +19,8 @@ jest.mock('@rockpack/babel', () => ({
 const compile = (
   opts?: Parameters<typeof configCompiler>[0],
   projectConfig?: Parameters<typeof configCompiler>[1],
-): Record<string, unknown> => configCompiler(opts, projectConfig, { projectDir: mockProjectDir }).argv;
+  vmModules = false,
+): Record<string, unknown> => configCompiler(opts, projectConfig, { projectDir: mockProjectDir, vmModules }).argv;
 
 const parseConfig = (compiled: Record<string, unknown>): Config.InitialOptions =>
   JSON.parse(compiled['config'] as string) as Config.InitialOptions;
@@ -32,6 +33,11 @@ describe('configCompiler', () => {
   describe('negative cases', () => {
     it('treats nothing as ESM by default', () => {
       expect(parseConfig(compile())).not.toHaveProperty('extensionsToTreatAsEsm');
+    });
+
+    it('adds no separate .mjs transform without --experimental-vm-modules or with esm', () => {
+      expect(parseConfig(compile()).transform).not.toHaveProperty(['^.+\\.mjs$']);
+      expect(parseConfig(compile({ esm: true }, {}, true)).transform).not.toHaveProperty(['^.+\\.mjs$']);
     });
 
     it('collects no coverage when coverage is false', () => {
@@ -182,6 +188,17 @@ describe('configCompiler', () => {
           { presetFor: { framework: 'react', isTest: true, typescript: true } },
         ],
       });
+    });
+
+    it('keeps ES modules in .mjs files, which Jest loads as ES modules under --experimental-vm-modules', () => {
+      const { transform } = parseConfig(compile({}, {}, true));
+      const keys = Object.keys(transform ?? {});
+
+      expect(transform?.['^.+\\.mjs$']).toEqual([
+        expect.stringContaining('babel-jest'),
+        { presetFor: { framework: 'react' } },
+      ]);
+      expect(keys.indexOf('^.+\\.mjs$')).toBeLessThan(keys.indexOf('^.+\\.(js|jsx|mjs|cjs)$'));
     });
 
     it('deep-merges moduleNameMapper with the built-in style and extension mappings', () => {

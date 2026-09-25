@@ -9,6 +9,7 @@ import path from 'node:path';
 
 import type { TesterOptions } from '../default-props.js';
 
+import { supportsEsm } from '../core/supports-esm.js';
 import { defaultProps } from '../default-props.js';
 import { createTestMatch } from '../modules/create-test-match.js';
 
@@ -25,15 +26,18 @@ export type CompiledConfig = {
 // Where the tester runs: the project whose setup files are detected and the folder of the modules the config points
 // at. Jest loads those modules through its own CommonJS runtime, so they always come from the CommonJS build, even
 // when the tester itself was imported as an ES module (with --experimental-vm-modules Jest would otherwise load the
-// .mjs build as ES modules after Babel turned it into CommonJS).
+// .mjs build as ES modules after Babel turned it into CommonJS). With vmModules (--experimental-vm-modules) Jest
+// loads every .mjs file as an ES module.
 export type TesterEnvironment = {
   readonly packageDir: string;
   readonly projectDir: string;
+  readonly vmModules: boolean;
 };
 
 const defaultEnvironment = (): TesterEnvironment => ({
   packageDir: path.join(packageRoot(import.meta.url), 'lib', 'cjs'),
   projectDir: getRootRequireDir(),
+  vmModules: supportsEsm(),
 });
 
 type SetupFiles = {
@@ -113,13 +117,18 @@ export const configCompiler = (
   projectConfig: Partial<Config.InitialOptions> = {},
   environment: Partial<TesterEnvironment> = {},
 ): CompiledConfig => {
-  const { packageDir, projectDir } = { ...defaultEnvironment(), ...environment };
+  const { packageDir, projectDir, vmModules } = { ...defaultEnvironment(), ...environment };
   const { globalSetup, globalTeardown, setupFiles, setupFilesAfterEnv } = findSetupFiles(projectDir);
   const options = deepExtend({}, defaultProps, opts) as Required<TesterOptions>;
   // Test mode adds the CommonJS transforms; ES module specs keep import/export and import.meta as they are.
   const isTest = !options.esm;
   const jsPreset = createBabelPresets({ framework: 'react', isTest });
   const tsPreset = createBabelPresets({ framework: 'react', isTest, typescript: true });
+  // Jest loads .mjs as ES modules under --experimental-vm-modules, so they must keep import/export there.
+  const mjsTransform: Config.InitialOptions['transform'] =
+    isTest && vmModules
+      ? { '^.+\\.mjs$': [_require.resolve('babel-jest'), createBabelPresets({ framework: 'react' })] }
+      : {};
   const src: string[] = Array.isArray(options.src) ? options.src : [options.src];
 
   const defaults: Config.InitialOptions = {
@@ -137,6 +146,7 @@ export const configCompiler = (
     testPathIgnorePatterns: ['<rootDir>/(build|dist|temp|docs|documentation|public|node_modules)/'],
     transform: {
       '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `${packageDir}/modules/file-transformer.cjs`,
+      ...mjsTransform,
       '^.+\\.(js|jsx|mjs|cjs)$': [_require.resolve('babel-jest'), jsPreset],
       '^.+\\.(ts|tsx)$': [_require.resolve('babel-jest'), tsPreset],
     },
