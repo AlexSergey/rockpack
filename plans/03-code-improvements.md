@@ -120,7 +120,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [x] **D4.** Found by Plan 4: `@rockpack/utils` and `@rockpack/tsconfig` publish no README, and `@rockpack/codestyle` exports its internal `isString`. _Partly done 2026-09-24: `@rockpack/utils` and `@rockpack/tsconfig` have READMEs; the internal `isString` export of codestyle is still open (S-step)._ _Done 2026-09-25: codestyle takes `isString` from `@rockpack/utils` and no longer exports it (CHANGELOG breaking entry)._
 - [x] **D1.** Architecture note per package in its README ("how a build is assembled", "how the tester builds the jest config"), generated diagrams optional. _Done 2026-09-25: a "How ..." section in the compiler, tester, babel, codestyle and starter READMEs, checked against the sources; utils and tsconfig have nothing to assemble. No diagrams._
 - [x] **D2.** Migration guide `9.0.0` listing every API change from Plan 2 F and Plan 3 C9, C10, T6, B3. _Done 2026-09-25: `MIGRATION.md` at the repository root (linked from the CHANGELOG), built from every **Breaking** and Deprecated CHANGELOG entry, grouped by package with before/after code. B3 is not in it yet: it waits for the decision; add it together with B3._
-- [ ] **D3.** Keep this document updated: check items off, record measured numbers (type coverage, build timings, test run time).
+- [x] **D3.** Keep this document updated: check items off, record measured numbers (type coverage, build timings, test run time). _Done 2026-09-25: items are ticked with notes, the numbers are in section 13 (status) and R2, C14._
 
 ## 13. Acceptance
 
@@ -130,6 +130,17 @@ With the unit tests in place and the audit findings closed, improve the packages
 4. No `global.` reads or writes in `@rockpack/compiler`.
 5. All Plan 1 thresholds still hold, and the tester specs no longer use `jest.isolateModules`.
 6. `npm run build` warm time and `npm run test:unit` time recorded and not worse than the Plan 1 baseline.
+
+Status 2026-09-25:
+
+1. Met. `type-coverage` (strict, at least 99%, CI `check`): babel 99.37% (318/320), codestyle 100% (413/413), compiler 99.62% (4459/4476), starter 99.69% (1978/1984), tester 99.61% (511/513), utils 99.60% (252/253).
+2. Met. The last `@sonar/cognitive-complexity` disable (`packageJsonPreparing` in the starter) is gone: it is split into `preparePublished`, `prepareApp`, `addTester` and `addGit`.
+3. Met. The compiler and the starter parse the command line on first use (`getArgv()`); no module reads `process.argv` or `process.env` at import time.
+4. Met. No `global.` in `@rockpack/compiler`.
+5. Met. Plan 1 thresholds hold; no `jest.isolateModules` in the tester specs.
+6. Met. With the R2 nx cache: `npm run build` 8.7 s cold / 0.6 s warm, `npm run test:unit` 9.2 s cold / 0.6 s warm (macOS).
+
+Open items, each waiting for a decision: B3, B4, S4, C13, C14, C16, C17, C18, R1, R5; deferred with a reason: C11 watch mode, T8 `esm`.
 
 ## 14. Suggested order
 
