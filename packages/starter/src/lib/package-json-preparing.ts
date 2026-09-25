@@ -31,7 +31,6 @@ const preparePublished = async (
   resolution: Resolution,
 ): Promise<PackageJsonObject> => {
   packageJSON = addScripts(packageJSON, {
-    analyzer: `${RUN_TS} scripts.build.mts --analyzer`,
     build: `${RUN_TS} scripts.build.mts --mode=production`,
     'build:example': `${RUN_TS} example/scripts.build.mts --mode=production`,
     start: `${RUN_TS} example/scripts.build.mts`,
@@ -116,7 +115,6 @@ const prepareApp = async (
   resolution: Resolution,
 ): Promise<PackageJsonObject> => {
   packageJSON = addScripts(packageJSON, {
-    analyzer: `${RUN_TS} scripts.build.mts --analyzer`,
     build: `${RUN_TS} scripts.build.mts --mode=production`,
     start: `${RUN_TS} scripts.build.mts`,
   });

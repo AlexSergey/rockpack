@@ -22,7 +22,6 @@ This module is part of the **Rockpack** project. See more details on [the offici
 - PostCSS: Tailwind, autoprefixer, postcss-custom-media, postcss-media-minmax
 - SEO and React optimizations
 - Dotenv and Dotenv safe support
-- Bundle Analyzer, Statoscope
 - GraphQL support
 
 *Optional add-ons for each project type:*

@@ -105,7 +105,6 @@ describe('packageJsonPreparing', () => {
       const result = await prepare({ appType: 'csr', nogit: true, tester: false, testMode: true });
 
       expect(getScripts(result)).toMatchObject({
-        analyzer: 'node scripts.build.mts --analyzer',
         build: 'node scripts.build.mts --mode=production',
         lint: 'npm run lint:ts && npm run lint:code && npm run lint:styles',
         start: 'node scripts.build.mts',

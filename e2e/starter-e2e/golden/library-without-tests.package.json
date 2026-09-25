@@ -22,7 +22,6 @@
     "lib"
   ],
   "scripts": {
-    "analyzer": "node scripts.build.mts --analyzer",
     "build": "node scripts.build.mts --mode=production",
     "build:example": "node example/scripts.build.mts --mode=production",
     "format": "npm run format:prettier && npm run format:code",
