@@ -1,6 +1,6 @@
 import type { Linter } from 'eslint';
 
-import { readPackageJson } from '@rockpack/utils';
+import { isString, readPackageJson } from '@rockpack/utils';
 import gitignore from 'eslint-config-flat-gitignore';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -39,8 +39,6 @@ const findTsConfig = (root: string): false | string => {
 
   return false;
 };
-
-export const isString = (value: unknown): value is string => typeof value === 'string';
 
 export const makeConfig = (): Linter.Config[] => {
   const root = process.cwd();

@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import { isString, makeConfig } from './index.js';
+import { makeConfig } from './index.js';
 
 // Every plugin is replaced with the minimal shape makeConfig reads, so specs assert on the
 // structure makeConfig builds. Several plugins are ESM-only and cannot be loaded by babel-jest's
@@ -81,20 +81,6 @@ const getTypescriptConfig = (configs: Linter.Config[]): Linter.Config => {
 };
 
 const getNames = (configs: Linter.Config[]): (string | undefined)[] => configs.map((config) => config.name);
-
-describe('isString', () => {
-  describe('negative cases', () => {
-    it('returns false for non-string values', () => {
-      expect([undefined, null, 1, {}, []].some((value) => isString(value))).toBe(false);
-    });
-  });
-
-  describe('positive cases', () => {
-    it('returns true for strings', () => {
-      expect(isString('')).toBe(true);
-    });
-  });
-});
 
 describe('makeConfig', () => {
   afterEach(() => {
