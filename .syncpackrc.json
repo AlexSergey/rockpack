@@ -3,13 +3,9 @@
   "versionGroups": [
     {
       "label": "Peer dependencies declare ranges, not the pinned versions used for development",
-      "dependencyTypes": ["peer"],
-      "isIgnored": true
-    },
-    {
-      "label": "book prerenders with puppeteer 7; moving it to the current major belongs to the book build rework (Plan 3)",
-      "packages": ["@rockpack/book"],
-      "dependencies": ["puppeteer"],
+      "dependencyTypes": [
+        "peer"
+      ],
       "isIgnored": true
     }
   ]

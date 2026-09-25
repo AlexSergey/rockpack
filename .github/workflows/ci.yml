@@ -61,6 +61,33 @@ jobs:
           path: packages/*/coverage/lcov.info
           if-no-files-found: ignore
 
+  # The site is deployed from master by pages.yml; building it here catches a broken book before the merge.
+  book:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Install Chrome
+        run: npm exec -w book -- puppeteer browsers install chrome
+
+      - name: Build book
+        run: npm run build -w book
+
   # Pinned dependency mode (Plan 4 section 3): babel, packaging, compiler builds and examples, starter CLI, generation
   # and project quality, tester examples. No browser.
   e2e-pinned:

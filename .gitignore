@@ -120,3 +120,6 @@ storage
 # e2e outputs
 e2e/.tarballs/
 e2e/*/.out/
+
+# Built from book/ by the Pages workflow (Plan 3 R1)
+docs/

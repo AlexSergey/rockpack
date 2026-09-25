@@ -25,10 +25,8 @@ void frontendCompiler(
           // @ts-expect-error
           minify: true,
           renderer: require.resolve('@prerenderer/renderer-puppeteer'),
-          rendererOptions: {
-            executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
-            headless: false,
-          },
+          // puppeteer's own headless Chrome (`npx puppeteer browsers install chrome`), locally and in CI.
+          rendererOptions: { headless: true },
           routes: ['/'],
           staticDir: output.path,
         }),
