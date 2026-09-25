@@ -29,7 +29,7 @@ yarn add @rockpack/tester --dev
 
 `@types/jest` is a regular dependency of `@rockpack/tester` on purpose: specs use the Jest globals (`describe`, `it`, `expect`, `jest`), so their types come with the tester and need no separate install.
 
-2. Create **scripts.tests.ts** in the root of the project:
+2. Create **scripts.tests.mts** in the root of the project (Node.js 24 runs TypeScript itself; `.mts` makes it an ES module):
 
 ```ts
 import { tester } from '@rockpack/tester';
@@ -47,13 +47,13 @@ console.log(results?.numPassedTests);
 3. Run tests:
 
 ```shell
-npx tsx scripts.tests.ts
+node scripts.tests.mts
 ```
 
 or in watch mode (`--watch` is read from the command line unless `watch` is passed explicitly):
 
 ```shell
-npx tsx scripts.tests.ts --watch
+node scripts.tests.mts --watch
 ```
 
 4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.

@@ -35,7 +35,7 @@ The nearest folder with a `package.json` above the calling module, the same from
 
 ### `getRootRequireDir(script?)`
 
-The project folder of a build: the folder of the running script (`process.argv[1]`, the `scripts.build.ts` path under tsx), not `process.cwd()`.
+The project folder of a build: the folder of the running script (`process.argv[1]`, the `scripts.build.mts` path), not `process.cwd()`.
 
 ### `isRecord(value)` / `isString(value)`
 
