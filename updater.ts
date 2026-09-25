@@ -358,6 +358,10 @@ async function updateAllDeps(): Promise<Set<string>> {
 
     console.warn(`[${pkg.name}] package.json will be updated`);
     const sorted = sortPackageJson(updated);
+    // sort-package-json 4 sorts the scripts too; their order is the author's (grouped by task), keep it.
+    if (updated.scripts) {
+      sorted.scripts = updated.scripts;
+    }
 
     if (p.indexOf('starter-e2e') > 0) {
       fixStarterE2eOrder(sorted);
