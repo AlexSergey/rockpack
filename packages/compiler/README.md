@@ -275,7 +275,7 @@ This allows you to run your application in a code environment as close to produc
 
 - Full path to the module file
 - Real names of exported methods, classes and functions
-- Saved console expressions
+- Saved console expressions (production builds for the browser drop them otherwise; Node.js builds such as `backendCompiler` or a `nodejs` library always keep them)
 
 This can be helpful when tracking down complex bugs in production. To do this, set the debug true property in the compiler.
 

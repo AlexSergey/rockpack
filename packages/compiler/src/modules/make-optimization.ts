@@ -2,9 +2,9 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
-export const makeOptimization = (mode: Mode, conf: Partial<CompilerConf>): Record<string, unknown> => {
+export const makeOptimization = (mode: Mode, conf: Partial<InternalCompilerConf>): Record<string, unknown> => {
   const optimization: Record<string, unknown> = {};
 
   if (mode === 'development') {
@@ -50,8 +50,9 @@ export const makeOptimization = (mode: Mode, conf: Partial<CompilerConf>): Recor
         }),
         new TerserPlugin({
           terserOptions: {
+            // Browser bundles drop console calls; Node.js bundles keep them, they are the server logs.
             // eslint-disable-next-line camelcase
-            compress: { drop_console: !conf.debug },
+            compress: { drop_console: !conf.debug && !conf.nodejs },
             // eslint-disable-next-line camelcase
             keep_classnames: true,
             // eslint-disable-next-line camelcase

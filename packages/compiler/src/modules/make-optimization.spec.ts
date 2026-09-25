@@ -52,6 +52,15 @@ describe('makeOptimization', () => {
       });
     });
 
+    it('keeps console output in production Node.js builds', () => {
+      makeOptimization('production', { nodejs: true });
+
+      expect(terserMock).toHaveBeenCalledWith({
+        // eslint-disable-next-line camelcase
+        terserOptions: expect.objectContaining({ compress: { drop_console: false } }) as unknown,
+      });
+    });
+
     it('keeps names and console output in production debug builds', () => {
       const optimization = makeOptimization('production', { debug: true });
 
