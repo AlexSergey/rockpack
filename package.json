@@ -39,6 +39,7 @@
     "pre-push": "npm run lint && npm run test:unit"
   },
   "devDependencies": {
+    "@inquirer/checkbox": "5.2.1",
     "@types/node": "24.13.6",
     "@types/semver": "7.8.0",
     "@types/yargs": "17.0.35",

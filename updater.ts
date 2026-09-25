@@ -1,6 +1,8 @@
+import checkbox from '@inquirer/checkbox';
 import latestVersion from 'latest-version';
 import { parse, satisfies, valid } from 'semver';
 import { writeFileSync, readFileSync } from 'node:fs';
+import { matchesGlob } from 'node:path';
 import sortPackageJson from 'sort-package-json';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -48,6 +50,8 @@ const REGISTRY_CONCURRENCY = 8;
 const argv = yargs(hideBin(process.argv))
   .options({
     'dry-run': { default: false, describe: 'Print the plan without writing files', type: 'boolean' },
+    filter: { array: true, describe: 'Update only the dependencies matching these globs (@babel/*)', type: 'string' },
+    interactive: { default: false, describe: 'Choose which major updates to apply', type: 'boolean' },
     major: { default: true, describe: 'Allow major updates (--no-major skips and lists them)', type: 'boolean' },
   })
   .strict()
@@ -55,6 +59,42 @@ const argv = yargs(hideBin(process.argv))
 
 const dryRun = argv['dry-run'];
 const allowMajor = argv.major;
+const filters = argv.filter ?? [];
+const interactive = argv.interactive;
+
+const isSelected = (dep: string): boolean => filters.length === 0 || filters.some((glob) => matchesGlob(dep, glob));
+
+// The majors the user picks; everything else is skipped. Without --interactive all majors pass.
+async function chooseMajors(majors: ReadonlyArray<string>, describe: (major: string) => string): Promise<Set<string>> {
+  if (!interactive || majors.length === 0) {
+    return new Set(majors);
+  }
+  const chosen = await checkbox({
+    choices: majors.map((major) => ({ name: describe(major), value: major })),
+    message: 'Major updates to apply',
+  });
+
+  return new Set(chosen);
+}
+
+const CHANGELOG = 'CHANGELOG.md';
+
+// One TODO line per applied major under the first "### Changed" of the newest release section.
+function writeChangelogStubs(majors: ReadonlyArray<string>): void {
+  if (majors.length === 0) {
+    return;
+  }
+  const changelog = readFileSync(CHANGELOG, 'utf8');
+  const heading = '### Changed\n';
+  const index = changelog.indexOf(heading);
+  if (index < 0) {
+    console.warn(`No "### Changed" section in ${CHANGELOG}; add the major updates by hand:\n${majors.join('\n')}`);
+    return;
+  }
+  const stubs = majors.map((major) => `- TODO: major update ${major}, describe what changes for users\n`).join('');
+  const at = index + heading.length;
+  write(CHANGELOG, `${changelog.slice(0, at)}${stubs}${changelog.slice(at)}`);
+}
 
 function createLimiter(concurrency: number): <T>(task: () => Promise<T>) => Promise<T> {
   let active = 0;
@@ -124,7 +164,7 @@ function collectDeclaredVersions(pkgs: ReadonlyArray<PackageJson>): Map<string, 
   for (const pkg of pkgs) {
     for (const field of DEP_FIELDS) {
       for (const [dep, version] of Object.entries(pkg[field] ?? {})) {
-        if (dep.startsWith('@rockpack/')) {
+        if (dep.startsWith('@rockpack/') || !isSelected(dep)) {
           continue;
         }
         const versions = declared.get(dep) ?? new Set<string>();
@@ -273,8 +313,13 @@ async function updateAllDeps(): Promise<Set<string>> {
   }));
 
   const plan = await buildPlan(pkgs.map(({ data }) => data));
-  const skippedMajors = allowMajor ? new Set<string>() : findMajorUpdates(plan);
+  const majors = [...findMajorUpdates(plan)];
+  const describeMajor = (dep: string): string =>
+    `${dep}: ${[...(plan.get(dep)?.current ?? [])].join(', ')} -> ${plan.get(dep)?.next}`;
+  const chosenMajors = allowMajor ? await chooseMajors(majors, describeMajor) : new Set<string>();
+  const skippedMajors = new Set(majors.filter((dep) => !chosenMajors.has(dep)));
   const skipped = await resolveSkipped(plan, skippedMajors);
+  writeChangelogStubs([...chosenMajors].filter((dep) => !skipped.has(dep)).map(describeMajor));
 
   for (const { data: pkg, path: p } of pkgs) {
     const updated: PackageJson = { ...pkg };
@@ -320,51 +365,48 @@ async function updateAllDeps(): Promise<Set<string>> {
     write(p, JSON.stringify(sorted, null, 2) + '\n');
   }
 
-  return new Set([...skippedMajors].map((dep) => `${dep}: ${[...(plan.get(dep)?.current ?? [])].join(', ')} -> ${plan.get(dep)?.next}`));
+  return new Set([...skippedMajors].map(describeMajor));
 }
 
 async function updateStarterDeps(): Promise<Set<string>> {
-  const skippedMajors = new Set<string>();
   const pth = './packages/starter/src/versions.json';
 
   const data = JSON.parse(readFileSync(pth, 'utf8')) as VersionsJson;
-  let wasUpdated = false;
+  const entries = Object.values(data)
+    .flatMap((variations) => Object.values(variations))
+    .flatMap((depTypes) => Object.values(depTypes))
+    .flat()
+    .filter(({ name }) => isSelected(name));
 
   console.log('---');
   console.log('Dependencies checking in @rockpack/starter');
   console.log('---');
 
-  for (const type in data) {
-    for (const variations in data[type]) {
-      for (const depType in data[type][variations]) {
-        const dependencies = data[type][variations][depType];
-
-        for (const dependency of dependencies) {
-          const { name, version } = dependency;
-          const newVersion = await getLatestVersion(name);
-          const parsed = parse(newVersion);
-          const major = parsed?.major ?? 0;
-
-          if (major > Number(version)) {
-            if (!allowMajor) {
-              skippedMajors.add(`starter versions.json ${name}: ${version} -> ${major}`);
-              continue;
-            }
-            console.log(`[${name}] will be updated from ${version} to ${major}`);
-            const index = dependencies.findIndex(({ name: n }) => n === dependency.name);
-            dependencies[index] = { name, version: `${major}` };
-            wasUpdated = true;
-          }
-        }
-      }
+  // One decision per package: the same package appears in several templates.
+  const latestMajors = new Map<string, number>();
+  for (const { name, version } of entries) {
+    const major = parse(await getLatestVersion(name))?.major ?? 0;
+    if (major > Number(version)) {
+      latestMajors.set(name, major);
     }
   }
-  if (wasUpdated) {
-    const updatedPackageJson = JSON.stringify(data, null, 2) + '\n';
-    write(pth, updatedPackageJson);
+  const describe = (name: string): string =>
+    `starter versions.json ${name}: ${[...new Set(entries.filter((entry) => entry.name === name).map(({ version }) => version))].join(', ')} -> ${latestMajors.get(name)}`;
+  const chosen = allowMajor ? await chooseMajors([...latestMajors.keys()], describe) : new Set<string>();
+
+  for (const entry of entries) {
+    const major = latestMajors.get(entry.name);
+    if (major !== undefined && chosen.has(entry.name) && major > Number(entry.version)) {
+      console.log(`[${entry.name}] will be updated from ${entry.version} to ${major}`);
+      entry.version = `${major}`;
+    }
+  }
+  if (chosen.size > 0) {
+    write(pth, JSON.stringify(data, null, 2) + '\n');
+    writeChangelogStubs([...chosen].map(describe));
   }
 
-  return skippedMajors;
+  return new Set([...latestMajors.keys()].filter((name) => !chosen.has(name)).map(describe));
 }
 
 async function bootstrap(): Promise<void> {
@@ -372,7 +414,7 @@ async function bootstrap(): Promise<void> {
 
   if (skippedMajors.length > 0) {
     console.log('---');
-    console.log('Major updates skipped (--no-major):');
+    console.log('Major updates skipped (--no-major or not chosen):');
     skippedMajors.forEach((entry) => console.log(`  ${entry}`));
   }
 }
