@@ -164,7 +164,8 @@ function collectDeclaredVersions(pkgs: ReadonlyArray<PackageJson>): Map<string, 
   for (const pkg of pkgs) {
     for (const field of DEP_FIELDS) {
       for (const [dep, version] of Object.entries(pkg[field] ?? {})) {
-        if (dep.startsWith('@rockpack/') || !isSelected(dep)) {
+        // Aliases (npm:@babel/core@7), paths and git URLs are pinned on purpose and are not registry names.
+        if (dep.startsWith('@rockpack/') || version.includes(':') || !isSelected(dep)) {
           continue;
         }
         const versions = declared.get(dep) ?? new Set<string>();
