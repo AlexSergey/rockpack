@@ -1,6 +1,6 @@
 # Plan 3: Code improvements, optimisation and TypeScript coverage
 
-Status: in progress (started 2026-09-24)
+Status: done 2026-09-25 (started 2026-09-24; no open items)
 Order: third, after Plan 1 (tests) and Plan 2 (recommendations)
 Owner: TBD
 

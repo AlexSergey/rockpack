@@ -1,6 +1,6 @@
 # Plan 1: Unit test coverage for `packages/*`
 
-Status: proposed
+Status: done 2026-09-24 (every phase done; coverage enforced per package)
 Order: first (Plan 2 and Plan 3 build on the safety net created here)
 Owner: TBD
 
