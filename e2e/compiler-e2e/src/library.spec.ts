@@ -126,6 +126,30 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
       });
     });
 
+    describe('source-imports', () => {
+      let dir: string;
+
+      beforeAll(async () => {
+        ({ dir } = await buildFixture('source-imports'));
+      });
+
+      it('keeps asset imports as they are', () => {
+        expect(read(dir, 'lib/esm/styles.mjs')).toContain("import './styles.css';");
+        expect(read(dir, 'lib/cjs/styles.cjs')).toContain('require("./styles.css")');
+      });
+
+      it('runs a folder index, a file next to a same-named folder, JSON with attributes and a dynamic import', async () => {
+        const esm = await node(dir, [
+          '--input-type=module',
+          '-e',
+          "console.log(await (await import('./lib/esm/runtime.mjs')).result())",
+        ]);
+        const cjs = await node(dir, ['-e', "require('./lib/cjs/runtime.cjs').result().then(console.log)"]);
+
+        expect([esm.output.trim(), cjs.output.trim()]).toEqual(['json,file,index,lazy', 'json,file,index,lazy']);
+      });
+    });
+
     describe('source-only with watch', () => {
       it('rebuilds the formats and the declarations after a source change', async () => {
         const dir = prepareFixture('source-only');

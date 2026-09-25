@@ -56,7 +56,7 @@ const babelOptionsFor = (
     typescript,
   });
   const importExtension = [
-    _require.resolve('babel-plugin-add-import-extension'),
+    _require.resolve('@rockpack/babel/plugins/import-extension'),
     { extension: EXTENSIONS[format].slice(1) },
   ];
   options.plugins =

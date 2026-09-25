@@ -82,7 +82,7 @@ describe('sourceCompile', () => {
       const esm = readFileSync(path.join(root, 'lib', 'esm', 'index.mjs'), 'utf8');
 
       expect(cjs).toContain('require("./utils/sum.cjs")');
-      expect(esm).toContain('from "./utils/sum.mjs"');
+      expect(esm).toContain("from './utils/sum.mjs'");
       expect(existsSync(path.join(root, 'lib', 'esm', 'label.mjs'))).toBe(true);
       expect(readFileSync(path.join(root, 'lib', 'cjs', 'assets', 'data.txt'), 'utf8')).toBe('asset\n');
       expect(existsSync(path.join(root, 'lib', 'esm', 'legacy.mjs'))).toBe(false);

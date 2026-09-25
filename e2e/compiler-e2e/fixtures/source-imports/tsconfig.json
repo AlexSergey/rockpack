@@ -1,0 +1,4 @@
+{
+  "extends": "@rockpack/tsconfig",
+  "include": ["src"]
+}
