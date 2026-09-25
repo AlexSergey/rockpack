@@ -67,7 +67,7 @@
     "@commitlint/types": "21.0.1",
     "@eslint-react/eslint-plugin": "5.8.5",
     "@eslint/js": "10.0.1",
-    "@eslint/json": "1.2.0",
+    "@eslint/json": "2.1.0",
     "@rockpack/utils": "8.0.0",
     "@typescript-eslint/eslint-plugin": "8.60.0",
     "@typescript-eslint/parser": "8.60.0",
