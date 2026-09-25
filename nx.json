@@ -1,8 +1,28 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": ["{workspaceRoot}/.eslintflatignore", "{workspaceRoot}/package-lock.json"]
+  },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"],
+      "outputs": ["{projectRoot}/lib", "{projectRoot}/types"]
+    },
+    "lint": {
+      "cache": true,
+      "inputs": ["default", "^default"]
+    },
+    "test": {
+      "cache": true,
+      "inputs": ["default", "^default"],
+      "outputs": ["{projectRoot}/coverage", "{projectRoot}/test-reports"]
+    },
+    "type-coverage": {
+      "cache": true,
+      "inputs": ["default", "^default"]
     }
   }
 }
