@@ -378,6 +378,8 @@ import * as styles from './App.module.css';
 <div className={styles.App}>
 ```
 *CSS Modules support TypeScript with generating definitions - [dts-css-modules-loader](https://github.com/Megaputer/dts-css-modules-loader)*
+
+The definitions (`App.module.scss.d.ts` next to `App.module.scss`) are written while webpack builds the styles, but the TypeScript check starts before that. Commit the generated `*.module.*.d.ts` files: without them the first build of a clean checkout fails with `TS2339: Property '...' does not exist on type 'typeof import("*.scss")'`, and only the next build passes. Build once after adding or renaming a class to update them.
 ***
 
 ## How a build is assembled
