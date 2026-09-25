@@ -19,7 +19,7 @@
 
 - Webpack 5+, Webpack-dev-server 4+
 - TypeScript support
-- Babel 7, Babel-preset-env (> 5%)
+- Babel 8, Babel-preset-env (> 5%)
 - Support build nodejs scripts with nodemon
 - Hot Module Replacement for SPA
 - Livereload for SSR

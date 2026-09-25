@@ -123,6 +123,29 @@ module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;
 - `rockpack.babel.js` may also be `.cjs`, `.mjs` or `.ts`; an ES module config uses its default export. A config that relied on the namespace object being merged (a `default` key in the Babel options) no longer gets that key.
 - The `BabelMergeContext`, `BabelMergeFunction`, `Framework` and `Modules` types are exported for typed configs.
 - TypeScript mode still ignores `modules`, `isNodejs` and `core-js` unless you pass `typescript: { env: true }`. In 10.0 this becomes the default; opt in now to check the output.
+- Babel 8 replaces Babel 7. Plugins you add in `rockpack.babel.*` must support Babel 8; an old one fails with an error like `Requires Babel "^7.0.0-0", but was loaded with "8.0.6"` that names the plugin. Types: use `InputOptions` from `@babel/core` instead of `TransformOptions` from `@types/babel__core`.
+- If your project also installs Babel 7 (through another tool), make sure `@babel/core` 8 is the one at the top of `node_modules`, for example by adding `"@babel/core": "^8.0.0"` to your devDependencies; otherwise `babel-loader` or `babel-jest` may load Babel 7 and fail with `Requires Babel "^8.0.0"`.
+- The pipeline operator is no longer enabled. Babel 8 only has the `hack` and `fsharp` proposals, so code using the old `minimal` syntax has to be rewritten either way:
+
+```ts
+// rockpack.babel.ts
+import type { BabelMergeFunction } from '@rockpack/babel';
+
+const merge: BabelMergeFunction = (context, opts, deepmerge) =>
+  deepmerge(opts, { plugins: [['@babel/plugin-proposal-pipeline-operator', { proposal: 'hack', topicToken: '%' }]] });
+
+export default merge;
+```
+
+```ts
+// before (minimal)
+const result = value |> double |> String;
+// after (hack)
+const result = value |> double(%) |> String(%);
+```
+
+- Nothing changes for decorators (still legacy, TypeScript `experimentalDecorators`) or core-js (still only the polyfills the code uses, when `core-js` is a dependency).
+- JSX in a `.ts` file was never allowed and still is not; keep JSX in `.tsx` files.
 
 ## @rockpack/utils
 
