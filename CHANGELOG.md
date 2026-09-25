@@ -25,6 +25,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/tester`: `coverage` option (`false`, or `{ collectCoverageFrom, reporters, thresholds }`); `.mjs` and `.cjs` specs and modules are transformed like `.js`
 - `@rockpack/starter`: `--offline` writes the dependency ranges from `versions.json` without asking the registry and skips the update check
 - `@rockpack/babel` loads `rockpack.babel.js`, `.cjs`, `.mjs` or `.ts` (the first one found, in that order) and uses the default export of an ES module config; it exports the `BabelMergeContext`, `BabelMergeFunction`, `Framework` and `Modules` types
+- `@rockpack/codestyle`: `makeConfig({ ignoreFile, jest, react, tsconfig })` overrides the detection of the ignore file, the Jest rules, React and the tsconfig; the `MakeConfigOptions` type is exported
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)

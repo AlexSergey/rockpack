@@ -89,6 +89,19 @@ TypeScript files use the typescript-eslint `strictTypeChecked` and `stylisticTyp
 }
 ```
 
+## Options
+
+`makeConfig` detects the project setup on its own. Pass options to override the detection:
+
+```js
+module.exports = makeConfig({
+  ignoreFile: '.gitignore', // ignore file relative to the working directory; false turns ignore files off
+  jest: false, // leave out the Jest globals and rules for specs and fixtures (on by default)
+  react: true, // React rules; detected from `react` in package.json dependencies by default
+  tsconfig: 'tsconfig.lint.json', // tsconfig for type-aware linting; tsconfig.eslint.json, then tsconfig.json by default
+});
+```
+
 ## Extensibility
 
 If you need to change the ESLint configuration you can just extend return object from **makeConfig** function:

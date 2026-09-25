@@ -91,7 +91,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 9. `@rockpack/codestyle`
 
-- [ ] **S1.** `makeConfig(options?: { react?: boolean; tsconfig?: string; ignoreFile?: string | false; jest?: boolean })` so consumers can override the auto-detection (package.json `react` sniffing, tsconfig lookup, `.eslintflatignore` walk).
+- [x] **S1.** `makeConfig(options?: { react?: boolean; tsconfig?: string; ignoreFile?: string | false; jest?: boolean })` so consumers can override the auto-detection (package.json `react` sniffing, tsconfig lookup, `.eslintflatignore` walk). _Done 2026-09-25: paths are relative to the working directory, `ignoreFile: false` turns the ignore config off, `jest: false` leaves out the spec and fixture blocks; the `MakeConfigOptions` type is exported._
 - [ ] **S2.** Ship the configs the README promises or drop the dependencies (Plan 2 C4 leaves them): export `stylelintConfig` (`stylelint-config-clean-order`, `stylelint-scss`) and `commitlintConfig` from `@rockpack/codestyle/stylelint` and `@rockpack/codestyle/commitlint` subpaths, with a smoke test each.
 - [ ] **S3.** After the Plan 2 H4 split, add a unit test per rule group that snapshots the rule names (not severities) so accidental rule drops are visible in review.
 - [ ] **S4.** Make ESM-only plugin imports lazy (`await import`) behind `makeConfigAsync`, or accept that `makeConfig` stays sync and keep the jest mocks; decide based on ESLint's flat-config support for async configs (supported since ESLint 9).

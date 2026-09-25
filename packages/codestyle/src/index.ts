@@ -40,19 +40,38 @@ const findTsConfig = (root: string): false | string => {
   return false;
 };
 
-export const makeConfig = (): Linter.Config[] => {
+export type MakeConfigOptions = {
+  // Path to the ignore file, relative to the working directory; `false` turns ignore files off.
+  readonly ignoreFile?: false | string;
+  // Adds the Jest globals and rules for specs and fixtures; `true` by default.
+  readonly jest?: boolean;
+  // Enables the React rules; detected from `react` in package.json dependencies by default.
+  readonly react?: boolean;
+  // Path to the tsconfig for type-aware linting, relative to the working directory.
+  readonly tsconfig?: string;
+};
+
+const resolveIgnoreFile = (root: string, ignoreFile: false | string | undefined): string | undefined => {
+  if (ignoreFile === false) {
+    return undefined;
+  }
+
+  return isString(ignoreFile) ? path.resolve(root, ignoreFile) : findFlatIgnoreFile(root);
+};
+
+export const makeConfig = ({ ignoreFile, jest = true, react, tsconfig }: MakeConfigOptions = {}): Linter.Config[] => {
   const root = process.cwd();
-  const packageJson = readPackageJson(root) ?? {};
-  const flatIgnoreFile = findFlatIgnoreFile(root);
+  const flatIgnoreFile = resolveIgnoreFile(root, ignoreFile);
+  const hasReact = react ?? isString(readPackageJson(root)?.dependencies?.['react']);
 
   return [
     ...(flatIgnoreFile ? [gitignore({ files: flatIgnoreFile, strict: false })] : []),
     ...makeRecommendedTypescriptConfigs(),
     ...makeStyleConfigs(),
-    makeTypescriptConfig(findTsConfig(root)),
+    makeTypescriptConfig(isString(tsconfig) ? path.resolve(root, tsconfig) : findTsConfig(root)),
     ...makeFileTypeConfigs(),
-    makeReactConfig(isString(packageJson.dependencies?.['react'])),
+    makeReactConfig(hasReact),
     ...makeOverrideConfigs(),
-    ...makeTestConfigs(),
+    ...(jest ? makeTestConfigs() : []),
   ];
 };

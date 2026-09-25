@@ -284,5 +284,52 @@ describe('makeConfig', () => {
         rules: { '@check-file/folder-naming-convention': 'off' },
       });
     });
+
+    it('enables the react rules when react is forced without a react dependency', () => {
+      createProject();
+
+      expect(getNames(makeConfig({ react: true }))).toContain('eslint-react');
+    });
+
+    it('skips the react rules when react is turned off despite a react dependency', () => {
+      createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
+
+      expect(getNames(makeConfig({ react: false }))).not.toContain('eslint-react');
+    });
+
+    it('uses the given tsconfig relative to the working directory', () => {
+      const dir = createProject({ files: { 'tsconfig.json': '{}' } });
+
+      const { languageOptions } = getTypescriptConfig(makeConfig({ tsconfig: 'tsconfig.lint.json' }));
+
+      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.lint.json') });
+    });
+
+    it('reads the given ignore file instead of searching for .eslintflatignore', () => {
+      const dir = createProject({ files: { '.eslintflatignore': 'lib\n', '.gitignore': 'dist\n' } });
+
+      makeConfig({ ignoreFile: '.gitignore' });
+
+      expect(gitignoreMock).toHaveBeenCalledWith({ files: path.join(dir, '.gitignore'), strict: false });
+    });
+
+    it('adds no ignore config when ignoreFile is false', () => {
+      createProject({ files: { '.eslintflatignore': 'lib\n' } });
+
+      const configs = makeConfig({ ignoreFile: false });
+
+      expect(gitignoreMock).not.toHaveBeenCalled();
+      expect(getNames(configs)).not.toContain('gitignore');
+    });
+
+    it('leaves out the jest configs when jest is false', () => {
+      createProject();
+
+      const configs = makeConfig({ jest: false });
+
+      expect(findByFiles(configs, '**/*.spec.{ts,tsx}')).toBeUndefined();
+      expect(findByFiles(configs, '**/__fixtures__/**')).toBeUndefined();
+      expect(configs).toHaveLength(makeConfig().length - 2);
+    });
   });
 });
