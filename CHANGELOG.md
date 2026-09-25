@@ -27,6 +27,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/babel` loads `rockpack.babel.js`, `.cjs`, `.mjs` or `.ts` (the first one found, in that order) and uses the default export of an ES module config; it exports the `BabelMergeContext`, `BabelMergeFunction`, `Framework` and `Modules` types
 - `@rockpack/codestyle`: `makeConfig({ ignoreFile, jest, react, tsconfig })` overrides the detection of the ignore file, the Jest rules, React and the tsconfig; the `MakeConfigOptions` type is exported
 - `@rockpack/codestyle` exports the shared Stylelint and Commitlint configs from `@rockpack/codestyle/stylelint` (`stylelintConfig`) and `@rockpack/codestyle/commitlint` (`commitlintConfig`); generated projects use them, so their presets no longer have to be hoisted next to the project
+- Generated projects get a `.nvmrc` with the Node.js major the starter requires
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)
@@ -60,6 +61,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
+- `@rockpack/starter`: generated components keep the peer dependency ranges (`"react": "19"`); they were pinned to the exact latest version, which locked consumers to it
 - `@rockpack/starter`: generated projects without tests have no failing `test` script, generated libraries have no `lint:styles`/`format:styles` scripts, and `rockpack .` names the project after the folder with or without a git repository (it was `app` outside git)
 - `@rockpack/babel`: an ES module `rockpack.babel.js` was merged as its module namespace, adding a `default` key to the Babel options
 - `@rockpack/compiler`: the `banner` file is published, banner placeholders are filled by name, and the banner and default `index.ejs` are found from the package root

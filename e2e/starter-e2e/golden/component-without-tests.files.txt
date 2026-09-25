@@ -6,6 +6,7 @@
 .lintstagedrc.cjs
 .npmignore
 .npmrc
+.nvmrc
 .prettierrc
 .stylelintrc.cjs
 CLAUDE.md

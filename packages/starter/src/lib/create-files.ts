@@ -1,10 +1,12 @@
 import { pascalCase } from 'change-case';
 import fs from 'node:fs';
 import path from 'node:path';
+import semverMinVersion from 'semver/ranges/min-version.js';
 
 import type { State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
+import { packageJson } from '../utils/package-json.js';
 import { dummies } from '../utils/pathes.js';
 import { render } from '../utils/render.js';
 
@@ -21,6 +23,12 @@ export const createFiles = (
   currentPath: string,
   { appType, projectName }: Pick<State, 'appType' | 'projectName'>,
 ): void => {
+  // The generated project runs on the Node.js major the starter itself requires.
+  const nodeMajor = semverMinVersion(packageJson.engines.node)?.major;
+  if (nodeMajor !== undefined) {
+    fs.writeFileSync(path.join(currentPath, '.nvmrc'), `${String(nodeMajor)}\n`);
+  }
+
   if (fs.existsSync(path.join(currentPath, '.env.example'))) {
     fs.copyFileSync(path.join(currentPath, '.env.example'), path.join(currentPath, '.env'));
   }

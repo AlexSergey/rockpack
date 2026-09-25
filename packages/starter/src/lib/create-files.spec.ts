@@ -75,6 +75,12 @@ describe('createFiles', () => {
   });
 
   describe('positive cases', () => {
+    it('writes .nvmrc with the Node.js major the starter requires', () => {
+      createFiles(dir, { appType: 'csr', projectName: 'app' });
+
+      expect(readFileSync(path.join(dir, '.nvmrc'), 'utf8')).toBe('24\n');
+    });
+
     it('copies .env.example to .env', () => {
       writeFileSync(path.join(dir, '.env.example'), 'PORT=3000\n');
 

@@ -57,7 +57,8 @@ export const addDependencies = async (
   for (const type of ['dependencies', 'devDependencies', 'peerDependencies'] as const) {
     const resolved: Record<string, string> = {};
     for (const dep of groups[type] ?? []) {
-      resolved[dep.name] = await resolveVersion(dep, resolution);
+      // Dependencies are pinned to the resolved version; peers keep their range so consumers are not locked in.
+      resolved[dep.name] = type === 'peerDependencies' ? dep.version : await resolveVersion(dep, resolution);
     }
     if (Object.keys(resolved).length > 0) {
       toMerge[type] = resolved;

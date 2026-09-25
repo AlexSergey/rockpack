@@ -140,7 +140,7 @@ describe('project utils', () => {
       expect(Object.keys(written.devDependencies)).toEqual(['@types/koa__router', 'typescript']);
     });
 
-    it('resolves every dependency group through latest-version', async () => {
+    it('resolves dependencies through latest-version and keeps the peer ranges', async () => {
       const result = await addDependencies(
         { name: 'app' },
         {
@@ -154,9 +154,10 @@ describe('project utils', () => {
         dependencies: { react: '19.9.9-react' },
         devDependencies: { '@rockpack/compiler': '8.0.0.9.9-@rockpack/compiler' },
         name: 'app',
-        peerDependencies: { 'react-dom': '19.9.9-react-dom' },
+        peerDependencies: { 'react-dom': '19' },
       });
       expect(latestVersionMock).toHaveBeenCalledWith('react', { version: '19' });
+      expect(latestVersionMock).not.toHaveBeenCalledWith('react-dom', expect.anything());
     });
 
     it('pins @rockpack packages in test mode without asking the registry', async () => {

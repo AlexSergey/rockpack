@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 type PackageJson = {
+  engines: { node: string };
   name: string;
   version: string;
 };
