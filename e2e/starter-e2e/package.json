@@ -34,7 +34,7 @@
     "@types/serialize-javascript": "5.0.4",
     "@unhead/react": "3.4.1",
     "axios-mock-adapter": "2.1.0",
-    "eslint": "10.4.0",
+    "eslint": "10.11.0",
     "koa": "3.2.1",
     "koa-static": "5.0.0",
     "react": "19.3.0",

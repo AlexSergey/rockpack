@@ -188,11 +188,10 @@ describe('createBabelPresets', () => {
       createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '^3.40.0' } }) });
       const opts = createBabelPresets();
       // An old target, so the result does not depend on today's browser statistics.
-      const plugins = (opts.plugins ?? []).map(
-        (item): PluginItem =>
-          Array.isArray(item) && typeof item[0] === 'string' && item[0].includes('babel-plugin-polyfill-corejs3')
-            ? [item[0], { ...item[1], targets: { ie: '11' } }]
-            : item,
+      const plugins = (opts.plugins ?? []).map((item): PluginItem =>
+        Array.isArray(item) && typeof item[0] === 'string' && item[0].includes('babel-plugin-polyfill-corejs3')
+          ? [item[0], { ...item[1], targets: { ie: '11' } }]
+          : item,
       );
 
       const result = transformSync('export const found = [1].includes(1);', {

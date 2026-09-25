@@ -58,18 +58,18 @@
     "type-coverage": "type-coverage -p tsconfig.json"
   },
   "dependencies": {
-    "@inquirer/confirm": "6.1.1",
-    "@inquirer/select": "5.2.0",
+    "@inquirer/confirm": "6.3.2",
+    "@inquirer/select": "5.2.5",
     "chalk": "6.0.0",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",
     "latest-version": "9.0.0",
     "mkdirp": "3.0.1",
-    "ora": "9.4.0",
-    "semver": "7.8.1",
+    "ora": "9.4.1",
+    "semver": "7.8.5",
     "sort-package-json": "4.0.0",
     "validate-npm-package-name": "7.0.2",
-    "yargs": "18.0.0"
+    "yargs": "18.2.0"
   },
   "devDependencies": {
     "@rockpack/build-tools": "8.0.0",
@@ -78,7 +78,7 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
-    "eslint": "10.4.0",
+    "eslint": "10.11.0",
     "expect-type": "1.4.0"
   },
   "engines": {

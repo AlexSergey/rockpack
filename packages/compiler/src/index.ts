@@ -12,7 +12,7 @@ import { getArgv } from './core/argv.js';
 import { RockpackError } from './errors/rockpack-error.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- public API: callers name the argv shape
-const getArgs = <T extends Record<string, unknown> = Record<never, never>>(): Argv & T => getArgv() as Argv & T;
+const getArgs = <T extends Record<string, unknown> = Record<string, unknown>>(): Argv & T => getArgv() as Argv & T;
 
 const getWebpack = (): typeof webpack => webpack;
 

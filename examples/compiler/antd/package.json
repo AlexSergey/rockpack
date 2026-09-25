@@ -14,7 +14,7 @@
     "start": "cross-env NODE_ENV=development node scripts.build.mts"
   },
   "dependencies": {
-    "antd": "6.4.3",
+    "antd": "6.6.5",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

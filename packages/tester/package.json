@@ -55,15 +55,15 @@
   },
   "dependencies": {
     "@babel/core": "8.0.6",
-    "@jest/types": "30.4.1",
+    "@jest/types": "30.5.1",
     "@rockpack/babel": "8.0.0",
     "@rockpack/utils": "8.0.0",
     "@types/jest": "30.0.0",
-    "babel-jest": "30.4.1",
+    "babel-jest": "30.5.2",
     "deep-extend": "0.6.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "30.4.2",
-    "jest-environment-jsdom": "30.4.1",
+    "jest": "30.5.2",
+    "jest-environment-jsdom": "30.5.2",
     "jest-html-reporters": "3.1.7",
     "typescript": "6.0.3"
   },
@@ -71,7 +71,7 @@
     "@rockpack/build-tools": "8.0.0",
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "eslint": "10.4.0",
+    "eslint": "10.11.0",
     "expect-type": "1.4.0"
   },
   "engines": {
