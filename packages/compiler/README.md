@@ -17,7 +17,7 @@
 
 ## Features:
 
-- Webpack 5+, Webpack-dev-server 4+
+- Webpack 5+, Webpack-dev-server 6+
 - TypeScript support
 - Babel 8, Babel-preset-env (> 5%)
 - Support build nodejs scripts with nodemon

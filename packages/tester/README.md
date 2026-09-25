@@ -97,6 +97,8 @@ void tester({ esm: true });
 
 In ES module specs the `jest` object is not a global: import it with `import { jest } from '@jest/globals'`. See `examples/tester/esm`.
 
+With `--experimental-vm-modules` Jest can also `require()` ES-only packages from CommonJS specs (Node.js 24.9 or newer), and it always loads `.mjs` files as ES modules; the tester keeps their `import`/`export` in that case, so `.mjs` sources work in both modes.
+
 ## Configuration
 
 To override Jest configuration - for example, to switch the test environment from jsdom to Node:
