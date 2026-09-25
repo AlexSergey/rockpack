@@ -28,8 +28,7 @@
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
     "prepare": "simple-git-hooks",
     "production": "npm run lint && npm run build && npm publish",
-    "start": "node example/scripts.build.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node example/scripts.build.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run pre-commit",

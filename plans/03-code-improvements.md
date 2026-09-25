@@ -105,7 +105,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [ ] **ST5.** Share the byte-identical csr and ssr template `components/` directories (`templates/backbone/shared/components`) with `copyFiles` copying the shared dir first; the 8 duplicated spec files collapse to 4.
 - [ ] **ST6.** Generated projects: pin exact versions in the generated `package.json` (the starter already computes them) and write a `.nvmrc` matching the starter's engine.
 
-- [ ] **ST7.** Found by Plan 4: projects without tests keep npm's failing default `test` script; library projects declare `lint:styles` and `format:styles` without styles; `rockpack .` outside a git repository names the project `app` instead of the directory.
+- [x] **ST7.** Found by Plan 4: projects without tests keep npm's failing default `test` script; library projects declare `lint:styles` and `format:styles` without styles; `rockpack .` outside a git repository names the project `app` instead of the directory. _Done 2026-09-25: `createPackageJSON` writes no `test` script (the tester adds its own), the style scripts are added for every type except `library`, and `rockpack .` always uses the folder name (`app` only when the name is empty). Goldens and the cli e2e case updated._
 
 ## 11. Build and repository tooling
 

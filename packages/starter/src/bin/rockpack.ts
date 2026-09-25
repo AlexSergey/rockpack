@@ -100,15 +100,8 @@ export const rockpack = async (): Promise<void> => {
   }
 
   if (projectName === here) {
-    if (fs.existsSync(path.join(currentPath, '.git'))) {
-      const folderName = path.basename(currentPath);
-      const appName = folderName.replace(/\s/g, '_');
-      if (typeof appName === 'string' && appName.length > 0) {
-        projectName = appName;
-      }
-    } else {
-      projectName = defaultApp;
-    }
+    const appName = path.basename(currentPath).replace(/\s/g, '_');
+    projectName = appName.length > 0 ? appName : defaultApp;
   }
 
   await install({

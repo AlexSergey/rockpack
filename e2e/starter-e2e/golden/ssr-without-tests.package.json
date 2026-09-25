@@ -22,8 +22,7 @@
     "lint:ts": "tsc --noEmit",
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
     "prepare": "simple-git-hooks",
-    "start": "tsx scripts.build.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsx scripts.build.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run pre-commit",

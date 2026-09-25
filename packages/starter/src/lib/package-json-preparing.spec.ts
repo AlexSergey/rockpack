@@ -84,6 +84,13 @@ describe('packageJsonPreparing', () => {
       expect(addedGroups()).toHaveLength(2);
     });
 
+    it('adds no style scripts for a library', async () => {
+      const result = await prepare({ appType: 'library', nogit: true, tester: false });
+
+      expect(getScripts(result)).not.toHaveProperty('lint:styles');
+      expect(getScripts(result)).not.toHaveProperty('format:styles');
+    });
+
     it('adds no pre-commit script or git dependencies when git is disabled', async () => {
       const result = await prepare({ appType: 'csr', nogit: true, tester: false });
 

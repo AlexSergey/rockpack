@@ -85,11 +85,14 @@ describe('starter CLI', () => {
       expect(readName(path.join(dir, 'projects', 'app'))).toBe('app');
     });
 
-    it('names a project created with "." in a folder without git "app"', async () => {
-      const { code } = await rockpack(dir, ['.', ...GENERATE]);
+    it('names a project created with "." in a folder without git after the folder', async () => {
+      const folder = path.join(dir, 'plain folder');
+      mkdirSync(folder);
+
+      const { code } = await rockpack(folder, ['.', ...GENERATE]);
 
       expect(code).toBe(0);
-      expect(readName(dir)).toBe('app');
+      expect(readName(folder)).toBe('plain_folder');
     });
 
     it('names a project created with "." in a git repository after the folder', async () => {

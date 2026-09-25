@@ -215,12 +215,14 @@ describe('rockpack', () => {
       );
     });
 
-    it('names a project in the current directory without git "app"', async () => {
+    it('names a project in the current directory without git after its folder', async () => {
       setArgv({ _: ['.'] });
 
       await rockpack();
 
-      expect(installMock).toHaveBeenCalledWith(expect.objectContaining({ currentPath: mockCwd, projectName: 'app' }));
+      expect(installMock).toHaveBeenCalledWith(
+        expect.objectContaining({ currentPath: mockCwd, projectName: 'my_project' }),
+      );
     });
   });
 });

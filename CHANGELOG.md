@@ -60,6 +60,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
+- `@rockpack/starter`: generated projects without tests have no failing `test` script, generated libraries have no `lint:styles`/`format:styles` scripts, and `rockpack .` names the project after the folder with or without a git repository (it was `app` outside git)
 - `@rockpack/babel`: an ES module `rockpack.babel.js` was merged as its module namespace, adding a `default` key to the Babel options
 - `@rockpack/compiler`: the `banner` file is published, banner placeholders are filled by name, and the banner and default `index.ejs` are found from the package root
 - `@rockpack/compiler`: `distContext` is the dist folder when `dist` is a folder; the `.wasm` rule matches `.wasm` files; library source and declaration build errors fail the build instead of being swallowed

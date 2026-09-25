@@ -159,6 +159,15 @@ export const packageJsonPreparing = async (
       break;
   }
 
+  // Libraries ship no styles, so they get no style scripts.
+  const styleScripts =
+    appType === 'library'
+      ? {}
+      : {
+          'format:styles': 'stylelint "src/**/*.{css,scss}" --fix',
+          'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.{css,scss}"',
+        };
+
   packageJSON = addScripts(packageJSON, {
     format:
       appType === 'library'
@@ -166,15 +175,14 @@ export const packageJsonPreparing = async (
         : 'npm run format:prettier && npm run format:code && npm run format:styles',
     'format:code': 'eslint . --fix',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
-    'format:styles': 'stylelint "src/**/*.{css,scss}" --fix',
     lint:
       appType === 'library'
         ? 'npm run lint:ts && npm run lint:code'
         : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
     'lint:code': 'eslint .',
     'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
-    'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.{css,scss}"',
     'lint:ts': 'tsc --noEmit',
+    ...styleScripts,
   });
 
   packageJSON = await addDependencies(
