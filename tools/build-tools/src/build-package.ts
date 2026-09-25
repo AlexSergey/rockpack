@@ -44,7 +44,7 @@ const babelOptions = (format: BuildFormat, importMeta: boolean): TransformOption
     return {
       babelrc: false,
       configFile: false,
-      plugins: [[_require.resolve('babel-plugin-add-import-extension'), { extension: 'mjs' }]],
+      plugins: [[_require.resolve('@rockpack/babel/plugins/import-extension'), { extension: 'mjs' }]],
       presets: [
         [_require.resolve('@babel/preset-env'), { modules: false, targets: { node: 'current' } }],
         [_require.resolve('@babel/preset-typescript')],
@@ -56,7 +56,7 @@ const babelOptions = (format: BuildFormat, importMeta: boolean): TransformOption
     babelrc: false,
     configFile: false,
     plugins: [
-      [_require.resolve('babel-plugin-add-import-extension'), { extension: 'cjs' }],
+      [_require.resolve('@rockpack/babel/plugins/import-extension'), { extension: 'cjs' }],
       ...(importMeta ? [[_require.resolve('babel-plugin-transform-import-meta')]] : []),
       [_require.resolve('@babel/plugin-transform-modules-commonjs')],
     ],
