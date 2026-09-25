@@ -77,7 +77,7 @@ Each item is one commit with the usual checks (package lint, `tsc --noEmit`, uni
 - [x] **A2. Dependencies.** `npm uninstall @statoscope/webpack-plugin webpack-bundle-analyzer -w packages/compiler`; check with `npm ls` that nothing else in the monorepo depends on them (the analyzer example gets its own `webpack-bundle-analyzer` in A6 if D2 keeps it); `lint:deps` clean; packaging golden regenerated. _Done 2026-09-25: 50 packages left the lockfile; nothing else depended on them; `lint:deps` clean; the compiler tarball lost `analyzer` and `args` files._
 - [x] **A3. Validation (per D1).** Replace `analyzer: optional(boolean)` with a check that reports any defined `analyzer` value as removed, with the migration hint; unit case in `validate-conf.spec.ts` (negative: `analyzer: true` fails with the message; positive: a conf without it passes). Mark the check for removal in `10.0` in the code comment. _Done 2026-09-25: a `removed(hint)` check reports any `analyzer` value as `INVALID_CONFIG: analyzer was removed in 9.0.0: add the analyzer plugin in the compiler callback (see MIGRATION.md)`; marked for removal in 10.0._
 - [x] **A4. Starter.** Remove the `analyzer` script from the four project types, update the spec and the starter README, regenerate the generation goldens. _Done 2026-09-25._
-- [ ] **A5. Compiler README.** Remove the feature line and the `--analyzer` mention; add a Q&A entry "How do I analyze the bundle?" with the callback recipe:
+- [x] **A5. Compiler README.** Remove the feature line and the `--analyzer` mention; add a Q&A entry "How do I analyze the bundle?" with the callback recipe:
 
   ```ts
   import { frontendCompiler } from '@rockpack/compiler';

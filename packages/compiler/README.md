@@ -14,7 +14,6 @@
 - Compile React Component or VanillaJS UMD library (TS/Babel)
 - Node.js backend (TS/Babel)
 - Compile isomorphic (Server-side rendering) application (TS/Babel)
-- Bundle analysis
 
 ## Features:
 
@@ -42,7 +41,6 @@
 - Terser minification
 - Generate stats.json (in production mode)
 - SEO Optimizations
-- Bundle Analyze (webpack-bundle-analyzer, Statoscope)
 - Isomorphic compile support (include isomorphic styles)
 - Vendor array splitting support (You can set dependency libraries to this array to split it on separate vendor.js file)
 - MD/MDX support
@@ -370,6 +368,23 @@ libraryCompiler({
 ```
 TypeScript sources will be saved in ESM and CJS format at the specified path.
 ***
+How do I analyze the bundle?
+- *Rockpack does not ship an analyzer since 9.0.0: add the one you like in the callback. With [webpack-bundle-analyzer](https://github.com/webpack/webpack-bundle-analyzer) installed in your project:*
+```ts
+import { frontendCompiler } from '@rockpack/compiler';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+void frontendCompiler({}, (config, modules, plugins, mode) => {
+  if (mode === 'production') {
+    plugins.set(
+      'BundleAnalyzerPlugin',
+      new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, reportFilename: 'webpack-report.html' }),
+    );
+  }
+});
+```
+*Statoscope works the same way (`new StatoscopeWebpackPlugin()` from `@statoscope/webpack-plugin`, a default export). In an `isomorphicCompiler` build add the plugin in `frontendCallback` only. See `examples/compiler/analyzer`.*
+***
 How to work with CSS (SCSS, LESS) Modules?
 - *You need to rename the file with modular styles to the format [filename].module.scss*
 ```jsx
@@ -388,7 +403,7 @@ Every compiler goes through the same steps (`src/core/compile.ts`):
 
 1. **Defaults and validation.** The options are merged with the defaults (`dist/index.js`, `src/index`, port `3000`, a free port in development) and validated once; every problem is reported with its path (`INVALID_CONFIG: html[1].template must be a string`).
 2. **Context.** A compile context says whether the build only returns the webpack config and whether it is part of an `isomorphicCompiler` build (which also carries the live reload server). Nothing is kept on `global`.
-3. **Config.** `make()` builds each part of the webpack config in its own module under `src/modules`: entry, output, devtool, dev server, optimization, rules (scripts, styles, assets), plugins, resolve, stats and externals. `--analyzer` on the command line turns the analyzer on (the mode comes from `--mode`, then `NODE_ENV`), then your callback receives the config, the rules and the plugins to change them.
+3. **Config.** `make()` builds each part of the webpack config in its own module under `src/modules`: entry, output, devtool, dev server, optimization, rules (scripts, styles, assets), plugins, resolve, stats and externals. The mode comes from `--mode`, then `NODE_ENV`; then your callback receives the config, the rules and the plugins to change them.
 4. **Run.** Production runs webpack once and resolves to `{ kind: 'build', stats, success }`; development starts watching (and the dev server for the frontend) and resolves to a result with `stop()`. `isomorphicCompiler` builds the frontend and the backend configs with one shared context and runs them together.
 
 `sourceCompiler` and the `esm`/`cjs` formats of `libraryCompiler` do not use webpack: every source file is transpiled with Babel into the output folder, and the declarations are emitted by TypeScript from your `tsconfig.json`. With `watch: true`, `sourceCompiler` resolves to a `watch` result and repeats this build after every change (Node.js `fs.watch`, changes within 100 ms rebuild once); a failed rebuild is reported and the watch goes on.
