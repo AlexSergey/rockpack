@@ -18,10 +18,6 @@ import { makePlugins } from './make-plugins.js';
 jest.mock('@nuxt/friendly-errors-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FriendlyErrors'),
 );
-// The real package is CommonJS with `exports.default`.
-jest.mock('@statoscope/webpack-plugin', () => ({
-  default: jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Statoscope'),
-}));
 jest.mock('case-sensitive-paths-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('CaseSensitivePaths'),
 );
@@ -49,11 +45,6 @@ jest.mock('nodemon-webpack-plugin', () =>
 jest.mock('stylelint-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Stylelint'),
 );
-jest.mock('webpack-bundle-analyzer', () => ({
-  BundleAnalyzerPlugin: jest
-    .requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js')
-    .createPluginMock('BundleAnalyzer'),
-}));
 jest.mock('webpack/lib/FlagDependencyUsagePlugin.js', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FlagDependencyUsage'),
 );
@@ -187,13 +178,6 @@ describe('makePlugins', () => {
         expect(dict).not.toHaveProperty('SSRDevelopment');
       });
     });
-
-    it('skips the analyzer without the analyzer option', async () => {
-      const dict = await build();
-
-      expect(dict).not.toHaveProperty('BundleAnalyzerPlugin');
-      expect(dict).not.toHaveProperty('StatoscopeWebpackPlugin');
-    });
   });
 
   describe('positive cases', () => {
@@ -204,7 +188,7 @@ describe('makePlugins', () => {
       makeBannerMock.mockReturnValue('banner');
       mockFiles('.env');
 
-      expect(Object.keys(await build({ analyzer: true, copy: { from: 'a', to: 'b' }, lint: true }))).toEqual([
+      expect(Object.keys(await build({ copy: { from: 'a', to: 'b' }, lint: true }))).toEqual([
         'FriendlyErrorsPlugin',
         'ForkTsCheckerPlugin',
         'Dotenv',
@@ -220,8 +204,6 @@ describe('makePlugins', () => {
         'FlagIncludedChunksPlugin',
         'NoEmitOnErrorsPlugin',
         'SideEffectsFlagPlugin',
-        'BundleAnalyzerPlugin',
-        'StatoscopeWebpackPlugin',
       ]);
     });
 
@@ -469,25 +451,6 @@ describe('makePlugins', () => {
       [undefined, 'css/styles.css'],
     ])('names the extracted styles for styles=%p', async (styles, filename) => {
       expect(getPluginOptions((await build({ styles }))['MiniCssExtractPlugin'])).toEqual({ filename });
-    });
-
-    it('serves the analyzer on a free port in development', async () => {
-      const dict = await build({ analyzer: true }, 'development');
-
-      expect(fpPromiseMock).toHaveBeenCalledWith(8888);
-      expect(getPluginOptions(dict['BundleAnalyzerPlugin'])).toEqual({ analyzerPort: 8889 });
-      expect(getPluginOptions(dict['StatoscopeWebpackPlugin'])).toEqual({ watchMode: true });
-    });
-
-    it('writes a static analyzer report in production', async () => {
-      const dict = await build({ analyzer: true });
-
-      expect(getPluginOptions(dict['BundleAnalyzerPlugin'])).toEqual({
-        analyzerMode: 'static',
-        openAnalyzer: false,
-        reportFilename: 'webpack-report.html',
-      });
-      expect(getPluginOptions(dict['StatoscopeWebpackPlugin'])).toEqual({ watchMode: false });
     });
   });
 });

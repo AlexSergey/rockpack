@@ -26,12 +26,12 @@ describe('getArgv', () => {
 
   describe('negative cases', () => {
     it('keeps the first parse until it is reset', () => {
-      process.argv = ['node', 'scripts.build.ts', '--analyzer'];
+      process.argv = ['node', 'scripts.build.ts', '--verbose'];
       const first = getArgv();
       process.argv = ['node', 'scripts.build.ts'];
 
       expect(getArgv()).toBe(first);
-      expect(getArgv()['analyzer']).toBe(true);
+      expect(getArgv()['verbose']).toBe(true);
     });
   });
 
@@ -43,12 +43,12 @@ describe('getArgv', () => {
     });
 
     it('reads process.argv again after a reset', () => {
-      process.argv = ['node', 'scripts.build.ts', '--analyzer'];
+      process.argv = ['node', 'scripts.build.ts', '--verbose'];
       getArgv();
       resetArgv();
       process.argv = ['node', 'scripts.build.ts'];
 
-      expect(getArgv()['analyzer']).toBeUndefined();
+      expect(getArgv()['verbose']).toBeUndefined();
     });
   });
 });

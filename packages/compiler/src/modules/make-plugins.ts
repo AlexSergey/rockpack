@@ -6,7 +6,6 @@ import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
 import type { PluginContext } from './plugins/types.js';
 
 import { Collection } from '../utils/collection.js';
-import { makeAnalyzerPlugins } from './plugins/analyzer.js';
 import { makeBannerPlugins } from './plugins/banner.js';
 import { makeLintPlugins, makeReportPlugins } from './plugins/checks.js';
 import { makeCopyPlugins } from './plugins/copy.js';
@@ -37,7 +36,6 @@ export const makePlugins = async (
     ...makeCopyPlugins(ctx),
     ...(await makeDevelopmentPlugins(ctx)),
     ...makeProductionPlugins(ctx),
-    ...(await makeAnalyzerPlugins(ctx)),
   };
 
   return new Collection(plugins);

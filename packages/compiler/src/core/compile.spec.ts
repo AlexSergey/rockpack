@@ -4,7 +4,6 @@ import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
-import { addArgs } from './args.js';
 import { setLegacyIsomorphicContext } from './compile-context.js';
 import { compile } from './compile.js';
 import { innerProps } from './inner-props.js';
@@ -17,7 +16,6 @@ jest.mock('@rockpack/utils', () => ({
 }));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../utils/merge-conf-with-default.js', () => ({ mergeConfWithDefault: jest.fn() }));
-jest.mock('./args.js', () => ({ addArgs: jest.fn() }));
 jest.mock('./inner-props.js', () => ({ innerProps: jest.fn() }));
 jest.mock('./make.js', () => ({ make: jest.fn() }));
 jest.mock('./run.js', () => ({ run: jest.fn() }));
@@ -37,7 +35,6 @@ describe('compile', () => {
     (getMode as jest.Mock).mockReturnValue('production');
     (mergeConfWithDefault as jest.Mock).mockResolvedValue({ ...conf, merged: true });
     (innerProps as jest.Mock).mockImplementation((value: object) => ({ ...value, inner: true }));
-    (addArgs as jest.Mock).mockImplementation((value: object) => ({ ...value, args: true }));
     (make as jest.Mock).mockResolvedValue({ conf: finalConf, webpackConfig: { mode: 'production' } });
     (run as jest.Mock).mockReturnValue({
       compiler,
@@ -77,7 +74,7 @@ describe('compile', () => {
   });
 
   describe('positive cases', () => {
-    it('merges defaults, inner props and args before making the config', async () => {
+    it('merges defaults and inner props before making the config', async () => {
       const post = jest.fn();
 
       await compile(conf, post);
@@ -89,7 +86,7 @@ describe('compile', () => {
         STANDALONE_CONTEXT,
       );
       expect(make).toHaveBeenCalledWith(
-        expect.objectContaining({ args: true, inner: true, merged: true }),
+        expect.objectContaining({ inner: true, merged: true }),
         post,
         STANDALONE_CONTEXT,
       );

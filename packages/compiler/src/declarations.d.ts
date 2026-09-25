@@ -59,27 +59,6 @@ declare module 'webpack-node-externals' {
   export = nodeExternals;
 }
 
-declare module 'webpack-bundle-analyzer' {
-  import type { Compiler } from 'webpack';
-
-  class BundleAnalyzerPlugin {
-    constructor(opts?: Record<string, unknown>);
-    apply(compiler: Compiler): void;
-  }
-  export { BundleAnalyzerPlugin };
-}
-
-declare module '@statoscope/webpack-plugin' {
-  import type { Compiler } from 'webpack';
-
-  class StatoscopeWebpackPlugin {
-    constructor(opts?: Record<string, unknown>);
-    apply(compiler: Compiler): void;
-  }
-
-  export default StatoscopeWebpackPlugin;
-}
-
 declare module 'webpack/lib/FlagDependencyUsagePlugin.js' {
   import type { Compiler } from 'webpack';
 
