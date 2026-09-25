@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`rule groups positive cases keeps the files rule names 1`] = `
+[
+  "@import-lite/no-default-export",
+  "@import-lite/no-default-export",
+  "@typescript-eslint/naming-convention",
+  "@typescript-eslint/no-extraneous-class",
+  "js/marker",
+  "json/marker",
+  "package-json/require-exports",
+  "package-json/require-files",
+  "package-json/require-repository",
+  "package-json/require-sideEffects",
+  "package-json/require-type",
+]
+`;
+
+exports[`rule groups positive cases keeps the react rule names 1`] = `
+[
+  "@eslint-react/marker",
+]
+`;
+
+exports[`rule groups positive cases keeps the style rule names 1`] = `[]`;
+
+exports[`rule groups positive cases keeps the tests rule names 1`] = `
+[
+  "@check-file/folder-naming-convention",
+  "@typescript-eslint/no-empty-function",
+  "@typescript-eslint/unbound-method",
+  "jest/no-disabled-tests",
+  "jest/no-focused-tests",
+  "jest/prefer-to-have-length",
+  "jest/valid-expect",
+]
+`;
+
+exports[`rule groups positive cases keeps the typescript rule names 1`] = `
+[
+  "@check-file/filename-naming-convention",
+  "@check-file/folder-naming-convention",
+  "@import-lite/no-default-export",
+  "@no-only-tests/no-only-tests",
+  "@sonar/cognitive-complexity",
+  "@sonar/no-collapsible-if",
+  "@sonar/no-identical-expressions",
+  "@sonar/no-identical-functions",
+  "@sonar/no-inverted-boolean-check",
+  "@sonar/no-redundant-boolean",
+  "@sonar/no-small-switch",
+  "@sonar/no-unused-collection",
+  "@sonar/prefer-immediate-return",
+  "@typescript-eslint/ban-ts-comment",
+  "@typescript-eslint/consistent-type-definitions",
+  "@typescript-eslint/consistent-type-imports",
+  "@typescript-eslint/explicit-function-return-type",
+  "@typescript-eslint/naming-convention",
+  "@typescript-eslint/no-confusing-void-expression",
+  "@typescript-eslint/no-dynamic-delete",
+  "@typescript-eslint/no-unused-vars",
+  "@typescript-eslint/non-nullable-type-assertion-style",
+  "@typescript-eslint/prefer-nullish-coalescing",
+  "@typescript-eslint/prefer-readonly",
+  "@typescript-eslint/restrict-template-expressions",
+  "@typescript-eslint/return-await",
+  "@typescript-eslint/switch-exhaustiveness-check",
+  "@unicorn/no-useless-undefined",
+  "@unicorn/prefer-array-flat",
+  "@unicorn/prefer-modern-dom-apis",
+  "@unicorn/prefer-node-protocol",
+  "@unicorn/prefer-string-starts-ends-with",
+  "@unicorn/throw-new-error",
+  "array-callback-return",
+  "camelcase",
+  "class-methods-use-this",
+  "getter-return",
+  "newline-before-return",
+  "no-alert",
+  "no-await-in-loop",
+  "no-console",
+  "no-debugger",
+  "no-param-reassign",
+  "no-plusplus",
+  "no-return-await",
+  "no-underscore-dangle",
+  "no-unused-vars",
+  "no-warning-comments",
+]
+`;

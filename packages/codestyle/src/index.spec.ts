@@ -6,6 +6,11 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { makeConfig } from './index.js';
+import { makeFileTypeConfigs, makeOverrideConfigs } from './rules/files.js';
+import { makeReactConfig } from './rules/react.js';
+import { makeStyleConfigs } from './rules/style.js';
+import { makeTestConfigs } from './rules/tests.js';
+import { makeRecommendedTypescriptConfigs, makeTypescriptConfig } from './rules/typescript.js';
 
 // Every plugin is replaced with the minimal shape makeConfig reads, so specs assert on the
 // structure makeConfig builds. Several plugins are ESM-only and cannot be loaded by babel-jest's
@@ -79,6 +84,9 @@ const getTypescriptConfig = (configs: Linter.Config[]): Linter.Config => {
 
   return config;
 };
+
+const getRuleNames = (configs: Linter.Config[]): string[] =>
+  configs.flatMap((config) => Object.keys(config.rules ?? {})).sort();
 
 const getNames = (configs: Linter.Config[]): (string | undefined)[] => configs.map((config) => config.name);
 
@@ -330,6 +338,27 @@ describe('makeConfig', () => {
       expect(findByFiles(configs, '**/*.spec.{ts,tsx}')).toBeUndefined();
       expect(findByFiles(configs, '**/__fixtures__/**')).toBeUndefined();
       expect(configs).toHaveLength(makeConfig().length - 2);
+    });
+  });
+});
+
+// Rule names only, not severities: a rule dropped by a refactoring shows up as a snapshot diff in review.
+describe('rule groups', () => {
+  describe('negative cases', () => {
+    it('adds no rules for a project without react', () => {
+      expect(getRuleNames([makeReactConfig(false)])).toEqual([]);
+    });
+  });
+
+  describe('positive cases', () => {
+    it.each([
+      ['files', (): Linter.Config[] => [...makeFileTypeConfigs(), ...makeOverrideConfigs()]],
+      ['react', (): Linter.Config[] => [makeReactConfig(true)]],
+      ['style', (): Linter.Config[] => makeStyleConfigs()],
+      ['tests', (): Linter.Config[] => makeTestConfigs()],
+      ['typescript', (): Linter.Config[] => [...makeRecommendedTypescriptConfigs(), makeTypescriptConfig(false)]],
+    ])('keeps the %s rule names', (_group, makeConfigs) => {
+      expect(getRuleNames(makeConfigs())).toMatchSnapshot();
     });
   });
 });
