@@ -19,8 +19,8 @@
   "dependencies": {
     "axios": "1.16.1",
     "axios-mock-adapter": "2.1.0",
-    "graphql": "16.14.0",
-    "graphql-tag": "2.12.6",
+    "graphql": "17.0.2",
+    "graphql-tag": "2.12.7",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
