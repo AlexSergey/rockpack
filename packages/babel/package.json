@@ -29,6 +29,7 @@
       "import": "./lib/esm/index.mjs",
       "require": "./lib/cjs/index.cjs"
     },
+    "./plugins/import-extension": "./plugins/import-extension.cjs",
     "./plugins/rename-cjs-globals": "./plugins/rename-cjs-globals.cjs"
   },
   "main": "./lib/cjs/index.cjs",

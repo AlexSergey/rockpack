@@ -139,7 +139,7 @@ describe('packages installed from tarballs', () => {
 
     it('resolves the subpath exports', async () => {
       const { code } = await node(
-        "require.resolve('@rockpack/babel/plugins/rename-cjs-globals');\nrequire('@rockpack/utils/polyfills/text-encoder.fix');",
+        "require.resolve('@rockpack/babel/plugins/rename-cjs-globals');\nrequire.resolve('@rockpack/babel/plugins/import-extension');\nrequire('@rockpack/utils/polyfills/text-encoder.fix');",
         'cjs',
       );
 

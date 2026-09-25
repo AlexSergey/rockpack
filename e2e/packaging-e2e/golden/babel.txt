@@ -15,6 +15,7 @@ lib/esm/resolve.mjs
 lib/esm/types.mjs
 lib/esm/user-config.mjs
 package.json
+plugins/import-extension.cjs
 plugins/rename-cjs-globals.cjs
 types/core-js.d.ts
 types/index.d.ts
