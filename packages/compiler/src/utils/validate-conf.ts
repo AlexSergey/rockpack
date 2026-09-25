@@ -20,6 +20,12 @@ const optional =
 
 const string = expect(isString, 'a string');
 const boolean = expect(isBoolean, 'a boolean');
+
+// An option that no longer exists: any value is reported with what to do instead.
+const removed =
+  (hint: string): Check =>
+  (value, path) =>
+    value === undefined ? [] : [`${path} was removed in 9.0.0: ${hint}`];
 const stringOrNull = expect((value) => value === null || isString(value), 'a string or null');
 
 const fields =
@@ -54,7 +60,8 @@ const copyFiles = fields({ files: list(copySpec) }, 'an object with files');
 const format = fields({ dist: string, src: string }, 'an object with src and dist');
 
 const CHECKS: Readonly<Record<string, Check>> = {
-  analyzer: optional(boolean),
+  // Removed in 9.0.0; the check goes away in 10.0.
+  analyzer: removed('add the analyzer plugin in the compiler callback (see MIGRATION.md)'),
   banner: optional(expect((value) => isBoolean(value) || isString(value), 'a boolean or a string')),
   cache: optional(boolean),
   cjs: optional(format),

@@ -32,7 +32,6 @@ describe('validateConf', () => {
     it('checks scalar, list and format options', () => {
       expect(
         messages({
-          analyzer: 'yes',
           banner: 1,
           esm: { dist: 'lib/esm' },
           global: { API: 1 },
@@ -42,7 +41,6 @@ describe('validateConf', () => {
           vendor: ['react', 1],
         }),
       ).toEqual([
-        'analyzer must be a boolean',
         'banner must be a boolean or a string',
         'esm.src must be a string',
         'global.API must be a string',
@@ -50,6 +48,12 @@ describe('validateConf', () => {
         'port must be a positive integer',
         'styles must be false or a string',
         'vendor[1] must be a string',
+      ]);
+    });
+
+    it.each([true, false])('reports the removed analyzer option (%p) with the migration hint', (analyzer) => {
+      expect(messages({ analyzer })).toEqual([
+        'analyzer was removed in 9.0.0: add the analyzer plugin in the compiler callback (see MIGRATION.md)',
       ]);
     });
 
@@ -78,7 +82,6 @@ describe('validateConf', () => {
     it('accepts the documented forms of every option', () => {
       expect(
         messages({
-          analyzer: true,
           banner: 'text',
           cjs: { dist: 'lib/cjs', src: 'src' },
           copy: { files: [{ from: 'a', to: 'b' }], opts: {} },
