@@ -1,7 +1,7 @@
 export const defaultDistFile = 'index';
 export const distExtension = '.js';
 // Specs, test helpers and fixtures never reach the build output or the declarations.
-export const testFilesIgnore = [
+export const testFilesIgnore: string[] = [
   '**/*.spec.{ts,tsx,js,jsx}',
   '**/*.test.{ts,tsx,js,jsx}',
   '**/__fixtures__/**',

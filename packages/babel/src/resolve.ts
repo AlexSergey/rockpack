@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 
-export const _require = createRequire(import.meta.url);
+export const _require: NodeJS.Require = createRequire(import.meta.url);
 
 export const getPreset = (
   presetName: string,

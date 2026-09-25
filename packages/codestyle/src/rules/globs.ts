@@ -1,3 +1,3 @@
-export const jsFiles = ['**/*.{js,jsx,mjs,cjs}'];
-export const tsFiles = ['**/*.{ts,tsx}'];
-export const sourceFiles = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
+export const jsFiles: string[] = ['**/*.{js,jsx,mjs,cjs}'];
+export const tsFiles: string[] = ['**/*.{ts,tsx}'];
+export const sourceFiles: string[] = ['**/*.{js,jsx,mjs,cjs,ts,tsx}'];
