@@ -1,27 +1,10 @@
 import type { Compiler } from 'webpack';
 
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-
 import type { Reporter } from './reporter.js';
 
 import { ReporterPlugin } from './reporter-plugin.js';
 
 type Tap = (...args: never[]) => unknown;
-
-const issuesTaps: Tap[] = [];
-
-jest.mock('fork-ts-checker-webpack-plugin', () => ({
-  __esModule: true,
-  default: {
-    getCompilerHooks: jest.fn(() => ({
-      issues: {
-        tap: (_name: string, fn: Tap): void => {
-          issuesTaps.push(fn);
-        },
-      },
-    })),
-  },
-}));
 
 const root = '/project';
 
@@ -82,7 +65,6 @@ const stats = (json: object): object => ({
 
 describe('ReporterPlugin', () => {
   afterEach(() => {
-    issuesTaps.length = 0;
     jest.clearAllMocks();
   });
 
@@ -109,14 +91,6 @@ describe('ReporterPlugin', () => {
         errors: [{ kind: 'ESLint', message: 'src/a.ts\n  1:1  error  Unexpected var  no-var' }],
         warnings: [],
       });
-    });
-
-    it('does not read the type checker hooks in production', () => {
-      const { compiler } = fakeCompiler();
-
-      new ReporterPlugin(fakeReporter(), 'client', root, 'production').apply(compiler);
-
-      expect(ForkTsCheckerWebpackPlugin.getCompilerHooks).not.toHaveBeenCalled();
     });
   });
 
@@ -177,23 +151,6 @@ describe('ReporterPlugin', () => {
       fire('done', stats({ outputPath: '/project/dist' }));
 
       expect(reporter.done).toHaveBeenCalledWith('server', { durationMs: 2500, errors: [], warnings: [] });
-    });
-
-    it('reports the type checker errors of a development build and passes the issues on', () => {
-      const reporter = fakeReporter();
-      const { compiler } = fakeCompiler();
-      new ReporterPlugin(reporter, 'client', root, 'development').apply(compiler);
-      const issues = [
-        { code: 'TS2339', file: '/project/src/app.tsx', message: 'No title.', severity: 'error' },
-        { code: 'TS6133', message: 'Unused.', severity: 'warning' },
-      ];
-
-      const passed = (issuesTaps[0] as (value: unknown) => unknown)(issues);
-
-      expect(passed).toBe(issues);
-      expect(reporter.issues).toHaveBeenCalledWith('client', [
-        { kind: 'TypeScript', location: 'src/app.tsx', message: 'TS2339: No title.' },
-      ]);
     });
   });
 });

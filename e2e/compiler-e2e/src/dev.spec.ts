@@ -65,6 +65,22 @@ describe('development mode', () => {
         blocker.close();
       }
     }, 180_000);
+
+    it('reports a type error after the build and keeps serving', async () => {
+      const dir = prepareFixture('frontend-ts');
+      writeFileSync(path.join(dir, 'src/invalid.ts'), "export const count: number = 'not a number';\n");
+      const server = startDev(dir);
+      try {
+        const [, url = ''] = await server.waitForOutput(SERVER_URL, 120_000);
+        await server.waitForOutput(/1 TypeScript error/, 120_000);
+        await waitForServer(server, url);
+
+        expect(server.output()).toMatch(/TypeScript {2}src\/invalid\.ts:1:14 {2}TS2322/);
+        expect(await text(url)).toContain('index.js');
+      } finally {
+        await server.stop();
+      }
+    }, 180_000);
   });
 
   describe('positive cases', () => {

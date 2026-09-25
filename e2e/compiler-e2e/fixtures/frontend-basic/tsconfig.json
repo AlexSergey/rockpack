@@ -1,4 +1,5 @@
 {
   "extends": "@rockpack/tsconfig",
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/broken.ts"]
 }

@@ -110,18 +110,18 @@ describe('format-errors', () => {
       expect(fromStatsProblem({ message: RECORDED.stylelint }, root)[0]).toMatchObject({ kind: 'Stylelint' });
     });
 
-    it('reads a fork-ts-checker issue', () => {
+    it('reads a tsc error with its position', () => {
       expect(
         fromTypeScriptIssue(
-          {
-            code: 'TS2339',
-            file: '/project/src/app.tsx',
-            location: { start: { column: 5, line: 12 } },
-            message: 'No title.',
-          },
+          { code: 'TS2339', column: 5, file: '/project/src/app.tsx', line: 12, message: 'No title.' },
           root,
         ),
       ).toEqual({ kind: 'TypeScript', location: 'src/app.tsx:12:5', message: 'TS2339: No title.' });
+      expect(fromTypeScriptIssue({ code: 'TS2339', file: 'src/app.tsx', message: 'No title.' }, root)).toEqual({
+        kind: 'TypeScript',
+        location: 'src/app.tsx',
+        message: 'TS2339: No title.',
+      });
       expect(fromTypeScriptIssue({ code: 'TS6053', message: 'File not found.' }, root)).toEqual({
         kind: 'TypeScript',
         message: 'TS6053: File not found.',

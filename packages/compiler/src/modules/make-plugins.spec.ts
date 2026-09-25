@@ -33,9 +33,11 @@ jest.mock('dotenv-webpack', () =>
 jest.mock('eslint-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Eslint'),
 );
-jest.mock('fork-ts-checker-webpack-plugin', () =>
-  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('ForkTsChecker'),
-);
+jest.mock('./plugins/type-check-plugin.js', () => ({
+  TypeCheckPlugin: jest
+    .requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js')
+    .createPluginMock('TypeCheck'),
+}));
 jest.mock('html-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Html'),
 );
@@ -139,7 +141,7 @@ describe('makePlugins', () => {
     });
 
     it('skips the type checker without a tsconfig', async () => {
-      expect(await build()).not.toHaveProperty('ForkTsCheckerPlugin');
+      expect(await build()).not.toHaveProperty('TypeCheckPlugin');
     });
 
     it('skips dotenv without .env and .env.defaults', async () => {
@@ -206,7 +208,7 @@ describe('makePlugins', () => {
 
       expect(Object.keys(await build({ copy: { from: 'a', to: 'b' }, lint: true }))).toEqual([
         'ReporterPlugin',
-        'ForkTsCheckerPlugin',
+        'TypeCheckPlugin',
         'Dotenv',
         'BannerPlugin',
         'HtmlWebpackPlugin0',
@@ -235,11 +237,37 @@ describe('makePlugins', () => {
       expect(plugin.args).toEqual([reporter, 'frontend', root, 'production']);
     });
 
-    it('checks types for a TypeScript project', async () => {
+    it('checks types for a TypeScript project with its tsconfig under the compiler label', async () => {
       pathToTsConfMock.mockReturnValue('/project/tsconfig.json');
 
-      expect(await build()).toHaveProperty('ForkTsCheckerPlugin');
+      const plugin = (await build({ compilerName: 'frontendCompiler' }))['TypeCheckPlugin'];
+
+      expect(getPluginOptions(plugin)).toEqual({
+        mode: 'production',
+        name: 'frontend',
+        onIssues: expect.any(Function) as unknown,
+        root,
+        tsconfig: '/project/tsconfig.json',
+      });
       expect(pathToTsConfMock).toHaveBeenCalledWith(root, 'production', false);
+    });
+
+    it('sends the type errors of a development build to the reporter', async () => {
+      pathToTsConfMock.mockReturnValue('/project/tsconfig.json');
+      const problems = [{ kind: 'TypeScript' as const, message: 'TS2322: No.' }];
+
+      const plugin = (await build({ compilerName: 'frontendCompiler' }, 'development'))['TypeCheckPlugin'];
+      (getPluginOptions(plugin) as { onIssues: (value: typeof problems) => void }).onIssues(problems);
+
+      expect(reporter.issues).toHaveBeenCalledWith('frontend', problems);
+    });
+
+    it('checks types without a reporter to send development errors to', async () => {
+      pathToTsConfMock.mockReturnValue('/project/tsconfig.json');
+
+      const plugin = (await build({}, 'development', {}, { configOnly: false, isomorphic: false }))['TypeCheckPlugin'];
+
+      expect(getPluginOptions(plugin)).not.toHaveProperty('onIssues');
     });
 
     it('loads .env with safe and defaults flags', async () => {

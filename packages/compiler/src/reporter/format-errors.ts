@@ -13,11 +13,12 @@ export type StatsProblem = {
   readonly moduleName?: string;
 };
 
-// The parts of a fork-ts-checker issue the reporter reads.
+// One error of `tsc --pretty false`; the file is relative to the project root unless it lies outside it.
 export type TypeScriptIssue = {
   readonly code: string;
+  readonly column?: number;
   readonly file?: string;
-  readonly location?: { readonly start: { readonly column: number; readonly line: number } };
+  readonly line?: number;
   readonly message: string;
 };
 
@@ -108,16 +109,17 @@ export const fromStatsProblem = (source: StatsProblem, root: string): Problem[] 
 // An error that stopped the build before webpack produced stats (ESLint with failOnError, a crashed loader).
 export const fromError = (error: Error, root: string): Problem[] => fromStatsProblem({ message: error.message }, root);
 
-export const fromTypeScriptIssue = (issue: TypeScriptIssue, root: string): Problem => {
+// `src/a.ts:1:14`, or the file alone when tsc gave no position.
+export const typeScriptLocation = (issue: TypeScriptIssue, root: string): string | undefined => {
   const file = issue.file?.replaceAll(`${root}/`, '');
-  const start = issue.location?.start;
 
-  return problem(
-    'TypeScript',
-    `${issue.code}: ${issue.message}`,
-    file && start ? `${file}:${String(start.line)}:${String(start.column)}` : file,
-  );
+  return file && issue.line !== undefined && issue.column !== undefined
+    ? `${file}:${String(issue.line)}:${String(issue.column)}`
+    : file;
 };
+
+export const fromTypeScriptIssue = (issue: TypeScriptIssue, root: string): Problem =>
+  problem('TypeScript', `${issue.code}: ${issue.message}`, typeScriptLocation(issue, root));
 
 // Problems reported by both compilers of an isomorphic build (or twice by one) are kept once.
 export const uniqueProblems = (problems: readonly Problem[]): Problem[] => {

@@ -334,6 +334,9 @@ How do I activate TypeScript?
 - *It's enough to put **tsconfig.json** in the root with **@rockpack/compiler***
 - [tsconfig.json examples](https://www.typescriptlang.org/docs/handbook/react-&-webpack.html)
 ***
+How are the types checked?
+- *Babel only strips the types; the check runs your project's own `tsc` (TypeScript 6 or 7, the compiler's TypeScript when the project has none) as `tsc --noEmit -p tsconfig.json` next to the build, incrementally, with its build info in `node_modules/.cache/rockpack/tsc`. It reports what `tsc --noEmit` reports for the files of the tsconfig, including syntax and tsconfig errors, except the `rootDir` layout (nothing is emitted); an error Babel already reported for a file is not repeated. A production build fails on a type error, a development build reports them after each rebuild. In the callback the plugin is `plugins.get('TypeCheckPlugin')`. The declarations of the per-file builds come from the same `tsc`.*
+***
 How do I lint during the build?
 - *Set `lint: true`. ESLint runs when the project root has a flat config (`eslint.config.{js,mjs,cjs,ts,mts,cts}`) and Stylelint when it has a Stylelint config (`.stylelintrc`, `.stylelintrc.{json,yaml,yml,js,mjs,cjs}` or `stylelint.config.{js,mjs,cjs}`); both check the sources only, and an error fails the build. ESLint is skipped with `debug: true`. Without the option the build does not lint; lint in your own scripts and git hooks instead (generated projects do).*
 ***

@@ -78,7 +78,6 @@
     "eslint-webpack-plugin": "6.0.0",
     "find-free-port": "2.0.0",
     "find-package-json": "1.2.0",
-    "fork-ts-checker-webpack-plugin": "9.1.0",
     "glob": "13.0.6",
     "html-loader": "5.1.0",
     "html-webpack-plugin": "5.6.8",

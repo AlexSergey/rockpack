@@ -1,15 +1,16 @@
 import { getMode, isString } from '@rockpack/utils';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import ts from 'typescript';
 
 import type { CompilerConf } from '../types.js';
 
 import { testFilesIgnore } from '../constants.js';
 import { makeResolve } from '../modules/make-resolve.js';
+import { findDeclarationRootDir } from './declaration-root-dir.js';
 import { getTypeScript } from './file-system-utils.js';
-import { makeCompilerOptions } from './make-compiler-options.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
+import { resolveTsc } from './resolve-tsc.js';
+import { runTsc } from './run-tsc.js';
 
 // The folder of the entry file: `src` itself when it has an extension, otherwise the first `src<ext>` that exists.
 const findSourceDir = (src: string, extensions: readonly string[]): string | undefined => {
@@ -21,11 +22,35 @@ const findSourceDir = (src: string, extensions: readonly string[]): string | und
   return index === undefined ? undefined : path.dirname(index);
 };
 
-// Declarations only, straight into the types folder.
-const emitDeclarations = (root: string, tsConfig: string, files: string[], outDir: string): void => {
-  const { options } = makeCompilerOptions(root, tsConfig, outDir);
-  const program = ts.createProgram(files, options, ts.createCompilerHost(options));
-  program.emit();
+// Declarations only, straight into the types folder, by the project's tsc with a tsconfig that extends its own and
+// lists the files. Not incremental: an up-to-date build info would skip the emit after the types folder was removed.
+const emitDeclarations = async (root: string, tsConfig: string, files: string[], outDir: string): Promise<void> => {
+  const tsc = resolveTsc(root);
+  const cacheDir = path.join(root, 'node_modules', '.cache', 'rockpack', 'tsc');
+  const config = path.join(cacheDir, `declarations-${String(process.pid)}.json`);
+  mkdirSync(cacheDir, { recursive: true });
+  writeFileSync(
+    config,
+    JSON.stringify({
+      compilerOptions: {
+        composite: false,
+        declaration: true,
+        emitDeclarationOnly: true,
+        incremental: false,
+        noEmit: false,
+        outDir,
+      },
+      extends: tsConfig,
+      files,
+      include: [],
+    }),
+  );
+  try {
+    const rootDir = await findDeclarationRootDir(tsc, root, tsConfig, config, files);
+    await runTsc(tsc, ['--pretty', 'false', '--rootDir', rootDir, '-p', config], root);
+  } finally {
+    rmSync(config, { force: true });
+  }
 };
 
 // Resolves to the folder the declarations went to, or undefined when there was nothing to declare.
@@ -45,7 +70,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
   }
 
   const types = path.join(root, conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types'));
-  emitDeclarations(root, tsConfig, files, types);
+  await emitDeclarations(root, tsConfig, files, types);
 
   return path.relative(root, types);
 }

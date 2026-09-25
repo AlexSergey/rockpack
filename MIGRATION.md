@@ -82,6 +82,13 @@ The dev server is webpack-dev-server 6 (Express 5, http-proxy-middleware 4, webp
 - `webSocketServer: 'sockjs'` is no longer supported; the default `ws` transport is used.
 - HTTP/2 comes from `server: 'http2'` (Node.js `node:http2`) instead of `spdy`.
 
+### Type checking with the project's tsc
+
+`fork-ts-checker-webpack-plugin` is gone: the build runs your project's `tsc --noEmit -p tsconfig.json` (TypeScript 6 or 7) and reports what it reports.
+
+- A file of the tsconfig that the bundle does not import is checked like `tsc` checks it: a syntax error there, or an error in the tsconfig itself, now fails a production build. Exclude intentionally broken files in the tsconfig, or fix them (`npm run lint:ts` reports the same).
+- In the compiler callback the plugin is `TypeCheckPlugin` instead of `ForkTsCheckerPlugin`; `plugins.remove('TypeCheckPlugin')` turns the check off.
+
 ### Build output
 
 The compiler prints its own summary lines instead of friendly-errors (see "Build output" in the compiler README). Scripts that parsed `Compiled successfully!`, `DONE`, `[COMPILE]` or `Failed to compile.` should use the exit code (`1` on errors) or the result of the compiler (`kind: 'build'` with `success`) instead; `Starting server on <url>` is still printed for the dev server. `progress: false` turns the bars off in a terminal.

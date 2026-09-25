@@ -1,13 +1,12 @@
 import type { Compiler, Stats } from 'webpack';
 
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import path from 'node:path';
 
 import type { Mode } from '../types.js';
 import type { Reporter } from './reporter.js';
 import type { BuildReport } from './summary.js';
 
-import { fromError, fromStatsProblem, fromTypeScriptIssue } from './format-errors.js';
+import { fromError, fromStatsProblem } from './format-errors.js';
 
 const PLUGIN = 'RockpackReporter';
 
@@ -72,17 +71,5 @@ export class ReporterPlugin {
     compiler.hooks.failed.tap(PLUGIN, (error) => {
       reporter.done(name, { durationMs: Date.now() - startedAt, errors: fromError(error, root), warnings: [] });
     });
-
-    // In development the type checker reports after the build; in production its issues are build errors.
-    if (mode === 'development') {
-      ForkTsCheckerWebpackPlugin.getCompilerHooks(compiler).issues.tap(PLUGIN, (issues) => {
-        reporter.issues(
-          name,
-          issues.filter((issue) => issue.severity === 'error').map((issue) => fromTypeScriptIssue(issue, root)),
-        );
-
-        return issues;
-      });
-    }
   }
 }

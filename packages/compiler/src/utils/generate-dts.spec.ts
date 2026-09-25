@@ -1,5 +1,5 @@
 import { getMode } from '@rockpack/utils';
-import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -57,6 +57,12 @@ describe('generateDts', () => {
       expect(existsSync(path.join(root, 'dist', 'types', 'index.d.ts'))).toBe(true);
       expect(existsSync(path.join(root, 'dist', 'types', 'index.spec.d.ts'))).toBe(false);
     });
+
+    it('leaves no generated tsconfig in the cache folder', async () => {
+      await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
+
+      expect(readdirSync(path.join(root, 'node_modules', '.cache', 'rockpack', 'tsc'))).toEqual([]);
+    });
   });
 
   describe('positive cases', () => {
@@ -71,6 +77,32 @@ describe('generateDts', () => {
           (file) => !String(file).endsWith('.d.ts') && String(file).includes('.'),
         ),
       ).toEqual([]);
+    });
+
+    it('keeps the layout of the imported files outside the entry folder', async () => {
+      mkdirSync(path.join(root, 'src', 'bin'));
+      writeFileSync(
+        path.join(root, 'src', 'bin', 'cli.ts'),
+        "import { total } from '../index';\n\nexport const run = total;\n",
+      );
+
+      await generateDts({ dist: 'dist/index.js', src: 'src/bin/cli.ts' }, root);
+
+      expect(existsSync(path.join(root, 'dist', 'types', 'bin', 'cli.d.ts'))).toBe(true);
+      expect(existsSync(path.join(root, 'dist', 'types', 'index.d.ts'))).toBe(true);
+    });
+
+    it('keeps the rootDir of the project tsconfig', async () => {
+      const tsconfig = path.join(root, 'tsconfig.json');
+      const config = JSON.parse(readFileSync(tsconfig, 'utf8')) as { compilerOptions: Record<string, unknown> };
+      writeFileSync(
+        tsconfig,
+        JSON.stringify({ ...config, compilerOptions: { ...config.compilerOptions, rootDir: '.' } }),
+      );
+
+      await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
+
+      expect(existsSync(path.join(root, 'dist', 'types', 'src', 'index.d.ts'))).toBe(true);
     });
 
     it('emits declarations into the types folder for a src with extension', async () => {
