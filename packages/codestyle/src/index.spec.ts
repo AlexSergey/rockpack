@@ -118,7 +118,10 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.['parserOptions']).toEqual({ project: './tsconfig.json' });
+      expect(languageOptions?.['parserOptions']).toEqual({
+        project: './tsconfig.json',
+        tsconfigRootDir: process.cwd(),
+      });
     });
 
     it('adds no ignore config when .eslintflatignore is not found', () => {
@@ -190,7 +193,10 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.json') });
+      expect(languageOptions?.['parserOptions']).toEqual({
+        project: path.join(dir, 'tsconfig.json'),
+        tsconfigRootDir: dir,
+      });
     });
 
     it('prefers tsconfig.eslint.json over tsconfig.json', () => {
@@ -198,7 +204,10 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig());
 
-      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.eslint.json') });
+      expect(languageOptions?.['parserOptions']).toEqual({
+        project: path.join(dir, 'tsconfig.eslint.json'),
+        tsconfigRootDir: dir,
+      });
     });
 
     it('adds the ignore config from .eslintflatignore in the current directory', () => {
@@ -310,7 +319,10 @@ describe('makeConfig', () => {
 
       const { languageOptions } = getTypescriptConfig(makeConfig({ tsconfig: 'tsconfig.lint.json' }));
 
-      expect(languageOptions?.['parserOptions']).toEqual({ project: path.join(dir, 'tsconfig.lint.json') });
+      expect(languageOptions?.['parserOptions']).toEqual({
+        project: path.join(dir, 'tsconfig.lint.json'),
+        tsconfigRootDir: dir,
+      });
     });
 
     it('reads the given ignore file instead of searching for .eslintflatignore', () => {
@@ -356,7 +368,10 @@ describe('rule groups', () => {
       ['react', (): Linter.Config[] => [makeReactConfig(true)]],
       ['style', (): Linter.Config[] => makeStyleConfigs()],
       ['tests', (): Linter.Config[] => makeTestConfigs()],
-      ['typescript', (): Linter.Config[] => [...makeRecommendedTypescriptConfigs(), makeTypescriptConfig(false)]],
+      [
+        'typescript',
+        (): Linter.Config[] => [...makeRecommendedTypescriptConfigs(), makeTypescriptConfig(false, '/project')],
+      ],
     ])('keeps the %s rule names', (_group, makeConfigs) => {
       expect(getRuleNames(makeConfigs())).toMatchSnapshot();
     });

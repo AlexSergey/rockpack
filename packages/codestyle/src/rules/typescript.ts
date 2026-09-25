@@ -36,13 +36,16 @@ export const makeRecommendedTypescriptConfigs = (): Linter.Config[] =>
     })),
   ] as Linter.Config[];
 
-export const makeTypescriptConfig = (tsConfig: false | string): Linter.Config => ({
+// `tsconfigRootDir` pins the project root: without it typescript-eslint refuses to guess when one run lints files
+// under several tsconfig folders (for example project templates with their own tsconfig).
+export const makeTypescriptConfig = (tsConfig: false | string, root: string): Linter.Config => ({
   files: tsFiles,
   languageOptions: {
     ...languageOptions,
     parser: tsParser,
     parserOptions: {
       project: tsConfig || './tsconfig.json',
+      tsconfigRootDir: root,
     },
   },
   plugins: {

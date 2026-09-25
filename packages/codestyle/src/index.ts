@@ -68,7 +68,7 @@ export const makeConfig = ({ ignoreFile, jest = true, react, tsconfig }: MakeCon
     ...(flatIgnoreFile ? [gitignore({ files: flatIgnoreFile, strict: false })] : []),
     ...makeRecommendedTypescriptConfigs(),
     ...makeStyleConfigs(),
-    makeTypescriptConfig(isString(tsconfig) ? path.resolve(root, tsconfig) : findTsConfig(root)),
+    makeTypescriptConfig(isString(tsconfig) ? path.resolve(root, tsconfig) : findTsConfig(root), root),
     ...makeFileTypeConfigs(),
     makeReactConfig(hasReact),
     ...makeOverrideConfigs(),
