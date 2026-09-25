@@ -11,8 +11,8 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts",
-    "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts --watch"
+    "test": "node scripts.tests.mts",
+    "test:watch": "node scripts.tests.mts --watch"
   },
   "dependencies": {
     "react": "19.3.0",
