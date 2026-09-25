@@ -1,9 +1,7 @@
 import type { PluginItem } from '@babel/core';
 
 import { transformSync } from '@babel/core';
-import { jest } from '@jest/globals';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { runInThisContext } from 'node:vm';
@@ -53,7 +51,7 @@ const getItemIds = (items: null | readonly unknown[] | undefined): unknown[] =>
   (items ?? []).map((item): unknown => (Array.isArray(item) ? item[0] : item));
 
 describe('createBabelPresets', () => {
-  let consoleErrorSpy: ReturnType<typeof jest.spyOn>;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -305,7 +303,7 @@ describe('createBabelPresets', () => {
       const run = runInThisContext(`(function (require, module, exports, __filename) {${result?.code ?? ''}\n})`) as (
         ...args: unknown[]
       ) => void;
-      run(createRequire(import.meta.url), module, module.exports, '/project/src/module.ts');
+      run(require, module, module.exports, '/project/src/module.ts');
 
       expect(module.exports['file']).toBe('/project/src/module.ts');
     });

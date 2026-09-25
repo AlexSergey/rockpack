@@ -1,5 +1,4 @@
 import { transformSync } from '@babel/core';
-import { jest } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import fs, { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';

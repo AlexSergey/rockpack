@@ -53,8 +53,8 @@
     "lint:ts": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "production": "npm run lint && npm publish --access public",
-    "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts --watch",
+    "test": "node --experimental-vm-modules --import tsx scripts.tests.ts",
+    "test:watch": "node --experimental-vm-modules --import tsx scripts.tests.ts --watch",
     "type-coverage": "type-coverage -p tsconfig.json"
   },
   "dependencies": {

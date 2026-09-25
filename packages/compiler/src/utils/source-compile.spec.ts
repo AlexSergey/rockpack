@@ -6,8 +6,10 @@ import path from 'node:path';
 
 import { sourceCompile } from './source-compile.js';
 
-// @babel/core 8 is ESM only and Jest's CommonJS runtime cannot load it; compiler-e2e checks the real output.
-jest.mock('@babel/core', () => ({ transformFileSync: jest.fn() }));
+jest.mock('@babel/core', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@babel/core'),
+  transformFileSync: jest.fn(),
+}));
 
 jest.mock('@rockpack/utils', () => ({
   ...jest.requireActual<Record<string, unknown>>('@rockpack/utils'),
@@ -26,7 +28,9 @@ describe('sourceCompile', () => {
     cpSync(fixture, root, { recursive: true });
     (getRootRequireDir as jest.Mock).mockReturnValue(root);
     (getMode as jest.Mock).mockReturnValue('production');
-    (transformFileSync as jest.Mock).mockImplementation((file: string) => ({ code: `// ${path.basename(file)}` }));
+    (transformFileSync as jest.Mock).mockImplementation(
+      jest.requireActual<{ transformFileSync: typeof transformFileSync }>('@babel/core').transformFileSync,
+    );
     jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
@@ -91,25 +95,11 @@ describe('sourceCompile', () => {
     it('compiles TypeScript to cjs and esm with the import extension of each format and copied assets', async () => {
       await sourceCompile({ cjs: { dist: 'lib/cjs', src: 'src' }, esm: { dist: 'lib/esm', src: 'src' } });
 
-      const optionsFor = (output: string): { plugins: unknown[] } => {
-        const call = (transformFileSync as jest.Mock).mock.calls.find(
-          ([file, options]: [string, { plugins: unknown[] }]) =>
-            file.endsWith('index.ts') && JSON.stringify(options.plugins).includes(output),
-        ) as [string, { plugins: unknown[] }];
+      const cjs = readFileSync(path.join(root, 'lib', 'cjs', 'index.cjs'), 'utf8');
+      const esm = readFileSync(path.join(root, 'lib', 'esm', 'index.mjs'), 'utf8');
 
-        return call[1];
-      };
-
-      expect(optionsFor('"cjs"').plugins.slice(0, 2)).toEqual([
-        [expect.stringContaining('import-extension'), { extension: 'cjs' }],
-        expect.stringContaining('plugin-transform-modules-commonjs'),
-      ]);
-      expect(optionsFor('"mjs"').plugins[0]).toEqual([
-        expect.stringContaining('import-extension'),
-        { extension: 'mjs' },
-      ]);
-      expect(readFileSync(path.join(root, 'lib', 'cjs', 'index.cjs'), 'utf8')).toBe('// index.ts');
-      expect(readFileSync(path.join(root, 'lib', 'esm', 'utils', 'sum.mjs'), 'utf8')).toBe('// sum.ts');
+      expect(cjs).toContain('require("./utils/sum.cjs")');
+      expect(esm).toContain("from './utils/sum.mjs'");
       expect(existsSync(path.join(root, 'lib', 'esm', 'label.mjs'))).toBe(true);
       expect(readFileSync(path.join(root, 'lib', 'cjs', 'assets', 'data.txt'), 'utf8')).toBe('asset\n');
       expect(existsSync(path.join(root, 'lib', 'esm', 'legacy.mjs'))).toBe(false);
@@ -120,7 +110,7 @@ describe('sourceCompile', () => {
 
       await sourceCompile({ esm: { dist: 'lib/esm', src: 'src' } });
 
-      expect(readFileSync(path.join(root, 'lib', 'esm', 'legacy.mjs'), 'utf8')).toBe('// legacy.js');
+      expect(readFileSync(path.join(root, 'lib', 'esm', 'legacy.mjs'), 'utf8')).toContain('legacy');
     });
   });
 });
