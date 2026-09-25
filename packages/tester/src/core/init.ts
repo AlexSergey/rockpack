@@ -5,6 +5,7 @@ import { runCLI } from 'jest';
 import type { TesterOptions } from '../default-props.js';
 
 import { configCompiler } from '../configs/config-compiler.js';
+import { supportsEsm } from './supports-esm.js';
 
 export type TestResults = Awaited<ReturnType<typeof runCLI>>['results'];
 
@@ -14,6 +15,16 @@ export const init = async (
   opts: Partial<TesterOptions> = {},
   projectConfig: Partial<Config.InitialOptions> = {},
 ): Promise<TestResults | undefined> => {
+  if (opts.esm && !supportsEsm()) {
+    console.error(
+      'esm: true runs the specs as ES modules, which Jest supports only with Node.js --experimental-vm-modules.\n' +
+        'Run the tests with: node --experimental-vm-modules scripts.tests.mts',
+    );
+    process.exitCode = 1;
+
+    return undefined;
+  }
+
   try {
     const { argv } = configCompiler(opts, projectConfig);
     const { results } = await runCLI(argv as Parameters<typeof runCLI>[0], [process.cwd()]);

@@ -2,6 +2,7 @@ LICENSE
 README.md
 lib/cjs/configs/config-compiler.cjs
 lib/cjs/core/init.cjs
+lib/cjs/core/supports-esm.cjs
 lib/cjs/default-props.cjs
 lib/cjs/index.cjs
 lib/cjs/modules/create-test-match.cjs
@@ -9,6 +10,7 @@ lib/cjs/modules/file-transformer.cjs
 lib/cjs/modules/identity-obj-proxy.cjs
 lib/esm/configs/config-compiler.mjs
 lib/esm/core/init.mjs
+lib/esm/core/supports-esm.mjs
 lib/esm/default-props.mjs
 lib/esm/index.mjs
 lib/esm/modules/create-test-match.mjs
@@ -17,6 +19,7 @@ lib/esm/modules/identity-obj-proxy.mjs
 package.json
 types/configs/config-compiler.d.ts
 types/core/init.d.ts
+types/core/supports-esm.d.ts
 types/default-props.d.ts
 types/index.d.ts
 types/modules/create-test-match.d.ts

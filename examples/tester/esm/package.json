@@ -1,0 +1,22 @@
+{
+  "name": "@rockpack/example-tester-esm",
+  "version": "8.0.0",
+  "description": "Rockpack example: specs run as ES modules",
+  "license": "ISC",
+  "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
+  "main": "index.js",
+  "scripts": {
+    "format": "npm run format:code",
+    "format:code": "eslint . --fix",
+    "lint": "npm run lint:ts && npm run lint:code",
+    "lint:code": "eslint .",
+    "lint:ts": "tsc --noEmit",
+    "test": "node --experimental-vm-modules scripts.tests.mts",
+    "test:watch": "node --experimental-vm-modules scripts.tests.mts --watch"
+  },
+  "devDependencies": {
+    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/tester": "8.0.0",
+    "@rockpack/tsconfig": "8.0.0"
+  }
+}

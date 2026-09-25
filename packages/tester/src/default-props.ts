@@ -16,6 +16,8 @@ export type CoverageOptions = {
 export type TesterOptions = {
   // Collect coverage outside watch mode (default), turn it off with false, or adjust it.
   readonly coverage?: boolean | CoverageOptions;
+  // Run the specs as ES modules (no CommonJS transform); Node.js must run with --experimental-vm-modules.
+  readonly esm?: boolean;
   readonly prefix?: string;
   // Let arrays in the jest config replace the defaults instead of extending setupFiles, setupFilesAfterEnv,
   // moduleFileExtensions and testPathIgnorePatterns.
@@ -30,6 +32,7 @@ export type TesterOptions = {
 
 export const defaultProps: Required<TesterOptions> = {
   coverage: true,
+  esm: false,
   prefix: '(spec|test)',
   replaceArrays: false,
   serial: false,

@@ -30,6 +30,10 @@ describe('configCompiler', () => {
   });
 
   describe('negative cases', () => {
+    it('treats nothing as ESM by default', () => {
+      expect(parseConfig(compile())).not.toHaveProperty('extensionsToTreatAsEsm');
+    });
+
     it('collects no coverage when coverage is false', () => {
       const config = parseConfig(compile({ coverage: false }));
 
@@ -71,6 +75,16 @@ describe('configCompiler', () => {
   });
 
   describe('positive cases', () => {
+    it('keeps ES modules for esm: no CommonJS test transforms and TypeScript treated as ESM', () => {
+      const config = parseConfig(compile({ esm: true }));
+
+      expect(config.extensionsToTreatAsEsm).toEqual(['.ts', '.tsx', '.jsx']);
+      expect(config.transform).toMatchObject({
+        '^.+\\.(js|jsx|mjs|cjs)$': [expect.any(String), { presetFor: { framework: 'react', isTest: false } }],
+        '^.+\\.(ts|tsx)$': [expect.any(String), { presetFor: { framework: 'react', isTest: false, typescript: true } }],
+      });
+    });
+
     it('extends the default setup files and ignore patterns with the jest config', () => {
       const config = parseConfig(
         compile({}, { setupFilesAfterEnv: ['<rootDir>/custom.setup.ts'], testPathIgnorePatterns: ['/fixtures/'] }),

@@ -115,14 +115,17 @@ export const configCompiler = (
 ): CompiledConfig => {
   const { packageDir, projectDir } = { ...defaultEnvironment(), ...environment };
   const { globalSetup, globalTeardown, setupFiles, setupFilesAfterEnv } = findSetupFiles(projectDir);
-  const jsPreset = createBabelPresets({ framework: 'react', isTest: true });
-  const tsPreset = createBabelPresets({ framework: 'react', isTest: true, typescript: true });
   const options = deepExtend({}, defaultProps, opts) as Required<TesterOptions>;
+  // Test mode adds the CommonJS transforms; ES module specs keep import/export and import.meta as they are.
+  const isTest = !options.esm;
+  const jsPreset = createBabelPresets({ framework: 'react', isTest });
+  const tsPreset = createBabelPresets({ framework: 'react', isTest, typescript: true });
   const src: string[] = Array.isArray(options.src) ? options.src : [options.src];
 
   const defaults: Config.InitialOptions = {
     ...(globalSetup ? { globalSetup } : {}),
     ...(globalTeardown ? { globalTeardown } : {}),
+    ...(options.esm ? { extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'] } : {}),
     moduleFileExtensions: ['js', 'jsx', 'mjs', 'cjs', 'json', 'ts', 'tsx'],
     moduleNameMapper: {
       '\\.(css|less|scss|sss|styl)$': `${packageDir}/modules/identity-obj-proxy.cjs`,

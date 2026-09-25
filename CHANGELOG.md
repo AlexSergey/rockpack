@@ -35,6 +35,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/compiler`: `cache: true` caches production builds on disk in `node_modules/.cache/rockpack` (warm builds of the react-app example: 2.3 s to 1.6 s)
 - `@rockpack/codestyle` lints `.mts` and `.cts` files as TypeScript
 - `@rockpack/compiler`: `sourceCompiler({ watch: true })` rebuilds the per-file formats and the declarations after every source change and resolves to a result with `stop()`
+- `@rockpack/tester`: `esm: true` runs the specs as ES modules (no CommonJS transform, TypeScript treated as ESM) under `node --experimental-vm-modules`, and explains the flag when it is missing
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)

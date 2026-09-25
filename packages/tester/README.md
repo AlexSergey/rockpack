@@ -71,6 +71,7 @@ npx tsx scripts.tests.ts --watch
 | `watch` | `--watch` on the command line | Jest watch mode |
 | `serial` | `false` | Run the suites one by one without cache, for tests that share ports or files |
 | `coverage` | `true` | `false` turns coverage off; `{ collectCoverageFrom, reporters, thresholds }` adjusts it (values in the Jest config still win) |
+| `esm` | `false` | Run the specs as ES modules (see below) |
 | `replaceArrays` | `false` | By default `setupFiles`, `setupFilesAfterEnv`, `moduleFileExtensions` and `testPathIgnorePatterns` from the Jest config extend the tester's defaults; `true` makes them replace the defaults |
 
 Outside watch mode coverage is collected from every file under `src` (not only the imported ones) and reported as `json`, `html`, `text-summary` and `lcov`. Everything can be overridden through the Jest config, for example thresholds:
@@ -80,6 +81,21 @@ void tester({}, { coverageThreshold: { global: { branches: 80, functions: 85, li
 ```
 
 Sources that use NodeNext-style `.js` extensions in relative imports work out of the box: `import { sum } from './sum.js'` resolves to `sum.ts`.
+
+### ES module specs
+
+By default the specs are compiled to CommonJS. With `esm: true` they run as real ES modules: `import.meta`, top-level await and ES-only packages work without mocks. Jest supports this only when Node.js runs with `--experimental-vm-modules`, so the test script changes too (the tester explains it and exits with code `1` otherwise):
+
+```ts
+// scripts.tests.mts
+void tester({ esm: true });
+```
+
+```json
+"test": "node --experimental-vm-modules scripts.tests.mts"
+```
+
+In ES module specs the `jest` object is not a global: import it with `import { jest } from '@jest/globals'`. See `examples/tester/esm`.
 
 ## Configuration
 

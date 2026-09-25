@@ -11,6 +11,7 @@ describe('defaultProps', () => {
     it('matches spec and test files under ./src', () => {
       expect(defaultProps).toEqual({
         coverage: true,
+        esm: false,
         prefix: '(spec|test)',
         replaceArrays: false,
         serial: false,
