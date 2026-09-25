@@ -1,6 +1,6 @@
 # Plan 7: Own import extension plugin in @rockpack/babel
 
-Status: proposed
+Status: approved 2026-09-25 (D1 to D3 as recommended)
 Order: independent; prepares the Babel 8 migration (issue #71), which gets its own plan
 Owner: TBD
 
