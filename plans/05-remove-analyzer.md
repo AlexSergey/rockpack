@@ -1,6 +1,6 @@
 # Plan 5: Remove the built-in bundle analyzer
 
-Status: proposed
+Status: approved 2026-09-25 (D1 and D2 as recommended)
 Order: after Plan 3; part of the `9.0.0` breaking changes
 Owner: TBD
 

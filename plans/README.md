@@ -9,6 +9,7 @@ Working plans for the `9.0.0` cycle. Plans 1, 2 and 3 are executed in order; eac
 | 3 | [Code improvements](./03-code-improvements.md) | Architecture, public API, performance and TypeScript coverage improvements on top of the test safety net. | XL |
 | 4 | [End-to-end tests](./04-e2e.md) | E2E for the compiler and the starter (key modules) and for the published tarballs, in `pinned` and `latest` dependency modes, plus a nightly dependency canary. Runs alongside Plan 2 and before Plan 3. | L |
 | 5 | [Remove the bundle analyzer](./05-remove-analyzer.md) | Drop the `analyzer` option, the `--analyzer` flag, webpack-bundle-analyzer and Statoscope from the compiler and the starter; users add an analyzer through the compiler callback. | S |
+| 6 | [Build reporter with a progress bar](./06-progress-reporter.md) | Replace friendly-errors, the ad-hoc logs and the dev messages with one Rockpack reporter: per-compiler progress bars (client and server rows in isomorphic builds), one summary line per build, every error kind in one format, plain mode for CI. | L |
 
 Conventions used in the plans:
 
