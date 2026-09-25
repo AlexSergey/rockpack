@@ -18,9 +18,10 @@ import { makePlugins } from './make-plugins.js';
 jest.mock('@nuxt/friendly-errors-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FriendlyErrors'),
 );
-jest.mock('@statoscope/webpack-plugin', () =>
-  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Statoscope'),
-);
+// The real package is CommonJS with `exports.default`.
+jest.mock('@statoscope/webpack-plugin', () => ({
+  default: jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Statoscope'),
+}));
 jest.mock('case-sensitive-paths-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('CaseSensitivePaths'),
 );

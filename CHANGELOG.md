@@ -68,6 +68,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
+- `@rockpack/compiler`: `analyzer: true` failed with `StatoscopeWebpackPlugin is not a constructor` when the compiler was loaded as an ES module (a build script run by `node` instead of `tsx`)
 - `@rockpack/tester`: when the tester was imported as an ES module and Jest ran with `--experimental-vm-modules`, style imports failed with `exports is not defined`; Jest now always gets the style and file stubs from the CommonJS build
 - `@rockpack/compiler`: a project with `.env.defaults` but no `.env` gets its variables inlined; before, the browser bundle kept raw `process.env.X` references
 - `@rockpack/compiler`: production builds for Node.js (`backendCompiler`, the backend of `isomorphicCompiler`, `nodejs` libraries) keep `console` calls; they were dropped like in browser bundles, so server logs disappeared
