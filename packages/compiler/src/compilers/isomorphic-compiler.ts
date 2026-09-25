@@ -14,6 +14,7 @@ import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
+import { fpPromise } from '../utils/find-free-port.js';
 import { backendConf } from './backend-compiler.js';
 import { withErrorBoundary } from './error-boundary.js';
 import { frontendConf } from './frontend-compiler.js';
@@ -58,6 +59,8 @@ export type IsomorphicCompilerOptions = {
 
 const isOptions = (value: unknown): value is IsomorphicCompilerOptions => isRecord(value) && 'frontend' in value;
 
+const LIVE_RELOAD_DEFAULT_PORT = 35729;
+
 const compileBoth = (
   { backend, backendCallback, frontend, frontendCallback }: IsomorphicCompilerOptions,
   context: CompileContext,
@@ -76,18 +79,26 @@ export async function isomorphicCompiler(
     setMode(['development', 'production'], 'development');
     errorHandler();
     const mode = getMode();
+    const [first] = args;
+    const legacy = !isOptions(first);
+    let provideLegacyContext: (context: CompileContext) => void = () => undefined;
+    if (legacy) {
+      setLegacyIsomorphicContext(
+        new Promise((resolve) => {
+          provideLegacyContext = resolve;
+        }),
+      );
+    }
     // Live reload is a development feature; in production the server would keep the process alive.
-    const lrserver = mode === 'development' ? createServer() : undefined;
+    // The first free port from livereload's default, so a second project or a leftover process does not block it.
+    const lrserver =
+      mode === 'development' ? createServer({ port: await fpPromise(LIVE_RELOAD_DEFAULT_PORT) }) : undefined;
     const context: CompileContext = {
       configOnly: true,
       isomorphic: true,
       ...(lrserver ? { liveReload: { port: lrserver.config.port, server: lrserver } } : {}),
     };
-    const [first] = args;
-    const legacy = !isOptions(first);
-    if (legacy) {
-      setLegacyIsomorphicContext(context);
-    }
+    provideLegacyContext(context);
 
     let configs: InternalCompilerConf[];
     let webpackConfigs: (Configuration | Configuration[])[];

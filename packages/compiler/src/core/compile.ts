@@ -26,7 +26,7 @@ export const compile = async (
   let merged = await mergeConfWithDefault(conf, mode);
   assertValidConf(merged);
   // Read after the first await: see getLegacyIsomorphicContext.
-  const ctx = context ?? getLegacyIsomorphicContext() ?? standaloneContext(withoutRun);
+  const ctx = context ?? (await getLegacyIsomorphicContext()) ?? standaloneContext(withoutRun);
   merged = innerProps(merged, mode, ctx);
   merged = addArgs(merged, ctx);
   const finalConfig = await make(merged, post, ctx);

@@ -68,7 +68,7 @@ describe('compile', () => {
 
     it('picks up the legacy isomorphic context set after the call started', async () => {
       const pending = compile(conf, null);
-      setLegacyIsomorphicContext(ISOMORPHIC_CONTEXT);
+      setLegacyIsomorphicContext(Promise.resolve(ISOMORPHIC_CONTEXT));
       await pending;
 
       expect(innerProps).toHaveBeenCalledWith(expect.anything(), 'production', ISOMORPHIC_CONTEXT);

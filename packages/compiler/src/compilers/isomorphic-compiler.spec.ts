@@ -17,6 +17,9 @@ jest.mock('@rockpack/utils', () => ({
   setMode: jest.fn(),
 }));
 jest.mock('livereload', () => ({ createServer: jest.fn() }));
+jest.mock('../utils/find-free-port.js', () => ({
+  fpPromise: (port: number): Promise<number> => Promise.resolve(port + 1),
+}));
 jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../core/run.js', () => ({ run: jest.fn() }));
 jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
@@ -111,9 +114,9 @@ describe('isomorphicCompiler', () => {
 
   describe('positive cases', () => {
     it('shares an isomorphic context with the live reload server while the legacy children resolve', async () => {
-      let seen: ReturnType<typeof getLegacyIsomorphicContext>;
-      const frontend = result('frontendCompiler').then((value) => {
-        seen = getLegacyIsomorphicContext();
+      let seen: Awaited<ReturnType<typeof getLegacyIsomorphicContext>>;
+      const frontend = result('frontendCompiler').then(async (value) => {
+        seen = await getLegacyIsomorphicContext();
 
         return value;
       });
@@ -125,6 +128,7 @@ describe('isomorphicCompiler', () => {
         isomorphic: true,
         liveReload: { port: 35729, server: lrServer },
       });
+      expect(createServer).toHaveBeenCalledWith({ port: 35730 });
       expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
 

@@ -15,12 +15,13 @@ export type LiveReloadServer = {
 export const standaloneContext = (configOnly: boolean): CompileContext => ({ configOnly, isomorphic: false });
 
 // The deprecated isomorphicCompiler(frontendCompiler(...), backendCompiler(...)) form starts the child compilers
-// before isomorphicCompiler runs; they read this context after their first await, when isomorphicCompiler has set it.
+// before isomorphicCompiler runs. isomorphicCompiler sets this promise synchronously, before its first await; the
+// children await it after their first await, so they always get the shared context however long its setup takes.
 // Removed together with that form in 10.0.
-let legacyIsomorphicContext: CompileContext | undefined;
+let legacyIsomorphicContext: Promise<CompileContext> | undefined;
 
-export const getLegacyIsomorphicContext = (): CompileContext | undefined => legacyIsomorphicContext;
+export const getLegacyIsomorphicContext = (): Promise<CompileContext> | undefined => legacyIsomorphicContext;
 
-export const setLegacyIsomorphicContext = (context: CompileContext | undefined): void => {
+export const setLegacyIsomorphicContext = (context: Promise<CompileContext> | undefined): void => {
   legacyIsomorphicContext = context;
 };

@@ -5,7 +5,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 
-import { prepareFixture, startDev } from './fixtures';
+import { prepareFixture, read, startDev } from './fixtures';
 
 // The isomorphic dev server always listens for live reload on this port.
 const LIVE_RELOAD_PORT = 35_729;
@@ -31,6 +31,9 @@ const isPortFree = (port: number): Promise<boolean> =>
     server.once('error', () => resolve(false));
     server.listen(port, () => server.close(() => resolve(true)));
   });
+
+// The live reload port the client bundle was built with (the compiler inlines it).
+const liveReloadPort = (bundle: string): number => Number(/(\d{4,5})\D{0,6}\/livereload\.js/.exec(bundle)?.[1]);
 
 // Waits for the dev server to answer; on failure the error carries the server output, which is what explains a hang.
 const waitForServer = async (server: StartedProcess, url: string): Promise<void> => {
@@ -160,10 +163,11 @@ describe('development mode', () => {
       let server: StartedProcess;
       let url: string;
 
+      let blocker: net.Server | undefined;
+
       beforeAll(async () => {
-        if (!(await isPortFree(LIVE_RELOAD_PORT))) {
-          throw new Error(`Port ${LIVE_RELOAD_PORT} is busy: stop the process that holds the live reload port`);
-        }
+        // Holding the default live reload port proves the compiler picks another one.
+        blocker = (await isPortFree(LIVE_RELOAD_PORT)) ? await occupy(LIVE_RELOAD_PORT) : undefined;
         dir = prepareFixture('isomorphic-basic');
         const port = await getFreePort();
         url = `http://localhost:${port}`;
@@ -173,15 +177,18 @@ describe('development mode', () => {
 
       afterAll(async () => {
         await server.stop();
+        blocker?.close();
       });
 
       it('serves the server-rendered markup', async () => {
         expect(await text(url)).toContain('<h1>Hello SSR</h1>');
       });
 
-      it('builds the client with the live reload script and serves live reload', async () => {
-        expect(existsSync(path.join(dir, 'public/dev-server.js'))).toBe(true);
-        expect((await fetch(`http://localhost:${LIVE_RELOAD_PORT}/livereload.js`)).status).toBe(200);
+      it('serves live reload on a free port when the default one is taken', async () => {
+        const port = liveReloadPort(read(dir, 'public/dev-server.js'));
+
+        expect(port).toBeGreaterThan(LIVE_RELOAD_PORT);
+        expect((await fetch(`http://localhost:${port}/livereload.js`)).status).toBe(200);
       });
 
       it('restarts the server after a source change', async () => {

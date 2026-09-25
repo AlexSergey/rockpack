@@ -2,7 +2,6 @@ import type { Browser, Page, StartedProcess } from '@rockpack/e2e-tools';
 
 import { getFreePort, launchBrowser, serveStatic, start, waitForUrl } from '@rockpack/e2e-tools';
 import { readFileSync, writeFileSync } from 'node:fs';
-import net from 'node:net';
 import path from 'node:path';
 
 import { cleanupProjects, latest, npm, prepareProjects } from './projects.js';
@@ -21,7 +20,6 @@ const PROJECTS = [
 
 const DESCRIPTION = 'Zero-config React with built-in SSR';
 // The isomorphic dev server always listens for live reload on this port.
-const LIVE_RELOAD_PORT = 35_729;
 
 const openPage = async (browser: Browser, url: string): Promise<OpenedPage> => {
   const page = await browser.newPage();
@@ -42,13 +40,6 @@ const openPage = async (browser: Browser, url: string): Promise<OpenedPage> => {
 
 const waitForText = (page: Page, text: string, timeout = 30_000): Promise<unknown> =>
   page.waitForFunction((expected: string) => document.body.textContent.includes(expected), { timeout }, text);
-
-const isPortFree = (port: number): Promise<boolean> =>
-  new Promise((resolve) => {
-    const server = net.createServer();
-    server.once('error', () => resolve(false));
-    server.listen(port, () => server.close(() => resolve(true)));
-  });
 
 const editFile = (file: string, from: RegExp | string, to: string): void => {
   const source = readFileSync(file, 'utf8');
@@ -241,9 +232,6 @@ describe(`generated project runtime (${latest ? 'latest' : 'pinned'})`, () => {
       let url: string;
 
       beforeAll(async () => {
-        if (!(await isPortFree(LIVE_RELOAD_PORT))) {
-          throw new Error(`Port ${LIVE_RELOAD_PORT} is busy: stop the process that holds the live reload port`);
-        }
         url = await usePort(project('ssr-app'));
         server = start('npm', ['start'], { cwd: project('ssr-app') });
         await waitForUrl(url, 180_000);
