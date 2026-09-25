@@ -34,6 +34,8 @@ type CompilerState = {
   builds: number;
   fraction: number;
   infos: string[];
+  // The warnings of the last build, so a rebuild with the same warnings only counts them.
+  lastWarnings: string;
   step: string;
   succeeded: boolean;
 };
@@ -67,7 +69,7 @@ export const createReporter = ({
   const state = (name: string): CompilerState => {
     let current = compilers.get(name);
     if (!current) {
-      current = { building: false, builds: 0, fraction: 0, infos: [], step: '', succeeded: false };
+      current = { building: false, builds: 0, fraction: 0, infos: [], lastWarnings: '', step: '', succeeded: false };
       compilers.set(name, current);
     }
 
@@ -95,7 +97,10 @@ export const createReporter = ({
       redraw();
       const errors = uniqueProblems(report.errors);
       const warnings = uniqueProblems(report.warnings);
-      const showWarnings = warnings.length > 0 && (errors.length === 0 || debug);
+      const warningsKey = JSON.stringify(warnings);
+      const repeated = warningsKey === compiler.lastWarnings;
+      compiler.lastWarnings = warningsKey;
+      const showWarnings = warnings.length > 0 && ((errors.length === 0 && !repeated) || debug);
       const lines = [
         summaryLine(colors, name.padEnd(width()), { ...report, errors, warnings }),
         ...problemLines(colors, errors, 'error'),

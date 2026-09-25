@@ -239,7 +239,7 @@ Rockpack prints the build itself: a progress bar per compiler while it builds (t
 
 - The facts of a compiler (dev server URL, nodemon, inspector port) follow its first successful build.
 - Problem kinds: `Syntax`, `Module not found`, `TypeScript`, `ESLint`, `Stylelint` (with `lint: true`), `CSS` and `Build` for the rest; the same problem from the client and the server is shown once.
-- Warnings are listed when the build has no errors (or with `debug: true`) and counted otherwise.
+- Warnings are listed when the build has no errors and they differ from the previous build (or always with `debug: true`), and counted otherwise.
 - In development the type checker reports after the build, as a separate `✖ client  N TypeScript errors` block.
 - Without a terminal (CI, logs, piped output) the same lines are printed without bars or cursor movement, so the output can be read by tools. Colours follow the terminal, `NO_COLOR` and `FORCE_COLOR`.
 - Production builds add the output folder and the size of the emitted files: ` ✔ frontend  built in 8.2s, dist  1.2 MB`.

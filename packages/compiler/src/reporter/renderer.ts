@@ -36,7 +36,8 @@ export const createRenderer = (stream: OutputStream, interactive: boolean): Rend
   };
 
   const draw = (): void => {
-    const columns = stream.columns ?? 80;
+    // A pseudo-terminal without a size reports 0 columns.
+    const columns = stream.columns !== undefined && stream.columns > 0 ? stream.columns : 80;
     rows.forEach((row) => {
       stream.write(`${CLEAR_LINE}${fit(row, columns)}\n`);
     });

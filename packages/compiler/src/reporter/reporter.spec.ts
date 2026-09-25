@@ -58,6 +58,15 @@ describe('createReporter', () => {
       );
     });
 
+    it('only counts the warnings a rebuild repeats', () => {
+      const { reporter, stream } = plain();
+      reporter.done('server', { durationMs: 100, errors: [], warnings: [sizeWarning] });
+      reporter.done('server', { durationMs: 100, errors: [], warnings: [sizeWarning] });
+
+      expect(output(stream).match(/asset size limit/g)).toHaveLength(1);
+      expect(output(stream).match(/1 warning/g)).toHaveLength(2);
+    });
+
     it('keeps the info lines until the first successful build', () => {
       const { reporter, stream } = plain();
       reporter.info('server', 'nodemon is running');

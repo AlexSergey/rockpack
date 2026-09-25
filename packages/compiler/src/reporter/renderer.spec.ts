@@ -71,6 +71,15 @@ describe('createRenderer', () => {
       expect(stream.writes.join('')).toContain('012345678…\n');
     });
 
+    it('assumes 80 columns when the terminal reports none', () => {
+      const stream = fakeStream(0);
+      const renderer = createRenderer(stream, true);
+
+      renderer.update(['client  10%']);
+
+      expect(stream.writes.join('')).toContain('client  10%\n');
+    });
+
     it('leaves nothing drawn after clear', () => {
       const stream = fakeStream();
       const renderer = createRenderer(stream, true);
