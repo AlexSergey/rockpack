@@ -10,14 +10,13 @@
     "lint": "npm run lint:ts && npm run lint:code",
     "lint:code": "eslint .",
     "lint:ts": "tsc --noEmit",
-    "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts --watch"
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts",
+    "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts --watch"
   },
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
-    "@types/node": "24.13.6",
-    "tsx": "4.23.15"
+    "@types/node": "24.13.6"
   }
 }
