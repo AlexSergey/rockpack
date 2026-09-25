@@ -1,6 +1,6 @@
 # Plan 6: Build reporter with a progress bar
 
-Status: approved 2026-09-25 (D1 to D4 as recommended)
+Status: done 2026-09-25 (D1 to D4 as recommended)
 Order: after Plan 5 (the analyzer removal takes the analyzer plugins and their messages out of the output first)
 Owner: TBD
 
@@ -160,6 +160,8 @@ Each step is one or more commits with unit tests (fake TTY and non-TTY streams, 
 3. Non-TTY and CI output contains no escape codes for cursor movement and is identical between runs apart from durations and sizes.
 4. `@nuxt/friendly-errors-webpack-plugin` and `webpack-format-messages` are gone from the compiler dependencies; no module prints outside the reporter except the server program under nodemon.
 5. Unit coverage thresholds hold; compiler-e2e has the output spec; all suites and CI are green.
+
+Status 2026-09-25: 1, 2, 3 and 5 met (1 checked by hand in a pseudo-terminal, P7). 4 partly: friendly-errors and webpack-format-messages are gone and every build line comes from the reporter, but two older lines remain outside it: `The distribution folder will be ...` (printed while the options are merged, before a reporter exists) and the per-file progress lines of `sourceCompiler`/`libraryCompiler` formats. Moving them is a follow-up, not needed for the bars.
 
 ## 9. Order and size
 

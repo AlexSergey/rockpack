@@ -1,6 +1,6 @@
 # Plan 5: Remove the built-in bundle analyzer
 
-Status: approved 2026-09-25 (D1 and D2 as recommended)
+Status: done 2026-09-25 (D1 and D2 as recommended)
 Order: after Plan 3; part of the `9.0.0` breaking changes
 Owner: TBD
 
@@ -94,7 +94,7 @@ Each item is one commit with the usual checks (package lint, `tsc --noEmit`, uni
   and a note that the same works for Statoscope (`@statoscope/webpack-plugin`, default export) or any other plugin, with `mode` to enable it only in production.
 - [x] **A6. Example and e2e (per D2).** Rewrite `examples/compiler/analyzer/scripts.build.ts` to the recipe, give the example its own `webpack-bundle-analyzer` devDependency (same version as removed from the compiler, syncpack-aligned), drop the `--analyzer` scripts; delete the `frontend-analyzer` fixture and its spec case; regenerate the examples golden. _Done 2026-09-25: the example adds `BundleAnalyzerPlugin` in production through `plugins.set`, with its own `webpack-bundle-analyzer` 5.3.0 and `@types/webpack-bundle-analyzer` 4.7.0 (its build type-checks the script, so a user needs the types too; the README says so); its examples golden is unchanged, the report is still emitted. The `frontend-analyzer` fixture and its case are gone._
 - [x] **A7. Root README, CHANGELOG, MIGRATION.** Remove the two root README lines; CHANGELOG **Breaking** entry ("`@rockpack/compiler` no longer ships a bundle analyzer: the `analyzer` option, the `--analyzer` flag, `webpack-bundle-analyzer` and `@statoscope/webpack-plugin` are removed; add the plugin in the callback") and a "Removed" line for the starter's `analyzer` script; MIGRATION section under `@rockpack/compiler` with the before/after code from A5. _Done 2026-09-25._
-- [ ] **A8. Full verification and CI.** `npx nx reset`, then build, lint, test:unit, type-coverage, lint:deps, e2e, e2e:runtime and the tester examples; every exit code read before the push; wait for CI.
+- [x] **A8. Full verification and CI.** `npx nx reset`, then build, lint, test:unit, type-coverage, lint:deps, e2e, e2e:runtime and the tester examples; every exit code read before the push; wait for CI. _Done 2026-09-25: full verification green, CI run 36116668792 green._
 
 ## 6. Risks
 
