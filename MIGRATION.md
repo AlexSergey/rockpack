@@ -33,6 +33,26 @@ if (result.kind === 'dev-server') {
 - A production build with webpack errors exits with code `1` (it exited with `0`). CI jobs that relied on a green exit code despite errors now fail, as they should.
 - `Ctrl+C` exits with `130` and `SIGTERM` with `143`.
 
+### Bundle analyzer removed
+
+The `analyzer` option and the `--analyzer` flag are gone, and so are `webpack-bundle-analyzer` and Statoscope from the compiler's dependencies. `analyzer: true` now fails with `INVALID_CONFIG`. Install the analyzer you want in your project and add it in the callback:
+
+```ts
+// Before
+frontendCompiler({ analyzer: true });
+
+// After: npm install -D webpack-bundle-analyzer @types/webpack-bundle-analyzer
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+frontendCompiler({}, (config, modules, plugins, mode) => {
+  if (mode === 'production') {
+    plugins.set('BundleAnalyzerPlugin', new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false }));
+  }
+});
+```
+
+Generated projects lose their `analyzer` script; remove it from existing projects or point it at a script that adds the plugin.
+
 ### Deprecated call forms (work until 10.0)
 
 ```ts

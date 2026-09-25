@@ -98,7 +98,6 @@ Supported application types:
 - PostCSS: Tailwind, autoprefixer, postcss-custom-media, postcss-media-minmax
 - SEO and React optimizations
 - Dotenv and Dotenv safe support
-- Bundle Analyzer, Statoscope
 - GraphQL support
 
 *Optional add-ons for each project type:*
@@ -119,7 +118,6 @@ A Webpack-based bundler with best-practice loaders and plugins preconfigured.
 - React components and VanillaJS UMD libraries
 - Node.js backend applications
 - Isomorphic (SSR) applications
-- Bundle analysis with webpack-bundle-analyzer and Statoscope
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md" target="_blank">More details...</a>
 

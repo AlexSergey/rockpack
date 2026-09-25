@@ -56,6 +56,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - **Breaking:** `@rockpack/tester`: `setupFiles`, `setupFilesAfterEnv`, `moduleFileExtensions` and `testPathIgnorePatterns` from the Jest config extend the defaults instead of replacing them (the text-encoder polyfill stays); pass `replaceArrays: true` for the old behaviour
 - **Breaking:** `@rockpack/tester`: `tester()` returns a promise of Jest's results (`undefined` when Jest could not run) and no longer calls `process.exit`; failures set `process.exitCode = 1`. Write `void tester(...)` in `scripts.tests.ts` (the `no-floating-promises` lint rule asks for it) or await it
 - **Breaking:** `@rockpack/compiler` lints during the build only with `lint: true` (it ran ESLint and Stylelint whenever it found `eslint.config.{js,mjs,cjs}`, `.stylelintrc` or `stylelint.config.js`); with the option it also finds `eslint.config.ts`/`.mts`/`.cts` and every Stylelint config name, and Stylelint checks only the sources
+- **Breaking:** `@rockpack/compiler` no longer ships a bundle analyzer: the `analyzer` option (now reported as `INVALID_CONFIG` with a hint), the `--analyzer` flag, `webpack-bundle-analyzer` and `@statoscope/webpack-plugin` are removed; add the analyzer you want in the compiler callback (see MIGRATION.md)
 - **Breaking:** `@rockpack/starter` rejects a project name that is not a valid npm package name (for example with capitals or spaces) and exits with code `1` listing the problems; `rockpack .` lower-cases the folder name
 - **Breaking:** `@rockpack/codestyle` no longer exports its internal `isString` helper; import `isString` from `@rockpack/utils`
 - **Breaking:** `@rockpack/codestyle` requires `type` aliases instead of `interface` (`@typescript-eslint/consistent-type-definitions`)
@@ -105,6 +106,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `isomorphicCompiler(frontendCompiler(...), backendCompiler(...))`: pass the confs instead, `isomorphicCompiler({ frontend: {...}, backend: {...} })`, moving each compiler's callback to `frontendCallback`/`backendCallback`. The old form keeps working until 10.0
 
 ### Removed
+- Generated projects have no `analyzer` script
 - The SSR template no longer ships a `rockpack.babel.js` (custom Babel config through `rockpack.babel.js` is still supported by `@rockpack/babel`)
 - The SSR template no longer depends on the unused `react-router-dom`
 - Dropped `jest.extend` from tester
