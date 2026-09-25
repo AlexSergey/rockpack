@@ -112,7 +112,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [ ] **R1.** `book` build in CI: switch `book/scripts.build.ts` prerender to puppeteer's bundled headless Chromium, and have `pages.yml` build `book` into `docs/` at deploy time so `docs/` is no longer committed (plans live in `plans/` at the repository root).
 - [ ] **R2.** Turborepo or nx task caching for `build`, `lint`, `test` (lerna 9 already ships nx; enable `useNx` caching with `nx.json` and the `lib`/`types`/`coverage` outputs). Record cold vs warm timings here.
 - [ ] **R3.** `updater.ts`: after Plan 2 B4, add `--filter <glob>` to update a subset and `--interactive` for majors (using `@inquirer/checkbox`), and make it write `CHANGELOG.md` stubs for major bumps.
-- [ ] **R4.** `cloc.ts` spawns a system `cloc` binary; replace with a Node implementation (`sloc` or a 30-line walker) so `npm run cloc` works on any machine, or delete it.
+- [x] **R4.** `cloc.ts` spawns a system `cloc` binary; replace with a Node implementation (`sloc` or a 30-line walker) so `npm run cloc` works on any machine, or delete it. _Done 2026-09-25: a 70-line Node walker (no dependency) prints files, non-blank and blank lines per extension as a table in a quarter of a second; it also skips `lib`, `types`, `.out` and `docs`, and `cloc` is gone from knip's `ignoreBinaries`._
 - [ ] **R5.** Publish provenance: `npm publish --provenance` from the CI release job with `id-token: write`, and a release workflow triggered by a tag that runs build, lint, test, then `lerna run production`.
 
 ## 12. Documentation

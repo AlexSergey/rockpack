@@ -5,7 +5,6 @@
     "examples/**"
   ],
   "ignoreBinaries": [
-    "cloc",
     "yarnpkg"
   ],
   "workspaces": {
