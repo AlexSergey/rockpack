@@ -10,5 +10,5 @@ void libraryCompiler({
     src: './src',
   },
   externals: [],
-  name: '%libraryName%',
+  name: '{{name}}',
 });

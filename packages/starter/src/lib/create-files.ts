@@ -6,6 +6,16 @@ import type { State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
 import { dummies } from '../utils/pathes.js';
+import { render } from '../utils/render.js';
+
+// A one-character numeric project name is no valid identifier, so the build name gets a prefix.
+const buildName = (projectName: string, prefix: string): string =>
+  pascalCase(projectName.length === 1 && !isNaN(parseFloat(projectName)) ? `${prefix}${projectName}` : projectName);
+
+const BUILD_DUMMIES = {
+  component: { dummy: 'build.component', prefix: 'Component' },
+  library: { dummy: 'build.library', prefix: 'Library' },
+} as const;
 
 export const createFiles = (
   currentPath: string,
@@ -15,36 +25,17 @@ export const createFiles = (
     fs.copyFileSync(path.join(currentPath, '.env.example'), path.join(currentPath, '.env'));
   }
 
-  if (appType === 'library') {
+  if (appType === 'library' || appType === 'component') {
+    const { dummy, prefix } = BUILD_DUMMIES[appType];
     try {
-      let build = fs.readFileSync(path.join(dummies, 'build.library'), 'utf8');
-      let prefix = '';
-      if (projectName?.length === 1) {
-        const isNumber = !isNaN(parseFloat(projectName));
-        prefix += isNumber ? 'Library' : '';
-      }
-      build = build.replace(/%libraryName%/g, pascalCase(`${prefix}${projectName ?? ''}`));
-      fs.writeFileSync(path.join(currentPath, 'scripts.build.ts'), build);
+      const build = fs.readFileSync(path.join(dummies, dummy), 'utf8');
+      fs.writeFileSync(
+        path.join(currentPath, 'scripts.build.ts'),
+        render(build, { name: buildName(projectName ?? '', prefix) }),
+      );
     } catch (e) {
       showError(e, () => {
-        console.error('Step: 7.1. Creating library scripts.build.ts');
-      });
-    }
-  }
-
-  if (appType === 'component') {
-    try {
-      let build = fs.readFileSync(path.join(dummies, 'build.component'), 'utf8');
-      let prefix = '';
-      if (projectName?.length === 1) {
-        const isNumber = !isNaN(parseFloat(projectName));
-        prefix += isNumber ? 'Component' : '';
-      }
-      build = build.replace(/%componentName%/g, pascalCase(`${prefix}${projectName ?? ''}`));
-      fs.writeFileSync(path.join(currentPath, 'scripts.build.ts'), build);
-    } catch (e) {
-      showError(e, () => {
-        console.error('Step: 7.1. Creating component scripts.build.ts');
+        console.error(`Step: 7.1. Creating ${appType} scripts.build.ts`);
       });
     }
   }

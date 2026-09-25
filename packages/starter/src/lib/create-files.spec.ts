@@ -87,7 +87,7 @@ describe('createFiles', () => {
       createFiles(dir, { appType: 'library', projectName: 'my-lib' });
 
       expect(readBuild(dir)).toBe(
-        readFileSync(path.join(dummies, 'build.library'), 'utf8').replace(/%libraryName%/g, 'MyLib'),
+        readFileSync(path.join(dummies, 'build.library'), 'utf8').replace(/\{\{name\}\}/g, 'MyLib'),
       );
     });
 
@@ -95,19 +95,19 @@ describe('createFiles', () => {
       createFiles(dir, { appType: 'component', projectName: 'my-button' });
 
       expect(readBuild(dir)).toBe(
-        readFileSync(path.join(dummies, 'build.component'), 'utf8').replace(/%componentName%/g, 'MyButton'),
+        readFileSync(path.join(dummies, 'build.component'), 'utf8').replace(/\{\{name\}\}/g, 'MyButton'),
       );
     });
 
     it.each([
-      ['library', '7', /%libraryName%/g, 'Library7'],
-      ['component', '7', /%componentName%/g, 'Component7'],
-      ['library', 'x', /%libraryName%/g, 'X'],
-    ] as const)('names a %s called "%s" as %s', (appType, projectName, placeholder, expected) => {
+      ['library', '7', 'Library7'],
+      ['component', '7', 'Component7'],
+      ['library', 'x', 'X'],
+    ] as const)('names a %s called "%s" as %s', (appType, projectName, expected) => {
       createFiles(dir, { appType, projectName });
 
       expect(readBuild(dir)).toBe(
-        readFileSync(path.join(dummies, `build.${appType}`), 'utf8').replace(placeholder, expected),
+        readFileSync(path.join(dummies, `build.${appType}`), 'utf8').replace(/\{\{name\}\}/g, expected),
       );
     });
   });

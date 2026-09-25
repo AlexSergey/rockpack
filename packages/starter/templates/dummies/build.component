@@ -10,5 +10,5 @@ void libraryCompiler({
     src: './src',
   },
   externals: ['react'],
-  name: '%componentName%',
+  name: '{{name}}',
 });
