@@ -18,8 +18,8 @@ index.ejs
 jest.init.ts
 jest.setup.ts
 package.json
-scripts.build.ts
-scripts.tests.ts
+scripts.build.mts
+scripts.tests.mts
 src/api/rockpack.api.spec.ts
 src/api/rockpack.api.ts
 src/app.tsx

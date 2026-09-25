@@ -16,7 +16,7 @@ eslint.config.ts
 favicon.ico
 package.json
 robots.txt
-scripts.build.ts
+scripts.build.mts
 src/api/rockpack.api.ts
 src/app.tsx
 src/client.tsx

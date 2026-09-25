@@ -105,10 +105,10 @@ describe('packageJsonPreparing', () => {
       const result = await prepare({ appType: 'csr', nogit: true, tester: false, testMode: true });
 
       expect(getScripts(result)).toMatchObject({
-        analyzer: 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --analyzer',
-        build: 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts --mode=production',
+        analyzer: 'node scripts.build.mts --analyzer',
+        build: 'node scripts.build.mts --mode=production',
         lint: 'npm run lint:ts && npm run lint:code && npm run lint:styles',
-        start: 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.build.ts',
+        start: 'node scripts.build.mts',
       });
       expect(addDependenciesMock.mock.calls[0]).toEqual([
         expect.anything(),
@@ -156,8 +156,7 @@ describe('packageJsonPreparing', () => {
         types: './dist/types/index.d.ts',
       });
       expect(getScripts(result)).toMatchObject({
-        'build:example':
-          'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON example/scripts.build.ts --mode=production',
+        'build:example': 'node example/scripts.build.mts --mode=production',
         format: 'npm run format:prettier && npm run format:code',
         lint: 'npm run lint:ts && npm run lint:code',
         production: 'npm run lint && npm run build && npm publish',
@@ -186,8 +185,8 @@ describe('packageJsonPreparing', () => {
         const result = await prepare({ appType, nogit: true, tester: true });
 
         expect(getScripts(result)).toMatchObject({
-          test: 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts',
-          'test:watch': 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts.tests.ts --watch',
+          test: 'node scripts.tests.mts',
+          'test:watch': 'node scripts.tests.mts --watch',
         });
         expect(addedGroups().slice(-2)).toEqual([
           {

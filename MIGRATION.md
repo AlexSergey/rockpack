@@ -110,5 +110,5 @@ module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;
 
 - The project name must be a valid npm package name (lower case, no spaces); the CLI exits with code `1` and lists the problems otherwise. `rockpack .` lower-cases the folder name.
 - `-y`/`--yes` answers the remaining questions with the defaults (`csr`, with tests).
-- Generated projects run `scripts.build.ts` and `scripts.tests.ts` with `node` instead of `tsx` (Node.js 24 strips the types itself; the scripts use `createRequire` instead of `require`). Existing projects can keep `tsx`.
+- Generated projects have `scripts.build.mts` and `scripts.tests.mts` and run them with `node` instead of `tsx` (Node.js 24 strips the types itself; `.mts` makes them ES modules, so they use `createRequire` instead of `require`). Existing projects can keep `tsx`, or rename the scripts to `.mts` and switch to `node`.
 - Generated projects: no failing `test` script without tests, no style scripts in libraries, a `.nvmrc`, component peer dependencies kept as ranges, and the Stylelint/Commitlint configs taken from `@rockpack/codestyle`.

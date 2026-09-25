@@ -49,7 +49,7 @@ describe('starter generation', () => {
 
     describe('negative cases', () => {
       it(tests ? 'has the tester setup' : 'has no tester setup', () => {
-        expect(existsSync(path.join(project(), 'scripts.tests.ts'))).toBe(tests);
+        expect(existsSync(path.join(project(), 'scripts.tests.mts'))).toBe(tests);
         expect(Object.keys(packageJson().devDependencies ?? {}).includes('@rockpack/tester')).toBe(tests);
       });
 

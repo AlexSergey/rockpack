@@ -40,7 +40,7 @@ templates/addons/codestyle/eslint.config.ts
 templates/addons/codestyle/tsconfig.eslint.json
 templates/addons/git/.lintstagedrc.cjs
 templates/addons/tester/common/jest.init.ts
-templates/addons/tester/common/scripts.tests.ts
+templates/addons/tester/common/scripts.tests.mts
 templates/addons/tester/component/jest.setup.ts
 templates/addons/tester/component/src/index.spec.tsx
 templates/addons/tester/component/tsconfig.json
@@ -48,7 +48,7 @@ templates/addons/tester/csr/jest.setup.ts
 templates/addons/tester/csr/src/api/rockpack.api.spec.ts
 templates/addons/tester/csr/src/hooks/rockpack-description.hooks.spec.tsx
 templates/addons/tester/csr/tsconfig.json
-templates/addons/tester/library/scripts.tests.ts
+templates/addons/tester/library/scripts.tests.mts
 templates/addons/tester/library/src/index.spec.ts
 templates/addons/tester/library/tsconfig.json
 templates/addons/tester/shared/src/components/description/description.component.spec.tsx
@@ -56,13 +56,13 @@ templates/addons/tester/shared/src/components/feature-card/feature-card.componen
 templates/addons/tester/shared/src/components/spotlight-section/spotlight-section.component.spec.tsx
 templates/addons/tester/shared/src/components/tags/tags.component.spec.tsx
 templates/addons/tester/ssr/jest.setup.ts
-templates/addons/tester/ssr/scripts.tests.ts
+templates/addons/tester/ssr/scripts.tests.mts
 templates/addons/tester/ssr/src/api/rockpack.api.spec.ts
 templates/addons/tester/ssr/src/hooks/rockpack-description.hooks.spec.tsx
 templates/addons/tester/ssr/tsconfig.json
 templates/backbone/component/.editorconfig
 templates/backbone/component/README.md
-templates/backbone/component/example/scripts.build.ts
+templates/backbone/component/example/scripts.build.mts
 templates/backbone/component/example/src/index.tsx
 templates/backbone/component/example/tsconfig.json
 templates/backbone/component/src/index.tsx
@@ -74,7 +74,7 @@ templates/backbone/csr/.env.example
 templates/backbone/csr/README.md
 templates/backbone/csr/favicon.ico
 templates/backbone/csr/index.ejs
-templates/backbone/csr/scripts.build.ts
+templates/backbone/csr/scripts.build.mts
 templates/backbone/csr/src/api/rockpack.api.ts
 templates/backbone/csr/src/app.tsx
 templates/backbone/csr/src/hooks/rockpack-description.hooks.ts
@@ -86,7 +86,7 @@ templates/backbone/csr/tsconfig.json
 templates/backbone/library/.editorconfig
 templates/backbone/library/README.md
 templates/backbone/library/example/package.json
-templates/backbone/library/example/scripts.build.ts
+templates/backbone/library/example/scripts.build.mts
 templates/backbone/library/example/src/index.ts
 templates/backbone/library/example/tsconfig.json
 templates/backbone/library/src/index.ts
@@ -101,7 +101,7 @@ templates/backbone/ssr/.env.example
 templates/backbone/ssr/README.md
 templates/backbone/ssr/favicon.ico
 templates/backbone/ssr/robots.txt
-templates/backbone/ssr/scripts.build.ts
+templates/backbone/ssr/scripts.build.mts
 templates/backbone/ssr/src/api/rockpack.api.ts
 templates/backbone/ssr/src/app.tsx
 templates/backbone/ssr/src/client.tsx

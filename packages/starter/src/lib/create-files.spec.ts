@@ -25,7 +25,7 @@ jest.mock('../utils/pathes.js', () => {
 const mockDummies = { path: '' };
 const showErrorMock = showError as jest.MockedFunction<typeof showError>;
 
-const readBuild = (dir: string): string => readFileSync(path.join(dir, 'scripts.build.ts'), 'utf8');
+const readBuild = (dir: string): string => readFileSync(path.join(dir, 'scripts.build.mts'), 'utf8');
 
 describe('createFiles', () => {
   let dir: string;
@@ -47,8 +47,8 @@ describe('createFiles', () => {
 
   describe('negative cases', () => {
     it.each([
-      ['library', 'Step: 7.1. Creating library scripts.build.ts'],
-      ['component', 'Step: 7.1. Creating component scripts.build.ts'],
+      ['library', 'Step: 7.1. Creating library scripts.build.mts'],
+      ['component', 'Step: 7.1. Creating component scripts.build.mts'],
     ] as const)('reports an unreadable %s dummy', (appType, step) => {
       const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       mockDummies.path = path.join(dir, 'missing');
@@ -64,7 +64,7 @@ describe('createFiles', () => {
     it.each(['csr', 'ssr'] as const)('writes no build script for %s', (appType) => {
       createFiles(dir, { appType, projectName: 'app' });
 
-      expect(existsSync(path.join(dir, 'scripts.build.ts'))).toBe(false);
+      expect(existsSync(path.join(dir, 'scripts.build.mts'))).toBe(false);
     });
 
     it('does not create .env without .env.example', () => {

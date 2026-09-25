@@ -13,14 +13,14 @@ CLAUDE.md
 README.md
 eslint.config.ts
 example/package.json
-example/scripts.build.ts
+example/scripts.build.mts
 example/src/index.tsx
 example/tsconfig.json
 jest.init.ts
 jest.setup.ts
 package.json
-scripts.build.ts
-scripts.tests.ts
+scripts.build.mts
+scripts.tests.mts
 src/index.spec.tsx
 src/index.tsx
 src/styles.module.scss

@@ -12,9 +12,9 @@ import { addDependencies, addFields, addScripts, readPackageJSON, writePackageJS
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
-// Node.js runs the TypeScript build and test scripts itself. The generated package.json has no "type" (the ssr
-// server and the published bundles are CommonJS), so Node detects ES module syntax and would warn about it.
-const RUN_TS = 'node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON';
+// Node.js runs the TypeScript build and test scripts itself; `.mts` makes them ES modules without a "type" in
+// package.json (the ssr server and the published bundles are CommonJS).
+const RUN_TS = 'node';
 
 type PrepareState = Pick<State, 'appType' | 'nogit' | 'offline' | 'tester' | 'testMode'>;
 
@@ -31,10 +31,10 @@ const preparePublished = async (
   resolution: Resolution,
 ): Promise<PackageJsonObject> => {
   packageJSON = addScripts(packageJSON, {
-    analyzer: `${RUN_TS} scripts.build.ts --analyzer`,
-    build: `${RUN_TS} scripts.build.ts --mode=production`,
-    'build:example': `${RUN_TS} example/scripts.build.ts --mode=production`,
-    start: `${RUN_TS} example/scripts.build.ts`,
+    analyzer: `${RUN_TS} scripts.build.mts --analyzer`,
+    build: `${RUN_TS} scripts.build.mts --mode=production`,
+    'build:example': `${RUN_TS} example/scripts.build.mts --mode=production`,
+    start: `${RUN_TS} example/scripts.build.mts`,
   });
 
   if (appType === 'library') {
@@ -116,9 +116,9 @@ const prepareApp = async (
   resolution: Resolution,
 ): Promise<PackageJsonObject> => {
   packageJSON = addScripts(packageJSON, {
-    analyzer: `${RUN_TS} scripts.build.ts --analyzer`,
-    build: `${RUN_TS} scripts.build.ts --mode=production`,
-    start: `${RUN_TS} scripts.build.ts`,
+    analyzer: `${RUN_TS} scripts.build.mts --analyzer`,
+    build: `${RUN_TS} scripts.build.mts --mode=production`,
+    start: `${RUN_TS} scripts.build.mts`,
   });
 
   const deps = typedVersions[appType].common.dependencies;
@@ -150,8 +150,8 @@ const addTester = async (
   resolution: Resolution,
 ): Promise<PackageJsonObject> => {
   packageJSON = addScripts(packageJSON, {
-    test: `${RUN_TS} scripts.tests.ts`,
-    'test:watch': `${RUN_TS} scripts.tests.ts --watch`,
+    test: `${RUN_TS} scripts.tests.mts`,
+    'test:watch': `${RUN_TS} scripts.tests.mts --watch`,
   });
   const testerCommonDeps = typedVersions.tester.common.devDependencies;
   packageJSON = await addDependencies(

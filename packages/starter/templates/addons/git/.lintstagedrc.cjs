@@ -1,6 +1,6 @@
 module.exports = {
   '*.md': ['prettier --write'],
   '*.{scss,css}': ['stylelint --fix'],
-  '*.{ts,tsx,json}': ['prettier --write', 'eslint --fix'],
-  '*.{ts,tsx}': [() => 'npm run lint:ts'],
+  '*.{ts,tsx,mts,json}': ['prettier --write', 'eslint --fix'],
+  '*.{ts,tsx,mts}': [() => 'npm run lint:ts'],
 };

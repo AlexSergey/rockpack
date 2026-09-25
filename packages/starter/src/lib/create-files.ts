@@ -38,12 +38,12 @@ export const createFiles = (
     try {
       const build = fs.readFileSync(path.join(dummies, dummy), 'utf8');
       fs.writeFileSync(
-        path.join(currentPath, 'scripts.build.ts'),
+        path.join(currentPath, 'scripts.build.mts'),
         render(build, { name: buildName(projectName ?? '', prefix) }),
       );
     } catch (e) {
       showError(e, () => {
-        console.error(`Step: 7.1. Creating ${appType} scripts.build.ts`);
+        console.error(`Step: 7.1. Creating ${appType} scripts.build.mts`);
       });
     }
   }
