@@ -1,7 +1,5 @@
-import type * as fs from 'node:fs';
-
 import { getMode } from '@rockpack/utils';
-import { cpSync, existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -65,15 +63,17 @@ describe('generateDts', () => {
   });
 
   describe('positive cases', () => {
-    it('emits declarations next to dist and removes the temp folder', async () => {
-      const mkdtempSpy = jest.spyOn(jest.requireActual<typeof fs>('node:fs'), 'mkdtempSync');
-
+    it('emits only declarations into the types folder next to dist', async () => {
       await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
 
       ['index.d.ts', 'label.d.ts', path.join('utils', 'sum.d.ts')].forEach((file) => {
         expect(existsSync(path.join(root, 'dist', 'types', file))).toBe(true);
       });
-      expect(existsSync(String(mkdtempSpy.mock.results[0]?.value))).toBe(false);
+      expect(
+        readdirSync(path.join(root, 'dist', 'types'), { recursive: true }).filter(
+          (file) => !String(file).endsWith('.d.ts') && String(file).includes('.'),
+        ),
+      ).toEqual([]);
     });
 
     it('emits declarations into the types folder for a src with extension', async () => {

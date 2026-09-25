@@ -56,7 +56,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 - [ ] **C13.** Dev mode: cache `find-free-port` results per port within one process; batch the three lookups (dev server, analyzer, nodemon inspect) into one call.
 - [ ] **C14.** Production: enable webpack `cache: { type: 'filesystem' }` scoped to `node_modules/.cache/rockpack` for repeated builds (already used in dev); measure with `examples/compiler/react-app` before and after and record the numbers here.
-- [ ] **C15.** `generateDts` writes into `node_modules/.rockpack/<random>` and copies; write directly to `conf.types` with `outDir` and skip the copy and `rimraf`.
+- [x] **C15.** `generateDts` writes into `node_modules/.rockpack/<random>` and copies; write directly to `conf.types` with `outDir` and skip the copy and `rimraf`. _Done 2026-09-25 (the temp folder had already moved to the OS tmpdir): declarations are emitted with the existing `dts` compiler options (`emitDeclarationOnly`, `outDir` = the types folder), so no JavaScript is emitted and nothing is copied or removed. The declarations now use the project's own `module`/`moduleResolution` instead of the forced CommonJS pair, which is also the first half of C21._
 
 ### 5.5 Found by Plan 4 e2e (S to M)
 
