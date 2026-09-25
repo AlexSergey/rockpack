@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { build, buildFixture, loadPage, prepareFixture, read, waitFor } from './fixtures';
@@ -144,6 +144,19 @@ describe('frontendCompiler production builds', () => {
 
       it('does not leak the variables the code does not use', () => {
         expect(read(dir, 'dist/index.js')).not.toContain('must-not-leak');
+      });
+
+      it('inlines .env.defaults when the project has no .env', async () => {
+        const defaultsOnly = prepareFixture('frontend-dotenv');
+        rmSync(path.join(defaultsOnly, '.env'));
+        rmSync(path.join(defaultsOnly, '.env.example'));
+        const { code, output } = await build(defaultsOnly);
+        const dom = loadPage(read(defaultsOnly, 'dist/index.html'), [read(defaultsOnly, 'dist/index.js')]);
+
+        expect({ code, output }).toMatchObject({ code: 0 });
+        expect(output).not.toContain('Failed to load');
+        expect(dom.window.document.title).toBe('||30');
+        dom.window.close();
       });
     });
 

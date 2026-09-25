@@ -134,7 +134,7 @@ describe('makePlugins', () => {
       expect(await build()).not.toHaveProperty('ForkTsCheckerPlugin');
     });
 
-    it('skips dotenv without a .env file', async () => {
+    it('skips dotenv without .env and .env.defaults', async () => {
       mockFiles('.env.example');
 
       expect(await build()).not.toHaveProperty('Dotenv');
@@ -242,7 +242,14 @@ describe('makePlugins', () => {
         defaults: true,
         path: path.resolve(root, '.env'),
         safe: true,
+        silent: false,
       });
+    });
+
+    it('loads .env.defaults alone without warning about the missing .env', async () => {
+      mockFiles('.env.defaults');
+
+      expect(getPluginOptions((await build())['Dotenv'])).toMatchObject({ defaults: true, silent: true });
     });
 
     it('loads .env without example and defaults files', async () => {

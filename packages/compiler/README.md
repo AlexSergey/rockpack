@@ -25,7 +25,7 @@
 - Hot Module Replacement for SPA
 - Livereload for SSR
 - Source maps and Extended dev mode
-- Dotenv support and Dotenv safe support
+- Dotenv support and Dotenv safe support: `.env` (or `.env.defaults` alone) in the project root is inlined into the bundle, `.env.defaults` fills the missing values and `.env.example` lists the required ones
 - React optimizations
 - Monorepo support
 - Write file webpack plugin (in dev mode)

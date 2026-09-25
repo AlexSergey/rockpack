@@ -4,17 +4,23 @@ import path from 'node:path';
 
 import type { PluginContext, PluginEntries } from './types.js';
 
+// Either file is enough: a project may ship only `.env.defaults` and leave `.env` to each machine.
 export const makeDotenvPlugins = ({ root }: PluginContext): PluginEntries => {
-  if (!existsSync(path.resolve(root, '.env'))) {
+  const hasEnv = existsSync(path.resolve(root, '.env'));
+  const hasDefaults = existsSync(path.resolve(root, '.env.defaults'));
+
+  if (!hasEnv && !hasDefaults) {
     return {};
   }
 
   return {
     Dotenv: new Dotenv({
       allowEmptyValues: true,
-      defaults: existsSync(path.resolve(root, '.env.defaults')),
+      defaults: hasDefaults,
       path: path.resolve(root, '.env'),
       safe: existsSync(path.resolve(root, '.env.example')),
+      // A missing .env is expected when only the defaults exist.
+      silent: !hasEnv,
     }),
   };
 };

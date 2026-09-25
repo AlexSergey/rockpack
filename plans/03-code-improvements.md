@@ -64,7 +64,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [ ] **C17.** `stylelint-webpack-plugin` cannot `require('stylelint')` under `tsx` (`ERR_PACKAGE_PATH_NOT_EXPORTED` for `unicorn-magic/node`); run the build scripts on Node's own TypeScript support or load stylelint through `import()`.
 - [ ] **C18.** A clean TypeScript build with CSS modules fails the type check until `dts-css-modules-loader` has written the declarations (the second build passes); generate them before the checker runs or ship them like the component template does.
 - [x] **C19.** Production builds drop `console.*` in Node backends too (`drop_console` unless `debug`), so server logs disappear; limit it to browser targets. _Done 2026-09-25: `drop_console` is `!debug && !nodejs` (`backendConf` sets `nodejs`); the backend-basic e2e fixture now logs with `console.log` and the spec reads it from the built bundle._
-- [ ] **C20.** dotenv is enabled only when `.env` exists, so a project with `.env.defaults` alone gets raw `process.env.X` in the browser bundle.
+- [x] **C20.** dotenv is enabled only when `.env` exists, so a project with `.env.defaults` alone gets raw `process.env.X` in the browser bundle. _Done 2026-09-25: dotenv runs when `.env` or `.env.defaults` exists and is silent about the missing `.env` in the second case; an e2e build of the dotenv fixture without `.env` and `.env.example` inlines the default._
 
 - [ ] **C21.** `makeCompilerOptions` sets `moduleResolution: 'node'` and `baseUrl`, both deprecated in TypeScript 6 and removed in 7; move the d.ts and source builds to `node16`/`bundler` and check the emitted declarations.
 
