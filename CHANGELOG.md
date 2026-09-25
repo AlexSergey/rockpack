@@ -43,6 +43,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/utils` exports `packageRoot(import.meta.url)` and the `isRecord` and `isString` guards; `@rockpack/compiler` no longer depends on `valid-types`
 - `@rockpack/utils`: `getRootRequireDir(script?)` takes the script path explicitly (defaults to `process.argv[1]`)
 - Generated projects install git hooks with `simple-git-hooks` (`pre-commit` lint-staged, `commit-msg` commitlint, `pre-push` tests)
+- `@rockpack/babel/plugins/import-extension`: a Babel 7 and 8 plugin that gives relative imports the extension of a per-file build (`mjs`, `cjs`, `js`); the compiler and the Rockpack packages use it instead of the unmaintained `babel-plugin-add-import-extension`
 
 ### Changed
 - All internal scripts migrated to TypeScript (`scripts.build.ts`, `scripts.tests.ts`)
@@ -76,6 +77,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
+- `@rockpack/compiler` per-file builds (`sourceCompiler`, `libraryCompiler` `esm`/`cjs`): asset imports such as `./styles.css` or `./data.json` keep their path (they got `.mjs`/`.cjs` appended), import attributes (`with { type: 'json' }`) are kept, a file wins over a folder of the same name (`./both` loaded `./both/index`), and dynamic `import('./x')` gets the extension too
 - `@rockpack/codestyle` sets `tsconfigRootDir`, so one ESLint run over files under several tsconfig folders (for example a package and its templates) no longer fails with "multiple candidate TSConfigRootDirs"
 - `@rockpack/compiler`: `analyzer: true` failed with `StatoscopeWebpackPlugin is not a constructor` when the compiler was loaded as an ES module (a build script run by `node` instead of `tsx`)
 - `@rockpack/tester`: when the tester was imported as an ES module and Jest ran with `--experimental-vm-modules`, style imports failed with `exports is not defined`; Jest now always gets the style and file stubs from the CommonJS build

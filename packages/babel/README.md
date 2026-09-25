@@ -55,6 +55,24 @@ This becomes the default in 10.0.
 - `@babel/plugin-transform-modules-commonjs`
 - `babel-plugin-transform-import-meta`, preceded by a small Rockpack plugin that renames module-level `__filename`/`__dirname`, so `const __filename = fileURLToPath(import.meta.url)` keeps working in tests
 
+## Import extension plugin
+
+`@rockpack/babel/plugins/import-extension` gives the relative imports of a per-file build the extension of its output, so Node can load the emitted files. `@rockpack/compiler` uses it for the `esm` and `cjs` formats of `sourceCompiler` and `libraryCompiler`. It works with Babel 7 and Babel 8.
+
+```js
+plugins: [['@rockpack/babel/plugins/import-extension', { extension: 'mjs' }]]; // 'cjs' | 'js' | 'mjs'
+```
+
+It rewrites the source string of `import`, `export ... from`, `export * from` and dynamic `import('...')` with a string literal, and resolves like Node and TypeScript:
+
+- `./sum.ts`, `./sum.js` (and the other script extensions `.jsx`, `.tsx`, `.mjs`, `.cjs`, `.mts`, `.cts`) become `./sum.mjs`;
+- an existing file stays as it is, so assets such as `./styles.css` or `./data.json` keep their path;
+- `./sum` becomes `./sum.mjs` when `sum.<script extension>` exists, and a file wins over a folder of the same name;
+- `./utils` becomes `./utils/index.mjs` when the folder has an `index.<script extension>`;
+- a specifier without an extension that matches nothing (a file generated during the build) gets the extension.
+
+Bare specifiers, absolute paths, `#imports`, specifiers with `?` or `#`, and type-only imports and exports are never touched. Only the string changes, so import attributes (`with { type: 'json' }`) and quotes are kept. Hand-written `require('./x')`, `import.meta.resolve()` and TypeScript `import x = require()` are not rewritten.
+
 ## How the config is composed
 
 `createBabelPresets(options)` composes the config from small modules in `src`: the plugins for the syntax proposals, React, TypeScript metadata and test mode (`plugins.ts`), the presets (`presets.ts`: `@babel/preset-typescript` for TypeScript, otherwise `@babel/preset-env` with the browser or Node.js targets and `core-js` when it is a dependency), the production-only React plugins, and finally `rockpack.babel.*` (`user-config.ts`), which is deep-merged or called as a merge function.
