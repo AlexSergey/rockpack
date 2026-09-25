@@ -34,16 +34,6 @@ declare module 'find-free-port' {
   export = findFreePort;
 }
 
-declare module '@nuxt/friendly-errors-webpack-plugin' {
-  import type { Compiler } from 'webpack';
-
-  class FriendlyErrorsWebpackPlugin {
-    constructor(opts?: Record<string, unknown>);
-    apply(compiler: Compiler): void;
-  }
-  export = FriendlyErrorsWebpackPlugin;
-}
-
 declare module 'case-sensitive-paths-webpack-plugin' {
   import type { Compiler } from 'webpack';
 
@@ -77,14 +67,4 @@ declare module 'webpack/lib/optimize/FlagIncludedChunksPlugin.js' {
     apply(compiler: Compiler): void;
   }
   export = FlagIncludedChunksPlugin;
-}
-
-declare module 'webpack-format-messages' {
-  import type { Stats } from 'webpack';
-  type Messages = {
-    errors: string[];
-    warnings: string[];
-  };
-  function formatMessages(stats: Stats): Messages;
-  export = formatMessages;
 }

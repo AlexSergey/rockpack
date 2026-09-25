@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import type * as PluginMocks from '../__fixtures__/plugin-mocks.js';
 import type { CompileContext } from '../core/compile-context.js';
+import type { Reporter } from '../reporter/reporter.js';
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
 
 import { getPluginOptions } from '../__fixtures__/plugin-mocks.js';
@@ -15,9 +16,11 @@ import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { makeBanner } from './make-banner.js';
 import { makePlugins } from './make-plugins.js';
 
-jest.mock('@nuxt/friendly-errors-webpack-plugin', () =>
-  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FriendlyErrors'),
-);
+jest.mock('../reporter/reporter-plugin.js', () => ({
+  ReporterPlugin: jest
+    .requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js')
+    .createPluginMock('Reporter'),
+}));
 jest.mock('case-sensitive-paths-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('CaseSensitivePaths'),
 );
@@ -87,13 +90,20 @@ type ConfOverrides = { [K in keyof InternalCompilerConf]?: InternalCompilerConf[
 const createConf = (overrides: ConfOverrides = {}): InternalCompilerConf =>
   ({
     dist: 'dist/index.js',
-    messages: [],
     src: 'src/index.ts',
     ...overrides,
   }) as InternalCompilerConf;
 
-const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false };
-const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true };
+const reporter: Reporter = {
+  done: jest.fn(),
+  info: jest.fn(),
+  interactive: false,
+  issues: jest.fn(),
+  progress: jest.fn(),
+  start: jest.fn(),
+};
+const STANDALONE_CONTEXT: CompileContext = { configOnly: false, isomorphic: false, reporter };
+const ISOMORPHIC_CONTEXT: CompileContext = { configOnly: true, isomorphic: true, reporter };
 
 const build = async (
   overrides: ConfOverrides = {},
@@ -122,6 +132,12 @@ describe('makePlugins', () => {
   });
 
   describe('negative cases', () => {
+    it('adds no reporter plugin to a context without a reporter', async () => {
+      expect(await build({}, 'production', {}, { configOnly: false, isomorphic: false })).not.toHaveProperty(
+        'ReporterPlugin',
+      );
+    });
+
     it('skips the type checker without a tsconfig', async () => {
       expect(await build()).not.toHaveProperty('ForkTsCheckerPlugin');
     });
@@ -189,7 +205,7 @@ describe('makePlugins', () => {
       mockFiles('.env');
 
       expect(Object.keys(await build({ copy: { from: 'a', to: 'b' }, lint: true }))).toEqual([
-        'FriendlyErrorsPlugin',
+        'ReporterPlugin',
         'ForkTsCheckerPlugin',
         'Dotenv',
         'BannerPlugin',
@@ -210,14 +226,13 @@ describe('makePlugins', () => {
     it('keeps the plugin order of a node development build', async () => {
       expect(
         Object.keys(await build({ __isIsomorphicStyles: true, html: false, nodejs: true }, 'development')),
-      ).toEqual(['FriendlyErrorsPlugin', 'DefinePlugin', 'NodemonPlugin', 'WatchIgnorePlugin', 'MiniCssExtractPlugin']);
+      ).toEqual(['ReporterPlugin', 'DefinePlugin', 'NodemonPlugin', 'WatchIgnorePlugin', 'MiniCssExtractPlugin']);
     });
 
-    it('always reports errors with the compilation messages', async () => {
-      expect(getPluginOptions((await build({ messages: ['ready'] }))['FriendlyErrorsPlugin'])).toEqual({
-        clearConsole: false,
-        compilationSuccessInfo: { messages: ['ready'] },
-      });
+    it('reports the build through the context reporter under the compiler label', async () => {
+      const plugin = (await build({ compilerName: 'frontendCompiler' }))['ReporterPlugin'] as { args: unknown[] };
+
+      expect(plugin.args).toEqual([reporter, 'frontend', root, 'production']);
     });
 
     it('checks types for a TypeScript project', async () => {
@@ -398,7 +413,10 @@ describe('makePlugins', () => {
         verbose: false,
         watch: [path.resolve(root, 'build')],
       });
-      expect(conf.messages).toEqual(['nodemon is running', 'node-inspect is available on 9225 port']);
+      expect((reporter.info as jest.Mock).mock.calls).toEqual([
+        ['build', 'nodemon is running'],
+        ['build', 'node-inspect is available on 9225 port'],
+      ]);
     });
 
     it('runs the ssr development plugin for an isomorphic backend without the inspect message', async () => {
@@ -418,7 +436,7 @@ describe('makePlugins', () => {
       expect(inspectPort).toBeGreaterThanOrEqual(9000);
       expect(inspectPort).toBeLessThanOrEqual(9999);
       expect(getPluginOptions(dict['SSRDevelopment'])).toMatchObject({ script: '/abs/server.js', watch: ['/abs'] });
-      expect(conf.messages).toEqual(['nodemon is running']);
+      expect((reporter.info as jest.Mock).mock.calls).toEqual([['server', 'nodemon is running']]);
     });
 
     it('ignores css typings while watching and extracts isomorphic styles in development', async () => {

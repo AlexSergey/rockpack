@@ -19,6 +19,8 @@ export type CompilerConf = {
   lint?: boolean;
   name?: string;
   port?: number;
+  // Draw progress bars in a terminal; summaries and problems are printed either way.
+  progress?: boolean;
   src: string;
   styles?: false | string;
   types?: string;
@@ -68,6 +70,5 @@ type InternalProps = {
   __library?: boolean;
   compilerName?: string;
   distContext?: string;
-  messages?: string[];
   nodejs?: boolean;
 };

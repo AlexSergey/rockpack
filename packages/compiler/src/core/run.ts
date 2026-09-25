@@ -3,7 +3,6 @@ import type { Compiler, Configuration, MultiCompiler, MultiStats, Stats } from '
 import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { sourceCompiler } from '../compilers/source-compiler.js';
-import { log } from '../utils/log.js';
 
 type BuildOutcome = {
   readonly stats: MultiStats | Stats | undefined;
@@ -21,7 +20,7 @@ type RunResult = {
 type WebpackFn = (
   config: unknown,
   cb: (err: Error | null, stats: MultiStats | Stats | undefined) => void,
-) => Compiler | MultiCompiler;
+) => Compiler | MultiCompiler | null;
 
 // Reports a finished production build through process.exitCode and whether it succeeded; the caller closes the
 // compiler.
@@ -30,8 +29,8 @@ const finishProduction = async (
   stats: MultiStats | Stats | undefined,
   conf: InternalCompilerConf,
 ): Promise<boolean> => {
+  // The reporter has printed the error (webpack's failed hook) or the stats (done hook).
   if (err) {
-    console.error(err.message);
     process.exitCode = 1;
 
     return false;
@@ -46,7 +45,6 @@ const finishProduction = async (
       return false;
     }
   }
-  log(stats ?? null);
   if (stats?.hasErrors()) {
     process.exitCode = 1;
 
@@ -67,18 +65,25 @@ export const run = (
     settle = resolve;
   });
   const compiler = webpack(webpackConfig, (err, stats) => {
+    // Development builds are reported build by build by the reporter.
     if (mode === 'development') {
-      if (err) console.error(err.message);
-
       return;
     }
     // Closing the compiler releases webpack's handles, so the process ends on its own with process.exitCode.
     void finishProduction(err, stats, conf).then((success) => {
+      // webpack returns no compiler when applying the config failed (a plugin threw while it was set up): the
+      // reporter's hooks were never attached, so the error is printed here and there is nothing to close.
+      if (compiler === null) {
+        console.error(err?.message);
+        settle({ stats, success });
+
+        return;
+      }
       compiler.close(() => {
         settle({ stats, success });
       });
     });
   });
 
-  return { compiler, conf, finished, webpackConfig };
+  return { compiler: compiler as Compiler | MultiCompiler, conf, finished, webpackConfig };
 };

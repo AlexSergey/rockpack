@@ -5,6 +5,7 @@ import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 import type { CompileOutcome } from './compile-result.js';
 
+import { createReporter } from '../reporter/reporter.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { assertValidConf } from '../utils/validate-conf.js';
 import { getLegacyIsomorphicContext, standaloneContext } from './compile-context.js';
@@ -25,7 +26,13 @@ export const compile = async (
   let merged = await mergeConfWithDefault(conf, mode);
   assertValidConf(merged);
   // Read after the first await: see getLegacyIsomorphicContext.
-  const ctx = context ?? (await getLegacyIsomorphicContext()) ?? standaloneContext(withoutRun);
+  const ctx =
+    context ??
+    (await getLegacyIsomorphicContext()) ??
+    standaloneContext(
+      withoutRun,
+      createReporter({ debug: merged.debug === true, progress: merged.progress !== false }),
+    );
   merged = innerProps(merged, mode, ctx);
   const finalConfig = await make(merged, post, ctx);
 
@@ -44,6 +51,7 @@ export const compile = async (
     compiler: running.compiler,
     conf: finalConfig.conf,
     kind: 'watch',
+    ...(ctx.reporter ? { reporter: ctx.reporter } : {}),
     stop: () => closeCompiler(running.compiler),
     webpackConfig: finalConfig.webpackConfig,
   };

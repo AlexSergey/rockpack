@@ -4,10 +4,12 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'node:path';
 import NodemonPlugin from 'nodemon-webpack-plugin';
 
+import type { Reporter } from '../../reporter/reporter.js';
 import type { InternalCompilerConf } from '../../types.js';
 import type { PluginContext, PluginEntries } from './types.js';
 
 import { SsrDevelopment } from '../../plugins/ssr-development/index.js';
+import { compilerLabel } from '../../reporter/compiler-name.js';
 import { fpPromise } from '../../utils/find-free-port.js';
 import { getRandomInt } from '../../utils/other.js';
 
@@ -25,15 +27,16 @@ const getNodemonOptions = async (
   distPath: string,
   conf: InternalCompilerConf,
   isomorphic: boolean,
+  reporter: Reporter | undefined,
 ): Promise<NodemonOptions> => {
   const distFolder = path.dirname(distPath);
   const defaultInspectPort = isomorphic ? getRandomInt(9000, 9999) : 9224;
   const freeInspectPort = await fpPromise(defaultInspectPort);
 
-  conf.messages?.push('nodemon is running');
+  reporter?.info(compilerLabel(conf), 'nodemon is running');
 
   if (!conf.__isIsomorphicBackend) {
-    conf.messages?.push(`node-inspect is available on ${freeInspectPort} port`);
+    reporter?.info(compilerLabel(conf), `node-inspect is available on ${String(freeInspectPort)} port`);
   }
 
   return {
@@ -53,10 +56,17 @@ const makeServerPlugins = async ({ compileContext, conf, root }: PluginContext):
   const { isomorphic, liveReload } = compileContext;
 
   if (!conf.__library && conf.nodejs && !isomorphic) {
-    return { NodemonPlugin: new NodemonPlugin(await getNodemonOptions(distPath, conf, false)) };
+    return {
+      NodemonPlugin: new NodemonPlugin(await getNodemonOptions(distPath, conf, false, compileContext.reporter)),
+    };
   }
   if (isomorphic && conf.__isIsomorphicBackend) {
-    return { SSRDevelopment: new SsrDevelopment(await getNodemonOptions(distPath, conf, true), liveReload?.server) };
+    return {
+      SSRDevelopment: new SsrDevelopment(
+        await getNodemonOptions(distPath, conf, true, compileContext.reporter),
+        liveReload?.server,
+      ),
+    };
   }
 
   return {};

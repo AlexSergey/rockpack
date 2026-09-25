@@ -9,6 +9,7 @@ import type { CompilerConf, InternalCompilerConf } from '../types.js';
 import { getLegacyIsomorphicContext } from '../core/compile-context.js';
 import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
+import { createReporter } from '../reporter/reporter.js';
 import { isomorphicCompiler } from './isomorphic-compiler.js';
 
 jest.mock('@rockpack/utils', () => ({
@@ -24,6 +25,10 @@ jest.mock('webpack', () => ({ __esModule: true, default: 'webpack' }));
 jest.mock('../core/run.js', () => ({ run: jest.fn() }));
 jest.mock('../core/compile.js', () => ({ compile: jest.fn() }));
 jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
+jest.mock('../reporter/reporter.js', () => ({ createReporter: jest.fn((options: object) => ({ options })) }));
+
+// The reporter createReporter returns for these options (the mock echoes them).
+const reporter = (progress = true): unknown => ({ options: { progress } });
 
 type CompileResult = {
   conf: InternalCompilerConf;
@@ -113,6 +118,16 @@ describe('isomorphicCompiler', () => {
   });
 
   describe('positive cases', () => {
+    it('turns the progress bars off when either conf asks for it', async () => {
+      (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+        result(conf.compilerName ?? ''),
+      );
+
+      await isomorphicCompiler({ backend: { progress: false }, frontend: {} });
+
+      expect(createReporter).toHaveBeenCalledWith({ progress: false });
+    });
+
     it('shares an isomorphic context with the live reload server while the legacy children resolve', async () => {
       let seen: Awaited<ReturnType<typeof getLegacyIsomorphicContext>>;
       const frontend = result('frontendCompiler').then(async (value) => {
@@ -127,6 +142,7 @@ describe('isomorphicCompiler', () => {
         configOnly: true,
         isomorphic: true,
         liveReload: { port: 35729, server: lrServer },
+        reporter: reporter(),
       });
       expect(createServer).toHaveBeenCalledWith({ port: 35730 });
       expect(getLegacyIsomorphicContext()).toBeUndefined();
@@ -141,7 +157,11 @@ describe('isomorphicCompiler', () => {
       await isomorphicCompiler({ backend: { dist: 'dist/index.js' }, frontend: { dist: 'public/index.js' } });
 
       expect(createServer).not.toHaveBeenCalled();
-      expect(compile).toHaveBeenCalledWith(expect.anything(), null, true, { configOnly: true, isomorphic: true });
+      expect(compile).toHaveBeenCalledWith(expect.anything(), null, true, {
+        configOnly: true,
+        isomorphic: true,
+        reporter: reporter(),
+      });
     });
 
     it('runs every webpack config together', async () => {
@@ -165,7 +185,12 @@ describe('isomorphicCompiler', () => {
 
       await isomorphicCompiler({ backend, frontend, frontendCallback });
 
-      const context = { configOnly: true, isomorphic: true, liveReload: { port: 35729, server: lrServer } };
+      const context = {
+        configOnly: true,
+        isomorphic: true,
+        liveReload: { port: 35729, server: lrServer },
+        reporter: reporter(),
+      };
       expect(compile).toHaveBeenCalledWith(
         expect.objectContaining({ ...frontend, compilerName: 'frontendCompiler' }),
         frontendCallback,

@@ -40,13 +40,10 @@ export class SsrDevelopment {
 
   apply(compiler: WebpackCompilerWithHooks): void {
     const onAfterEmit = (compilation: WebpackCompilation, callback: WebpackHookCallback): void => {
-      if (this.isWebpackWatching) {
-        if (compilation.errors.length > 0) {
-          console.log('[nodemon-webpack-plugin]: Compilation error.');
-        } else if (!this.isNodemonRunning) {
-          const outputFile = getOutputFileMeta(compilation, compiler.outputPath);
-          this.startMonitoring(outputFile);
-        }
+      // A failed build is reported by the reporter; the server keeps its last good bundle.
+      if (this.isWebpackWatching && compilation.errors.length === 0 && !this.isNodemonRunning) {
+        const outputFile = getOutputFileMeta(compilation, compiler.outputPath);
+        this.startMonitoring(outputFile);
       }
       callback();
     };

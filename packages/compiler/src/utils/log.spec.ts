@@ -1,64 +1,32 @@
-import type { MultiStats, Stats } from 'webpack';
+import { RockpackError } from '../errors/rockpack-error.js';
+import { logError } from './log.js';
 
-import formatMessages from 'webpack-format-messages';
-
-import { log } from './log.js';
-
-jest.mock('webpack-format-messages', () => jest.fn());
-
-const formatMessagesMock = formatMessages as unknown as jest.Mock<{ errors: string[]; warnings: string[] }>;
-
-const createStats = (durationMs: number): Stats => ({ endTime: 1000 + durationMs, startTime: 1000 }) as Stats;
-
-describe('log', () => {
-  let logSpy: jest.SpyInstance;
+describe('logError', () => {
+  let errorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    formatMessagesMock.mockReturnValue({ errors: [], warnings: [] });
+    errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
-    jest.resetAllMocks();
   });
 
   describe('negative cases', () => {
-    it.each([null, undefined])('prints nothing for %p stats', (stats) => {
-      log(stats);
+    it('writes to stderr, not stdout', () => {
+      const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+      logError(new RockpackError('BUILD_FAILED', 'babel failed'));
 
       expect(logSpy).not.toHaveBeenCalled();
-    });
-
-    it('prints every error of a failed compilation', () => {
-      formatMessagesMock.mockReturnValue({ errors: ['error one', 'error two'], warnings: [] });
-
-      log(createStats(0));
-
-      expect(logSpy.mock.calls.slice(1)).toEqual([['Failed to compile.'], ['error one'], ['error two']]);
     });
   });
 
   describe('positive cases', () => {
-    it('prints the duration and success of a single compilation', () => {
-      log(createStats(65_000));
+    it('prints the error code and message', () => {
+      logError(new RockpackError('INVALID_CONFIG', 'port must be a positive integer'));
 
-      expect(logSpy.mock.calls).toEqual([['[COMPILE]', '1:5 minutes'], ['Compiled successfully!']]);
-    });
-
-    it('keeps hours in the minutes of a long compilation', () => {
-      log(createStats(3_725_000));
-
-      expect(logSpy).toHaveBeenCalledWith('[COMPILE]', '62:5 minutes');
-    });
-
-    it('prints every compilation of multi stats', () => {
-      const stats = { stats: [createStats(1000), createStats(2000)] } as MultiStats;
-
-      log(stats);
-
-      expect(formatMessagesMock).toHaveBeenCalledTimes(2);
-      expect(logSpy).toHaveBeenCalledWith('[COMPILE]', '0:2 minutes');
+      expect(errorSpy).toHaveBeenCalledWith('[rockpack] INVALID_CONFIG: port must be a positive integer');
     });
   });
 });

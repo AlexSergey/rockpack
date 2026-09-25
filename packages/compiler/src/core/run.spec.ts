@@ -3,11 +3,9 @@ import type { MultiStats, Stats } from 'webpack';
 import type { InternalCompilerConf, Mode } from '../types.js';
 
 import { sourceCompiler } from '../compilers/source-compiler.js';
-import { log } from '../utils/log.js';
 import { run } from './run.js';
 
 jest.mock('../compilers/source-compiler.js', () => ({ sourceCompiler: jest.fn(() => Promise.resolve()) }));
-jest.mock('../utils/log.js', () => ({ log: jest.fn() }));
 
 type WebpackCallback = (err: Error | null, stats: MultiStats | Stats | undefined) => void;
 
@@ -59,11 +57,11 @@ describe('run', () => {
   });
 
   describe('negative cases', () => {
-    it('logs a development error and keeps watching', async () => {
+    it('leaves a development error to the reporter and keeps watching', async () => {
       const compiler = runWith('development', new Error('syntax error'));
       await settle();
 
-      expect(errorSpy).toHaveBeenCalledWith('syntax error');
+      expect(errorSpy).not.toHaveBeenCalled();
       expect(compiler.close).not.toHaveBeenCalled();
       expect(process.exitCode).toBe(originalExitCode);
     });
@@ -72,30 +70,39 @@ describe('run', () => {
       const compiler = runWith('production', new Error('broken'));
       await settle();
 
-      expect(errorSpy).toHaveBeenCalledWith('broken');
+      expect(errorSpy).not.toHaveBeenCalled();
       expect(process.exitCode).toBe(1);
-      expect(log).not.toHaveBeenCalled();
       expect(compiler.close).toHaveBeenCalled();
     });
 
-    it('marks a failed library source build without logging the stats', async () => {
+    it('prints an error from applying the config, when webpack returns no compiler', async () => {
+      const webpack = jest.fn((_config: unknown, callback: WebpackCallback) => {
+        setImmediate(() => callback(new Error('Missing environment variable: TOKEN'), undefined));
+
+        return null;
+      });
+
+      const { finished } = run([{ mode: 'production' }], 'production', webpack as never, conf);
+
+      await expect(finished).resolves.toMatchObject({ success: false });
+      expect(errorSpy).toHaveBeenCalledWith('Missing environment variable: TOKEN');
+      expect(process.exitCode).toBe(1);
+    });
+
+    it('marks a failed library source build', async () => {
       (sourceCompiler as jest.Mock).mockRejectedValueOnce(new Error('babel failed'));
 
       const compiler = runWith('production', null, { ...conf, library: 'MyLib' });
       await settle();
 
       expect(process.exitCode).toBe(1);
-      expect(log).not.toHaveBeenCalled();
       expect(compiler.close).toHaveBeenCalled();
     });
 
     it('marks a production build with compilation errors', async () => {
-      const failedStats = createStats(true);
-
-      runWith('production', null, conf, failedStats);
+      runWith('production', null, conf, createStats(true));
       await settle();
 
-      expect(log).toHaveBeenCalledWith(failedStats);
       expect(process.exitCode).toBe(1);
     });
   });
@@ -119,29 +126,27 @@ describe('run', () => {
       const compiler = runWith('development', null);
       await settle();
 
-      expect(log).not.toHaveBeenCalled();
       expect(compiler.close).not.toHaveBeenCalled();
     });
 
-    it('logs the stats and closes the compiler after a successful production build', async () => {
+    it('closes the compiler after a successful production build', async () => {
       const compiler = runWith('production', null);
       await settle();
 
       expect(sourceCompiler).not.toHaveBeenCalled();
-      expect(log).toHaveBeenCalledWith(stats);
       expect(process.exitCode).toBe(originalExitCode);
       expect(compiler.close).toHaveBeenCalled();
     });
 
-    it('compiles library sources before logging a production library build', async () => {
+    it('compiles library sources before closing a production library build', async () => {
       const libraryConf = { ...conf, library: 'MyLib' };
 
-      runWith('production', null, libraryConf);
+      const compiler = runWith('production', null, libraryConf);
       await settle();
 
       expect(sourceCompiler).toHaveBeenCalledWith({ ...libraryConf, watch: false });
       expect((sourceCompiler as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
-        (log as jest.Mock).mock.invocationCallOrder[0] ?? 0,
+        compiler.close.mock.invocationCallOrder[0] ?? 0,
       );
     });
   });

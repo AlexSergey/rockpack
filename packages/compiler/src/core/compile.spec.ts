@@ -80,16 +80,12 @@ describe('compile', () => {
       await compile(conf, post);
 
       expect(mergeConfWithDefault).toHaveBeenCalledWith(conf, 'production');
-      expect(innerProps).toHaveBeenCalledWith(
-        expect.objectContaining({ merged: true }),
-        'production',
-        STANDALONE_CONTEXT,
-      );
-      expect(make).toHaveBeenCalledWith(
-        expect.objectContaining({ inner: true, merged: true }),
-        post,
-        STANDALONE_CONTEXT,
-      );
+      const standalone = {
+        ...STANDALONE_CONTEXT,
+        reporter: expect.objectContaining({ interactive: false }) as unknown,
+      };
+      expect(innerProps).toHaveBeenCalledWith(expect.objectContaining({ merged: true }), 'production', standalone);
+      expect(make).toHaveBeenCalledWith(expect.objectContaining({ inner: true, merged: true }), post, standalone);
     });
 
     it('runs a production build to the end and reports its outcome', async () => {

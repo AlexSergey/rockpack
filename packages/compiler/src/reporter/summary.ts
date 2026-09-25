@@ -14,9 +14,9 @@ type Colors = typeof ansiColors;
 
 const BAR_WIDTH = 20;
 
-export const formatDuration = (ms: number): string => `${(ms / 1000).toFixed(1)}s`;
+const formatDuration = (ms: number): string => `${(ms / 1000).toFixed(1)}s`;
 
-export const formatSize = (bytes: number): string => {
+const formatSize = (bytes: number): string => {
   if (bytes < 1024) {
     return `${String(bytes)} B`;
   }

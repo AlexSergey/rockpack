@@ -5,8 +5,6 @@ export type Problem = {
   readonly message: string;
 };
 
-export type ProblemKind = 'Build' | 'CSS' | 'ESLint' | 'Module not found' | 'Stylelint' | 'Syntax' | 'TypeScript';
-
 // The parts of a webpack StatsError the reporter reads.
 export type StatsProblem = {
   readonly file?: string;
@@ -22,6 +20,8 @@ export type TypeScriptIssue = {
   readonly location?: { readonly start: { readonly column: number; readonly line: number } };
   readonly message: string;
 };
+
+type ProblemKind = 'Build' | 'CSS' | 'ESLint' | 'Module not found' | 'Stylelint' | 'Syntax' | 'TypeScript';
 
 const MAX_LINES = 12;
 

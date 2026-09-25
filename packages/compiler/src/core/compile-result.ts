@@ -1,5 +1,6 @@
 import type { Compiler, Configuration, MultiCompiler, MultiStats, Stats } from 'webpack';
 
+import type { Reporter } from '../reporter/reporter.js';
 import type { InternalCompilerConf } from '../types.js';
 
 // A production build that has finished; `success` is false when webpack reported errors.
@@ -31,6 +32,7 @@ export type DevServerResult = {
 export type RunningResult = WatchResult & {
   readonly compiler: Compiler | MultiCompiler;
   readonly conf: InternalCompilerConf;
+  readonly reporter?: Reporter;
   readonly webpackConfig: Configuration;
 };
 

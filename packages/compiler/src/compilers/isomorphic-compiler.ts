@@ -14,6 +14,7 @@ import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
 import { errorHandler } from '../error-handler.js';
 import * as errors from '../errors/isomorphic-compiler.js';
+import { createReporter } from '../reporter/reporter.js';
 import { fpPromise } from '../utils/find-free-port.js';
 import { backendConf } from './backend-compiler.js';
 import { withErrorBoundary } from './error-boundary.js';
@@ -93,9 +94,11 @@ export async function isomorphicCompiler(
     // The first free port from livereload's default, so a second project or a leftover process does not block it.
     const lrserver =
       mode === 'development' ? createServer({ port: await fpPromise(LIVE_RELOAD_DEFAULT_PORT) }) : undefined;
+    const progress = isOptions(first) ? first.frontend.progress !== false && first.backend.progress !== false : true;
     const context: CompileContext = {
       configOnly: true,
       isomorphic: true,
+      reporter: createReporter({ progress }),
       ...(lrserver ? { liveReload: { port: lrserver.config.port, server: lrserver } } : {}),
     };
     provideLegacyContext(context);

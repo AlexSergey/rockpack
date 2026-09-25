@@ -75,14 +75,13 @@ describe('SsrDevelopment', () => {
       expect(callback).toHaveBeenCalled();
     });
 
-    it('reports a compilation error instead of starting nodemon', () => {
+    it('does not start nodemon for a failed build', () => {
       const { compiler, emit, watch } = createCompiler();
       new SsrDevelopment({}).apply(compiler);
       watch();
 
       emit({ assets: {}, errors: ['error'] });
 
-      expect(logSpy).toHaveBeenCalledWith('[nodemon-webpack-plugin]: Compilation error.');
       expect(nodemonMock).not.toHaveBeenCalled();
     });
 

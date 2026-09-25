@@ -14,15 +14,15 @@ const createConf = (overrides: Partial<InternalCompilerConf> = {}): InternalComp
 
 describe('innerProps', () => {
   describe('negative cases', () => {
-    it('only resets messages outside isomorphic builds', () => {
+    it('leaves a conf outside isomorphic builds untouched', () => {
       expect(innerProps(createConf({ compilerName: 'backendCompiler' }), 'development', STANDALONE_CONTEXT)).toEqual(
-        createConf({ compilerName: 'backendCompiler', messages: [] }),
+        createConf({ compilerName: 'backendCompiler' }),
       );
     });
 
     it('leaves an unknown compiler untouched in isomorphic builds', () => {
       expect(innerProps(createConf({ compilerName: 'libraryCompiler' }), 'development', ISOMORPHIC_CONTEXT)).toEqual(
-        createConf({ compilerName: 'libraryCompiler', messages: [] }),
+        createConf({ compilerName: 'libraryCompiler' }),
       );
     });
 

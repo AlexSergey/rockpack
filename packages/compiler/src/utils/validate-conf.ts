@@ -90,6 +90,7 @@ const CHECKS: Readonly<Record<string, Check>> = {
   ignore: optional(list(string)),
   lint: optional(boolean),
   port: optional(expect((value) => Number.isInteger(value) && Number(value) > 0, 'a positive integer')),
+  progress: optional(boolean),
   styles: optional(expect((value) => value === false || isString(value), 'false or a string')),
   types: optional(string),
   vendor: optional(list(string)),
