@@ -1,6 +1,6 @@
 # Plan 6: Build reporter with a progress bar
 
-Status: proposed
+Status: approved 2026-09-25 (D1 to D4 as recommended)
 Order: after Plan 5 (the analyzer removal takes the analyzer plugins and their messages out of the output first)
 Owner: TBD
 
