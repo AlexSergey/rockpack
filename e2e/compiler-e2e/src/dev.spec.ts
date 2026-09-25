@@ -180,6 +180,11 @@ describe('development mode', () => {
         blocker?.close();
       });
 
+      it('reports the client and the server builds on their own lines', () => {
+        expect(server.output()).toMatch(/ ✔ client {2}built in \d+\.\d+s/);
+        expect(server.output()).toMatch(/ ✔ server {2}built in \d+\.\d+s/);
+      });
+
       it('serves the server-rendered markup', async () => {
         expect(await text(url)).toContain('<h1>Hello SSR</h1>');
       });

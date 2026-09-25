@@ -68,7 +68,7 @@ export const problemLines = (colors: Colors, problems: readonly Problem[], sever
     const kind = severity === 'error' ? colors.red(problem.kind) : colors.yellow(problem.kind);
     const where = problem.location ? `${colors.cyan(problem.location)}  ` : '';
 
-    return ['', `   ${kind}  ${where}${first}`, ...rest.map((line) => `     ${line}`)];
+    return ['', `   ${kind}  ${where}${first}`, ...rest.map((line) => (line.trim() === '' ? '' : `     ${line}`))];
   });
 
 export const infoLine = (colors: Colors, text: string): string => `   ${colors.gray('›')} ${text}`;

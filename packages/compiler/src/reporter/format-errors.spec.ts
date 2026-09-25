@@ -29,6 +29,12 @@ describe('format-errors', () => {
       expect(fromStatsProblem({ message: RECORDED.cssWrapper, moduleName: './src/bad.css' }, root)).toEqual([]);
     });
 
+    it('removes trailing spaces from every line', () => {
+      const [problem] = fromStatsProblem({ message: 'performance recommendations:  \nAssets:   \n  index.js' }, root);
+
+      expect(problem?.message).toBe('performance recommendations:\nAssets:\n  index.js');
+    });
+
     it('removes stack frames, colour codes and the project root', () => {
       const [problem] = fromStatsProblem(
         { message: '\u001B[31mSomething failed in /project/src/a.ts\u001B[39m\n    at run (/project/x.js:1:1)' },

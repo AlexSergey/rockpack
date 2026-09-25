@@ -38,6 +38,7 @@ const tidy = (text: string, root: string): string =>
   stripAnsi(text)
     .split('\n')
     .filter((line) => !/^\s+at /.test(line))
+    .map((line) => line.trimEnd())
     .join('\n')
     .replaceAll(`${root}/`, '')
     .trim();
