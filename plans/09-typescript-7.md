@@ -1,7 +1,7 @@
 # Plan 9: TypeScript 7
 
-Status: proposed 2026-09-25, decisions D1 to D4 to confirm
-Order: after Plan 8 and the 2026-09-25 dependency updates
+Status: deferred 2026-09-25: stay on the latest TypeScript 6 (6.0.3) until the tools in 3.4 support TypeScript 7; M0 can be done before that
+Order: after Plan 8 and the 2026-09-25 dependency updates; M1 to M3 start when typescript-eslint supports TypeScript 7
 Owner: TBD
 
 ## 1. Goal
@@ -36,7 +36,21 @@ Type checking runs on TypeScript 7 (the native `tsc`, 7.0.2) in the monorepo and
 - Root `package.json` devDependency `6.0.3`.
 - Dependencies `6.0.3` of `@rockpack/codestyle`, `@rockpack/compiler` and `@rockpack/tester`; generated projects get `tsc` only through them (hoisting), `lint:ts` is `tsc --noEmit`.
 
-### 3.4 Proven in a scratch project
+### 3.4 Every dependency on the TypeScript API (inventory of the installed tree)
+
+| Dependency | Pulled in by | Needs the API | Maintained | Options |
+|---|---|---|---|---|
+| typescript-eslint 8.70.1 (`parser`, `eslint-plugin`, `type-utils`, `project-service`, ...) | `@rockpack/codestyle` | yes, typed rules | active | none: codestyle is built on it; the main blocker, wait for its TypeScript 7 support |
+| `@eslint-react/*` 5.20.8 | `@rockpack/codestyle` | through typescript-eslint | active | follows typescript-eslint |
+| eslint-plugin-sonarjs 4.2.1 | `@rockpack/codestyle` (9 rules) | yes; `typescript >=5 <6.1.0` is a regular dependency | active | works in a TypeScript 7 project through its own nested TypeScript 6 (about 23 MB extra); keep, see D7 |
+| eslint-plugin-jest 29.16.6 | `@rockpack/codestyle` | optional peer | active | no action |
+| fork-ts-checker-webpack-plugin 9.1.0 | `@rockpack/compiler` (build-time type check, issues to the reporter) | yes | last release 2025-04-03; old dependencies (chalk 4, fs-extra 10, memfs 3, minimatch 3, `@babel/code-frame` 7) | unlikely to adopt the new API soon; replace or drop, see D5 |
+| `generate-dts.ts`, `make-compiler-options.ts` | `@rockpack/compiler` (own code) | `createProgram` + `emit` for declarations only | ours | run the `tsc` binary with a generated tsconfig that `extends` the project's one and lists the files, see D6 |
+| type-coverage 2.30.1 | monorepo only | yes | slow | keep on TypeScript 6 or drop, see D8 |
+| cosmiconfig-typescript-loader 6.3.0 | commitlint (`@rockpack/codestyle/commitlint`) | no, loads configs with jiti; peer `>=5` | active | no action |
+| `typescript` in `@rockpack/tester` | generated projects | no, only provides the `tsc` binary for `lint:ts` | - | no action |
+
+### 3.5 Proven in a scratch project
 
 `typescript: npm:@typescript/typescript6@6.0.2` plus `@typescript/native: npm:typescript@7.0.2`: `npx tsc -v` prints 7.0.2, `npx tsc6 -v` prints 6.0.3, `require('typescript')` is the 6.0.3 API, typescript-eslint `strictTypeChecked` reports typed rules, `tsc` passes.
 
@@ -47,7 +61,22 @@ Type checking runs on TypeScript 7 (the native `tsc`, 7.0.2) in the monorepo and
 - **D3. Generated projects.** Recommended: the starter adds `@typescript/native: npm:typescript@7` to generated projects, so `lint:ts` type checks with TypeScript 7; `typescript` itself stays the TypeScript 6 API from the Rockpack packages. Alternative: generated projects stay on TypeScript 6 until 7.1.
 - **D4. Release.** Recommended: in 9.0.0 (not released, already breaking). A project that installs `typescript@7` under the name `typescript` breaks typescript-eslint and the compiler's declaration generation; MIGRATION explains the aliases.
 
+- **D5. fork-ts-checker (can be decided now).** Recommended: replace it with a small own webpack plugin that runs the project's `tsc --noEmit --pretty false` (`--watch --preserveWatchOutput` in dev) next to the build and turns `file(line,col): error TSxxxx: message` into reporter problems; it works with TypeScript 6 and 7 alike (and is much faster on 7), and drops a stale plugin with twelve old dependencies. Alternative A: remove the build-time type check and make it opt-in (`typecheck: true`, like `lint: true` in C16), projects keep `lint:ts`. Alternative B: keep fork-ts-checker until it moves.
+- **D6. Declarations (can be decided now).** Recommended: `generateDts` runs the `tsc` binary with a temporary tsconfig (`extends` the project's tsconfig, `files` = the selected sources, `declaration`, `emitDeclarationOnly`, `outDir`) instead of `createProgram`; the compiler then no longer imports `typescript` at all.
+- **D7. sonarjs.** Recommended: keep; it carries its own TypeScript 6 and keeps working. Revisit only if it lags behind typescript-eslint. Alternative: drop it with its 9 rules (no clean replacements for `cognitive-complexity`, `no-identical-functions`, `no-unused-collection`, `prefer-immediate-return`).
+- **D8. type-coverage.** Recommended: decide when M1 starts: keep it on the TypeScript 6 alias, or drop it since the typescript-eslint `no-unsafe-*` and `no-explicit-any` rules already guard against `any`.
+
 ## 5. Work
+
+### M0. Compiler without the TypeScript API (D5, D6; independent of TypeScript 7, can run on TypeScript 6 now)
+
+- [ ] Own type-check plugin in `packages/compiler/src/modules/plugins/` feeding the reporter (build: one run, errors fail the build like today; dev: `--watch`, problems on each rebuild); unit specs with a mocked child process.
+- [ ] Remove fork-ts-checker-webpack-plugin; `format-errors.ts` reads the new problem shape.
+- [ ] `generateDts` through the `tsc` binary; `make-compiler-options.ts` goes.
+- [ ] compiler-e2e (`library` declarations, type errors in builds and dev) passes; CHANGELOG entry.
+
+Exit: `@rockpack/compiler` has no `import ... from 'typescript'`; the `typescript` dependency only provides `tsc`.
+
 
 ### M1. Monorepo (D1, D2)
 
