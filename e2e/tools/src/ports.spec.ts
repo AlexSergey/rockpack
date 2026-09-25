@@ -1,5 +1,6 @@
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import http from 'node:http';
+import net from 'node:net';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -42,6 +43,23 @@ describe('ports', () => {
       await new Promise<void>((resolve) => server.close(() => resolve()));
 
       expect(port).toBeGreaterThan(0);
+    });
+
+    it('closes at once while a client holds a connection with an unfinished request, as browsers do', async () => {
+      const server = await serveStatic(dir);
+      const socket = net.connect(Number(new URL(server.url).port), 'localhost');
+      await new Promise<void>((resolve) => socket.once('connect', () => resolve()));
+      // Headers without the closing empty line: Node.js would wait for them until its headers timeout.
+      try {
+        await new Promise<void>((resolve) => socket.write('GET / HTTP/1.1\r\nHost: localhost\r\n', () => resolve()));
+        const started = Date.now();
+
+        await server.close();
+
+        expect(Date.now() - started).toBeLessThan(1000);
+      } finally {
+        socket.destroy();
+      }
     });
 
     it('serves files with their content type and records the requests', async () => {
