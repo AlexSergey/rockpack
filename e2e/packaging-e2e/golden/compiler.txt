@@ -27,6 +27,7 @@ lib/cjs/errors/library-compiler.cjs
 lib/cjs/errors/rockpack-error.cjs
 lib/cjs/index.cjs
 lib/cjs/modules/make-banner.cjs
+lib/cjs/modules/make-cache.cjs
 lib/cjs/modules/make-dev-server.cjs
 lib/cjs/modules/make-devtool.cjs
 lib/cjs/modules/make-entry.cjs
@@ -97,6 +98,7 @@ lib/esm/errors/library-compiler.mjs
 lib/esm/errors/rockpack-error.mjs
 lib/esm/index.mjs
 lib/esm/modules/make-banner.mjs
+lib/esm/modules/make-cache.mjs
 lib/esm/modules/make-dev-server.mjs
 lib/esm/modules/make-devtool.mjs
 lib/esm/modules/make-entry.mjs
@@ -168,6 +170,7 @@ types/errors/library-compiler.d.ts
 types/errors/rockpack-error.d.ts
 types/index.d.ts
 types/modules/make-banner.d.ts
+types/modules/make-cache.d.ts
 types/modules/make-dev-server.d.ts
 types/modules/make-devtool.d.ts
 types/modules/make-entry.d.ts

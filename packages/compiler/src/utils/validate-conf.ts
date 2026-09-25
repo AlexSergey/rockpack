@@ -56,6 +56,7 @@ const format = fields({ dist: string, src: string }, 'an object with src and dis
 const CHECKS: Readonly<Record<string, Check>> = {
   analyzer: optional(boolean),
   banner: optional(expect((value) => isBoolean(value) || isString(value), 'a boolean or a string')),
+  cache: optional(boolean),
   cjs: optional(format),
   copy: optional((value, path) => {
     if (Array.isArray(value)) {

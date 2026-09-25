@@ -55,7 +55,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 ### 5.4 Performance (S)
 
 - [x] **C13.** Dev mode: cache `find-free-port` results per port within one process; batch the three lookups (dev server, analyzer, nodemon inspect) into one call. _Not done 2026-09-25, proposed to close: a per-port cache would hand the same port to two servers that start from the same port (two analyzers in one isomorphic build), and the lookups are in different modules at different moments, so batching needs the context threaded through `mergeConfWithDefault`, `makeDevServer` and the plugins for a gain of milliseconds. Closed without changes by the user's decision (2026-09-25)._
-- [ ] **C14.** Production: enable webpack `cache: { type: 'filesystem' }` scoped to `node_modules/.cache/rockpack` for repeated builds (already used in dev); measure with `examples/compiler/react-app` before and after and record the numbers here. _Measured 2026-09-25 (macOS, whole `npm run build` including tsx start-up): no cache 2.35 s / 2.32 s; filesystem cache cold 2.81 s, warm 1.64 s / 1.62 s. Warm builds gain ~30%, cold builds (every CI run) lose ~0.5 s writing the cache, and webpack does not see changes in `scripts.build.ts` unless it is added to `buildDependencies`. Not enabled; needs a decision (opt-in option vs default)._
+- [x] **C14.** Production: enable webpack `cache: { type: 'filesystem' }` scoped to `node_modules/.cache/rockpack` for repeated builds (already used in dev); measure with `examples/compiler/react-app` before and after and record the numbers here. _Measured 2026-09-25 (macOS, whole `npm run build` including tsx start-up): no cache 2.35 s / 2.32 s; filesystem cache cold 2.81 s, warm 1.64 s / 1.62 s. Warm builds gain ~30%, cold builds (every CI run) lose ~0.5 s writing the cache, and webpack does not see changes in `scripts.build.ts` unless it is added to `buildDependencies`._ _Done 2026-09-25, decided by the user: opt-in `cache: true` (validated, documented). `makeCache` (own module) returns the filesystem cache in `node_modules/.cache/rockpack`, named per compiler and mode, with the build script and the compiler in `buildDependencies`; development keeps the memory cache, and without the option the production config is unchanged (goldens untouched). An e2e build of frontend-basic twice with the option writes the cache and produces the same bundle._
 - [x] **C15.** `generateDts` writes into `node_modules/.rockpack/<random>` and copies; write directly to `conf.types` with `outDir` and skip the copy and `rimraf`. _Done 2026-09-25 (the temp folder had already moved to the OS tmpdir): declarations are emitted with the existing `dts` compiler options (`emitDeclarationOnly`, `outDir` = the types folder), so no JavaScript is emitted and nothing is copied or removed. The declarations now use the project's own `module`/`moduleResolution` instead of the forced CommonJS pair, which is also the first half of C21._
 
 ### 5.5 Found by Plan 4 e2e (S to M)
@@ -140,7 +140,7 @@ Status 2026-09-25:
 5. Met. Plan 1 thresholds hold; no `jest.isolateModules` in the tester specs.
 6. Met. With the R2 nx cache: `npm run build` 8.7 s cold / 0.6 s warm, `npm run test:unit` 9.2 s cold / 0.6 s warm (macOS).
 
-Open items, each waiting for a decision: C14, C16, C17, R1, R5; deferred with a reason: C11 watch mode, T8 `esm`.
+Open items, each waiting for a decision: C16, C17, R1, R5; deferred with a reason: C11 watch mode, T8 `esm`.
 
 ## 14. Suggested order
 

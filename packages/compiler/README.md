@@ -116,6 +116,7 @@ const {
 | copy    | Object/Array[undefined]     | Copies files and folders using copy-webpack-plugin. Format: {from: ... to: ...} or [] or {files: [], opts: {}}                                                 |
 | version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
 | ignore  | String[][specs, tests, fixtures] | Globs that the per-file `esm`/`cjs` builds and the generated declarations skip |
+| cache   | Boolean[false]              | Production builds cache modules on disk in `node_modules/.cache/rockpack` (one cache per compiler). Repeated builds are faster, the first one is slower because it writes the cache; a change in the build script or in the compiler invalidates it. Delete the folder if a build looks stale |
 
 ```js
 const { frontendCompiler } = require('@rockpack/compiler');

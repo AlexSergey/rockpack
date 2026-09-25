@@ -6,6 +6,7 @@ import webpack from 'webpack';
 import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
+import { makeCache } from '../modules/make-cache.js';
 import { makeDevServer } from '../modules/make-dev-server.js';
 import { makeDevtool } from '../modules/make-devtool.js';
 import { makeEntry } from '../modules/make-entry.js';
@@ -80,9 +81,13 @@ export const make = async (
     finalConfig['externalsPresets'] = { node: true };
   }
 
+  const cache = makeCache(conf, root, mode);
+  if (cache !== false) {
+    finalConfig['cache'] = cache;
+  }
+
   if (mode === 'development') {
     finalConfig['watch'] = true;
-    finalConfig['cache'] = true;
     finalConfig['performance'] = { hints: false };
   }
 

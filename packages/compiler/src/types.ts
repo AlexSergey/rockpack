@@ -3,6 +3,8 @@ import type CopyWebpackPlugin from 'copy-webpack-plugin';
 export type CompilerConf = {
   analyzer?: boolean;
   banner?: boolean | string;
+  // Production builds cache modules on disk in node_modules/.cache/rockpack.
+  cache?: boolean;
   cjs?: FormatConf;
   copy?: CopyConf;
   debug?: boolean;

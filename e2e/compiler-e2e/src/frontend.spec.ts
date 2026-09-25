@@ -128,6 +128,20 @@ describe('frontendCompiler production builds', () => {
       });
     });
 
+    describe('frontend-basic with cache: true', () => {
+      it('writes the build cache and builds the same bundle from it', async () => {
+        const dir = prepareFixture('frontend-basic');
+        const cold = await build(dir, 'scripts.cache.ts');
+        const coldBundle = read(dir, 'dist/index.js');
+        const warm = await build(dir, 'scripts.cache.ts');
+
+        expect({ code: cold.code, output: cold.output }).toMatchObject({ code: 0 });
+        expect({ code: warm.code, output: warm.output }).toMatchObject({ code: 0 });
+        expect(readdirSync(path.join(dir, 'node_modules/.cache/rockpack'))).toContain('frontendCompiler-production');
+        expect(read(dir, 'dist/index.js')).toBe(coldBundle);
+      }, 600_000);
+    });
+
     describe('frontend-dotenv', () => {
       let dir: string;
 
