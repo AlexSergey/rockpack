@@ -3,9 +3,7 @@ import { getArgs } from './get-args.js';
 const mockArgv: Record<string, unknown> = {};
 
 jest.mock('../utils/argv.js', () => ({
-  get argv(): Record<string, unknown> {
-    return mockArgv;
-  },
+  getArgv: (): Record<string, unknown> => mockArgv,
 }));
 
 const setArgv = (values: Record<string, unknown>): void => {

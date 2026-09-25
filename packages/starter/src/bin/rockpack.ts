@@ -10,7 +10,7 @@ import { defaultApp } from '../constants/names.js';
 import { here } from '../constants/paths.js';
 import { APP_TYPES, getArgs } from '../lib/get-args.js';
 import { install } from '../lib/install.js';
-import { argv } from '../utils/argv.js';
+import { getArgv } from '../utils/argv.js';
 import { ReportedError } from '../utils/error.js';
 import { packageJson } from '../utils/package-json.js';
 import { getCurrentPath } from '../utils/pathes.js';
@@ -40,6 +40,7 @@ const warnIfOutdated = async (): Promise<void> => {
 
 // Resolves to the process exit code; the bin sets it.
 export const rockpack = async (): Promise<number> => {
+  const argv = getArgv();
   const { _, h, help, v, version } = argv;
   const noName = _.length === 0;
   const args = getArgs();

@@ -1,6 +1,6 @@
 import type { AppType } from './wizard.js';
 
-import { argv } from '../utils/argv.js';
+import { getArgv } from '../utils/argv.js';
 
 export const APP_TYPES: readonly AppType[] = ['csr', 'ssr', 'component', 'library'];
 
@@ -15,6 +15,7 @@ export type Args = {
 };
 
 export const getArgs = (): Args => {
+  const argv = getArgv();
   const args: Args = {
     testMode: false,
   };

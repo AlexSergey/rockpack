@@ -21,9 +21,7 @@ jest.mock('node:fs', () => ({
 }));
 jest.mock('../lib/install.js', () => ({ install: jest.fn() }));
 jest.mock('../utils/argv.js', () => ({
-  get argv(): Record<string, unknown> {
-    return mockArgv;
-  },
+  getArgv: (): Record<string, unknown> => mockArgv,
 }));
 jest.mock('../utils/pathes.js', () => ({
   getCurrentPath: (projectName: string): string => (projectName === '.' ? mockCwd : `${mockCwd}/${projectName}`),
