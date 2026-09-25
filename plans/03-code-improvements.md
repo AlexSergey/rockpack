@@ -113,7 +113,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [x] **R2.** Turborepo or nx task caching for `build`, `lint`, `test` (lerna 9 already ships nx; enable `useNx` caching with `nx.json` and the `lib`/`types`/`coverage` outputs). Record cold vs warm timings here. _Done 2026-09-25: `nx.json` caches `build` (outputs `lib`, `types`), `lint`, `test` (outputs `coverage`, `test-reports`) and `type-coverage`; inputs are the project files, the dependencies' files, the root `.eslintflatignore` and `package-lock.json`. Measured on macOS after `nx reset`: `npm run build` 8.7 s cold / 0.6 s warm, `npm run lint` 28.4 s / 0.9 s, `npm run test:unit` 9.2 s / 0.6 s. A change in `packages/utils` rebuilds its dependents; failures are never cached. CI starts without a cache, so it is unaffected._
 - [x] **R3.** `updater.ts`: after Plan 2 B4, add `--filter <glob>` to update a subset and `--interactive` for majors (using `@inquirer/checkbox`), and make it write `CHANGELOG.md` stubs for major bumps. _Done 2026-09-25: `--filter <glob>` (repeatable, `path.matchesGlob`) limits both the workspace dependencies and the starter `versions.json`; `--interactive` asks once with `@inquirer/checkbox` 5.2.1 (same `@inquirer/core` 11 as the starter) which majors to apply, once per package for `versions.json`; every applied major gets a `- TODO: major update ...` line under the first `### Changed` of `CHANGELOG.md` (printed only with `--dry-run`). Checked with filtered dry runs; the prompt itself needs a TTY and was not exercised here._
 - [x] **R4.** `cloc.ts` spawns a system `cloc` binary; replace with a Node implementation (`sloc` or a 30-line walker) so `npm run cloc` works on any machine, or delete it. _Done 2026-09-25: a 70-line Node walker (no dependency) prints files, non-blank and blank lines per extension as a table in a quarter of a second; it also skips `lib`, `types`, `.out` and `docs`, and `cloc` is gone from knip's `ignoreBinaries`._
-- [ ] **R5.** Publish provenance: `npm publish --provenance` from the CI release job with `id-token: write`, and a release workflow triggered by a tag that runs build, lint, test, then `lerna run production`.
+- [x] **R5.** Publish provenance: `npm publish --provenance` from the CI release job with `id-token: write`, and a release workflow triggered by a tag that runs build, lint, test, then `lerna run production`. _Closed 2026-09-25 by the user's decision: releases stay manual for now, no release workflow._
 
 ## 12. Documentation
 
@@ -140,7 +140,7 @@ Status 2026-09-25:
 5. Met. Plan 1 thresholds hold; no `jest.isolateModules` in the tester specs.
 6. Met. With the R2 nx cache: `npm run build` 8.7 s cold / 0.6 s warm, `npm run test:unit` 9.2 s cold / 0.6 s warm (macOS).
 
-Open items, each waiting for a decision: R5.
+Open items: none.
 
 ## 14. Suggested order
 
