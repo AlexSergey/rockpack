@@ -73,6 +73,15 @@ The compiler no longer runs ESLint and Stylelint just because it finds their con
 frontendCompiler({ lint: true });
 ```
 
+### webpack-dev-server 6
+
+The dev server is webpack-dev-server 6 (Express 5, http-proxy-middleware 4, webpack-dev-middleware 8). The defaults of the compiler did not change; only custom `devServer` settings added in the callback may need an update:
+
+- `proxy`: the `bypass` option is gone (use `context` or `router`), and the other proxy options follow [http-proxy-middleware 4](https://github.com/chimurai/http-proxy-middleware/releases/tag/v4.0.0).
+- `setupMiddlewares` and routes run on [Express 5](https://expressjs.com/en/guide/migrating-5.html) (path patterns such as `*` need a name, for example `/*splat`).
+- `webSocketServer: 'sockjs'` is no longer supported; the default `ws` transport is used.
+- HTTP/2 comes from `server: 'http2'` (Node.js `node:http2`) instead of `spdy`.
+
 ### Build output
 
 The compiler prints its own summary lines instead of friendly-errors (see "Build output" in the compiler README). Scripts that parsed `Compiled successfully!`, `DONE`, `[COMPILE]` or `Failed to compile.` should use the exit code (`1` on errors) or the result of the compiler (`kind: 'build'` with `success`) instead; `Starting server on <url>` is still printed for the dev server. `progress: false` turns the bars off in a terminal.
