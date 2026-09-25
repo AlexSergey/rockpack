@@ -66,7 +66,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 - [x] **C19.** Production builds drop `console.*` in Node backends too (`drop_console` unless `debug`), so server logs disappear; limit it to browser targets. _Done 2026-09-25: `drop_console` is `!debug && !nodejs` (`backendConf` sets `nodejs`); the backend-basic e2e fixture now logs with `console.log` and the spec reads it from the built bundle._
 - [x] **C20.** dotenv is enabled only when `.env` exists, so a project with `.env.defaults` alone gets raw `process.env.X` in the browser bundle. _Done 2026-09-25: dotenv runs when `.env` or `.env.defaults` exists and is silent about the missing `.env` in the second case; an e2e build of the dotenv fixture without `.env` and `.env.example` inlines the default._
 
-- [ ] **C21.** `makeCompilerOptions` sets `moduleResolution: 'node'` and `baseUrl`, both deprecated in TypeScript 6 and removed in 7; move the d.ts and source builds to `node16`/`bundler` and check the emitted declarations.
+- [x] **C21.** `makeCompilerOptions` sets `moduleResolution: 'node'` and `baseUrl`, both deprecated in TypeScript 6 and removed in 7; move the d.ts and source builds to `node16`/`bundler` and check the emitted declarations. _Done 2026-09-25: the source builds run through Babel and never used these options, so the `cjs`/`esm` branches (and the `moduleFormats` constant) were dead code and are gone. `makeCompilerOptions` now only adds declaration-only output to the project's tsconfig, without `baseUrl` and without overriding `module`/`moduleResolution`; the library e2e goldens (declarations included) are unchanged._
 
 ## 6. `@rockpack/tester`
 

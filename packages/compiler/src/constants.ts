@@ -8,7 +8,3 @@ export const testFilesIgnore = [
   '**/__mocks__/**',
   '**/__tests__/**',
 ];
-export const moduleFormats = {
-  cjs: 'cjs',
-  esm: 'esm',
-} as const;

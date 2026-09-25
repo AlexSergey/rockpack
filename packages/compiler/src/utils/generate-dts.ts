@@ -23,8 +23,7 @@ const findSourceDir = (src: string, extensions: readonly string[]): string | und
 
 // Declarations only, straight into the types folder.
 const emitDeclarations = (root: string, tsConfig: string, files: string[], outDir: string): void => {
-  const compilerOptions = makeCompilerOptions(root, tsConfig, outDir, 'dts');
-  const options = { ...compilerOptions.options, noEmit: false };
+  const { options } = makeCompilerOptions(root, tsConfig, outDir);
   const program = ts.createProgram(files, options, ts.createCompilerHost(options));
   program.emit();
 };

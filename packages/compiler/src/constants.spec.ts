@@ -1,18 +1,17 @@
-import { defaultDistFile, distExtension, moduleFormats } from './constants.js';
+import { defaultDistFile, distExtension, testFilesIgnore } from './constants.js';
 
 describe('constants', () => {
   describe('negative cases', () => {
-    it('supports only cjs and esm module formats', () => {
-      expect(Object.keys(moduleFormats)).toEqual(['cjs', 'esm']);
+    it('keeps specs and fixtures out of the per-file builds', () => {
+      expect(testFilesIgnore).toContain('**/__fixtures__/**');
     });
   });
 
   describe('positive cases', () => {
-    it('defines the dist file, extension and module formats', () => {
-      expect({ defaultDistFile, distExtension, moduleFormats }).toEqual({
+    it('defines the dist file and extension', () => {
+      expect({ defaultDistFile, distExtension }).toEqual({
         defaultDistFile: 'index',
         distExtension: '.js',
-        moduleFormats: { cjs: 'cjs', esm: 'esm' },
       });
     });
   });

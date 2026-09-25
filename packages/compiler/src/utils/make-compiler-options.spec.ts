@@ -9,46 +9,35 @@ const outDir = path.join(root, 'out');
 describe('makeCompilerOptions', () => {
   describe('negative cases', () => {
     it('throws when the tsconfig does not exist', () => {
-      expect(() => makeCompilerOptions(root, 'tsconfig.missing.json', outDir, 'esm')).toThrow(
+      expect(() => makeCompilerOptions(root, 'tsconfig.missing.json', outDir)).toThrow(
         'Could not find tsconfig at tsconfig.missing.json',
       );
     });
 
-    it('only sets the output folder for an unknown format', () => {
-      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir, 'umd');
+    it('sets no deprecated baseUrl or node10 resolution', () => {
+      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir);
 
-      expect(options.outDir).toBe(outDir);
-      expect(options.declaration).toBeUndefined();
-      expect(options.module).toBe(ts.ModuleKind.ESNext);
+      expect(options).not.toHaveProperty('baseUrl');
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- asserting the deprecated value is gone
+      expect(options.moduleResolution).not.toBe(ts.ModuleResolutionKind.Node10);
     });
   });
 
   describe('positive cases', () => {
-    it('emits declarations only for dts', () => {
-      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir, 'dts');
+    it('emits declarations only into the output folder', () => {
+      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir);
 
-      expect(options).toMatchObject({ declaration: true, emitDeclarationOnly: true, outDir });
+      expect(options).toMatchObject({ declaration: true, emitDeclarationOnly: true, noEmit: false, outDir });
     });
 
-    it('targets CommonJS for cjs', () => {
-      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir, 'cjs');
+    it('keeps the module settings of the project', () => {
+      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir);
 
-      expect(options).toMatchObject({
-        module: ts.ModuleKind.CommonJS,
-        // eslint-disable-next-line @typescript-eslint/no-deprecated -- the source still sets `node`; Plan 3 C21
-        moduleResolution: ts.ModuleResolutionKind.Node10,
-        outDir,
-      });
-    });
-
-    it('targets ESNext for esm', () => {
-      const { options } = makeCompilerOptions(root, 'tsconfig.json', outDir, 'esm');
-
-      expect(options).toMatchObject({ module: ts.ModuleKind.ESNext, outDir, target: ts.ScriptTarget.ESNext });
+      expect(options.module).toBe(ts.ModuleKind.ESNext);
     });
 
     it('keeps the project files from the tsconfig', () => {
-      const { fileNames } = makeCompilerOptions(root, 'tsconfig.json', outDir, 'esm');
+      const { fileNames } = makeCompilerOptions(root, 'tsconfig.json', outDir);
 
       expect(fileNames.map((file) => path.relative(root, file)).sort()).toEqual(
         ['src/index.ts', 'src/label.tsx', 'src/utils/sum.ts'].map((file) => path.join(...file.split('/'))),
