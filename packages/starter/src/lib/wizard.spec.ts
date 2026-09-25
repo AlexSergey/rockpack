@@ -3,7 +3,6 @@ import select from '@inquirer/select';
 
 import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { wizard } from './wizard.js';
 
 jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
@@ -17,10 +16,7 @@ const exitPromptError = (): Error =>
   Object.assign(new Error('User force closed the prompt'), { name: 'ExitPromptError' });
 
 describe('wizard', () => {
-  let exitSpy: jest.SpyInstance;
-
   beforeEach(() => {
-    exitSpy = mockProcessExit();
     jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
@@ -30,17 +26,16 @@ describe('wizard', () => {
   });
 
   describe('negative cases', () => {
-    it('exits with code 0 when the type prompt is closed', async () => {
+    it('rethrows the prompt exit when the type prompt is closed', async () => {
       selectMock.mockRejectedValue(exitPromptError());
 
-      await expect(wizard({ tests: true })).rejects.toEqual(new ExitError(0));
-      expect(exitSpy).toHaveBeenCalledWith(0);
+      await expect(wizard({ tests: true })).rejects.toMatchObject({ name: 'ExitPromptError' });
     });
 
-    it('exits with code 0 when the tests prompt is closed', async () => {
+    it('rethrows the prompt exit when the tests prompt is closed', async () => {
       confirmMock.mockRejectedValue(exitPromptError());
 
-      await expect(wizard({ appType: 'csr' })).rejects.toEqual(new ExitError(0));
+      await expect(wizard({ appType: 'csr' })).rejects.toMatchObject({ name: 'ExitPromptError' });
     });
 
     it('leaves the answers undefined when the prompts fail for another reason', async () => {
@@ -48,7 +43,6 @@ describe('wizard', () => {
       confirmMock.mockRejectedValue(new Error('no tty'));
 
       await expect(wizard({})).resolves.toEqual({ appType: undefined, tester: undefined });
-      expect(exitSpy).not.toHaveBeenCalled();
     });
   });
 

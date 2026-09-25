@@ -3,6 +3,14 @@ import os from 'node:os';
 
 import { getPM, getPMVersion } from './other.js';
 
+// Thrown once the failure report is printed; the CLI turns it into exit code 1 without printing it again.
+export class ReportedError extends Error {
+  constructor(cause: unknown) {
+    super('Rockpack could not create the project', { cause });
+    this.name = 'ReportedError';
+  }
+}
+
 export const showError = (e: unknown, cb?: () => void): never => {
   console.log();
   console.error(chalk.red('Something went wrong. Please create an issue here and provide more details:'));
@@ -21,5 +29,5 @@ export const showError = (e: unknown, cb?: () => void): never => {
   console.log(`Package manager: ${getPM()}. version: ${getPMVersion()}`);
   console.log();
 
-  return process.exit(1);
+  throw new ReportedError(e);
 };

@@ -1,7 +1,5 @@
 import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
-
 jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('./rockpack.js', () => ({ rockpack: jest.fn() }));
 
@@ -12,7 +10,7 @@ const runBin = (nodeVersion: string): jest.Mock => {
   let rockpack: jest.Mock | undefined;
   jest.isolateModules(() => {
     rockpack = jest.requireMock<{ rockpack: jest.Mock }>('./rockpack.js').rockpack;
-    rockpack.mockResolvedValue(undefined);
+    rockpack.mockResolvedValue(3);
     jest.requireActual('./index.js');
   });
   if (!rockpack) {
@@ -26,27 +24,32 @@ describe('bin', () => {
   let errorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    mockProcessExit();
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     Object.defineProperty(process.versions, 'node', { value: originalNodeVersion });
+    process.exitCode = undefined;
     jest.restoreAllMocks();
   });
 
   describe('negative cases', () => {
-    it('exits with code 1 on Node below the minimum version', () => {
-      expect(() => runBin('23.11.0')).toThrow(new ExitError(1));
+    it('sets exit code 1 and does not start the CLI on Node below the minimum version', () => {
+      const rockpack = runBin('23.11.0');
+
+      expect(process.exitCode).toBe(1);
+      expect(rockpack).not.toHaveBeenCalled();
       expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('You are running Node 23.11.0.'));
     });
   });
 
   describe('positive cases', () => {
-    it('starts the CLI on a supported Node version', () => {
+    it('starts the CLI and sets its exit code on a supported Node version', async () => {
       const rockpack = runBin('24.0.0');
+      await Promise.resolve();
 
       expect(rockpack).toHaveBeenCalledTimes(1);
+      expect(process.exitCode).toBe(3);
       expect(errorSpy).not.toHaveBeenCalled();
     });
   });

@@ -13,7 +13,9 @@ if (major < minVer) {
     chalk.red(`You are running Node ${currentNodeVersion}.
 Rockpack requires Node ${minVer} or higher. Please update your version of Node.`),
   );
-  process.exit(1);
+  process.exitCode = 1;
+} else {
+  void rockpack().then((code) => {
+    process.exitCode = code;
+  });
 }
-
-void rockpack();

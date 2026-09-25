@@ -2,18 +2,15 @@ import os from 'node:os';
 
 import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
-import { showError } from './error.js';
+import { ReportedError, showError } from './error.js';
 
 jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('./other.js', () => ({ getPM: (): string => 'npm', getPMVersion: (): string => '11.6.0' }));
 
 describe('showError', () => {
-  let exitSpy: jest.SpyInstance;
   let logSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    exitSpy = mockProcessExit();
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
   });
@@ -23,9 +20,18 @@ describe('showError', () => {
   });
 
   describe('negative cases', () => {
-    it('exits with code 1', () => {
-      expect(() => showError(new Error('boom'))).toThrow(new ExitError(1));
-      expect(exitSpy).toHaveBeenCalledWith(1);
+    it('throws a ReportedError caused by the error', () => {
+      const error = new Error('boom');
+
+      let thrown: unknown;
+      try {
+        showError(error);
+      } catch (e) {
+        thrown = e;
+      }
+
+      expect(thrown).toBeInstanceOf(ReportedError);
+      expect(thrown).toMatchObject({ cause: error, name: 'ReportedError' });
     });
   });
 
@@ -33,19 +39,18 @@ describe('showError', () => {
     it('prints the error with platform diagnostics', () => {
       const error = new Error('boom');
 
-      expect(() => showError(error)).toThrow(ExitError);
+      expect(() => showError(error)).toThrow(ReportedError);
       expect(logSpy).toHaveBeenCalledWith(error);
       expect(logSpy).toHaveBeenCalledWith(`OS: ${os.type()}, ${os.release()}, ${os.platform()}`);
       expect(logSpy).toHaveBeenCalledWith(`NodeJS version: ${process.versions.node}`);
       expect(logSpy).toHaveBeenCalledWith('Package manager: npm. version: 11.6.0');
     });
 
-    it('runs the callback before exiting', () => {
+    it('runs the callback before throwing', () => {
       const callback = jest.fn();
 
-      expect(() => showError(new Error('boom'), callback)).toThrow(ExitError);
+      expect(() => showError(new Error('boom'), callback)).toThrow(ReportedError);
       expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback.mock.invocationCallOrder[0]).toBeLessThan(exitSpy.mock.invocationCallOrder[0] ?? 0);
     });
   });
 });

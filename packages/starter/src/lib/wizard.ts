@@ -2,6 +2,8 @@ import confirm from '@inquirer/confirm';
 import select from '@inquirer/select';
 import chalk from 'chalk';
 
+import { isPromptExit } from '../utils/prompt-exit.js';
+
 export type AppType = 'component' | 'csr' | 'library' | 'ssr';
 
 export type State = {
@@ -17,6 +19,13 @@ type WizardArgs = {
   appType?: AppType;
   tests?: boolean;
   yes?: boolean;
+};
+
+// A closed prompt ends the CLI; any other prompt failure leaves the answer unset.
+const rethrowPromptExit = (error: unknown): void => {
+  if (isPromptExit(error)) {
+    throw error;
+  }
 };
 
 // --yes answers every question that has no flag with its default.
@@ -60,9 +69,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
         message: 'Which is type of application would you build?',
       });
     } catch (error) {
-      if ((error as { name?: string }).name === 'ExitPromptError') {
-        process.exit(0);
-      }
+      rethrowPromptExit(error);
     }
   }
 
@@ -70,9 +77,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
     try {
       tester = await confirm({ message: 'Do you want tests?' });
     } catch (error) {
-      if ((error as { name?: string }).name === 'ExitPromptError') {
-        process.exit(0);
-      }
+      rethrowPromptExit(error);
     }
   }
 

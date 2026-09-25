@@ -11,8 +11,10 @@ import { here } from '../constants/paths.js';
 import { APP_TYPES, getArgs } from '../lib/get-args.js';
 import { install } from '../lib/install.js';
 import { argv } from '../utils/argv.js';
+import { ReportedError } from '../utils/error.js';
 import { packageJson } from '../utils/package-json.js';
 import { getCurrentPath } from '../utils/pathes.js';
+import { isPromptExit } from '../utils/prompt-exit.js';
 
 const warnIfOutdated = async (): Promise<void> => {
   let rockpackLatestVersion: string;
@@ -36,14 +38,16 @@ const warnIfOutdated = async (): Promise<void> => {
   }
 };
 
-export const rockpack = async (): Promise<void> => {
+// Resolves to the process exit code; the bin sets it.
+export const rockpack = async (): Promise<number> => {
   const { _, h, help, v, version } = argv;
   const noName = _.length === 0;
   const args = getArgs();
 
   if (v || version) {
     console.log(`Rockpack v${chalk.green(packageJson.version)}`);
-    process.exit();
+
+    return 0;
   }
 
   if (h || help) {
@@ -59,7 +63,8 @@ export const rockpack = async (): Promise<void> => {
     console.log(
       `  ${chalk.green('-y')} (--yes)               Use the defaults for unanswered questions (csr, with tests)`,
     );
-    process.exit();
+
+    return 0;
   }
 
   if (noName) {
@@ -68,14 +73,14 @@ export const rockpack = async (): Promise<void> => {
     console.log();
     console.log('For example:');
     console.log(`  rockpack ${chalk.green('project-name')}`);
-    process.exit(1);
+
+    return 1;
   }
 
   if (typeof argv['type'] === 'string' && !(APP_TYPES as string[]).includes(argv['type'])) {
     console.error(`Unknown type "${argv['type']}". Use one of: ${APP_TYPES.join(', ')}`);
-    process.exit(1);
 
-    return;
+    return 1;
   }
 
   if (!args.testMode && !args.offline) {
@@ -98,9 +103,7 @@ export const rockpack = async (): Promise<void> => {
       `${chalk.green('@rockpack/codestyle')} - https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md`,
     );
 
-    process.exit(1);
-
-    return;
+    return 1;
   }
 
   if (projectName === here) {
@@ -114,14 +117,25 @@ export const rockpack = async (): Promise<void> => {
     [...errors, ...warnings].forEach((problem) => {
       console.error(`  - ${problem}`);
     });
-    process.exit(1);
 
-    return;
+    return 1;
   }
 
-  await install({
-    args,
-    currentPath,
-    projectName,
-  });
+  try {
+    await install({
+      args,
+      currentPath,
+      projectName,
+    });
+  } catch (e) {
+    if (isPromptExit(e)) {
+      return 0;
+    }
+    if (e instanceof ReportedError) {
+      return 1;
+    }
+    throw e;
+  }
+
+  return 0;
 };

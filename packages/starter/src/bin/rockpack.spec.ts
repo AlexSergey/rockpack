@@ -4,8 +4,8 @@ import path from 'node:path';
 
 import type * as Mocks from '../__fixtures__/mocks.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { install } from '../lib/install.js';
+import { ReportedError } from '../utils/error.js';
 import { packageJson } from '../utils/package-json.js';
 import { rockpack } from './rockpack.js';
 
@@ -39,13 +39,11 @@ const setArgv = (values: Record<string, unknown>): void => {
 };
 
 describe('rockpack', () => {
-  let exitSpy: jest.SpyInstance;
   let logSpy: jest.SpyInstance;
   let errorSpy: jest.SpyInstance;
   let warnSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    exitSpy = mockProcessExit();
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -66,7 +64,7 @@ describe('rockpack', () => {
     it('exits with code 1 without a project name', async () => {
       setArgv({});
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      await expect(rockpack()).resolves.toBe(1);
       expect(errorSpy).toHaveBeenCalledWith('Please specify the project directory:');
       expect(installMock).not.toHaveBeenCalled();
     });
@@ -76,7 +74,7 @@ describe('rockpack', () => {
       existsSyncMock.mockReturnValue(true);
       readdirSyncMock.mockReturnValue(['package.json']);
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      await expect(rockpack()).resolves.toBe(1);
       expect(errorSpy).toHaveBeenCalledWith('Project "app" has already created. Please use manual installation:\n');
       expect(installMock).not.toHaveBeenCalled();
     });
@@ -84,7 +82,7 @@ describe('rockpack', () => {
     it('exits with code 1 and lists the types for an unknown --type', async () => {
       setArgv({ _: ['app'], type: 'desktop' });
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      await expect(rockpack()).resolves.toBe(1);
       expect(errorSpy).toHaveBeenCalledWith('Unknown type "desktop". Use one of: csr, ssr, component, library');
       expect(installMock).not.toHaveBeenCalled();
     });
@@ -92,11 +90,34 @@ describe('rockpack', () => {
     it('exits with code 1 and lists the problems of an invalid project name', async () => {
       setArgv({ _: ['My App'] });
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(1));
+      await expect(rockpack()).resolves.toBe(1);
       expect(errorSpy).toHaveBeenCalledWith('"My App" is not a valid npm package name:');
       expect(errorSpy).toHaveBeenCalledWith('  - name can only contain URL-friendly characters');
       expect(errorSpy).toHaveBeenCalledWith('  - name can no longer contain capital letters');
       expect(installMock).not.toHaveBeenCalled();
+    });
+
+    it('resolves to 1 when the installation reported a failure', async () => {
+      setArgv({ _: ['app'] });
+      installMock.mockRejectedValue(new ReportedError(new Error('npm ERR!')));
+
+      await expect(rockpack()).resolves.toBe(1);
+    });
+
+    it('resolves to 0 when a prompt is closed', async () => {
+      setArgv({ _: ['app'] });
+      installMock.mockRejectedValue(
+        Object.assign(new Error('User force closed the prompt'), { name: 'ExitPromptError' }),
+      );
+
+      await expect(rockpack()).resolves.toBe(0);
+    });
+
+    it('rethrows an unexpected error', async () => {
+      setArgv({ _: ['app'] });
+      installMock.mockRejectedValue(new Error('unexpected'));
+
+      await expect(rockpack()).rejects.toThrow('unexpected');
     });
 
     it('skips the update check offline', async () => {
@@ -148,15 +169,14 @@ describe('rockpack', () => {
     it.each([{ v: true }, { version: true }])('prints the version for %p', async (flags) => {
       setArgv(flags);
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(undefined));
+      await expect(rockpack()).resolves.toBe(0);
       expect(logSpy).toHaveBeenCalledWith(`Rockpack v${packageJson.version}`);
-      expect(exitSpy).toHaveBeenCalledWith();
     });
 
     it.each([{ h: true }, { help: true }])('prints the usage for %p', async (flags) => {
       setArgv(flags);
 
-      await expect(rockpack()).rejects.toEqual(new ExitError(undefined));
+      await expect(rockpack()).resolves.toBe(0);
       expect(logSpy).toHaveBeenCalledWith('USAGE');
       expect(logSpy).toHaveBeenCalledWith('  rockpack proj');
     });
@@ -184,7 +204,7 @@ describe('rockpack', () => {
     it('installs into a new project directory', async () => {
       setArgv({ _: ['app'], mode: 'test' });
 
-      await rockpack();
+      await expect(rockpack()).resolves.toBe(0);
 
       expect(installMock).toHaveBeenCalledWith({
         args: { testMode: true },

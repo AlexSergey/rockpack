@@ -8,7 +8,6 @@ import type { SpinnerMock } from '../__fixtures__/mocks.js';
 import type { Args } from './get-args.js';
 import type { AppType, State } from './wizard.js';
 
-import { ExitError, mockProcessExit } from '../__fixtures__/process-exit.js';
 import { showError } from '../utils/error.js';
 import { gitHooks } from '../utils/git-hooks.js';
 import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project.js';
@@ -105,7 +104,6 @@ describe('install', () => {
 
   beforeEach(() => {
     jest.useFakeTimers();
-    mockProcessExit();
     oraMock.mockImplementation(jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').createSpinner);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     mocks.createPackageJSON.mockImplementation((name) => ({ name }));
@@ -220,8 +218,8 @@ describe('install', () => {
       expect(getSpinner().stop).toHaveBeenCalled();
     });
 
-    it('exits before installing dependencies with --install=false', async () => {
-      await expect(runInstall({}, { noInstall: true })).rejects.toEqual(new ExitError(undefined));
+    it('returns before installing dependencies with --install=false', async () => {
+      await runInstall({}, { noInstall: true });
 
       expect(mocks.writePackageJSON).toHaveBeenCalledWith(currentPath, { name: 'app', prepared: true });
       expect(mocks.installDependencies).not.toHaveBeenCalled();
@@ -259,7 +257,6 @@ describe('install', () => {
       expect(callOrder()).toEqual([
         'wizard',
         'mkdirp',
-        'createPackageJSON',
         'existsSync',
         'gitInit',
         'mkdirSync',
@@ -267,6 +264,7 @@ describe('install', () => {
         'writeFileSync',
         'readFileSync',
         'writeFileSync',
+        'createPackageJSON',
         'packageJsonPreparing',
         'copyFiles',
         'createFiles',
