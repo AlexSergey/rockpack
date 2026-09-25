@@ -91,6 +91,18 @@ import { tester } from '@rockpack/tester';
 void tester({}, { testEnvironment: 'node' });
 ```
 
+## How the Jest config is built
+
+`tester(options, jestConfig)` builds the Jest config in `src/configs/config-compiler.ts` and runs it with Jest's `runCLI`:
+
+1. `jest.init.*`, `jest.setup.*`, `jest.global.setup.*` and `jest.global.teardown.*` in the project root become `setupFiles`, `setupFilesAfterEnv`, `globalSetup` and `globalTeardown`.
+2. The defaults are added: the `jsdom` environment, Babel transforms from `@rockpack/babel` in test mode (one preset for JavaScript, one for TypeScript), stubs for styles and static files, and the `TextEncoder` polyfill.
+3. Your Jest config is merged in. Arrays such as `setupFilesAfterEnv` extend the defaults unless `replaceArrays` is set.
+4. The options are applied: coverage (outside watch mode), the HTML report, `serial`, `watch` and the spec filter from `testPathPatterns` or the command line.
+
+The promise resolves to Jest's results; a failure sets `process.exitCode = 1` without exiting the process.
+
+
 ## The MIT License
 
 <a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

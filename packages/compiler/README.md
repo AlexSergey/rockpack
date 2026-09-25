@@ -380,6 +380,18 @@ import * as styles from './App.module.css';
 *CSS Modules support TypeScript with generating definitions - [dts-css-modules-loader](https://github.com/Megaputer/dts-css-modules-loader)*
 ***
 
+## How a build is assembled
+
+Every compiler goes through the same steps (`src/core/compile.ts`):
+
+1. **Defaults and validation.** The options are merged with the defaults (`dist/index.js`, `src/index`, port `3000`, a free port in development) and validated once; every problem is reported with its path (`INVALID_CONFIG: html[1].template must be a string`).
+2. **Context.** A compile context says whether the build only returns the webpack config and whether it is part of an `isomorphicCompiler` build (which also carries the live reload server). Nothing is kept on `global`.
+3. **Config.** `make()` builds each part of the webpack config in its own module under `src/modules`: entry, output, devtool, dev server, optimization, rules (scripts, styles, assets), plugins, resolve, stats and externals. `--analyzer` on the command line turns the analyzer on (the mode comes from `--mode`, then `NODE_ENV`), then your callback receives the config, the rules and the plugins to change them.
+4. **Run.** Production runs webpack once and resolves to `{ kind: 'build', stats, success }`; development starts watching (and the dev server for the frontend) and resolves to a result with `stop()`. `isomorphicCompiler` builds the frontend and the backend configs with one shared context and runs them together.
+
+`sourceCompiler` and the `esm`/`cjs` formats of `libraryCompiler` do not use webpack: every source file is transpiled with Babel into the output folder, and the declarations are emitted by TypeScript from your `tsconfig.json`.
+
+
 ## The MIT License
 
 <a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

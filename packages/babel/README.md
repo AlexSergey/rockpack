@@ -47,6 +47,11 @@ The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modul
 - `@babel/plugin-transform-modules-commonjs`
 - `babel-plugin-transform-import-meta`, preceded by a small Rockpack plugin that renames module-level `__filename`/`__dirname`, so `const __filename = fileURLToPath(import.meta.url)` keeps working in tests
 
+## How the config is composed
+
+`createBabelPresets(options)` composes the config from small modules in `src`: the plugins for the syntax proposals, React, TypeScript metadata and test mode (`plugins.ts`), the presets (`presets.ts`: `@babel/preset-typescript` for TypeScript, otherwise `@babel/preset-env` with the browser or Node.js targets and `core-js` when it is a dependency), the production-only React plugins, and finally `rockpack.babel.*` (`user-config.ts`), which is deep-merged or called as a merge function.
+
+
 ## The MIT License
 
 <a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

@@ -93,6 +93,11 @@ Generated projects install their git hooks with `simple-git-hooks` on `npm insta
 - [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
 - [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
 
+## How a project is generated
+
+`rockpack <name>` checks the arguments and the project name, then asks the questions that the flags did not answer. The project is then created step by step: the folder (and the `example` project for libraries and components), git, `.gitignore`/`.npmignore`, `package.json` with the dependencies resolved from the registry (or from `versions.json` with `--offline`), the template files (`templates/backbone/<type>`, shared components for `csr`/`ssr`, and the `claude`, `codestyle`, `git` and `tester` addons), the build script with the project name, `.env` and `.nvmrc`. Finally the dependencies are installed and the git hooks written. A failed step prints a report and the CLI exits with code `1`.
+
+
 ## The MIT License
 
 <a href="https://github.com/AlexSergey/rockpack#the-mit-license" target="_blank">MIT</a>

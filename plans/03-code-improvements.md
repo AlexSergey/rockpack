@@ -118,7 +118,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 ## 12. Documentation
 
 - [x] **D4.** Found by Plan 4: `@rockpack/utils` and `@rockpack/tsconfig` publish no README, and `@rockpack/codestyle` exports its internal `isString`. _Partly done 2026-09-24: `@rockpack/utils` and `@rockpack/tsconfig` have READMEs; the internal `isString` export of codestyle is still open (S-step)._ _Done 2026-09-25: codestyle takes `isString` from `@rockpack/utils` and no longer exports it (CHANGELOG breaking entry)._
-- [ ] **D1.** Architecture note per package in its README ("how a build is assembled", "how the tester builds the jest config"), generated diagrams optional.
+- [x] **D1.** Architecture note per package in its README ("how a build is assembled", "how the tester builds the jest config"), generated diagrams optional. _Done 2026-09-25: a "How ..." section in the compiler, tester, babel, codestyle and starter READMEs, checked against the sources; utils and tsconfig have nothing to assemble. No diagrams._
 - [x] **D2.** Migration guide `9.0.0` listing every API change from Plan 2 F and Plan 3 C9, C10, T6, B3. _Done 2026-09-25: `MIGRATION.md` at the repository root (linked from the CHANGELOG), built from every **Breaking** and Deprecated CHANGELOG entry, grouped by package with before/after code. B3 is not in it yet: it waits for the decision; add it together with B3._
 - [ ] **D3.** Keep this document updated: check items off, record measured numbers (type coverage, build timings, test run time).
 
