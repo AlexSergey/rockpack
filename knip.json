@@ -165,7 +165,7 @@
     "e2e/compiler-e2e": {
       "entry": [
         "src/**/*.spec.ts",
-        "fixtures/*/scripts.*.ts",
+        "fixtures/*/scripts.*.mts",
         "fixtures/*/eslint.config.ts",
         "fixtures/*/src/**/*.{ts,tsx}"
       ],

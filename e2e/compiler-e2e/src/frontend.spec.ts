@@ -7,7 +7,7 @@ describe('frontendCompiler production builds', () => {
   describe('negative cases', () => {
     it('fails when the entry file does not exist', async () => {
       const dir = prepareFixture('frontend-basic');
-      const { code, output } = await build(dir, 'scripts.missing-entry.ts');
+      const { code, output } = await build(dir, 'scripts.missing-entry.mts');
 
       expect(code).toBe(1);
       expect(output).toContain('missing.tsx');
@@ -15,7 +15,7 @@ describe('frontendCompiler production builds', () => {
 
     it('fails when the source does not compile', async () => {
       const dir = prepareFixture('frontend-basic');
-      const { code, output } = await build(dir, 'scripts.syntax-error.ts');
+      const { code, output } = await build(dir, 'scripts.syntax-error.mts');
 
       expect(code).toBe(1);
       expect(output).toContain('broken.ts');
@@ -23,7 +23,7 @@ describe('frontendCompiler production builds', () => {
 
     it('fails on an invalid option with its path', async () => {
       const dir = prepareFixture('frontend-basic');
-      const { code, output } = await build(dir, 'scripts.invalid-conf.ts');
+      const { code, output } = await build(dir, 'scripts.invalid-conf.mts');
 
       expect(code).toBe(1);
       expect(output).toContain('[rockpack] INVALID_CONFIG: html.template must be a string');
@@ -77,7 +77,7 @@ describe('frontendCompiler production builds', () => {
 
     it('resolves an awaited production build with its outcome', async () => {
       const dir = prepareFixture('frontend-basic');
-      const { code, output } = await build(dir, 'scripts.result.ts');
+      const { code, output } = await build(dir, 'scripts.result.mts');
 
       expect(code).toBe(0);
       expect(output).toContain('result: build true');
@@ -131,9 +131,9 @@ describe('frontendCompiler production builds', () => {
     describe('frontend-basic with cache: true', () => {
       it('writes the build cache and builds the same bundle from it', async () => {
         const dir = prepareFixture('frontend-basic');
-        const cold = await build(dir, 'scripts.cache.ts');
+        const cold = await build(dir, 'scripts.cache.mts');
         const coldBundle = read(dir, 'dist/index.js');
-        const warm = await build(dir, 'scripts.cache.ts');
+        const warm = await build(dir, 'scripts.cache.mts');
 
         expect({ code: cold.code, output: cold.output }).toMatchObject({ code: 0 });
         expect({ code: warm.code, output: warm.output }).toMatchObject({ code: 0 });

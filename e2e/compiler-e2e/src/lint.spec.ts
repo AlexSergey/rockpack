@@ -27,13 +27,13 @@ describe('linting during builds (lint: true)', () => {
 
   describe('positive cases', () => {
     it('does not lint without the lint option', async () => {
-      const { dir } = await buildFixture('frontend-lint', 'scripts.no-lint.ts');
+      const { dir } = await buildFixture('frontend-lint', 'scripts.no-lint.mts');
 
       expect(read(dir, 'dist/index.js')).toContain('lint');
     });
 
     it('skips ESLint when debug is on', async () => {
-      const { dir } = await buildFixture('frontend-lint', 'scripts.debug.ts');
+      const { dir } = await buildFixture('frontend-lint', 'scripts.debug.mts');
 
       expect(read(dir, 'dist/index.js')).toContain('lint');
     });

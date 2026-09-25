@@ -19,7 +19,7 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
   describe('negative cases', () => {
     it('rejects invalid libraryCompiler options', async () => {
       const dir = prepareFixture('library-umd');
-      const { code, output } = await build(dir, 'scripts.invalid-options.ts');
+      const { code, output } = await build(dir, 'scripts.invalid-options.mts');
 
       expect(code).toBe(1);
       expect(output).toContain('[rockpack] INVALID_CONFIG');
@@ -42,7 +42,7 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
       });
 
       it('builds with the deprecated name-only form', async () => {
-        const { dir: legacyDir } = await buildFixture('library-umd', 'scripts.legacy.ts');
+        const { dir: legacyDir } = await buildFixture('library-umd', 'scripts.legacy.mts');
         const { code, output } = await node(legacyDir, [
           '-e',
           "console.log(require('./dist/index.js').greet('legacy'))",

@@ -5,7 +5,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 
-import { prepareFixture, RUN_TS, startDev } from './fixtures';
+import { prepareFixture, startDev } from './fixtures';
 
 // The isomorphic dev server always listens for live reload on this port.
 const LIVE_RELOAD_PORT = 35_729;
@@ -50,7 +50,7 @@ describe('development mode', () => {
     it('moves to a free port when the configured one is busy', async () => {
       const busy = await getFreePort();
       const blocker = await occupy(busy);
-      const server = startDev(prepareFixture('frontend-basic'), 'scripts.port.ts', { FIXTURE_PORT: String(busy) });
+      const server = startDev(prepareFixture('frontend-basic'), 'scripts.port.mts', { FIXTURE_PORT: String(busy) });
       try {
         const [, url = ''] = await server.waitForOutput(SERVER_URL, 120_000);
         await waitForServer(server, url);
@@ -98,7 +98,7 @@ describe('development mode', () => {
       }, 60_000);
 
       it('stops the dev server through the result so the process can exit', async () => {
-        const script = run(process.execPath, [...RUN_TS, 'scripts.result.ts', '--_rockpack_testing'], {
+        const script = run(process.execPath, ['scripts.result.mts', '--_rockpack_testing'], {
           cwd: dir,
           env: { NODE_ENV: 'development' },
           timeout: 120_000,
@@ -112,7 +112,7 @@ describe('development mode', () => {
 
       it('uses the configured port when it is free', async () => {
         const port = await getFreePort();
-        const exact = startDev(dir, 'scripts.port.ts', { FIXTURE_PORT: String(port) });
+        const exact = startDev(dir, 'scripts.port.mts', { FIXTURE_PORT: String(port) });
         try {
           const [, exactUrl] = await exact.waitForOutput(SERVER_URL, 120_000);
 
@@ -167,7 +167,7 @@ describe('development mode', () => {
         dir = prepareFixture('isomorphic-basic');
         const port = await getFreePort();
         url = `http://localhost:${port}`;
-        server = startDev(dir, 'scripts.build.ts', { PORT: String(port) });
+        server = startDev(dir, 'scripts.build.mts', { PORT: String(port) });
         await waitForServer(server, url);
       }, 180_000);
 

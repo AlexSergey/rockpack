@@ -8,7 +8,7 @@ describe('backendCompiler and isomorphicCompiler production builds', () => {
   describe('negative cases', () => {
     it('rejects isomorphicCompiler without a backend', async () => {
       const dir = prepareFixture('isomorphic-basic');
-      const { code, output } = await build(dir, 'scripts.no-backend.ts');
+      const { code, output } = await build(dir, 'scripts.no-backend.mts');
 
       expect(code).toBe(1);
       expect(output).toContain('[rockpack] INVALID_CONFIG: backendCompiler is required to set isomorphicCompiler');
@@ -48,7 +48,7 @@ describe('backendCompiler and isomorphicCompiler production builds', () => {
       });
 
       it('builds with the deprecated promise form', async () => {
-        const { dir: legacyDir } = await buildFixture('isomorphic-basic', 'scripts.legacy.ts');
+        const { dir: legacyDir } = await buildFixture('isomorphic-basic', 'scripts.legacy.mts');
 
         expect(readdirSync(path.join(legacyDir, 'public')).filter((file) => file.endsWith('.js'))).toEqual([
           'index.js',
