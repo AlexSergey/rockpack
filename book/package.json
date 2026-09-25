@@ -27,7 +27,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/react-helmet": "6.1.7",
-    "node-html-parser": "6.1.10",
+    "node-html-parser": "9.0.4",
     "puppeteer": "25.1.0",
     "raw-loader": "4.0.2"
   },
