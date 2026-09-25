@@ -30,7 +30,8 @@
       "require": "./lib/cjs/index.cjs"
     },
     "./plugins/import-extension": "./plugins/import-extension.cjs",
-    "./plugins/rename-cjs-globals": "./plugins/rename-cjs-globals.cjs"
+    "./plugins/rename-cjs-globals": "./plugins/rename-cjs-globals.cjs",
+    "./presets/react": "./presets/react.cjs"
   },
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
@@ -38,6 +39,7 @@
   "files": [
     "lib",
     "plugins",
+    "presets",
     "types"
   ],
   "scripts": {
@@ -52,34 +54,34 @@
     "lint:ts": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "production": "npm run lint && npm publish --access public",
-    "test": "tsx scripts.tests.ts",
-    "test:watch": "tsx scripts.tests.ts --watch",
+    "test": "node --experimental-vm-modules --import tsx scripts.tests.ts",
+    "test:watch": "node --experimental-vm-modules --import tsx scripts.tests.ts --watch",
     "type-coverage": "type-coverage -p tsconfig.json"
   },
   "dependencies": {
-    "@babel/core": "7.29.7",
-    "@babel/plugin-proposal-decorators": "7.29.7",
-    "@babel/plugin-proposal-do-expressions": "7.29.7",
-    "@babel/plugin-proposal-pipeline-operator": "7.29.7",
-    "@babel/plugin-transform-modules-commonjs": "7.29.7",
-    "@babel/plugin-transform-react-constant-elements": "7.29.7",
-    "@babel/preset-env": "7.29.7",
-    "@babel/preset-react": "7.29.7",
-    "@babel/preset-typescript": "7.29.7",
+    "@babel/core": "8.0.6",
+    "@babel/plugin-proposal-decorators": "8.0.2",
+    "@babel/plugin-proposal-do-expressions": "8.0.1",
+    "@babel/plugin-transform-modules-commonjs": "8.0.1",
+    "@babel/plugin-transform-react-constant-elements": "8.0.5",
+    "@babel/preset-env": "8.0.6",
+    "@babel/preset-react": "8.0.1",
+    "@babel/preset-typescript": "8.0.1",
     "@rockpack/utils": "8.0.0",
-    "@types/babel__core": "7.20.5",
+    "babel-plugin-polyfill-corejs3": "1.0.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "babel-plugin-transform-import-meta": "2.3.3",
+    "babel-plugin-transform-import-meta": "3.0.0",
     "babel-plugin-transform-typescript-metadata": "0.4.0",
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
+    "@jest/globals": "30.4.1",
     "@rockpack/build-tools": "8.0.0",
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
-    "babel-core-8": "npm:@babel/core@8.0.6",
+    "babel-core-7": "npm:@babel/core@7.29.7",
     "expect-type": "1.4.0",
     "react-compiler-runtime": "1.0.0"
   },

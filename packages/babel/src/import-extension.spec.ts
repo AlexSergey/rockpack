@@ -1,4 +1,5 @@
 import { transformSync } from '@babel/core';
+import { jest } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
 import fs, { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -25,8 +26,8 @@ const FILES = [
 
 let root: string;
 
-// Babel 8 is ESM only, so it runs in a child process: `babel-core-8` is @babel/core 8 installed under an alias.
-const transformWithBabel8 = (code: string): string =>
+// Babel 7 runs in a child process with its own module cache: `babel-core-7` is @babel/core 7 installed under an alias.
+const transformWithBabel7 = (code: string): string =>
   JSON.parse(
     execFileSync(
       process.execPath,
@@ -34,9 +35,9 @@ const transformWithBabel8 = (code: string): string =>
         '--input-type=module',
         '-e',
         [
-          "import { transformSync } from 'babel-core-8';",
+          "import babel from 'babel-core-7';",
           'const { CODE, FILENAME, PLUGIN } = process.env;',
-          "const result = transformSync(CODE, { babelrc: false, configFile: false, filename: FILENAME, parserOpts: { plugins: ['typescript'] }, plugins: [[PLUGIN, { extension: 'mjs' }]] });",
+          "const result = babel.transformSync(CODE, { babelrc: false, configFile: false, filename: FILENAME, parserOpts: { plugins: ['typescript', 'importAttributes'] }, plugins: [[PLUGIN, { extension: 'mjs' }]] });",
           'process.stdout.write(JSON.stringify(result.code));',
         ].join('\n'),
       ],
@@ -56,7 +57,7 @@ const transform = (
     babelrc: false,
     configFile: false,
     ...(filename ? { filename } : {}),
-    parserOpts: { plugins: ['typescript', 'importAttributes'] },
+    parserOpts: { plugins: ['typescript'] },
     plugins: [[plugin, { extension }]],
   })?.code ?? '';
 
@@ -117,19 +118,19 @@ describe('import-extension plugin', () => {
     });
   });
 
-  describe('on Babel 8', () => {
+  describe('on Babel 7', () => {
     describe('negative cases', () => {
       it('keeps assets and their import attributes', () => {
         const code = "import './styles.css';\nimport data from './data.json' with { type: 'json' };";
 
-        expect(transformWithBabel8(code)).toBe(code);
+        expect(transformWithBabel7(code)).toBe(code);
       });
     });
 
     describe('positive cases', () => {
       it('rewrites imports, folders, re-exports and dynamic imports', () => {
         expect(
-          transformWithBabel8(
+          transformWithBabel7(
             "import a from './no-ext';\nimport b from './both';\nexport * from './utils';\nconst l = import('./x.js');",
           ),
         ).toBe(

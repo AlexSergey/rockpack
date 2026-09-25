@@ -54,6 +54,7 @@
     "type-coverage": "type-coverage -p tsconfig.json"
   },
   "dependencies": {
+    "@babel/core": "8.0.6",
     "@jest/types": "30.4.1",
     "@rockpack/babel": "8.0.0",
     "@rockpack/utils": "8.0.0",

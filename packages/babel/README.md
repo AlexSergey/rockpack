@@ -8,6 +8,8 @@
 
 This module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
+It runs on Babel 8 (`@babel/core` 8, Node.js 24.11 or newer). Plugins added through `rockpack.babel.*` must support Babel 8.
+
 To add custom plugins, create `rockpack.babel.js` in the root of your project. Plugins defined there are merged into the base Babel config.
 
 The file can also be `rockpack.babel.cjs`, `rockpack.babel.mjs` or `rockpack.babel.ts` (the first one found in this order is used). ES module configs use their default export. Export either an object, which is deep-merged into the defaults (arrays are concatenated), or a function that receives the context, the default options and `deepmerge`, and returns the final options:
@@ -28,9 +30,10 @@ The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modul
 
 ### Environment
 - `@babel/preset-env` - targets browsers with > 5% usage and the latest Node.js LTS
+- `babel-plugin-polyfill-corejs3` - when `core-js` is a dependency (not a devDependency) of the project, imports the polyfills the code uses and the targets lack (`method: 'usage-global'`, the `core-js` version from `package.json`)
 
 ### React
-- `@babel/preset-react`
+- `@babel/preset-react` (automatic runtime) through `@rockpack/babel/presets/react`, which skips `.ts`, `.mts` and `.cts` files, so generic arrow functions such as `<T>(value: T) => value` keep working there; JSX belongs in `.tsx`
 - `babel-plugin-react-compiler` - enables the React Compiler for automatic memoization. On React 19 it uses the runtime built into `react`; on React 17 and 18 install the optional peer dependency `react-compiler-runtime` in your project
 - `@babel/plugin-transform-react-constant-elements` - hoists static JSX elements out of render
 
@@ -47,9 +50,10 @@ createBabelPresets({ isNodejs: true, modules: 'commonjs', typescript: { env: tru
 This becomes the default in 10.0.
 
 ### Modern syntax
-- `@babel/plugin-proposal-decorators`
-- `@babel/plugin-proposal-pipeline-operator`
+- `@babel/plugin-proposal-decorators` - legacy (TypeScript `experimentalDecorators`) semantics, `version: 'legacy'`
 - `@babel/plugin-proposal-do-expressions`
+
+The pipeline operator is no longer included: Babel 8 dropped its `minimal` proposal. Add `@babel/plugin-proposal-pipeline-operator` with `proposal: 'hack'` or `'fsharp'` in `rockpack.babel.*` if you need it.
 
 ### Jest compatibility
 - `@babel/plugin-transform-modules-commonjs`
@@ -75,7 +79,7 @@ Bare specifiers, absolute paths, `#imports`, specifiers with `?` or `#`, and typ
 
 ## How the config is composed
 
-`createBabelPresets(options)` composes the config from small modules in `src`: the plugins for the syntax proposals, React, TypeScript metadata and test mode (`plugins.ts`), the presets (`presets.ts`: `@babel/preset-typescript` for TypeScript, otherwise `@babel/preset-env` with the browser or Node.js targets and `core-js` when it is a dependency), the production-only React plugins, and finally `rockpack.babel.*` (`user-config.ts`), which is deep-merged or called as a merge function.
+`createBabelPresets(options)` composes the config from small modules in `src`: the plugins for the syntax proposals, React, TypeScript metadata and test mode (`plugins.ts`), the presets (`presets.ts`: `@babel/preset-typescript` for TypeScript, otherwise `@babel/preset-env` with the browser or Node.js targets), the core-js polyfills when `core-js` is a dependency (`core-js.ts`), the production-only React plugins, and finally `rockpack.babel.*` (`user-config.ts`), which is deep-merged or called as a merge function.
 
 
 ## The MIT License

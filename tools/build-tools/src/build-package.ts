@@ -1,4 +1,4 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions } from '@babel/core';
 
 import { transformFileSync } from '@babel/core';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
@@ -39,7 +39,7 @@ const collectSources = (srcDir: string): string[] =>
     return ext === '.ts' || ext === '.tsx';
   });
 
-const babelOptions = (format: BuildFormat, importMeta: boolean): TransformOptions => {
+const babelOptions = (format: BuildFormat, importMeta: boolean): InputOptions => {
   if (format === 'esm') {
     return {
       babelrc: false,
@@ -47,7 +47,7 @@ const babelOptions = (format: BuildFormat, importMeta: boolean): TransformOption
       plugins: [[_require.resolve('@rockpack/babel/plugins/import-extension'), { extension: 'mjs' }]],
       presets: [
         [_require.resolve('@babel/preset-env'), { modules: false, targets: { node: 'current' } }],
-        [_require.resolve('@babel/preset-typescript')],
+        _require.resolve('@babel/preset-typescript'),
       ],
     };
   }
@@ -57,10 +57,10 @@ const babelOptions = (format: BuildFormat, importMeta: boolean): TransformOption
     configFile: false,
     plugins: [
       [_require.resolve('@rockpack/babel/plugins/import-extension'), { extension: 'cjs' }],
-      ...(importMeta ? [[_require.resolve('babel-plugin-transform-import-meta')]] : []),
-      [_require.resolve('@babel/plugin-transform-modules-commonjs')],
+      ...(importMeta ? [_require.resolve('babel-plugin-transform-import-meta')] : []),
+      _require.resolve('@babel/plugin-transform-modules-commonjs'),
     ],
-    presets: [[_require.resolve('@babel/preset-typescript')]],
+    presets: [_require.resolve('@babel/preset-typescript')],
   };
 };
 

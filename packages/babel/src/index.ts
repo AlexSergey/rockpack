@@ -1,8 +1,8 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions } from '@babel/core';
 
 import type { BabelMergeContext, CreateBabelPresetsOptions } from './types.js';
 
-import { readCoreJsVersion } from './core-js.js';
+import { buildPolyfillPlugins, readCoreJsVersion } from './core-js.js';
 import { buildPlugins, buildProductionPlugins } from './plugins.js';
 import { buildPresets } from './presets.js';
 import { applyUserConfig } from './user-config.js';
@@ -22,7 +22,7 @@ export const createBabelPresets = ({
   isTest = false,
   modules = false,
   typescript = false,
-}: CreateBabelPresetsOptions = {}): TransformOptions => {
+}: CreateBabelPresetsOptions = {}): InputOptions => {
   const root = process.cwd();
   const context: BabelMergeContext = {
     framework,
@@ -34,13 +34,13 @@ export const createBabelPresets = ({
   };
   const productionPlugins = buildProductionPlugins(context);
 
-  const opts: TransformOptions = {
+  const opts: InputOptions = {
     babelrc: false,
     env: {
       production: productionPlugins.length > 0 ? { plugins: productionPlugins } : {},
     },
-    plugins: buildPlugins(context),
-    presets: buildPresets(context, readCoreJsVersion(root)),
+    plugins: [...buildPlugins(context), ...buildPolyfillPlugins(context, readCoreJsVersion(root))],
+    presets: buildPresets(context),
   };
 
   return applyUserConfig(opts, context, root);

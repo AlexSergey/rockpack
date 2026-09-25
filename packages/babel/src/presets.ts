@@ -1,33 +1,29 @@
-import type { PluginItem } from '@babel/core';
+import type { PresetItem } from '@babel/core';
 
 import type { BabelMergeContext } from './types.js';
 
 import { getPreset } from './resolve.js';
 
-export const buildPresets = (
-  { framework, isNodejs, modules, typescript, typescriptEnv }: BabelMergeContext,
-  corejs: false | string,
-): PluginItem[] => {
-  const env = getPreset('@babel/preset-env', {
-    modules,
-    ...(isNodejs ? { targets: { node: 'current' } } : { targets: { browsers: ['> 5%'] } }),
-    ...(typeof corejs === 'string' ? { corejs, useBuiltIns: 'usage' } : {}),
-  });
+export const buildTargets = ({ isNodejs }: BabelMergeContext): Record<string, unknown> =>
+  isNodejs ? { node: 'current' } : { browsers: ['> 5%'] };
+
+// preset-env transforms the code unless it is TypeScript without `typescript: { env: true }`.
+export const usesPresetEnv = ({ typescript, typescriptEnv }: BabelMergeContext): boolean =>
+  !typescript || typescriptEnv;
+
+export const buildPresets = (context: BabelMergeContext): PresetItem[] => {
+  const { framework, modules, typescript } = context;
+  const env = getPreset('@babel/preset-env', { modules, targets: buildTargets(context) });
   const ts = getPreset('@babel/preset-typescript');
 
   // Presets run last to first: TypeScript is stripped before preset-env transforms the result.
-  let presets: PluginItem[] = [env];
+  let presets: PresetItem[] = [env];
   if (typescript) {
-    presets = typescriptEnv ? [env, ts] : [ts];
+    presets = usesPresetEnv(context) ? [env, ts] : [ts];
   }
 
   if (framework === 'react') {
-    presets.push(
-      getPreset('@babel/preset-react', {
-        runtime: 'automatic',
-        useBuiltIns: true,
-      }),
-    );
+    presets.push(getPreset('@rockpack/babel/presets/react', { runtime: 'automatic' }));
   }
 
   return presets;

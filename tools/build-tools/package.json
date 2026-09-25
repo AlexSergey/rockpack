@@ -12,16 +12,15 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/core": "7.29.7",
-    "@babel/plugin-transform-modules-commonjs": "7.29.7",
-    "@babel/preset-env": "7.29.7",
-    "@babel/preset-typescript": "7.29.7",
+    "@babel/core": "8.0.6",
+    "@babel/plugin-transform-modules-commonjs": "8.0.1",
+    "@babel/preset-env": "8.0.6",
+    "@babel/preset-typescript": "8.0.1",
     "@rockpack/babel": "8.0.0",
-    "babel-plugin-transform-import-meta": "2.3.3"
+    "babel-plugin-transform-import-meta": "3.0.0"
   },
   "devDependencies": {
-    "@rockpack/tsconfig": "8.0.0",
-    "@types/babel__core": "7.20.5"
+    "@rockpack/tsconfig": "8.0.0"
   },
   "nx": {
     "implicitDependencies": [

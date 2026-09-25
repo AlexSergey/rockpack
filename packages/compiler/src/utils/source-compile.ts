@@ -1,4 +1,4 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions, PluginItem } from '@babel/core';
 
 import * as babel from '@babel/core';
 import { createBabelPresets } from '@rockpack/babel';
@@ -44,18 +44,14 @@ const resolveFormats = (conf: Partial<InternalCompilerConf>): [Format, FormatPat
   return formats;
 };
 
-const babelOptionsFor = (
-  format: Format,
-  conf: Partial<InternalCompilerConf>,
-  typescript: boolean,
-): TransformOptions => {
+const babelOptionsFor = (format: Format, conf: Partial<InternalCompilerConf>, typescript: boolean): InputOptions => {
   const options = createBabelPresets({
     framework: 'react',
     isNodejs: !!conf.nodejs,
     modules: format === 'esm' ? false : 'commonjs',
     typescript,
   });
-  const importExtension = [
+  const importExtension: PluginItem = [
     _require.resolve('@rockpack/babel/plugins/import-extension'),
     { extension: EXTENSIONS[format].slice(1) },
   ];
@@ -67,7 +63,7 @@ const babelOptionsFor = (
   return options;
 };
 
-const transpileFile = (file: string, src: string, dist: string, format: Format, options: TransformOptions): void => {
+const transpileFile = (file: string, src: string, dist: string, format: Format, options: InputOptions): void => {
   const result = babel.transformFileSync(file, options);
   if (!result?.code) {
     return;

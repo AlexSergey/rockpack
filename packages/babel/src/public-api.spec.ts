@@ -1,4 +1,4 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions } from '@babel/core';
 
 import { expectTypeOf } from 'expect-type';
 
@@ -16,7 +16,7 @@ describe('public API types', () => {
   describe('positive cases', () => {
     it('takes optional options and returns Babel options', () => {
       expectTypeOf<typeof createBabelPresets>().parameter(0).toEqualTypeOf<CreateBabelPresetsOptions | undefined>();
-      expectTypeOf<typeof createBabelPresets>().returns.toEqualTypeOf<TransformOptions>();
+      expectTypeOf<typeof createBabelPresets>().returns.toEqualTypeOf<InputOptions>();
       expectTypeOf<Framework>().toEqualTypeOf<'none' | 'react'>();
     });
 
@@ -28,7 +28,7 @@ describe('public API types', () => {
 
     it('types a rockpack.babel merge function', () => {
       expectTypeOf<BabelMergeFunction>().parameter(0).toHaveProperty('framework').toEqualTypeOf<Framework>();
-      expectTypeOf<BabelMergeFunction>().returns.toEqualTypeOf<TransformOptions>();
+      expectTypeOf<BabelMergeFunction>().returns.toEqualTypeOf<InputOptions>();
     });
   });
 });

@@ -17,6 +17,7 @@ lib/esm/user-config.mjs
 package.json
 plugins/import-extension.cjs
 plugins/rename-cjs-globals.cjs
+presets/react.cjs
 types/core-js.d.ts
 types/index.d.ts
 types/plugins.d.ts

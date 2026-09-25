@@ -17,6 +17,7 @@
         "tools/**/*.ts"
       ],
       "ignoreDependencies": [
+        "@babel/core",
         "cross-env"
       ]
     },
@@ -45,7 +46,7 @@
       ],
       "ignoreDependencies": [
         "@babel/*",
-        "babel-core-8",
+        "babel-core-7",
         "babel-plugin-*",
         "react-compiler-runtime"
       ]
@@ -131,6 +132,7 @@
         "*.ts"
       ],
       "ignoreDependencies": [
+        "@babel/core",
         "babel-jest",
         "jest-environment-jsdom",
         "jest-html-reporters"

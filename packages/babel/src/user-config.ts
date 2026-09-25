@@ -1,4 +1,4 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions } from '@babel/core';
 
 import deepmerge from 'deepmerge';
 import { existsSync } from 'node:fs';
@@ -20,7 +20,7 @@ const unwrapDefault = (loaded: unknown): unknown =>
     ? loaded.default
     : loaded;
 
-export const applyUserConfig = (opts: TransformOptions, context: BabelMergeContext, root: string): TransformOptions => {
+export const applyUserConfig = (opts: InputOptions, context: BabelMergeContext, root: string): InputOptions => {
   const configFile = userConfigFiles.find((file) => existsSync(path.resolve(root, file)));
 
   if (configFile === undefined) {
@@ -31,7 +31,7 @@ export const applyUserConfig = (opts: TransformOptions, context: BabelMergeConte
     const babelMergeModule = unwrapDefault(_require(path.resolve(root, configFile)));
 
     if (typeof babelMergeModule === 'object' && babelMergeModule !== null && Object.keys(babelMergeModule).length > 0) {
-      return deepmerge(opts, babelMergeModule as Partial<TransformOptions>);
+      return deepmerge(opts, babelMergeModule as Partial<InputOptions>);
     }
     if (typeof babelMergeModule === 'function') {
       const merge = babelMergeModule as BabelMergeFunction;

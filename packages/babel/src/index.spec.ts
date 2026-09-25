@@ -1,7 +1,9 @@
 import type { PluginItem } from '@babel/core';
 
 import { transformSync } from '@babel/core';
+import { jest } from '@jest/globals';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { runInThisContext } from 'node:vm';
@@ -34,24 +36,24 @@ const createProject = ({
   jest.spyOn(process, 'cwd').mockReturnValue(dir);
 };
 
-const findItem = (items: null | PluginItem[] | undefined, name: string): PluginItem | undefined =>
+const findItem = (items: null | readonly unknown[] | undefined, name: string): unknown =>
   (items ?? []).find((item) => {
     const id: unknown = Array.isArray(item) ? item[0] : item;
 
     return typeof id === 'string' && id.includes(name);
   });
 
-const getItemOptions = (items: null | PluginItem[] | undefined, name: string): unknown => {
+const getItemOptions = (items: null | readonly unknown[] | undefined, name: string): unknown => {
   const item = findItem(items, name);
 
   return Array.isArray(item) ? item[1] : undefined;
 };
 
-const getItemIds = (items: null | PluginItem[] | undefined): unknown[] =>
+const getItemIds = (items: null | readonly unknown[] | undefined): unknown[] =>
   (items ?? []).map((item): unknown => (Array.isArray(item) ? item[0] : item));
 
 describe('createBabelPresets', () => {
-  let consoleErrorSpy: jest.SpyInstance;
+  let consoleErrorSpy: ReturnType<typeof jest.spyOn>;
 
   beforeEach(() => {
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -66,19 +68,18 @@ describe('createBabelPresets', () => {
     it('ignores a malformed package.json', () => {
       createProject({ packageJson: '{ "dependencies": ' });
 
-      const { presets } = createBabelPresets();
+      const { plugins } = createBabelPresets();
 
-      expect(getItemOptions(presets, '@babel/preset-env')).not.toHaveProperty('corejs');
+      expect(findItem(plugins, 'babel-plugin-polyfill-corejs3')).toBeUndefined();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
 
     it('does not enable core-js when it is only a devDependency', () => {
       createProject({ packageJson: JSON.stringify({ devDependencies: { 'core-js': '3.40.0' } }) });
 
-      const { presets } = createBabelPresets();
+      const { plugins } = createBabelPresets();
 
-      expect(getItemOptions(presets, '@babel/preset-env')).not.toHaveProperty('corejs');
-      expect(getItemOptions(presets, '@babel/preset-env')).not.toHaveProperty('useBuiltIns');
+      expect(findItem(plugins, 'babel-plugin-polyfill-corejs3')).toBeUndefined();
     });
 
     it('logs and returns the defaults when rockpack.babel.js throws', () => {
@@ -109,6 +110,14 @@ describe('createBabelPresets', () => {
       createBabelPresets();
 
       expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.mjs");
+    });
+
+    it('adds no core-js polyfills to TypeScript without the env flag', () => {
+      createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '3.40.0' } }) });
+
+      const { plugins } = createBabelPresets({ typescript: true });
+
+      expect(findItem(plugins, 'babel-plugin-polyfill-corejs3')).toBeUndefined();
     });
 
     it('keeps preset-env out of TypeScript mode without the env flag', () => {
@@ -142,12 +151,10 @@ describe('createBabelPresets', () => {
         targets: { browsers: ['> 5%'] },
       });
       expect(getItemIds(opts.plugins)).toEqual([
-        expect.stringContaining('@babel/plugin-proposal-pipeline-operator'),
         expect.stringContaining('@babel/plugin-proposal-do-expressions'),
         expect.stringContaining('@babel/plugin-proposal-decorators'),
       ]);
-      expect(getItemOptions(opts.plugins, 'plugin-proposal-pipeline-operator')).toEqual({ proposal: 'minimal' });
-      expect(getItemOptions(opts.plugins, 'plugin-proposal-decorators')).toEqual({ legacy: true });
+      expect(getItemOptions(opts.plugins, 'plugin-proposal-decorators')).toEqual({ version: 'legacy' });
       expect(opts.env).toEqual({ production: {} });
     });
 
@@ -170,9 +177,34 @@ describe('createBabelPresets', () => {
     it('enables core-js polyfills when core-js is a dependency', () => {
       createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '3.40.0' } }) });
 
-      const { presets } = createBabelPresets();
+      const { plugins } = createBabelPresets();
 
-      expect(getItemOptions(presets, '@babel/preset-env')).toMatchObject({ corejs: '3.40.0', useBuiltIns: 'usage' });
+      expect(getItemOptions(plugins, 'babel-plugin-polyfill-corejs3')).toEqual({
+        method: 'usage-global',
+        targets: { browsers: ['> 5%'] },
+        version: '3.40.0',
+      });
+    });
+
+    it('imports the core-js polyfills the code uses and the targets lack', () => {
+      createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '^3.40.0' } }) });
+      const opts = createBabelPresets();
+      // An old target, so the result does not depend on today's browser statistics.
+      const plugins = (opts.plugins ?? []).map(
+        (item): PluginItem =>
+          Array.isArray(item) && typeof item[0] === 'string' && item[0].includes('babel-plugin-polyfill-corejs3')
+            ? [item[0], { ...item[1], targets: { ie: '11' } }]
+            : item,
+      );
+
+      const result = transformSync('export const found = [1].includes(1);', {
+        ...opts,
+        configFile: false,
+        filename: '/project/src/module.js',
+        plugins,
+      });
+
+      expect(result?.code).toContain('core-js/modules/es.array.includes');
     });
 
     it('adds the React compiler, preset and production plugins for the react framework', () => {
@@ -181,10 +213,24 @@ describe('createBabelPresets', () => {
       const opts = createBabelPresets({ framework: 'react' });
 
       expect(getItemIds(opts.plugins)[0]).toEqual(expect.stringContaining('babel-plugin-react-compiler'));
-      expect(getItemOptions(opts.presets, '@babel/preset-react')).toEqual({ runtime: 'automatic', useBuiltIns: true });
+      expect(getItemOptions(opts.presets, 'presets/react.cjs')).toEqual({ runtime: 'automatic' });
       expect(opts.env).toEqual({
         production: { plugins: [expect.stringContaining('@babel/plugin-transform-react-constant-elements')] },
       });
+    });
+
+    it('parses JSX in .tsx files and generic arrow functions in .ts files for react with typescript', () => {
+      createProject();
+      const options = { ...createBabelPresets({ framework: 'react', typescript: true }), configFile: false };
+
+      const tsx = transformSync('export const App = () => <div />;', { ...options, filename: '/project/src/app.tsx' });
+      const ts = transformSync('export const id = <T>(value: T): T => value;', {
+        ...options,
+        filename: '/project/src/id.ts',
+      });
+
+      expect(tsx?.code).toContain('react/jsx-runtime');
+      expect(ts?.code).toContain('export const id = value => value;');
     });
 
     it('replaces preset-env with preset-typescript and adds decorator metadata for typescript', () => {
@@ -199,18 +245,21 @@ describe('createBabelPresets', () => {
     it('runs preset-env after preset-typescript with typescript.env', () => {
       createProject({ packageJson: JSON.stringify({ dependencies: { 'core-js': '3.40.0' } }) });
 
-      const { presets } = createBabelPresets({ isNodejs: true, modules: 'commonjs', typescript: { env: true } });
+      const { plugins, presets } = createBabelPresets({
+        isNodejs: true,
+        modules: 'commonjs',
+        typescript: { env: true },
+      });
 
       expect(getItemIds(presets)).toEqual([
         expect.stringContaining('@babel/preset-env'),
         expect.stringContaining('@babel/preset-typescript'),
       ]);
       expect(getItemOptions(presets, '@babel/preset-env')).toEqual({
-        corejs: '3.40.0',
         modules: 'commonjs',
         targets: { node: 'current' },
-        useBuiltIns: 'usage',
       });
+      expect(getItemOptions(plugins, 'babel-plugin-polyfill-corejs3')).toMatchObject({ targets: { node: 'current' } });
     });
 
     it('compiles TypeScript to CommonJS with typescript.env', () => {
@@ -256,7 +305,7 @@ describe('createBabelPresets', () => {
       const run = runInThisContext(`(function (require, module, exports, __filename) {${result?.code ?? ''}\n})`) as (
         ...args: unknown[]
       ) => void;
-      run(require, module, module.exports, '/project/src/module.ts');
+      run(createRequire(import.meta.url), module, module.exports, '/project/src/module.ts');
 
       expect(module.exports['file']).toBe('/project/src/module.ts');
     });
@@ -270,8 +319,8 @@ describe('createBabelPresets', () => {
 
       expect(opts.comments).toBe(false);
       expect(opts.babelrc).toBe(false);
-      expect(getItemIds(opts.plugins)).toHaveLength(4);
-      expect(getItemIds(opts.plugins)[3]).toBe('custom-plugin');
+      expect(getItemIds(opts.plugins)).toHaveLength(3);
+      expect(getItemIds(opts.plugins)[2]).toBe('custom-plugin');
     });
 
     it('merges the default export of rockpack.babel.mjs without a default key', () => {

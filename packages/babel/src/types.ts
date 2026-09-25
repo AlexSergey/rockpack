@@ -1,4 +1,4 @@
-import type { TransformOptions } from '@babel/core';
+import type { InputOptions } from '@babel/core';
 import type deepmerge from 'deepmerge';
 
 export type BabelMergeContext = {
@@ -13,9 +13,9 @@ export type BabelMergeContext = {
 
 export type BabelMergeFunction = (
   context: BabelMergeContext,
-  opts: TransformOptions,
+  opts: InputOptions,
   merge: typeof deepmerge,
-) => TransformOptions;
+) => InputOptions;
 
 export type CreateBabelPresetsOptions = {
   readonly framework?: Framework;
