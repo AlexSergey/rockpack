@@ -29,7 +29,6 @@ Type checking runs on TypeScript 7 (the native `tsc`, 7.0.2) in the monorepo and
 | typescript-eslint 8.70.1 (latest, also canary) | `@rockpack/codestyle`, every `eslint` run | peer `typescript >=4.8.4 <6.1.0`, typed rules need a program |
 | `generate-dts.ts`, `make-compiler-options.ts` | `@rockpack/compiler` | `import ts from 'typescript'` |
 | `fork-ts-checker-webpack-plugin` 9.1.0 | `@rockpack/compiler` (`modules/plugins/checks.ts`) | type checking during builds |
-| knip | monorepo | TypeScript API |
 
 ### 3.3 Where `typescript` is declared
 
@@ -56,7 +55,7 @@ Type checking runs on TypeScript 7 (the native `tsc`, 7.0.2) in the monorepo and
 
 ## 4. Decisions to confirm
 
-- **D1. Monorepo.** Recommended: the side-by-side setup at the root (`typescript` alias to `@typescript/typescript6`, `@typescript/native` alias to `typescript@7.0.2`), so every `lint:ts` runs TypeScript 7 and ESLint, knip and the compiler keep TypeScript 6. Alternative: stay on TypeScript 6 until 7.1.
+- **D1. Monorepo.** Recommended: the side-by-side setup at the root (`typescript` alias to `@typescript/typescript6`, `@typescript/native` alias to `typescript@7.0.2`), so every `lint:ts` runs TypeScript 7 and ESLint and the compiler keep TypeScript 6. Alternative: stay on TypeScript 6 until 7.1.
 - **D2. Published packages.** Recommended: `@rockpack/codestyle`, `@rockpack/compiler` and `@rockpack/tester` depend on `typescript: npm:@typescript/typescript6@6.0.2` instead of `typescript: 6.0.3` (same API; its binary is `tsc6`, so it never shadows a project's TypeScript 7 `tsc`). Alternative: keep `typescript: 6.0.3`, which installs a TypeScript 6 `tsc` next to a project's TypeScript 7 one, and the hoisting decides which `tsc` a project runs.
 - **D3. Generated projects.** Recommended: the starter adds `@typescript/native: npm:typescript@7` to generated projects, so `lint:ts` type checks with TypeScript 7; `typescript` itself stays the TypeScript 6 API from the Rockpack packages. Alternative: generated projects stay on TypeScript 6 until 7.1.
 - **D4. Release.** Recommended: in 9.0.0 (not released, already breaking). A project that installs `typescript@7` under the name `typescript` breaks typescript-eslint and the compiler's declaration generation; MIGRATION explains the aliases.
@@ -83,7 +82,7 @@ Exit: `@rockpack/compiler` has no `import ... from 'typescript'`; the `typescrip
 - [ ] Root: `typescript` alias to `@typescript/typescript6@6.0.2`, `@typescript/native` alias to `typescript@7.0.2`.
 - [ ] `@rockpack/codestyle`, `@rockpack/compiler`, `@rockpack/tester`: the same `typescript` alias (syncpack keeps one version); drop the dependency where the package does not import TypeScript (check tester).
 - [ ] Every workspace `lint:ts` runs TypeScript 7 (`tsc` resolves to `@typescript/native`); fix what TypeScript 7 reports.
-- [ ] ESLint, knip, the compiler specs and compiler-e2e (`dts`, fork-ts-checker) keep passing on the TypeScript 6 API.
+- [ ] ESLint, the compiler specs and compiler-e2e (`dts`, fork-ts-checker) keep passing on the TypeScript 6 API.
 - [ ] The updater skips aliased dependencies (Plan 8 M8): note in the updater output or README how to bump the two aliases by hand.
 
 Exit: `npm run lint`, `lint:deps`, `test:unit`, `e2e` pass; `npx tsc -v` at the root prints 7.x.
