@@ -39,21 +39,36 @@ describe('copyFiles', () => {
   });
 
   describe('positive cases', () => {
-    it.each<AppType>(['csr', 'ssr', 'component', 'library'])(
-      'copies the %s backbone and addons in order',
+    it.each<AppType>(['csr', 'ssr'])(
+      'copies the shared app files before the %s backbone and specs',
       async (appType) => {
         await copyFiles(target, { appType, tester: true });
 
         expect(copiedSources()).toEqual([
+          path.join(backbone, 'shared'),
           path.join(backbone, appType),
           path.join(addons, 'claude'),
           path.join(addons, 'codestyle'),
           path.join(addons, 'git'),
           path.join(addons, 'tester', 'common'),
+          path.join(addons, 'tester', 'shared'),
           path.join(addons, 'tester', appType),
         ]);
         expect(copyMock.mock.calls.every(([, dest]) => dest === target)).toBe(true);
       },
     );
+
+    it.each<AppType>(['component', 'library'])('copies the %s backbone and addons in order', async (appType) => {
+      await copyFiles(target, { appType, tester: true });
+
+      expect(copiedSources()).toEqual([
+        path.join(backbone, appType),
+        path.join(addons, 'claude'),
+        path.join(addons, 'codestyle'),
+        path.join(addons, 'git'),
+        path.join(addons, 'tester', 'common'),
+        path.join(addons, 'tester', appType),
+      ]);
+    });
   });
 });
