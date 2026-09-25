@@ -146,6 +146,44 @@ describe('packages installed from tarballs', () => {
       expect(code).toBe(0);
     });
 
+    it('lints styles with the shared stylelint config', async () => {
+      writeFileSync(
+        path.join(dir, '.stylelintrc.cjs'),
+        "module.exports = require('@rockpack/codestyle/stylelint').stylelintConfig;\n",
+      );
+      writeFileSync(path.join(dir, 'valid.scss'), '.title {\n  color: #fff;\n}\n');
+      writeFileSync(path.join(dir, 'invalid.scss'), '.title {\n  color: red;\n}\n');
+
+      const valid = await run('npx', ['stylelint', 'valid.scss'], { cwd: dir });
+      const invalid = await run('npx', ['stylelint', 'invalid.scss'], { cwd: dir });
+
+      expect(valid).toMatchObject({ code: 0, output: '' });
+      expect(invalid.code).toBe(2);
+      expect(invalid.output).toContain('color-named');
+    });
+
+    it('checks commit messages with the shared commitlint config', async () => {
+      writeFileSync(
+        path.join(dir, '.commitlintrc.cjs'),
+        "module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;\n",
+      );
+      // --edit (the commit-msg hook form) looks for the git root.
+      await run('git', ['init', '--quiet'], { cwd: dir });
+      writeFileSync(path.join(dir, 'valid-message'), 'feat: add a button\n');
+      writeFileSync(path.join(dir, 'invalid-message'), 'build: bump the version\n');
+
+      const valid = await run('npx', ['commitlint', '--config', '.commitlintrc.cjs', '--edit', 'valid-message'], {
+        cwd: dir,
+      });
+      const invalid = await run('npx', ['commitlint', '--config', '.commitlintrc.cjs', '--edit', 'invalid-message'], {
+        cwd: dir,
+      });
+
+      expect(valid.code).toBe(0);
+      expect(invalid.code).toBe(1);
+      expect(invalid.output).toContain('type-enum');
+    });
+
     it('type checks a consumer against the shipped types and the shared tsconfig', async () => {
       writeFileSync(
         path.join(dir, 'tsconfig.json'),

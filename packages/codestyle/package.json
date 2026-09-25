@@ -28,6 +28,14 @@
     ".": {
       "types": "./types/index.d.ts",
       "default": "./lib/esm/index.mjs"
+    },
+    "./commitlint": {
+      "types": "./types/commitlint.d.ts",
+      "default": "./lib/esm/commitlint.mjs"
+    },
+    "./stylelint": {
+      "types": "./types/stylelint.d.ts",
+      "default": "./lib/esm/stylelint.mjs"
     }
   },
   "main": "./lib/esm/index.mjs",
@@ -56,6 +64,7 @@
   "dependencies": {
     "@commitlint/cli": "21.0.1",
     "@commitlint/config-conventional": "21.0.1",
+    "@commitlint/types": "21.0.1",
     "@eslint-react/eslint-plugin": "5.8.5",
     "@eslint/js": "10.0.1",
     "@eslint/json": "1.2.0",

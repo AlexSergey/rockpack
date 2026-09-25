@@ -122,6 +122,28 @@ config.push({
 module.exports = config;
 ```
 
+## Stylelint and Commitlint
+
+The package ships shared configs for Stylelint (SCSS, Tailwind CSS v4, Prettier and a clean property order) and Commitlint (Conventional Commits limited to `ci`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`). They reference their presets by absolute path, so the presets are resolved from `@rockpack/codestyle` and need no separate installation.
+
+**.stylelintrc.cjs**:
+
+```js
+const { stylelintConfig } = require('@rockpack/codestyle/stylelint');
+
+module.exports = stylelintConfig;
+```
+
+**.commitlintrc.cjs**:
+
+```js
+const { commitlintConfig } = require('@rockpack/codestyle/commitlint');
+
+module.exports = commitlintConfig;
+```
+
+To change a rule, spread the config: `module.exports = { ...stylelintConfig, rules: { ...stylelintConfig.rules, 'color-named': null } };`.
+
 ## IDE Integration
 
 We can set up our IDE to fix all lint rules and format code by Prettier.

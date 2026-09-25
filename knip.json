@@ -53,6 +53,8 @@
     "packages/codestyle": {
       "entry": [
         "src/index.ts",
+        "src/commitlint.ts",
+        "src/stylelint.ts",
         "src/**/*.spec.ts",
         "scripts/*.ts"
       ],
