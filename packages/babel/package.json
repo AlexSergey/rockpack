@@ -78,6 +78,7 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
+    "expect-type": "1.4.0",
     "react-compiler-runtime": "1.0.0"
   },
   "peerDependencies": {

@@ -127,6 +127,7 @@
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
     "eslint": "10.4.0",
+    "expect-type": "1.4.0",
     "jest-environment-jsdom": "30.4.1"
   },
   "engines": {
