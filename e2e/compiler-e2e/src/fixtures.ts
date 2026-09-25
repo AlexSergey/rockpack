@@ -21,8 +21,11 @@ export const prepareFixture = (name: string): string => {
 };
 
 // Runs one of the fixture's build scripts in a child process, as `npm run build` of a real project does.
+// Fixture scripts run like the build scripts of generated projects: TypeScript executed by Node.js itself.
+export const RUN_TS = ['--disable-warning=MODULE_TYPELESS_PACKAGE_JSON'];
+
 export const build = (dir: string, script = 'scripts.build.ts', mode: Mode = 'production'): Promise<RunResult> =>
-  run('npx', ['tsx', script], { cwd: dir, env: { NODE_ENV: mode }, timeout: 300_000 });
+  run(process.execPath, [...RUN_TS, script], { cwd: dir, env: { NODE_ENV: mode }, timeout: 300_000 });
 
 // Prepares a fixture and builds it, failing the suite with the build output when the build fails.
 export const buildFixture = async (
@@ -41,7 +44,10 @@ export const buildFixture = async (
 
 // Starts a fixture's build script in development mode; --_rockpack_testing keeps the dev server from opening a browser.
 export const startDev = (dir: string, script = 'scripts.build.ts', env: NodeJS.ProcessEnv = {}): StartedProcess =>
-  start('npx', ['tsx', script, '--_rockpack_testing'], { cwd: dir, env: { ...env, NODE_ENV: 'development' } });
+  start(process.execPath, [...RUN_TS, script, '--_rockpack_testing'], {
+    cwd: dir,
+    env: { ...env, NODE_ENV: 'development' },
+  });
 
 export const node = (dir: string, args: readonly string[]): Promise<RunResult> =>
   run(process.execPath, args, { cwd: dir });

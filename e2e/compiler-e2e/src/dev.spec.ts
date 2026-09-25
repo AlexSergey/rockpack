@@ -5,7 +5,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 
-import { prepareFixture, startDev } from './fixtures';
+import { prepareFixture, RUN_TS, startDev } from './fixtures';
 
 // The isomorphic dev server always listens for live reload on this port.
 const LIVE_RELOAD_PORT = 35_729;
@@ -98,7 +98,7 @@ describe('development mode', () => {
       }, 60_000);
 
       it('stops the dev server through the result so the process can exit', async () => {
-        const script = run('npx', ['tsx', 'scripts.result.ts', '--_rockpack_testing'], {
+        const script = run(process.execPath, [...RUN_TS, 'scripts.result.ts', '--_rockpack_testing'], {
           cwd: dir,
           env: { NODE_ENV: 'development' },
           timeout: 120_000,
