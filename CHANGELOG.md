@@ -24,6 +24,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/tester` runs only the specs matching the positional command-line arguments or the `testPathPatterns` option
 - `@rockpack/tester`: `coverage` option (`false`, or `{ collectCoverageFrom, reporters, thresholds }`); `.mjs` and `.cjs` specs and modules are transformed like `.js`
 - `@rockpack/starter`: `--offline` writes the dependency ranges from `versions.json` without asking the registry and skips the update check
+- `@rockpack/babel` loads `rockpack.babel.js`, `.cjs`, `.mjs` or `.ts` (the first one found, in that order) and uses the default export of an ES module config; it exports the `BabelMergeContext`, `BabelMergeFunction`, `Framework` and `Modules` types
 - `@rockpack/tsconfig` ships `tsconfig.node.json`, a DOM-free variant for Node.js code
 - `@rockpack/utils` exports `readPackageJson` and the `PackageJson` type
 - `@rockpack/utils`: `getMode` and `setMode` accept `{ argv, env }` to read from (and `setMode` to write to) instead of the process, and return the mode typed as one of the given modes (`getMode()` returns `'development' | 'production'`)
@@ -56,6 +57,7 @@ Full TypeScript migration across all packages, modernized build pipeline, and im
 - `@rockpack/codestyle` ships only the ESM build; `require('@rockpack/codestyle')` loads it through Node.js `require(esm)`
 
 ### Fixed
+- `@rockpack/babel`: an ES module `rockpack.babel.js` was merged as its module namespace, adding a `default` key to the Babel options
 - `@rockpack/compiler`: the `banner` file is published, banner placeholders are filled by name, and the banner and default `index.ejs` are found from the package root
 - `@rockpack/compiler`: `distContext` is the dist folder when `dist` is a folder; the `.wasm` rule matches `.wasm` files; library source and declaration build errors fail the build instead of being swallowed
 - `@rockpack/compiler`: the Babel plugins `sourceCompile` resolves at runtime are regular dependencies

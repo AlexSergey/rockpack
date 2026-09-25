@@ -10,12 +10,17 @@ import { createBabelPresets } from './index.js';
 
 type ProjectFiles = {
   readonly babelConfig?: string;
+  readonly babelConfigFile?: string;
   readonly packageJson?: string;
 };
 
 const projectDirs: string[] = [];
 
-const createProject = ({ babelConfig, packageJson }: ProjectFiles = {}): void => {
+const createProject = ({
+  babelConfig,
+  babelConfigFile = 'rockpack.babel.js',
+  packageJson,
+}: ProjectFiles = {}): void => {
   const dir = mkdtempSync(path.join(tmpdir(), 'rockpack-babel-'));
   projectDirs.push(dir);
 
@@ -23,7 +28,7 @@ const createProject = ({ babelConfig, packageJson }: ProjectFiles = {}): void =>
     writeFileSync(path.join(dir, 'package.json'), packageJson);
   }
   if (typeof babelConfig === 'string') {
-    writeFileSync(path.join(dir, 'rockpack.babel.js'), babelConfig);
+    writeFileSync(path.join(dir, babelConfigFile), babelConfig);
   }
 
   jest.spyOn(process, 'cwd').mockReturnValue(dir);
@@ -96,6 +101,14 @@ describe('createBabelPresets', () => {
 
       expect(opts).toEqual(defaults);
       expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.js");
+    });
+
+    it('names the failing config file when rockpack.babel.mjs throws', () => {
+      createProject({ babelConfig: "throw new Error('broken config');", babelConfigFile: 'rockpack.babel.mjs' });
+
+      createBabelPresets();
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.mjs");
     });
 
     it('does not add test-only transforms outside of test mode', () => {
@@ -220,6 +233,50 @@ describe('createBabelPresets', () => {
       expect(opts.babelrc).toBe(false);
       expect(getItemIds(opts.plugins)).toHaveLength(4);
       expect(getItemIds(opts.plugins)[3]).toBe('custom-plugin');
+    });
+
+    it('merges the default export of rockpack.babel.mjs without a default key', () => {
+      createProject({
+        babelConfig: 'export default { comments: false };',
+        babelConfigFile: 'rockpack.babel.mjs',
+      });
+
+      const opts = createBabelPresets();
+
+      expect(opts.comments).toBe(false);
+      expect(opts).not.toHaveProperty('default');
+    });
+
+    it('loads rockpack.babel.cjs', () => {
+      createProject({ babelConfig: 'module.exports = { comments: false };', babelConfigFile: 'rockpack.babel.cjs' });
+
+      expect(createBabelPresets().comments).toBe(false);
+    });
+
+    it('loads a typed merge function from rockpack.babel.ts', () => {
+      createProject({
+        babelConfig: [
+          "import type { BabelMergeFunction } from '@rockpack/babel';",
+          '',
+          'const merge: BabelMergeFunction = (ctx, opts) => ({ ...opts, comments: ctx.isTest });',
+          '',
+          'export default merge;',
+        ].join('\n'),
+        babelConfigFile: 'rockpack.babel.ts',
+      });
+
+      const opts = createBabelPresets({ isTest: true });
+
+      expect(opts.comments).toBe(true);
+      expect(opts.babelrc).toBe(false);
+    });
+
+    it('prefers rockpack.babel.js when several config files exist', () => {
+      createProject({ babelConfig: 'module.exports = { comments: false };' });
+      writeFileSync(path.join(process.cwd(), 'rockpack.babel.ts'), "throw new Error('not loaded');");
+
+      expect(createBabelPresets().comments).toBe(false);
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
 
     it('keeps the defaults when rockpack.babel.js exports an empty object', () => {

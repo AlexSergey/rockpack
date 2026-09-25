@@ -10,6 +10,20 @@ This module is part of the **Rockpack** project. See more details on [the offici
 
 To add custom plugins, create `rockpack.babel.js` in the root of your project. Plugins defined there are merged into the base Babel config.
 
+The file can also be `rockpack.babel.cjs`, `rockpack.babel.mjs` or `rockpack.babel.ts` (the first one found in this order is used). ES module configs use their default export. Export either an object, which is deep-merged into the defaults (arrays are concatenated), or a function that receives the context, the default options and `deepmerge`, and returns the final options:
+
+```ts
+// rockpack.babel.ts
+import type { BabelMergeFunction } from '@rockpack/babel';
+
+const merge: BabelMergeFunction = (context, opts, deepmerge) =>
+  deepmerge(opts, { plugins: context.framework === 'react' ? ['babel-plugin-styled-components'] : [] });
+
+export default merge;
+```
+
+The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modules` and `typescript`. TypeScript configs are loaded through Node.js type stripping, so they may use only erasable syntax (no `enum` or `namespace`).
+
 ## Included presets and plugins
 
 ### Environment
