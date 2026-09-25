@@ -3,7 +3,6 @@
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"],
   "compilerOptions": {
-    "rootDir": "src/",
     "types": ["node"]
   }
 }
