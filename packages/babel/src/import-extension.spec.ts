@@ -1,4 +1,5 @@
 import { transformSync } from '@babel/core';
+import { execFileSync } from 'node:child_process';
 import fs, { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
@@ -23,6 +24,28 @@ const FILES = [
 ];
 
 let root: string;
+
+// Babel 8 is ESM only, so it runs in a child process: `babel-core-8` is @babel/core 8 installed under an alias.
+const transformWithBabel8 = (code: string): string =>
+  JSON.parse(
+    execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        [
+          "import { transformSync } from 'babel-core-8';",
+          'const { CODE, FILENAME, PLUGIN } = process.env;',
+          "const result = transformSync(CODE, { babelrc: false, configFile: false, filename: FILENAME, parserOpts: { plugins: ['typescript'] }, plugins: [[PLUGIN, { extension: 'mjs' }]] });",
+          'process.stdout.write(JSON.stringify(result.code));',
+        ].join('\n'),
+      ],
+      {
+        encoding: 'utf8',
+        env: { ...process.env, CODE: code, FILENAME: path.join(root, 'src/index.ts'), PLUGIN: plugin },
+      },
+    ),
+  ) as string;
 
 const transform = (
   code: string,
@@ -91,6 +114,28 @@ describe('import-extension plugin', () => {
 
     it('rejects a missing or unknown extension option', () => {
       expect(() => transform("import a from './a';", 'ts')).toThrow('the extension option must be one of cjs, js, mjs');
+    });
+  });
+
+  describe('on Babel 8', () => {
+    describe('negative cases', () => {
+      it('keeps assets and their import attributes', () => {
+        const code = "import './styles.css';\nimport data from './data.json' with { type: 'json' };";
+
+        expect(transformWithBabel8(code)).toBe(code);
+      });
+    });
+
+    describe('positive cases', () => {
+      it('rewrites imports, folders, re-exports and dynamic imports', () => {
+        expect(
+          transformWithBabel8(
+            "import a from './no-ext';\nimport b from './both';\nexport * from './utils';\nconst l = import('./x.js');",
+          ),
+        ).toBe(
+          "import a from './no-ext.mjs';\nimport b from './both.mjs';\nexport * from './utils/index.mjs';\nconst l = import('./x.mjs');",
+        );
+      });
     });
   });
 

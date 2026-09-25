@@ -79,6 +79,7 @@
     "@rockpack/tester": "8.0.0",
     "@rockpack/tsconfig": "8.0.0",
     "@types/jest": "30.0.0",
+    "babel-core-8": "npm:@babel/core@8.0.6",
     "expect-type": "1.4.0",
     "react-compiler-runtime": "1.0.0"
   },

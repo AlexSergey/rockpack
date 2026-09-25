@@ -45,6 +45,7 @@
       ],
       "ignoreDependencies": [
         "@babel/*",
+        "babel-core-8",
         "babel-plugin-*",
         "react-compiler-runtime"
       ]
