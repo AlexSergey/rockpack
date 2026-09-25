@@ -4,6 +4,8 @@
 
 Full TypeScript migration across all packages, modernized build pipeline, and improved developer experience.
 
+Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
+
 ### Added
 - All packages (babel, codestyle, compiler, starter, tester, utils) rewritten in TypeScript
 - New build pipeline using `tsx` scripts for all packages and examples
