@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 import chalk from 'chalk';
+import semverSatisfies from 'semver/functions/satisfies.js';
 
+import { packageJson } from '../utils/package-json.js';
 import { rockpack } from './rockpack.js';
 
 const currentNodeVersion = process.versions.node;
-const semver = currentNodeVersion.split('.');
-const major = Number(semver[0] ?? '0');
-const minVer = 24;
+const requiredNodeVersion = packageJson.engines.node;
 
-if (major < minVer) {
+if (!semverSatisfies(currentNodeVersion, requiredNodeVersion)) {
   console.error(
     chalk.red(`You are running Node ${currentNodeVersion}.
-Rockpack requires Node ${minVer} or higher. Please update your version of Node.`),
+Rockpack requires Node ${requiredNodeVersion}. Please update your version of Node.`),
   );
   process.exitCode = 1;
 } else {

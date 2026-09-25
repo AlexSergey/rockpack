@@ -41,11 +41,19 @@ describe('bin', () => {
       expect(rockpack).not.toHaveBeenCalled();
       expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('You are running Node 23.11.0.'));
     });
+
+    it('refuses a Node 24 release older than the minimum minor version', () => {
+      const rockpack = runBin('24.10.0');
+
+      expect(process.exitCode).toBe(1);
+      expect(rockpack).not.toHaveBeenCalled();
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Rockpack requires Node >=24.11.0.'));
+    });
   });
 
   describe('positive cases', () => {
     it('starts the CLI and sets its exit code on a supported Node version', async () => {
-      const rockpack = runBin('24.0.0');
+      const rockpack = runBin('24.11.0');
       await Promise.resolve();
 
       expect(rockpack).toHaveBeenCalledTimes(1);

@@ -50,7 +50,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - Updated examples to use latest React and TypeScript
 - Build process now cleans output before each build
 - Compiler configuration API improved: removed private internal fields
-- **Breaking:** Node.js 24 or newer is required by every package and by the starter CLI; `engine-strict` is on in the monorepo
+- **Breaking:** Node.js 24.11 or newer (the minimum of Babel 8) is required by every package and by the starter CLI, which also checks the minor version; `engine-strict` is on in the monorepo
 - **Breaking:** `frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a typed result (`CompilerResult`: `config`, `build` with `stats` and `success`, `dev-server` with `url` and `stop()`, `watch` with `stop()`); an awaited production build now resolves after the build has finished, and the dev server result once it listens
 - **Breaking:** the compilers no longer call `process.exit` on invalid options: they log `[rockpack] <code>: <message>`, set `process.exitCode = 1` and reject with a `RockpackError`
 - **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed

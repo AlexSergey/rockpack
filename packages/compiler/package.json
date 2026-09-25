@@ -126,7 +126,7 @@
     "jest-environment-jsdom": "30.4.1"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.11.0"
   },
   "nx": {
     "implicitDependencies": [
