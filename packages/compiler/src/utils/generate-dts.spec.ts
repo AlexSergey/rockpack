@@ -30,12 +30,9 @@ describe('generateDts', () => {
 
   describe('negative cases', () => {
     it('skips a project without a tsconfig', async () => {
-      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       rmSync(path.join(root, 'tsconfig.json'));
 
-      await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
-
-      expect(errorSpy).toHaveBeenCalledWith("It's not TS project");
+      await expect(generateDts({ dist: 'dist/index.js', src: 'src/index' }, root)).resolves.toBeUndefined();
       expect(existsSync(path.join(root, 'dist'))).toBe(false);
     });
 

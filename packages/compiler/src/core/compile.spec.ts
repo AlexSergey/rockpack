@@ -21,7 +21,7 @@ jest.mock('./make.js', () => ({ make: jest.fn() }));
 jest.mock('./run.js', () => ({ run: jest.fn() }));
 
 const conf = { dist: 'dist/index.js', src: 'src/index.ts' } as InternalCompilerConf;
-const finalConf = { ...conf, messages: [] } as InternalCompilerConf;
+const finalConf = { ...conf, inner: true } as InternalCompilerConf;
 const compiler = {
   close: jest.fn((callback: () => void) => {
     callback();
@@ -74,6 +74,26 @@ describe('compile', () => {
   });
 
   describe('positive cases', () => {
+    it('reports where the bundle of a dist folder goes', async () => {
+      const info = jest.fn();
+      (mergeConfWithDefault as jest.Mock).mockResolvedValue({ ...conf, dist: 'build/index.js', merged: true });
+
+      await compile({ ...conf, dist: 'build' }, null, true, {
+        configOnly: true,
+        isomorphic: false,
+        reporter: {
+          done: jest.fn(),
+          info,
+          interactive: false,
+          issues: jest.fn(),
+          progress: jest.fn(),
+          start: jest.fn(),
+        },
+      });
+
+      expect(info).toHaveBeenCalledWith('build', 'output: build/index.js');
+    });
+
     it('merges defaults and inner props before making the config', async () => {
       const post = jest.fn();
 
@@ -90,7 +110,13 @@ describe('compile', () => {
 
     it('runs a production build to the end and reports its outcome', async () => {
       await expect(compile(conf, null)).resolves.toEqual({ kind: 'build', stats: 'stats', success: true });
-      expect(run).toHaveBeenCalledWith({ mode: 'production' }, 'production', 'webpack', finalConf);
+      expect(run).toHaveBeenCalledWith(
+        { mode: 'production' },
+        'production',
+        'webpack',
+        finalConf,
+        expect.objectContaining({ interactive: false }),
+      );
     });
 
     it('returns a watching build in development that closes the compiler when stopped', async () => {

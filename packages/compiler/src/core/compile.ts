@@ -5,6 +5,7 @@ import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 import type { CompileOutcome } from './compile-result.js';
 
+import { compilerLabel } from '../reporter/compiler-name.js';
 import { createReporter } from '../reporter/reporter.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { assertValidConf } from '../utils/validate-conf.js';
@@ -34,13 +35,23 @@ export const compile = async (
       createReporter({ debug: merged.debug === true, progress: merged.progress !== false }),
     );
   merged = innerProps(merged, mode, ctx);
+  // A dist folder gets the default file name; the reporter says where the bundle goes.
+  if (typeof conf.dist === 'string' && merged.dist !== conf.dist) {
+    ctx.reporter?.info(compilerLabel(merged), `output: ${merged.dist}`);
+  }
   const finalConfig = await make(merged, post, ctx);
 
   if (ctx.configOnly) {
     return { conf: finalConfig.conf, kind: 'config', webpackConfig: finalConfig.webpackConfig };
   }
 
-  const running = run(finalConfig.webpackConfig, mode, webpack as Parameters<typeof run>[2], finalConfig.conf);
+  const running = run(
+    finalConfig.webpackConfig,
+    mode,
+    webpack as Parameters<typeof run>[2],
+    finalConfig.conf,
+    ctx.reporter,
+  );
   if (mode === 'production') {
     const { stats, success } = await running.finished;
 

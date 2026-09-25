@@ -161,7 +161,7 @@ Each step is one or more commits with unit tests (fake TTY and non-TTY streams, 
 4. `@nuxt/friendly-errors-webpack-plugin` and `webpack-format-messages` are gone from the compiler dependencies; no module prints outside the reporter except the server program under nodemon.
 5. Unit coverage thresholds hold; compiler-e2e has the output spec; all suites and CI are green.
 
-Status 2026-09-25: 1, 2, 3 and 5 met (1 checked by hand in a pseudo-terminal, P7). 4 partly: friendly-errors and webpack-format-messages are gone and every build line comes from the reporter, but two older lines remain outside it: `The distribution folder will be ...` (printed while the options are merged, before a reporter exists) and the per-file progress lines of `sourceCompiler`/`libraryCompiler` formats. Moving them is a follow-up, not needed for the bars.
+Status 2026-09-25: 1, 2, 3 and 5 met (1 checked by hand in a pseudo-terminal, P7). 4 met after the follow-up the user asked for the same day: `sourceCompile` returns a result per format instead of printing, `buildSources` reports them as one `sources` build with a `›` line per format and for the declarations (also in watch mode, where `Watching ...`/`Rebuilt in` became `› watching ...` and `↻`/`✔` lines), the dist folder message is a `› output: <file>` info of the compiler, and the unreachable `It's not TS project` message is gone. Printed outside the reporter by design: `[rockpack] CODE: message` for invalid configuration and failed per-file builds, the process-level crash handler, and a webpack setup error when no compiler exists.
 
 ## 9. Order and size
 

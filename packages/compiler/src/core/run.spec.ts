@@ -2,10 +2,11 @@ import type { MultiStats, Stats } from 'webpack';
 
 import type { InternalCompilerConf, Mode } from '../types.js';
 
-import { sourceCompiler } from '../compilers/source-compiler.js';
+import { buildSources } from '../compilers/source-compiler.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 import { run } from './run.js';
 
-jest.mock('../compilers/source-compiler.js', () => ({ sourceCompiler: jest.fn(() => Promise.resolve()) }));
+jest.mock('../compilers/source-compiler.js', () => ({ buildSources: jest.fn(() => Promise.resolve()) }));
 
 type WebpackCallback = (err: Error | null, stats: MultiStats | Stats | undefined) => void;
 
@@ -89,12 +90,13 @@ describe('run', () => {
       expect(process.exitCode).toBe(1);
     });
 
-    it('marks a failed library source build', async () => {
-      (sourceCompiler as jest.Mock).mockRejectedValueOnce(new Error('babel failed'));
+    it('prints and marks a failed library source build', async () => {
+      (buildSources as jest.Mock).mockRejectedValueOnce(new RockpackError('BUILD_FAILED', 'babel failed'));
 
       const compiler = runWith('production', null, { ...conf, library: 'MyLib' });
       await settle();
 
+      expect(errorSpy).toHaveBeenCalledWith('[rockpack] BUILD_FAILED: babel failed');
       expect(process.exitCode).toBe(1);
       expect(compiler.close).toHaveBeenCalled();
     });
@@ -133,7 +135,7 @@ describe('run', () => {
       const compiler = runWith('production', null);
       await settle();
 
-      expect(sourceCompiler).not.toHaveBeenCalled();
+      expect(buildSources).not.toHaveBeenCalled();
       expect(process.exitCode).toBe(originalExitCode);
       expect(compiler.close).toHaveBeenCalled();
     });
@@ -144,8 +146,8 @@ describe('run', () => {
       const compiler = runWith('production', null, libraryConf);
       await settle();
 
-      expect(sourceCompiler).toHaveBeenCalledWith({ ...libraryConf, watch: false });
-      expect((sourceCompiler as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
+      expect(buildSources).toHaveBeenCalledWith(libraryConf, expect.objectContaining({ interactive: false }));
+      expect((buildSources as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
         compiler.close.mock.invocationCallOrder[0] ?? 0,
       );
     });

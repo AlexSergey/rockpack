@@ -1,4 +1,3 @@
-import ansiColors from 'ansi-colors';
 import deepExtend from 'deep-extend';
 import path from 'node:path';
 
@@ -22,7 +21,6 @@ export const mergeConfWithDefault = async (
       c.dist = defaultProps.dist;
       c.distContext = path.dirname(defaultProps.dist);
     }
-    console.log(`The distribution folder will be ${ansiColors.green(c.dist)}`);
   } else {
     c.distContext = path.dirname(c.dist);
   }

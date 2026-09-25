@@ -77,18 +77,17 @@ const transpileFile = (file: string, src: string, dist: string, format: Format, 
   writeFile(path.join(dist, outputPath), result.code);
 };
 
-const copyAssets = (files: readonly string[], src: string, dist: string): void => {
-  console.log('Files will copy:\n');
-  console.log(files.join('\n'));
-  console.log('\n');
-  for (const file of files) {
+// Copies the non-script files; a file that cannot be copied is returned as a problem, the build goes on.
+const copyAssets = (files: readonly string[], src: string, dist: string): string[] =>
+  files.flatMap((file) => {
     try {
       cpSync(file, path.join(dist, path.relative(src, file)), { recursive: true });
+
+      return [];
     } catch (err) {
-      console.error(err);
+      return [`Could not copy ${path.relative(src, file)}: ${(err as Error).message}`];
     }
-  }
-};
+  });
 
 // Files another step left as .js/.js.map get the extension of their format.
 const renameOutputs = async (dist: string, format: Format): Promise<void> => {
@@ -101,12 +100,21 @@ const renameOutputs = async (dist: string, format: Format): Promise<void> => {
   }
 };
 
+export type FormatResult = {
+  // Output folder, as configured (relative to the project root).
+  readonly dist: string;
+  readonly files: number;
+  readonly format: Format;
+  // Files that could not be copied.
+  readonly problems: readonly string[];
+};
+
 const compileFormat = async (
   format: Format,
   paths: FormatPaths,
   conf: Partial<InternalCompilerConf>,
   tsConfig: false | string,
-): Promise<void> => {
+): Promise<FormatResult> => {
   const root = getRootRequireDir();
   const dist = path.join(root, paths.dist);
   const src = path.join(root, paths.src);
@@ -117,7 +125,6 @@ const compileFormat = async (
   const jsAndJsx = await getFiles(paths.src, '*.+(js|jsx)', ignore);
 
   rimraf.sync(dist);
-  console.log(`=========${format} format is starting=========`);
 
   const isTs = tsAndTsx.length > 0;
   const sourceFiles = isTs ? tsAndTsx : jsAndJsx;
@@ -126,28 +133,26 @@ const compileFormat = async (
       throw new Error('tsconfig not found');
     }
     const options = babelOptionsFor(format, conf, isTs);
-    console.log('Babel convert:\n');
-    console.log(sourceFiles.join('\n'));
-    console.log('\n');
     for (const file of sourceFiles) {
       transpileFile(file, src, dist, format, options);
     }
   }
 
-  if (copyFiles.length > 0) {
-    copyAssets(copyFiles, src, dist);
-  }
+  const problems = copyAssets(copyFiles, src, dist);
   await renameOutputs(dist, format);
-  console.log(`=========${format} format finished=========`);
+
+  return { dist: paths.dist, files: sourceFiles.length + copyFiles.length, format, problems };
 };
 
-export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<void> {
+// Builds every configured format and returns what each one produced; it prints nothing.
+export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<FormatResult[]> {
   const mode = getMode();
-  console.log('=========Source compile is starting....=========');
-
   const formats = resolveFormats(conf);
   const tsConfig = pathToTsConf(getRootRequireDir(), mode, mode === 'development' || !!conf.debug);
+  const results: FormatResult[] = [];
   for (const [format, paths] of formats) {
-    await compileFormat(format, paths, conf, tsConfig);
+    results.push(await compileFormat(format, paths, conf, tsConfig));
   }
+
+  return results;
 }

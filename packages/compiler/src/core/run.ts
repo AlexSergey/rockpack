@@ -1,8 +1,12 @@
 import type { Compiler, Configuration, MultiCompiler, MultiStats, Stats } from 'webpack';
 
+import type { Reporter } from '../reporter/reporter.js';
 import type { InternalCompilerConf, Mode } from '../types.js';
 
-import { sourceCompiler } from '../compilers/source-compiler.js';
+import { buildSources } from '../compilers/source-compiler.js';
+import { RockpackError } from '../errors/rockpack-error.js';
+import { createReporter } from '../reporter/reporter.js';
+import { logError } from '../utils/log.js';
 
 type BuildOutcome = {
   readonly stats: MultiStats | Stats | undefined;
@@ -28,6 +32,7 @@ const finishProduction = async (
   err: Error | null,
   stats: MultiStats | Stats | undefined,
   conf: InternalCompilerConf,
+  reporter: Reporter,
 ): Promise<boolean> => {
   // The reporter has printed the error (webpack's failed hook) or the stats (done hook).
   if (err) {
@@ -37,9 +42,11 @@ const finishProduction = async (
   }
   if (conf.library) {
     try {
-      // The per-file builds of a finished production build never watch.
-      await sourceCompiler({ ...conf, watch: false });
-    } catch {
+      await buildSources(conf, reporter);
+    } catch (error) {
+      if (error instanceof RockpackError) {
+        logError(error);
+      }
       process.exitCode = 1;
 
       return false;
@@ -59,6 +66,7 @@ export const run = (
   mode: Mode,
   webpack: WebpackFn,
   conf: InternalCompilerConf,
+  reporter: Reporter = createReporter(),
 ): RunResult => {
   let settle: (outcome: BuildOutcome) => void = () => undefined;
   const finished = new Promise<BuildOutcome>((resolve) => {
@@ -70,7 +78,7 @@ export const run = (
       return;
     }
     // Closing the compiler releases webpack's handles, so the process ends on its own with process.exitCode.
-    void finishProduction(err, stats, conf).then((success) => {
+    void finishProduction(err, stats, conf, reporter).then((success) => {
       // webpack returns no compiler when applying the config failed (a plugin threw while it was set up): the
       // reporter's hooks were never attached, so the error is printed here and there is nothing to close.
       if (compiler === null) {

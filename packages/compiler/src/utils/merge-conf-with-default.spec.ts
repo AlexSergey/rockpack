@@ -23,7 +23,6 @@ describe('mergeConfWithDefault', () => {
       const conf = await mergeConfWithDefault({ dist: '' }, 'production');
 
       expect(conf).toMatchObject({ dist: 'dist/index.js', distContext: 'dist' });
-      expect(logSpy).toHaveBeenCalled();
     });
 
     it('does not look for a free port in production', async () => {
@@ -44,7 +43,6 @@ describe('mergeConfWithDefault', () => {
         port: 3000,
         src: 'src/index',
       });
-      expect(logSpy).not.toHaveBeenCalled();
     });
 
     it('keeps a .js dist and uses its folder as the context', async () => {
@@ -59,7 +57,8 @@ describe('mergeConfWithDefault', () => {
         dist: 'build/index.js',
         distContext: 'build',
       });
-      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('build/index.js'));
+      // The reporter prints where the bundle goes; merging prints nothing.
+      expect(logSpy).not.toHaveBeenCalled();
     });
 
     it('resolves a free port from the configured one in development', async () => {

@@ -131,10 +131,10 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
         const dir = prepareFixture('source-only');
         const watcher = startDev(dir, 'scripts.watch.mts');
         try {
-          await watcher.waitForOutput(/Watching src for changes/, 120_000);
+          await watcher.waitForOutput(/› watching src for changes/, 120_000);
           const source = `${read(dir, 'src/utils/sum.ts')}\nexport const watched = 'watched';\n`;
           // A file system watcher may miss a change made right after it starts: write again until a rebuild shows.
-          const rebuilt = watcher.waitForOutput(/Rebuilt in \d+ ms/, 60_000);
+          const rebuilt = watcher.waitForOutput(/↻ sources {2}rebuilding[\s\S]*✔ sources {2}built in/, 60_000);
           const state = { settled: false };
           void rebuilt.finally(() => {
             state.settled = true;

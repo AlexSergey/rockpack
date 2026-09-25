@@ -243,6 +243,15 @@ Rockpack prints the build itself: a progress bar per compiler while it builds (t
 - In development the type checker reports after the build, as a separate `✖ client  N TypeScript errors` block.
 - Without a terminal (CI, logs, piped output) the same lines are printed without bars or cursor movement, so the output can be read by tools. Colours follow the terminal, `NO_COLOR` and `FORCE_COLOR`.
 - Production builds add the output folder and the size of the emitted files: ` ✔ frontend  built in 8.2s, dist  1.2 MB`.
+- The per-file builds (`sourceCompiler`, the `esm`/`cjs` formats of `libraryCompiler`) report as `sources`, with a line per format and for the declarations:
+  ```
+   ✔ sources  built in 0.3s
+     › cjs: 2 files in lib/cjs
+     › esm: 2 files in lib/esm
+     › declarations in dist/types
+  ```
+- When `dist` is a folder, the file the bundle goes to is shown as `› output: build/index.js`.
+- Only an invalid configuration (`[rockpack] INVALID_CONFIG: ...`) and a crash of the build script itself are printed outside this format.
 
 ## Results
 
