@@ -160,7 +160,7 @@ describe('makeConfig', () => {
 
       const configs = makeConfig().slice(0, 2);
 
-      expect(configs.map((config) => config.files)).toEqual([['**/*.{ts,tsx}'], ['**/*.{ts,tsx}']]);
+      expect(configs.map((config) => config.files)).toEqual([['**/*.{ts,tsx,mts,cts}'], ['**/*.{ts,tsx,mts,cts}']]);
     });
 
     it('scopes the recommended js rules to js files with node, jest and browser globals', () => {
@@ -178,7 +178,7 @@ describe('makeConfig', () => {
       const reactConfig = makeConfig().find((config) => config.name === 'eslint-react');
 
       expect(reactConfig).toEqual({
-        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
         name: 'eslint-react',
         rules: { '@eslint-react/marker': 'error' },
         settings: { react: { version: 'detect' } },
