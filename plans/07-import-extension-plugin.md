@@ -1,6 +1,6 @@
 # Plan 7: Own import extension plugin in @rockpack/babel
 
-Status: approved 2026-09-25 (D1 to D3 as recommended)
+Status: done 2026-09-25 (D1 to D3 as recommended)
 Order: independent; prepares the Babel 8 migration (issue #71), which gets its own plan
 Owner: TBD
 
@@ -94,8 +94,8 @@ Each item is one commit with the package checks (lint, `tsc --noEmit`, unit test
 - [x] **I2. Babel 8 smoke (per D2).** The same core cases run through the aliased `@babel/core` 8. _Done 2026-09-25: `babel-core-8` (npm alias of `@babel/core` 8.0.6) runs the plugin in a child process (Babel 8 is ESM only); assets with attributes, extensionless, file-over-folder, folder index, re-export and dynamic `import()` (an `ImportExpression` on Babel 8) pass; knip ignores the alias._
 - [x] **I3. Compiler per-file builds.** `source-compile.ts` uses `@rockpack/babel/plugins/import-extension`; `babel-plugin-add-import-extension` leaves the compiler dependencies and knip's ignore list. compiler-e2e: a `source-imports` fixture built with `sourceCompiler` covering a folder index, a file next to a same-named folder, a CSS import, a JSON import with attributes and a dynamic import, run by Node from both formats; the existing `source-only` and `library-formats` cases stay green. _Done 2026-09-25: `source-compile` resolves `@rockpack/babel/plugins/import-extension`; the compiler no longer depends on `babel-plugin-add-import-extension`; the `source-imports` fixture runs `json,file,index,lazy` from both formats and keeps `./styles.css`; the unit spec expects the source's single quotes now._
 - [x] **I4. Build tools.** `tools/build-tools` uses the same plugin (per D3) and drops `babel-plugin-add-import-extension`. Regression check: build every package before and after and diff `lib/` (only quote style may differ, since the new plugin keeps the source quotes); packaging-e2e goldens and installed ESM/CJS checks stay green. _Done 2026-09-25: build-tools depends on `@rockpack/babel` (excluded from the nx graph, ignored by knip since it is only resolved by path) and no longer on `babel-plugin-add-import-extension`, which is gone from the lockfile; knip's leftover `babel-plugin-*` ignore for the compiler is removed. 51 files of `lib/` differ, all only in quotes and whitespace (the old plugin rebuilt the import nodes, so a following comment was glued onto the import line; it now stays on its own line); no specifier changed. packaging-e2e (goldens, installed ESM/CJS) is green._
-- [x] **I5. Docs.** `@rockpack/babel` README section for the plugin (options, rules, unsupported cases); CHANGELOG: Added (the plugin), Fixed (asset imports no longer get a script extension, import attributes kept, a file wins over a same-named folder, dynamic imports rewritten in per-file builds); plan and issue #71 note (the extension part of #71 is solved; Babel 8 itself stays open). _Done 2026-09-25: README section "Import extension plugin", CHANGELOG Added and Fixed entries; the #71 note is posted after the push (I6)._
-- [ ] **I6. Full verification and CI.**
+- [x] **I5. Docs.** `@rockpack/babel` README section for the plugin (options, rules, unsupported cases); CHANGELOG: Added (the plugin), Fixed (asset imports no longer get a script extension, import attributes kept, a file wins over a same-named folder, dynamic imports rewritten in per-file builds); plan and issue #71 note (the extension part of #71 is solved; Babel 8 itself stays open). _Done 2026-09-25: README section "Import extension plugin", CHANGELOG Added and Fixed entries; #71 note posted after the push._
+- [x] **I6. Full verification and CI.** _Done 2026-09-25: full verification green, pushed as `8d2ab289`, CI green (check, e2e-pinned, e2e-runtime, book)._
 
 ## 7. Risks
 
