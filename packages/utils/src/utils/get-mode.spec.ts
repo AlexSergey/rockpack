@@ -73,7 +73,7 @@ describe('getMode', () => {
     });
 
     it('reads --mode followed by a separate value', () => {
-      setArgs('--analyzer', '--mode', 'production');
+      setArgs('--verbose', '--mode', 'production');
 
       expect(getMode()).toBe('production');
     });
