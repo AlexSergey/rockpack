@@ -3,6 +3,7 @@ import { getRootRequireDir, setMode } from '@rockpack/utils';
 import { generateDts } from '../utils/generate-dts.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { sourceCompile } from '../utils/source-compile.js';
+import { watchSources } from '../utils/watch-sources.js';
 import { sourceCompiler } from './source-compiler.js';
 
 jest.mock('@rockpack/utils', () => ({
@@ -14,6 +15,15 @@ jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 jest.mock('../utils/generate-dts.js', () => ({ generateDts: jest.fn() }));
 jest.mock('../utils/path-to-ts-conf.js', () => ({ pathToTsConf: jest.fn() }));
 jest.mock('../utils/source-compile.js', () => ({ sourceCompile: jest.fn() }));
+jest.mock('../utils/watch-sources.js', () => ({ watchSources: jest.fn() }));
+
+const watchSourcesMock = watchSources as jest.MockedFunction<typeof watchSources>;
+
+// The rebuild callback watchSources received.
+const triggerChange = (): void => {
+  const [call] = watchSourcesMock.mock.calls;
+  call?.[1]();
+};
 
 const format = { dist: 'lib/esm', src: 'src' };
 
@@ -66,6 +76,25 @@ describe('sourceCompiler', () => {
       expect(process.exitCode).toBe(1);
     });
 
+    it('does not watch without the watch option', async () => {
+      await expect(sourceCompiler({ esm: format })).resolves.toBeUndefined();
+      expect(watchSources).not.toHaveBeenCalled();
+    });
+
+    it('reports a failed rebuild and keeps watching', async () => {
+      const stopWatching = jest.fn();
+      watchSourcesMock.mockReturnValue(stopWatching);
+      jest.spyOn(console, 'log').mockImplementation(() => {});
+      const result = await sourceCompiler({ esm: format, watch: true });
+      (sourceCompile as jest.Mock).mockRejectedValueOnce(new Error('syntax error'));
+
+      triggerChange();
+      await result?.stop();
+
+      expect(errorSpy).toHaveBeenCalledWith('[rockpack] BUILD_FAILED: syntax error');
+      expect(stopWatching).toHaveBeenCalledTimes(1);
+    });
+
     it('rejects a failed declaration build as DTS_FAILED', async () => {
       (pathToTsConf as jest.Mock).mockReturnValue('/project/tsconfig.json');
       (generateDts as jest.Mock).mockRejectedValue(new Error('tsc failed'));
@@ -81,6 +110,23 @@ describe('sourceCompiler', () => {
 
       expect(sourceCompile).toHaveBeenCalledWith(conf);
       expect(pathToTsConf).toHaveBeenCalledWith('/project', 'production', false);
+    });
+
+    it('watches the format and declaration sources and rebuilds after a change', async () => {
+      const stopWatching = jest.fn();
+      watchSourcesMock.mockReturnValue(stopWatching);
+      const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+      const result = await sourceCompiler({ cjs: { dist: 'lib/cjs', src: 'lib-src' }, esm: format, watch: true });
+      triggerChange();
+      await result?.stop();
+
+      expect(result?.kind).toBe('watch');
+      expect(watchSourcesMock.mock.calls[0]?.[0]).toEqual(['/project/src', '/project/lib-src']);
+      expect(sourceCompile).toHaveBeenCalledTimes(2);
+      expect(logSpy).toHaveBeenCalledWith('Watching src, lib-src for changes');
+      expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^Rebuilt in \d+ ms$/));
+      expect(stopWatching).toHaveBeenCalledTimes(1);
     });
 
     it('generates declarations for a TypeScript project', async () => {

@@ -25,6 +25,8 @@ export type CompilerConf = {
   types?: string;
   vendor?: string[];
   version?: string;
+  // sourceCompiler: rebuild after every change until stop().
+  watch?: boolean;
 };
 
 export type HtmlPage = {

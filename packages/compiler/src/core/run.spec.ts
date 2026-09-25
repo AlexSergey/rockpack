@@ -139,7 +139,7 @@ describe('run', () => {
       runWith('production', null, libraryConf);
       await settle();
 
-      expect(sourceCompiler).toHaveBeenCalledWith(libraryConf);
+      expect(sourceCompiler).toHaveBeenCalledWith({ ...libraryConf, watch: false });
       expect((sourceCompiler as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
         (log as jest.Mock).mock.invocationCallOrder[0] ?? 0,
       );

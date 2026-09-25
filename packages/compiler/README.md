@@ -117,6 +117,7 @@ const {
 | version | string[undefined]           | The application version will be displayed as a comment at the top of the HTML file                                                                                                                                                               |
 | ignore  | String[][specs, tests, fixtures] | Globs that the per-file `esm`/`cjs` builds and the generated declarations skip |
 | lint    | Boolean[false]              | Lints the sources with ESLint and Stylelint during the build when their configs exist in the project root; an error fails the build |
+| watch   | Boolean[false]              | `sourceCompiler` only: after the first build, rebuild the formats and the declarations after every change in the sources until `stop()` of the result; keep `dist` outside the sources |
 | cache   | Boolean[false]              | Production builds cache modules on disk in `node_modules/.cache/rockpack` (one cache per compiler). Repeated builds are faster, the first one is slower because it writes the cache; a change in the build script or in the compiler invalidates it. Delete the folder if a build looks stale |
 
 ```js
@@ -390,7 +391,7 @@ Every compiler goes through the same steps (`src/core/compile.ts`):
 3. **Config.** `make()` builds each part of the webpack config in its own module under `src/modules`: entry, output, devtool, dev server, optimization, rules (scripts, styles, assets), plugins, resolve, stats and externals. `--analyzer` on the command line turns the analyzer on (the mode comes from `--mode`, then `NODE_ENV`), then your callback receives the config, the rules and the plugins to change them.
 4. **Run.** Production runs webpack once and resolves to `{ kind: 'build', stats, success }`; development starts watching (and the dev server for the frontend) and resolves to a result with `stop()`. `isomorphicCompiler` builds the frontend and the backend configs with one shared context and runs them together.
 
-`sourceCompiler` and the `esm`/`cjs` formats of `libraryCompiler` do not use webpack: every source file is transpiled with Babel into the output folder, and the declarations are emitted by TypeScript from your `tsconfig.json`.
+`sourceCompiler` and the `esm`/`cjs` formats of `libraryCompiler` do not use webpack: every source file is transpiled with Babel into the output folder, and the declarations are emitted by TypeScript from your `tsconfig.json`. With `watch: true`, `sourceCompiler` resolves to a `watch` result and repeats this build after every change (Node.js `fs.watch`, changes within 100 ms rebuild once); a failed rebuild is reported and the watch goes on.
 
 
 ## The MIT License

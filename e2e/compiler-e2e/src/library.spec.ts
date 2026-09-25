@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { build, buildFixture, loadPage, node, prepareFixture, read } from './fixtures';
+import { build, buildFixture, loadPage, node, prepareFixture, read, startDev } from './fixtures';
 
 const tsc = (dir: string, file: string): ReturnType<typeof node> =>
   node(dir, [
@@ -124,6 +124,34 @@ describe('libraryCompiler and sourceCompiler production builds', () => {
         expect(output).toBe('');
         expect(code).toBe(0);
       });
+    });
+
+    describe('source-only with watch', () => {
+      it('rebuilds the formats and the declarations after a source change', async () => {
+        const dir = prepareFixture('source-only');
+        const watcher = startDev(dir, 'scripts.watch.mts');
+        try {
+          await watcher.waitForOutput(/Watching src for changes/, 120_000);
+          const source = `${read(dir, 'src/utils/sum.ts')}\nexport const watched = 'watched';\n`;
+          // A file system watcher may miss a change made right after it starts: write again until a rebuild shows.
+          const rebuilt = watcher.waitForOutput(/Rebuilt in \d+ ms/, 60_000);
+          const state = { settled: false };
+          void rebuilt.finally(() => {
+            state.settled = true;
+          });
+          while (!state.settled) {
+            writeFileSync(path.join(dir, 'src/utils/sum.ts'), source);
+            await Promise.race([rebuilt, new Promise((resolve) => setTimeout(resolve, 2000))]);
+          }
+          await rebuilt;
+
+          expect(read(dir, 'lib/esm/utils/sum.mjs')).toContain('watched');
+          expect(read(dir, 'lib/cjs/utils/sum.cjs')).toContain('watched');
+          expect(read(dir, 'types/utils/sum.d.ts')).toContain('watched');
+        } finally {
+          await watcher.stop();
+        }
+      }, 240_000);
     });
 
     describe('source-only', () => {

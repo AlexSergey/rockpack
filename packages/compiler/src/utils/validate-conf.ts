@@ -87,6 +87,7 @@ const CHECKS: Readonly<Record<string, Check>> = {
   types: optional(string),
   vendor: optional(list(string)),
   version: optional(string),
+  watch: optional(boolean),
 };
 
 // Every problem in the compiler options, each naming the option path; a bad `src` is an INVALID_ENTRY.

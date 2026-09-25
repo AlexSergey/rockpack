@@ -38,7 +38,8 @@ const finishProduction = async (
   }
   if (conf.library) {
     try {
-      await sourceCompiler(conf);
+      // The per-file builds of a finished production build never watch.
+      await sourceCompiler({ ...conf, watch: false });
     } catch {
       process.exitCode = 1;
 
