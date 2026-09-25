@@ -1,38 +1,13 @@
-import type { PluginItem, TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 
-import { readPackageJson } from '@rockpack/utils';
-import deepmerge from 'deepmerge';
-import { existsSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import path from 'node:path';
+import type { BabelMergeContext, CreateBabelPresetsOptions } from './types.js';
 
-export type CreateBabelPresetsOptions = {
-  readonly framework?: Framework;
-  readonly isNodejs?: boolean;
-  readonly isTest?: boolean;
-  readonly modules?: Modules;
-  readonly typescript?: boolean;
-};
+import { readCoreJsVersion } from './core-js.js';
+import { buildPlugins, buildProductionPlugins } from './plugins.js';
+import { buildPresets } from './presets.js';
+import { applyUserConfig } from './user-config.js';
 
-type BabelMergeContext = {
-  readonly framework: Framework;
-  readonly isNodejs: boolean;
-  readonly isTest: boolean;
-  readonly modules: Modules;
-  readonly typescript: boolean;
-};
-
-type BabelMergeFunction = (
-  context: BabelMergeContext,
-  opts: TransformOptions,
-  merge: typeof deepmerge,
-) => TransformOptions;
-
-type Framework = 'none' | 'react';
-
-type Modules = 'amd' | 'auto' | 'cjs' | 'commonjs' | 'systemjs' | 'umd' | false;
-
-const _require = createRequire(import.meta.url);
+export type { CreateBabelPresetsOptions } from './types.js';
 
 export const createBabelPresets = ({
   framework = 'none',
@@ -40,103 +15,19 @@ export const createBabelPresets = ({
   isTest = false,
   modules = false,
   typescript = false,
-  // eslint-disable-next-line @sonar/cognitive-complexity
 }: CreateBabelPresetsOptions = {}): TransformOptions => {
   const root = process.cwd();
-  const babelMergePath = path.resolve(root, 'rockpack.babel.js');
+  const context: BabelMergeContext = { framework, isNodejs, isTest, modules, typescript };
+  const productionPlugins = buildProductionPlugins(context);
 
-  const packageJson = readPackageJson(root) ?? {};
-
-  let corejs: false | string = false;
-  const coreJsDep = packageJson.dependencies?.['core-js'];
-  if (typeof coreJsDep === 'string') {
-    corejs = coreJsDep;
-  }
-
-  const getPreset = (presetName: string, options: Record<string, unknown> = {}): [string, Record<string, unknown>] => [
-    _require.resolve(presetName),
-    options,
-  ];
-
-  const plugins: PluginItem[] = [];
-
-  if (framework === 'react') {
-    plugins.push(getPreset('babel-plugin-react-compiler'));
-  }
-
-  plugins.push(
-    getPreset('@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }),
-    getPreset('@babel/plugin-proposal-do-expressions'),
-    getPreset('@babel/plugin-proposal-decorators', { legacy: true }),
-  );
-
-  if (typescript) {
-    plugins.push(_require.resolve('babel-plugin-transform-typescript-metadata'));
-  }
-
-  if (isTest) {
-    plugins.push(
-      _require.resolve('@rockpack/babel/plugins/rename-cjs-globals'),
-      _require.resolve('babel-plugin-transform-import-meta'),
-      _require.resolve('@babel/plugin-transform-modules-commonjs'),
-    );
-  }
-
-  const presets: PluginItem[] = typescript
-    ? [getPreset('@babel/preset-typescript')]
-    : [
-        getPreset('@babel/preset-env', {
-          modules,
-          ...(isNodejs ? { targets: { node: 'current' } } : { targets: { browsers: ['> 5%'] } }),
-          ...(typeof corejs === 'string' ? { corejs, useBuiltIns: 'usage' } : {}),
-        }),
-      ];
-
-  if (framework === 'react') {
-    presets.push(
-      getPreset('@babel/preset-react', {
-        runtime: 'automatic',
-        useBuiltIns: true,
-      }),
-    );
-  }
-
-  const productionPlugins: PluginItem[] = [];
-  if (framework === 'react') {
-    productionPlugins.push(_require.resolve('@babel/plugin-transform-react-constant-elements'));
-  }
-
-  let opts: TransformOptions = {
+  const opts: TransformOptions = {
     babelrc: false,
     env: {
       production: productionPlugins.length > 0 ? { plugins: productionPlugins } : {},
     },
-    plugins,
-    presets,
+    plugins: buildPlugins(context),
+    presets: buildPresets(context, readCoreJsVersion(root)),
   };
 
-  if (existsSync(babelMergePath)) {
-    try {
-      const babelMergeModule: unknown = _require(babelMergePath);
-
-      if (
-        typeof babelMergeModule === 'object' &&
-        babelMergeModule !== null &&
-        Object.keys(babelMergeModule).length > 0
-      ) {
-        opts = deepmerge(opts, babelMergeModule as Partial<TransformOptions>);
-      } else if (typeof babelMergeModule === 'function') {
-        const merge = babelMergeModule as BabelMergeFunction;
-        const result = merge({ framework, isNodejs, isTest, modules, typescript }, opts, deepmerge);
-        if (typeof result === 'object' && Object.keys(result).length > 0) {
-          opts = result;
-        }
-      }
-    } catch {
-      // eslint-disable-next-line no-console
-      console.error("Rockpack/Babel: can't merge rockpack.babel.js");
-    }
-  }
-
-  return opts;
+  return applyUserConfig(opts, context, root);
 };

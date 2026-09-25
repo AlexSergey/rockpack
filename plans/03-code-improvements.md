@@ -78,7 +78,7 @@ With the unit tests in place and the audit findings closed, improve the packages
 
 ## 7. `@rockpack/babel`
 
-- [ ] **B1.** Split `createBabelPresets` (148 LOC, sonar disabled) into `readCoreJsVersion`, `buildPlugins`, `buildPresets`, `applyUserConfig`, each exported for tests; `createBabelPresets` composes them.
+- [x] **B1.** Split `createBabelPresets` (148 LOC, sonar disabled) into `readCoreJsVersion`, `buildPlugins`, `buildPresets`, `applyUserConfig`, each exported for tests; `createBabelPresets` composes them. _Done 2026-09-25: one module each (`core-js`, `plugins` with `buildProductionPlugins`, `presets`, `user-config`, shared `resolve` and `types`); the public entry still exports only `createBabelPresets` and its options type, and the existing spec keeps 100% coverage through it._
 - [ ] **B2.** Export the types consumers need in `rockpack.babel.ts`: `BabelMergeContext`, `BabelMergeFunction`, `Framework`, `Modules`. Support `rockpack.babel.{js,cjs,mjs,ts}` through `jiti` or `tsx` import, and unwrap `default` when the loaded module is an ES namespace (today an ESM config falls into the object branch and merges a `default` key).
 - [ ] **B3.** TypeScript mode: use `@babel/preset-typescript` together with `@babel/preset-env` so `modules`, `isNodejs` and `core-js` are honoured for TS projects (they are silently ignored today). This is a behaviour change: guard it behind `typescript: { env: true }` in `9.0.0` and make it the default in `10.0.0`, or document it as the `9.0.0` breaking change. Decide and record here.
 - [ ] **B4.** Replace `deepmerge` with the same merge helper the tester uses (or the reverse), so the monorepo has one deep-merge dependency.
