@@ -138,8 +138,14 @@ describe('development mode', () => {
       });
 
       it('runs the bundle under nodemon with the inspector', () => {
-        expect(count(server.output(), /node-inspect is available on \d+ port/)).toBe(1);
-        expect(server.output()).toContain('Debugger listening on ws://');
+        const output = server.output();
+        const inspector = count(output, /node-inspect is available on \d+ port/);
+
+        expect(inspector).toBeGreaterThanOrEqual(1);
+        // Every successful compilation prints the messages again (a Linux runner may rebuild right after start);
+        // each report must list the inspector once.
+        expect(inspector).toBe(count(output, /nodemon is running/));
+        expect(output).toContain('Debugger listening on ws://');
       });
 
       it('restarts the program after a source change', async () => {
