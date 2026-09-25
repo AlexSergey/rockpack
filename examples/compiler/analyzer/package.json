@@ -1,12 +1,10 @@
 {
   "name": "@rockpack/example-compiler-analyzer",
   "version": "8.0.0",
-  "description": "Rockpack example: analyzer",
+  "description": "Rockpack example: a bundle analyzer added through the compiler callback",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "scripts": {
-    "analyzer": "cross-env NODE_ENV=development node scripts.build.mts --analyzer",
-    "analyzer:prod": "cross-env NODE_ENV=production node scripts.build.mts --analyzer",
     "build": "cross-env NODE_ENV=production node scripts.build.mts",
     "format": "npm run format:code",
     "format:code": "eslint . --fix",
@@ -22,6 +20,8 @@
   "devDependencies": {
     "@rockpack/codestyle": "8.0.0",
     "@rockpack/compiler": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0"
+    "@rockpack/tsconfig": "8.0.0",
+    "@types/webpack-bundle-analyzer": "4.7.0",
+    "webpack-bundle-analyzer": "5.3.0"
   }
 }

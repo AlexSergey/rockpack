@@ -369,7 +369,7 @@ libraryCompiler({
 TypeScript sources will be saved in ESM and CJS format at the specified path.
 ***
 How do I analyze the bundle?
-- *Rockpack does not ship an analyzer since 9.0.0: add the one you like in the callback. With [webpack-bundle-analyzer](https://github.com/webpack/webpack-bundle-analyzer) installed in your project:*
+- *Rockpack does not ship an analyzer since 9.0.0: add the one you like in the callback. With [webpack-bundle-analyzer](https://github.com/webpack/webpack-bundle-analyzer) and `@types/webpack-bundle-analyzer` installed in your project:*
 ```ts
 import { frontendCompiler } from '@rockpack/compiler';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';

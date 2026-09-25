@@ -183,13 +183,5 @@ describe('frontendCompiler production builds', () => {
         dom.window.close();
       });
     });
-
-    describe('frontend-analyzer', () => {
-      it('emits the static bundle report', async () => {
-        const { dir } = await buildFixture('frontend-analyzer');
-
-        expect(readdirSync(path.join(dir, 'dist'))).toContain('webpack-report.html');
-      });
-    });
   });
 });
