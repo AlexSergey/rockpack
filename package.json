@@ -1,6 +1,6 @@
 {
   "name": "rockpack",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "license": "MIT",
   "workspaces": [
@@ -58,6 +58,16 @@
     "tsx": "4.23.15",
     "typescript": "6.0.3",
     "yargs": "18.2.0"
+  },
+  "overrides": {
+    "cross-spawn": "7.0.6",
+    "lerna": {
+      "js-yaml": "4.3.2",
+      "pacote": "21.5.1"
+    },
+    "nx": {
+      "smol-toml": "1.9.0"
+    }
   },
   "engines": {
     "node": ">=24.15.0"

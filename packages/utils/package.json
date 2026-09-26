@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": false,
   "description": "Internal utilities shared across Rockpack packages",
   "keywords": [
@@ -56,10 +56,10 @@
     "semver": "7.8.5"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "8.0.0",
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/build-tools": "9.0.0-next.1",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@types/jest": "30.0.0",
     "@types/semver": "7.8.0"
   },

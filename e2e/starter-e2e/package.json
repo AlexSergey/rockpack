@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter-e2e",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "description": "",
   "repository": {
@@ -17,14 +17,14 @@
     "test": "NODE_OPTIONS='--experimental-vm-modules' tsx scripts.test.ts"
   },
   "dependencies": {
-    "@rockpack/tester": "8.0.0"
+    "@rockpack/tester": "9.0.0-next.1"
   },
   "devDependencies": {
     "@issr/babel-plugin": "4.0.1",
     "@issr/core": "4.0.1",
     "@koa/router": "15.7.0",
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/e2e-tools": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/e2e-tools": "9.0.0-next.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/jest": "30.0.0",

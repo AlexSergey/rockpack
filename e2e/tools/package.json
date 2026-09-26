@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/e2e-tools",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "description": "Shared helpers for the Rockpack e2e suites",
   "license": "MIT",
@@ -18,9 +18,9 @@
     "puppeteer": "25.12.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@types/jest": "30.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": false,
   "description": "Zero-config Babel presets for React, TypeScript, and modern JavaScript with React Compiler support",
   "keywords": [
@@ -66,7 +66,7 @@
     "@babel/preset-env": "8.0.6",
     "@babel/preset-react": "8.0.1",
     "@babel/preset-typescript": "8.0.1",
-    "@rockpack/utils": "8.0.0",
+    "@rockpack/utils": "9.0.0-next.1",
     "babel-plugin-polyfill-corejs3": "1.0.0",
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-import-meta": "3.0.0",
@@ -74,10 +74,10 @@
     "deepmerge": "4.3.1"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "8.0.0",
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/build-tools": "9.0.0-next.1",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@types/jest": "30.0.0",
     "babel-core-7": "npm:@babel/core@7.29.7",
     "expect-type": "1.4.0",

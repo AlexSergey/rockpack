@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-react",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "description": "Rockpack example: react",
   "license": "ISC",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -19,9 +19,9 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/packaging-e2e",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "description": "Checks the npm tarballs of the published Rockpack packages",
   "repository": {
@@ -16,10 +16,10 @@
     "test": "tsx scripts.test.ts"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/e2e-tools": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/e2e-tools": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@types/jest": "30.0.0"
   }
 }

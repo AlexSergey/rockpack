@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-node-jest-extend",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "description": "Rockpack example: node-jest-extend",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -14,9 +14,9 @@
     "test:watch": "node scripts.tests.mts --watch"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/tester": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "@types/node": "24.13.6"
   }
 }

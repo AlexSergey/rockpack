@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-eslint",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "description": "Rockpack example: eslint",
   "license": "ISC",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -16,8 +16,8 @@
     "start": "cross-env NODE_ENV=development node scripts.build.mts"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/compiler": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0"
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/compiler": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1"
   }
 }

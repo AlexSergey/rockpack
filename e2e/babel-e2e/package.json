@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/babel-e2e",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "description": "",
   "repository": {
@@ -17,11 +17,11 @@
     "test": "tsx scripts.test.ts"
   },
   "dependencies": {
-    "@rockpack/babel": "8.0.0",
-    "@rockpack/tester": "8.0.0"
+    "@rockpack/babel": "9.0.0-next.1",
+    "@rockpack/tester": "9.0.0-next.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
     "@types/jest": "30.0.0"
   }
 }

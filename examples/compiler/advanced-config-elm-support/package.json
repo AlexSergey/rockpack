@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-advanced-config-elm-support",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "description": "Rockpack example: advanced-config-elm-support",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -14,13 +14,12 @@
     "start": "cross-env NODE_ENV=development node scripts.build.mts"
   },
   "dependencies": {
-    "elm": "0.19.1-6",
-    "elm-analyse": "0.16.5"
+    "elm": "0.19.1-6"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "8.0.0",
-    "@rockpack/compiler": "8.0.0",
-    "@rockpack/tsconfig": "8.0.0",
+    "@rockpack/codestyle": "9.0.0-next.1",
+    "@rockpack/compiler": "9.0.0-next.1",
+    "@rockpack/tsconfig": "9.0.0-next.1",
     "elm-webpack-loader": "8.0.0",
     "webpack-notifier": "1.17.0"
   }

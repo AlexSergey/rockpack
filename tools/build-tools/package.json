@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/build-tools",
-  "version": "8.0.0",
+  "version": "9.0.0-next.1",
   "private": true,
   "description": "Shared build scripts for the Rockpack packages",
   "license": "MIT",
@@ -16,11 +16,11 @@
     "@babel/plugin-transform-modules-commonjs": "8.0.1",
     "@babel/preset-env": "8.0.6",
     "@babel/preset-typescript": "8.0.1",
-    "@rockpack/babel": "8.0.0",
+    "@rockpack/babel": "9.0.0-next.1",
     "babel-plugin-transform-import-meta": "3.0.0"
   },
   "devDependencies": {
-    "@rockpack/tsconfig": "8.0.0"
+    "@rockpack/tsconfig": "9.0.0-next.1"
   },
   "nx": {
     "implicitDependencies": [
