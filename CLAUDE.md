@@ -65,6 +65,14 @@ describe('UsersService', () => {
 
 ---
 
+## Git Commit Policy
+
+- Never add `Co-Authored-By` or any other Claude/AI attribution to commits or pull requests
+- Commit messages describe only the actual changes
+- The `commit-msg` hook rejects messages with AI attribution trailers
+
+---
+
 ## Ignore Rules
 
 Do not analyze or modify generated/dependency files.
