@@ -6,6 +6,7 @@ import type { TestResults } from './core/init.js';
 import type { CoverageOptions, TesterOptions } from './default-props.js';
 
 import { init } from './core/init.js';
+import { readTestPathPatterns } from './modules/read-test-path-patterns.js';
 
 export type { CoverageOptions, TesterOptions, TestResults };
 
@@ -18,7 +19,7 @@ const tester = (
   setMode(['development', 'production', 'test'], 'test');
 
   const args = process.argv.slice(2);
-  const positional = args.filter((arg) => !arg.startsWith('-'));
+  const positional = readTestPathPatterns(args);
   const options = {
     ...opts,
     ...(typeof opts.watch === 'boolean' ? {} : { watch: args.includes('--watch') }),

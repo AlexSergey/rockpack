@@ -27,7 +27,17 @@ npm install @rockpack/tester --save-dev
 yarn add @rockpack/tester --dev
 ```
 
-`@types/jest` is a regular dependency of `@rockpack/tester` on purpose: specs use the Jest globals (`describe`, `it`, `expect`, `jest`), so their types come with the tester and need no separate install.
+`@types/jest` is a regular dependency of `@rockpack/tester` on purpose: specs use the Jest globals (`describe`, `it`, `expect`, `jest`), so their types come with the tester and need no separate install. TypeScript 6 no longer loads every `@types` package by default (`types` defaults to `[]`), so list them in the `tsconfig.json` that covers the specs, as the Rockpack starter templates do:
+
+```json
+{
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  }
+}
+```
+
+This works when the package manager hoists `@types/jest` to the top-level `node_modules` (npm and Yarn do); with pnpm add `@types/jest` to the project itself.
 
 2. Create **scripts.tests.mts** in the root of the project (Node.js 24 runs TypeScript itself; `.mts` makes it an ES module):
 
@@ -56,9 +66,11 @@ or in watch mode (`--watch` is read from the command line unless `watch` is pass
 node scripts.tests.mts --watch
 ```
 
+Positional arguments become spec path patterns unless `testPathPatterns` is passed explicitly: `node scripts.tests.mts cli generation` runs only the specs whose path matches `cli` or `generation`. Flags and the values of `--mode`, `--testNamePattern` (`-t`) and `--config` (`-c`) are not patterns.
+
 4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.
 
-**See the `examples` folder** - <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/tester/examples" target="_blank">here</a>
+**See the `examples` folder** - <a href="https://github.com/AlexSergey/rockpack/tree/master/examples/tester" target="_blank">here</a>
 
 ## Options
 
@@ -69,6 +81,7 @@ node scripts.tests.mts --watch
 | `src` | `'./src'` | Folder (or folders) with the specs |
 | `prefix` | `'(spec\|test)'` | Spec file suffix: `*.spec.ts`, `*.test.ts` |
 | `watch` | `--watch` on the command line | Jest watch mode |
+| `testPathPatterns` | positional command line arguments | Run only the spec files whose path matches one of these patterns, like `jest <pattern>` |
 | `serial` | `false` | Run the suites one by one without cache, for tests that share ports or files |
 | `coverage` | `true` | `false` turns coverage off; `{ collectCoverageFrom, reporters, thresholds }` adjusts it (values in the Jest config still win) |
 | `esm` | `false` | Run the specs as ES modules (see below) |
@@ -113,7 +126,7 @@ void tester({}, { testEnvironment: 'node' });
 
 `tester(options, jestConfig)` builds the Jest config in `src/configs/config-compiler.ts` and runs it with Jest's `runCLI`:
 
-1. `jest.init.*`, `jest.setup.*`, `jest.global.setup.*` and `jest.global.teardown.*` in the project root become `setupFiles`, `setupFilesAfterEnv`, `globalSetup` and `globalTeardown`.
+1. `jest.init.*`, `jest.setup.*`, `jest.global.setup.*` and `jest.global.teardown.*` in the folder of the test script (`scripts.tests.mts`) become `setupFiles`, `setupFilesAfterEnv`, `globalSetup` and `globalTeardown`, referenced by absolute path, so they are found when the script runs from another folder.
 2. The defaults are added: the `jsdom` environment, Babel transforms from `@rockpack/babel` in test mode (one preset for JavaScript, one for TypeScript), stubs for styles and static files, and the `TextEncoder` polyfill.
 3. Your Jest config is merged in. Arrays such as `setupFilesAfterEnv` extend the defaults unless `replaceArrays` is set.
 4. The options are applied: coverage (outside watch mode), the HTML report, `serial`, `watch` and the spec filter from `testPathPatterns` or the command line.

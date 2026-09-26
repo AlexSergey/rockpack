@@ -64,6 +64,20 @@ describe('tester', () => {
       expect(initMock).toHaveBeenCalledWith({ testPathPatterns: ['cli', 'generation'], watch: true }, {});
     });
 
+    it('does not turn the value of --mode into a spec path pattern', async () => {
+      initMock.mockResolvedValue(undefined);
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', '--mode', 'test', 'cli'];
+
+      try {
+        await tester();
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith({ testPathPatterns: ['cli'], watch: false }, {});
+    });
+
     it('defaults to no watch and an empty project config', async () => {
       initMock.mockResolvedValue(undefined);
 

@@ -47,14 +47,15 @@ type SetupFiles = {
   setupFilesAfterEnv: string[];
 };
 
+// Absolute paths: Jest's rootDir is the current folder, which may differ from the project folder of the script.
 const findSetupFiles = (projectDir: string): SetupFiles => {
   const found: SetupFiles = { setupFiles: [], setupFilesAfterEnv: [] };
   for (const ext of ['.js', '.mjs', '.cjs', '.ts']) {
     if (existsSync(path.resolve(projectDir, `./jest.init${ext}`))) {
-      found.setupFiles.push(`<rootDir>/jest.init${ext}`);
+      found.setupFiles.push(path.resolve(projectDir, `./jest.init${ext}`));
     }
     if (existsSync(path.resolve(projectDir, `./jest.setup${ext}`))) {
-      found.setupFilesAfterEnv.push(`<rootDir>/jest.setup${ext}`);
+      found.setupFilesAfterEnv.push(path.resolve(projectDir, `./jest.setup${ext}`));
     }
     if (existsSync(path.resolve(projectDir, `./jest.global.setup${ext}`))) {
       found.globalSetup = path.resolve(projectDir, `./jest.global.setup${ext}`);

@@ -132,7 +132,7 @@ describe('configCompiler', () => {
       it('registers jest.init as a setup file', () => {
         mockExistingFiles.add(`${mockProjectDir}/jest.init${ext}`);
 
-        expect(parseConfig(compile()).setupFiles).toEqual([`<rootDir>/jest.init${ext}`]);
+        expect(parseConfig(compile()).setupFiles).toEqual([`${mockProjectDir}/jest.init${ext}`]);
       });
 
       it('registers jest.setup after the text-encoder polyfill', () => {
@@ -140,7 +140,7 @@ describe('configCompiler', () => {
 
         expect(parseConfig(compile()).setupFilesAfterEnv).toEqual([
           expect.stringContaining('text-encoder.fix'),
-          `<rootDir>/jest.setup${ext}`,
+          `${mockProjectDir}/jest.setup${ext}`,
         ]);
       });
 
@@ -155,6 +155,19 @@ describe('configCompiler', () => {
 
         expect(parseConfig(compile()).globalTeardown).toBe(`${mockProjectDir}/jest.global.teardown${ext}`);
       });
+    });
+
+    it('references setup files in the folder they were detected in, not the Jest rootDir', () => {
+      const projectDir = '/elsewhere/project';
+      mockExistingFiles.add(`${projectDir}/jest.init.ts`);
+      mockExistingFiles.add(`${projectDir}/jest.setup.ts`);
+      const { config } = configCompiler({}, {}, { projectDir, vmModules: false });
+
+      expect(config.setupFiles).toEqual([`${projectDir}/jest.init.ts`]);
+      expect(config.setupFilesAfterEnv).toEqual([
+        expect.stringContaining('text-encoder.fix'),
+        `${projectDir}/jest.setup.ts`,
+      ]);
     });
 
     it('builds testMatch from a single src folder and a custom prefix', () => {
