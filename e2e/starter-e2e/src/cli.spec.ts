@@ -65,7 +65,7 @@ describe('starter CLI', () => {
       const { code, output } = await rockpack(dir, ['-v'], { NODE_OPTIONS: `--require=${preload}` });
 
       expect(code).toBe(1);
-      expect(output).toContain('Rockpack requires Node >=24.11.0.');
+      expect(output).toContain('Rockpack requires Node >=24.15.0.');
     });
   });
 

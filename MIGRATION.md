@@ -4,7 +4,7 @@ This guide lists every change in `9.0.0` that can break an existing project, gro
 
 ## All packages
 
-- **Node.js 24.11 or newer** is required by every package and by the starter CLI (Babel 8 needs it). Update Node.js (`.nvmrc` in generated projects says `24`, which installs the latest 24.x) before upgrading the packages.
+- **Node.js 24.15 or newer** is required by every package and by the starter CLI (Babel 8 needs 24.11, the ESLint plugins of `@rockpack/codestyle` need 24.15). Update Node.js (`.nvmrc` in generated projects says `24`, which installs the latest 24.x) before upgrading the packages.
 - Packages ship ESM and CommonJS builds; `@rockpack/codestyle` ships only ESM and is loaded by `require()` through Node.js `require(esm)`.
 
 ## @rockpack/compiler

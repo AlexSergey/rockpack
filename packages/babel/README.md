@@ -8,7 +8,7 @@
 
 This module is part of the **Rockpack** project. See more details on [the official site](https://alexsergey.github.io/rockpack/).
 
-It runs on Babel 8 (`@babel/core` 8, Node.js 24.11 or newer). Plugins added through `rockpack.babel.*` must support Babel 8.
+It runs on Babel 8 (`@babel/core` 8) and needs Node.js 24.15 or newer. Plugins added through `rockpack.babel.*` must support Babel 8.
 
 To add custom plugins, create `rockpack.babel.js` in the root of your project. Plugins defined there are merged into the base Babel config.
 

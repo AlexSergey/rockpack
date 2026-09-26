@@ -64,7 +64,7 @@
     "@types/semver": "7.8.0"
   },
   "engines": {
-    "node": ">=24.11.0"
+    "node": ">=24.15.0"
   },
   "nx": {
     "implicitDependencies": [
