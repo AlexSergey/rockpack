@@ -5,6 +5,10 @@
         {
           "name": "knip",
           "version": "6"
+        },
+        {
+          "name": "typescript",
+          "version": "6"
         }
       ]
     }
@@ -27,6 +31,10 @@
         {
           "name": "@types/react-dom",
           "version": "19"
+        },
+        {
+          "name": "@types/node",
+          "version": "24"
         }
       ],
       "peerDependencies": [
@@ -43,7 +51,12 @@
   },
   "library": {
     "common": {
-      "devDependencies": []
+      "devDependencies": [
+        {
+          "name": "@types/node",
+          "version": "24"
+        }
+      ]
     }
   },
   "csr": {
@@ -69,7 +82,7 @@
       "devDependencies": [
         {
           "name": "@types/node",
-          "version": "26"
+          "version": "24"
         },
         {
           "name": "@types/react",
@@ -78,6 +91,10 @@
         {
           "name": "@types/react-dom",
           "version": "19"
+        },
+        {
+          "name": "webpack",
+          "version": "5"
         }
       ]
     }
@@ -145,7 +162,7 @@
         },
         {
           "name": "@types/node",
-          "version": "26"
+          "version": "24"
         },
         {
           "name": "@types/serialize-javascript",
@@ -157,6 +174,10 @@
   "tester": {
     "common": {
       "devDependencies": [
+        {
+          "name": "@types/jest",
+          "version": "30"
+        },
         {
           "name": "source-map",
           "version": "0.8.0-beta.0"

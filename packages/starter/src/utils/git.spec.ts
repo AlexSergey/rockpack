@@ -39,7 +39,7 @@ describe('git utils', () => {
       });
 
       expect(gitIsAvailable()).toBe(false);
-      expect(errorSpy).toHaveBeenCalledWith(error);
+      expect(errorSpy).not.toHaveBeenCalled();
     });
 
     it('finds no repository when no directory up to the root has .git', () => {

@@ -49,10 +49,13 @@
     "@rockpack/compiler": "<rockpack>",
     "@rockpack/tester": "<rockpack>",
     "@rockpack/tsconfig": "<rockpack>",
+    "@types/jest": "30",
+    "@types/node": "24",
     "knip": "6",
     "lint-staged": "17",
     "simple-git-hooks": "2",
-    "source-map": "0.8.0-beta.0"
+    "source-map": "0.8.0-beta.0",
+    "typescript": "6"
   },
   "knip": {
     "entry": [

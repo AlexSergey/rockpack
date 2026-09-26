@@ -50,16 +50,18 @@
     "@rockpack/tsconfig": "<rockpack>",
     "@testing-library/jest-dom": "7",
     "@testing-library/react": "16",
+    "@types/jest": "30",
     "@types/koa": "3",
     "@types/koa-static": "4",
-    "@types/node": "26",
+    "@types/node": "24",
     "@types/react": "19",
     "@types/react-dom": "19",
     "@types/serialize-javascript": "5",
     "knip": "6",
     "lint-staged": "17",
     "simple-git-hooks": "2",
-    "source-map": "0.8.0-beta.0"
+    "source-map": "0.8.0-beta.0",
+    "typescript": "6"
   },
   "knip": {
     "entry": [

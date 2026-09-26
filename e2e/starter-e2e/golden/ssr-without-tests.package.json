@@ -46,13 +46,14 @@
     "@rockpack/tsconfig": "<rockpack>",
     "@types/koa": "3",
     "@types/koa-static": "4",
-    "@types/node": "26",
+    "@types/node": "24",
     "@types/react": "19",
     "@types/react-dom": "19",
     "@types/serialize-javascript": "5",
     "knip": "6",
     "lint-staged": "17",
-    "simple-git-hooks": "2"
+    "simple-git-hooks": "2",
+    "typescript": "6"
   },
   "knip": {
     "entry": [

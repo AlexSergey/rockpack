@@ -8,6 +8,7 @@ export type AppType = 'component' | 'csr' | 'library' | 'ssr';
 
 export type State = {
   appType: AppType | undefined;
+  // No repository and hooks of its own: git is missing or the project is inside a parent repository.
   nogit?: boolean;
   offline?: boolean;
   projectName?: string;
@@ -60,7 +61,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
           value: 'component',
         },
         {
-          name: `• ${chalk.bold('UMD Library')}: Framework-agnostic UMD library for NPM, zero configuration required, with quality gates that keep AI-generated code clean.`,
+          name: `• ${chalk.bold('Library')}: Framework-agnostic library for NPM in UMD, ESM and CommonJS, zero configuration required, with quality gates that keep AI-generated code clean.`,
           value: 'library',
         },
       ];

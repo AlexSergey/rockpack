@@ -4,6 +4,8 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 
 const _require = createRequire(import.meta.url);
+// babel-loader is a dependency of @rockpack/compiler, not of the project: resolve it from there.
+const babelLoader = createRequire(_require.resolve('@rockpack/compiler')).resolve('babel-loader');
 
 void isomorphicCompiler({
   backend: {
@@ -21,7 +23,7 @@ void isomorphicCompiler({
     modules.set('ts', {
       test: /\.ts$/,
       use: {
-        loader: _require.resolve('babel-loader'),
+        loader: babelLoader,
         options: preset,
       },
     });
@@ -29,7 +31,7 @@ void isomorphicCompiler({
     modules.set('tsx', {
       test: /\.tsx$/,
       use: {
-        loader: _require.resolve('babel-loader'),
+        loader: babelLoader,
         options: preset,
       },
     });
@@ -53,14 +55,14 @@ void isomorphicCompiler({
     modules.set('tsx', {
       test: /\.tsx$/,
       use: {
-        loader: _require.resolve('babel-loader'),
+        loader: babelLoader,
         options: preset,
       },
     });
     modules.set('ts', {
       test: /\.ts$/,
       use: {
-        loader: _require.resolve('babel-loader'),
+        loader: babelLoader,
         options: preset,
       },
     });

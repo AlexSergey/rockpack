@@ -37,12 +37,14 @@
     "@rockpack/codestyle": "<rockpack>",
     "@rockpack/compiler": "<rockpack>",
     "@rockpack/tsconfig": "<rockpack>",
-    "@types/node": "26",
+    "@types/node": "24",
     "@types/react": "19",
     "@types/react-dom": "19",
     "knip": "6",
     "lint-staged": "17",
-    "simple-git-hooks": "2"
+    "simple-git-hooks": "2",
+    "typescript": "6",
+    "webpack": "5"
   },
   "knip": {
     "entry": [

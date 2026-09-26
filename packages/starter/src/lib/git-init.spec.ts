@@ -42,7 +42,7 @@ describe('gitInit', () => {
       expect(makeRepoMock).not.toHaveBeenCalled();
     });
 
-    it('disables git inside an existing repository', () => {
+    it('skips git init and the hooks inside a parent repository', () => {
       gitIsAvailableMock.mockReturnValue(true);
       findGitRepoInParentMock.mockReturnValue(true);
       const state = createState();

@@ -61,6 +61,8 @@ jspm_packages/
 # Dist
 dist
 build
+# The cjs and esm builds of a library
+/lib
 *.map
 
 # Caches

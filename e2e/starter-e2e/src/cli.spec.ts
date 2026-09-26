@@ -55,7 +55,7 @@ describe('starter CLI', () => {
       const { code, output } = await rockpack(dir, ['app', ...GENERATE]);
 
       expect(code).toBe(1);
-      expect(output).toContain('Project "app" has already created');
+      expect(output).toContain('Project "app" already exists');
     });
 
     it('prints the Node.js requirement on an older Node.js', async () => {
@@ -82,7 +82,7 @@ describe('starter CLI', () => {
 
       expect(code).toBe(0);
       expect(output).toContain('USAGE');
-      expect(output).toContain('rockpack proj');
+      expect(output).toContain('rockpack <project-name> [options]');
     });
 
     it('creates a csr project with tests without prompts under --yes', async () => {

@@ -23,7 +23,7 @@ const APP_ENTRIES: Readonly<Record<AppType, readonly string[]>> = {
 
 // Build output that .gitignore does not cover and package.json does not publish.
 const APP_OUTPUT: Readonly<Record<AppType, readonly string[]>> = {
-  component: ['lib/**'],
+  component: [],
   csr: [],
   library: [],
   ssr: ['public/**'],

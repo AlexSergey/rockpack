@@ -18,18 +18,21 @@ jest.mock('node:fs', () => ({
   ...jest.requireActual<typeof fs>('node:fs'),
   existsSync: jest.fn(),
   readdirSync: jest.fn(),
+  statSync: jest.fn(),
 }));
 jest.mock('../lib/install.js', () => ({ install: jest.fn() }));
 jest.mock('../utils/argv.js', () => ({
   getArgv: (): Record<string, unknown> => mockArgv,
 }));
 jest.mock('../utils/pathes.js', () => ({
-  getCurrentPath: (projectName: string): string => (projectName === '.' ? mockCwd : `${mockCwd}/${projectName}`),
+  getCurrentPath: (projectPath: string): string =>
+    projectPath === '.' ? mockCwd : jest.requireActual<typeof path>('node:path').resolve(mockCwd, projectPath),
 }));
 
 const latestVersionMock = latestVersion as jest.MockedFunction<typeof latestVersion>;
 const existsSyncMock = fs.existsSync as jest.MockedFunction<typeof fs.existsSync>;
 const readdirSyncMock = fs.readdirSync as unknown as jest.Mock<string[], [string]>;
+const statSyncMock = fs.statSync as unknown as jest.Mock<{ isDirectory: () => boolean }, [string]>;
 const installMock = install as jest.MockedFunction<typeof install>;
 
 const setArgv = (values: Record<string, unknown>): void => {
@@ -47,6 +50,7 @@ describe('rockpack', () => {
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     latestVersionMock.mockResolvedValue(packageJson.version);
     existsSyncMock.mockReturnValue(false);
+    statSyncMock.mockReturnValue({ isDirectory: () => true });
     installMock.mockResolvedValue();
   });
 
@@ -73,7 +77,30 @@ describe('rockpack', () => {
       readdirSyncMock.mockReturnValue(['package.json']);
 
       await expect(rockpack()).resolves.toBe(1);
-      expect(errorSpy).toHaveBeenCalledWith('Project "app" has already created. Please use manual installation:\n');
+      expect(errorSpy).toHaveBeenCalledWith('Project "app" already exists. Please use manual installation:\n');
+      expect(installMock).not.toHaveBeenCalled();
+    });
+
+    it('exits with code 1 when the project path is a file', async () => {
+      setArgv({ _: ['app'] });
+      existsSyncMock.mockReturnValue(true);
+      statSyncMock.mockReturnValue({ isDirectory: () => false });
+
+      await expect(rockpack()).resolves.toBe(1);
+      expect(errorSpy).toHaveBeenCalledWith(
+        `"${path.join(mockCwd, 'app')}" already exists and is not a folder. Please choose another project name.`,
+      );
+      expect(readdirSyncMock).not.toHaveBeenCalled();
+      expect(installMock).not.toHaveBeenCalled();
+    });
+
+    it('exits with code 1 for a --tests value that is no boolean', async () => {
+      setArgv({ _: ['app'], tests: 'maybe' });
+
+      await expect(rockpack()).resolves.toBe(1);
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Invalid value "maybe" for --tests. Use one of: true, yes, 1, false, no, 0',
+      );
       expect(installMock).not.toHaveBeenCalled();
     });
 
@@ -176,7 +203,30 @@ describe('rockpack', () => {
 
       await expect(rockpack()).resolves.toBe(0);
       expect(logSpy).toHaveBeenCalledWith('USAGE');
-      expect(logSpy).toHaveBeenCalledWith('  rockpack proj');
+      expect(logSpy).toHaveBeenCalledWith('  rockpack <project-name> [options]');
+    });
+
+    it('lists every supported flag in the usage', async () => {
+      setArgv({ help: true });
+
+      await rockpack();
+
+      const usage = logSpy.mock.calls.map(([line]) => String(line)).join('\n');
+      [
+        '--type=',
+        '--tests=',
+        '--folder=',
+        '--no-install',
+        '--yarn',
+        '--offline',
+        '-y (--yes)',
+        '-h (--help)',
+        '-v (--version)',
+      ].forEach((flag) => {
+        expect(usage).toContain(flag);
+      });
+      expect(usage).toContain('csr, ssr, component, library');
+      expect(usage).not.toContain('--mode');
     });
 
     it('warns when a newer version is published', async () => {
@@ -229,6 +279,27 @@ describe('rockpack', () => {
 
       expect(installMock).toHaveBeenCalledWith(
         expect.objectContaining({ currentPath: `${mockCwd}/${path.join('projects', 'app')}`, projectName: 'app' }),
+      );
+    });
+
+    it('installs inside an absolute --folder', async () => {
+      const folder = path.resolve('/srv', 'projects');
+      setArgv({ _: ['app'], folder });
+
+      await rockpack();
+
+      expect(installMock).toHaveBeenCalledWith(
+        expect.objectContaining({ currentPath: path.join(folder, 'app'), projectName: 'app' }),
+      );
+    });
+
+    it('accepts the boolean forms of --tests and --offline', async () => {
+      setArgv({ _: ['app'], offline: 'true', tests: 'yes' });
+
+      await expect(rockpack()).resolves.toBe(0);
+      expect(latestVersionMock).not.toHaveBeenCalled();
+      expect(installMock).toHaveBeenCalledWith(
+        expect.objectContaining({ args: expect.objectContaining({ offline: true, tests: true }) as unknown }),
       );
     });
 

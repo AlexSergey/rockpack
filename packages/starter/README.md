@@ -12,8 +12,8 @@ This module is part of the **Rockpack** project. See more details on [the offici
 
 - **React SPA** - Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
 - **React SPA + SSR** - Universal React app with SSR, hydration, and a Node.js server. No setup needed. The server listens on `PORT` from `.env` (8888 by default).
-- **React Component** - NPM-ready React component with TypeScript declarations and an optimized bundle.
-- **UMD Library** - Framework-agnostic UMD library for NPM, zero configuration required.
+- **React Component** - NPM-ready React component: a UMD bundle with TypeScript declarations in `dist` (React stays external), and an example app to develop it.
+- **Library** - Framework-agnostic library for NPM: a UMD bundle and TypeScript declarations in `dist`, CommonJS and ES module builds in `lib`, published through an `exports` map (`import`, `require`, `types`), and an example app to develop it.
 
 *All project types include:*
 - Import support for many file formats. [Full list](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
@@ -24,9 +24,26 @@ This module is part of the **Rockpack** project. See more details on [the offici
 - Dotenv and Dotenv safe support
 - GraphQL support
 
-*Optional add-ons for each project type:*
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) - ESLint with best-practice rules
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) - pre-configured Jest setup
+*Every project includes [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md)* - ESLint, Prettier, Stylelint (not for a library) and commitlint with strict rules.
+
+*Optional:* [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) - pre-configured Jest setup (the "Do you want tests?" question or `--tests`).
+
+## What a generated project contains
+
+- **Scripts** in `package.json`:
+  - `start` - development mode (the example app for a library or component); an SSR app restarts its server and reloads the page on changes
+  - `build` - production build; `build:example` builds the example app of a library or component
+  - `test`, `test:watch` - Jest (when the project has tests)
+  - `lint` - runs `lint:ts` (`tsc --noEmit`), `lint:code` (ESLint), `lint:styles` (Stylelint, not for a library) and `lint:deps` ([knip](https://knip.dev): unused files, exports and dependencies)
+  - `format` - runs `format:prettier`, `format:code` (ESLint `--fix`) and `format:styles` (Stylelint `--fix`, not for a library)
+  - `production` - lint, test, build and `npm publish` (library and component)
+  - `lint:commit`, `pre-commit` - used by the git hooks
+- **`scripts.build.mts` and `scripts.tests.mts`** - the build and test configuration in TypeScript, run by Node.js itself (`node scripts.build.mts`), no `tsx` or `ts-node` needed.
+- **`.nvmrc`** - the Node.js major the starter requires.
+- **Git hooks** via [simple-git-hooks](https://github.com/toplenboren/simple-git-hooks), installed on `npm install`: `pre-commit` runs [lint-staged](https://github.com/lint-staged/lint-staged) (`.lintstagedrc.cjs`), `commit-msg` checks the message with commitlint, `pre-push` runs the tests when the project has them. A project created inside an existing git repository gets no repository and no hooks of its own (they belong to the parent repository); `.gitignore` and `.gitattributes` are always written.
+- **knip configuration** in the `knip` field of `package.json`.
+- **`CLAUDE.md`** - rules for AI-assisted development (see below).
+- **`.env`** (copied from `.env.example`) for the csr and ssr apps, `.npmignore` for a library or component.
 
 ## AI-Assisted Development
 
@@ -40,7 +57,7 @@ This makes Rockpack projects a reliable foundation for teams working with Claude
 
 ## Requirements
 
-- **Node.js 24.15 or higher**
+- **Node.js 24.15.0 or higher** (`>=24.15.0`)
 
 ## Using
 
@@ -66,15 +83,18 @@ rockpack <project-name>
 
 | Argument | Description |
 |---|---|
+| `<project-name>` | Project name (a valid npm package name), or `.` for the current directory |
 | `--type=<csr\|ssr\|component\|library>` | Skip the application type question |
-| `--tests=<true\|false>` | Skip the tests question |
-| `-y`, `--yes` | Answer the remaining questions with the defaults (`csr`, with tests) |
-| `--folder=<path>` | Create the project inside this folder |
+| `--tests=<boolean>` | Skip the tests question: `true`, `false`, `yes`, `no`, `1` or `0` (a bare `--tests` means `true`) |
+| `--folder=<path>` | Create the project inside this folder, absolute or relative to the current directory |
 | `--no-install` | Write the project without installing its dependencies |
 | `--yarn` | Use Yarn instead of npm when it is installed |
-| `--offline` | Write the dependency ranges from the starter's `versions.json` without asking the registry, and skip the update check |
-| `--mode=test` | Pin the `@rockpack/*` dependencies to the starter's own version and skip the update check (used by the e2e tests) |
-| `-v`, `--version` / `-h`, `--help` | Print the version / the usage |
+| `--offline` | Write the dependency ranges from the starter's `versions.json` without asking the registry, and skip the update check. Installing the dependencies still needs the network (or a filled npm cache); combine with `--no-install` to only write the files |
+| `-y`, `--yes` | Answer the remaining questions with the defaults (`csr`, with tests) |
+| `-h`, `--help` | Print the usage |
+| `-v`, `--version` | Print the version |
+
+`--offline`, `--no-install` and `--yarn` accept the same boolean values as `--tests`. An unknown `--type` or a value that is no boolean prints an error and exits with code `1`. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
 
 ```shell
 rockpack my-app --type=csr --tests=true --yarn
@@ -82,20 +102,17 @@ rockpack my-app --type=csr --tests=true --yarn
 
 Use `.` as the project name to scaffold into the current directory; the project is named after the folder (lower-cased, spaces replaced with `_`). The project name must be a valid npm package name.
 
-Generated projects install their git hooks with `simple-git-hooks` on `npm install`: `pre-commit` runs lint-staged, `commit-msg` checks the message with commitlint, and `pre-push` runs the tests when the project has them.
-
 ***
 
 *If you cannot use **@rockpack/starter** or want to migrate an existing application, refer to the manual for each module:*
 
-- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-it-works)
-- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-it-works)
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-it-works)
+- [@rockpack/compiler](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md#how-a-build-is-assembled)
+- [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md#how-the-jest-config-is-built)
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md#how-the-config-is-composed)
 
 ## How a project is generated
 
-`rockpack <name>` checks the arguments and the project name, then asks the questions that the flags did not answer. The project is then created step by step: the folder (and the `example` project for libraries and components), git, `.gitignore`/`.npmignore`, `package.json` with the dependencies resolved from the registry (or from `versions.json` with `--offline`), the template files (`templates/backbone/<type>`, shared components for `csr`/`ssr`, and the `claude`, `codestyle`, `git` and `tester` addons), the build script with the project name, `.env` and `.nvmrc`. Finally the dependencies are installed and the git hooks written. A failed step prints a report and the CLI exits with code `1`.
-
+`rockpack <name>` checks the arguments and the project name, then asks the questions that the flags did not answer. The project is then created step by step: the folder (and the `example` project for libraries and components), git (skipped inside an existing repository), `.gitignore`/`.gitattributes` and `.npmignore`, `package.json` with the dependencies resolved from the registry (or from `versions.json` with `--offline`), the template files (`templates/backbone/<type>`, shared components for `csr`/`ssr`, and the `claude`, `codestyle`, `git` and `tester` addons), the build script with the project name, `.env` and `.nvmrc`. Finally the dependencies are installed and the git hooks written. A failed step prints a report and the CLI exits with code `1`.
 
 ## The MIT License
 

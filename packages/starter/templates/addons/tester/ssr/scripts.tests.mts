@@ -3,6 +3,8 @@ import { tester } from '@rockpack/tester';
 import { createRequire } from 'node:module';
 
 const _require = createRequire(import.meta.url);
+// babel-jest is a dependency of @rockpack/tester, not of the project: resolve it from there.
+const babelJest = createRequire(_require.resolve('@rockpack/tester')).resolve('babel-jest');
 
 const preset = createBabelPresets({
   framework: 'react',
@@ -17,7 +19,7 @@ void tester(
   {},
   {
     transform: {
-      '^.+\\.(ts|tsx)$': ['babel-jest', preset],
+      '^.+\\.(ts|tsx)$': [babelJest, preset],
     },
   },
 );

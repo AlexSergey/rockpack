@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { spawnSync } from 'node:child_process';
 
 import { getPM } from './other.js';
@@ -6,5 +7,13 @@ import { getPM } from './other.js';
 export const gitHooks = (currentPath: string): void => {
   const command = getPM() === 'yarn' ? 'yarn' : 'npx';
 
-  spawnSync(command, ['simple-git-hooks'], { cwd: currentPath });
+  const { error, status } = spawnSync(command, ['simple-git-hooks'], { cwd: currentPath });
+
+  if (error || status !== 0) {
+    console.warn(
+      chalk.red(
+        `WARNING:   The git hooks were not installed. Run "${command} simple-git-hooks" in the project folder.`,
+      ),
+    );
+  }
 };

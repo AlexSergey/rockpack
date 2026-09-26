@@ -8,7 +8,7 @@ import validateNpmPackageName from 'validate-npm-package-name';
 
 import { defaultApp } from '../constants/names.js';
 import { here } from '../constants/paths.js';
-import { APP_TYPES, getArgs } from '../lib/get-args.js';
+import { APP_TYPES, getArgs, validateArgs } from '../lib/get-args.js';
 import { install } from '../lib/install.js';
 import { getArgv } from '../utils/argv.js';
 import { ReportedError } from '../utils/error.js';
@@ -53,17 +53,31 @@ export const rockpack = async (): Promise<number> => {
 
   if (h || help) {
     console.log(chalk.bold('USAGE'));
-    console.log(`  ${chalk.underline('rockpack')} proj`);
+    console.log(`  ${chalk.underline('rockpack')} <project-name> [options]`);
     console.log();
     console.log(chalk.bold('ARGUMENTS'));
-    console.log(`  ${chalk.green('<project-name>')}           Project name`);
+    console.log(
+      `  ${chalk.green('<project-name>')}           Project name (a valid npm package name), "." for the current directory`,
+    );
+    console.log();
+    console.log(chalk.bold('OPTIONS'));
+    console.log(`  ${chalk.green('--type')}=<type>            Project type: ${APP_TYPES.join(', ')}`);
+    console.log(`  ${chalk.green('--tests')}=<boolean>        Add Jest tests: true, false, yes, no, 1 or 0`);
+    console.log(
+      `  ${chalk.green('--folder')}=<path>          Create the project inside this folder (absolute or relative)`,
+    );
+    console.log(`  ${chalk.green('--no-install')}             Write the project without installing its dependencies`);
+    console.log(`  ${chalk.green('--yarn')}                   Use Yarn instead of npm when it is installed`);
+    console.log(
+      `  ${chalk.green('--offline')}                Take the dependency versions from the starter, skip the registry and the update check (installing still needs the network)`,
+    );
+    console.log(
+      `  ${chalk.green('-y')} (--yes)               Use the defaults for unanswered questions (csr, with tests)`,
+    );
     console.log();
     console.log(chalk.bold('GLOBAL OPTIONS'));
     console.log(`  ${chalk.green('-h')} (--help)              Display this help message`);
     console.log(`  ${chalk.green('-v')} (--version)           Display this application version`);
-    console.log(
-      `  ${chalk.green('-y')} (--yes)               Use the defaults for unanswered questions (csr, with tests)`,
-    );
 
     return 0;
   }
@@ -78,8 +92,11 @@ export const rockpack = async (): Promise<number> => {
     return 1;
   }
 
-  if (typeof argv['type'] === 'string' && !(APP_TYPES as string[]).includes(argv['type'])) {
-    console.error(`Unknown type "${argv['type']}". Use one of: ${APP_TYPES.join(', ')}`);
+  const problems = validateArgs();
+  if (problems.length > 0) {
+    problems.forEach((problem) => {
+      console.error(problem);
+    });
 
     return 1;
   }
@@ -92,8 +109,16 @@ export const rockpack = async (): Promise<number> => {
 
   const currentPath = getCurrentPath(args.folder ? path.join(args.folder, projectName) : projectName);
 
+  if (projectName !== here && fs.existsSync(currentPath) && !fs.statSync(currentPath).isDirectory()) {
+    console.error(
+      chalk.red(`"${currentPath}" already exists and is not a folder. Please choose another project name.`),
+    );
+
+    return 1;
+  }
+
   if (projectName !== here && fs.existsSync(currentPath) && fs.readdirSync(currentPath).length > 0) {
-    console.error(chalk.red(`Project "${projectName}" has already created. Please use manual installation:\n`));
+    console.error(chalk.red(`Project "${projectName}" already exists. Please use manual installation:\n`));
     console.log(
       `${chalk.green('@rockpack/compiler')} - https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md`,
     );

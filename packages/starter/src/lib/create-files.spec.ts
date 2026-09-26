@@ -67,6 +67,12 @@ describe('createFiles', () => {
       expect(existsSync(path.join(dir, 'scripts.build.mts'))).toBe(false);
     });
 
+    it('builds a component only into dist, which package.json publishes', () => {
+      createFiles(dir, { appType: 'component', projectName: 'my-button' });
+
+      expect(readBuild(dir)).not.toMatch(/\b(cjs|esm)\b|\.\/lib\//);
+    });
+
     it('does not create .env without .env.example', () => {
       createFiles(dir, { appType: 'csr', projectName: 'app' });
 
@@ -95,6 +101,13 @@ describe('createFiles', () => {
       expect(readBuild(dir)).toBe(
         readFileSync(path.join(dummies, 'build.library'), 'utf8').replace(/\{\{name\}\}/g, 'MyLib'),
       );
+    });
+
+    it('builds the cjs and esm formats of a library into lib', () => {
+      createFiles(dir, { appType: 'library', projectName: 'my-lib' });
+
+      expect(readBuild(dir)).toContain("dist: './lib/cjs'");
+      expect(readBuild(dir)).toContain("dist: './lib/esm'");
     });
 
     it('writes the component build script with the pascal-cased name', () => {

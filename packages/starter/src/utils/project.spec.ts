@@ -13,8 +13,6 @@ import {
   addScripts,
   createPackageJSON,
   installDependencies,
-  installDependency,
-  installPeerDependencies,
   readPackageJSON,
   writePackageJSON,
 } from './project.js';
@@ -73,19 +71,6 @@ describe('project utils', () => {
       mockExecResult(error);
 
       await expect(installDependencies(dir)).rejects.toBe(error);
-    });
-
-    it('surfaces a single dependency install error', async () => {
-      const error = new Error('npm ERR!');
-      mockExecResult(error);
-
-      await expect(installDependency(dir, 'react@19')).rejects.toBe(error);
-    });
-
-    it('installs nothing when there are no peer dependencies', async () => {
-      await installPeerDependencies({ name: 'app' }, dir);
-
-      expect(execMock).not.toHaveBeenCalled();
     });
 
     it('does not mutate the source package.json when adding fields and scripts', () => {
@@ -248,17 +233,6 @@ describe('project utils', () => {
       await installDependencies(dir);
 
       expect(execMock).toHaveBeenCalledWith('yarn install -q', { cwd: dir }, expect.any(Function));
-    });
-
-    it('installs peer dependencies one by one', async () => {
-      mockExecResult();
-
-      await installPeerDependencies({ peerDependencies: { react: '19', 'react-dom': '19' } }, dir);
-
-      expect(execMock.mock.calls.map(([command]) => command)).toEqual([
-        'npm install react@19 -q',
-        'npm install react-dom@19 -q',
-      ]);
     });
   });
 });

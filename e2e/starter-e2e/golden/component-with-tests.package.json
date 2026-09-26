@@ -44,6 +44,8 @@
     "@rockpack/tsconfig": "<rockpack>",
     "@testing-library/jest-dom": "7",
     "@testing-library/react": "16",
+    "@types/jest": "30",
+    "@types/node": "24",
     "@types/react": "19",
     "@types/react-dom": "19",
     "knip": "6",
@@ -51,7 +53,8 @@
     "react": "19",
     "react-dom": "19",
     "simple-git-hooks": "2",
-    "source-map": "0.8.0-beta.0"
+    "source-map": "0.8.0-beta.0",
+    "typescript": "6"
   },
   "peerDependencies": {
     "react": "19",
@@ -67,9 +70,6 @@
       "jest.init.ts",
       "jest.setup.ts",
       "src/**/*.spec.{ts,tsx}"
-    ],
-    "ignore": [
-      "lib/**"
     ],
     "ignoreBinaries": [
       "commitlint",

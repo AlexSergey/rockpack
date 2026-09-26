@@ -1,21 +1,23 @@
 import { execSync } from 'node:child_process';
 
-import { getArgv } from './argv.js';
+import { readBooleanFlag } from './boolean-flag.js';
 
-const yarnIsAvailable = (): boolean => {
-  if (!getArgv()['yarn']) {
-    return false;
-  }
+// getPM() is asked for every script and install step: yarn is looked up once.
+let yarnAvailable: boolean | undefined;
+
+const hasYarn = (): boolean => {
   try {
     execSync('yarnpkg --version', { stdio: 'ignore' });
 
     return true;
-  } catch (e) {
-    console.error(e);
+  } catch {
+    console.warn('Yarn is not installed, npm is used instead.');
 
     return false;
   }
 };
+
+const yarnIsAvailable = (): boolean => (yarnAvailable ??= readBooleanFlag('yarn') === true && hasYarn());
 
 export const getPMVersion = (): string => {
   if (yarnIsAvailable()) {

@@ -41,6 +41,18 @@ describe('pathes', () => {
       expect(loadPathes('/work').getCurrentPath('my-app')).toBe(path.join('/work', 'my-app'));
     });
 
+    it('resolves a relative folder from the working directory', () => {
+      expect(loadPathes('/work').getCurrentPath(path.join('projects', 'my-app'))).toBe(
+        path.join('/work', 'projects', 'my-app'),
+      );
+    });
+
+    it('keeps an absolute folder as it is', () => {
+      const absolute = path.resolve('/srv', 'projects', 'my-app');
+
+      expect(loadPathes('/work').getCurrentPath(absolute)).toBe(absolute);
+    });
+
     it('points the template folders inside the starter templates', () => {
       const { addons, backbone, dummies, root } = loadPathes('/work');
 

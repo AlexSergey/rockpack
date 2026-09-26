@@ -21,6 +21,10 @@ describe('makeKnipConfig', () => {
       expect(config.ignoreBinaries).not.toContain('stylelint');
     });
 
+    it('leaves out the ignore field for a component, which builds into the ignored dist only', () => {
+      expect(makeKnipConfig({ appType: 'component', tester: false })).not.toHaveProperty('ignore');
+    });
+
     it('adds no jest setup entry for a library, which has no DOM', () => {
       expect(makeKnipConfig({ appType: 'library', tester: true }).entry).not.toContain('jest.setup.ts');
     });
@@ -47,7 +51,6 @@ describe('makeKnipConfig', () => {
 
     it('ignores the build output that .gitignore does not cover', () => {
       expect(makeKnipConfig({ appType: 'ssr', tester: false }).ignore).toEqual(['public/**']);
-      expect(makeKnipConfig({ appType: 'component', tester: false }).ignore).toEqual(['lib/**']);
     });
 
     it('allows the tools that @rockpack packages bring and the dependencies used outside imports', () => {

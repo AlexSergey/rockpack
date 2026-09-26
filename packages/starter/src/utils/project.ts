@@ -139,25 +139,3 @@ export const installDependencies = (cwd: string): Promise<void> => {
     });
   });
 };
-
-export const installDependency = (cwd: string, dependency: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install ${dependency} -q`, { cwd }, (err) => {
-      if (err) {
-        reject(err);
-
-        return;
-      }
-      resolve();
-    });
-  });
-};
-
-export const installPeerDependencies = async (packageJSON: PackageJsonObject, currentPath: string): Promise<void> => {
-  const peerDependencies = packageJSON['peerDependencies'] as Record<string, string> | undefined;
-  if (!peerDependencies) return;
-  for (const depName of Object.keys(peerDependencies)) {
-    const depVersion = peerDependencies[depName];
-    await installDependency(currentPath, `${depName}@${depVersion}`);
-  }
-};

@@ -7,6 +7,7 @@ import type { Versions } from '../types/versions.js';
 import type * as ProjectModule from '../utils/project.js';
 import type { State } from './wizard.js';
 
+import { getPM } from '../utils/other.js';
 import { packageJson } from '../utils/package-json.js';
 import { addDependencies, readPackageJSON, writePackageJSON } from '../utils/project.js';
 import { packageJsonPreparing } from './package-json-preparing.js';
@@ -16,7 +17,7 @@ jest.mock(
   'sort-package-json',
   () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').sortPackageJsonModule,
 );
-jest.mock('../utils/other.js', () => ({ getPM: (): string => 'npm' }));
+jest.mock('../utils/other.js', () => ({ getPM: jest.fn() }));
 jest.mock('../utils/project.js', () => ({
   ...jest.requireActual<typeof ProjectModule>('../utils/project.js'),
   addDependencies: jest.fn(),
@@ -24,6 +25,7 @@ jest.mock('../utils/project.js', () => ({
   writePackageJSON: jest.fn(),
 }));
 
+const getPMMock = getPM as jest.MockedFunction<typeof getPM>;
 const addDependenciesMock = addDependencies as jest.MockedFunction<typeof addDependencies>;
 const readPackageJSONMock = readPackageJSON as jest.MockedFunction<typeof readPackageJSON>;
 const writePackageJSONMock = writePackageJSON as jest.MockedFunction<typeof writePackageJSON>;
@@ -51,6 +53,7 @@ const compilerAndTsconfig = [
 
 describe('packageJsonPreparing', () => {
   beforeEach(() => {
+    getPMMock.mockReturnValue('npm');
     addDependenciesMock.mockImplementation((packageJSON) => Promise.resolve(packageJSON));
     readPackageJSONMock.mockResolvedValue({ name: 'app-example' });
     writePackageJSONMock.mockResolvedValue();
@@ -224,6 +227,28 @@ describe('packageJsonPreparing', () => {
       });
       expect(addedGroups()[addedGroups().length - 1]).toEqual(versions.git.common);
     });
+
+    it.each([
+      [
+        'csr',
+        'yarn run format:prettier && yarn run format:code && yarn run format:styles',
+        'yarn run lint:ts && yarn run lint:code && yarn run lint:styles && yarn run lint:deps',
+      ],
+      [
+        'library',
+        'yarn run format:prettier && yarn run format:code',
+        'yarn run lint:ts && yarn run lint:code && yarn run lint:deps',
+      ],
+    ] as const)(
+      'runs the format and lint steps of a %s with the chosen package manager',
+      async (appType, format, lint) => {
+        getPMMock.mockReturnValue('yarn');
+
+        const result = await prepare({ appType, nogit: true, tester: false });
+
+        expect(getScripts(result)).toMatchObject({ format, lint });
+      },
+    );
 
     it('runs the tests before push when the project has tests', async () => {
       const result = await prepare({ appType: 'csr', tester: true });

@@ -7,8 +7,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const currentPath = process.cwd();
 
-export const getCurrentPath = (projectName: string): string =>
-  projectName === here ? currentPath : path.join(currentPath, projectName);
+// A relative project path resolves from the working directory, an absolute one (from an absolute --folder) is kept.
+export const getCurrentPath = (projectPath: string): string =>
+  projectPath === here ? currentPath : path.resolve(currentPath, projectPath);
 
 const folderNames = {
   addons: 'addons',

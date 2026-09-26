@@ -4,16 +4,46 @@ This project was generated with [Rockpack](https://github.com/AlexSergey/rockpac
 
 ## Commands
 
-Run application in dev mode:
+Run the example app (`example/src`) in development mode with the component sources:
 
 ```shell
 npm start
 ```
 
-Build production bundle:
+Build the component: the UMD bundle and the declarations into `dist`:
 
 ```shell
 npm run build
+```
+
+Build the example app into `example/dist`:
+
+```shell
+npm run build:example
+```
+
+Run the tests (when the project was created with tests; `npm run test:watch` reruns them on changes):
+
+```shell
+npm test
+```
+
+Check the code: TypeScript (`lint:ts`), ESLint (`lint:code`), Stylelint (`lint:styles`) and the unused files and dependencies with knip (`lint:deps`):
+
+```shell
+npm run lint
+```
+
+Fix the formatting with Prettier and the fixable ESLint and Stylelint problems:
+
+```shell
+npm run format
+```
+
+Lint, test, build and publish the package to npm:
+
+```shell
+npm run production
 ```
 
 ## Claude Code Adaptation

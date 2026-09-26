@@ -34,6 +34,8 @@
 
 ## React Rules
 
+For React projects (applications and components):
+
 - Use functional components and hooks only
 - Keep components small and composable
 - Extract reusable logic into custom hooks
@@ -44,6 +46,8 @@
 ---
 
 ## Styling
+
+For React projects (applications and components):
 
 - Avoid inline styles
 - Reuse utility classes when possible
@@ -84,7 +88,6 @@ describe('formatValue', () => {
   describe('negative cases', () => {
     it('throws when value is invalid', () => {});
   });
-
 
   describe('positive cases', () => {
     it('returns formatted value', () => {});

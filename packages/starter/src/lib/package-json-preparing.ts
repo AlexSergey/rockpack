@@ -220,17 +220,19 @@ export const packageJsonPreparing = async (
           'lint:styles': 'stylelint --config .stylelintrc.cjs "src/**/*.{css,scss}"',
         };
 
+  const pm = getPM();
+
   packageJSON = addScripts(packageJSON, {
     format:
       appType === 'library'
-        ? 'npm run format:prettier && npm run format:code'
-        : 'npm run format:prettier && npm run format:code && npm run format:styles',
+        ? `${pm} run format:prettier && ${pm} run format:code`
+        : `${pm} run format:prettier && ${pm} run format:code && ${pm} run format:styles`,
     'format:code': 'eslint . --fix',
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
     lint:
       appType === 'library'
-        ? 'npm run lint:ts && npm run lint:code && npm run lint:deps'
-        : 'npm run lint:ts && npm run lint:code && npm run lint:styles && npm run lint:deps',
+        ? `${pm} run lint:ts && ${pm} run lint:code && ${pm} run lint:deps`
+        : `${pm} run lint:ts && ${pm} run lint:code && ${pm} run lint:styles && ${pm} run lint:deps`,
     'lint:code': 'eslint .',
     'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
     'lint:deps': 'knip',

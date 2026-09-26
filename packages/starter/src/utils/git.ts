@@ -8,9 +8,7 @@ export const gitIsAvailable = (): boolean => {
     execSync('git --version', { stdio: 'ignore' });
 
     return true;
-  } catch (e) {
-    console.error(e);
-
+  } catch {
     return false;
   }
 };

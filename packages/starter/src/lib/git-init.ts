@@ -15,9 +15,10 @@ export const gitInit = (currentPath: string, state: State): void => {
     return;
   }
 
-  const isGitSubmodule = findGitRepoInParent(currentPath);
+  // The project belongs to the parent repository: no nested repository and no hooks of its own.
+  const insideParentRepo = findGitRepoInParent(currentPath);
 
-  if (isGitSubmodule) {
+  if (insideParentRepo) {
     state.nogit = true;
 
     return;

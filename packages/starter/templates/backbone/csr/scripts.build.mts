@@ -2,7 +2,9 @@ import { frontendCompiler } from '@rockpack/compiler';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8')) as { version: string };
+const packageJson = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, './package.json'), 'utf8')) as {
+  version: string;
+};
 
 void frontendCompiler({
   html: {

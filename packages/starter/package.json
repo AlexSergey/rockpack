@@ -27,21 +27,14 @@
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./types/bin/index.d.ts",
-      "import": "./lib/bin/index.mjs"
-    }
+    "./package.json": "./package.json"
   },
-  "main": "./lib/bin/index.mjs",
-  "module": "./lib/bin/index.mjs",
-  "types": "./types/bin/index.d.ts",
   "bin": {
     "rockpack": "./lib/bin/index.mjs"
   },
   "files": [
     "lib",
-    "templates",
-    "types"
+    "templates"
   ],
   "scripts": {
     "build": "npm run clean && tsx scripts.build.ts",

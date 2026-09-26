@@ -4,16 +4,34 @@ This project was generated with [Rockpack](https://github.com/AlexSergey/rockpac
 
 ## Commands
 
-Run application in dev mode:
+Run the application in development mode:
 
 ```shell
 npm start
 ```
 
-Build production bundle:
+Build the production bundle into `dist`:
 
 ```shell
 npm run build
+```
+
+Run the tests (when the project was created with tests; `npm run test:watch` reruns them on changes):
+
+```shell
+npm test
+```
+
+Check the code: TypeScript (`lint:ts`), ESLint (`lint:code`), Stylelint (`lint:styles`) and the unused files and dependencies with knip (`lint:deps`):
+
+```shell
+npm run lint
+```
+
+Fix the formatting with Prettier and the fixable ESLint and Stylelint problems:
+
+```shell
+npm run format
 ```
 
 ## Claude Code Adaptation

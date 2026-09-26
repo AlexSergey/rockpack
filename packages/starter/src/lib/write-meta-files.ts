@@ -8,24 +8,27 @@ import { showError } from '../utils/error.js';
 import { dummies } from '../utils/pathes.js';
 import { hasExample } from './prepare-project-dir.js';
 
-const copyDummy = (dummy: string, target: string): void => {
-  fs.writeFileSync(target, fs.readFileSync(path.join(dummies, dummy), 'utf8'));
+const copyDummy = (dummy: string, target: string, extra = ''): void => {
+  fs.writeFileSync(target, fs.readFileSync(path.join(dummies, dummy), 'utf8') + extra);
 };
 
-// .gitignore and .gitattributes for git projects, .npmignore for published ones.
-export const writeMetaFiles = (currentPath: string, state: State): void => {
-  if (!state.nogit) {
-    try {
-      copyDummy('gitignore', path.join(currentPath, '.gitignore'));
-      copyDummy('gitattributes', path.join(currentPath, '.gitattributes'));
-    } catch (e) {
-      showError(e, () => {
-        console.error('Step: 4.1. .gitignore creating');
-      });
-    }
+// The ssr frontend is built into public/, which holds nothing else.
+const extraIgnores = ({ appType }: Pick<State, 'appType'>): string =>
+  appType === 'ssr' ? '\n# The frontend build of the ssr app\n/public\n' : '';
 
-    console.log(`${chalk.green('.gitignore')} created\n`);
+// .gitignore and .gitattributes for every project (also inside a parent repository or without git), .npmignore for
+// published ones.
+export const writeMetaFiles = (currentPath: string, state: Pick<State, 'appType'>): void => {
+  try {
+    copyDummy('gitignore', path.join(currentPath, '.gitignore'), extraIgnores(state));
+    copyDummy('gitattributes', path.join(currentPath, '.gitattributes'));
+  } catch (e) {
+    showError(e, () => {
+      console.error('Step: 4.1. .gitignore creating');
+    });
   }
+
+  console.log(`${chalk.green('.gitignore')} created\n`);
 
   if (hasExample(state)) {
     try {

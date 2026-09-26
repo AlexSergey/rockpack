@@ -86,7 +86,7 @@ export const install = async ({
     return;
   }
 
-  await step('Step: 9. Installing dependencies', () => installAll(currentPath, examplePath, packageJSON, state));
+  await step('Step: 9. Installing dependencies', () => installAll(currentPath, examplePath, state));
 
   stop();
   printSummary(projectName, state);

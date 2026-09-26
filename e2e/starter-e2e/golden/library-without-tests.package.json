@@ -45,9 +45,11 @@
     "@rockpack/codestyle": "<rockpack>",
     "@rockpack/compiler": "<rockpack>",
     "@rockpack/tsconfig": "<rockpack>",
+    "@types/node": "24",
     "knip": "6",
     "lint-staged": "17",
-    "simple-git-hooks": "2"
+    "simple-git-hooks": "2",
+    "typescript": "6"
   },
   "knip": {
     "entry": [

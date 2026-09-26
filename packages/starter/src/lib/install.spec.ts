@@ -10,7 +10,7 @@ import type { AppType, State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
 import { gitHooks } from '../utils/git-hooks.js';
-import { createPackageJSON, installDependencies, installPeerDependencies, writePackageJSON } from '../utils/project.js';
+import { createPackageJSON, installDependencies, writePackageJSON } from '../utils/project.js';
 import { copyFiles } from './copy-files.js';
 import { createFiles } from './create-files.js';
 import { gitInit } from './git-init.js';
@@ -34,7 +34,6 @@ jest.mock('../utils/pathes.js', () => ({ dummies: '/dummies' }));
 jest.mock('../utils/project.js', () => ({
   createPackageJSON: jest.fn(),
   installDependencies: jest.fn(),
-  installPeerDependencies: jest.fn(),
   writePackageJSON: jest.fn(),
 }));
 jest.mock('./copy-files.js', () => ({ copyFiles: jest.fn() }));
@@ -56,7 +55,6 @@ const mocks = {
   gitHooks: gitHooks as jest.MockedFunction<typeof gitHooks>,
   gitInit: gitInit as jest.MockedFunction<typeof gitInit>,
   installDependencies: installDependencies as jest.MockedFunction<typeof installDependencies>,
-  installPeerDependencies: installPeerDependencies as jest.MockedFunction<typeof installPeerDependencies>,
   mkdirp: mkdirp as unknown as jest.Mock,
   mkdirSync: fs.mkdirSync as jest.MockedFunction<typeof fs.mkdirSync>,
   packageJsonPreparing: packageJsonPreparing as jest.MockedFunction<typeof packageJsonPreparing>,
@@ -115,7 +113,6 @@ describe('install', () => {
     });
     mocks.writePackageJSON.mockResolvedValue();
     mocks.installDependencies.mockResolvedValue();
-    mocks.installPeerDependencies.mockResolvedValue();
     mocks.copyFiles.mockResolvedValue();
     mocks.mkdirp.mockResolvedValue(undefined);
   });
@@ -228,14 +225,15 @@ describe('install', () => {
       expect(jest.getTimerCount()).toBe(0);
     });
 
-    it('skips git files and hooks when git is disabled', async () => {
+    it('skips the git hooks but still writes .gitignore and .gitattributes when git is disabled', async () => {
       mocks.gitInit.mockImplementation((_path, state) => {
         state.nogit = true;
       });
 
       await runInstall();
 
-      expect(mocks.writeFileSync).not.toHaveBeenCalledWith(path.join(currentPath, '.gitignore'), 'content');
+      expect(mocks.writeFileSync).toHaveBeenCalledWith(path.join(currentPath, '.gitignore'), 'content');
+      expect(mocks.writeFileSync).toHaveBeenCalledWith(path.join(currentPath, '.gitattributes'), 'content');
       expect(mocks.gitHooks).not.toHaveBeenCalled();
       expect(logSpy).not.toHaveBeenCalledWith('pre-commit, pre-push hooks added');
     });
@@ -273,7 +271,10 @@ describe('install', () => {
         'gitHooks',
       ]);
       expect(mocks.mkdirSync).not.toHaveBeenCalledWith(examplePath);
-      expect(mocks.writeFileSync).toHaveBeenCalledWith(path.join(currentPath, '.gitignore'), 'content');
+      expect(mocks.writeFileSync).toHaveBeenCalledWith(
+        path.join(currentPath, '.gitignore'),
+        appType === 'ssr' ? 'content\n# The frontend build of the ssr app\n/public\n' : 'content',
+      );
       expect(mocks.writeFileSync).toHaveBeenCalledWith(path.join(currentPath, '.gitattributes'), 'content');
     });
 
@@ -287,23 +288,12 @@ describe('install', () => {
       expect(mocks.installDependencies.mock.calls).toEqual([[currentPath], [examplePath]]);
     });
 
-    it('installs peer dependencies of a component', async () => {
+    it('installs a component and its example without a separate peer install', async () => {
       mocks.packageJsonPreparing.mockResolvedValue({ name: 'app', peerDependencies: { react: '19' } });
 
       await runInstall({ appType: 'component' });
 
-      expect(mocks.installPeerDependencies).toHaveBeenCalledWith(
-        { name: 'app', peerDependencies: { react: '19' } },
-        currentPath,
-      );
-    });
-
-    it('does not install peer dependencies of a library', async () => {
-      mocks.packageJsonPreparing.mockResolvedValue({ name: 'app', peerDependencies: { react: '19' } });
-
-      await runInstall({ appType: 'library' });
-
-      expect(mocks.installPeerDependencies).not.toHaveBeenCalled();
+      expect(mocks.installDependencies.mock.calls).toEqual([[currentPath], [examplePath]]);
     });
 
     it('passes offline mode to the next steps', async () => {
