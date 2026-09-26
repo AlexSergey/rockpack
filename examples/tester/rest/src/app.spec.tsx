@@ -1,3 +1,5 @@
+import type { RenderResult } from '@testing-library/react';
+
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -5,7 +7,7 @@ import '@testing-library/jest-dom';
 import { App } from './app';
 import { MockRest, Rest } from './rest';
 
-const renderApp = () =>
+const renderApp = (): RenderResult =>
   render(
     <Rest options={{ baseURL: 'http://localhost:4000/' }}>
       <MockRest

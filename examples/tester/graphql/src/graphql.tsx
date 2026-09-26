@@ -61,12 +61,13 @@ const Graphql: React.FC<GraphqlProps> = ({ children, options }) => {
   if (!ref.current) {
     const mergedProps = Object.assign({}, { timeout: 1000 }, options);
     const instance = axios.create(mergedProps);
-    ref.current = {
+    const client: GraphqlClient = {
       axios: instance,
       mutation: (mutation, variables = {}, config) =>
         instance.post('', { query: resolveQuery(mutation), variables }, config),
       query: (query, variables = {}, config) => instance.post('', { query: resolveQuery(query), variables }, config),
     };
+    ref.current = client;
   }
 
   return (

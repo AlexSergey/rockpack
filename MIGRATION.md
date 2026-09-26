@@ -120,6 +120,7 @@ void tester({ serial: true }, { setupFilesAfterEnv: ['./jest.setup.ts'] });
 - TypeScript files are linted with the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets plus `prefer-readonly` and `switch-exhaustiveness-check`. Expect new findings on upgrade; run `eslint . --fix` first and fix the rest.
 - `type` aliases are required instead of `interface` (`@typescript-eslint/consistent-type-definitions`); `eslint --fix` converts them.
 - Rules that catch bugs are added: `eqeqeq` (`== null` stays allowed), `@typescript-eslint/no-shadow`, sonarjs and unicorn bug detectors, and the `eslint-plugin-jest` recommended rules in specs. Tests with a `done` callback must become `async` tests (`jest/no-done-callback`); test titles must be strings or template literals (`jest/valid-title`).
+- `@typescript-eslint/explicit-function-return-type` is an error instead of a warning: add return types to functions that TypeScript cannot type from context, React components included (`(): ReactNode`).
 - The internal `isString` helper is no longer exported; import it from `@rockpack/utils`.
 - Stylelint and Commitlint configs are shipped by the package. Replace the preset lists in your own configs with:
 

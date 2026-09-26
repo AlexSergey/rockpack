@@ -1,6 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+import type { Book } from './app';
+
 import { App } from './app';
 import { Graphql, MockGraphql } from './graphql';
 import { BOOK_READ, GET_BOOK, GET_BOOKS } from './query.gql';
@@ -13,7 +15,10 @@ root.render(
     <MockGraphql
       mocks={[
         { data: [{ author: 'S. King', id: '1', read: false, title: 'It' }], query: GET_BOOKS },
-        { data: () => [{ author: 'S. King', id: '1', read: Math.random() >= 0.5, title: 'It' }], query: BOOK_READ },
+        {
+          data: (): Book[] => [{ author: 'S. King', id: '1', read: Math.random() >= 0.5, title: 'It' }],
+          query: BOOK_READ,
+        },
         { data: { author: 'Michael Crichton', id: '2', read: false, title: 'Jurassic Park' }, query: GET_BOOK },
       ]}
     >

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useGraphql } from './graphql';
 import { BOOK_READ, GET_BOOK, GET_BOOKS } from './query.gql';
 
-type Book = {
+export type Book = {
   author: string;
   id: string;
   read: boolean;
