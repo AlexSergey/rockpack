@@ -1,4 +1,7 @@
 export type Versions = {
+  codestyle: {
+    common: DependencyGroup;
+  };
   component: ComponentConfig;
   csr: {
     common: DependencyGroup;

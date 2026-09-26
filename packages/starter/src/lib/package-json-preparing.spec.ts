@@ -41,7 +41,9 @@ const addedGroups = (): DependencyGroups[] => addDependenciesMock.mock.calls.map
 const getScripts = (packageJSON: PackageJsonObject): Record<string, string> =>
   packageJSON['scripts'] as Record<string, string>;
 
-const codestyleGroup: DependencyGroups = { devDependencies: [{ name: '@rockpack/codestyle', version }] };
+const codestyleGroup: DependencyGroups = {
+  devDependencies: [{ name: '@rockpack/codestyle', version }, ...(versions.codestyle.common.devDependencies ?? [])],
+};
 const compilerAndTsconfig = [
   { name: '@rockpack/compiler', version },
   { name: '@rockpack/tsconfig', version },
@@ -70,10 +72,12 @@ describe('packageJsonPreparing', () => {
         'lint',
         'lint:code',
         'lint:commit',
+        'lint:deps',
         'lint:styles',
         'lint:ts',
       ]);
       expect(addedGroups()).toEqual([codestyleGroup]);
+      expect(result).not.toHaveProperty('knip');
       expect(writePackageJSONMock).not.toHaveBeenCalled();
     });
 
@@ -106,9 +110,11 @@ describe('packageJsonPreparing', () => {
 
       expect(getScripts(result)).toMatchObject({
         build: 'node scripts.build.mts --mode=production',
-        lint: 'npm run lint:ts && npm run lint:code && npm run lint:styles',
+        lint: 'npm run lint:ts && npm run lint:code && npm run lint:styles && npm run lint:deps',
+        'lint:deps': 'knip',
         start: 'node scripts.build.mts',
       });
+      expect((result['knip'] as { entry: string[] }).entry).toContain('src/index.tsx');
       expect(addDependenciesMock.mock.calls[0]).toEqual([
         expect.anything(),
         {
@@ -157,7 +163,7 @@ describe('packageJsonPreparing', () => {
       expect(getScripts(result)).toMatchObject({
         'build:example': 'node example/scripts.build.mts --mode=production',
         format: 'npm run format:prettier && npm run format:code',
-        lint: 'npm run lint:ts && npm run lint:code',
+        lint: 'npm run lint:ts && npm run lint:code && npm run lint:deps',
         production: 'npm run lint && npm run build && npm publish',
       });
       expect(addedGroups().slice(0, 2)).toEqual([versions.library.common, { devDependencies: compilerAndTsconfig }]);

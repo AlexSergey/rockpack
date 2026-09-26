@@ -14,9 +14,10 @@
     "format:code": "eslint . --fix",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
     "format:styles": "stylelint \"src/**/*.{css,scss}\" --fix",
-    "lint": "npm run lint:ts && npm run lint:code && npm run lint:styles",
+    "lint": "npm run lint:ts && npm run lint:code && npm run lint:styles && npm run lint:deps",
     "lint:code": "eslint .",
     "lint:commit": "commitlint --config .commitlintrc.cjs --edit",
+    "lint:deps": "knip",
     "lint:styles": "stylelint --config .stylelintrc.cjs \"src/**/*.{css,scss}\"",
     "lint:ts": "tsc --noEmit",
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
@@ -56,8 +57,38 @@
     "@types/react": "19",
     "@types/react-dom": "19",
     "@types/serialize-javascript": "5",
+    "knip": "6",
     "lint-staged": "17",
     "simple-git-hooks": "2",
     "source-map": "0.8.0-beta.0"
+  },
+  "knip": {
+    "entry": [
+      "eslint.config.ts",
+      ".commitlintrc.cjs",
+      ".stylelintrc.cjs",
+      "src/client.tsx",
+      "src/server.tsx",
+      "src/types/*.ts",
+      ".lintstagedrc.cjs",
+      "jest.init.ts",
+      "jest.setup.ts",
+      "src/**/*.spec.{ts,tsx}"
+    ],
+    "ignore": [
+      "public/**"
+    ],
+    "ignoreBinaries": [
+      "commitlint",
+      "eslint",
+      "prettier",
+      "stylelint",
+      "tsc"
+    ],
+    "ignoreDependencies": [
+      "@rockpack/tsconfig",
+      "@issr/babel-plugin",
+      "source-map"
+    ]
   }
 }

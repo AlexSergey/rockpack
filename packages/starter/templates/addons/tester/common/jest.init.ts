@@ -1,7 +1,9 @@
-import dotenv from 'dotenv';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-if (existsSync(resolve(__dirname, './.env.test'))) {
-  dotenv.config({ path: './.env.test' });
+const envFile = resolve(__dirname, './.env.test');
+
+// Variables already set in the environment win over the file, as with dotenv.
+if (existsSync(envFile)) {
+  process.loadEnvFile(envFile);
 }

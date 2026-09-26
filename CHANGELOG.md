@@ -8,6 +8,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 
 ### Added
 - All packages (babel, codestyle, compiler, starter, tester, utils) rewritten in TypeScript
+- Generated projects check their dependencies with knip: a `lint:deps` script, run by `lint`, and a `knip` section in `package.json` with the entries of the template
 - New build pipeline using `tsx` scripts for all packages and examples
 - Dual ESM/CJS output for all packages except `@rockpack/codestyle` (ESM only)
 - Improved tester configuration with better type support for Jest
@@ -51,7 +52,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - Build process now cleans output before each build
 - Compiler configuration API improved: removed private internal fields
 - **Breaking:** Node.js 24.15 or newer is required by every package and by the starter CLI, which also checks the minor version (Babel 8 needs 24.11, `eslint-plugin-package-json` and `eslint-plugin-regexp` in `@rockpack/codestyle` need 24.15); `engine-strict` is on in the monorepo
-- **Breaking:** `@rockpack/codestyle` adds rules that catch bugs: `eqeqeq` (`== null` allowed), `@typescript-eslint/no-shadow`, sonarjs bug detectors (`no-identical-conditions`, `no-all-duplicated-branches`, `no-duplicated-branches`, `no-element-overwrite`, `no-ignored-return`, `no-use-of-empty-return-value`, `non-existent-operator`, `no-collection-size-mischeck`, `no-empty-collection`, `no-unthrown-error`, `no-gratuitous-expressions`, `reduce-initial-value`), unicorn rules (`error-message`, `prefer-type-error`, `prefer-number-properties`, `prefer-structured-clone`, `no-useless-spread`, `no-useless-promise-resolve-reject`, `no-thenable`, `no-instanceof-builtins`, `no-await-in-promise-methods`, `no-single-promise-in-promise-methods`) and, in specs, the error rules of `eslint-plugin-jest` recommended except `no-deprecated-functions` (`no-done-callback`, `no-conditional-expect`, `no-identical-title`, `no-standalone-expect`, `valid-title` and others); `@typescript-eslint/explicit-function-return-type` is an error instead of a warning
+- **Breaking:** `@rockpack/codestyle` adds rules that catch bugs: `eqeqeq` (`== null` allowed), `@typescript-eslint/no-shadow`, sonarjs bug detectors (`no-identical-conditions`, `no-all-duplicated-branches`, `no-duplicated-branches`, `no-element-overwrite`, `no-ignored-return`, `no-use-of-empty-return-value`, `non-existent-operator`, `no-collection-size-mischeck`, `no-empty-collection`, `no-unthrown-error`, `no-gratuitous-expressions`, `reduce-initial-value`), unicorn rules (`error-message`, `prefer-type-error`, `prefer-number-properties`, `prefer-structured-clone`, `no-useless-spread`, `no-useless-promise-resolve-reject`, `no-thenable`, `no-instanceof-builtins`, `no-await-in-promise-methods`, `no-single-promise-in-promise-methods`) and, in specs, the error rules of `eslint-plugin-jest` recommended except `no-deprecated-functions` (`no-done-callback`, `no-conditional-expect`, `no-identical-title`, `no-standalone-expect`, `valid-title` and others); `@typescript-eslint/explicit-function-return-type` is an error instead of a warning; React projects lint `*.{spec,test}.{ts,tsx}` with `eslint-plugin-testing-library` (react preset) and `eslint-plugin-jest-dom` (recommended)
 - **Breaking:** `frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a typed result (`CompilerResult`: `config`, `build` with `stats` and `success`, `dev-server` with `url` and `stop()`, `watch` with `stop()`); an awaited production build now resolves after the build has finished, and the dev server result once it listens
 - **Breaking:** the compilers no longer call `process.exit` on invalid options: they log `[rockpack] <code>: <message>`, set `process.exitCode = 1` and reject with a `RockpackError`
 - **Breaking:** production builds finish by closing webpack and exit with code `1` when webpack reports errors (they exited with `0` before); `Ctrl+C` exits with `130`, `SIGTERM` with `143`; unexpected errors are no longer swallowed
@@ -121,6 +122,8 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 
 ### Removed
 - Generated projects have no `analyzer` script
+- The csr and ssr templates no longer ship the `FeatureCard` and `SpotlightSection` components, which no page rendered
+- The tester setup of generated projects reads `.env.test` with `process.loadEnvFile` instead of importing the undeclared `dotenv`
 - The SSR template no longer ships a `rockpack.babel.js` (custom Babel config through `rockpack.babel.js` is still supported by `@rockpack/babel`)
 - The SSR template no longer depends on the unused `react-router-dom`
 - Dropped `jest.extend` from tester

@@ -19,9 +19,10 @@
     "format:code": "eslint . --fix",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
     "format:styles": "stylelint \"src/**/*.{css,scss}\" --fix",
-    "lint": "npm run lint:ts && npm run lint:code && npm run lint:styles",
+    "lint": "npm run lint:ts && npm run lint:code && npm run lint:styles && npm run lint:deps",
     "lint:code": "eslint .",
     "lint:commit": "commitlint --config .commitlintrc.cjs --edit",
+    "lint:deps": "knip",
     "lint:styles": "stylelint --config .stylelintrc.cjs \"src/**/*.{css,scss}\"",
     "lint:ts": "tsc --noEmit",
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
@@ -39,6 +40,7 @@
     "@rockpack/tsconfig": "<rockpack>",
     "@types/react": "19",
     "@types/react-dom": "19",
+    "knip": "6",
     "lint-staged": "17",
     "react": "19",
     "react-dom": "19",
@@ -47,5 +49,28 @@
   "peerDependencies": {
     "react": "19",
     "react-dom": "19"
+  },
+  "knip": {
+    "entry": [
+      "eslint.config.ts",
+      ".commitlintrc.cjs",
+      ".stylelintrc.cjs",
+      "src/index.tsx",
+      "example/src/index.tsx",
+      ".lintstagedrc.cjs"
+    ],
+    "ignore": [
+      "lib/**"
+    ],
+    "ignoreBinaries": [
+      "commitlint",
+      "eslint",
+      "prettier",
+      "stylelint",
+      "tsc"
+    ],
+    "ignoreDependencies": [
+      "@rockpack/tsconfig"
+    ]
   }
 }

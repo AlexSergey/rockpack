@@ -9,6 +9,7 @@ import type { State } from './wizard.js';
 import { getPM } from '../utils/other.js';
 import { packageJson } from '../utils/package-json.js';
 import { addDependencies, addFields, addScripts, readPackageJSON, writePackageJSON } from '../utils/project.js';
+import { makeKnipConfig } from './knip-config.js';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
@@ -228,10 +229,11 @@ export const packageJsonPreparing = async (
     'format:prettier': 'prettier --write "src/**/*.{ts,tsx,json}"',
     lint:
       appType === 'library'
-        ? 'npm run lint:ts && npm run lint:code'
-        : 'npm run lint:ts && npm run lint:code && npm run lint:styles',
+        ? 'npm run lint:ts && npm run lint:code && npm run lint:deps'
+        : 'npm run lint:ts && npm run lint:code && npm run lint:styles && npm run lint:deps',
     'lint:code': 'eslint .',
     'lint:commit': 'commitlint --config .commitlintrc.cjs --edit',
+    'lint:deps': 'knip',
     'lint:ts': 'tsc --noEmit',
     ...styleScripts,
   });
@@ -239,10 +241,19 @@ export const packageJsonPreparing = async (
   packageJSON = await addDependencies(
     packageJSON,
     {
-      devDependencies: [{ name: '@rockpack/codestyle', version: packageJson.version }],
+      devDependencies: [
+        { name: '@rockpack/codestyle', version: packageJson.version },
+        ...(typedVersions.codestyle.common.devDependencies ?? []),
+      ],
     },
     resolution,
   );
+
+  if (appType) {
+    packageJSON = addFields(packageJSON, {
+      knip: makeKnipConfig({ appType, nogit: nogit === true, tester: tester === true }),
+    });
+  }
 
   if (tester) {
     packageJSON = await addTester(packageJSON, state, typedVersions, resolution);

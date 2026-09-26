@@ -1,4 +1,14 @@
 {
+  "codestyle": {
+    "common": {
+      "devDependencies": [
+        {
+          "name": "knip",
+          "version": "6"
+        }
+      ]
+    }
+  },
   "component": {
     "common": {
       "devDependencies": [

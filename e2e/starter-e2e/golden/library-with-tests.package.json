@@ -27,9 +27,10 @@
     "format": "npm run format:prettier && npm run format:code",
     "format:code": "eslint . --fix",
     "format:prettier": "prettier --write \"src/**/*.{ts,tsx,json}\"",
-    "lint": "npm run lint:ts && npm run lint:code",
+    "lint": "npm run lint:ts && npm run lint:code && npm run lint:deps",
     "lint:code": "eslint .",
     "lint:commit": "commitlint --config .commitlintrc.cjs --edit",
+    "lint:deps": "knip",
     "lint:ts": "tsc --noEmit",
     "pre-commit": "lint-staged --config .lintstagedrc.cjs",
     "prepare": "simple-git-hooks",
@@ -48,8 +49,31 @@
     "@rockpack/compiler": "<rockpack>",
     "@rockpack/tester": "<rockpack>",
     "@rockpack/tsconfig": "<rockpack>",
+    "knip": "6",
     "lint-staged": "17",
     "simple-git-hooks": "2",
     "source-map": "0.8.0-beta.0"
+  },
+  "knip": {
+    "entry": [
+      "eslint.config.ts",
+      ".commitlintrc.cjs",
+      ".stylelintrc.cjs",
+      "src/index.ts",
+      "example/src/index.ts",
+      ".lintstagedrc.cjs",
+      "jest.init.ts",
+      "src/**/*.spec.{ts,tsx}"
+    ],
+    "ignoreBinaries": [
+      "commitlint",
+      "eslint",
+      "prettier",
+      "tsc"
+    ],
+    "ignoreDependencies": [
+      "@rockpack/tsconfig",
+      "source-map"
+    ]
   }
 }
