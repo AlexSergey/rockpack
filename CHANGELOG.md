@@ -113,6 +113,7 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - Generated csr and ssr projects pass `value` to `UnheadProvider` (the `head` prop is deprecated)
 - Generated ssr projects listen on `PORT` from `.env` (the template shipped `PORT=8888` but always listened on `4000`)
 - Generated ssr projects reload the browser page in development again: the template loads `dev-server.js`, the live reload client the compiler builds
+- `@rockpack/compiler`: watching builds ignore the folders they write (the output folders, `node_modules/.cache`); in an isomorphic build every emit and type check triggered more rebuilds of both compilers
 - `@rockpack/compiler`: the isomorphic live reload client waits until the restarted server answers before it reloads the page (it reloaded too early and left the browser on its connection error page)
 - Generated projects get no knip configuration hints: no `main: index.js` in csr and ssr projects, no redundant `.lintstagedrc.cjs` entry
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`

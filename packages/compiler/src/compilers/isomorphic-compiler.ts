@@ -51,6 +51,22 @@ const validateConfigs = (configs: InternalCompilerConf[]): void => {
   }
 };
 
+// Each compiler ignores the folders it writes (make.ts); in an isomorphic build it also ignores the folders the
+// other compiler writes, whose emits rebuilt it. Ignored folders a callback added are shared as well; a callback
+// that replaced the list with a RegExp or a glob keeps it.
+const shareWatchIgnored = (webpackConfigs: Configuration[]): void => {
+  const shared = [
+    ...new Set(
+      webpackConfigs.flatMap(({ watchOptions }) => (Array.isArray(watchOptions?.ignored) ? watchOptions.ignored : [])),
+    ),
+  ];
+  for (const { watchOptions } of webpackConfigs) {
+    if (watchOptions && Array.isArray(watchOptions.ignored)) {
+      watchOptions.ignored = shared;
+    }
+  }
+};
+
 export type IsomorphicCompilerOptions = {
   readonly backend: Partial<CompilerConf>;
   readonly backendCallback?: PostFn;
@@ -120,6 +136,7 @@ export async function isomorphicCompiler(
       }
     }
 
+    shareWatchIgnored(webpackConfigs as Configuration[]);
     run(
       webpackConfigs as Configuration[],
       mode,

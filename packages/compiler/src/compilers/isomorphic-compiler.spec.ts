@@ -175,6 +175,43 @@ describe('isomorphicCompiler', () => {
       );
     });
 
+    it('ignores the folders both compilers write in each watching build', async () => {
+      const watching = (compilerName: string, ignored: RegExp | string[]): Promise<unknown> =>
+        result(compilerName).then((compiled) => ({ ...compiled, webpackConfig: { watchOptions: { ignored } } }));
+
+      await isomorphicCompiler(
+        watching('frontendCompiler', ['/app/public', '/app/node_modules/.cache']) as Promise<undefined>,
+        watching('backendCompiler', ['/app/dist', '/app/node_modules/.cache']) as Promise<undefined>,
+      );
+
+      const ignored = ['/app/public', '/app/node_modules/.cache', '/app/dist'];
+      expect(run).toHaveBeenCalledWith(
+        [{ watchOptions: { ignored } }, { watchOptions: { ignored } }],
+        'development',
+        'webpack',
+        expect.anything(),
+      );
+    });
+
+    it('keeps a RegExp a callback set for the watched files', async () => {
+      const frontendConfig = { watchOptions: { ignored: /generated/ } };
+      const backendConfig = { watchOptions: { ignored: ['/app/dist'] } };
+
+      await isomorphicCompiler(
+        result('frontendCompiler').then((compiled) => ({
+          ...compiled,
+          webpackConfig: frontendConfig,
+        })) as Promise<undefined>,
+        result('backendCompiler').then((compiled) => ({
+          ...compiled,
+          webpackConfig: backendConfig,
+        })) as Promise<undefined>,
+      );
+
+      expect(frontendConfig.watchOptions.ignored).toEqual(/generated/);
+      expect(backendConfig.watchOptions.ignored).toEqual(['/app/dist']);
+    });
+
     it('compiles the frontend and backend confs with an isomorphic context', async () => {
       const frontendCallback = jest.fn();
       (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>

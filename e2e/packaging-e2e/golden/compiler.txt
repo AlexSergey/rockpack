@@ -37,6 +37,7 @@ lib/cjs/modules/make-output.cjs
 lib/cjs/modules/make-plugins.cjs
 lib/cjs/modules/make-resolve.cjs
 lib/cjs/modules/make-stats.cjs
+lib/cjs/modules/make-watch-options.cjs
 lib/cjs/modules/plugins/banner.cjs
 lib/cjs/modules/plugins/checks.cjs
 lib/cjs/modules/plugins/copy.cjs
@@ -117,6 +118,7 @@ lib/esm/modules/make-output.mjs
 lib/esm/modules/make-plugins.mjs
 lib/esm/modules/make-resolve.mjs
 lib/esm/modules/make-stats.mjs
+lib/esm/modules/make-watch-options.mjs
 lib/esm/modules/plugins/banner.mjs
 lib/esm/modules/plugins/checks.mjs
 lib/esm/modules/plugins/copy.mjs
@@ -198,6 +200,7 @@ types/modules/make-output.d.ts
 types/modules/make-plugins.d.ts
 types/modules/make-resolve.d.ts
 types/modules/make-stats.d.ts
+types/modules/make-watch-options.d.ts
 types/modules/plugins/banner.d.ts
 types/modules/plugins/checks.d.ts
 types/modules/plugins/copy.d.ts

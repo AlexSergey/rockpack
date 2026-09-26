@@ -69,6 +69,12 @@ describe('make', () => {
   });
 
   describe('negative cases', () => {
+    it('sets no watch options for a production build', async () => {
+      await make(createConf(), null, STANDALONE_CONTEXT);
+
+      expect(finalConfig()).not.toHaveProperty('watchOptions');
+    });
+
     it('uses an empty package.json when the project has none', async () => {
       await make(createConf(), null, STANDALONE_CONTEXT);
 
@@ -159,6 +165,7 @@ describe('make', () => {
         mode: 'development',
         performance: { hints: false },
         watch: true,
+        watchOptions: { ignored: ['/project/dist', '/project/node_modules/.cache'] },
       });
     });
 

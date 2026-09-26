@@ -17,6 +17,7 @@ import { makeOutput } from '../modules/make-output.js';
 import { makePlugins } from '../modules/make-plugins.js';
 import { makeResolve } from '../modules/make-resolve.js';
 import { makeStats } from '../modules/make-stats.js';
+import { makeWatchOptions } from '../modules/make-watch-options.js';
 import { compileWebpackConfig } from '../utils/compile-webpack-config.js';
 
 type MakeResult = {
@@ -88,6 +89,7 @@ export const make = async (
 
   if (mode === 'development') {
     finalConfig['watch'] = true;
+    finalConfig['watchOptions'] = makeWatchOptions(root, [output.path], [context]);
     finalConfig['performance'] = { hints: false };
   }
 
