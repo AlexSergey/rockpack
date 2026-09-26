@@ -69,8 +69,17 @@ export class SsrDevelopment {
     const monitor = nodemon(settings);
 
     monitor.on('log', ({ colour: colouredMessage }: { colour: string }) => console.log(colouredMessage));
+    // nodemon emits 'restart' while the old server still answers and 'start' once it has spawned the new one; the
+    // browser then waits until the new server listens (plugins/reloader/ssr.ts).
+    let restarting = false;
     monitor.on('restart', () => {
-      this.liveReload?.refresh('');
+      restarting = true;
+    });
+    monitor.on('start', () => {
+      if (restarting) {
+        restarting = false;
+        this.liveReload?.refresh('');
+      }
     });
 
     this.isNodemonRunning = true;

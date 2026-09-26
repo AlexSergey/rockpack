@@ -1,6 +1,6 @@
-import type { StartedProcess } from '@rockpack/e2e-tools';
+import type { Browser, StartedProcess } from '@rockpack/e2e-tools';
 
-import { getFreePort, run, waitForUrl } from '@rockpack/e2e-tools';
+import { getFreePort, launchBrowser, run, waitForUrl } from '@rockpack/e2e-tools';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
@@ -222,6 +222,56 @@ describe('development mode', () => {
 
         expect(count(server.output(), /listening on/)).toBeGreaterThanOrEqual(2);
       }, 90_000);
+
+      describe('live reload in the browser', () => {
+        let browser: Browser;
+
+        beforeAll(async () => {
+          browser = await launchBrowser();
+        }, 60_000);
+
+        afterAll(async () => {
+          await browser.close();
+        });
+
+        it('reloads the open page once the restarted server answers', async () => {
+          const page = await browser.newPage();
+          const visited: string[] = [];
+          page.on('framenavigated', (frame) => {
+            if (frame === page.mainFrame()) {
+              visited.push(frame.url());
+            }
+          });
+          await page.goto(url);
+          await page.waitForFunction(() => document.querySelector('#rockpack-livereload') !== null);
+          await page.waitForFunction(() => 'LiveReload' in window, { timeout: 30_000 });
+
+          edit(path.join(dir, 'src/app.tsx'), 'Hello restarted', 'Hello reloaded');
+          await page.waitForFunction(() => document.body.textContent.includes('Hello reloaded'), { timeout: 90_000 });
+
+          // A reload before the server listened would leave the browser on its error page.
+          expect(visited.filter((visitedUrl) => visitedUrl !== `${url}/`)).toEqual([]);
+          expect(visited.length).toBeGreaterThanOrEqual(2);
+          await page.close();
+        }, 120_000);
+
+        it('rebuilds each compiler once per change', async () => {
+          const before = server.output();
+          const page = await browser.newPage();
+          await page.goto(url);
+          await page.waitForFunction(() => 'LiveReload' in window, { timeout: 30_000 });
+
+          edit(path.join(dir, 'src/app.tsx'), 'Hello reloaded', 'Hello once');
+          await page.waitForFunction(() => document.body.textContent.includes('Hello once'), { timeout: 90_000 });
+          // Rebuilds the emits or the type check would cause come within this pause.
+          await new Promise((resolve) => setTimeout(resolve, 8000));
+          const after = server.output().slice(before.length);
+
+          expect(count(after, /↻ client/)).toBe(1);
+          expect(count(after, /↻ server/)).toBe(1);
+          await page.close();
+        }, 150_000);
+      });
     });
   });
 });

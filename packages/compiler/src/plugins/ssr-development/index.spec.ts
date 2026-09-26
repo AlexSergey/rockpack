@@ -95,6 +95,24 @@ describe('SsrDevelopment', () => {
 
       expect(nodemonMock).toHaveBeenCalledTimes(1);
     });
+
+    it('does not refresh live reload while the old server still runs', () => {
+      const refresh = jest.fn();
+      new SsrDevelopment({}, { refresh }).startMonitoring('dist/server.js');
+
+      monitor.emit('restart');
+
+      expect(refresh).not.toHaveBeenCalled();
+    });
+
+    it('does not refresh live reload when the server starts for the first time', () => {
+      const refresh = jest.fn();
+      new SsrDevelopment({}, { refresh }).startMonitoring('dist/server.js');
+
+      monitor.emit('start');
+
+      expect(refresh).not.toHaveBeenCalled();
+    });
   });
 
   describe('positive cases', () => {
@@ -108,14 +126,17 @@ describe('SsrDevelopment', () => {
       expect(nodemonMock).toHaveBeenCalledWith({ ext: 'js', script: 'custom.js', watch: ['dist/server.js'] });
     });
 
-    it('forwards nodemon logs and refreshes live reload on restart', () => {
+    it('forwards nodemon logs and refreshes live reload once the restarted server is spawned', () => {
       const refresh = jest.fn();
       new SsrDevelopment({}, { refresh }).startMonitoring('dist/server.js');
 
       monitor.emit('log', { colour: 'restarting' });
       monitor.emit('restart');
+      monitor.emit('start');
+      monitor.emit('start');
 
       expect(logSpy).toHaveBeenCalledWith('restarting');
+      expect(refresh).toHaveBeenCalledTimes(1);
       expect(refresh).toHaveBeenCalledWith('');
     });
 
