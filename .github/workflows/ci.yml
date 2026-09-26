@@ -41,6 +41,9 @@ jobs:
       - name: Dependency checks
         run: npm run lint:deps
 
+      - name: Type check the repository scripts
+        run: npm run lint:ts
+
       - name: Build
         run: npm run build
 

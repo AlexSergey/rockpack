@@ -29,6 +29,7 @@
     "updater": "tsx updater.ts",
     "version:set": "tsx version.ts",
     "lint:deps": "syncpack lint && knip",
+    "lint:ts": "tsc -p .",
     "e2e": "npm test -w e2e/babel-e2e && npm test -w e2e/packaging-e2e && npm test -w e2e/compiler-e2e -- frontend backend library config assets lint examples && npm test -w e2e/starter-e2e -- cli generation quality",
     "e2e:runtime": "npm test -w e2e/starter-e2e -- runtime && npm test -w e2e/compiler-e2e -- dev",
     "e2e:latest": "npm test -w e2e/packaging-e2e && E2E_MODE=latest npm test -w e2e/starter-e2e -- quality runtime"
