@@ -293,15 +293,16 @@ function fixStarterE2eOrder(sorted: PackageJson): void {
    *  - @types/koa-static
    *  - @types/koa__router
    * */
-  const orderedKeys = Object.keys(sorted.devDependencies);
-  const indexA = orderedKeys.indexOf('@types/koa__router');
-  const indexB = orderedKeys.indexOf('@types/koa-static');
+  const entries = Object.entries(sorted.devDependencies);
+  const indexA = entries.findIndex(([name]) => name === '@types/koa__router');
+  const indexB = entries.findIndex(([name]) => name === '@types/koa-static');
+  const entryA = entries[indexA];
+  const entryB = entries[indexB];
 
-  if (indexA >= 0 && indexB >= 0) {
-    [orderedKeys[indexA], orderedKeys[indexB]] = [orderedKeys[indexB], orderedKeys[indexA]];
-    sorted.devDependencies = Object.fromEntries(
-      orderedKeys.map((key) => [key, (sorted.devDependencies as Record<string, string>)[key]]),
-    );
+  if (entryA && entryB) {
+    entries[indexA] = entryB;
+    entries[indexB] = entryA;
+    sorted.devDependencies = Object.fromEntries(entries);
   }
 }
 
@@ -359,8 +360,8 @@ async function updateAllDeps(): Promise<Set<string>> {
     console.warn(`[${pkg.name}] package.json will be updated`);
     const sorted = sortPackageJson(updated);
     // sort-package-json 4 sorts the scripts too; their order is the author's (grouped by task), keep it.
-    if (updated.scripts) {
-      sorted.scripts = updated.scripts;
+    if (updated['scripts']) {
+      sorted['scripts'] = updated['scripts'];
     }
 
     if (p.indexOf('starter-e2e') > 0) {
