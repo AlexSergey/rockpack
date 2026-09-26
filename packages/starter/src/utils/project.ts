@@ -123,7 +123,6 @@ export const createPackageJSON = (projectName: string): PackageJsonObject => ({
   description: '<description>',
   keywords: [projectName],
   license: 'ISC',
-  main: 'index.js',
   name: projectName,
   version: '1.0.0',
 });

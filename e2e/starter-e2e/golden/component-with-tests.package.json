@@ -64,7 +64,6 @@
       ".stylelintrc.cjs",
       "src/index.tsx",
       "example/src/index.tsx",
-      ".lintstagedrc.cjs",
       "jest.init.ts",
       "jest.setup.ts",
       "src/**/*.spec.{ts,tsx}"

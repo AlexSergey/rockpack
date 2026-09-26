@@ -228,7 +228,6 @@ describe('project utils', () => {
         description: '<description>',
         keywords: ['my-app'],
         license: 'ISC',
-        main: 'index.js',
         name: 'my-app',
         version: '1.0.0',
       });

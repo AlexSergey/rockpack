@@ -9,7 +9,6 @@ export type KnipConfig = {
 
 type KnipOptions = {
   readonly appType: AppType;
-  readonly nogit: boolean;
   readonly tester: boolean;
 };
 
@@ -32,13 +31,13 @@ const APP_OUTPUT: Readonly<Record<AppType, readonly string[]>> = {
 
 // Knip runs without its eslint, stylelint, commitlint and jest plugins because the project has no direct
 // dependency on those tools: @rockpack/codestyle, @rockpack/compiler and @rockpack/tester bring them.
-export const makeKnipConfig = ({ appType, nogit, tester }: KnipOptions): KnipConfig => ({
+// .lintstagedrc.cjs is found through the lint-staged command of the git hook.
+export const makeKnipConfig = ({ appType, tester }: KnipOptions): KnipConfig => ({
   entry: [
     'eslint.config.ts',
     '.commitlintrc.cjs',
     '.stylelintrc.cjs',
     ...APP_ENTRIES[appType],
-    ...(nogit ? [] : ['.lintstagedrc.cjs']),
     ...(tester ? ['jest.init.ts', ...(appType === 'library' ? [] : ['jest.setup.ts']), 'src/**/*.spec.{ts,tsx}'] : []),
   ],
   ...(APP_OUTPUT[appType].length > 0 ? { ignore: APP_OUTPUT[appType] } : {}),

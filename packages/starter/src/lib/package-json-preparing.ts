@@ -251,7 +251,7 @@ export const packageJsonPreparing = async (
 
   if (appType) {
     packageJSON = addFields(packageJSON, {
-      knip: makeKnipConfig({ appType, nogit: nogit === true, tester: tester === true }),
+      knip: makeKnipConfig({ appType, tester: tester === true }),
     });
   }
 

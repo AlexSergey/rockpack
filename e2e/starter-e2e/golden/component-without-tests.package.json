@@ -56,8 +56,7 @@
       ".commitlintrc.cjs",
       ".stylelintrc.cjs",
       "src/index.tsx",
-      "example/src/index.tsx",
-      ".lintstagedrc.cjs"
+      "example/src/index.tsx"
     ],
     "ignore": [
       "lib/**"

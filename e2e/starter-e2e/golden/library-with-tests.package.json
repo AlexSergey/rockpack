@@ -61,7 +61,6 @@
       ".stylelintrc.cjs",
       "src/index.ts",
       "example/src/index.ts",
-      ".lintstagedrc.cjs",
       "jest.init.ts",
       "src/**/*.spec.{ts,tsx}"
     ],

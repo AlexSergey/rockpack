@@ -55,8 +55,7 @@
       ".commitlintrc.cjs",
       ".stylelintrc.cjs",
       "src/index.ts",
-      "example/src/index.ts",
-      ".lintstagedrc.cjs"
+      "example/src/index.ts"
     ],
     "ignoreBinaries": [
       "commitlint",
