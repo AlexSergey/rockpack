@@ -40,9 +40,9 @@ export const applyUserConfig = (opts: InputOptions, context: BabelMergeContext, 
         return result;
       }
     }
-  } catch {
+  } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(`Rockpack/Babel: can't merge ${configFile}`);
+    console.error(`Rockpack/Babel: can't merge ${configFile}`, error);
   }
 
   return opts;

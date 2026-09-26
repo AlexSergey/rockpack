@@ -88,7 +88,10 @@ describe('createBabelPresets', () => {
       const opts = createBabelPresets();
 
       expect(opts).toEqual(defaults);
-      expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.js");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Rockpack/Babel: can't merge rockpack.babel.js",
+        expect.objectContaining({ message: 'broken config' }),
+      );
     });
 
     it('logs and returns the defaults when the rockpack.babel.js function returns null', () => {
@@ -99,7 +102,10 @@ describe('createBabelPresets', () => {
       const opts = createBabelPresets();
 
       expect(opts).toEqual(defaults);
-      expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.js");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Rockpack/Babel: can't merge rockpack.babel.js",
+        expect.any(TypeError),
+      );
     });
 
     it('names the failing config file when rockpack.babel.mjs throws', () => {
@@ -107,7 +113,10 @@ describe('createBabelPresets', () => {
 
       createBabelPresets();
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith("Rockpack/Babel: can't merge rockpack.babel.mjs");
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Rockpack/Babel: can't merge rockpack.babel.mjs",
+        expect.objectContaining({ message: 'broken config' }),
+      );
     });
 
     it('adds no core-js polyfills to TypeScript without the env flag', () => {

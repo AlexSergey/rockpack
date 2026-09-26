@@ -10,6 +10,26 @@ This module is part of the **Rockpack** project. See more details on [the offici
 
 It runs on Babel 8 (`@babel/core` 8) and needs Node.js 24.15 or newer. Plugins added through `rockpack.babel.*` must support Babel 8.
 
+## Options
+
+`createBabelPresets(options)` returns the Babel options (`InputOptions`):
+
+```ts
+import { createBabelPresets } from '@rockpack/babel';
+
+createBabelPresets({ framework: 'react', typescript: true });
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `framework` | `'none'` | `'react'` adds the React preset and plugins |
+| `isNodejs` | `false` | `@babel/preset-env` targets `node: 'current'` instead of browsers with more than 5% usage |
+| `isTest` | `false` | Adds the Jest compatibility plugins (CommonJS modules, `import.meta`) |
+| `modules` | `false` | The `modules` option of `@babel/preset-env`: `'amd' \| 'auto' \| 'cjs' \| 'commonjs' \| 'systemjs' \| 'umd' \| false` |
+| `typescript` | `false` | `true` strips TypeScript with `@babel/preset-typescript`; `{ env: true }` also runs `@babel/preset-env` on it (see [TypeScript](#typescript)) |
+
+The option types are exported as `CreateBabelPresetsOptions` and `TypescriptOptions` (`{ env?: boolean }`), next to `Framework`, `Modules`, `BabelMergeContext` and `BabelMergeFunction`.
+
 To add custom plugins, create `rockpack.babel.js` in the root of your project. Plugins defined there are merged into the base Babel config.
 
 The file can also be `rockpack.babel.cjs`, `rockpack.babel.mjs` or `rockpack.babel.ts` (the first one found in this order is used). ES module configs use their default export. Export either an object, which is deep-merged into the defaults (arrays are concatenated), or a function that receives the context, the default options and `deepmerge`, and returns the final options:
@@ -24,12 +44,12 @@ const merge: BabelMergeFunction = (context, opts, deepmerge) =>
 export default merge;
 ```
 
-The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modules` and `typescript`. TypeScript configs are loaded through Node.js type stripping, so they may use only erasable syntax (no `enum` or `namespace`).
+The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modules`, `typescript` (`true` for both `true` and `{ env: true }`) and `typescriptEnv` (`true` for `typescript: { env: true }`). A config that fails to load or merge is skipped: the defaults are used and the error is printed with the file name. TypeScript configs are loaded through Node.js type stripping, so they may use only erasable syntax (no `enum` or `namespace`).
 
 ## Included presets and plugins
 
 ### Environment
-- `@babel/preset-env` - targets browsers with > 5% usage and the latest Node.js LTS
+- `@babel/preset-env` - targets browsers with more than 5% usage (`> 5%`), or the running Node.js (`node: 'current'`) with `isNodejs: true`
 - `babel-plugin-polyfill-corejs3` - when `core-js` is a dependency (not a devDependency) of the project, imports the polyfills the code uses and the targets lack (`method: 'usage-global'`, the `core-js` version from `package.json`)
 
 ### React
