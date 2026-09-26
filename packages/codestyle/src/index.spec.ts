@@ -206,7 +206,16 @@ describe('makeConfig', () => {
       const configs = makeConfig().filter((config) => config.name === 'testing-library' || config.name === 'jest-dom');
 
       expect(configs).toEqual([
-        { files: ['**/*.{spec,test}.{ts,tsx}'], name: 'testing-library', rules: { 'testing-library/marker': 'error' } },
+        {
+          files: ['**/*.{spec,test}.{ts,tsx}'],
+          name: 'testing-library',
+          rules: { 'testing-library/marker': 'error' },
+          settings: {
+            'testing-library/custom-queries': 'off',
+            'testing-library/custom-renders': 'off',
+            'testing-library/utils-module': 'off',
+          },
+        },
         { files: ['**/*.{spec,test}.{ts,tsx}'], name: 'jest-dom', rules: { 'jest-dom/marker': 'error' } },
       ]);
     });

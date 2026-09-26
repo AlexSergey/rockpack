@@ -27,7 +27,16 @@ export const makeReactConfig = (hasReact: boolean): Linter.Config =>
 export const makeReactTestConfigs = (hasReact: boolean): Linter.Config[] =>
   hasReact
     ? [
-        { ...testingLibraryPlugin.configs['flat/react'], files: reactTestFiles },
+        {
+          ...testingLibraryPlugin.configs['flat/react'],
+          files: reactTestFiles,
+          // Only report in files that import Testing Library: Playwright specs share the getBy* names.
+          settings: {
+            'testing-library/custom-queries': 'off',
+            'testing-library/custom-renders': 'off',
+            'testing-library/utils-module': 'off',
+          },
+        },
         { ...jestDomPlugin.configs['flat/recommended'], files: reactTestFiles },
       ]
     : [];
