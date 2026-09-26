@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-sinon",
-  "version": "9.0.0-next.1",
+  "version": "9.0.0-next.2",
   "description": "Rockpack example: sinon",
   "license": "ISC",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -18,9 +18,9 @@
     "axios": "1.20.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0-next.1",
-    "@rockpack/tester": "9.0.0-next.1",
-    "@rockpack/tsconfig": "9.0.0-next.1",
+    "@rockpack/codestyle": "9.0.0-next.2",
+    "@rockpack/tester": "9.0.0-next.2",
+    "@rockpack/tsconfig": "9.0.0-next.2",
     "@types/sinon": "22.0.0",
     "sinon": "22.1.0"
   }

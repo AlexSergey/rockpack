@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/codestyle",
-  "version": "9.0.0-next.1",
+  "version": "9.0.0-next.2",
   "private": false,
   "description": "Opinionated ESLint, Prettier, and Stylelint configuration for React and TypeScript projects",
   "keywords": [
@@ -67,7 +67,7 @@
     "@eslint-react/eslint-plugin": "5.20.8",
     "@eslint/js": "10.0.1",
     "@eslint/json": "2.1.0",
-    "@rockpack/utils": "9.0.0-next.1",
+    "@rockpack/utils": "9.0.0-next.2",
     "@typescript-eslint/eslint-plugin": "8.70.1",
     "@typescript-eslint/parser": "8.70.1",
     "eslint": "10.11.0",
@@ -99,9 +99,9 @@
     "typescript-eslint": "8.70.1"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "9.0.0-next.1",
-    "@rockpack/tester": "9.0.0-next.1",
-    "@rockpack/tsconfig": "9.0.0-next.1",
+    "@rockpack/build-tools": "9.0.0-next.2",
+    "@rockpack/tester": "9.0.0-next.2",
+    "@rockpack/tsconfig": "9.0.0-next.2",
     "@types/jest": "30.0.0",
     "expect-type": "1.4.0"
   },

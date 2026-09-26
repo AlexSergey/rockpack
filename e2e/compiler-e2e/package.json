@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/compiler-e2e",
-  "version": "9.0.0-next.1",
+  "version": "9.0.0-next.2",
   "private": true,
   "description": "Builds small fixture projects with @rockpack/compiler and checks the output",
   "repository": {
@@ -16,17 +16,17 @@
     "test": "node --experimental-vm-modules --import tsx scripts.test.ts"
   },
   "dependencies": {
-    "@rockpack/compiler": "9.0.0-next.1",
+    "@rockpack/compiler": "9.0.0-next.2",
     "deepmerge": "4.3.1",
     "jsdom": "30.1.1",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0-next.1",
-    "@rockpack/e2e-tools": "9.0.0-next.1",
-    "@rockpack/tester": "9.0.0-next.1",
-    "@rockpack/tsconfig": "9.0.0-next.1",
+    "@rockpack/codestyle": "9.0.0-next.2",
+    "@rockpack/e2e-tools": "9.0.0-next.2",
+    "@rockpack/tester": "9.0.0-next.2",
+    "@rockpack/tsconfig": "9.0.0-next.2",
     "@types/jest": "30.0.0",
     "@types/jsdom": "30.0.0",
     "@types/react": "19.3.0",

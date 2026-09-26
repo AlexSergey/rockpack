@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-antd",
-  "version": "9.0.0-next.1",
+  "version": "9.0.0-next.2",
   "description": "Rockpack example: antd",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -19,8 +19,8 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0-next.1",
-    "@rockpack/compiler": "9.0.0-next.1",
-    "@rockpack/tsconfig": "9.0.0-next.1"
+    "@rockpack/codestyle": "9.0.0-next.2",
+    "@rockpack/compiler": "9.0.0-next.2",
+    "@rockpack/tsconfig": "9.0.0-next.2"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-isomorphic",
-  "version": "9.0.0-next.1",
+  "version": "9.0.0-next.2",
   "description": "Rockpack example: isomorphic",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -19,9 +19,9 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0-next.1",
-    "@rockpack/compiler": "9.0.0-next.1",
-    "@rockpack/tsconfig": "9.0.0-next.1",
+    "@rockpack/codestyle": "9.0.0-next.2",
+    "@rockpack/compiler": "9.0.0-next.2",
+    "@rockpack/tsconfig": "9.0.0-next.2",
     "@types/express": "5.0.6",
     "@types/node": "24.13.6"
   }
