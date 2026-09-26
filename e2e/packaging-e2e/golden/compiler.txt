@@ -45,6 +45,7 @@ lib/cjs/modules/plugins/development.cjs
 lib/cjs/modules/plugins/env.cjs
 lib/cjs/modules/plugins/html.cjs
 lib/cjs/modules/plugins/production.cjs
+lib/cjs/modules/plugins/styles-filename.cjs
 lib/cjs/modules/plugins/type-check-plugin.cjs
 lib/cjs/modules/plugins/types.cjs
 lib/cjs/modules/rules/assets.cjs
@@ -54,7 +55,6 @@ lib/cjs/modules/rules/styles.cjs
 lib/cjs/modules/rules/types.cjs
 lib/cjs/plugins/reloader/ssr.cjs
 lib/cjs/plugins/ssr-development/index.cjs
-lib/cjs/plugins/ssr-development/webpack-utils.cjs
 lib/cjs/reporter/compiler-name.cjs
 lib/cjs/reporter/format-errors.cjs
 lib/cjs/reporter/renderer.cjs
@@ -126,6 +126,7 @@ lib/esm/modules/plugins/development.mjs
 lib/esm/modules/plugins/env.mjs
 lib/esm/modules/plugins/html.mjs
 lib/esm/modules/plugins/production.mjs
+lib/esm/modules/plugins/styles-filename.mjs
 lib/esm/modules/plugins/type-check-plugin.mjs
 lib/esm/modules/plugins/types.mjs
 lib/esm/modules/rules/assets.mjs
@@ -135,7 +136,6 @@ lib/esm/modules/rules/styles.mjs
 lib/esm/modules/rules/types.mjs
 lib/esm/plugins/reloader/ssr.mjs
 lib/esm/plugins/ssr-development/index.mjs
-lib/esm/plugins/ssr-development/webpack-utils.mjs
 lib/esm/reporter/compiler-name.mjs
 lib/esm/reporter/format-errors.mjs
 lib/esm/reporter/renderer.mjs
@@ -208,6 +208,7 @@ types/modules/plugins/development.d.ts
 types/modules/plugins/env.d.ts
 types/modules/plugins/html.d.ts
 types/modules/plugins/production.d.ts
+types/modules/plugins/styles-filename.d.ts
 types/modules/plugins/type-check-plugin.d.ts
 types/modules/plugins/types.d.ts
 types/modules/rules/assets.d.ts
@@ -216,7 +217,6 @@ types/modules/rules/scripts.d.ts
 types/modules/rules/styles.d.ts
 types/modules/rules/types.d.ts
 types/plugins/ssr-development/index.d.ts
-types/plugins/ssr-development/webpack-utils.d.ts
 types/reporter/compiler-name.d.ts
 types/reporter/format-errors.d.ts
 types/reporter/renderer.d.ts

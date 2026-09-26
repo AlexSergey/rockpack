@@ -21,11 +21,6 @@ describe('libraryCompiler', () => {
   afterEach(() => {
     // The error boundary marks the exit code on purpose; keep the Jest process status clean.
     process.exitCode = originalExitCode;
-  });
-
-  beforeEach(() => {});
-
-  afterEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
   });
@@ -94,7 +89,7 @@ describe('libraryCompiler', () => {
     });
 
     it('builds a node library as a backend without html', async () => {
-      await libraryCompiler({ name: 'MyLib' }, { html: true, nodejs: true } as never, undefined, true);
+      await libraryCompiler({ name: 'MyLib' }, { html: true, nodejs: true }, undefined, true);
 
       expect(compiledConf()).toMatchObject({ __isBackend: true, html: false, nodejs: true });
       expect(compileMock.mock.calls[0]?.[2]).toBe(true);

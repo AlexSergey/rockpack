@@ -90,6 +90,24 @@ describe('run', () => {
       expect(process.exitCode).toBe(1);
     });
 
+    it('rejects finished with the error from applying the config in development', async () => {
+      const cause = new Error('Missing environment variable: TOKEN');
+      const webpack = jest.fn((_config: unknown, callback: WebpackCallback) => {
+        setImmediate(() => callback(cause, undefined));
+
+        return null;
+      });
+
+      const { compiler, finished } = run([{ mode: 'development' }], 'development', webpack as never, conf);
+
+      expect(compiler).toBeNull();
+      await expect(finished).rejects.toMatchObject({
+        cause,
+        code: 'BUILD_FAILED',
+        message: 'Missing environment variable: TOKEN',
+      });
+    });
+
     it('prints and marks a failed library source build', async () => {
       (buildSources as jest.Mock).mockRejectedValueOnce(new RockpackError('BUILD_FAILED', 'babel failed'));
 
@@ -99,6 +117,14 @@ describe('run', () => {
       expect(errorSpy).toHaveBeenCalledWith('[rockpack] BUILD_FAILED: babel failed');
       expect(process.exitCode).toBe(1);
       expect(compiler.close).toHaveBeenCalled();
+    });
+
+    it('builds no library sources for a bundle with compilation errors', async () => {
+      runWith('production', null, { ...conf, library: 'MyLib' }, createStats(true));
+      await settle();
+
+      expect(buildSources).not.toHaveBeenCalled();
+      expect(process.exitCode).toBe(1);
     });
 
     it('marks a production build with compilation errors', async () => {

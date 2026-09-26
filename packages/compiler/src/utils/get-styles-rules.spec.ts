@@ -117,6 +117,26 @@ describe('getStylesRules', () => {
       });
     });
 
+    it.each([
+      ['an ES module postcss.config.mjs', 'postcss.config.mjs', "export default { plugins: ['esm'] };", 'esm'],
+      ['a postcss.config.cjs', 'postcss.config.cjs', "module.exports = { plugins: ['cjs'] };", 'cjs'],
+    ])('uses %s', (_name, file, source, plugin) => {
+      writeFileSync(path.join(root, file), source);
+
+      const { css } = getStylesRules({}, 'production', root);
+
+      expect(findOptions(css.simple, 'postcss-loader')?.['postcssOptions']).toEqual({ plugins: [plugin] });
+    });
+
+    it('prefers postcss.config.js over the other config names', () => {
+      writeFileSync(path.join(root, 'postcss.config.js'), "module.exports = { plugins: ['js'] };");
+      writeFileSync(path.join(root, 'postcss.config.mjs'), "export default { plugins: ['mjs'] };");
+
+      const { css } = getStylesRules({}, 'production', root);
+
+      expect(findOptions(css.simple, 'postcss-loader')?.['postcssOptions']).toEqual({ plugins: ['js'] });
+    });
+
     it('falls back to the bundled postcss config', () => {
       const { css } = getStylesRules({}, 'production', root);
 

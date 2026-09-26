@@ -20,8 +20,9 @@ export const makeBanner = (packageJson: PackageJson): false | string => {
     ];
 
     for (const type of types) {
-      if (banner.includes(`$\{${type}}`) && !!packageJson[type]) {
-        banner = banner.replace(`$\{${type}}`, packageJson[type]);
+      const value = packageJson[type];
+      if (banner.includes(`$\{${type}}`) && typeof value === 'string' && value !== '') {
+        banner = banner.replace(`$\{${type}}`, value);
       }
     }
     for (const type of types) {

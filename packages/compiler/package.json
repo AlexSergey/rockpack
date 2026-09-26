@@ -121,7 +121,20 @@
     "@types/jest": "30.0.0",
     "eslint": "10.11.0",
     "expect-type": "1.4.0",
-    "jest-environment-jsdom": "30.5.2"
+    "jest-environment-jsdom": "30.5.2",
+    "stylelint": "17.15.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10.11.0",
+    "stylelint": "^17.15.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "stylelint": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=24.15.0"

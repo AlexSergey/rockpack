@@ -12,6 +12,7 @@ import { SsrDevelopment } from '../../plugins/ssr-development/index.js';
 import { compilerLabel } from '../../reporter/compiler-name.js';
 import { fpPromise } from '../../utils/find-free-port.js';
 import { getRandomInt } from '../../utils/other.js';
+import { stylesFilename } from './styles-filename.js';
 
 type NodemonOptions = NodemonSettings & {
   ext: string;
@@ -81,7 +82,7 @@ export const makeDevelopmentPlugins = async (ctx: PluginContext): Promise<Plugin
     ...(await makeServerPlugins(ctx)),
     WatchIgnorePlugin: new ctx.wp.WatchIgnorePlugin({ paths: [/css\.d\.ts$/] }),
     ...(ctx.conf.__isIsomorphicStyles
-      ? { MiniCssExtractPlugin: new MiniCssExtractPlugin({ filename: 'css/styles.css' }) }
+      ? { MiniCssExtractPlugin: new MiniCssExtractPlugin({ filename: stylesFilename(ctx.conf) }) }
       : {}),
   };
 };

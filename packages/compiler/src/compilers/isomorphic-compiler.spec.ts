@@ -9,6 +9,7 @@ import type { CompilerConf, InternalCompilerConf } from '../types.js';
 import { getLegacyIsomorphicContext } from '../core/compile-context.js';
 import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 import { createReporter } from '../reporter/reporter.js';
 import { isomorphicCompiler } from './isomorphic-compiler.js';
 
@@ -28,7 +29,7 @@ jest.mock('../error-handler.js', () => ({ errorHandler: jest.fn() }));
 jest.mock('../reporter/reporter.js', () => ({ createReporter: jest.fn((options: object) => ({ options })) }));
 
 // The reporter createReporter returns for these options (the mock echoes them).
-const reporter = (progress = true): unknown => ({ options: { progress } });
+const reporter = (progress = true, debug = false): unknown => ({ options: { debug, progress } });
 
 type CompileResult = {
   conf: InternalCompilerConf;
@@ -37,6 +38,11 @@ type CompileResult = {
 };
 
 const lrServer = { close: jest.fn(), config: { port: 35729 }, refresh: jest.fn() };
+const compiler = {
+  close: jest.fn((callback: () => void) => {
+    callback();
+  }),
+};
 
 const DISTS: Record<string, string> = { backendCompiler: 'dist/index.js', frontendCompiler: 'public/index.js' };
 
@@ -62,6 +68,7 @@ describe('isomorphicCompiler', () => {
   beforeEach(() => {
     (getMode as jest.Mock).mockReturnValue('development');
     (createServer as jest.Mock).mockReturnValue(lrServer);
+    (run as jest.Mock).mockReturnValue({ compiler, finished: new Promise(() => undefined) });
   });
 
   afterEach(() => {
@@ -72,7 +79,7 @@ describe('isomorphicCompiler', () => {
   describe('negative cases', () => {
     it('exits without a frontend compiler', async () => {
       await expect(isomorphicCompiler(result('backendCompiler'))).rejects.toThrow(
-        'isomorphicCompiler supported only frontendCompiler',
+        'frontendCompiler is required to set isomorphicCompiler',
       );
       expect(lrServer.close).toHaveBeenCalled();
     });
@@ -81,13 +88,6 @@ describe('isomorphicCompiler', () => {
       await expect(isomorphicCompiler(result('frontendCompiler'))).rejects.toThrow(
         'backendCompiler is required to set isomorphicCompiler',
       );
-      expect(lrServer.close).toHaveBeenCalled();
-    });
-
-    it.each(['dist', 'src'] as const)('exits when a compiler has no %s', async (option) => {
-      await expect(
-        isomorphicCompiler(result('frontendCompiler'), result('backendCompiler', { [option]: undefined })),
-      ).rejects.toThrow(`You should set ${option} option to backendCompiler`);
       expect(lrServer.close).toHaveBeenCalled();
     });
 
@@ -109,6 +109,26 @@ describe('isomorphicCompiler', () => {
       expect(lrServer.close).toHaveBeenCalled();
     });
 
+    it('rejects with the error webpack reported when it could not apply the config and closes live reload', async () => {
+      const error = new RockpackError('BUILD_FAILED', 'Missing environment variable: TOKEN');
+      (run as jest.Mock).mockReturnValue({ compiler: null, finished: Promise.reject(error) });
+
+      await expect(isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'))).rejects.toBe(error);
+      expect(lrServer.close).toHaveBeenCalled();
+      expect(process.exitCode).toBe(1);
+    });
+
+    it('resolves a failed production build with success false', async () => {
+      (getMode as jest.Mock).mockReturnValue('production');
+      (run as jest.Mock).mockReturnValue({ compiler, finished: Promise.resolve({ stats: 'stats', success: false }) });
+
+      await expect(isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'))).resolves.toEqual({
+        kind: 'build',
+        stats: 'stats',
+        success: false,
+      });
+    });
+
     it('ignores compilers that resolved to nothing', async () => {
       await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve(undefined))).rejects.toThrow(
         'backendCompiler is required to set isomorphicCompiler',
@@ -125,7 +145,53 @@ describe('isomorphicCompiler', () => {
 
       await isomorphicCompiler({ backend: { progress: false }, frontend: {} });
 
-      expect(createReporter).toHaveBeenCalledWith({ progress: false });
+      expect(createReporter).toHaveBeenCalledWith({ debug: false, progress: false });
+    });
+
+    it('prints the debug output when either conf asks for it', async () => {
+      (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+        result(conf.compilerName ?? ''),
+      );
+
+      await isomorphicCompiler({ backend: {}, frontend: { debug: true } });
+
+      expect(createReporter).toHaveBeenCalledWith({ debug: true, progress: true });
+    });
+
+    it('resolves after the production build has finished', async () => {
+      (getMode as jest.Mock).mockReturnValue('production');
+      let finish: (outcome: unknown) => void = () => undefined;
+      (run as jest.Mock).mockReturnValue({
+        compiler,
+        finished: new Promise((resolve) => {
+          finish = resolve;
+        }),
+      });
+      let resolved = false;
+
+      const pending = isomorphicCompiler(result('frontendCompiler'), result('backendCompiler')).then((value) => {
+        resolved = true;
+
+        return value;
+      });
+      await new Promise(setImmediate);
+      expect(resolved).toBe(false);
+      finish({ stats: 'stats', success: true });
+
+      await expect(pending).resolves.toEqual({ kind: 'build', stats: 'stats', success: true });
+    });
+
+    it('watches in development until stop() closes the compilers and the live reload server', async () => {
+      const watching = await isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'));
+
+      expect(watching).toEqual({ kind: 'watch', stop: expect.any(Function) as unknown });
+      expect(compiler.close).not.toHaveBeenCalled();
+      expect(lrServer.close).not.toHaveBeenCalled();
+
+      await (watching as { stop: () => Promise<void> }).stop();
+
+      expect(compiler.close).toHaveBeenCalled();
+      expect(lrServer.close).toHaveBeenCalled();
     });
 
     it('shares an isomorphic context with the live reload server while the legacy children resolve', async () => {
@@ -150,6 +216,7 @@ describe('isomorphicCompiler', () => {
 
     it('starts no live reload server in production', async () => {
       (getMode as jest.Mock).mockReturnValue('production');
+      (run as jest.Mock).mockReturnValue({ compiler, finished: Promise.resolve({ stats: 'stats', success: true }) });
       (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
         result(conf.compilerName ?? '', { dist: conf.dist ?? '' }),
       );
@@ -172,6 +239,7 @@ describe('isomorphicCompiler', () => {
         'development',
         'webpack',
         expect.objectContaining({ compilerName: 'frontendCompiler' }),
+        reporter(),
       );
     });
 
@@ -190,6 +258,7 @@ describe('isomorphicCompiler', () => {
         'development',
         'webpack',
         expect.anything(),
+        reporter(),
       );
     });
 
@@ -245,6 +314,7 @@ describe('isomorphicCompiler', () => {
         'development',
         'webpack',
         expect.objectContaining({ compilerName: 'frontendCompiler' }),
+        reporter(),
       );
       expect(getLegacyIsomorphicContext()).toBeUndefined();
     });

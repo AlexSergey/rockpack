@@ -43,7 +43,7 @@ export async function libraryCompiler(
     setMode(['development', 'production'], 'development');
     errorHandler();
 
-    let libraryName: string | undefined;
+    let libraryName: string;
     let mergedConf: Partial<InternalCompilerConf> = { ...conf, __library: true };
 
     if (isString(libraryOpts)) {
@@ -65,10 +65,6 @@ export async function libraryCompiler(
       }
     } else {
       throw errors.invalidLibraryOptions();
-    }
-
-    if (!isString(libraryName)) {
-      throw errors.libraryNameMustBeString();
     }
 
     mergedConf = deepExtend({}, mergedConf, {

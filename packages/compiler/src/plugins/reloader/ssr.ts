@@ -43,7 +43,8 @@ if (typeof window !== 'undefined' && !document.getElementById('rockpack-liverelo
   const script = document.createElement('script');
   script.id = 'rockpack-livereload';
   script.type = 'text/javascript';
-  script.src = `http://localhost:${process.env['LIVE_RELOAD_PORT']}/livereload.js`;
+  // The live reload server runs next to the page's server, which may be opened by another host name or address.
+  script.src = `http://${window.location.hostname}:${process.env['LIVE_RELOAD_PORT']}/livereload.js`;
 
   document.getElementsByTagName('head')[0]?.appendChild(script);
 }

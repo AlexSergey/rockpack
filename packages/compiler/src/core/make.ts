@@ -3,7 +3,7 @@ import type { Configuration } from 'webpack';
 import { getMode, getRootRequireDir, readPackageJson } from '@rockpack/utils';
 import webpack from 'webpack';
 
-import type { InternalCompilerConf, Mode, PackageJson } from '../types.js';
+import type { CompilerCallback, InternalCompilerConf, PackageJson } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
 import { makeCache } from '../modules/make-cache.js';
@@ -25,12 +25,7 @@ type MakeResult = {
   webpackConfig: Configuration;
 };
 
-type PostFn = (
-  config: Configuration,
-  modules: ReturnType<typeof makeModules>,
-  plugins: Awaited<ReturnType<typeof makePlugins>>,
-  mode: Mode,
-) => void;
+type PostFn = CompilerCallback;
 
 // `conf` is already merged with the defaults by compile().
 export const make = async (

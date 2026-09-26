@@ -57,6 +57,20 @@ describe('sourceCompile', () => {
       expect(existsSync(path.join(root, 'lib', 'esm'))).toBe(false);
     });
 
+    it.each([
+      ['the project root', '.', 'src'],
+      ['the sources', 'src', 'src'],
+      ['a folder holding the sources', 'lib', 'lib/src'],
+      ['a folder holding the project', '..', 'src'],
+    ])('refuses a dist that is %s and deletes nothing', async (_name, dist, src) => {
+      await expect(sourceCompile({ cjs: { dist: 'lib/cjs', src: 'src' }, esm: { dist, src } })).rejects.toMatchObject({
+        code: 'INVALID_CONFIG',
+        message: `esm.dist (${dist}) must not be the project root, the sources or a folder that contains them`,
+      });
+      expect(existsSync(path.join(root, 'src', 'index.ts'))).toBe(true);
+      expect(existsSync(path.join(root, 'lib', 'cjs'))).toBe(false);
+    });
+
     it('throws for TypeScript sources without a tsconfig', async () => {
       rmSync(path.join(root, 'tsconfig.json'));
 

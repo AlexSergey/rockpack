@@ -1,4 +1,17 @@
 import type CopyWebpackPlugin from 'copy-webpack-plugin';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
+
+import type { Collection } from './utils/collection.js';
+
+// The callback every compiler takes: it may change the webpack config, the named rules and the named plugins before
+// the config is built.
+export type CompilerCallback = (
+  config: Configuration,
+  modules: Collection<RuleSetRule>,
+  plugins: Collection<WebpackPluginInstance>,
+  mode: Mode,
+) => void;
 
 export type CompilerConf = {
   banner?: boolean | string;
@@ -14,10 +27,10 @@ export type CompilerConf = {
   html?: boolean | HtmlPage | HtmlPage[];
   // Globs the per-file builds (esm, cjs) and the declarations skip; defaults to specs, tests and fixtures.
   ignore?: string[];
-  library?: string;
   // Lint with ESLint and Stylelint during the build when their configs exist.
   lint?: boolean;
-  name?: string;
+  // libraryCompiler: build a Node.js library (target node, no html).
+  nodejs?: boolean;
   port?: number;
   // Draw progress bars in a terminal; summaries and problems are printed either way.
   progress?: boolean;
@@ -34,9 +47,12 @@ export type HtmlPage = {
   code?: null | string | undefined;
   favicon?: null | string | undefined;
   filename?: false | string;
-  inject?: false;
-  minify?: { collapseWhitespace: boolean };
+  // Defaults to false: the bundled template adds the scripts and styles itself.
+  inject?: HtmlWebpackPlugin.Options['inject'];
+  // Defaults to collapsing whitespace in production.
+  minify?: HtmlWebpackPlugin.Options['minify'];
   template?: string;
+  // Merged over the default `version` parameter.
   templateParameters?: Record<string, unknown>;
   title?: string;
 };
@@ -70,5 +86,8 @@ type InternalProps = {
   __library?: boolean;
   compilerName?: string;
   distContext?: string;
-  nodejs?: boolean;
+  // The global of a libraryCompiler bundle; set from its `name` option.
+  library?: string;
+  // The webpack config name; every compiler sets its own.
+  name?: string;
 };

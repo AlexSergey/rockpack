@@ -6,8 +6,10 @@ import type { CompilerConf } from '../types.js';
 
 import { testFilesIgnore } from '../constants.js';
 import { makeResolve } from '../modules/make-resolve.js';
+import { typeScriptLocation } from '../reporter/format-errors.js';
 import { findDeclarationRootDir } from './declaration-root-dir.js';
 import { getTypeScript } from './file-system-utils.js';
+import { parseTscOutput } from './parse-tsc-output.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
 import { resolveTsc } from './resolve-tsc.js';
 import { runTsc } from './run-tsc.js';
@@ -22,10 +24,35 @@ const findSourceDir = (src: string, extensions: readonly string[]): string | und
   return index === undefined ? undefined : path.dirname(index);
 };
 
+// One `file:line:column TSxxxx: message` line per error; tsc output that is not an error list is kept as it is.
+const describeTscErrors = (output: string, root: string): string => {
+  const issues = parseTscOutput(output);
+  if (issues.length === 0) {
+    return output.trim();
+  }
+
+  return issues
+    .map((issue) => [typeScriptLocation(issue, root), `${issue.code}: ${issue.message}`].filter(isString).join(' '))
+    .join('\n');
+};
+
+// The declaration files of the project's own program (ambient `declare module` files among them, not the packages):
+// the declaration run lists the sources only and would miss the declarations the project tsconfig includes.
+const projectDeclarations = async (tsc: string, root: string, tsConfig: string): Promise<string[]> => {
+  const { output } = await runTsc(tsc, ['--listFilesOnly', '-p', tsConfig], root);
+
+  return output
+    .split(/\r?\n/)
+    .filter((line) => path.isAbsolute(line))
+    .map((line) => path.normalize(line))
+    .filter((file) => /\.d\.[cm]?ts$/.test(file) && !file.split(path.sep).includes('node_modules'));
+};
+
 // Declarations only, straight into the types folder, by the project's tsc with a tsconfig that extends its own and
 // lists the files. Not incremental: an up-to-date build info would skip the emit after the types folder was removed.
 const emitDeclarations = async (root: string, tsConfig: string, files: string[], outDir: string): Promise<void> => {
   const tsc = resolveTsc(root);
+  const declarations = await projectDeclarations(tsc, root, tsConfig);
   const cacheDir = path.join(root, 'node_modules', '.cache', 'rockpack', 'tsc');
   const config = path.join(cacheDir, `declarations-${String(process.pid)}.json`);
   mkdirSync(cacheDir, { recursive: true });
@@ -41,13 +68,16 @@ const emitDeclarations = async (root: string, tsConfig: string, files: string[],
         outDir,
       },
       extends: tsConfig,
-      files,
+      files: [...new Set([...files, ...declarations])],
       include: [],
     }),
   );
   try {
     const rootDir = await findDeclarationRootDir(tsc, root, tsConfig, config, files);
-    await runTsc(tsc, ['--pretty', 'false', '--rootDir', rootDir, '-p', config], root);
+    const { code, output } = await runTsc(tsc, ['--pretty', 'false', '--rootDir', rootDir, '-p', config], root);
+    if (code !== 0) {
+      throw new Error(`declarations could not be emitted:\n${describeTscErrors(output, root)}`);
+    }
   } finally {
     rmSync(config, { force: true });
   }
@@ -69,7 +99,7 @@ export async function generateDts(conf: Partial<CompilerConf>, root: string): Pr
     throw new Error('tsconfig not found');
   }
 
-  const types = path.join(root, conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types'));
+  const types = path.resolve(root, conf.types ?? path.join(path.dirname(conf.dist ?? 'dist/index.js'), 'types'));
   await emitDeclarations(root, tsConfig, files, types);
 
   return path.relative(root, types);

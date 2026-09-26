@@ -48,23 +48,3 @@ declare module 'webpack-node-externals' {
   function nodeExternals(opts?: Record<string, unknown>): unknown;
   export = nodeExternals;
 }
-
-declare module 'webpack/lib/FlagDependencyUsagePlugin.js' {
-  import type { Compiler } from 'webpack';
-
-  class FlagDependencyUsagePlugin {
-    constructor(explanation?: boolean);
-    apply(compiler: Compiler): void;
-  }
-  export = FlagDependencyUsagePlugin;
-}
-
-declare module 'webpack/lib/optimize/FlagIncludedChunksPlugin.js' {
-  import type { Compiler } from 'webpack';
-
-  class FlagIncludedChunksPlugin {
-    constructor();
-    apply(compiler: Compiler): void;
-  }
-  export = FlagIncludedChunksPlugin;
-}

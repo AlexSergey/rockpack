@@ -47,7 +47,14 @@ const htmlPage = fields(
     code: optional(stringOrNull),
     favicon: optional(stringOrNull),
     filename: optional(expect((value) => value === false || isString(value), 'false or a string')),
+    inject: optional(
+      expect((value) => isBoolean(value) || value === 'body' || value === 'head', 'a boolean, body or head'),
+    ),
+    minify: optional(
+      expect((value) => isBoolean(value) || value === 'auto' || isRecord(value), 'a boolean, auto or an object'),
+    ),
     template: optional(string),
+    templateParameters: optional(expect(isRecord, 'an object')),
     title: optional(string),
   },
   'an object',
@@ -89,6 +96,7 @@ const CHECKS: Readonly<Record<string, Check>> = {
   }),
   ignore: optional(list(string)),
   lint: optional(boolean),
+  nodejs: optional(boolean),
   port: optional(expect((value) => Number.isInteger(value) && Number(value) > 0, 'a positive integer')),
   progress: optional(boolean),
   styles: optional(expect((value) => value === false || isString(value), 'false or a string')),

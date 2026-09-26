@@ -11,6 +11,7 @@ import { rimraf } from 'rimraf';
 import type { InternalCompilerConf } from '../types.js';
 
 import { testFilesIgnore } from '../constants.js';
+import { RockpackError } from '../errors/rockpack-error.js';
 import { getFiles, getTypeScript, writeFile } from './file-system-utils.js';
 import { pathToTsConf } from './path-to-ts-conf.js';
 
@@ -42,6 +43,23 @@ const resolveFormats = (conf: Partial<InternalCompilerConf>): [Format, FormatPat
   }
 
   return formats;
+};
+
+const isSameOrAncestor = (dir: string, of: string): boolean => {
+  const relative = path.relative(dir, of);
+
+  return relative === '' || (relative.split(path.sep)[0] !== '..' && !path.isAbsolute(relative));
+};
+
+// The output folder is emptied before the build: it must never be the project, the sources or a folder holding them.
+const assertSafeDist = (format: Format, paths: FormatPaths, root: string): void => {
+  const dist = path.resolve(root, paths.dist);
+  if (isSameOrAncestor(dist, root) || isSameOrAncestor(dist, path.resolve(root, paths.src))) {
+    throw new RockpackError(
+      'INVALID_CONFIG',
+      `${format}.dist (${paths.dist}) must not be the project root, the sources or a folder that contains them`,
+    );
+  }
 };
 
 const babelOptionsFor = (format: Format, conf: Partial<InternalCompilerConf>, typescript: boolean): InputOptions => {
@@ -144,6 +162,9 @@ const compileFormat = async (
 export async function sourceCompile(conf: Partial<InternalCompilerConf>): Promise<FormatResult[]> {
   const mode = getMode();
   const formats = resolveFormats(conf);
+  formats.forEach(([format, paths]) => {
+    assertSafeDist(format, paths, getRootRequireDir());
+  });
   const tsConfig = pathToTsConf(getRootRequireDir(), mode, mode === 'development' || !!conf.debug);
   const results: FormatResult[] = [];
   for (const [format, paths] of formats) {

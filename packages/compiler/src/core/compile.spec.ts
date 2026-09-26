@@ -3,6 +3,7 @@ import { getMode } from '@rockpack/utils';
 import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 
+import { RockpackError } from '../errors/rockpack-error.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { setLegacyIsomorphicContext } from './compile-context.js';
 import { compile } from './compile.js';
@@ -70,6 +71,14 @@ describe('compile', () => {
 
       expect(innerProps).toHaveBeenCalledWith(expect.anything(), 'production', ISOMORPHIC_CONTEXT);
       expect(run).not.toHaveBeenCalled();
+    });
+
+    it('rejects with the error webpack reported when it could not apply the config in development', async () => {
+      (getMode as jest.Mock).mockReturnValue('development');
+      const error = new RockpackError('BUILD_FAILED', 'Missing environment variable: TOKEN');
+      (run as jest.Mock).mockReturnValue({ compiler: null, finished: Promise.reject(error) });
+
+      await expect(compile(conf, null)).rejects.toBe(error);
     });
   });
 

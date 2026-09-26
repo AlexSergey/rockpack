@@ -1,12 +1,9 @@
-import { invalidLibraryOptions, libraryNameMustBeString } from './library-compiler.js';
+import { invalidLibraryOptions } from './library-compiler.js';
 
 describe('library compiler errors', () => {
   describe('negative cases', () => {
-    it('rejects a non-string library name', () => {
-      expect(libraryNameMustBeString()).toMatchObject({
-        code: 'INVALID_CONFIG',
-        message: "libraryName mus't be a string!",
-      });
+    it('reports invalid library options as invalid configuration', () => {
+      expect(invalidLibraryOptions().code).toBe('INVALID_CONFIG');
     });
   });
 

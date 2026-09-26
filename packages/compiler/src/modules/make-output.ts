@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import type { CompilerConf, Mode } from '../types.js';
+import type { InternalCompilerConf, Mode } from '../types.js';
 
 type OutputConfig = {
   clean: boolean;
@@ -13,7 +13,7 @@ type OutputConfig = {
   publicPath: string;
 };
 
-export const makeOutput = (conf: Partial<CompilerConf>, root: string, mode: Mode): OutputConfig => {
+export const makeOutput = (conf: Partial<InternalCompilerConf>, root: string, mode: Mode): OutputConfig => {
   const distPath =
     conf.dist && path.isAbsolute(conf.dist) ? conf.dist : path.resolve(root, conf.dist ?? 'dist/index.js');
 

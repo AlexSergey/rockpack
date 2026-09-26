@@ -14,9 +14,11 @@ type BuildOutcome = {
 };
 
 type RunResult = {
-  compiler: Compiler | MultiCompiler;
+  // null when webpack could not apply the config (a plugin threw while it was set up).
+  compiler: Compiler | MultiCompiler | null;
   conf: InternalCompilerConf;
-  // Settles after a production build has been reported and the compiler closed; stays pending in development.
+  // Settles after a production build has been reported and the compiler closed. In development it stays pending
+  // while webpack watches and rejects with a RockpackError when webpack could not apply the config.
   finished: Promise<BuildOutcome>;
   webpackConfig: Configuration | Configuration[];
 };
@@ -40,6 +42,12 @@ const finishProduction = async (
 
     return false;
   }
+  // A bundle with errors (type errors included) builds no library sources: they would report the same errors again.
+  if (stats?.hasErrors()) {
+    process.exitCode = 1;
+
+    return false;
+  }
   if (conf.library) {
     try {
       await buildSources(conf, reporter);
@@ -51,11 +59,6 @@ const finishProduction = async (
 
       return false;
     }
-  }
-  if (stats?.hasErrors()) {
-    process.exitCode = 1;
-
-    return false;
   }
 
   return true;
@@ -69,12 +72,19 @@ export const run = (
   reporter: Reporter = createReporter(),
 ): RunResult => {
   let settle: (outcome: BuildOutcome) => void = () => undefined;
-  const finished = new Promise<BuildOutcome>((resolve) => {
+  let fail: (error: RockpackError) => void = () => undefined;
+  const finished = new Promise<BuildOutcome>((resolve, reject) => {
     settle = resolve;
+    fail = reject;
   });
   const compiler = webpack(webpackConfig, (err, stats) => {
-    // Development builds are reported build by build by the reporter.
+    // Development builds are reported build by build by the reporter; there is nothing to report on when webpack
+    // could not apply the config.
     if (mode === 'development') {
+      if (compiler === null) {
+        fail(new RockpackError('BUILD_FAILED', err?.message ?? 'webpack could not apply the config', { cause: err }));
+      }
+
       return;
     }
     // Closing the compiler releases webpack's handles, so the process ends on its own with process.exitCode.
@@ -93,5 +103,5 @@ export const run = (
     });
   });
 
-  return { compiler: compiler as Compiler | MultiCompiler, conf, finished, webpackConfig };
+  return { compiler, conf, finished, webpackConfig };
 };

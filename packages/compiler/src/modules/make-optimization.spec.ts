@@ -37,6 +37,15 @@ describe('makeOptimization', () => {
   });
 
   describe('positive cases', () => {
+    it('lets webpack apply the flagging plugins and skip emitting on errors in production', () => {
+      expect(makeOptimization('production', {})).toMatchObject({
+        emitOnErrors: false,
+        flagIncludedChunks: true,
+        sideEffects: true,
+        usedExports: true,
+      });
+    });
+
     it('minimizes images, scripts and styles in production', () => {
       const optimization = makeOptimization('production', {});
 

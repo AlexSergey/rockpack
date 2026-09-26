@@ -15,6 +15,7 @@ const getPages = ({ conf, packageJson }: PluginContext, defaultTemplate: string)
 
   return [
     {
+      ...page,
       code: page?.code ? page.code : null,
       favicon: page?.favicon ? page.favicon : null,
       filename: page?.filename ? page.filename : false,
@@ -36,18 +37,22 @@ export const makeHtmlPlugins = (ctx: PluginContext): PluginEntries => {
       const template = page.template || defaultTemplate;
       const filename =
         page.filename || `${template.slice(template.lastIndexOf(path.sep) + 1, template.lastIndexOf('.'))}.html`;
-      const { favicon, ...rest } = page;
+      const { favicon, inject, minify, templateParameters, ...rest } = page;
 
+      // The page values win over the defaults.
       return [
         `HtmlWebpackPlugin${index}`,
         new HtmlWebpackPlugin({
           ...rest,
           ...(favicon ? { favicon } : {}),
           filename,
-          inject: false,
-          minify: { collapseWhitespace: mode === 'production' },
+          inject: inject ?? false,
+          minify: minify ?? { collapseWhitespace: mode === 'production' },
           template,
-          templateParameters: { version: typeof conf.version === 'string' ? conf.version : '1.0.0' },
+          templateParameters: {
+            version: typeof conf.version === 'string' ? conf.version : '1.0.0',
+            ...templateParameters,
+          },
         }),
       ];
     }),

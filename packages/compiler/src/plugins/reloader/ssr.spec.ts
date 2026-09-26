@@ -1,5 +1,6 @@
 /**
  * @jest-environment jsdom
+ * @jest-environment-options {"url": "http://192.168.0.5:4000/"}
  */
 
 import { RockpackSsrReload } from './ssr.js';
@@ -68,11 +69,11 @@ describe('ssr live reload client', () => {
   });
 
   describe('positive cases', () => {
-    it('appends the livereload script to the head', () => {
+    it('appends the livereload script from the host of the page to the head', () => {
       loadReloader();
 
       expect(getScripts()[0]?.outerHTML).toBe(
-        '<script id="rockpack-livereload" type="text/javascript" src="http://localhost:35729/livereload.js"></script>',
+        '<script id="rockpack-livereload" type="text/javascript" src="http://192.168.0.5:35729/livereload.js"></script>',
       );
       expect(getScripts()[0]?.parentElement).toBe(document.head);
     });

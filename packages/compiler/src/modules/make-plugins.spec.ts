@@ -50,12 +50,6 @@ jest.mock('nodemon-webpack-plugin', () =>
 jest.mock('stylelint-webpack-plugin', () =>
   jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Stylelint'),
 );
-jest.mock('webpack/lib/FlagDependencyUsagePlugin.js', () =>
-  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FlagDependencyUsage'),
-);
-jest.mock('webpack/lib/optimize/FlagIncludedChunksPlugin.js', () =>
-  jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('FlagIncludedChunks'),
-);
 jest.mock('../plugins/ssr-development/index.js', () => ({
   SsrDevelopment: jest.requireActual<typeof PluginMocks>('../__fixtures__/plugin-mocks.js').createPluginMock('Ssr'),
 }));
@@ -72,8 +66,6 @@ const { createPluginMock } = jest.requireActual<typeof PluginMocks>('../__fixtur
 const fakeWebpack = {
   BannerPlugin: createPluginMock('Banner'),
   DefinePlugin: createPluginMock('Define'),
-  NoEmitOnErrorsPlugin: createPluginMock('NoEmitOnErrors'),
-  optimize: { SideEffectsFlagPlugin: createPluginMock('SideEffectsFlag') },
   WatchIgnorePlugin: createPluginMock('WatchIgnore'),
 } as unknown as typeof webpack;
 
@@ -218,10 +210,6 @@ describe('makePlugins', () => {
         'CopyWebpackPlugin',
         'CaseSensitivePathsPlugin',
         'MiniCssExtractPlugin',
-        'FlagDependencyUsagePlugin',
-        'FlagIncludedChunksPlugin',
-        'NoEmitOnErrorsPlugin',
-        'SideEffectsFlagPlugin',
       ]);
     });
 
@@ -351,6 +339,27 @@ describe('makePlugins', () => {
       expect(page).toMatchObject({ filename: 'main.html', template: defaultTemplate });
     });
 
+    it.each<[string, InternalCompilerConf['html']]>([
+      ['a single page', { inject: 'body', minify: false, templateParameters: { lang: 'en', version: '3.0.0' } }],
+      ['a page of an array', [{ inject: 'body', minify: false, templateParameters: { lang: 'en', version: '3.0.0' } }]],
+    ])('lets %s set inject, minify and template parameters over the defaults', async (_name, html) => {
+      const page = getPluginOptions((await build({ html, version: '2.0.0' }))['HtmlWebpackPlugin0']);
+
+      expect(page).toMatchObject({
+        inject: 'body',
+        minify: false,
+        templateParameters: { lang: 'en', version: '3.0.0' },
+      });
+    });
+
+    it('keeps the default version next to the page template parameters', async () => {
+      const page = getPluginOptions(
+        (await build({ html: { templateParameters: { lang: 'en' } }, version: '2.0.0' }))['HtmlWebpackPlugin0'],
+      );
+
+      expect(page).toMatchObject({ inject: false, templateParameters: { lang: 'en', version: '2.0.0' } });
+    });
+
     it('renders every page of an html array', async () => {
       const dict = await build({ html: [{ template: '/project/a.ejs' }, { filename: 'b.html' }] });
 
@@ -384,6 +393,16 @@ describe('makePlugins', () => {
         'process.env.API': '"https://api"',
         'process.env.NODE_ENV': '"production"',
       });
+    });
+
+    it('leaves the banner and the global variables of the conf as they are', async () => {
+      makeBannerMock.mockReturnValue('from file');
+      const conf = createConf({ __isBackend: true, global: { API: 'https://api' } });
+
+      await makePlugins(conf, root, {}, 'production', fakeWebpack, '/project/src', STANDALONE_CONTEXT);
+
+      expect(conf).not.toHaveProperty('banner');
+      expect(conf.global).toEqual({ API: 'https://api' });
     });
 
     it('defines ROOT_DIRNAME for a backend and the live reload port', async () => {
@@ -475,19 +494,10 @@ describe('makePlugins', () => {
       expect(dict).not.toHaveProperty('CaseSensitivePathsPlugin');
     });
 
-    it('adds the production optimisation plugins', async () => {
+    it('adds only the production plugins the optimization settings do not apply', async () => {
       const dict = await build();
 
-      expect(Object.keys(dict)).toEqual(
-        expect.arrayContaining([
-          'CaseSensitivePathsPlugin',
-          'MiniCssExtractPlugin',
-          'FlagDependencyUsagePlugin',
-          'FlagIncludedChunksPlugin',
-          'NoEmitOnErrorsPlugin',
-          'SideEffectsFlagPlugin',
-        ]),
-      );
+      expect(Object.keys(dict).slice(-2)).toEqual(['CaseSensitivePathsPlugin', 'MiniCssExtractPlugin']);
       expect(dict).not.toHaveProperty('WatchIgnorePlugin');
     });
 
@@ -497,6 +507,15 @@ describe('makePlugins', () => {
       [undefined, 'css/styles.css'],
     ])('names the extracted styles for styles=%p', async (styles, filename) => {
       expect(getPluginOptions((await build({ styles }))['MiniCssExtractPlugin'])).toEqual({ filename });
+    });
+
+    it.each<[InternalCompilerConf['styles'], string]>([
+      ['assets/main.css', 'assets/main.css'],
+      [undefined, 'css/styles.css'],
+    ])('names the extracted isomorphic styles in development for styles=%p', async (styles, filename) => {
+      const dict = await build({ __isIsomorphicStyles: true, styles }, 'development');
+
+      expect(getPluginOptions(dict['MiniCssExtractPlugin'])).toEqual({ filename });
     });
   });
 });

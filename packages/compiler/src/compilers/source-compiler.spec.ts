@@ -2,6 +2,7 @@ import { getRootRequireDir, setMode } from '@rockpack/utils';
 
 import type { Reporter } from '../reporter/reporter.js';
 
+import { RockpackError } from '../errors/rockpack-error.js';
 import { createReporter } from '../reporter/reporter.js';
 import { generateDts } from '../utils/generate-dts.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
@@ -70,6 +71,28 @@ describe('sourceCompiler', () => {
       expect(generateDts).not.toHaveBeenCalled();
       expect(reporter.done).toHaveBeenCalledWith('sources', expect.objectContaining({ errors: [], warnings: [] }));
       expect(reporter.info).not.toHaveBeenCalled();
+    });
+
+    it.each<[string, Record<string, unknown>, string]>([
+      ['a format without dist', { esm: { src: 'src' } }, 'esm.dist must be a string'],
+      ['a format without src', { cjs: { dist: 'lib/cjs' } }, 'cjs.src must be a string'],
+      ['a non-boolean watch', { watch: 'yes' }, 'watch must be a boolean'],
+      ['a non-string src', { src: 42 }, 'src must be a string'],
+    ])('rejects %s before building anything', async (_name, conf, message) => {
+      await expect(sourceCompiler(conf)).rejects.toMatchObject({ message });
+      expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining(message));
+      expect(sourceCompile).not.toHaveBeenCalled();
+      expect(reporter.start).not.toHaveBeenCalled();
+      expect(process.exitCode).toBe(1);
+    });
+
+    it('keeps the code of a RockpackError from the source compilation', async () => {
+      (sourceCompile as jest.Mock).mockRejectedValue(new RockpackError('INVALID_CONFIG', 'esm.dist is unsafe'));
+
+      await expect(sourceCompiler({ esm: format })).rejects.toMatchObject({
+        code: 'INVALID_CONFIG',
+        message: 'esm.dist is unsafe',
+      });
     });
 
     it('rejects a failed source compilation as BUILD_FAILED without generating declarations', async () => {

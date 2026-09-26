@@ -26,7 +26,7 @@ export const makeDotenvPlugins = ({ root }: PluginContext): PluginEntries => {
 };
 
 export const makeDefinePlugins = ({ compileContext, conf, mode, root, wp }: PluginContext): PluginEntries => {
-  const env = conf.global ?? {};
+  const env: Record<string, string> = { ...conf.global };
 
   if (conf.__isBackend) {
     env['ROOT_DIRNAME'] = root;

@@ -5,6 +5,7 @@ import type { WatchResult } from '../core/compile-result.js';
 import type { Reporter } from '../reporter/reporter.js';
 import type { CompilerConf } from '../types.js';
 
+import { defaultProps } from '../default-props.js';
 import { errorHandler } from '../error-handler.js';
 import { RockpackError } from '../errors/rockpack-error.js';
 import { createReporter } from '../reporter/reporter.js';
@@ -12,6 +13,7 @@ import { generateDts } from '../utils/generate-dts.js';
 import { logError } from '../utils/log.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { sourceCompile } from '../utils/source-compile.js';
+import { assertValidConf } from '../utils/validate-conf.js';
 import { watchSources } from '../utils/watch-sources.js';
 import { withErrorBoundary } from './error-boundary.js';
 
@@ -33,6 +35,9 @@ export const buildSources = async (conf: Partial<CompilerConf>, reporter: Report
     try {
       results.push(...(await sourceCompile(conf)));
     } catch (e) {
+      if (e instanceof RockpackError) {
+        throw e;
+      }
       throw new RockpackError('BUILD_FAILED', (e as Error).message, { cause: e });
     }
   }
@@ -98,6 +103,8 @@ export async function sourceCompiler(conf: Partial<CompilerConf> = {}): Promise<
   return withErrorBoundary(async () => {
     setMode(['development', 'production'], 'development');
     errorHandler();
+    // src is optional here: it only locates the declaration entry.
+    assertValidConf({ ...conf, src: conf.src ?? defaultProps.src });
     const reporter = createReporter({ debug: conf.debug === true, progress: conf.progress !== false });
 
     await buildSources(conf, reporter);

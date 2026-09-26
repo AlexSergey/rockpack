@@ -4,12 +4,10 @@ import nodemon from 'nodemon';
 
 import type { LiveReloadServer } from '../../core/compile-context.js';
 
-import { getOutputFileMeta } from './webpack-utils.js';
-
-type NodemonOptions = Partial<NodemonSettings>;
+// The script and the folder nodemon watches are the bundle the backend compiler writes.
+type NodemonOptions = Partial<NodemonSettings> & { script: string; watch: string[] };
 
 type WebpackCompilation = {
-  assets: Record<string, unknown>;
   errors: unknown[];
 };
 
@@ -18,9 +16,9 @@ type WebpackCompilerWithHooks = {
     afterEmit: {
       tapAsync(plugin: { name: string }, fn: (compilation: WebpackCompilation, cb: WebpackHookCallback) => void): void;
     };
+    shutdown: { tapAsync(plugin: { name: string }, fn: (cb: WebpackHookCallback) => void): void };
     watchRun: { tapAsync(plugin: { name: string }, fn: (comp: unknown, cb: WebpackHookCallback) => void): void };
   };
-  outputPath: string;
 };
 
 type WebpackHookCallback = () => void;
@@ -42,8 +40,7 @@ export class SsrDevelopment {
     const onAfterEmit = (compilation: WebpackCompilation, callback: WebpackHookCallback): void => {
       // A failed build is reported by the reporter; the server keeps its last good bundle.
       if (this.isWebpackWatching && compilation.errors.length === 0 && !this.isNodemonRunning) {
-        const outputFile = getOutputFileMeta(compilation, compiler.outputPath);
-        this.startMonitoring(outputFile);
+        this.startMonitoring();
       }
       callback();
     };
@@ -57,16 +54,14 @@ export class SsrDevelopment {
 
     compiler.hooks.afterEmit.tapAsync(plugin, onAfterEmit);
     compiler.hooks.watchRun.tapAsync(plugin, onWatchRun);
+    // Closing the compiler (the stop() of isomorphicCompiler) stops the server as well.
+    compiler.hooks.shutdown.tapAsync(plugin, (callback) => {
+      this.stopMonitoring(callback);
+    });
   }
 
-  startMonitoring(relativeFileName: string): void {
-    const settings: NodemonSettings = {
-      ...this.nodemonOptions,
-      script: this.nodemonOptions.script ?? relativeFileName,
-      watch: this.nodemonOptions.watch ?? [relativeFileName],
-    };
-
-    const monitor = nodemon(settings);
+  startMonitoring(): void {
+    const monitor = nodemon(this.nodemonOptions);
 
     monitor.on('log', ({ colour: colouredMessage }: { colour: string }) => console.log(colouredMessage));
     // nodemon emits 'restart' while the old server still answers and 'start' once it has spawned the new one; the
@@ -87,5 +82,16 @@ export class SsrDevelopment {
     process.once('exit', () => {
       monitor.emit('exit');
     });
+  }
+
+  stopMonitoring(callback: () => void): void {
+    if (!this.isNodemonRunning) {
+      callback();
+
+      return;
+    }
+    this.isNodemonRunning = false;
+    // Kills the server process and drops the listeners without exiting this process.
+    nodemon.reset(callback);
   }
 }

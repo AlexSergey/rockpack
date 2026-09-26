@@ -5,6 +5,7 @@ import type { InternalCompilerConf } from '../types.js';
 import type { CompileContext } from './compile-context.js';
 import type { CompileOutcome } from './compile-result.js';
 
+import { RockpackError } from '../errors/rockpack-error.js';
 import { compilerLabel } from '../reporter/compiler-name.js';
 import { createReporter } from '../reporter/reporter.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
@@ -57,13 +58,19 @@ export const compile = async (
 
     return { kind: 'build', stats, success };
   }
+  const { compiler } = running;
+  if (compiler === null) {
+    // webpack could not apply the config: finished rejects with the error webpack reported.
+    await running.finished;
+    throw new RockpackError('BUILD_FAILED', 'webpack could not apply the config');
+  }
 
   return {
-    compiler: running.compiler,
+    compiler,
     conf: finalConfig.conf,
     kind: 'watch',
     ...(ctx.reporter ? { reporter: ctx.reporter } : {}),
-    stop: () => closeCompiler(running.compiler),
+    stop: () => closeCompiler(compiler),
     webpackConfig: finalConfig.webpackConfig,
   };
 };

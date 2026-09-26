@@ -58,6 +58,15 @@ describe('generateDts', () => {
       expect(existsSync(path.join(root, 'dist', 'types', 'index.spec.d.ts'))).toBe(false);
     });
 
+    it('rejects with the errors of a declaration emit that failed', async () => {
+      writeFileSync(path.join(root, 'src', 'broken.ts'), "export const value: number = 'text';\n");
+
+      await expect(generateDts({ dist: 'dist/index.js', src: 'src/index' }, root)).rejects.toThrow(
+        /declarations could not be emitted:\n.*broken\.ts:1:14 TS2322: Type 'string' is not assignable to type 'number'/,
+      );
+      expect(readdirSync(path.join(root, 'node_modules', '.cache', 'rockpack', 'tsc'))).toEqual([]);
+    });
+
     it('leaves no generated tsconfig in the cache folder', async () => {
       await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
 
@@ -103,6 +112,28 @@ describe('generateDts', () => {
       await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
 
       expect(existsSync(path.join(root, 'dist', 'types', 'src', 'index.d.ts'))).toBe(true);
+    });
+
+    it('sees the ambient declarations the project tsconfig includes', async () => {
+      writeFileSync(
+        path.join(root, 'src', 'declarations.d.ts'),
+        "declare module 'untyped-lib' {\n  export const value: number;\n}\n",
+      );
+      writeFileSync(
+        path.join(root, 'src', 'uses.ts'),
+        "import { value } from 'untyped-lib';\n\nexport const doubled = value * 2;\n",
+      );
+
+      await generateDts({ dist: 'dist/index.js', src: 'src/index' }, root);
+
+      expect(readFileSync(path.join(root, 'dist', 'types', 'uses.d.ts'), 'utf8')).toContain('doubled: number');
+    });
+
+    it('emits declarations into an absolute types folder', async () => {
+      const types = path.join(dir, 'typings');
+
+      await expect(generateDts({ src: 'src/index.ts', types }, root)).resolves.toBe(path.relative(root, types));
+      expect(existsSync(path.join(types, 'index.d.ts'))).toBe(true);
     });
 
     it('emits declarations into the types folder for a src with extension', async () => {

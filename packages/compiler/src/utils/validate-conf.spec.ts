@@ -21,6 +21,11 @@ describe('validateConf', () => {
         'html[1].template must be a string',
       ]);
       expect(messages({ html: { favicon: 1 } })).toEqual(['html.favicon must be a string or null']);
+      expect(messages({ html: { inject: 'footer', minify: 'yes', templateParameters: 'v1' } })).toEqual([
+        'html.inject must be a boolean, body or head',
+        'html.minify must be a boolean, auto or an object',
+        'html.templateParameters must be an object',
+      ]);
     });
 
     it('checks every copy form', () => {
@@ -36,6 +41,7 @@ describe('validateConf', () => {
           esm: { dist: 'lib/esm' },
           global: { API: 1 },
           ignore: ['a', 2],
+          nodejs: 'yes',
           port: -1,
           styles: true,
           vendor: ['react', 1],
@@ -45,6 +51,7 @@ describe('validateConf', () => {
         'esm.src must be a string',
         'global.API must be a string',
         'ignore[1] must be a string',
+        'nodejs must be a boolean',
         'port must be a positive integer',
         'styles must be false or a string',
         'vendor[1] must be a string',
@@ -87,7 +94,12 @@ describe('validateConf', () => {
           copy: { files: [{ from: 'a', to: 'b' }], opts: {} },
           debug: false,
           global: { API: 'x' },
-          html: [{ code: null, favicon: 'f.ico', filename: false, template: 't.ejs', title: 'T' }],
+          html: [
+            { code: null, favicon: 'f.ico', filename: false, template: 't.ejs', title: 'T' },
+            { inject: 'body', minify: { collapseWhitespace: true }, templateParameters: { lang: 'en' } },
+            { inject: true, minify: 'auto' },
+          ],
+          nodejs: true,
           port: 3000,
           styles: false,
           types: 'types',

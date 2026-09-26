@@ -1,4 +1,4 @@
-import { isString } from '@rockpack/utils';
+import { isRecord, isString } from '@rockpack/utils';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -11,12 +11,15 @@ import { pathToTsConf } from './path-to-ts-conf.js';
 
 const _require = createRequire(import.meta.url);
 
-const getPostcssConfig = (root: string): Record<string, unknown> => {
-  const pth = existsSync(path.resolve(root, './postcss.config.js'))
-    ? path.resolve(root, './postcss.config.js')
-    : path.join(compilerRoot(), 'configs/postcss.config.cjs');
+// The first project config in this order wins; without one the bundled config is used.
+const POSTCSS_CONFIGS = ['postcss.config.js', 'postcss.config.cjs', 'postcss.config.mjs'];
 
-  return _require(pth) as Record<string, unknown>;
+const getPostcssConfig = (root: string): Record<string, unknown> => {
+  const own = POSTCSS_CONFIGS.map((file) => path.resolve(root, file)).find((file) => existsSync(file));
+  const loaded = _require(own ?? path.join(compilerRoot(), 'configs/postcss.config.cjs')) as Record<string, unknown>;
+
+  // An ES module config (`export default`, or postcss.config.js of a "type": "module" project) loads as its namespace.
+  return isRecord(loaded['default']) ? loaded['default'] : loaded;
 };
 
 type LoaderEntry = string | { loader: string; options?: Record<string, unknown> };
