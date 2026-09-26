@@ -6,18 +6,19 @@ type ShownConfig = {
   readonly compilerOptions?: { readonly rootDir?: string };
 };
 
-// The folder that holds every file.
-const commonDir = (files: readonly string[]): string =>
-  files
-    .map((file) => path.dirname(file))
-    .reduce((common, dir) => {
-      let prefix = common;
-      while (dir !== prefix && !dir.startsWith(`${prefix}${path.sep}`)) {
-        prefix = path.dirname(prefix);
-      }
+// The folder that holds every file; the callers never pass an empty list.
+const commonDir = (files: readonly string[]): string => {
+  const [first = '', ...rest] = files.map((file) => path.dirname(file));
 
-      return prefix;
-    });
+  return rest.reduce((common, dir) => {
+    let prefix = common;
+    while (dir !== prefix && !dir.startsWith(`${prefix}${path.sep}`)) {
+      prefix = path.dirname(prefix);
+    }
+
+    return prefix;
+  }, first);
+};
 
 // The sources of `tsc --listFilesOnly` (absolute paths between its messages), without declarations and packages.
 const programSources = (output: string): string[] =>

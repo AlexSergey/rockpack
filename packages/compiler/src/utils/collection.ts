@@ -27,7 +27,7 @@ export class Collection<T> {
       throw new Error(`Provided name "${name}" was not found in the collection`);
     }
     if (typeof cb !== 'function') {
-      throw new Error('The second argument should be a function');
+      throw new TypeError('The second argument should be a function');
     }
     cb(entry as U);
   }

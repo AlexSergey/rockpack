@@ -11,10 +11,10 @@ export const useRockpack = (): [boolean, boolean, string] => {
   useSsrEffect(() => {
     void effect(async () => {
       try {
-        const description = await fetchRockpackDescription();
+        const desc = await fetchRockpackDescription();
         setLoading(false);
         setError(false);
-        setDescription(description);
+        setDescription(desc);
       } catch {
         setLoading(false);
         setError(true);

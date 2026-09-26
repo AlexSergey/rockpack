@@ -48,12 +48,12 @@ describe('starter generation', () => {
       JSON.parse(readFileSync(path.join(project(), 'package.json'), 'utf8')) as PackageJson;
 
     describe('negative cases', () => {
-      it(tests ? 'has the tester setup' : 'has no tester setup', () => {
+      it(`has ${tests ? 'the' : 'no'} tester setup`, () => {
         expect(existsSync(path.join(project(), 'scripts.tests.mts'))).toBe(tests);
         expect(Object.keys(packageJson().devDependencies ?? {}).includes('@rockpack/tester')).toBe(tests);
       });
 
-      it(type === 'library' || type === 'component' ? 'has an example app' : 'has no example app', () => {
+      it(`has ${type === 'library' || type === 'component' ? 'an' : 'no'} example app`, () => {
         const hasExample = type === 'library' || type === 'component';
 
         expect(existsSync(path.join(project(), 'example', 'package.json'))).toBe(hasExample);

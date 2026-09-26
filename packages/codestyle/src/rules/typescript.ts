@@ -79,14 +79,26 @@ export const makeTypescriptConfig = (tsConfig: false | string, root: string): Li
     '@no-only-tests/no-only-tests': 'error',
 
     '@sonar/cognitive-complexity': ['error', 20],
+    '@sonar/no-all-duplicated-branches': 'error',
     '@sonar/no-collapsible-if': 'error',
+    '@sonar/no-collection-size-mischeck': 'error',
+    '@sonar/no-duplicated-branches': 'error',
+    '@sonar/no-element-overwrite': 'error',
+    '@sonar/no-empty-collection': 'error',
+    '@sonar/no-gratuitous-expressions': 'error',
+    '@sonar/no-identical-conditions': 'error',
     '@sonar/no-identical-expressions': 'error',
     '@sonar/no-identical-functions': 'error',
+    '@sonar/no-ignored-return': 'error',
     '@sonar/no-inverted-boolean-check': 'error',
     '@sonar/no-redundant-boolean': 'error',
     '@sonar/no-small-switch': 'error',
+    '@sonar/no-unthrown-error': 'error',
     '@sonar/no-unused-collection': 'error',
+    '@sonar/no-use-of-empty-return-value': 'error',
+    '@sonar/non-existent-operator': 'error',
     '@sonar/prefer-immediate-return': 'error',
+    '@sonar/reduce-initial-value': 'error',
 
     '@typescript-eslint/ban-ts-comment': 'error',
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
@@ -106,6 +118,7 @@ export const makeTypescriptConfig = (tsConfig: false | string, root: string): Li
     '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
     // Records used as dictionaries (collections, process.env) are deleted from by key.
     '@typescript-eslint/no-dynamic-delete': 'off',
+    '@typescript-eslint/no-shadow': 'error',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
@@ -123,11 +136,21 @@ export const makeTypescriptConfig = (tsConfig: false | string, root: string): Li
     '@typescript-eslint/return-await': 'off',
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
+    '@unicorn/error-message': 'error',
+    '@unicorn/no-await-in-promise-methods': 'error',
+    '@unicorn/no-instanceof-builtins': 'error',
+    '@unicorn/no-single-promise-in-promise-methods': 'error',
+    '@unicorn/no-thenable': 'error',
+    '@unicorn/no-useless-promise-resolve-reject': 'error',
+    '@unicorn/no-useless-spread': 'error',
     '@unicorn/no-useless-undefined': ['error', { checkArguments: false, checkArrowFunctionBody: false }],
     '@unicorn/prefer-array-flat': 'error',
     '@unicorn/prefer-modern-dom-apis': 'error',
     '@unicorn/prefer-node-protocol': 'error',
+    '@unicorn/prefer-number-properties': 'error',
     '@unicorn/prefer-string-starts-ends-with': 'error',
+    '@unicorn/prefer-structured-clone': 'error',
+    '@unicorn/prefer-type-error': 'error',
     '@unicorn/throw-new-error': 'error',
 
     'array-callback-return': [
@@ -138,6 +161,8 @@ export const makeTypescriptConfig = (tsConfig: false | string, root: string): Li
     ],
     camelcase: ['error', { properties: 'always' }],
     'class-methods-use-this': 'off',
+    // `== null` still covers both null and undefined.
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'getter-return': [
       'error',
       {

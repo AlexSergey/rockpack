@@ -12,7 +12,9 @@ import { render } from '../utils/render.js';
 
 // A one-character numeric project name is no valid identifier, so the build name gets a prefix.
 const buildName = (projectName: string, prefix: string): string =>
-  pascalCase(projectName.length === 1 && !isNaN(parseFloat(projectName)) ? `${prefix}${projectName}` : projectName);
+  pascalCase(
+    projectName.length === 1 && !Number.isNaN(Number.parseFloat(projectName)) ? `${prefix}${projectName}` : projectName,
+  );
 
 const BUILD_DUMMIES = {
   component: { dummy: 'build.component', prefix: 'Component' },
