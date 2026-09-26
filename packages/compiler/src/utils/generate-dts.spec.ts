@@ -12,6 +12,9 @@ jest.mock('@rockpack/utils', () => ({
 }));
 const fixture = path.resolve(__dirname, '../__fixtures__/source-project');
 
+// Every case runs the real tsc (listing the files, then emitting), which takes seconds on a busy CI runner.
+jest.setTimeout(30_000);
+
 describe('generateDts', () => {
   let dir: string;
   let root: string;
