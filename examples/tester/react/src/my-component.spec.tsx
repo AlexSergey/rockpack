@@ -1,9 +1,7 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { MyComponent } from './my-component';
-
-afterEach(cleanup);
 
 describe('MyComponent', () => {
   describe('negative cases', () => {

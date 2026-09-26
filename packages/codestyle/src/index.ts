@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import { makeFileTypeConfigs, makeOverrideConfigs } from './rules/files.js';
-import { makeReactConfig } from './rules/react.js';
+import { makeReactConfig, makeReactTestConfigs } from './rules/react.js';
 import { makeStyleConfigs } from './rules/style.js';
 import { makeTestConfigs } from './rules/tests.js';
 import { makeRecommendedTypescriptConfigs, makeTypescriptConfig } from './rules/typescript.js';
@@ -73,5 +73,6 @@ export const makeConfig = ({ ignoreFile, jest = true, react, tsconfig }: MakeCon
     makeReactConfig(hasReact),
     ...makeOverrideConfigs(),
     ...(jest ? makeTestConfigs() : []),
+    ...makeReactTestConfigs(hasReact),
   ];
 };

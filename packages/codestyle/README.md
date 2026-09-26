@@ -28,6 +28,8 @@
 - eslint-plugin-no-only-tests
 - eslint-plugin-check-file
 - eslint-plugin-package-json
+- eslint-plugin-jest - specs and fixtures
+- eslint-plugin-testing-library and eslint-plugin-jest-dom - test files of React projects
 - eslint-config-flat-gitignore - file-based ignore patterns via `.eslintflatignore`
 
 ### Additional tools:
@@ -193,7 +195,7 @@ Then add settings:
 
 ## How the config is composed
 
-`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency), file-type overrides (`.d.ts`, config files) and the Jest blocks for specs and fixtures. Later blocks override earlier ones, so a block you push at the end wins.
+`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency), file-type overrides (`.d.ts`, config files), the Jest blocks for specs and fixtures and, for React projects, Testing Library and jest-dom in `*.{spec,test}.{ts,tsx}`. Later blocks override earlier ones, so a block you push at the end wins.
 
 
 ## The MIT License

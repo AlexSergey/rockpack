@@ -7,7 +7,7 @@ import path from 'node:path';
 
 import { makeConfig } from './index.js';
 import { makeFileTypeConfigs, makeOverrideConfigs } from './rules/files.js';
-import { makeReactConfig } from './rules/react.js';
+import { makeReactConfig, makeReactTestConfigs } from './rules/react.js';
 import { makeStyleConfigs } from './rules/style.js';
 import { makeTestConfigs } from './rules/tests.js';
 import { makeRecommendedTypescriptConfigs, makeTypescriptConfig } from './rules/typescript.js';
@@ -29,6 +29,9 @@ jest.mock('eslint-config-flat-gitignore', () => jest.fn(() => ({ name: 'gitignor
 jest.mock('eslint-plugin-check-file', () => ({ rules: {} }));
 jest.mock('eslint-plugin-import-lite', () => ({ rules: {} }));
 jest.mock('eslint-plugin-jest', () => ({ rules: {} }));
+jest.mock('eslint-plugin-jest-dom', () => ({
+  configs: { 'flat/recommended': { name: 'jest-dom', rules: { 'jest-dom/marker': 'error' } } },
+}));
 jest.mock('eslint-plugin-no-only-tests', () => ({ rules: {} }));
 jest.mock('eslint-plugin-package-json', () => ({
   configs: { recommended: { name: 'package-json/recommended' }, stylistic: { name: 'package-json/stylistic' } },
@@ -40,6 +43,9 @@ jest.mock('eslint-plugin-react-hooks', () => ({
 }));
 jest.mock('eslint-plugin-regexp', () => ({ configs: { 'flat/recommended': { name: 'regexp' } } }));
 jest.mock('eslint-plugin-sonarjs', () => ({ rules: {} }));
+jest.mock('eslint-plugin-testing-library', () => ({
+  configs: { 'flat/react': { name: 'testing-library', rules: { 'testing-library/marker': 'error' } } },
+}));
 jest.mock('eslint-plugin-unicorn', () => ({ rules: {} }));
 jest.mock('typescript-eslint', () => ({
   configs: {
@@ -111,6 +117,12 @@ describe('makeConfig', () => {
       createProject({ files: { 'package.json': JSON.stringify({ devDependencies: { react: '19.0.0' } }) } });
 
       expect(getNames(makeConfig())).not.toContain('react-hooks');
+    });
+
+    it('adds no testing library and jest-dom rules without react', () => {
+      createProject();
+
+      expect(getNames(makeConfig())).not.toEqual(expect.arrayContaining(['testing-library', 'jest-dom']));
     });
 
     it('falls back to ./tsconfig.json when the project has no tsconfig', () => {
@@ -186,6 +198,17 @@ describe('makeConfig', () => {
         rules: { '@eslint-react/marker': 'error' },
         settings: { react: { version: 'detect' } },
       });
+    });
+
+    it('adds the testing library and jest-dom rules to the test files of react projects', () => {
+      createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
+
+      const configs = makeConfig().filter((config) => config.name === 'testing-library' || config.name === 'jest-dom');
+
+      expect(configs).toEqual([
+        { files: ['**/*.{spec,test}.{ts,tsx}'], name: 'testing-library', rules: { 'testing-library/marker': 'error' } },
+        { files: ['**/*.{spec,test}.{ts,tsx}'], name: 'jest-dom', rules: { 'jest-dom/marker': 'error' } },
+      ]);
     });
 
     it('uses tsconfig.json for type-aware linting when it exists', () => {
@@ -372,6 +395,10 @@ describe('rule groups', () => {
   describe('negative cases', () => {
     it('adds no rules for a project without react', () => {
       expect(getRuleNames([makeReactConfig(false)])).toEqual([]);
+    });
+
+    it('adds no test configs for a project without react', () => {
+      expect(makeReactTestConfigs(false)).toEqual([]);
     });
   });
 
