@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import React, { createContext, isValidElement, useContext, useRef } from 'react';
+import React, { createContext, isValidElement, useContext, useState } from 'react';
 
 type MockRestProps = {
   children: ReactNode;
@@ -20,29 +20,27 @@ const RestContext = createContext<AxiosInstance | false>(false);
 const useRest = (): AxiosInstance | false => useContext(RestContext);
 
 const Rest: React.FC<RestProps> = ({ children, options }) => {
-  const ref = useRef<AxiosInstance | false>(false);
-
-  if (!ref.current) {
-    const mergedProps = Object.assign({}, { timeout: 1000 }, options);
-    ref.current = axios.create(mergedProps);
-  }
+  // The initializer runs once: one client for the lifetime of the provider.
+  const [client] = useState(() => axios.create(Object.assign({}, { timeout: 1000 }, options)));
 
   return (
-    <RestContext.Provider value={ref.current}>
-      {isValidElement(children) ? children : (children as (c: AxiosInstance) => ReactNode)(ref.current)}
+    <RestContext.Provider value={client}>
+      {isValidElement(children) ? children : (children as (c: AxiosInstance) => ReactNode)(client)}
     </RestContext.Provider>
   );
 };
 
 const MockRest: React.FC<MockRestProps> = ({ children, mock }) => {
-  const ref = useRef(false);
   const client = useRest() as AxiosInstance;
 
-  if (!ref.current && typeof mock === 'function') {
-    const mocker = new MockAdapter(client);
-    mock(mocker);
-    ref.current = true;
-  }
+  // Installs the mocks once, before the children render and send their requests.
+  useState(() => {
+    if (typeof mock === 'function') {
+      mock(new MockAdapter(client));
+    }
+
+    return true;
+  });
 
   return <>{children}</>;
 };

@@ -13,7 +13,7 @@ import { makeRecommendedTypescriptConfigs, makeTypescriptConfig } from './rules/
 
 const FLAT_IGNORE_FILE = '.eslintflatignore';
 
-function findFlatIgnoreFile(startDir: string): string | undefined {
+const findFlatIgnoreFile = (startDir: string): string | undefined => {
   let dir = startDir;
   for (;;) {
     const candidate = path.join(dir, FLAT_IGNORE_FILE);
@@ -26,7 +26,7 @@ function findFlatIgnoreFile(startDir: string): string | undefined {
     }
     dir = parent;
   }
-}
+};
 
 // tsconfig.eslint.json wins over tsconfig.json.
 const findTsConfig = (root: string): false | string => {
@@ -43,7 +43,8 @@ const findTsConfig = (root: string): false | string => {
 export type MakeConfigOptions = {
   // Path to the ignore file, relative to the working directory; `false` turns ignore files off.
   readonly ignoreFile?: false | string;
-  // Adds the Jest globals and rules for specs and fixtures; `true` by default.
+  // Adds the Jest globals and rules for specs and fixtures, and the Testing Library and jest-dom rules of React
+  // projects; `true` by default.
   readonly jest?: boolean;
   // Enables the React rules; detected from `react` in package.json dependencies by default.
   readonly react?: boolean;
@@ -70,9 +71,8 @@ export const makeConfig = ({ ignoreFile, jest = true, react, tsconfig }: MakeCon
     ...makeStyleConfigs(),
     makeTypescriptConfig(isString(tsconfig) ? path.resolve(root, tsconfig) : findTsConfig(root), root),
     ...makeFileTypeConfigs(),
-    makeReactConfig(hasReact),
+    ...makeReactConfig(hasReact),
     ...makeOverrideConfigs(),
-    ...(jest ? makeTestConfigs() : []),
-    ...makeReactTestConfigs(hasReact),
+    ...(jest ? [...makeTestConfigs(), ...makeReactTestConfigs(hasReact)] : []),
   ];
 };

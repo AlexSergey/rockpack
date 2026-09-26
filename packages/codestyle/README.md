@@ -17,9 +17,10 @@
 - TypeScript, JavaScript, and React support
 - Prettier integrated
 - ESLint Config Recommended
-- ESLint React Recommended
-- ESLint TypeScript Recommended
-- ESLint Prettier Recommended
+- typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`
+- @eslint-react `recommended-typescript` and eslint-plugin-react-hooks `recommended` (React Compiler rules included)
+- eslint-plugin-prettier `recommended`
+- @eslint/json for JSON files
 - eslint-plugin-perfectionist
 - eslint-plugin-regexp
 - eslint-plugin-sonarjs
@@ -50,15 +51,19 @@ npm install @rockpack/codestyle --save-dev
 yarn add @rockpack/codestyle --dev
 ```
 
-2. Create **eslint.config.js** and **.prettierrc** in the root of the project.
+Node.js 24.15 or newer and ESLint 10 are required.
 
-3. Put the code in **eslint.config.js**:
+2. Create **eslint.config.ts** and **.prettierrc** in the root of the project.
 
-```js
-const { makeConfig } = require('@rockpack/codestyle');
+3. Put the code in **eslint.config.ts**:
 
-module.exports = makeConfig();
+```ts
+import { makeConfig } from '@rockpack/codestyle';
+
+export default makeConfig();
 ```
+
+The package is ESM only. A CommonJS `eslint.config.cjs` works through `require()` of ES modules: `module.exports = require('@rockpack/codestyle').makeConfig();`.
 
 4. Create **.eslintflatignore** in the root of the project to define ignored paths:
 
@@ -76,6 +81,16 @@ coverage/
 > **Note:** `.d.ts` files are linted but the rules `@import-lite/no-default-export`, `@typescript-eslint/naming-convention` and `@typescript-eslint/no-extraneous-class` are disabled for them.
 
 TypeScript files use the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets plus `prefer-readonly` and `switch-exhaustiveness-check`. A few preset rules are tuned: numbers are allowed in template literals, void arrow shorthands are allowed, `||` stays allowed for strings (an empty string often means "not set"), and `no-dynamic-delete` and `non-nullable-type-assertion-style` are off.
+
+## What the rules enforce
+
+Besides the presets, these rules report errors:
+
+- **Types:** `type` aliases instead of `interface` (`consistent-type-definitions`), `import type` for type-only imports, explicit return types on functions TypeScript cannot type from context (React components included), no `@ts-` comments without a description, `??` instead of `||` except for strings.
+- **Bugs:** `eqeqeq` (`== null` stays allowed), `@typescript-eslint/no-shadow`, the sonarjs detectors (identical conditions, branches and functions, ignored return values, empty or unused collections, gratuitous expressions and more), cognitive complexity above 20, and the unicorn detectors (`throw new Error`, `TypeError` for type checks, `node:` imports, useless spreads, promise misuse and more).
+- **Style:** `camelcase` (properties too), the `@typescript-eslint/naming-convention` rules, `newline-before-return`, `no-console`, `no-alert`, `no-debugger`, no default exports, kebab-case file and folder names under `src`, sorted imports and keys (perfectionist), Prettier formatting.
+- **Tests** (`*.{spec,test}.{js,jsx,ts,tsx}` and `__fixtures__`): the Jest globals and the eslint-plugin-jest rules that catch mistakes (focused, disabled or conditional tests, `done` callbacks, invalid `expect` and titles, snapshot interpolation), `no-only-tests`.
+- **React projects:** the @eslint-react rules, the rules of hooks and the React Compiler rules of eslint-plugin-react-hooks, and in test files eslint-plugin-testing-library (`flat/react`) and eslint-plugin-jest-dom.
 
 5. Put the code in **.prettierrc**
 
@@ -98,7 +113,7 @@ TypeScript files use the typescript-eslint `strictTypeChecked` and `stylisticTyp
 ```js
 module.exports = makeConfig({
   ignoreFile: '.gitignore', // ignore file relative to the working directory; false turns ignore files off
-  jest: false, // leave out the Jest globals and rules for specs and fixtures (on by default)
+  jest: false, // leave out the Jest, Testing Library and jest-dom rules for test files (on by default)
   react: true, // React rules; detected from `react` in package.json dependencies by default
   tsconfig: 'tsconfig.lint.json', // tsconfig for type-aware linting; tsconfig.eslint.json, then tsconfig.json by default
 });
@@ -109,7 +124,7 @@ module.exports = makeConfig({
 If you need to change the ESLint configuration you can just extend return object from **makeConfig** function:
 
 ```ts
-const { makeConfig } = require('@rockpack/codestyle');
+import { makeConfig } from '@rockpack/codestyle';
 
 const camelCaseAllow = ['download_url'];
 
@@ -121,7 +136,7 @@ config.push({
   },
 });
 
-module.exports = config;
+export default config;
 ```
 
 ## Stylelint and Commitlint
@@ -160,7 +175,7 @@ We can set up our IDE to fix all lint rules and format code by Prettier.
 
 - Set Manual Configuration and set folder to "node_modules/eslint" in your project
 - Set working directories to root of your project
-- Set path to your *.eslintrc.js* file
+- Set the configuration file to *eslint.config.ts* (or leave it to automatic search)
 - Select "Run eslint --fix on save"
 
 4. Find Prettier.
@@ -195,7 +210,7 @@ Then add settings:
 
 ## How the config is composed
 
-`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency), file-type overrides (`.d.ts`, config files), the Jest blocks for specs and fixtures and, for React projects, Testing Library and jest-dom in `*.{spec,test}.{ts,tsx}`. Later blocks override earlier ones, so a block you push at the end wins.
+`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency: the @eslint-react and react-hooks blocks), file-type overrides (`.d.ts`, config files), the Jest blocks for test files and fixtures and, for React projects, Testing Library and jest-dom, all for `*.{spec,test}.{js,jsx,ts,tsx}`. Later blocks override earlier ones, so a block you push at the end wins.
 
 
 ## The MIT License

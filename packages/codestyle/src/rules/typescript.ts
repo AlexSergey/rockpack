@@ -55,7 +55,6 @@ export const makeTypescriptConfig = (tsConfig: false | string, root: string): Li
     '@sonar': sonar,
     '@typescript-eslint': tseslint.plugin,
     '@unicorn': unicorn,
-    'import/parsers': tsParser,
   },
   rules: {
     '@check-file/filename-naming-convention': [

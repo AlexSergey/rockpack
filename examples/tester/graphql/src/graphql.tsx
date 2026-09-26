@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import React, { createContext, isValidElement, useContext, useRef } from 'react';
+import React, { createContext, isValidElement, useContext, useState } from 'react';
 
 type GraphqlClient = {
   axios: AxiosInstance;
@@ -56,32 +56,33 @@ const normalizeQuery = (q: string): string =>
     .join('');
 
 const Graphql: React.FC<GraphqlProps> = ({ children, options }) => {
-  const ref = useRef<false | GraphqlClient>(false);
+  // The initializer runs once: one client for the lifetime of the provider.
+  const [client] = useState((): GraphqlClient => {
+    const instance = axios.create(Object.assign({}, { timeout: 1000 }, options));
 
-  if (!ref.current) {
-    const mergedProps = Object.assign({}, { timeout: 1000 }, options);
-    const instance = axios.create(mergedProps);
-    const client: GraphqlClient = {
+    return {
       axios: instance,
       mutation: (mutation, variables = {}, config) =>
         instance.post('', { query: resolveQuery(mutation), variables }, config),
       query: (query, variables = {}, config) => instance.post('', { query: resolveQuery(query), variables }, config),
     };
-    ref.current = client;
-  }
+  });
 
   return (
-    <GraphqlContext.Provider value={ref.current}>
-      {isValidElement(children) ? children : (children as (c: GraphqlClient) => ReactNode)(ref.current)}
+    <GraphqlContext.Provider value={client}>
+      {isValidElement(children) ? children : (children as (c: GraphqlClient) => ReactNode)(client)}
     </GraphqlContext.Provider>
   );
 };
 
 const MockGraphql: React.FC<MockGraphqlProps> = ({ children, mocks }) => {
-  const ref = useRef(false);
   const client = useGraphql() as GraphqlClient;
 
-  if (!ref.current && mocks) {
+  // Installs the mocks once, before the children render and send their requests.
+  useState(() => {
+    if (!mocks) {
+      return true;
+    }
     const mockData: Record<string, unknown> = {};
     const mockList = Array.isArray(mocks) ? mocks : [mocks];
 
@@ -114,8 +115,9 @@ const MockGraphql: React.FC<MockGraphqlProps> = ({ children, mocks }) => {
 
       return [400, { error: 'Not found' }];
     });
-    ref.current = true;
-  }
+
+    return true;
+  });
 
   return <>{children}</>;
 };

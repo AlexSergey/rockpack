@@ -5,23 +5,24 @@ import jestDomPlugin from 'eslint-plugin-jest-dom';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 
-import { sourceFiles } from './globs.js';
+import { sourceFiles, testFiles } from './globs.js';
 
-const reactTestFiles = ['**/*.{spec,test}.{ts,tsx}'];
-
-export const makeReactConfig = (hasReact: boolean): Linter.Config =>
+// Separate blocks: spreading both presets into one object kept only the plugins and rules of the last one.
+export const makeReactConfig = (hasReact: boolean): Linter.Config[] =>
   hasReact
-    ? {
-        settings: {
-          react: {
-            version: 'detect',
+    ? [
+        {
+          ...reactPlugin.configs['recommended-typescript'],
+          files: sourceFiles,
+          rules: {
+            ...reactPlugin.configs['recommended-typescript'].rules,
+            // react-hooks/rules-of-hooks reports the same problems.
+            '@eslint-react/rules-of-hooks': 'off',
           },
         },
-        ...reactHooksPlugin.configs.flat.recommended,
-        ...reactPlugin.configs['recommended-typescript'],
-        files: sourceFiles,
-      }
-    : {};
+        { ...reactHooksPlugin.configs.flat.recommended, files: sourceFiles },
+      ]
+    : [];
 
 // Testing Library and jest-dom rules for the component tests of React projects.
 export const makeReactTestConfigs = (hasReact: boolean): Linter.Config[] =>
@@ -29,7 +30,7 @@ export const makeReactTestConfigs = (hasReact: boolean): Linter.Config[] =>
     ? [
         {
           ...testingLibraryPlugin.configs['flat/react'],
-          files: reactTestFiles,
+          files: testFiles,
           // Only report in files that import Testing Library: Playwright specs share the getBy* names.
           settings: {
             'testing-library/custom-queries': 'off',
@@ -37,6 +38,6 @@ export const makeReactTestConfigs = (hasReact: boolean): Linter.Config[] =>
             'testing-library/utils-module': 'off',
           },
         },
-        { ...jestDomPlugin.configs['flat/recommended'], files: reactTestFiles },
+        { ...jestDomPlugin.configs['flat/recommended'], files: testFiles },
       ]
     : [];

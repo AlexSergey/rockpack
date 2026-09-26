@@ -19,6 +19,8 @@ exports[`rule groups positive cases keeps the files rule names 1`] = `
 exports[`rule groups positive cases keeps the react rule names 1`] = `
 [
   "@eslint-react/marker",
+  "@eslint-react/rules-of-hooks",
+  "react-hooks/rules-of-hooks",
 ]
 `;
 

@@ -3,9 +3,11 @@ import type { Linter } from 'eslint';
 import jestPlugin from 'eslint-plugin-jest';
 import globals from 'globals';
 
+import { testFiles } from './globs.js';
+
 export const makeTestConfigs = (): Linter.Config[] => {
   const testOverrides: Linter.Config = {
-    files: ['**/*.spec.{ts,tsx}', '**/__fixtures__/**'],
+    files: [...testFiles, '**/__fixtures__/**'],
     languageOptions: {
       globals: {
         ...globals.jest,

@@ -110,7 +110,7 @@ describe('makeConfig', () => {
       const configs = makeConfig();
 
       expect(getNames(configs)).not.toContain('react-hooks');
-      expect(configs).toContainEqual({});
+      expect(getNames(configs)).not.toContain('eslint-react');
     });
 
     it('builds the non-react config when react is only a devDependency', () => {
@@ -187,7 +187,7 @@ describe('makeConfig', () => {
       expect(config?.languageOptions?.['globals']).toMatchObject({ describe: false, document: false, process: false });
     });
 
-    it('adds the react hooks and @eslint-react block when react is a dependency', () => {
+    it('adds the @eslint-react block without its duplicate rules-of-hooks when react is a dependency', () => {
       createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
 
       const reactConfig = makeConfig().find((config) => config.name === 'eslint-react');
@@ -195,8 +195,19 @@ describe('makeConfig', () => {
       expect(reactConfig).toEqual({
         files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
         name: 'eslint-react',
-        rules: { '@eslint-react/marker': 'error' },
-        settings: { react: { version: 'detect' } },
+        rules: { '@eslint-react/marker': 'error', '@eslint-react/rules-of-hooks': 'off' },
+      });
+    });
+
+    it('keeps the react hooks rules in a block of their own when react is a dependency', () => {
+      createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
+
+      const hooksConfig = makeConfig().find((config) => config.name === 'react-hooks');
+
+      expect(hooksConfig).toEqual({
+        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
+        name: 'react-hooks',
+        rules: { 'react-hooks/rules-of-hooks': 'error' },
       });
     });
 
@@ -207,7 +218,7 @@ describe('makeConfig', () => {
 
       expect(configs).toEqual([
         {
-          files: ['**/*.{spec,test}.{ts,tsx}'],
+          files: ['**/*.{spec,test}.{js,jsx,ts,tsx}'],
           name: 'testing-library',
           rules: { 'testing-library/marker': 'error' },
           settings: {
@@ -216,7 +227,7 @@ describe('makeConfig', () => {
             'testing-library/utils-module': 'off',
           },
         },
-        { files: ['**/*.{spec,test}.{ts,tsx}'], name: 'jest-dom', rules: { 'jest-dom/marker': 'error' } },
+        { files: ['**/*.{spec,test}.{js,jsx,ts,tsx}'], name: 'jest-dom', rules: { 'jest-dom/marker': 'error' } },
       ]);
     });
 
@@ -249,7 +260,7 @@ describe('makeConfig', () => {
 
       expect(gitignoreMock).toHaveBeenCalledWith({ files: path.join(dir, '.eslintflatignore'), strict: false });
       expect(configs[0]).toEqual({ name: 'gitignore' });
-      expect(configs).toHaveLength(17);
+      expect(configs).toHaveLength(16);
     });
 
     it('finds .eslintflatignore in an ancestor directory', () => {
@@ -309,7 +320,7 @@ describe('makeConfig', () => {
     it('enables jest globals and relaxes rules for specs and fixtures', () => {
       createProject();
 
-      const config = findByFiles(makeConfig(), '**/*.spec.{ts,tsx}');
+      const config = findByFiles(makeConfig(), '**/*.{spec,test}.{js,jsx,ts,tsx}');
 
       expect(config?.files).toContain('**/__fixtures__/**');
       expect(config?.languageOptions?.['globals']).toMatchObject({ describe: false, expect: false, jest: false });
@@ -392,9 +403,17 @@ describe('makeConfig', () => {
 
       const configs = makeConfig({ jest: false });
 
-      expect(findByFiles(configs, '**/*.spec.{ts,tsx}')).toBeUndefined();
+      expect(findByFiles(configs, '**/*.{spec,test}.{js,jsx,ts,tsx}')).toBeUndefined();
       expect(findByFiles(configs, '**/__fixtures__/**')).toBeUndefined();
       expect(configs).toHaveLength(makeConfig().length - 2);
+    });
+
+    it('leaves out the testing library and jest-dom rules of a react project when jest is false', () => {
+      createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
+
+      expect(getNames(makeConfig({ jest: false }))).not.toEqual(
+        expect.arrayContaining(['testing-library', 'jest-dom']),
+      );
     });
   });
 });
@@ -403,7 +422,7 @@ describe('makeConfig', () => {
 describe('rule groups', () => {
   describe('negative cases', () => {
     it('adds no rules for a project without react', () => {
-      expect(getRuleNames([makeReactConfig(false)])).toEqual([]);
+      expect(makeReactConfig(false)).toEqual([]);
     });
 
     it('adds no test configs for a project without react', () => {
@@ -414,7 +433,7 @@ describe('rule groups', () => {
   describe('positive cases', () => {
     it.each([
       ['files', (): Linter.Config[] => [...makeFileTypeConfigs(), ...makeOverrideConfigs()]],
-      ['react', (): Linter.Config[] => [makeReactConfig(true)]],
+      ['react', (): Linter.Config[] => makeReactConfig(true)],
       ['style', (): Linter.Config[] => makeStyleConfigs()],
       ['tests', (): Linter.Config[] => makeTestConfigs()],
       [
