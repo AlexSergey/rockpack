@@ -12,7 +12,7 @@ npm install @rockpack/utils --save-dev
 
 ### `getMode()` / `getMode(modes, defaultMode, { argv?, env? })`
 
-The build mode from `--mode=<mode>` (or `--mode <mode>`), then `NODE_ENV`, then the default. A value that is not in `modes` falls back to the default. Without arguments it returns `'development' | 'production'`. `argv` (without the node binary and script) and `env` default to the process.
+The build mode from `--mode=<mode>` (or `--mode <mode>`), then `NODE_ENV`, then the default. A value that is not in `modes` falls back to the default. Without arguments it returns `'development' | 'production'`, exported as the `DefaultMode` type. `argv` (without the node binary and script) and `env` default to the process; their type is exported as `ModeSources`.
 
 ```ts
 import { getMode } from '@rockpack/utils';

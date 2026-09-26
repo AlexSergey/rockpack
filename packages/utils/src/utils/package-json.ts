@@ -7,9 +7,10 @@ export type PackageJson = {
   dependencies?: Readonly<Record<string, string>>;
   description?: string;
   devDependencies?: Readonly<Record<string, string>>;
-  email?: string;
+  engines?: Readonly<Record<string, string>>;
   license?: string;
   name?: string;
+  peerDependencies?: Readonly<Record<string, string>>;
   version?: string;
 };
 
