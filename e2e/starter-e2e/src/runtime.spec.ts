@@ -349,6 +349,15 @@ describe(`generated project runtime (${latest ? 'latest' : 'pinned'})`, () => {
 
           expect(server.output().match(/Server is listening/g)?.length).toBeGreaterThanOrEqual(2);
         }, 120_000);
+
+        it('reloads the open page after a source change', async () => {
+          const opened = await openPage(browser, url);
+          await waitForText(opened.page, 'MIT e2e');
+          editFile(path.join(project('ssr-app'), 'src/components/tags/tags.component.tsx'), "'MIT e2e'", "'MIT live'");
+
+          await waitForText(opened.page, 'MIT live', 120_000);
+          await opened.page.close();
+        }, 180_000);
       });
     });
   });

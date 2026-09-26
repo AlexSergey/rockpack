@@ -14,6 +14,9 @@ import { App } from './app';
 const app = new Koa();
 const router = new Router();
 
+// The compiler adds dev-server.js to development builds: it connects the page to live reload.
+const devScripts = process.env['NODE_ENV'] === 'production' ? '' : '<script src="/dev-server.js"></script>';
+
 const getTemplate = (): string => `
   <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +29,7 @@ const getTemplate = (): string => `
 <body>
     <div id="root"><!--app-html--></div>
     <script src="/index.js"></script>
+    ${devScripts}
 </body>
 </html>
 `;

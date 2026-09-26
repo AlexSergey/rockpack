@@ -112,6 +112,9 @@ Upgrading from 8.x: see the [migration guide](./MIGRATION.md).
 - Generated ssr, component and library projects without tests no longer reference `jest` types they do not install
 - Generated csr and ssr projects pass `value` to `UnheadProvider` (the `head` prop is deprecated)
 - Generated ssr projects listen on `PORT` from `.env` (the template shipped `PORT=8888` but always listened on `4000`)
+- Generated ssr projects reload the browser page in development again: the template loads `dev-server.js`, the live reload client the compiler builds
+- `@rockpack/compiler`: the isomorphic live reload client waits until the restarted server answers before it reloads the page (it reloaded too early and left the browser on its connection error page)
+- Generated projects get no knip configuration hints: no `main: index.js` in csr and ssr projects, no redundant `.lintstagedrc.cjs` entry
 - `@rockpack/codestyle`: `require()` failed with `ERR_PACKAGE_PATH_NOT_EXPORTED` because the CommonJS build required the ESM-only `@eslint-react/eslint-plugin`
 - Generated projects: git hooks work with npm 9+ (husky's removed `set-script`/`add` commands are gone)
 - `sourceCompiler` in `@rockpack/compiler` no longer compiles or copies test files into the output: `*.spec.*`, `*.test.*` and anything under `__fixtures__`, `__mocks__` or `__tests__` is skipped
