@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
 
-    // Node.js 24
+    // The latest ECMAScript and the browser DOM; tsconfig.node.json drops the DOM libs
     "lib": [
       "ESNext",
       "dom",
