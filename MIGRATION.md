@@ -6,12 +6,15 @@ This guide lists every change in `9.0.0` that can break an existing project, gro
 
 - **Node.js 24.15 or newer** is required by every package and by the starter CLI (Babel 8 needs 24.11, the ESLint plugins of `@rockpack/codestyle` need 24.15). Update Node.js (`.nvmrc` in generated projects says `24`, which installs the latest 24.x) before upgrading the packages.
 - Packages ship ESM and CommonJS builds; `@rockpack/codestyle` ships only ESM and is loaded by `require()` through Node.js `require(esm)`.
+- `@rockpack/compiler` no longer installs `@rockpack/codestyle`, `cross-env`, `moment`, `colors`, `async` and a few unused loaders (`null-loader`, `imports-loader`, `script-loader`, `svg-inline-loader`, `arraybuffer-loader`). If your scripts or configs use one of them, add it to your own `devDependencies`, for example `npm install -D cross-env` for `cross-env NODE_ENV=production ...` scripts (POSIX shells run `NODE_ENV=production node scripts.build.mts` without it; `cross-env` is only needed for Windows `cmd`).
 
 ## @rockpack/compiler
 
 ### Compilers resolve to a typed result
 
-`frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a `CompilerResult` told apart by `kind`: `build` (`stats`, `success`), `config` (`webpackConfig`), `dev-server` (`url`, `stop()`) or `watch` (`stop()`). An awaited production build resolves after webpack has finished, and a dev server once it listens.
+`frontendCompiler`, `backendCompiler` and `libraryCompiler` resolve to a `CompilerResult` told apart by `kind`: `build` (`stats`, `success`), `config` (`webpackConfig`, `conf`), `dev-server` (`url`, `stop()`) or `watch` (`stop()`). An awaited production build resolves after webpack has finished, and a dev server once it listens.
+
+`isomorphicCompiler` resolves to `build` once both production builds have finished and to `watch` in development; its `stop()` closes webpack, the server nodemon runs and the live reload server. It used to resolve before the build finished, so code after `await isomorphicCompiler(...)` now runs after the build.
 
 ```ts
 // Before: the promise resolved early and carried nothing useful
@@ -29,7 +32,10 @@ if (result.kind === 'dev-server') {
 
 ### Errors and exit codes
 
-- Invalid options no longer call `process.exit`. The compiler logs `[rockpack] <code>: <message>`, sets `process.exitCode = 1` and rejects with a `RockpackError` (`code` is `INVALID_CONFIG`, `INVALID_ENTRY`, `BUILD_FAILED` or `DTS_FAILED`). Scripts that must stop immediately on a bad option catch the rejection.
+- Invalid options no longer call `process.exit`. The compiler logs `[rockpack] <code>: <message>`, sets `process.exitCode = 1` and rejects with a `RockpackError` (`code` is `INVALID_CONFIG`, `INVALID_ENTRY`, `BUILD_FAILED` or `DTS_FAILED`). With `void frontendCompiler(...)` the rejection is unhandled and Node.js prints its stack trace after the Rockpack message; `await` the compiler or add `.catch(() => {})` for a clean output.
+- Options are validated more strictly, `sourceCompiler` included: values the compiler used to tolerate (for example `port: '3000'` instead of `3000`) and an `esm` or `cjs` format without `src` or `dist` now fail with `INVALID_CONFIG`. An `esm`/`cjs` `dist` that is the project root, the sources or a folder holding them is refused.
+- `name` and `library` are no longer accepted in the conf; the compilers always set them (use `libraryCompiler({ name })` for the library name).
+- Declaration errors (`tsc` emitting the `.d.ts` files) now fail the build with `DTS_FAILED`; before, they were silent and the declarations could be incomplete.
 - A production build with webpack errors exits with code `1` (it exited with `0`). CI jobs that relied on a green exit code despite errors now fail, as they should.
 - `Ctrl+C` exits with `130` and `SIGTERM` with `143`.
 
@@ -96,20 +102,26 @@ The compiler prints its own summary lines instead of friendly-errors (see "Build
 ### Output changes worth checking
 
 - The `vendor` option moves the listed modules into `vendor.js` only; they are no longer bundled into both files.
-- `sourceCompiler`/`libraryCompiler` skip an `esm` or `cjs` format without `src` or `dist` instead of building it with empty paths.
+- A library whose bundle has errors no longer builds its `esm`/`cjs` sources and declarations.
+- An isomorphic development build extracts CSS to the `styles` path like production (default `css/styles.css`); reference that path in the server HTML.
+- The SSR server HTML has to load `/dev-server.js` in development for live reload (`process.env['NODE_ENV'] === 'production' ? '' : '<script src="/dev-server.js"></script>'`); it is not built in production.
+- `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, `SideEffectsFlagPlugin` and `NoEmitOnErrorsPlugin` are no longer in the `plugins` collection of the callback (webpack's optimization settings apply them); drop `plugins.remove(...)` calls for them.
+- `eslint` and `stylelint` are optional peer dependencies: install them in the project to use `lint: true`.
 - Test files (`*.spec.*`, `*.test.*`, `__fixtures__`, `__mocks__`, `__tests__`) are no longer compiled or copied into the output, and no declarations are emitted for them; use the new `ignore` option to change the list.
 - Declarations are generated with the module resolution of your own `tsconfig.json` (the forced `moduleResolution: "node"` and `baseUrl` are gone).
 - Node.js production builds (`backendCompiler`, `nodejs` libraries) keep `console` calls; browser builds still drop them unless `debug` is on.
 
 ## @rockpack/tester
 
-- `tester()` returns a promise of Jest's results (`undefined` when Jest could not run) and never calls `process.exit`; a failure sets `process.exitCode = 1`. Write `void tester(...)` in `scripts.tests.ts` (the `no-floating-promises` rule asks for it) or await it.
+- `tester()` returns a promise of Jest's results (`undefined` when Jest could not run) and never calls `process.exit`; a failure sets `process.exitCode = 1`. Write `void tester(...)` in `scripts.tests.mts` (or `.ts`; the `no-floating-promises` rule asks for it) or await it.
 - Suites run in parallel with the Jest cache. Pass `serial: true` to run them one by one without cache as before.
 - `setupFiles`, `setupFilesAfterEnv`, `moduleFileExtensions` and `testPathIgnorePatterns` from your Jest config are added to the defaults instead of replacing them. Pass `replaceArrays: true` to replace them as before.
-- `jest.extend` is gone.
+- A `jest.extend.js`/`.cjs` in the project root is no longer loaded. Move its Jest options into the second argument of `tester()`, as below.
+- The values of `--mode`, `--testNamePattern`/`-t` and `--config`/`-c` are no longer taken as spec path patterns; other positional arguments still are.
+- `typescript` is no longer installed by the tester; projects that run `tsc` need it in their own `devDependencies`. TypeScript 6 includes no `@types` packages unless listed, so the tsconfig of the specs needs `"types": ["jest", "node"]`.
 
 ```ts
-// scripts.tests.ts
+// scripts.tests.mts
 import { tester } from '@rockpack/tester';
 
 void tester({ serial: true }, { setupFilesAfterEnv: ['./jest.setup.ts'] });
@@ -117,9 +129,22 @@ void tester({ serial: true }, { setupFilesAfterEnv: ['./jest.setup.ts'] });
 
 ## @rockpack/codestyle
 
+- The built-in ignore list (`dist`, `lib`, `coverage`, `*.d.ts` and more) is gone. Create a `.eslintflatignore` in the project (or monorepo) root, or pass `makeConfig({ ignoreFile: '.gitignore' })`; otherwise build output and coverage are linted:
+
+```
+node_modules
+dist/
+build/
+lib/
+coverage/
+*.log
+```
+
 - TypeScript files are linted with the typescript-eslint `strictTypeChecked` and `stylisticTypeChecked` presets plus `prefer-readonly` and `switch-exhaustiveness-check`. Expect new findings on upgrade; run `eslint . --fix` first and fix the rest.
 - `type` aliases are required instead of `interface` (`@typescript-eslint/consistent-type-definitions`); `eslint --fix` converts them.
-- Rules that catch bugs are added: `eqeqeq` (`== null` stays allowed), `@typescript-eslint/no-shadow`, sonarjs and unicorn bug detectors, and the `eslint-plugin-jest` recommended rules in specs. Tests with a `done` callback must become `async` tests (`jest/no-done-callback`); test titles must be strings or template literals (`jest/valid-title`).
+- Rules that catch bugs are added: `eqeqeq` (`== null` stays allowed), `@typescript-eslint/no-shadow`, sonarjs and unicorn bug detectors, and a set of `eslint-plugin-jest` error rules in test files. Tests with a `done` callback must become `async` tests (`jest/no-done-callback`); test titles must be strings or template literals (`jest/valid-title`).
+- The Jest rules apply to `*.{spec,test}.{js,jsx,ts,tsx}` (they covered only `*.spec.{ts,tsx}`); `*.test.*` and JavaScript specs may get new findings.
+- React projects get the `eslint-plugin-react-hooks` rules for real: the rules of hooks, `exhaustive-deps` and the React Compiler rules (`set-state-in-effect`, `refs`, `purity` and others) were silently dropped in 8.x. Expect new findings in components.
 - React projects lint their test files with `eslint-plugin-testing-library` and `eslint-plugin-jest-dom`: await `findBy*` queries and async utils, query through `screen`, no manual `cleanup`, and jest-dom matchers such as `toBeDisabled()` instead of reading DOM properties.
 - `@typescript-eslint/explicit-function-return-type` is an error instead of a warning: add return types to functions that TypeScript cannot type from context, React components included (`(): ReactNode`).
 - The internal `isString` helper is no longer exported; import it from `@rockpack/utils`.
@@ -135,7 +160,10 @@ module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;
 
 ## @rockpack/tsconfig
 
-`noPropertyAccessFromIndexSignature` is on: read index signatures with brackets, for example `process.env['API_URL']` (webpack and dotenv still inline them). To keep the old behaviour set `"noPropertyAccessFromIndexSignature": false` in your `tsconfig.json`.
+- `noPropertyAccessFromIndexSignature` is on: read index signatures with brackets, for example `process.env['API_URL']` (webpack and dotenv still inline them). To keep the old behaviour set `"noPropertyAccessFromIndexSignature": false` in your `tsconfig.json`.
+- `strictPropertyInitialization` is no longer turned off, so `strict` reports class properties without an initializer (TS2564). Initialize them, use a definite assignment (`name!: string`), or set `"strictPropertyInitialization": false` in your `tsconfig.json`.
+- The base config no longer sets `outDir`; set it in your `tsconfig.json` if you emit with `tsc`.
+- Only `@rockpack/tsconfig`, `@rockpack/tsconfig/tsconfig.json`, `@rockpack/tsconfig/tsconfig.node.json` and `@rockpack/tsconfig/package.json` can be referenced; other deep paths fail with TS6053.
 
 ## @rockpack/babel
 
@@ -144,7 +172,7 @@ module.exports = require('@rockpack/codestyle/commitlint').commitlintConfig;
 - TypeScript mode still ignores `modules`, `isNodejs` and `core-js` unless you pass `typescript: { env: true }`. In 10.0 this becomes the default; opt in now to check the output.
 - Babel 8 replaces Babel 7. Plugins you add in `rockpack.babel.*` must support Babel 8; an old one fails with an error like `Requires Babel "^7.0.0-0", but was loaded with "8.0.6"` that names the plugin. Types: use `InputOptions` from `@babel/core` instead of `TransformOptions` from `@types/babel__core`.
 - If your project also installs Babel 7 (through another tool), make sure `@babel/core` 8 is the one at the top of `node_modules`, for example by adding `"@babel/core": "^8.0.0"` to your devDependencies; otherwise `babel-loader` or `babel-jest` may load Babel 7 and fail with `Requires Babel "^8.0.0"`.
-- The pipeline operator is no longer enabled. Babel 8 only has the `hack` and `fsharp` proposals, so code using the old `minimal` syntax has to be rewritten either way:
+- The pipeline operator is no longer enabled. Babel 8 only has the `hack` and `fsharp` proposals, so code using the old `minimal` syntax has to be rewritten either way. Install the plugin (`npm install -D @babel/plugin-proposal-pipeline-operator@8`) and add it:
 
 ```ts
 // rockpack.babel.ts
@@ -175,6 +203,8 @@ const result = value |> double(%) |> String(%);
 ## @rockpack/starter
 
 - The project name must be a valid npm package name (lower case, no spaces); the CLI exits with code `1` and lists the problems otherwise. `rockpack .` lower-cases the folder name.
-- `-y`/`--yes` answers the remaining questions with the defaults (`csr`, with tests).
+- `@rockpack/starter` is a CLI only: `import '@rockpack/starter'` fails with `ERR_PACKAGE_PATH_NOT_EXPORTED` (it used to run the CLI).
+- Boolean flags accept `true`/`false`/`yes`/`no`/`1`/`0`; an invalid value, or an unknown or empty `--type`, exits with code `1` instead of being ignored.
 - Generated projects have `scripts.build.mts` and `scripts.tests.mts` and run them with `node` instead of `tsx` (Node.js 24 strips the types itself; `.mts` makes them ES modules, so they use `createRequire` instead of `require`). Existing projects can keep `tsx`, or rename the scripts to `.mts` and switch to `node`.
-- Generated projects: no failing `test` script without tests, no style scripts in libraries, a `.nvmrc`, component peer dependencies kept as ranges, and the Stylelint/Commitlint configs taken from `@rockpack/codestyle`.
+- Generated components no longer build `lib/cjs` and `lib/esm` (they were never published); remove the `cjs`/`esm` formats from an existing component's `scripts.build.mts` if you do not publish them.
+- Generated projects: no failing `test` script without tests, no style scripts in libraries, a `.nvmrc`, component peer dependencies kept as ranges, the Stylelint/Commitlint configs taken from `@rockpack/codestyle`, knip (`lint:deps`, part of `lint`), `simple-git-hooks` instead of husky, and explicit `typescript`, `@types/node` and (with tests) `@types/jest` devDependencies. Existing projects can copy these from a freshly generated one.

@@ -89,7 +89,7 @@ Supported application types:
 - **React SPA** - Client-side React app with Webpack, TypeScript, ESLint, and Jest preconfigured.
 - **React SPA + SSR** - Universal React app with SSR, hydration, and a Node.js server.
 - **React Component** - NPM-ready React component with TypeScript declarations and an optimized bundle.
-- **UMD Library** - Framework-agnostic UMD library for NPM, zero configuration required.
+- **Library** - Framework-agnostic library for NPM in UMD, ESM and CommonJS, zero configuration required.
 
 *All project types include:*
 - Import support for many file formats. [Full list](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md)
@@ -100,8 +100,10 @@ Supported application types:
 - Dotenv and Dotenv safe support
 - GraphQL support
 
-*Optional add-ons for each project type:*
-- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) - ESLint with best-practice rules
+*Every project also gets:*
+- [@rockpack/codestyle](https://github.com/AlexSergey/rockpack/blob/master/packages/codestyle/README.md) - ESLint, Stylelint, Prettier and Commitlint with best-practice rules, git hooks and knip
+
+*Optional add-on:*
 - [@rockpack/tester](https://github.com/AlexSergey/rockpack/blob/master/packages/tester/README.md) - pre-configured Jest setup
 
 <a href="https://github.com/AlexSergey/rockpack/blob/master/packages/starter/README.md" target="_blank">More details...</a>

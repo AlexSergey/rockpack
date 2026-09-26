@@ -1,32 +1,20 @@
 ## Roadmap
 
-### [9.0.0] - Work in Progress
+### [9.0.0]
+
+See the [CHANGELOG](./CHANGELOG.md) for the full list and the [migration guide](./MIGRATION.md) for the upgrade.
 
 #### Completed
-- Full TypeScript rewrite of all packages (babel, codestyle, compiler, starter, tester, utils)
-- New build pipeline: dual ESM/CJS output, `tsx`-based scripts
-- Updated all examples to latest React and TypeScript
-- Dropped legacy files: the SSR template's `rockpack.babel.js`, `jest.extend`
-- Clean output before each build
-- Improved tester configuration
-- Updated lint-staged to 17
-- E2E tests migrated to ES modules
-- All configs and scripts migrated to TypeScript
-- Fixed `.eslintrc` in webpack plugin
+- Full TypeScript rewrite of all packages (babel, codestyle, compiler, starter, tester, utils); ESM and CommonJS builds, `@rockpack/codestyle` ESM only
+- Packages build with shared `tsx` scripts; examples and generated projects run `node scripts.build.mts`
+- Node.js 24.15 baseline, Babel 8, webpack-dev-server 6, ESLint 10, TypeScript 6
+- `@rockpack/codestyle`: `.eslintflatignore` instead of the built-in ignore list, strict typescript-eslint presets, bug-catching rules, Testing Library and jest-dom for React tests
+- `@rockpack/compiler`: typed results and errors, exit codes, option validation, own build reporter, type check with the project's `tsc`, bundle analyzer removed, own import-extension Babel plugin
+- `@rockpack/starter`: git hooks with `simple-git-hooks`, knip, `.nvmrc`, SSR live reload
+- Unit tests for every package with enforced coverage thresholds; end-to-end suites for the compiler, the starter (pinned and latest dependencies, runtime in a browser) and the published tarballs
+- CI for build, lint, unit tests, examples, e2e and the book; lint-staged hooks; dependency hygiene with knip and syncpack
+- Plans: `plans/01` to `plans/08`
 
-#### Completed
-- Integrated `eslint-config-flat-gitignore` into `@rockpack/codestyle`
-- Replaced hardcoded `ignores` array with `.eslintflatignore` file-based approach
-- Recursive `.eslintflatignore` lookup from `process.cwd()` upward for monorepo support
-- Disabled `@import-lite/no-default-export` and `@typescript-eslint/naming-convention` for `.d.ts` files
-
-#### Completed (quality and infrastructure, see `plans/01-unit-tests.md` and `plans/02-recommendations.md`)
-- Unit tests for every package with enforced coverage thresholds
-- CI for build, lint, unit tests, examples and a nightly starter e2e; lint-staged hooks
-- Fix git hooks initialization for starter projects (now `simple-git-hooks`)
-- Dependency hygiene with knip and syncpack; Node.js 24 baseline
-- Typed compiler errors and exit codes; shared build tooling; topological build
-
-#### Pending
-- End-to-end suites for the compiler, the starter (pinned and latest dependency modes) and the published packages (`plans/04-e2e.md`)
-- Architecture, API and TypeScript coverage improvements (`plans/03-code-improvements.md`)
+### Next
+- TypeScript 7 once typescript-eslint supports it (`plans/09-typescript-7.md`)
+- 10.0: remove the deprecated `libraryCompiler('Name')` and `isomorphicCompiler(frontendCompiler(), backendCompiler())` forms, make `typescript: { env: true }` the default in `@rockpack/babel`
