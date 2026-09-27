@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/tester",
-  "version": "9.0.0-next.3",
+  "version": "9.0.0",
   "private": false,
   "description": "Pre-configured Jest setup for React and TypeScript with testing-library and best-practice defaults",
   "keywords": [
@@ -55,8 +55,8 @@
   "dependencies": {
     "@babel/core": "8.0.6",
     "@jest/types": "30.5.1",
-    "@rockpack/babel": "9.0.0-next.3",
-    "@rockpack/utils": "9.0.0-next.3",
+    "@rockpack/babel": "9.0.0",
+    "@rockpack/utils": "9.0.0",
     "@types/jest": "30.0.0",
     "babel-jest": "30.5.2",
     "deep-extend": "0.6.0",
@@ -66,9 +66,9 @@
     "jest-html-reporters": "3.1.7"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "9.0.0-next.3",
-    "@rockpack/codestyle": "9.0.0-next.3",
-    "@rockpack/tsconfig": "9.0.0-next.3",
+    "@rockpack/build-tools": "9.0.0",
+    "@rockpack/codestyle": "9.0.0",
+    "@rockpack/tsconfig": "9.0.0",
     "eslint": "10.11.0",
     "expect-type": "1.4.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-rest",
-  "version": "9.0.0-next.3",
+  "version": "9.0.0",
   "description": "Rockpack example: rest",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -22,10 +22,10 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0-next.3",
-    "@rockpack/compiler": "9.0.0-next.3",
-    "@rockpack/tester": "9.0.0-next.3",
-    "@rockpack/tsconfig": "9.0.0-next.3",
+    "@rockpack/codestyle": "9.0.0",
+    "@rockpack/compiler": "9.0.0",
+    "@rockpack/tester": "9.0.0",
+    "@rockpack/tsconfig": "9.0.0",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3"
   }
