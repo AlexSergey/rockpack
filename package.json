@@ -56,7 +56,7 @@
     "sort-package-json": "4.0.0",
     "syncpack": "15.3.3",
     "tsx": "4.23.15",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "yargs": "18.2.0"
   },
   "overrides": {
