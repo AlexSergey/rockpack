@@ -64,18 +64,13 @@
       "src/server.tsx",
       "src/types/*.ts"
     ],
-    "ignore": [
-      "public/**"
-    ],
     "ignoreBinaries": [
       "commitlint",
       "eslint",
       "prettier",
-      "stylelint",
-      "tsc"
+      "stylelint"
     ],
     "ignoreDependencies": [
-      "@rockpack/tsconfig",
       "@issr/babel-plugin"
     ]
   }

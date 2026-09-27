@@ -79,6 +79,8 @@ describe(`generated project quality (${latest ? 'latest' : 'pinned'})`, () => {
         const { code, output } = await npm(project(), ['run', 'lint']);
 
         expect({ code, output }).toMatchObject({ code: 0 });
+        // knip exits with 0 on configuration hints, which point at entries its plugins already cover.
+        expect(output).not.toContain('Configuration hints');
       }, 300_000);
 
       if (tests) {

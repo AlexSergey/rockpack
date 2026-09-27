@@ -75,18 +75,13 @@
       "jest.setup.ts",
       "src/**/*.spec.{ts,tsx}"
     ],
-    "ignore": [
-      "public/**"
-    ],
     "ignoreBinaries": [
       "commitlint",
       "eslint",
       "prettier",
-      "stylelint",
-      "tsc"
+      "stylelint"
     ],
     "ignoreDependencies": [
-      "@rockpack/tsconfig",
       "@issr/babel-plugin",
       "source-map"
     ]

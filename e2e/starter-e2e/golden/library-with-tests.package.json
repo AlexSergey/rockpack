@@ -70,11 +70,9 @@
     "ignoreBinaries": [
       "commitlint",
       "eslint",
-      "prettier",
-      "tsc"
+      "prettier"
     ],
     "ignoreDependencies": [
-      "@rockpack/tsconfig",
       "source-map"
     ]
   }

@@ -62,11 +62,7 @@
     "ignoreBinaries": [
       "commitlint",
       "eslint",
-      "prettier",
-      "tsc"
-    ],
-    "ignoreDependencies": [
-      "@rockpack/tsconfig"
+      "prettier"
     ]
   }
 }

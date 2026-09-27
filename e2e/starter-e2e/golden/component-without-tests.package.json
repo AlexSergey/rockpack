@@ -64,11 +64,7 @@
       "commitlint",
       "eslint",
       "prettier",
-      "stylelint",
-      "tsc"
-    ],
-    "ignoreDependencies": [
-      "@rockpack/tsconfig"
+      "stylelint"
     ]
   }
 }
