@@ -17,6 +17,6 @@
     "@rockpack/codestyle": "9.0.0",
     "@rockpack/tester": "9.0.0",
     "@rockpack/tsconfig": "9.0.0",
-    "@types/node": "24.13.6"
+    "@types/node": "26.6.3"
   }
 }
