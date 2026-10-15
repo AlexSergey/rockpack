@@ -70,7 +70,7 @@
     "@rockpack/tester": "9.0.0",
     "@rockpack/tsconfig": "9.0.0",
     "@types/jest": "30.0.0",
-    "eslint": "10.11.0",
+    "eslint": "10.12.0",
     "expect-type": "1.4.0"
   },
   "engines": {
