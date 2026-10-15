@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@inquirer/confirm": "6.3.2",
-    "@inquirer/select": "5.2.5",
+    "@inquirer/select": "5.2.6",
     "chalk": "6.0.0",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",
