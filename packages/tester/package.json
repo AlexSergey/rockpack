@@ -53,7 +53,7 @@
     "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "@babel/core": "8.0.6",
+    "@babel/core": "8.0.7",
     "@jest/types": "30.5.1",
     "@rockpack/babel": "9.0.0",
     "@rockpack/utils": "9.0.0",

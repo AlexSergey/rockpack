@@ -57,7 +57,7 @@
     "test:watch": "node --experimental-vm-modules --import tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "@babel/core": "8.0.6",
+    "@babel/core": "8.0.7",
     "@babel/plugin-transform-modules-commonjs": "8.0.1",
     "@graphql-tools/webpack-loader": "7.0.1",
     "@mdx-js/loader": "3.1.1",
