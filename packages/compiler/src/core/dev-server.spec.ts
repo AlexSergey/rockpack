@@ -71,6 +71,15 @@ describe('devServer', () => {
 
       expect(listening).toBe(true);
     });
+
+    it.each([undefined, 'http', { type: 'http' }])('prints an http:// url for the server %p', async (server) => {
+      const reporter = fakeReporter();
+
+      await expect(
+        devServer(running({ devServer: { host: 'localhost', port: 3000, server } }, reporter)),
+      ).resolves.toMatchObject({ url: 'http://localhost:3000' });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3000');
+    });
   });
 
   describe('positive cases', () => {
@@ -86,6 +95,18 @@ describe('devServer', () => {
       expect(WebpackDevServerMock).toHaveBeenCalledWith(devServerConfig, compiler);
       expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3000');
     });
+
+    it.each(['https', 'http2', { type: 'https' }, { type: 'http2' }])(
+      'prints an https:// url for the server %p',
+      async (server) => {
+        const reporter = fakeReporter();
+
+        await expect(
+          devServer(running({ devServer: { host: 'localhost', port: 3000, server } }, reporter)),
+        ).resolves.toMatchObject({ url: 'https://localhost:3000' });
+        expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on https://localhost:3000');
+      },
+    );
 
     it('stops the server and closes the compiler', async () => {
       const compiler = createCompiler();
