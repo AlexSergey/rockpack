@@ -166,6 +166,8 @@ The **Rockpack** project was inspired by:
 
 ## Contributing
 
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the workflow, code style and pull request rules, and the [`good first issue`](https://github.com/AlexSergey/rockpack/labels/good%20first%20issue) and [`help wanted`](https://github.com/AlexSergey/rockpack/labels/help%20wanted) issues for a place to start.
+
 Requirements: Node.js 24.15 or newer (`.nvmrc` pins the major, 24) and npm 11. `npm install` also installs the git hooks: `pre-commit` lints the staged files, `pre-push` runs the full lint and the unit tests.
 
 The packages are tested with the built `@rockpack/tester` from `packages/tester/lib`, so build before running tests:

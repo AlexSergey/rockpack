@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest a new option, template or improvement
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      multiple: true
+      options:
+        - '@rockpack/starter'
+        - '@rockpack/compiler'
+        - '@rockpack/tester'
+        - '@rockpack/codestyle'
+        - '@rockpack/babel'
+        - '@rockpack/tsconfig'
+        - '@rockpack/utils'
+        - Documentation site
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Use case
+      description: What you are trying to do and why the current behaviour is not enough.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The API, option or behaviour you have in mind.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Workarounds you use today or other solutions you considered.

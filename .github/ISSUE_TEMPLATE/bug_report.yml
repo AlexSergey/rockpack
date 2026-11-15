@@ -1,0 +1,51 @@
+name: Bug report
+description: Something in a Rockpack package does not work as documented
+labels: [bug]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      multiple: true
+      options:
+        - '@rockpack/starter'
+        - '@rockpack/compiler'
+        - '@rockpack/tester'
+        - '@rockpack/codestyle'
+        - '@rockpack/babel'
+        - '@rockpack/tsconfig'
+        - '@rockpack/utils'
+        - Documentation site
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Steps, the build or test script, or a link to a minimal repository.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: The full terminal output or error.
+      render: shell
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Rockpack package versions, Node.js and npm versions, operating system.
+      placeholder: |
+        @rockpack/compiler 9.0.0
+        Node.js 24.15.0, npm 11.6.0
+        macOS 15
+    validations:
+      required: true

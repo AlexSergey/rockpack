@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://alexsergey.github.io/rockpack/
+    about: Guides and the package READMEs
