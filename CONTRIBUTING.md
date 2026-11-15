@@ -84,7 +84,7 @@ describe('readPackageJson', () => {
 
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) with the package as the scope: `fix(compiler): ...`, `feat(starter): ...`, `docs(tester): ...`, `test(babel): ...`.
 - Git hooks run on install: `pre-commit` runs lint-staged, `pre-push` runs `npm run lint` and `npm run test:unit`.
-- Open pull requests against the `next` branch.
+- Open pull requests against the `master` branch.
 - One topic per pull request; link the issue it closes (`Closes #123`).
 - CI must be green before a review.
 

@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches:
-      - next
       - master
   pull_request:
     # labeled: adding the e2e:runtime label starts the runtime job on a pull request.
@@ -116,12 +115,12 @@ jobs:
       - name: Tester examples
         run: npx lerna run test --scope='@rockpack/example-tester-*'
 
-  # Browser and dev-server checks: on pushes to next, on manual runs and on pull requests labelled e2e:runtime.
+  # Browser and dev-server checks: on pushes to master, on manual runs and on pull requests labelled e2e:runtime.
   e2e-runtime:
     needs: check
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/next') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
       contains(github.event.pull_request.labels.*.name, 'e2e:runtime')
     runs-on: ubuntu-latest
     timeout-minutes: 15

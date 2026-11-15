@@ -184,7 +184,7 @@ npm run e2e:latest   # generated projects installed for real with the local pack
 npm test           # all workspaces: package unit tests, examples and e2e
 ```
 
-CI (`.github/workflows/ci.yml`) runs the checks and `npm run e2e` on every push and pull request, and `npm run e2e:runtime` on pushes to `next` and on pull requests labelled `e2e:runtime`. `e2e-latest.yml` (manual and on release tags) runs `npm run e2e:latest`, and `deps-canary.yml` (manual) builds and tests the monorepo with updated dependencies and opens an issue when that fails.
+CI (`.github/workflows/ci.yml`) runs the checks and `npm run e2e` on every push and pull request, and `npm run e2e:runtime` on pushes to `master` and on pull requests labelled `e2e:runtime`. `e2e-latest.yml` (manual and on release tags) runs `npm run e2e:latest`, and `deps-canary.yml` (manual) builds and tests the monorepo with updated dependencies and opens an issue when that fails.
 
 ### Updating dependencies
 
