@@ -34,6 +34,18 @@ Fix the formatting with Prettier and the fixable ESLint and Stylelint problems:
 npm run format
 ```
 
+## Production
+
+`npm run build` bundles the server together with its dependencies. To deploy, copy `dist` and `public` side by side (the server serves the client files from `../public`) and run them with the Node.js version from `.nvmrc`.
+
+Start the built server:
+
+```shell
+node dist/index.js
+```
+
+The server listens on `PORT` from `.env` (8888 by default). The build inlines `.env` into the bundle, so set `PORT` there before `npm run build`: a `PORT` set when the server starts has no effect. See the [@rockpack/compiler README](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md) for `.env.defaults` and `.env.example`.
+
 ## Claude Code Adaptation
 
 **Rockpack** is optimized for AI-assisted development with Claude Code.
