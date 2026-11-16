@@ -16,7 +16,9 @@ export const devServer = async ({
   webpackConfig,
 }: RunningResult): Promise<DevServerResult> => {
   const devServerConfig = (webpackConfig as { devServer?: DevServerConfig }).devServer ?? {};
-  const url = `http://${String(devServerConfig.host)}:${String(devServerConfig.port)}`;
+  const serverType = typeof devServerConfig.server === 'object' ? devServerConfig.server.type : devServerConfig.server;
+  const protocol = serverType === 'https' || serverType === 'http2' ? 'https' : 'http';
+  const url = `${protocol}://${String(devServerConfig.host)}:${String(devServerConfig.port)}`;
   const server = new WebpackDevServer(devServerConfig, compiler);
   await server.start();
   reporter?.info(compilerLabel(conf), `Starting server on ${url}`);

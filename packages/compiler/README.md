@@ -456,6 +456,14 @@ await frontendCompiler({
 ```
 - [Example here](https://github.com/AlexSergey/rockpack/tree/master/examples/compiler/advanced-config-elm-support)
 ***
+How do I run the dev server over HTTPS?
+- *Set the webpack-dev-server `server` option in the callback; the reporter and `result.url` then print `https://`:*
+```ts
+frontendCompiler({}, (config) => {
+  config.devServer = { ...config.devServer, server: 'https' };
+});
+```
+***
 Does the DEV build write files to disk?
 - *Yes: the development server always writes the bundle to `dist` (`writeToDisk`), so a backend or another tool can read it; there is no option to turn it off.*
 ***

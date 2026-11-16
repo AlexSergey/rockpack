@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
+
 ## [9.0.0]
 
 Version 9.0.0 rewrites every package in TypeScript and moves the toolchain to Node.js 24.15, Babel 8, webpack-dev-server 6 and type checking with the project's own `tsc`. The compilers resolve to typed results and reject with typed errors instead of exiting the process, the build output comes from a new reporter, `@rockpack/codestyle` adds strict typescript-eslint presets and rules that catch bugs, and generated projects get git hooks, knip and live reload for SSR.
