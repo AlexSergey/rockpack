@@ -100,6 +100,44 @@ describe('tester', () => {
       expect(initMock).toHaveBeenCalledWith({ src: './app', watch: true }, {});
     });
 
+    it('forwards the allowlisted jest flags from the command line', async () => {
+      initMock.mockResolvedValue(undefined);
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', '-t', 'renders', '-u', '--bail', '3', '--ci', 'cli'];
+
+      try {
+        await tester();
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith(
+        {
+          bail: 3,
+          ci: true,
+          testNamePattern: 'renders',
+          testPathPatterns: ['cli'],
+          updateSnapshot: true,
+          watch: false,
+        },
+        {},
+      );
+    });
+
+    it('lets explicit jest flag options win over the command line', async () => {
+      initMock.mockResolvedValue(undefined);
+      const originalArgv = process.argv;
+      process.argv = ['node', 'scripts.tests.ts', '--ci', '-t', 'renders'];
+
+      try {
+        await tester({ ci: false });
+      } finally {
+        process.argv = originalArgv;
+      }
+
+      expect(initMock).toHaveBeenCalledWith({ ci: false, testNamePattern: 'renders', watch: false }, {});
+    });
+
     it('lets an explicit watch option win over the command line', async () => {
       initMock.mockResolvedValue(undefined);
       const originalArgv = process.argv;

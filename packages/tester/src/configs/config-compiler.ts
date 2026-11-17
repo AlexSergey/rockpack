@@ -187,6 +187,10 @@ export const configCompiler = (
     runInBand: serial && noWatch,
     testMatch: createTestMatch(src, options.prefix),
     ...(options.testPathPatterns.length > 0 ? { testPathPatterns: options.testPathPatterns } : {}),
+    ...(opts.bail === undefined ? {} : { bail: opts.bail }),
+    ...(opts.ci === undefined ? {} : { ci: opts.ci }),
+    ...(opts.testNamePattern === undefined ? {} : { testNamePattern: opts.testNamePattern }),
+    ...(opts.updateSnapshot === undefined ? {} : { updateSnapshot: opts.updateSnapshot }),
     watch,
   };
 

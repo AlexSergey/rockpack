@@ -6,6 +6,7 @@ import type { TestResults } from './core/init.js';
 import type { CoverageOptions, TesterOptions } from './default-props.js';
 
 import { init } from './core/init.js';
+import { readJestFlags } from './modules/read-jest-flags.js';
 import { readTestPathPatterns } from './modules/read-test-path-patterns.js';
 
 export type { CoverageOptions, TesterOptions, TestResults };
@@ -21,6 +22,7 @@ const tester = (
   const args = process.argv.slice(2);
   const positional = readTestPathPatterns(args);
   const options = {
+    ...readJestFlags(args),
     ...opts,
     ...(typeof opts.watch === 'boolean' ? {} : { watch: args.includes('--watch') }),
     ...(opts.testPathPatterns === undefined && positional.length > 0 ? { testPathPatterns: positional } : {}),
