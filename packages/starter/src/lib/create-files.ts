@@ -6,6 +6,7 @@ import semverMinVersion from 'semver/ranges/min-version.js';
 import type { State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
+import { getPM } from '../utils/other.js';
 import { packageJson } from '../utils/package-json.js';
 import { dummies } from '../utils/pathes.js';
 import { render } from '../utils/render.js';
@@ -33,6 +34,15 @@ export const createFiles = (
 
   if (fs.existsSync(path.join(currentPath, '.env.example'))) {
     fs.copyFileSync(path.join(currentPath, '.env.example'), path.join(currentPath, '.env'));
+  }
+
+  const readmePath = path.join(currentPath, 'README.md');
+  if (fs.existsSync(readmePath)) {
+    const pm = getPM();
+    fs.writeFileSync(
+      readmePath,
+      render(fs.readFileSync(readmePath, 'utf8'), { pm, run: pm === 'yarn' ? pm : `${pm} run` }),
+    );
   }
 
   if (appType === 'library' || appType === 'component') {
