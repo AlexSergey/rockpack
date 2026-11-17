@@ -20,7 +20,7 @@ const BOOLEAN_FLAGS: readonly BooleanFlag[] = ['tests', 'offline', 'install', 'y
 
 const formatValue = (value: unknown): string => (typeof value === 'string' ? value : JSON.stringify(value));
 
-// The problems with the flags that take a fixed set of values; the CLI prints them and exits with code 1.
+// The CLI prints invalid flag values and exits with code 1.
 export const validateArgs = (): string[] => {
   const argv = getArgv();
   const problems: string[] = [];
@@ -28,6 +28,11 @@ export const validateArgs = (): string[] => {
 
   if (type !== undefined && !(APP_TYPES as unknown[]).includes(type)) {
     problems.push(`Unknown type "${formatValue(type)}". Use one of: ${APP_TYPES.join(', ')}`);
+  }
+
+  const folder: unknown = argv['folder'];
+  if (folder !== undefined && (typeof folder !== 'string' || folder.length === 0)) {
+    problems.push(`Invalid value "${formatValue(folder)}" for --folder. Provide a non-empty path.`);
   }
 
   BOOLEAN_FLAGS.forEach((flag) => {
