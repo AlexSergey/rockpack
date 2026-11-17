@@ -129,15 +129,13 @@ describe('devServer', () => {
       expect(reporter.info).toHaveBeenCalledWith('frontend', `Starting server on ${expectedUrl}`);
     });
 
-    it('does not wrap an IPv4 address in brackets', async () => {
+    it.each([undefined, ''])('does not print an empty host for the host %p', async (host) => {
       const reporter = fakeReporter();
 
-      await expect(devServer(running({ devServer: { host: '0.0.0.0', port: 3000 } }, reporter))).resolves.toMatchObject(
-        {
-          url: 'http://0.0.0.0:3000',
-        },
-      );
-      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://0.0.0.0:3000');
+      await expect(devServer(running({ devServer: { host, port: 3000 } }, reporter))).resolves.toMatchObject({
+        url: 'http://localhost:3000',
+      });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3000');
     });
   });
 
@@ -166,6 +164,17 @@ describe('devServer', () => {
         expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on https://localhost:3000');
       },
     );
+
+    it('keeps an IPv4 host without brackets', async () => {
+      const reporter = fakeReporter();
+
+      await expect(devServer(running({ devServer: { host: '0.0.0.0', port: 3000 } }, reporter))).resolves.toMatchObject(
+        {
+          url: 'http://0.0.0.0:3000',
+        },
+      );
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://0.0.0.0:3000');
+    });
 
     it.each(['::', '::1'])('wraps the IPv6 host %p in brackets', async (host) => {
       const reporter = fakeReporter();

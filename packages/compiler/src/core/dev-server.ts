@@ -21,7 +21,8 @@ export const devServer = async ({
   const protocol = serverType === 'https' || serverType === 'http2' ? 'https' : 'http';
   const server = new WebpackDevServer(devServerConfig, compiler);
   await server.start();
-  const host = String(server.options.host);
+  // Without a host webpack-dev-server listens on every interface, which localhost reaches.
+  const host = server.options.host || 'localhost';
   const url = `${protocol}://${isIPv6(host) ? `[${host}]` : host}:${String(server.options.port)}`;
   reporter?.info(compilerLabel(conf), `Starting server on ${url}`);
 
