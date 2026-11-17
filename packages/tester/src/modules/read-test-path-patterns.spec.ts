@@ -27,6 +27,10 @@ describe('readTestPathPatterns', () => {
     it('skips flags written with an equals sign', () => {
       expect(readTestPathPatterns(['--mode=test', '--testNamePattern=renders'])).toEqual([]);
     });
+
+    it('skips the number after --bail', () => {
+      expect(readTestPathPatterns(['--bail', '3'])).toEqual([]);
+    });
   });
 
   describe('positive cases', () => {
@@ -36,6 +40,10 @@ describe('readTestPathPatterns', () => {
 
     it('keeps an argument after a boolean flag', () => {
       expect(readTestPathPatterns(['--watch', 'cli'])).toEqual(['cli']);
+    });
+
+    it('keeps a path pattern after --bail', () => {
+      expect(readTestPathPatterns(['--bail', 'cli'])).toEqual(['cli']);
     });
 
     it('keeps the arguments around a flag value', () => {

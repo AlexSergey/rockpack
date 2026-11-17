@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Fixed
+- `@rockpack/tester`: `-t`/`--testNamePattern`, `-u`/`--updateSnapshot`, `--bail` and `--ci` are forwarded from the command line to Jest instead of being dropped; explicit options passed to `tester()` still win, and a number after `--bail` is no longer read as a spec path pattern
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
 - `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
