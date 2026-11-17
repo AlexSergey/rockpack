@@ -10,18 +10,22 @@ export type JestFlags = {
   readonly updateSnapshot?: boolean;
 };
 
-export const isNumber = (value: string | undefined): value is string => value !== undefined && /^\d+$/.test(value);
+export const isWholeNumber = (value: string | undefined): boolean => value !== undefined && /^\d+$/.test(value);
 
 // `--testNamePattern=x` and `--bail=3` carry their value after the equals sign.
 const valueAfterEquals = (arg: string, flag: string): string | undefined =>
   arg.startsWith(`${flag}=`) ? arg.slice(flag.length + 1) : undefined;
 
+// Filled while reading the arguments, then returned as read-only JestFlags.
+type MutableJestFlags = { -readonly [K in keyof JestFlags]: JestFlags[K] };
+
 export const readJestFlags = (args: readonly string[]): JestFlags => {
-  const flags: { -readonly [K in keyof JestFlags]: JestFlags[K] } = {};
+  const flags: MutableJestFlags = {};
 
   args.forEach((arg, index) => {
     const next = args[index + 1];
     const namePattern = valueAfterEquals(arg, '--testNamePattern');
+    const bailCount = valueAfterEquals(arg, '--bail');
 
     if ((arg === '-t' || arg === '--testNamePattern') && next !== undefined) {
       flags.testNamePattern = next;
@@ -33,9 +37,9 @@ export const readJestFlags = (args: readonly string[]): JestFlags => {
       flags.ci = true;
     } else if (arg === '--bail') {
       // The number is optional: `--bail cli` stops at the first failure and keeps `cli` as a path pattern.
-      flags.bail = isNumber(next) ? Number(next) : true;
-    } else if (isNumber(valueAfterEquals(arg, '--bail'))) {
-      flags.bail = Number(valueAfterEquals(arg, '--bail'));
+      flags.bail = isWholeNumber(next) ? Number(next) : true;
+    } else if (isWholeNumber(bailCount)) {
+      flags.bail = Number(bailCount);
     }
   });
 

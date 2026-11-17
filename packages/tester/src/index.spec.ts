@@ -10,7 +10,15 @@ const setModeMock = setMode as jest.MockedFunction<typeof setMode>;
 const initMock = init as jest.MockedFunction<typeof init>;
 
 describe('tester', () => {
+  const runnerArgv = process.argv;
+
+  // The tester reads process.argv, so the specs start from a clean command line instead of the one that ran Jest.
+  beforeEach(() => {
+    process.argv = ['node', 'scripts.tests.ts'];
+  });
+
   afterEach(() => {
+    process.argv = runnerArgv;
     jest.restoreAllMocks();
     jest.resetAllMocks();
   });

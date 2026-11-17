@@ -1,4 +1,4 @@
-import { isNumber } from './read-jest-flags.js';
+import { isWholeNumber } from './read-jest-flags.js';
 
 // Flags whose next argument is their value (`--mode test`), not a spec path pattern: `--mode` is read by setMode, the
 // others are Jest flags that take a value.
@@ -8,7 +8,7 @@ const FLAGS_WITH_VALUE: readonly string[] = ['--mode', '--testNamePattern', '-t'
 const FLAGS_WITH_OPTIONAL_NUMBER: readonly string[] = ['--bail'];
 
 const isFlagValue = (arg: string, previous: string): boolean =>
-  FLAGS_WITH_VALUE.includes(previous) || (FLAGS_WITH_OPTIONAL_NUMBER.includes(previous) && isNumber(arg));
+  FLAGS_WITH_VALUE.includes(previous) || (FLAGS_WITH_OPTIONAL_NUMBER.includes(previous) && isWholeNumber(arg));
 
 // The positional command line arguments (like `jest <pattern>`); flags and the values of flags are skipped.
 export const readTestPathPatterns = (args: readonly string[]): string[] =>
