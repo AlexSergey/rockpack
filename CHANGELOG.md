@@ -5,6 +5,7 @@
 ### Fixed
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
+- `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
 
 ## [9.0.0]
 

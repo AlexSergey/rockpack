@@ -94,7 +94,7 @@ rockpack <project-name>
 | `-h`, `--help` | Print the usage |
 | `-v`, `--version` | Print the version |
 
-`--offline`, `--no-install` and `--yarn` accept the same boolean values as `--tests`. An unknown `--type` or a value that is no boolean prints an error and exits with code `1`. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
+`--offline`, `--no-install` and `--yarn` accept the same boolean values as `--tests`. The starter prints an error and exits with code `1` for an unknown `--type`, an invalid boolean value, or a `--folder` value that is missing or is not a non-empty path string. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
 
 ```shell
 rockpack my-app --type=csr --tests=true --yarn

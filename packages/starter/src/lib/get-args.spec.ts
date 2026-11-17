@@ -66,10 +66,16 @@ describe('getArgs', () => {
       expect(validateArgs()).toEqual([`Invalid value "maybe" for --${flag}. Use one of: true, yes, 1, false, no, 0`]);
     });
 
-    it('reports every invalid flag', () => {
-      setArgv({ offline: 'later', tests: 'maybe', type: 'desktop' });
+    it.each([true, '', 42])('reports an invalid --folder value of %p', (folder) => {
+      setArgv({ folder });
 
-      expect(validateArgs()).toHaveLength(3);
+      expect(validateArgs()).toEqual([`Invalid value "${String(folder)}" for --folder. Provide a non-empty path.`]);
+    });
+
+    it('reports every invalid flag', () => {
+      setArgv({ folder: true, offline: 'later', tests: 'maybe', type: 'desktop' });
+
+      expect(validateArgs()).toHaveLength(4);
     });
 
     it('keeps install and test mode off by default', () => {
@@ -121,7 +127,7 @@ describe('getArgs', () => {
     });
 
     it('finds no problems with valid flags', () => {
-      setArgv({ install: false, offline: 'true', tests: 'no', type: 'ssr', yarn: true });
+      setArgv({ folder: 'projects', install: false, offline: 'true', tests: 'no', type: 'ssr', yarn: true });
 
       expect(validateArgs()).toEqual([]);
     });
