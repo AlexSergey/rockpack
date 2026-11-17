@@ -97,4 +97,18 @@ describe('starter generation', () => {
       });
     });
   });
+
+  describe('ssr server', () => {
+    describe('positive cases', () => {
+      it('falls back to the PORT of its .env.example', () => {
+        const project = path.join(root, 'ssr-with-tests');
+        const port = /^PORT=(\d+)$/m.exec(readFileSync(path.join(project, '.env.example'), 'utf8'))?.[1];
+
+        expect(port).toBeDefined();
+        expect(readFileSync(path.join(project, 'src', 'server.tsx'), 'utf8')).toContain(
+          `process.env['PORT'] ?? ${String(port)}`,
+        );
+      });
+    });
+  });
 });
