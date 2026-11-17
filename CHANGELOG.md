@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Fixed
+- `@rockpack/starter`: generated READMEs use the selected package manager, including Yarn commands, instead of always showing npm
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
 
