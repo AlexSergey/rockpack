@@ -119,6 +119,8 @@ module.exports = makeConfig({
 });
 ```
 
+An explicit `ignoreFile` must exist. A missing file throws an error that includes the resolved absolute path. When the option is omitted, Rockpack searches for `.eslintflatignore` in the working directory and its ancestors. Set `ignoreFile: false` to turn off ignore-file handling.
+
 ## Extensibility
 
 If you need to change the ESLint configuration you can just extend return object from **makeConfig** function:

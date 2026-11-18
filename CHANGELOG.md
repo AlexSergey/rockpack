@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Fixed
+- `@rockpack/codestyle`: a missing explicit `ignoreFile` now throws an error that includes the resolved path
 - `@rockpack/tester`: `-t`/`--testNamePattern`, `-u`/`--updateSnapshot`, `--bail` and `--ci` are forwarded from the command line to Jest instead of being dropped; explicit options passed to `tester()` still win, and a number after `--bail` is no longer read as a spec path pattern
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
 - `@rockpack/compiler`: the dev server prints the address it listens on and returns it in `result.url` when `port` is `'auto'`, `host` is `local-ip`, `local-ipv4` or `local-ipv6`, or an IPv6 address (in brackets)
