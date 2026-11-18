@@ -355,10 +355,10 @@ describe('install', () => {
       expect(logSpy).toHaveBeenLastCalledWith('Thank you for using Rockpack!');
     });
 
-    it('prints the example commands for a library without tests', async () => {
+    it('prints the root start command for a library without tests', async () => {
       await runInstall({ appType: 'library', tester: false });
 
-      expect(logSpy).toHaveBeenCalledWith('cd example && npm start - run dev mode');
+      expect(logSpy).toHaveBeenCalledWith('npm start - run dev mode');
       expect(logSpy).not.toHaveBeenCalledWith('npm test - run tests');
     });
   });

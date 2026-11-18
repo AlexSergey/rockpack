@@ -8,6 +8,7 @@
 - `@rockpack/compiler`: the dev server prints the address it listens on and returns it in `result.url` when `port` is `'auto'`, `host` is `local-ip`, `local-ipv4` or `local-ipv6`, or an IPv6 address (in brackets)
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
 - `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
+- `@rockpack/starter`: the summary of a `library` or `component` project suggests `<pm> start` from the project root instead of `cd example && <pm> start`, which failed with `Missing script: "start"`
 
 ## [9.0.0]
 
