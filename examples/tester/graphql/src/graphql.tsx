@@ -24,7 +24,7 @@ type GraphqlProps = {
   options?: AxiosRequestConfig;
 };
 
-type GraphqlQuery = string | { loc?: { source: { body: string } } };
+type GraphqlQuery = string | { loc?: undefined | { source: { body: string } } };
 
 type MockGraphqlProps = {
   children: ReactNode;
@@ -42,11 +42,11 @@ const GraphqlContext = createContext<false | GraphqlClient>(false);
 const useGraphql = (): false | GraphqlClient => useContext(GraphqlContext);
 
 const resolveQuery = (q: GraphqlQuery): string => {
-  if (q && typeof q === 'object' && 'loc' in q && q.loc.source.body) {
-    return q.loc.source.body;
+  if (typeof q === 'string') {
+    return q;
   }
 
-  return q as string;
+  return q.loc?.source.body ?? '';
 };
 
 const normalizeQuery = (q: string): string =>

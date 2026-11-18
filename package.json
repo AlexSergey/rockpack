@@ -39,26 +39,6 @@
     "commit-msg": "sh tools/git-hooks/commit-msg.sh \"$1\"",
     "pre-push": "npm run lint && npm run test:unit"
   },
-  "devDependencies": {
-    "@babel/core": "8.0.6",
-    "@inquirer/checkbox": "5.2.5",
-    "@types/node": "24.13.6",
-    "@types/semver": "7.8.0",
-    "@types/yargs": "17.0.35",
-    "cross-env": "10.1.0",
-    "eslint": "10.12.0",
-    "knip": "6.38.0",
-    "latest-version": "9.0.0",
-    "lerna": "10.0.1",
-    "lint-staged": "17.5.1",
-    "semver": "7.8.5",
-    "simple-git-hooks": "2.14.0",
-    "sort-package-json": "4.0.0",
-    "syncpack": "15.3.3",
-    "tsx": "4.23.15",
-    "typescript": "6.0.3",
-    "yargs": "18.2.0"
-  },
   "overrides": {
     "cross-spawn": "7.0.6",
     "lerna": {
@@ -66,8 +46,29 @@
       "pacote": "21.5.1"
     },
     "nx": {
-      "smol-toml": "1.9.0"
+      "smol-toml": "1.9.0",
+      "undici": "7.30.2"
     }
+  },
+  "devDependencies": {
+    "@babel/core": "8.1.2",
+    "@inquirer/checkbox": "5.3.0",
+    "@types/node": "24.19.2",
+    "@types/semver": "7.8.0",
+    "@types/yargs": "17.0.35",
+    "cross-env": "10.1.0",
+    "eslint": "10.15.0",
+    "knip": "6.45.1",
+    "latest-version": "9.0.0",
+    "lerna": "10.1.1",
+    "lint-staged": "17.6.1",
+    "semver": "7.8.6",
+    "simple-git-hooks": "2.14.0",
+    "sort-package-json": "4.1.0",
+    "syncpack": "15.3.3",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "yargs": "18.2.0"
   },
   "engines": {
     "node": ">=24.15.0"

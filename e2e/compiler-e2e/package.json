@@ -18,9 +18,9 @@
   "dependencies": {
     "@rockpack/compiler": "9.0.0",
     "deepmerge": "4.3.1",
-    "jsdom": "30.1.1",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "jsdom": "31.0.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@rockpack/codestyle": "9.0.0",

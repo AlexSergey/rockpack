@@ -16,9 +16,9 @@
   "dependencies": {
     "@mdx-js/react": "3.1.1",
     "prism-react-renderer": "2.4.1",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "react-live": "5.0.0"
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-live": "5.0.1"
   },
   "devDependencies": {
     "@rockpack/codestyle": "9.0.0",

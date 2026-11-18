@@ -15,8 +15,8 @@
     "test:watch": "node scripts.tests.mts --watch"
   },
   "dependencies": {
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@rockpack/codestyle": "9.0.0",
