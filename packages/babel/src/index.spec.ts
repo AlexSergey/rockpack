@@ -94,6 +94,20 @@ describe('createBabelPresets', () => {
       );
     });
 
+    it('logs and returns the defaults when the rockpack.babel.js function returns undefined', () => {
+      createProject();
+      const defaults = createBabelPresets();
+      createProject({ babelConfig: 'module.exports = () => undefined;' });
+
+      const opts = createBabelPresets();
+
+      expect(opts).toEqual(defaults);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Rockpack/Babel: rockpack.babel.js merge function must return the Babel options',
+      );
+    });
+
     it('logs and returns the defaults when the rockpack.babel.js function returns null', () => {
       createProject();
       const defaults = createBabelPresets();
@@ -102,9 +116,23 @@ describe('createBabelPresets', () => {
       const opts = createBabelPresets();
 
       expect(opts).toEqual(defaults);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        "Rockpack/Babel: can't merge rockpack.babel.js",
-        expect.any(TypeError),
+        'Rockpack/Babel: rockpack.babel.js merge function must return the Babel options',
+      );
+    });
+
+    it('logs and returns the defaults when the rockpack.babel.js function returns an empty object', () => {
+      createProject();
+      const defaults = createBabelPresets();
+      createProject({ babelConfig: 'module.exports = () => ({});' });
+
+      const opts = createBabelPresets();
+
+      expect(opts).toEqual(defaults);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Rockpack/Babel: rockpack.babel.js merge function must return the Babel options',
       );
     });
 
@@ -407,15 +435,6 @@ describe('createBabelPresets', () => {
         hasDefaults: true,
         hasMerge: true,
       });
-    });
-
-    it('keeps the defaults when a rockpack.babel.js function returns an empty object', () => {
-      createProject();
-      const defaults = createBabelPresets();
-      createProject({ babelConfig: 'module.exports = () => ({});' });
-
-      expect(createBabelPresets()).toEqual(defaults);
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
   });
 });

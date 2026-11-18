@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Fixed
+- `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
 - `@rockpack/codestyle`: a missing explicit `ignoreFile` now throws an error that includes the resolved path
 - `@rockpack/tester`: `-t`/`--testNamePattern`, `-u`/`--updateSnapshot`, `--bail` and `--ci` are forwarded from the command line to Jest instead of being dropped; explicit options passed to `tester()` still win, and a number after `--bail` is no longer read as a spec path pattern
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS

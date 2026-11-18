@@ -35,10 +35,12 @@ export const applyUserConfig = (opts: InputOptions, context: BabelMergeContext, 
     }
     if (typeof babelMergeModule === 'function') {
       const merge = babelMergeModule as BabelMergeFunction;
-      const result = merge(context, opts, deepmerge);
-      if (typeof result === 'object' && Object.keys(result).length > 0) {
+      const result: unknown = merge(context, opts, deepmerge);
+      if (typeof result === 'object' && result !== null && Object.keys(result).length > 0) {
         return result;
       }
+      // eslint-disable-next-line no-console
+      console.error(`Rockpack/Babel: ${configFile} merge function must return the Babel options`);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
