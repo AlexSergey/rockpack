@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- `@rockpack/compiler`: every page of an `html` array gets the same defaults as a single page, so a page without a `title` gets the package name instead of no title
+
 ## [9.1.0]
 
 ### Fixed
