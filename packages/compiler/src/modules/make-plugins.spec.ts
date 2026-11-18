@@ -333,6 +333,18 @@ describe('makePlugins', () => {
       });
     });
 
+    it('derives the filename from a template whose folder contains a dot', async () => {
+      const page = getPluginOptions((await build({ html: { template: 'my.app/template' } }))['HtmlWebpackPlugin0']);
+
+      expect(page).toMatchObject({ filename: 'template.html' });
+    });
+
+    it('derives the filename from an extensionless template', async () => {
+      const page = getPluginOptions((await build({ html: { template: 'templates/page' } }))['HtmlWebpackPlugin0']);
+
+      expect(page).toMatchObject({ filename: 'page.html' });
+    });
+
     it('keeps an explicit page filename', async () => {
       const page = getPluginOptions((await build({ html: { filename: 'main.html' } }))['HtmlWebpackPlugin0']);
 

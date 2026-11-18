@@ -35,8 +35,7 @@ export const makeHtmlPlugins = (ctx: PluginContext): PluginEntries => {
   return Object.fromEntries(
     getPages(ctx, defaultTemplate).map((page, index) => {
       const template = page.template || defaultTemplate;
-      const filename =
-        page.filename || `${template.slice(template.lastIndexOf(path.sep) + 1, template.lastIndexOf('.'))}.html`;
+      const filename = page.filename || `${path.parse(template).name}.html`;
       const { favicon, inject, minify, templateParameters, ...rest } = page;
 
       // The page values win over the defaults.
