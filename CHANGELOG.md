@@ -10,6 +10,7 @@
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
 - `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
 - `@rockpack/starter`: the summary of a `library` or `component` project suggests `<pm> start` from the project root instead of `cd example && <pm> start`, which failed with `Missing script: "start"`
+- `@rockpack/starter`: the wizard intro no longer promises Stylelint for a library, the project type question reads "Which type of application do you want to create?", and the summary describes `lint` as running all checks (ESLint, types, styles except for a library, unused code) instead of ESLint only
 
 ## [9.0.0]
 

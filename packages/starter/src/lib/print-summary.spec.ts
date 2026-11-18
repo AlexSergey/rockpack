@@ -47,17 +47,19 @@ describe('printSummary', () => {
   });
 
   describe('positive cases', () => {
-    it.each(['csr', 'ssr', 'library', 'component'] as const)(
-      'prints the dev and build commands for a %s project',
-      (appType) => {
-        const lines = printedLines({ appType, tester: false });
+    it.each([
+      ['csr', 'npm run lint - run all checks (ESLint, types, styles, unused code)'],
+      ['ssr', 'npm run lint - run all checks (ESLint, types, styles, unused code)'],
+      ['library', 'npm run lint - run all checks (ESLint, types, unused code)'],
+      ['component', 'npm run lint - run all checks (ESLint, types, styles, unused code)'],
+    ] as const)('prints the dev, build and lint commands for a %s project', (appType, lintLine) => {
+      const lines = printedLines({ appType, tester: false });
 
-        expect(lines).toContain('cd my-app');
-        expect(lines).toContain('npm start - run dev mode');
-        expect(lines).toContain('npm run build - build production');
-        expect(lines).toContain('npm run lint - check ESLint rules');
-      },
-    );
+      expect(lines).toContain('cd my-app');
+      expect(lines).toContain('npm start - run dev mode');
+      expect(lines).toContain('npm run build - build production');
+      expect(lines).toContain(lintLine);
+    });
 
     it('uses the detected package manager', () => {
       getPMMock.mockReturnValue('yarn');
