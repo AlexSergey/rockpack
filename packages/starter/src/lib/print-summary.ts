@@ -31,8 +31,9 @@ export const printSummary = (projectName: string, state: State): void => {
   }
 
   console.log();
-  console.log(chalk.magenta('  ESLint checking:'));
-  console.log(`${chalk.blue(`${getPM()} run lint`)} - check ESLint rules`);
+  console.log(chalk.magenta('  Checking project:'));
+  const checks = state.appType === 'library' ? 'ESLint, types, unused code' : 'ESLint, types, styles, unused code';
+  console.log(`${chalk.blue(`${getPM()} run lint`)} - run all checks (${checks})`);
 
   if (!state.nogit) {
     console.log();
