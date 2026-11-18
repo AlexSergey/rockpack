@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [9.1.0]
+
 ### Fixed
 - `@rockpack/codestyle`: a missing explicit `ignoreFile` now throws an error that includes the resolved path
 - `@rockpack/tester`: `-t`/`--testNamePattern`, `-u`/`--updateSnapshot`, `--bail` and `--ci` are forwarded from the command line to Jest instead of being dropped; explicit options passed to `tester()` still win, and a number after `--bail` is no longer read as a spec path pattern

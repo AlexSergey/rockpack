@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-compiler-imagemin",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "description": "Rockpack example: imagemin",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -18,8 +18,8 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0",
-    "@rockpack/compiler": "9.0.0",
-    "@rockpack/tsconfig": "9.0.0"
+    "@rockpack/codestyle": "9.1.0",
+    "@rockpack/compiler": "9.1.0",
+    "@rockpack/tsconfig": "9.1.0"
   }
 }
