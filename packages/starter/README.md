@@ -89,12 +89,13 @@ rockpack <project-name>
 | `--folder=<path>` | Create the project inside this folder, absolute or relative to the current directory |
 | `--no-install` | Write the project without installing its dependencies |
 | `--yarn` | Use Yarn instead of npm when it is installed |
+| `--pnpm` | Use pnpm instead of npm when it is installed |
 | `--offline` | Write the dependency ranges from the starter's `versions.json` without asking the registry, and skip the update check. Installing the dependencies still needs the network (or a filled npm cache); combine with `--no-install` to only write the files |
 | `-y`, `--yes` | Answer the remaining questions with the defaults (`csr`, with tests) |
 | `-h`, `--help` | Print the usage |
 | `-v`, `--version` | Print the version |
 
-`--offline`, `--no-install` and `--yarn` accept the same boolean values as `--tests`. The starter prints an error and exits with code `1` for an unknown `--type`, an invalid boolean value, or a `--folder` value that is missing or is not a non-empty path string. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
+`--offline`, `--no-install`, `--yarn` and `--pnpm` accept the same boolean values as `--tests`. The starter prints an error and exits with code `1` for an unknown `--type`, an invalid boolean value, `--yarn` together with `--pnpm`, or a `--folder` value that is missing or is not a non-empty path string. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
 
 ```shell
 rockpack my-app --type=csr --tests=true --yarn

@@ -16,7 +16,7 @@ export type Args = {
   yes?: boolean;
 };
 
-const BOOLEAN_FLAGS: readonly BooleanFlag[] = ['tests', 'offline', 'install', 'yarn'];
+const BOOLEAN_FLAGS: readonly BooleanFlag[] = ['tests', 'offline', 'install', 'yarn', 'pnpm'];
 
 const formatValue = (value: unknown): string => (typeof value === 'string' ? value : JSON.stringify(value));
 
@@ -41,6 +41,10 @@ export const validateArgs = (): string[] => {
       problems.push(`Invalid value "${formatValue(value)}" for --${flag}. Use one of: ${BOOLEAN_WORDS.join(', ')}`);
     }
   });
+
+  if (readBooleanFlag('yarn') === true && readBooleanFlag('pnpm') === true) {
+    problems.push('Use --yarn or --pnpm, not both.');
+  }
 
   return problems;
 };

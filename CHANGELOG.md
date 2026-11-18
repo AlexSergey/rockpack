@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- `@rockpack/starter`: `--pnpm` creates the project with pnpm when it is installed (npm otherwise, with a warning), and `--yarn` together with `--pnpm` exits with an error; a pnpm project gets a `pnpm-workspace.yaml` that allows the install scripts of `@parcel/watcher` and `simple-git-hooks` and hoists the `eslint`, `prettier`, `stylelint` and `commitlint` binaries the scripts and git hooks call
+
 ## [9.1.0]
 
 ### Fixed

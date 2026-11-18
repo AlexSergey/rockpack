@@ -104,6 +104,14 @@ describe('rockpack', () => {
       expect(installMock).not.toHaveBeenCalled();
     });
 
+    it('exits with code 1 for --yarn together with --pnpm', async () => {
+      setArgv({ _: ['app'], pnpm: true, yarn: true });
+
+      await expect(rockpack()).resolves.toBe(1);
+      expect(errorSpy).toHaveBeenCalledWith('Use --yarn or --pnpm, not both.');
+      expect(installMock).not.toHaveBeenCalled();
+    });
+
     it('exits with code 1 and lists the types for an unknown --type', async () => {
       setArgv({ _: ['app'], type: 'desktop' });
 
@@ -218,6 +226,7 @@ describe('rockpack', () => {
         '--folder=',
         '--no-install',
         '--yarn',
+        '--pnpm',
         '--offline',
         '-y (--yes)',
         '-h (--help)',

@@ -6,6 +6,7 @@ import path from 'node:path';
 import sortPackageJson from 'sort-package-json';
 
 import type { DependencyGroups, PackageJsonObject } from '../types/package.js';
+import type { PackageManager } from './other.js';
 
 import { getPM } from './other.js';
 
@@ -127,9 +128,16 @@ export const createPackageJSON = (projectName: string): PackageJsonObject => ({
   version: '1.0.0',
 });
 
+// pnpm has no -q; its silent reporter is the equivalent.
+const INSTALL_COMMANDS: Readonly<Record<PackageManager, string>> = {
+  npm: 'npm install -q',
+  pnpm: 'pnpm install --reporter=silent',
+  yarn: 'yarn install -q',
+};
+
 export const installDependencies = (cwd: string): Promise<void> => {
   return new Promise((resolve, reject) => {
-    childProcess.exec(`${getPM()} install -q`, { cwd }, (err) => {
+    childProcess.exec(INSTALL_COMMANDS[getPM()], { cwd }, (err) => {
       if (err) {
         reject(err);
 

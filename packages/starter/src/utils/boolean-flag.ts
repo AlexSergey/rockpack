@@ -1,6 +1,6 @@
 import { getArgv } from './argv.js';
 
-export type BooleanFlag = 'install' | 'offline' | 'tests' | 'yarn';
+export type BooleanFlag = 'install' | 'offline' | 'pnpm' | 'tests' | 'yarn';
 
 const TRUE_WORDS: readonly string[] = ['true', 'yes', '1'];
 const FALSE_WORDS: readonly string[] = ['false', 'no', '0'];

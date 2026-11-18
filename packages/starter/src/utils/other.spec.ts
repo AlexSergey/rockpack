@@ -28,15 +28,20 @@ const loadOther = (): Loaded => {
   return loaded;
 };
 
-const mockYarnMissing = ({ execSyncMock }: Loaded): void => {
-  execSyncMock.mockImplementation((command) => {
-    if (command === 'yarnpkg --version') {
-      throw new Error('yarnpkg: command not found');
-    }
+const mockMissing =
+  (versionCommand: string) =>
+  ({ execSyncMock }: Loaded): void => {
+    execSyncMock.mockImplementation((command) => {
+      if (command === versionCommand) {
+        throw new Error(`${versionCommand}: command not found`);
+      }
 
-    return Buffer.from('11.6.0\n');
-  });
-};
+      return Buffer.from('11.6.0\n');
+    });
+  };
+
+const mockYarnMissing = mockMissing('yarnpkg --version');
+const mockPnpmMissing = mockMissing('pnpm --version');
 
 let warnSpy: jest.SpyInstance;
 let errorSpy: jest.SpyInstance;
@@ -47,6 +52,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  delete mockArgv['pnpm'];
   delete mockArgv['yarn'];
   jest.restoreAllMocks();
 });
@@ -79,6 +85,27 @@ describe('getPM', () => {
       expect(warnSpy).toHaveBeenCalledWith('Yarn is not installed, npm is used instead.');
       expect(errorSpy).not.toHaveBeenCalled();
     });
+
+    it.each(['false', 'no', '0', false])('returns npm for --pnpm=%p', (value) => {
+      mockArgv['pnpm'] = value;
+      const other = loadOther();
+
+      expect(other.getPM()).toBe('npm');
+      expect(other.execSyncMock).not.toHaveBeenCalled();
+    });
+
+    it('returns npm when pnpm is requested but not installed, with one warning', () => {
+      mockArgv['pnpm'] = true;
+      const other = loadOther();
+      mockPnpmMissing(other);
+
+      expect([other.getPM(), other.getPM(), other.getPM()]).toEqual(['npm', 'npm', 'npm']);
+      expect(other.execSyncMock).toHaveBeenCalledTimes(1);
+      expect(other.execSyncMock).toHaveBeenCalledWith('pnpm --version', { stdio: 'ignore' });
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy).toHaveBeenCalledWith('pnpm is not installed, npm is used instead.');
+      expect(errorSpy).not.toHaveBeenCalled();
+    });
   });
 
   describe('positive cases', () => {
@@ -98,6 +125,16 @@ describe('getPM', () => {
       expect([other.getPM(), other.getPM(), other.getPM()]).toEqual(['yarn', 'yarn', 'yarn']);
       expect(other.execSyncMock).toHaveBeenCalledTimes(1);
     });
+
+    it('returns pnpm when pnpm is requested and installed, looked up once', () => {
+      mockArgv['pnpm'] = 'yes';
+      const other = loadOther();
+      other.execSyncMock.mockReturnValue(Buffer.from('10.20.0'));
+
+      expect([other.getPM(), other.getPM(), other.getPM()]).toEqual(['pnpm', 'pnpm', 'pnpm']);
+      expect(other.execSyncMock).toHaveBeenCalledTimes(1);
+      expect(other.execSyncMock).toHaveBeenCalledWith('pnpm --version', { stdio: 'ignore' });
+    });
   });
 });
 
@@ -107,6 +144,15 @@ describe('getPMVersion', () => {
       mockArgv['yarn'] = true;
       const other = loadOther();
       mockYarnMissing(other);
+
+      expect(other.getPMVersion()).toBe('11.6.0\n');
+      expect(other.execSyncMock).toHaveBeenLastCalledWith('npm -v');
+    });
+
+    it('reports the npm version when pnpm is requested but not installed', () => {
+      mockArgv['pnpm'] = true;
+      const other = loadOther();
+      mockPnpmMissing(other);
 
       expect(other.getPMVersion()).toBe('11.6.0\n');
       expect(other.execSyncMock).toHaveBeenLastCalledWith('npm -v');
@@ -129,6 +175,15 @@ describe('getPMVersion', () => {
 
       expect(other.getPMVersion()).toBe('1.22.22\n');
       expect(other.execSyncMock).toHaveBeenLastCalledWith('yarnpkg --version');
+    });
+
+    it('reports the pnpm version when pnpm is used', () => {
+      mockArgv['pnpm'] = true;
+      const other = loadOther();
+      other.execSyncMock.mockReturnValue(Buffer.from('10.20.0\n'));
+
+      expect(other.getPMVersion()).toBe('10.20.0\n');
+      expect(other.execSyncMock).toHaveBeenLastCalledWith('pnpm --version');
     });
   });
 });

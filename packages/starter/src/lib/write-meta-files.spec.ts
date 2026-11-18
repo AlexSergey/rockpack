@@ -5,12 +5,16 @@ import path from 'node:path';
 import type * as Mocks from '../__fixtures__/mocks.js';
 import type { AppType } from './wizard.js';
 
+import { getPM } from '../utils/other.js';
 import { dummies } from '../utils/pathes.js';
 import { writeMetaFiles } from './write-meta-files.js';
 
 jest.mock('chalk', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').chalkModule);
 jest.mock('../utils/error.js', () => ({ showError: jest.fn() }));
 jest.mock('../utils/project.js', () => ({}));
+jest.mock('../utils/other.js', () => ({ getPM: jest.fn() }));
+
+const getPMMock = getPM as jest.MockedFunction<typeof getPM>;
 
 const readDummy = (dummy: string): string => fs.readFileSync(path.join(dummies, dummy), 'utf8');
 
@@ -20,6 +24,7 @@ describe('writeMetaFiles', () => {
   beforeEach(() => {
     dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rockpack-meta-'));
     jest.spyOn(console, 'log').mockImplementation(() => {});
+    getPMMock.mockReturnValue('npm');
   });
 
   afterEach(() => {
@@ -39,6 +44,14 @@ describe('writeMetaFiles', () => {
 
       expect(fs.readFileSync(path.join(dir, '.gitignore'), 'utf8').split('\n')).not.toContain('/public');
     });
+
+    it.each(['npm', 'yarn'] as const)('writes no pnpm-workspace.yaml for a %s project', (pm) => {
+      getPMMock.mockReturnValue(pm);
+
+      writeMetaFiles(dir, { appType: 'csr' });
+
+      expect(fs.existsSync(path.join(dir, 'pnpm-workspace.yaml'))).toBe(false);
+    });
   });
 
   describe('positive cases', () => {
@@ -48,6 +61,23 @@ describe('writeMetaFiles', () => {
       expect(fs.readFileSync(path.join(dir, '.gitignore'), 'utf8')).toBe(readDummy('gitignore'));
       expect(fs.readFileSync(path.join(dir, '.gitattributes'), 'utf8')).toBe(readDummy('gitattributes'));
     });
+
+    it.each<AppType>(['csr', 'ssr', 'library', 'component'])(
+      'writes pnpm-workspace.yaml with the install scripts and tool binaries for a pnpm %s project',
+      (appType) => {
+        getPMMock.mockReturnValue('pnpm');
+
+        writeMetaFiles(dir, { appType });
+
+        const workspace = fs.readFileSync(path.join(dir, 'pnpm-workspace.yaml'), 'utf8');
+        expect(workspace).toBe(readDummy('pnpm-workspace.yaml'));
+        const settings = workspace.replaceAll(/^ *#.*\n/gm, '');
+        expect(settings).toContain("allowBuilds:\n  '@parcel/watcher': true\n  simple-git-hooks: true\n");
+        expect(settings).toContain(
+          "publicHoistPattern:\n  - '@commitlint/cli'\n  - eslint\n  - prettier\n  - stylelint\n",
+        );
+      },
+    );
 
     it.each<AppType>(['library', 'component'])('writes .npmignore for a published %s', (appType) => {
       writeMetaFiles(dir, { appType });
