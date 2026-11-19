@@ -44,7 +44,7 @@ const merge: BabelMergeFunction = (context, opts, deepmerge) =>
 export default merge;
 ```
 
-The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modules`, `typescript` (`true` for both `true` and `{ env: true }`) and `typescriptEnv` (`true` for `typescript: { env: true }`). A config that fails to load or merge is skipped: the defaults are used and the error is printed with the file name. TypeScript configs are loaded through Node.js type stripping, so they may use only erasable syntax (no `enum` or `namespace`).
+The context holds `framework` (`'none' | 'react'`), `isNodejs`, `isTest`, `modules`, `typescript` (`true` for both `true` and `{ env: true }`) and `typescriptEnv` (`true` for `typescript: { env: true }`). A config that fails to load or merge, or a merge function that does not return a non-empty options object, is skipped: the defaults are used and the error is printed with the file name. TypeScript configs are loaded through Node.js type stripping, so they may use only erasable syntax (no `enum` or `namespace`).
 
 ## Included presets and plugins
 

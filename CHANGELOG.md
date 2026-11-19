@@ -7,6 +7,7 @@
 
 ### Fixed
 - `@rockpack/compiler`: every page of an `html` array gets the same defaults as a single page, so a page without a `title` gets the package name instead of no title
+- `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
 
 ## [9.1.0]
 
