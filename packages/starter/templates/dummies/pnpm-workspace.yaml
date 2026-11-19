@@ -1,0 +1,12 @@
+allowBuilds:
+  # npm runs the install scripts of every dependency; pnpm runs only the ones allowed here.
+  '@parcel/watcher': true
+  simple-git-hooks: true
+
+publicHoistPattern:
+  # The scripts and git hooks call these binaries. @rockpack/codestyle provides them, and npm hoists them into
+  # node_modules/.bin; pnpm links only the binaries of declared dependencies unless they are hoisted here.
+  - '@commitlint/cli'
+  - eslint
+  - prettier
+  - stylelint

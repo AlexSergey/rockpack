@@ -234,5 +234,14 @@ describe('project utils', () => {
 
       expect(execMock).toHaveBeenCalledWith('yarn install -q', { cwd: dir }, expect.any(Function));
     });
+
+    it('installs dependencies with pnpm and its silent reporter', async () => {
+      getPMMock.mockReturnValue('pnpm');
+      mockExecResult();
+
+      await installDependencies(dir);
+
+      expect(execMock).toHaveBeenCalledWith('pnpm install --reporter=silent', { cwd: dir }, expect.any(Function));
+    });
   });
 });

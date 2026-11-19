@@ -60,10 +60,19 @@ describe('getArgs', () => {
       expect(validateArgs()).toEqual(['Unknown type "true". Use one of: csr, ssr, component, library']);
     });
 
-    it.each(['tests', 'offline', 'install', 'yarn'])('reports a value of --%s that is no boolean', (flag) => {
+    it.each(['tests', 'offline', 'install', 'yarn', 'pnpm'])('reports a value of --%s that is no boolean', (flag) => {
       setArgv({ [flag]: 'maybe' });
 
       expect(validateArgs()).toEqual([`Invalid value "maybe" for --${flag}. Use one of: true, yes, 1, false, no, 0`]);
+    });
+
+    it.each([
+      { pnpm: true, yarn: true },
+      { pnpm: 'yes', yarn: '1' },
+    ])('reports --yarn together with --pnpm for %p', (flags) => {
+      setArgv(flags);
+
+      expect(validateArgs()).toEqual(['Use --yarn or --pnpm, not both.']);
     });
 
     it.each([true, '', 42])('reports an invalid --folder value of %p', (folder) => {
@@ -131,6 +140,15 @@ describe('getArgs', () => {
 
       expect(validateArgs()).toEqual([]);
     });
+
+    it.each([{ pnpm: true }, { pnpm: true, yarn: false }, { pnpm: 'no', yarn: true }])(
+      'finds no problems with a single package manager flag %p',
+      (flags) => {
+        setArgv(flags);
+
+        expect(validateArgs()).toEqual([]);
+      },
+    );
 
     it('finds no problems without flags', () => {
       expect(validateArgs()).toEqual([]);

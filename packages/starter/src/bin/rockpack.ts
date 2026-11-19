@@ -68,6 +68,7 @@ export const rockpack = async (): Promise<number> => {
     );
     console.log(`  ${chalk.green('--no-install')}             Write the project without installing its dependencies`);
     console.log(`  ${chalk.green('--yarn')}                   Use Yarn instead of npm when it is installed`);
+    console.log(`  ${chalk.green('--pnpm')}                   Use pnpm instead of npm when it is installed`);
     console.log(
       `  ${chalk.green('--offline')}                Take the dependency versions from the starter, skip the registry and the update check (installing still needs the network)`,
     );
