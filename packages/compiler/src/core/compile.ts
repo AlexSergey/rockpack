@@ -10,7 +10,7 @@ import { compilerLabel } from '../reporter/compiler-name.js';
 import { createReporter } from '../reporter/reporter.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
 import { assertValidConf } from '../utils/validate-conf.js';
-import { getLegacyIsomorphicContext, standaloneContext } from './compile-context.js';
+import { standaloneContext } from './compile-context.js';
 import { closeCompiler } from './compile-result.js';
 import { innerProps } from './inner-props.js';
 import { make } from './make.js';
@@ -27,10 +27,8 @@ export const compile = async (
   const mode = getMode();
   let merged = await mergeConfWithDefault(conf, mode);
   assertValidConf(merged);
-  // Read after the first await: see getLegacyIsomorphicContext.
   const ctx =
     context ??
-    (await getLegacyIsomorphicContext()) ??
     standaloneContext(
       withoutRun,
       createReporter({ debug: merged.debug === true, progress: merged.progress !== false }),

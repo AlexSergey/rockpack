@@ -9,6 +9,9 @@
 - `@rockpack/compiler`: every page of an `html` array gets the same defaults as a single page, so a page without a `title` gets the package name instead of no title
 - `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
 
+### Removed
+- **Breaking:** `@rockpack/compiler`: the call forms deprecated in 9.0.0, `libraryCompiler('MyLib', conf)` and `isomorphicCompiler(frontendCompiler(...), backendCompiler(...))`. Pass `libraryCompiler({ name: 'MyLib' }, conf)` and `isomorphicCompiler({ frontend, backend, frontendCallback, backendCallback })`. `libraryCompiler('MyLib')` is refused with `INVALID_CONFIG`. `isomorphicCompiler` refuses the old form's promises with `INVALID_CONFIG`, but the `frontendCompiler(...)` and `backendCompiler(...)` calls passed to it have already started building on their own, and in development their servers keep running. An options object without `frontend` or `backend` is refused with the existing "is required" error. An isomorphic build now always honors `progress: false`, which the old form ignored
+
 ## [9.1.0]
 
 ### Fixed

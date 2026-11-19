@@ -286,13 +286,6 @@ It resolves to `undefined` after the build, or to a `watch` result with `watch: 
 
 **You can see more examples in "examples" folder** - <a href="https://github.com/AlexSergey/rockpack/tree/master/examples/compiler" target="_blank">here</a>
 
-### Deprecated
-
-These forms still work and are removed in 10.0:
-
-- `libraryCompiler('MyLib', options)`: pass `{ name: 'MyLib' }`.
-- `isomorphicCompiler(frontendCompiler({...}), backendCompiler({...}))`: pass `{ frontend, backend }`.
-
 ## Build output
 
 Rockpack prints the build itself: a progress bar per compiler while it builds (two rows, `client` and `server`, in an `isomorphicCompiler` build), then one line per build, and every problem in one format:

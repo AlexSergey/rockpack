@@ -19,24 +19,10 @@ export type LibraryCompilerOptions = {
 
 type PostFn = Parameters<typeof compile>[1];
 
-export function libraryCompiler(
-  options: LibraryCompilerOptions,
-  conf?: Partial<CompilerConf>,
-  cb?: PostFn,
-  configOnly?: boolean,
-): Promise<CompilerResult>;
-/** @deprecated Pass `{ name }` instead of the name string; this form is removed in 10.0. */
-export function libraryCompiler(
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- a separate signature so only this form is deprecated
-  name: string,
-  conf?: Partial<CompilerConf>,
-  cb?: PostFn,
-  configOnly?: boolean,
-): Promise<CompilerResult>;
 export async function libraryCompiler(
-  libraryOpts: LibraryCompilerOptions | string,
+  libraryOpts: LibraryCompilerOptions,
   conf: Partial<CompilerConf> = {},
-  cb?: Parameters<typeof compile>[1],
+  cb?: PostFn,
   configOnly = false,
 ): Promise<CompilerResult> {
   return withErrorBoundary(async () => {
@@ -46,9 +32,7 @@ export async function libraryCompiler(
     let libraryName: string;
     let mergedConf: Partial<InternalCompilerConf> = { ...conf, __library: true };
 
-    if (isString(libraryOpts)) {
-      libraryName = libraryOpts;
-    } else if (isRecord(libraryOpts) && isString((libraryOpts as { name?: unknown }).name)) {
+    if (isRecord(libraryOpts) && isString((libraryOpts as { name?: unknown }).name)) {
       const opts = libraryOpts;
 
       if (Array.isArray(opts.externals) && opts.externals.length > 0) {
