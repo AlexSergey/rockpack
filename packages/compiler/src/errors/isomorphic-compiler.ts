@@ -6,6 +6,12 @@ export const backendIsRequired = (): RockpackError =>
 export const frontendIsRequired = (): RockpackError =>
   new RockpackError('INVALID_CONFIG', 'frontendCompiler is required to set isomorphicCompiler');
 
+export const confsRequired = (): RockpackError =>
+  new RockpackError(
+    'INVALID_CONFIG',
+    'isomorphicCompiler takes the confs since 10.0: isomorphicCompiler({ frontend: {...}, backend: {...} })',
+  );
+
 export const distsMustDiffer = (): RockpackError =>
   new RockpackError(
     'INVALID_CONFIG',

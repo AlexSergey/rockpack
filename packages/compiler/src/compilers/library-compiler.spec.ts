@@ -26,7 +26,15 @@ describe('libraryCompiler', () => {
   });
 
   describe('negative cases', () => {
-    it('exits for options that are neither a name nor an object with a name', async () => {
+    it('refuses a bare name, the 9.x form', async () => {
+      await expect(libraryCompiler('MyLib' as never)).rejects.toMatchObject({
+        code: 'INVALID_CONFIG',
+        message: expect.stringContaining('Object is not correct') as unknown,
+      });
+      expect(compile).not.toHaveBeenCalled();
+    });
+
+    it('exits for options that are not an object with a name', async () => {
       await expect(libraryCompiler({ esm: { dist: 'lib', src: 'src' } } as never)).rejects.toMatchObject({
         code: 'INVALID_CONFIG',
         message: expect.stringContaining('Object is not correct') as unknown,
@@ -57,13 +65,6 @@ describe('libraryCompiler', () => {
         null,
         false,
       );
-    });
-
-    it('still accepts the deprecated name string', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-deprecated
-      await libraryCompiler('MyLib');
-
-      expect(compiledConf()).toMatchObject({ library: 'MyLib' });
     });
 
     it('builds a library with externals and esm/cjs outputs', async () => {
