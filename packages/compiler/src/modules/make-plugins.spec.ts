@@ -370,6 +370,21 @@ describe('makePlugins', () => {
       });
     });
 
+    it('gives every page of an html array the page defaults', async () => {
+      const dict = await build({ html: [{ template: '/project/a.ejs' }, { template: '/project/b.ejs' }] });
+
+      for (const key of ['HtmlWebpackPlugin0', 'HtmlWebpackPlugin1']) {
+        expect(getPluginOptions(dict[key])).toMatchObject({ code: null, title: 'my app' });
+      }
+    });
+
+    it('keeps the title a page of an html array sets', async () => {
+      const dict = await build({ html: [{ template: '/project/a.ejs', title: 'A' }, { template: '/project/b.ejs' }] });
+
+      expect(getPluginOptions(dict['HtmlWebpackPlugin0'])).toMatchObject({ title: 'A' });
+      expect(getPluginOptions(dict['HtmlWebpackPlugin1'])).toMatchObject({ title: 'my app' });
+    });
+
     it('lints styles and scripts with the lint option when configs exist', async () => {
       pathToStylelintMock.mockReturnValue('/project/.stylelintrc');
       pathToEslintrcMock.mockReturnValue('/project/eslint.config.js');
