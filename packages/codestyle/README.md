@@ -111,7 +111,9 @@ Besides the presets, these rules report errors:
 `makeConfig` detects the project setup on its own. Pass options to override the detection:
 
 ```js
-module.exports = makeConfig({
+import { makeConfig } from '@rockpack/codestyle';
+
+export default makeConfig({
   ignoreFile: '.gitignore', // ignore file relative to the working directory; false turns ignore files off
   jest: false, // leave out the Jest, Testing Library and jest-dom rules for test files (on by default)
   react: true, // React rules; detected from `react` in package.json dependencies by default
