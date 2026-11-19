@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [9.1.0]
 
 ### Fixed
 - `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
@@ -12,6 +12,11 @@
 - `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
 - `@rockpack/starter`: the summary of a `library` or `component` project suggests `<pm> start` from the project root instead of `cd example && <pm> start`, which failed with `Missing script: "start"`
 - `@rockpack/starter`: the wizard intro no longer promises Stylelint for a library, the project type question reads "Which type of application do you want to create?", and the summary describes `lint` as running all checks (ESLint, types, styles except for a library, unused code) instead of ESLint only
+
+### Changed
+- Dependencies updated to their latest versions (TypeScript stays on 6, `@types/node` on 24), among them webpack 5.112, webpack-dev-server 6.1, Babel 8.1, ESLint 10.15, Prettier 3.10 and Sass 1.108
+- `@rockpack/codestyle`: typescript-eslint 8.73 adds `@typescript-eslint/no-unsafe-class-instance-assignment` and `@typescript-eslint/no-unsafe-enum-assignment` to the strict type-checked preset, and `eslint-plugin-unicorn` moves to 80, so existing projects may get new findings
+- `@rockpack/compiler`: `@graphql-tools/webpack-loader` 8 and `glob` 14; `@rockpack/starter`: `ora` 10
 
 ## [9.0.0]
 

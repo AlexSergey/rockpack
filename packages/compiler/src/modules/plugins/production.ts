@@ -12,7 +12,7 @@ export const makeProductionPlugins = ({ conf, mode }: PluginContext): PluginEntr
   }
 
   // Entries keep the plugin order stable (object literals get sorted by the linter).
-  return Object.fromEntries([
+  return Object.fromEntries<PluginEntries[string]>([
     ['CaseSensitivePathsPlugin', new CaseSensitivePathsPlugin()],
     ['MiniCssExtractPlugin', new MiniCssExtractPlugin({ filename: stylesFilename(conf) })],
   ]);
