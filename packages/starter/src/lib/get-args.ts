@@ -1,8 +1,7 @@
-import type { BooleanFlag } from '../utils/boolean-flag.js';
 import type { AppType } from './wizard.js';
 
 import { getArgv } from '../utils/argv.js';
-import { BOOLEAN_WORDS, readBooleanFlag, toBoolean } from '../utils/boolean-flag.js';
+import { BOOLEAN_FLAGS, BOOLEAN_WORDS, readBooleanFlag, toBoolean } from '../utils/boolean-flag.js';
 
 export const APP_TYPES: readonly AppType[] = ['csr', 'ssr', 'component', 'library'];
 
@@ -15,8 +14,6 @@ export type Args = {
   tests?: boolean;
   yes?: boolean;
 };
-
-const BOOLEAN_FLAGS: readonly BooleanFlag[] = ['tests', 'offline', 'install', 'yarn', 'pnpm'];
 
 const formatValue = (value: unknown): string => (typeof value === 'string' ? value : JSON.stringify(value));
 

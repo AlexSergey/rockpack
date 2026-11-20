@@ -6,6 +6,7 @@
 - `@rockpack/starter`: `--pnpm` creates the project with pnpm when it is installed (npm otherwise, with a warning), and `--yarn` together with `--pnpm` exits with an error; a pnpm project gets a `pnpm-workspace.yaml` that allows the install scripts of `@parcel/watcher` and `simple-git-hooks` and hoists the `eslint`, `prettier`, `stylelint` and `commitlint` binaries the scripts and git hooks call
 
 ### Fixed
+- `@rockpack/starter`: a bare boolean flag before the project name (`rockpack --pnpm my-app`, `--yarn`, `--tests`, `--offline`, `--install`) is read as `true` instead of taking the project name as its value and exiting with "Please specify the project directory"; `--tests no my-app` and `--tests=no` still work
 - `@rockpack/compiler`: every page of an `html` array gets the same defaults as a single page, so a page without a `title` gets the package name instead of no title
 - `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
 
