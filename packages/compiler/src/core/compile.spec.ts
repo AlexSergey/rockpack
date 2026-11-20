@@ -5,7 +5,6 @@ import type { CompileContext } from './compile-context.js';
 
 import { RockpackError } from '../errors/rockpack-error.js';
 import { mergeConfWithDefault } from '../utils/merge-conf-with-default.js';
-import { setLegacyIsomorphicContext } from './compile-context.js';
 import { compile } from './compile.js';
 import { innerProps } from './inner-props.js';
 import { make } from './make.js';
@@ -44,7 +43,6 @@ describe('compile', () => {
   });
 
   afterEach(() => {
-    setLegacyIsomorphicContext(undefined);
     jest.clearAllMocks();
   });
 
@@ -61,15 +59,6 @@ describe('compile', () => {
     it('does not run webpack for a config-only context', async () => {
       await compile(conf, null, false, ISOMORPHIC_CONTEXT);
 
-      expect(run).not.toHaveBeenCalled();
-    });
-
-    it('picks up the legacy isomorphic context set after the call started', async () => {
-      const pending = compile(conf, null);
-      setLegacyIsomorphicContext(Promise.resolve(ISOMORPHIC_CONTEXT));
-      await pending;
-
-      expect(innerProps).toHaveBeenCalledWith(expect.anything(), 'production', ISOMORPHIC_CONTEXT);
       expect(run).not.toHaveBeenCalled();
     });
 
