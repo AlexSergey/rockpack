@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/example-tester-node-jest-environment",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "description": "Rockpack example: node-jest-environment",
   "license": "MIT",
   "author": "Aleksandrov Sergey <gooddev.sergey@gmail.com> (https://github.com/AlexSergey/rockpack)",
@@ -14,9 +14,9 @@
     "test:watch": "node scripts.tests.mts --watch"
   },
   "devDependencies": {
-    "@rockpack/codestyle": "9.0.0",
-    "@rockpack/tester": "9.0.0",
-    "@rockpack/tsconfig": "9.0.0",
-    "@types/node": "24.13.6"
+    "@rockpack/codestyle": "9.1.0",
+    "@rockpack/tester": "9.1.0",
+    "@rockpack/tsconfig": "9.1.0",
+    "@types/node": "24.19.2"
   }
 }

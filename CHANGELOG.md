@@ -2,10 +2,31 @@
 
 ## [Unreleased]
 
+### Added
+- `@rockpack/starter`: `--pnpm` creates the project with pnpm when it is installed (npm otherwise, with a warning), and `--yarn` together with `--pnpm` exits with an error; a pnpm project gets a `pnpm-workspace.yaml` that allows the install scripts of `@parcel/watcher` and `simple-git-hooks` and hoists the `eslint`, `prettier`, `stylelint` and `commitlint` binaries the scripts and git hooks call
+
 ### Fixed
-- `@rockpack/starter`: generated READMEs use the selected package manager, including Yarn commands, instead of always showing npm
+- `@rockpack/starter`: generated READMEs use the selected package manager, including Yarn and pnpm commands, instead of always showing npm
+- `@rockpack/starter`: a bare boolean flag before the project name (`rockpack --pnpm my-app`, `--yarn`, `--tests`, `--offline`, `--install`) is read as `true` instead of taking the project name as its value and exiting with "Please specify the project directory"; `--tests no my-app` and `--tests=no` still work
+- `@rockpack/compiler`: every page of an `html` array gets the same defaults as a single page, so a page without a `title` gets the package name instead of no title
+- `@rockpack/babel`: a `rockpack.babel.*` merge function that returns `undefined`, `null` or an empty object prints an error with the file name and keeps the defaults instead of failing silently
+
+## [9.1.0]
+
+### Fixed
+- `@rockpack/codestyle`: a missing explicit `ignoreFile` now throws an error that includes the resolved path
+- `@rockpack/tester`: `-t`/`--testNamePattern`, `-u`/`--updateSnapshot`, `--bail` and `--ci` are forwarded from the command line to Jest instead of being dropped; explicit options passed to `tester()` still win, and a number after `--bail` is no longer read as a spec path pattern
 - `@rockpack/compiler`: the dev server prints `https://` and returns it in `result.url` when `devServer.server` is `https` or `http2`; the README shows how to enable HTTPS
+- `@rockpack/compiler`: the dev server prints the address it listens on and returns it in `result.url` when `port` is `'auto'`, `host` is `local-ip`, `local-ipv4` or `local-ipv6`, or an IPv6 address (in brackets)
 - `@rockpack/starter`: the SSR template's server falls back to port 8888, matching its `.env.example` and README, instead of 4000
+- `@rockpack/starter`: `--folder` requires a non-empty path and exits with an error when the value is missing or invalid
+- `@rockpack/starter`: the summary of a `library` or `component` project suggests `<pm> start` from the project root instead of `cd example && <pm> start`, which failed with `Missing script: "start"`
+- `@rockpack/starter`: the wizard intro no longer promises Stylelint for a library, the project type question reads "Which type of application do you want to create?", and the summary describes `lint` as running all checks (ESLint, types, styles except for a library, unused code) instead of ESLint only
+
+### Changed
+- Dependencies updated to their latest versions (TypeScript stays on 6, `@types/node` on 24), among them webpack 5.112, webpack-dev-server 6.1, Babel 8.1, ESLint 10.15, Prettier 3.10 and Sass 1.108
+- `@rockpack/codestyle`: typescript-eslint 8.73 adds `@typescript-eslint/no-unsafe-class-instance-assignment` and `@typescript-eslint/no-unsafe-enum-assignment` to the strict type-checked preset, and `eslint-plugin-unicorn` moves to 80, so existing projects may get new findings
+- `@rockpack/compiler`: `@graphql-tools/webpack-loader` 8 and `glob` 14; `@rockpack/starter`: `ora` 10
 
 ## [9.0.0]
 

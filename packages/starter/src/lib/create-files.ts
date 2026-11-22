@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import semverMinVersion from 'semver/ranges/min-version.js';
 
+import type { PackageManager } from '../utils/other.js';
 import type { State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
@@ -16,6 +17,12 @@ const buildName = (projectName: string, prefix: string): string =>
   pascalCase(
     projectName.length === 1 && !Number.isNaN(Number.parseFloat(projectName)) ? `${prefix}${projectName}` : projectName,
   );
+
+const RUN_COMMAND: Readonly<Record<PackageManager, string>> = {
+  npm: 'npm run',
+  pnpm: 'pnpm run',
+  yarn: 'yarn',
+};
 
 const BUILD_DUMMIES = {
   component: { dummy: 'build.component', prefix: 'Component' },
@@ -39,10 +46,7 @@ export const createFiles = (
   const readmePath = path.join(currentPath, 'README.md');
   if (fs.existsSync(readmePath)) {
     const pm = getPM();
-    fs.writeFileSync(
-      readmePath,
-      render(fs.readFileSync(readmePath, 'utf8'), { pm, run: pm === 'yarn' ? pm : `${pm} run` }),
-    );
+    fs.writeFileSync(readmePath, render(fs.readFileSync(readmePath, 'utf8'), { pm, run: RUN_COMMAND[pm] }));
   }
 
   if (appType === 'library' || appType === 'component') {

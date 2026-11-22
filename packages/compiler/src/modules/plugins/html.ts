@@ -8,21 +8,18 @@ import { getTitle } from '../../utils/other.js';
 import { compilerRoot } from '../../utils/package-root.js';
 
 const getPages = ({ conf, packageJson }: PluginContext, defaultTemplate: string): HtmlPage[] => {
-  if (conf.html && Array.isArray(conf.html)) {
-    return conf.html;
-  }
-  const page = conf.html && typeof conf.html !== 'boolean' ? conf.html : undefined;
+  const pages: (HtmlPage | undefined)[] = Array.isArray(conf.html)
+    ? conf.html
+    : [conf.html && typeof conf.html !== 'boolean' ? conf.html : undefined];
 
-  return [
-    {
-      ...page,
-      code: page?.code ? page.code : null,
-      favicon: page?.favicon ? page.favicon : null,
-      filename: page?.filename ? page.filename : false,
-      template: page?.template || defaultTemplate,
-      title: page?.title || (getTitle(packageJson) ? String(getTitle(packageJson)) : ''),
-    },
-  ];
+  return pages.map((page) => ({
+    ...page,
+    code: page?.code ? page.code : null,
+    favicon: page?.favicon ? page.favicon : null,
+    filename: page?.filename ? page.filename : false,
+    template: page?.template || defaultTemplate,
+    title: page?.title || (getTitle(packageJson) ? String(getTitle(packageJson)) : ''),
+  }));
 };
 
 export const makeHtmlPlugins = (ctx: PluginContext): PluginEntries => {

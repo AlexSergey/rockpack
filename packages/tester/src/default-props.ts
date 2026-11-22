@@ -1,5 +1,7 @@
 import type { Config } from '@jest/types';
 
+import type { JestFlags } from './modules/read-jest-flags.js';
+
 export type CoverageOptions = {
   // Globs of the files to count; defaults to every source file under `src`.
   readonly collectCoverageFrom?: string[];
@@ -13,7 +15,9 @@ export type CoverageOptions = {
   };
 };
 
-export type TesterOptions = {
+// bail, ci, testNamePattern and updateSnapshot are also read from the command line (`--bail`, `--ci`, `-t`, `-u`);
+// an explicit option wins over the command line. They have no default: Jest's own applies when they are not set.
+export type TesterOptions = JestFlags & {
   // Collect coverage outside watch mode (default), turn it off with false, or adjust it.
   readonly coverage?: boolean | CoverageOptions;
   // Run the specs as ES modules (no CommonJS transform); Node.js must run with --experimental-vm-modules.
@@ -30,7 +34,7 @@ export type TesterOptions = {
   readonly watch?: boolean;
 };
 
-export const defaultProps: Required<TesterOptions> = {
+export const defaultProps: Required<Omit<TesterOptions, keyof JestFlags>> = {
   coverage: true,
   esm: false,
   prefix: '(spec|test)',

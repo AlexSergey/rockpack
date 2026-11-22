@@ -65,6 +65,17 @@ describe('gitHooks', () => {
         'WARNING:   The git hooks were not installed. Run "yarn simple-git-hooks" in the project folder.',
       );
     });
+
+    it('names the pnpm command in the warning', () => {
+      getPMMock.mockReturnValue('pnpm');
+      spawnSyncMock.mockReturnValue(spawnResult({ status: 1 }));
+
+      gitHooks('/work/app');
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        'WARNING:   The git hooks were not installed. Run "pnpm exec simple-git-hooks" in the project folder.',
+      );
+    });
   });
 
   describe('positive cases', () => {
@@ -83,6 +94,14 @@ describe('gitHooks', () => {
       gitHooks('/work/app');
 
       expect(spawnSyncMock).toHaveBeenCalledWith('yarn', ['simple-git-hooks'], { cwd: '/work/app' });
+    });
+
+    it('installs the hooks with pnpm exec', () => {
+      getPMMock.mockReturnValue('pnpm');
+
+      gitHooks('/work/app');
+
+      expect(spawnSyncMock).toHaveBeenCalledWith('pnpm', ['exec', 'simple-git-hooks'], { cwd: '/work/app' });
     });
   });
 });

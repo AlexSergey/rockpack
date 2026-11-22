@@ -39,7 +39,7 @@ This module is part of the **Rockpack** project. See more details on [the offici
   - `production` - lint, test, build and `npm publish` (library and component)
   - `lint:commit`, `pre-commit` - used by the git hooks
 - **`scripts.build.mts` and `scripts.tests.mts`** - the build and test configuration in TypeScript, run by Node.js itself (`node scripts.build.mts`), no `tsx` or `ts-node` needed.
-- **`README.md`** - commands use the selected package manager (npm by default, or Yarn with `--yarn`).
+- **`README.md`** - commands use the selected package manager (npm by default, Yarn with `--yarn`, or pnpm with `--pnpm`).
 - **`.nvmrc`** - the Node.js major the starter requires.
 - **Git hooks** via [simple-git-hooks](https://github.com/toplenboren/simple-git-hooks), installed on `npm install`: `pre-commit` runs [lint-staged](https://github.com/lint-staged/lint-staged) (`.lintstagedrc.cjs`), `commit-msg` checks the message with commitlint, `pre-push` runs the tests when the project has them. A project created inside an existing git repository gets no repository and no hooks of its own (they belong to the parent repository); `.gitignore` and `.gitattributes` are always written.
 - **knip configuration** in the `knip` field of `package.json`.
@@ -90,12 +90,13 @@ rockpack <project-name>
 | `--folder=<path>` | Create the project inside this folder, absolute or relative to the current directory |
 | `--no-install` | Write the project without installing its dependencies |
 | `--yarn` | Use Yarn instead of npm when it is installed |
+| `--pnpm` | Use pnpm instead of npm when it is installed |
 | `--offline` | Write the dependency ranges from the starter's `versions.json` without asking the registry, and skip the update check. Installing the dependencies still needs the network (or a filled npm cache); combine with `--no-install` to only write the files |
 | `-y`, `--yes` | Answer the remaining questions with the defaults (`csr`, with tests) |
 | `-h`, `--help` | Print the usage |
 | `-v`, `--version` | Print the version |
 
-`--offline`, `--no-install` and `--yarn` accept the same boolean values as `--tests`. An unknown `--type` or a value that is no boolean prints an error and exits with code `1`. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
+`--offline`, `--no-install`, `--yarn` and `--pnpm` accept the same boolean values as `--tests`. The starter prints an error and exits with code `1` for an unknown `--type`, an invalid boolean value, `--yarn` together with `--pnpm`, or a `--folder` value that is missing or is not a non-empty path string. `--mode=test` is internal: it pins the `@rockpack/*` dependencies to the starter's own version and skips the update check (used by the e2e tests).
 
 ```shell
 rockpack my-app --type=csr --tests=true --yarn

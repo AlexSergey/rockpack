@@ -82,7 +82,7 @@ describe('wizard', () => {
           expect.objectContaining({ value: 'component' }),
           expect.objectContaining({ value: 'library' }),
         ],
-        message: 'Which is type of application would you build?',
+        message: 'Which type of application do you want to create?',
       });
     });
 

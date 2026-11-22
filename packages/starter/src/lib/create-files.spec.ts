@@ -95,6 +95,18 @@ describe('createFiles', () => {
       );
     });
 
+    it.each(['csr', 'ssr', 'component', 'library'] as const)('documents pnpm commands in the %s README', (appType) => {
+      getPMMock.mockReturnValue('pnpm');
+      writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));
+
+      createFiles(dir, { appType, projectName: 'app' });
+
+      const npmReadme = readFileSync(path.join(root, 'src/__fixtures__/readmes', `${appType}.md`), 'utf8');
+      expect(readFileSync(path.join(dir, 'README.md'), 'utf8')).toBe(
+        npmReadme.replace(/\bnpm (?=start|test|run )/g, 'pnpm '),
+      );
+    });
+
     it.each(['csr', 'ssr', 'component', 'library'] as const)('documents Yarn commands in the %s README', (appType) => {
       getPMMock.mockReturnValue('yarn');
       writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));

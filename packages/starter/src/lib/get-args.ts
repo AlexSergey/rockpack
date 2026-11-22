@@ -1,8 +1,7 @@
-import type { BooleanFlag } from '../utils/boolean-flag.js';
 import type { AppType } from './wizard.js';
 
 import { getArgv } from '../utils/argv.js';
-import { BOOLEAN_WORDS, readBooleanFlag, toBoolean } from '../utils/boolean-flag.js';
+import { BOOLEAN_FLAGS, BOOLEAN_WORDS, readBooleanFlag, toBoolean } from '../utils/boolean-flag.js';
 
 export const APP_TYPES: readonly AppType[] = ['csr', 'ssr', 'component', 'library'];
 
@@ -16,11 +15,9 @@ export type Args = {
   yes?: boolean;
 };
 
-const BOOLEAN_FLAGS: readonly BooleanFlag[] = ['tests', 'offline', 'install', 'yarn'];
-
 const formatValue = (value: unknown): string => (typeof value === 'string' ? value : JSON.stringify(value));
 
-// The problems with the flags that take a fixed set of values; the CLI prints them and exits with code 1.
+// The CLI prints invalid flag values and exits with code 1.
 export const validateArgs = (): string[] => {
   const argv = getArgv();
   const problems: string[] = [];
@@ -30,12 +27,21 @@ export const validateArgs = (): string[] => {
     problems.push(`Unknown type "${formatValue(type)}". Use one of: ${APP_TYPES.join(', ')}`);
   }
 
+  const folder: unknown = argv['folder'];
+  if (folder !== undefined && (typeof folder !== 'string' || folder.length === 0)) {
+    problems.push(`Invalid value "${formatValue(folder)}" for --folder. Provide a non-empty path.`);
+  }
+
   BOOLEAN_FLAGS.forEach((flag) => {
     const value: unknown = argv[flag];
     if (value !== undefined && toBoolean(value) === undefined) {
       problems.push(`Invalid value "${formatValue(value)}" for --${flag}. Use one of: ${BOOLEAN_WORDS.join(', ')}`);
     }
   });
+
+  if (readBooleanFlag('yarn') === true && readBooleanFlag('pnpm') === true) {
+    problems.push('Use --yarn or --pnpm, not both.');
+  }
 
   return problems;
 };

@@ -113,3 +113,4 @@ templates/dummies/build.library
 templates/dummies/gitattributes
 templates/dummies/gitignore
 templates/dummies/npmignore
+templates/dummies/pnpm-workspace.yaml

@@ -6,6 +6,8 @@ import { stylelintConfig } from './stylelint.js';
 // Under Jest import.meta.resolve becomes require.resolve, which cannot see presets exported for
 // `import` only; the real resolution is checked against the installed tarball in packaging-e2e.
 jest.mock('./resolve.js', () => ({ resolveFromCodestyle: (name: string): string => `/resolved/${name}` }));
+// @commitlint/types is ESM only.
+jest.mock('@commitlint/types', () => ({ RuleConfigSeverity: { Error: 2 } }));
 
 const asList = (value: unknown): unknown[] => (Array.isArray(value) ? value : [value]);
 

@@ -253,6 +253,21 @@ describe('configCompiler', () => {
       expect(compile()).not.toHaveProperty('testPathPatterns');
     });
 
+    it('passes the jest flag options to jest only when they are set', () => {
+      expect(compile({ bail: 3, ci: true, testNamePattern: 'renders', updateSnapshot: true })).toMatchObject({
+        bail: 3,
+        ci: true,
+        testNamePattern: 'renders',
+        updateSnapshot: true,
+      });
+
+      const compiled = compile();
+
+      for (const flag of ['bail', 'ci', 'testNamePattern', 'updateSnapshot']) {
+        expect(compiled).not.toHaveProperty(flag);
+      }
+    });
+
     it('keeps watch mode fast in serial mode', () => {
       expect(compile({ serial: true, watch: true })).toMatchObject({ maxWorkers: 1, noCache: false, runInBand: false });
     });

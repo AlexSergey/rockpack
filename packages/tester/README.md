@@ -66,7 +66,18 @@ or in watch mode (`--watch` is read from the command line unless `watch` is pass
 node scripts.tests.mts --watch
 ```
 
-Positional arguments become spec path patterns unless `testPathPatterns` is passed explicitly: `node scripts.tests.mts cli generation` runs only the specs whose path matches `cli` or `generation`. Flags and the values of `--mode`, `--testNamePattern` (`-t`) and `--config` (`-c`) are not patterns.
+Positional arguments become spec path patterns unless `testPathPatterns` is passed explicitly: `node scripts.tests.mts cli generation` runs only the specs whose path matches `cli` or `generation`. Flags and the values of `--mode`, `--testNamePattern` (`-t`) and `--config` (`-c`) are not patterns, and neither is a number after `--bail`.
+
+These Jest flags are forwarded from the command line unless the matching option is passed explicitly:
+
+| Flag | Option | Effect |
+|---|---|---|
+| `-t <name>`, `--testNamePattern <name>`, `--testNamePattern=<name>` | `testNamePattern` | Run only the tests whose name matches |
+| `-u`, `--updateSnapshot` | `updateSnapshot` | Re-record the snapshots that fail |
+| `--bail`, `--bail <n>`, `--bail=<n>` | `bail` | Stop after the first failing suite, or after `n`; a non-numeric argument after `--bail` stays a path pattern |
+| `--ci` | `ci` | Fail on snapshots that do not exist yet instead of writing them |
+
+Any other Jest flag (`--verbose`, `--coverage`, …) is ignored.
 
 4. Create `something.spec.js` (or `.spec.ts`) in the `src` folder and write your Jest tests.
 
@@ -82,6 +93,10 @@ Positional arguments become spec path patterns unless `testPathPatterns` is pass
 | `prefix` | `'(spec\|test)'` | Spec file suffix: `*.spec.ts`, `*.test.ts` |
 | `watch` | `--watch` on the command line | Jest watch mode |
 | `testPathPatterns` | positional command line arguments | Run only the spec files whose path matches one of these patterns, like `jest <pattern>` |
+| `testNamePattern` | `-t` on the command line | Run only the tests whose name matches |
+| `updateSnapshot` | `-u` on the command line | Re-record the snapshots that fail |
+| `bail` | `--bail` on the command line | `true` stops after the first failing suite; a number stops after that many |
+| `ci` | `--ci` on the command line | Fail on snapshots that do not exist yet |
 | `serial` | `false` | Run the suites one by one without cache, for tests that share ports or files |
 | `coverage` | `true` | `false` turns coverage off; `{ collectCoverageFrom, reporters, thresholds }` adjusts it (values in the Jest config still win) |
 | `esm` | `false` | Run the specs as ES modules (see below) |
@@ -129,7 +144,7 @@ void tester({}, { testEnvironment: 'node' });
 1. `jest.init.*`, `jest.setup.*`, `jest.global.setup.*` and `jest.global.teardown.*` in the folder of the test script (`scripts.tests.mts`) become `setupFiles`, `setupFilesAfterEnv`, `globalSetup` and `globalTeardown`, referenced by absolute path, so they are found when the script runs from another folder.
 2. The defaults are added: the `jsdom` environment, Babel transforms from `@rockpack/babel` in test mode (one preset for JavaScript, one for TypeScript), stubs for styles and static files, and the `TextEncoder` polyfill.
 3. Your Jest config is merged in. Arrays such as `setupFilesAfterEnv` extend the defaults unless `replaceArrays` is set.
-4. The options are applied: coverage (outside watch mode), the HTML report, `serial`, `watch` and the spec filter from `testPathPatterns` or the command line.
+4. The options are applied: coverage (outside watch mode), the HTML report, `serial`, `watch`, the spec filter from `testPathPatterns` or the command line, and the forwarded Jest flags (`testNamePattern`, `updateSnapshot`, `bail`, `ci`).
 
 The promise resolves to Jest's results; a failure sets `process.exitCode = 1` without exiting the process.
 

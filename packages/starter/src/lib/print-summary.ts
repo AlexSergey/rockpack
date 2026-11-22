@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import type { State } from './wizard.js';
 
 import { getPM } from '../utils/other.js';
-import { hasExample } from './prepare-project-dir.js';
 
 export const printCreated = (projectName: string): void => {
   console.log();
@@ -21,12 +20,7 @@ export const printSummary = (projectName: string, state: State): void => {
   console.log();
   console.log(chalk.magenta('  Building project:'));
 
-  if (hasExample(state)) {
-    console.log(`${chalk.blue(`cd example`)} && ${chalk.blue(`${getPM()} start`)} - run dev mode`);
-  } else {
-    console.log(`${chalk.blue(`${getPM()} start`)} - run dev mode`);
-  }
-
+  console.log(`${chalk.blue(`${getPM()} start`)} - run dev mode`);
   console.log(`${chalk.blue(`${getPM()} run build`)} - build production`);
 
   if (state.tester) {
@@ -37,8 +31,9 @@ export const printSummary = (projectName: string, state: State): void => {
   }
 
   console.log();
-  console.log(chalk.magenta('  ESLint checking:'));
-  console.log(`${chalk.blue(`${getPM()} run lint`)} - check ESLint rules`);
+  console.log(chalk.magenta('  Checking project:'));
+  const checks = state.appType === 'library' ? 'ESLint, types, unused code' : 'ESLint, types, styles, unused code';
+  console.log(`${chalk.blue(`${getPM()} run lint`)} - run all checks (${checks})`);
 
   if (!state.nogit) {
     console.log();

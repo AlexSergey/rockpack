@@ -136,6 +136,21 @@ describe('makeConfig', () => {
       });
     });
 
+    it('throws with the resolved path when an explicit relative ignoreFile is missing', () => {
+      const dir = createProject({ files: { '.eslintflatignore': 'lib\n' }, nestedCwd: 'nested' });
+      const missingFile = path.join(dir, 'nested', '.missing-ignore');
+
+      expect(() => makeConfig({ ignoreFile: '.missing-ignore' })).toThrow(missingFile);
+      expect(gitignoreMock).not.toHaveBeenCalled();
+    });
+
+    it('throws with the path when an explicit absolute ignoreFile is missing', () => {
+      const dir = createProject();
+      const missingFile = path.join(dir, '.missing-ignore');
+
+      expect(() => makeConfig({ ignoreFile: missingFile })).toThrow(missingFile);
+    });
+
     it('adds no ignore config when .eslintflatignore is not found', () => {
       createProject();
 

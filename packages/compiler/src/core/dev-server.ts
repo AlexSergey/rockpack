@@ -1,3 +1,4 @@
+import { isIPv6 } from 'node:net';
 import WebpackDevServer from 'webpack-dev-server';
 
 import type { DevServerResult, RunningResult } from './compile-result.js';
@@ -18,9 +19,11 @@ export const devServer = async ({
   const devServerConfig = (webpackConfig as { devServer?: DevServerConfig }).devServer ?? {};
   const serverType = typeof devServerConfig.server === 'object' ? devServerConfig.server.type : devServerConfig.server;
   const protocol = serverType === 'https' || serverType === 'http2' ? 'https' : 'http';
-  const url = `${protocol}://${String(devServerConfig.host)}:${String(devServerConfig.port)}`;
   const server = new WebpackDevServer(devServerConfig, compiler);
   await server.start();
+  // Without a host webpack-dev-server listens on every interface, which localhost reaches.
+  const host = server.options.host || 'localhost';
+  const url = `${protocol}://${isIPv6(host) ? `[${host}]` : host}:${String(server.options.port)}`;
   reporter?.info(compilerLabel(conf), `Starting server on ${url}`);
 
   return {

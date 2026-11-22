@@ -10,6 +10,7 @@ import type { AppType, State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
 import { gitHooks } from '../utils/git-hooks.js';
+import { getPM } from '../utils/other.js';
 import { createPackageJSON, installDependencies, writePackageJSON } from '../utils/project.js';
 import { copyFiles } from './copy-files.js';
 import { createFiles } from './create-files.js';
@@ -29,7 +30,7 @@ jest.mock('node:fs', () => ({
 }));
 jest.mock('../utils/error.js', () => ({ showError: jest.fn() }));
 jest.mock('../utils/git-hooks.js', () => ({ gitHooks: jest.fn() }));
-jest.mock('../utils/other.js', () => ({ getPM: (): string => 'npm' }));
+jest.mock('../utils/other.js', () => ({ getPM: jest.fn() }));
 jest.mock('../utils/pathes.js', () => ({ dummies: '/dummies' }));
 jest.mock('../utils/project.js', () => ({
   createPackageJSON: jest.fn(),
@@ -65,6 +66,7 @@ const mocks = {
   writePackageJSON: writePackageJSON as jest.MockedFunction<typeof writePackageJSON>,
 };
 const oraMock = ora as unknown as jest.Mock<SpinnerMock>;
+const getPMMock = getPM as jest.MockedFunction<typeof getPM>;
 
 const runInstall = (state: Partial<State> = {}, args: Partial<Args> = {}): Promise<void> => {
   mocks.wizard.mockResolvedValue({ appType: 'csr', tester: true, ...state });
@@ -104,6 +106,7 @@ describe('install', () => {
     jest.useFakeTimers();
     oraMock.mockImplementation(jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').createSpinner);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    getPMMock.mockReturnValue('npm');
     mocks.createPackageJSON.mockImplementation((name) => ({ name }));
     mocks.existsSync.mockReturnValue(false);
     mocks.readFileSync.mockReturnValue('content');
@@ -173,6 +176,20 @@ describe('install', () => {
         (): void => {
           mocks.readFileSync.mockImplementation((file) => {
             if (file === path.join('/dummies', 'npmignore')) {
+              throw new Error('ENOENT');
+            }
+
+            return 'content';
+          });
+        },
+      ],
+      [
+        'Step: 4.3. pnpm-workspace.yaml creating',
+        'csr',
+        (): void => {
+          getPMMock.mockReturnValue('pnpm');
+          mocks.readFileSync.mockImplementation((file) => {
+            if (file === path.join('/dummies', 'pnpm-workspace.yaml')) {
               throw new Error('ENOENT');
             }
 
@@ -355,10 +372,10 @@ describe('install', () => {
       expect(logSpy).toHaveBeenLastCalledWith('Thank you for using Rockpack!');
     });
 
-    it('prints the example commands for a library without tests', async () => {
+    it('prints the root start command for a library without tests', async () => {
       await runInstall({ appType: 'library', tester: false });
 
-      expect(logSpy).toHaveBeenCalledWith('cd example && npm start - run dev mode');
+      expect(logSpy).toHaveBeenCalledWith('npm start - run dev mode');
       expect(logSpy).not.toHaveBeenCalledWith('npm test - run tests');
     });
   });

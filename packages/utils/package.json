@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/utils",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "private": false,
   "description": "Internal utilities shared across Rockpack packages",
   "keywords": [
@@ -53,13 +53,13 @@
     "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "semver": "7.8.5"
+    "semver": "7.8.6"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "9.0.0",
-    "@rockpack/codestyle": "9.0.0",
-    "@rockpack/tester": "9.0.0",
-    "@rockpack/tsconfig": "9.0.0",
+    "@rockpack/build-tools": "9.1.0",
+    "@rockpack/codestyle": "9.1.0",
+    "@rockpack/tester": "9.1.0",
+    "@rockpack/tsconfig": "9.1.0",
     "@types/jest": "30.0.0",
     "@types/semver": "7.8.0"
   },

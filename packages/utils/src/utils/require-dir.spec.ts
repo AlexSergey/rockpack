@@ -6,11 +6,11 @@ import { getRootRequireDir } from './require-dir.js';
 
 jest.mock('node:fs', () => ({ statSync: jest.fn() }));
 
-const statSyncMock = statSync as unknown as jest.MockedFunction<(path: string) => Stats>;
+const statSyncMock = statSync as unknown as jest.MockedFunction<(path: string) => Pick<Stats, 'isFile'>>;
 const originalArgv = process.argv;
 
 const mockStat = (isFile: boolean): void => {
-  statSyncMock.mockReturnValue({ isFile: () => isFile } as Stats);
+  statSyncMock.mockReturnValue({ isFile: () => isFile });
 };
 
 describe('getRootRequireDir', () => {

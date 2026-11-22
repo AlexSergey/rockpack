@@ -1,6 +1,6 @@
 {
   "name": "@rockpack/starter",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "private": false,
   "description": "CLI scaffolding tool for React apps with zero-config CSR and SSR setup, Webpack, Jest, and ESLint",
   "keywords": [
@@ -50,27 +50,27 @@
     "test:watch": "tsx scripts.tests.ts --watch"
   },
   "dependencies": {
-    "@inquirer/confirm": "6.3.2",
-    "@inquirer/select": "5.2.5",
-    "chalk": "6.0.0",
+    "@inquirer/confirm": "6.4.0",
+    "@inquirer/select": "5.3.0",
+    "chalk": "6.0.1",
     "change-case": "5.4.4",
     "deep-extend": "0.6.0",
     "latest-version": "9.0.0",
     "mkdirp": "3.0.1",
-    "ora": "9.4.1",
-    "semver": "7.8.5",
-    "sort-package-json": "4.0.0",
+    "ora": "10.0.0",
+    "semver": "7.8.6",
+    "sort-package-json": "4.1.0",
     "validate-npm-package-name": "8.0.0",
     "yargs": "18.2.0"
   },
   "devDependencies": {
-    "@rockpack/build-tools": "9.0.0",
-    "@rockpack/codestyle": "9.0.0",
-    "@rockpack/compiler": "9.0.0",
-    "@rockpack/tester": "9.0.0",
-    "@rockpack/tsconfig": "9.0.0",
+    "@rockpack/build-tools": "9.1.0",
+    "@rockpack/codestyle": "9.1.0",
+    "@rockpack/compiler": "9.1.0",
+    "@rockpack/tester": "9.1.0",
+    "@rockpack/tsconfig": "9.1.0",
     "@types/jest": "30.0.0",
-    "eslint": "10.12.0",
+    "eslint": "10.15.0",
     "expect-type": "1.4.0"
   },
   "engines": {

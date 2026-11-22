@@ -14,6 +14,26 @@ const WebpackDevServerMock = WebpackDevServer as unknown as jest.Mock;
 const start = jest.fn(() => Promise.resolve());
 const stopServer = jest.fn(() => Promise.resolve());
 
+type DevServerInstance = { options: DevServerOptions; start: jest.Mock; stop: jest.Mock };
+type DevServerOptions = { host?: string; port?: number | string; server?: unknown };
+
+// Simulates webpack-dev-server writing the resolved host/port into its options while starting.
+const resolvesTo = (resolved: { host?: string; port?: number }): void => {
+  WebpackDevServerMock.mockImplementationOnce((options: DevServerOptions): DevServerInstance => {
+    const instance: DevServerInstance = {
+      options: { ...options },
+      start: jest.fn(() => {
+        Object.assign(instance.options, resolved);
+
+        return Promise.resolve();
+      }),
+      stop: stopServer,
+    };
+
+    return instance;
+  });
+};
+
 const createCompiler = (): Compiler =>
   ({
     close: jest.fn((callback: () => void) => {
@@ -41,7 +61,11 @@ const fakeReporter = (): Reporter => ({
 
 describe('devServer', () => {
   beforeEach(() => {
-    WebpackDevServerMock.mockImplementation(() => ({ start, stop: stopServer }));
+    WebpackDevServerMock.mockImplementation((options: DevServerOptions) => ({
+      options: { ...options },
+      start,
+      stop: stopServer,
+    }));
   });
 
   afterEach(() => {
@@ -80,6 +104,39 @@ describe('devServer', () => {
       ).resolves.toMatchObject({ url: 'http://localhost:3000' });
       expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3000');
     });
+
+    it('does not print auto for port auto', async () => {
+      const reporter = fakeReporter();
+      resolvesTo({ port: 3001 });
+
+      await expect(
+        devServer(running({ devServer: { host: 'localhost', port: 'auto' } }, reporter)),
+      ).resolves.toMatchObject({ url: 'http://localhost:3001' });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3001');
+    });
+
+    it.each([
+      ['local-ip', '192.168.1.10', 'http://192.168.1.10:3000'],
+      ['local-ipv4', '192.168.1.10', 'http://192.168.1.10:3000'],
+      ['local-ipv6', 'fe80::1', 'http://[fe80::1]:3000'],
+    ])('does not print the %s placeholder', async (placeholder, resolvedHost, expectedUrl) => {
+      const reporter = fakeReporter();
+      resolvesTo({ host: resolvedHost });
+
+      await expect(
+        devServer(running({ devServer: { host: placeholder, port: 3000 } }, reporter)),
+      ).resolves.toMatchObject({ url: expectedUrl });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', `Starting server on ${expectedUrl}`);
+    });
+
+    it.each([undefined, ''])('does not print an empty host for the host %p', async (host) => {
+      const reporter = fakeReporter();
+
+      await expect(devServer(running({ devServer: { host, port: 3000 } }, reporter))).resolves.toMatchObject({
+        url: 'http://localhost:3000',
+      });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://localhost:3000');
+    });
   });
 
   describe('positive cases', () => {
@@ -107,6 +164,35 @@ describe('devServer', () => {
         expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on https://localhost:3000');
       },
     );
+
+    it('keeps an IPv4 host without brackets', async () => {
+      const reporter = fakeReporter();
+
+      await expect(devServer(running({ devServer: { host: '0.0.0.0', port: 3000 } }, reporter))).resolves.toMatchObject(
+        {
+          url: 'http://0.0.0.0:3000',
+        },
+      );
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on http://0.0.0.0:3000');
+    });
+
+    it.each(['::', '::1'])('wraps the IPv6 host %p in brackets', async (host) => {
+      const reporter = fakeReporter();
+
+      await expect(devServer(running({ devServer: { host, port: 3000 } }, reporter))).resolves.toMatchObject({
+        url: `http://[${host}]:3000`,
+      });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', `Starting server on http://[${host}]:3000`);
+    });
+
+    it('keeps https:// for an IPv6 host', async () => {
+      const reporter = fakeReporter();
+
+      await expect(
+        devServer(running({ devServer: { host: '::1', port: 3000, server: 'https' } }, reporter)),
+      ).resolves.toMatchObject({ url: 'https://[::1]:3000' });
+      expect(reporter.info).toHaveBeenCalledWith('frontend', 'Starting server on https://[::1]:3000');
+    });
 
     it('stops the server and closes the compiler', async () => {
       const compiler = createCompiler();

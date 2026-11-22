@@ -41,7 +41,7 @@ const findTsConfig = (root: string): false | string => {
 };
 
 export type MakeConfigOptions = {
-  // Path to the ignore file, relative to the working directory; `false` turns ignore files off.
+  // Path to an existing ignore file, relative to the working directory; `false` turns ignore files off.
   readonly ignoreFile?: false | string;
   // Adds the Jest globals and rules for specs and fixtures, and the Testing Library and jest-dom rules of React
   // projects; `true` by default.
@@ -57,7 +57,16 @@ const resolveIgnoreFile = (root: string, ignoreFile: false | string | undefined)
     return undefined;
   }
 
-  return isString(ignoreFile) ? path.resolve(root, ignoreFile) : findFlatIgnoreFile(root);
+  if (isString(ignoreFile)) {
+    const resolvedPath = path.resolve(root, ignoreFile);
+    if (!existsSync(resolvedPath)) {
+      throw new Error(`ignoreFile does not exist: ${resolvedPath}`);
+    }
+
+    return resolvedPath;
+  }
+
+  return findFlatIgnoreFile(root);
 };
 
 export const makeConfig = ({ ignoreFile, jest = true, react, tsconfig }: MakeConfigOptions = {}): Linter.Config[] => {

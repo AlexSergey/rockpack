@@ -41,7 +41,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
   console.log(`Hello there! ${chalk.bold('Rockpack')} greets you!`);
   console.log(`${chalk.bold('Rockpack')} helps you set up React applications extremely fast.`);
   console.log(
-    'All scaffolded applications include Typescript, ESLint with best configurations, Stylelint, Prettier, lint-staged, git hooks, etc.',
+    'All scaffolded projects include TypeScript, ESLint with best configurations, Stylelint for applications and components, Prettier, lint-staged, git hooks, etc.',
   );
   console.log();
 
@@ -67,7 +67,7 @@ export const wizard = async (args: WizardArgs): Promise<State> => {
       ];
       appType = await select({
         choices,
-        message: 'Which is type of application would you build?',
+        message: 'Which type of application do you want to create?',
       });
     } catch (error) {
       rethrowPromptExit(error);
