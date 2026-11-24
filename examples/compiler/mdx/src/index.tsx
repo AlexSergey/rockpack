@@ -7,8 +7,10 @@ import Readme from './readme.mdx';
 const components = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   code: CodeBlock as any,
-  h1: (props: React.HTMLAttributes<HTMLHeadingElement>): React.ReactElement => (
-    <h1 style={{ color: 'tomato' }} {...props} />
+  h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>): React.ReactElement => (
+    <h1 style={{ color: 'tomato' }} {...props}>
+      {children}
+    </h1>
   ),
   pre: (props: React.HTMLAttributes<HTMLElement>): React.ReactElement => <div {...props} />,
 };

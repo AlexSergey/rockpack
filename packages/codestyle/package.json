@@ -81,7 +81,7 @@
     "eslint-plugin-package-json": "1.14.0",
     "eslint-plugin-perfectionist": "5.14.0",
     "eslint-plugin-prettier": "5.5.7",
-    "eslint-plugin-react-a11y": "3.0.9",
+    "eslint-plugin-react-a11y": "3.0.10",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-regexp": "3.3.3",
     "eslint-plugin-sonarjs": "4.2.2",
