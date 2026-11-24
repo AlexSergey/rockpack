@@ -38,6 +38,9 @@ jest.mock('eslint-plugin-package-json', () => ({
 }));
 jest.mock('eslint-plugin-perfectionist', () => ({ configs: { 'recommended-natural': { name: 'perfectionist' } } }));
 jest.mock('eslint-plugin-prettier/recommended', () => ({ name: 'prettier' }));
+jest.mock('eslint-plugin-react-a11y', () => ({
+  configs: { recommended: { name: 'react-a11y', rules: { 'react-a11y/marker': 'error' } } },
+}));
 jest.mock('eslint-plugin-react-hooks', () => ({
   configs: { flat: { recommended: { name: 'react-hooks', rules: { 'react-hooks/rules-of-hooks': 'error' } } } },
 }));
@@ -111,12 +114,14 @@ describe('makeConfig', () => {
 
       expect(getNames(configs)).not.toContain('react-hooks');
       expect(getNames(configs)).not.toContain('eslint-react');
+      expect(getNames(configs)).not.toContain('react-a11y');
     });
 
     it('builds the non-react config when react is only a devDependency', () => {
       createProject({ files: { 'package.json': JSON.stringify({ devDependencies: { react: '19.0.0' } }) } });
 
       expect(getNames(makeConfig())).not.toContain('react-hooks');
+      expect(getNames(makeConfig())).not.toContain('react-a11y');
     });
 
     it('adds no testing library and jest-dom rules without react', () => {
@@ -223,6 +228,18 @@ describe('makeConfig', () => {
         files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
         name: 'react-hooks',
         rules: { 'react-hooks/rules-of-hooks': 'error' },
+      });
+    });
+
+    it('adds the react-a11y recommended rules in a block of their own when react is a dependency', () => {
+      createProject({ files: { 'package.json': JSON.stringify({ dependencies: { react: '19.0.0' } }) } });
+
+      const a11yConfig = makeConfig().find((config) => config.name === 'react-a11y');
+
+      expect(a11yConfig).toEqual({
+        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
+        name: 'react-a11y',
+        rules: { 'react-a11y/marker': 'error' },
       });
     });
 

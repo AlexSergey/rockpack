@@ -29,7 +29,7 @@ export const App: React.FC = () => {
     <>
       <div id="books">
         {books.map((book) => (
-          <div
+          <button
             key={book.id}
             onClick={() => {
               void client.mutation(BOOK_READ, { id: book.id }).then(({ data }) => {
@@ -37,9 +37,10 @@ export const App: React.FC = () => {
               });
             }}
             style={{ textDecoration: book.read ? 'line-through' : '' }}
+            type="button"
           >
             {book.title}
-          </div>
+          </button>
         ))}
       </div>
       <button

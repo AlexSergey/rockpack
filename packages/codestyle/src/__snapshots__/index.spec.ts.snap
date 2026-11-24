@@ -20,6 +20,7 @@ exports[`rule groups positive cases keeps the react rule names 1`] = `
 [
   "@eslint-react/marker",
   "@eslint-react/rules-of-hooks",
+  "react-a11y/marker",
   "react-hooks/rules-of-hooks",
 ]
 `;
