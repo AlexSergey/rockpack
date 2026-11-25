@@ -7,36 +7,36 @@ This project was generated with [Rockpack](https://github.com/AlexSergey/rockpac
 Run the application in development mode (the server restarts and the page reloads on changes):
 
 ```shell
-npm start
+{{pm}} start
 ```
 
 Build the production server into `dist` and the client into `public`:
 
 ```shell
-npm run build
+{{run}} build
 ```
 
-Run the tests (when the project was created with tests; `npm run test:watch` reruns them on changes):
+Run the tests (when the project was created with tests; `{{run}} test:watch` reruns them on changes):
 
 ```shell
-npm test
+{{pm}} test
 ```
 
 Check the code: TypeScript (`lint:ts`), ESLint (`lint:code`), Stylelint (`lint:styles`) and the unused files and dependencies with knip (`lint:deps`):
 
 ```shell
-npm run lint
+{{run}} lint
 ```
 
 Fix the formatting with Prettier and the fixable ESLint and Stylelint problems:
 
 ```shell
-npm run format
+{{run}} format
 ```
 
 ## Production
 
-`npm run build` bundles the server together with its dependencies. To deploy, copy `dist` and `public` side by side (the server serves the client files from `../public`) and run them with the Node.js version from `.nvmrc`.
+`{{run}} build` bundles the server together with its dependencies. To deploy, copy `dist` and `public` side by side (the server serves the client files from `../public`) and run them with the Node.js version from `.nvmrc`.
 
 Start the built server:
 
@@ -44,7 +44,7 @@ Start the built server:
 node dist/index.js
 ```
 
-The server listens on `PORT` from `.env` (8888 by default). The build inlines `.env` into the bundle, so set `PORT` there before `npm run build`: a `PORT` set when the server starts has no effect. See the [@rockpack/compiler README](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md) for `.env.defaults` and `.env.example`.
+The server listens on `PORT` from `.env` (8888 by default). The build inlines `.env` into the bundle, so set `PORT` there before `{{run}} build`: a `PORT` set when the server starts has no effect. See the [@rockpack/compiler README](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md) for `.env.defaults` and `.env.example`.
 
 ## Claude Code Adaptation
 

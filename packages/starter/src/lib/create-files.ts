@@ -3,9 +3,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import semverMinVersion from 'semver/ranges/min-version.js';
 
+import type { PackageManager } from '../utils/other.js';
 import type { State } from './wizard.js';
 
 import { showError } from '../utils/error.js';
+import { getPM } from '../utils/other.js';
 import { packageJson } from '../utils/package-json.js';
 import { dummies } from '../utils/pathes.js';
 import { render } from '../utils/render.js';
@@ -15,6 +17,12 @@ const buildName = (projectName: string, prefix: string): string =>
   pascalCase(
     projectName.length === 1 && !Number.isNaN(Number.parseFloat(projectName)) ? `${prefix}${projectName}` : projectName,
   );
+
+const RUN_COMMAND: Readonly<Record<PackageManager, string>> = {
+  npm: 'npm run',
+  pnpm: 'pnpm run',
+  yarn: 'yarn',
+};
 
 const BUILD_DUMMIES = {
   component: { dummy: 'build.component', prefix: 'Component' },
@@ -33,6 +41,12 @@ export const createFiles = (
 
   if (fs.existsSync(path.join(currentPath, '.env.example'))) {
     fs.copyFileSync(path.join(currentPath, '.env.example'), path.join(currentPath, '.env'));
+  }
+
+  const readmePath = path.join(currentPath, 'README.md');
+  if (fs.existsSync(readmePath)) {
+    const pm = getPM();
+    fs.writeFileSync(readmePath, render(fs.readFileSync(readmePath, 'utf8'), { pm, run: RUN_COMMAND[pm] }));
   }
 
   if (appType === 'library' || appType === 'component') {

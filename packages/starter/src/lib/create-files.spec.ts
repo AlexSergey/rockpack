@@ -6,11 +6,13 @@ import type * as Mocks from '../__fixtures__/mocks.js';
 import type * as PathesModule from '../utils/pathes.js';
 
 import { showError } from '../utils/error.js';
-import { dummies } from '../utils/pathes.js';
+import { getPM } from '../utils/other.js';
+import { backbone, dummies, root } from '../utils/pathes.js';
 import { createFiles } from './create-files.js';
 
 jest.mock('change-case', () => jest.requireActual<typeof Mocks>('../__fixtures__/mocks.js').changeCaseModule);
 jest.mock('../utils/error.js', () => ({ showError: jest.fn() }));
+jest.mock('../utils/other.js', () => ({ getPM: jest.fn() }));
 jest.mock('../utils/pathes.js', () => {
   const actual = jest.requireActual<typeof PathesModule>('../utils/pathes.js');
 
@@ -24,6 +26,7 @@ jest.mock('../utils/pathes.js', () => {
 
 const mockDummies = { path: '' };
 const showErrorMock = showError as jest.MockedFunction<typeof showError>;
+const getPMMock = getPM as jest.MockedFunction<typeof getPM>;
 
 const readBuild = (dir: string): string => readFileSync(path.join(dir, 'scripts.build.mts'), 'utf8');
 
@@ -38,6 +41,7 @@ describe('createFiles', () => {
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), 'rockpack-starter-'));
     mockDummies.path = realDummies;
+    getPMMock.mockReturnValue('npm');
   });
 
   afterEach(() => {
@@ -81,6 +85,52 @@ describe('createFiles', () => {
   });
 
   describe('positive cases', () => {
+    it.each(['csr', 'ssr', 'component', 'library'] as const)('preserves the npm %s README', (appType) => {
+      writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));
+
+      createFiles(dir, { appType, projectName: 'app' });
+
+      expect(readFileSync(path.join(dir, 'README.md'), 'utf8')).toBe(
+        readFileSync(path.join(root, 'src/__fixtures__/readmes', `${appType}.md`), 'utf8'),
+      );
+    });
+
+    it.each(['csr', 'ssr', 'component', 'library'] as const)('documents pnpm commands in the %s README', (appType) => {
+      getPMMock.mockReturnValue('pnpm');
+      writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));
+
+      createFiles(dir, { appType, projectName: 'app' });
+
+      const npmReadme = readFileSync(path.join(root, 'src/__fixtures__/readmes', `${appType}.md`), 'utf8');
+      expect(readFileSync(path.join(dir, 'README.md'), 'utf8')).toBe(
+        npmReadme.replace(/\bnpm (?=start|test|run )/g, 'pnpm '),
+      );
+    });
+
+    it.each(['csr', 'ssr', 'component', 'library'] as const)('documents Yarn commands in the %s README', (appType) => {
+      getPMMock.mockReturnValue('yarn');
+      writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));
+
+      createFiles(dir, { appType, projectName: 'app' });
+
+      const readme = readFileSync(path.join(dir, 'README.md'), 'utf8');
+      for (const command of ['start', 'build', 'test', 'test:watch', 'lint', 'format']) {
+        expect(readme).toContain(`yarn ${command}`);
+      }
+      expect(readme).not.toMatch(/npm (?:run |start|test)|yarn run|\{\{/);
+    });
+
+    it.each(['component', 'library'] as const)('documents the extra Yarn commands in the %s README', (appType) => {
+      getPMMock.mockReturnValue('yarn');
+      writeFileSync(path.join(dir, 'README.md'), readFileSync(path.join(backbone, appType, 'README.md')));
+
+      createFiles(dir, { appType, projectName: 'app' });
+
+      const readme = readFileSync(path.join(dir, 'README.md'), 'utf8');
+      expect(readme).toContain('yarn build:example');
+      expect(readme).toContain('yarn production');
+    });
+
     it('writes .nvmrc with the Node.js major the starter requires', () => {
       createFiles(dir, { appType: 'csr', projectName: 'app' });
 

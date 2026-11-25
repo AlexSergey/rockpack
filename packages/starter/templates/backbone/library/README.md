@@ -7,43 +7,43 @@ This project was generated with [Rockpack](https://github.com/AlexSergey/rockpac
 Run the example app (`example/src`) in development mode with the library sources:
 
 ```shell
-npm start
+{{pm}} start
 ```
 
 Build the library: the UMD bundle and the declarations into `dist`, the CommonJS and ES module builds into `lib`:
 
 ```shell
-npm run build
+{{run}} build
 ```
 
 Build the example app into `example/dist`:
 
 ```shell
-npm run build:example
+{{run}} build:example
 ```
 
-Run the tests (when the project was created with tests; `npm run test:watch` reruns them on changes):
+Run the tests (when the project was created with tests; `{{run}} test:watch` reruns them on changes):
 
 ```shell
-npm test
+{{pm}} test
 ```
 
 Check the code: TypeScript (`lint:ts`), ESLint (`lint:code`) and the unused files and dependencies with knip (`lint:deps`):
 
 ```shell
-npm run lint
+{{run}} lint
 ```
 
 Fix the formatting with Prettier and the fixable ESLint problems:
 
 ```shell
-npm run format
+{{run}} format
 ```
 
 Lint, test, build and publish the package to npm:
 
 ```shell
-npm run production
+{{run}} production
 ```
 
 ## Claude Code Adaptation
