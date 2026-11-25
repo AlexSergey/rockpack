@@ -21,15 +21,3 @@ export const standaloneContext = (configOnly: boolean, reporter?: Reporter): Com
   isomorphic: false,
   ...(reporter ? { reporter } : {}),
 });
-
-// The deprecated isomorphicCompiler(frontendCompiler(...), backendCompiler(...)) form starts the child compilers
-// before isomorphicCompiler runs. isomorphicCompiler sets this promise synchronously, before its first await; the
-// children await it after their first await, so they always get the shared context however long its setup takes.
-// Removed together with that form in 10.0.
-let legacyIsomorphicContext: Promise<CompileContext> | undefined;
-
-export const getLegacyIsomorphicContext = (): Promise<CompileContext> | undefined => legacyIsomorphicContext;
-
-export const setLegacyIsomorphicContext = (context: Promise<CompileContext> | undefined): void => {
-  legacyIsomorphicContext = context;
-};

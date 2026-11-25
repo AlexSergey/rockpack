@@ -1,3 +1,21 @@
+# Migrating to Rockpack 10.0.0
+
+## @rockpack/compiler
+
+### The 9.0.0 call forms are removed
+
+`libraryCompiler` takes an options object and `isomorphicCompiler` takes the two confs. `libraryCompiler('MyLib')` is refused with `INVALID_CONFIG`. `isomorphicCompiler(frontendCompiler(...), backendCompiler(...))` is refused with `INVALID_CONFIG` too, but only after `frontendCompiler` and `backendCompiler` have each started a build of their own: a production run still writes both outputs before it exits with the error, and in development the dev server and the backend keep running until you stop them. Change the calls:
+
+```ts
+// Before
+libraryCompiler('MyLib', conf);
+isomorphicCompiler(frontendCompiler(frontendConf, frontendCallback), backendCompiler(backendConf, backendCallback));
+
+// After
+libraryCompiler({ name: 'MyLib' }, conf);
+isomorphicCompiler({ backend: backendConf, backendCallback, frontend: frontendConf, frontendCallback });
+```
+
 # Migrating to Rockpack 9.0.0
 
 This guide lists every change in `9.0.0` that can break an existing project, grouped by package, with what to change. The full list of changes is in the [CHANGELOG](./CHANGELOG.md).

@@ -1,3 +1,4 @@
-import { frontendCompiler, isomorphicCompiler } from '@rockpack/compiler';
+import { isomorphicCompiler } from '@rockpack/compiler';
 
-void isomorphicCompiler(frontendCompiler({ dist: 'public', src: 'src/client.tsx' }));
+// Without a backend conf: refused before anything builds.
+void isomorphicCompiler({ frontend: { dist: 'public', src: 'src/client.tsx' } } as never);

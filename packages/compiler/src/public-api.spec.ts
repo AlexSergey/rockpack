@@ -50,7 +50,6 @@ describe('public API types', () => {
     });
 
     it('resolves isomorphicCompiler to a finished build or a watching build', () => {
-      // eslint-disable-next-line @typescript-eslint/no-deprecated -- both overloads resolve to the same result
       expectTypeOf(null as unknown as ReturnType<typeof isomorphicCompiler>).resolves.toEqualTypeOf<
         BuildResult | WatchResult
       >();

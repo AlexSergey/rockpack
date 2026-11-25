@@ -1,12 +1,8 @@
-// These specs cover the deprecated promise form next to the options form.
-/* eslint-disable @typescript-eslint/no-deprecated */
-
 import { getMode } from '@rockpack/utils';
 import { createServer } from 'livereload';
 
 import type { CompilerConf, InternalCompilerConf } from '../types.js';
 
-import { getLegacyIsomorphicContext } from '../core/compile-context.js';
 import { compile } from '../core/compile.js';
 import { run } from '../core/run.js';
 import { RockpackError } from '../errors/rockpack-error.js';
@@ -53,6 +49,15 @@ const result = (compilerName: string, overrides: Partial<InternalCompilerConf> =
     webpackConfig: { name: compilerName },
   });
 
+// compile answers each conf with its config result, as the real one does with configOnly; `shape` can change it.
+const answer = (shape: (compiled: CompileResult) => unknown = (compiled) => compiled): void => {
+  (compile as jest.Mock).mockImplementation((conf: Partial<InternalCompilerConf>) =>
+    result(conf.compilerName ?? '', conf.dist ? { dist: conf.dist } : {}).then(shape),
+  );
+};
+
+const confs = { backend: {}, frontend: {} };
+
 describe('isomorphicCompiler', () => {
   const originalExitCode = process.exitCode;
 
@@ -77,25 +82,28 @@ describe('isomorphicCompiler', () => {
   });
 
   describe('negative cases', () => {
-    it('exits without a frontend compiler', async () => {
-      await expect(isomorphicCompiler(result('backendCompiler'))).rejects.toThrow(
+    it('refuses the 9.x promise form before it starts anything', async () => {
+      const frontend = result('frontendCompiler');
+
+      await expect(isomorphicCompiler(frontend as never)).rejects.toThrow(
+        'isomorphicCompiler takes the confs since 10.0: isomorphicCompiler({ frontend: {...}, backend: {...} })',
+      );
+      expect(createServer).not.toHaveBeenCalled();
+      expect(compile).not.toHaveBeenCalled();
+    });
+
+    it('exits without a frontend conf', async () => {
+      await expect(isomorphicCompiler({ backend: {} } as never)).rejects.toThrow(
         'frontendCompiler is required to set isomorphicCompiler',
       );
-      expect(lrServer.close).toHaveBeenCalled();
+      expect(createServer).not.toHaveBeenCalled();
     });
 
-    it('exits without a backend compiler', async () => {
-      await expect(isomorphicCompiler(result('frontendCompiler'))).rejects.toThrow(
+    it('exits without a backend conf', async () => {
+      await expect(isomorphicCompiler({ frontend: {} } as never)).rejects.toThrow(
         'backendCompiler is required to set isomorphicCompiler',
       );
-      expect(lrServer.close).toHaveBeenCalled();
-    });
-
-    it('exits when the frontend and the backend write to the same file', async () => {
-      await expect(
-        isomorphicCompiler(result('frontendCompiler', { dist: 'dist/index.js' }), result('backendCompiler')),
-      ).rejects.toThrow('frontendCompiler and backendCompiler write to the same file');
-      expect(lrServer.close).toHaveBeenCalled();
+      expect(createServer).not.toHaveBeenCalled();
     });
 
     it('rejects option confs whose outputs collide', async () => {
@@ -112,8 +120,9 @@ describe('isomorphicCompiler', () => {
     it('rejects with the error webpack reported when it could not apply the config and closes live reload', async () => {
       const error = new RockpackError('BUILD_FAILED', 'Missing environment variable: TOKEN');
       (run as jest.Mock).mockReturnValue({ compiler: null, finished: Promise.reject(error) });
+      answer();
 
-      await expect(isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'))).rejects.toBe(error);
+      await expect(isomorphicCompiler(confs)).rejects.toBe(error);
       expect(lrServer.close).toHaveBeenCalled();
       expect(process.exitCode).toBe(1);
     });
@@ -121,19 +130,13 @@ describe('isomorphicCompiler', () => {
     it('resolves a failed production build with success false', async () => {
       (getMode as jest.Mock).mockReturnValue('production');
       (run as jest.Mock).mockReturnValue({ compiler, finished: Promise.resolve({ stats: 'stats', success: false }) });
+      answer();
 
-      await expect(isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'))).resolves.toEqual({
+      await expect(isomorphicCompiler(confs)).resolves.toEqual({
         kind: 'build',
         stats: 'stats',
         success: false,
       });
-    });
-
-    it('ignores compilers that resolved to nothing', async () => {
-      await expect(isomorphicCompiler(result('frontendCompiler'), Promise.resolve(undefined))).rejects.toThrow(
-        'backendCompiler is required to set isomorphicCompiler',
-      );
-      expect(lrServer.close).toHaveBeenCalled();
     });
   });
 
@@ -168,8 +171,9 @@ describe('isomorphicCompiler', () => {
         }),
       });
       let resolved = false;
+      answer();
 
-      const pending = isomorphicCompiler(result('frontendCompiler'), result('backendCompiler')).then((value) => {
+      const pending = isomorphicCompiler(confs).then((value) => {
         resolved = true;
 
         return value;
@@ -182,7 +186,8 @@ describe('isomorphicCompiler', () => {
     });
 
     it('watches in development until stop() closes the compilers and the live reload server', async () => {
-      const watching = await isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'));
+      answer();
+      const watching = await isomorphicCompiler(confs);
 
       expect(watching).toEqual({ kind: 'watch', stop: expect.any(Function) as unknown });
       expect(compiler.close).not.toHaveBeenCalled();
@@ -192,26 +197,6 @@ describe('isomorphicCompiler', () => {
 
       expect(compiler.close).toHaveBeenCalled();
       expect(lrServer.close).toHaveBeenCalled();
-    });
-
-    it('shares an isomorphic context with the live reload server while the legacy children resolve', async () => {
-      let seen: Awaited<ReturnType<typeof getLegacyIsomorphicContext>>;
-      const frontend = result('frontendCompiler').then(async (value) => {
-        seen = await getLegacyIsomorphicContext();
-
-        return value;
-      });
-
-      await isomorphicCompiler(frontend, result('backendCompiler'));
-
-      expect(seen).toEqual({
-        configOnly: true,
-        isomorphic: true,
-        liveReload: { port: 35729, server: lrServer },
-        reporter: reporter(),
-      });
-      expect(createServer).toHaveBeenCalledWith({ port: 35730 });
-      expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
 
     it('starts no live reload server in production', async () => {
@@ -232,7 +217,8 @@ describe('isomorphicCompiler', () => {
     });
 
     it('runs every webpack config together', async () => {
-      await isomorphicCompiler(result('frontendCompiler'), result('backendCompiler'));
+      answer();
+      await isomorphicCompiler(confs);
 
       expect(run).toHaveBeenCalledWith(
         [{ name: 'frontendCompiler' }, { name: 'backendCompiler' }],
@@ -244,13 +230,16 @@ describe('isomorphicCompiler', () => {
     });
 
     it('ignores the folders both compilers write in each watching build', async () => {
-      const watching = (compilerName: string, ignored: RegExp | string[]): Promise<unknown> =>
-        result(compilerName).then((compiled) => ({ ...compiled, webpackConfig: { watchOptions: { ignored } } }));
+      const ignoredBy: Record<string, string[]> = {
+        backendCompiler: ['/app/dist', '/app/node_modules/.cache'],
+        frontendCompiler: ['/app/public', '/app/node_modules/.cache'],
+      };
+      answer((compiled) => ({
+        ...compiled,
+        webpackConfig: { watchOptions: { ignored: ignoredBy[compiled.conf.compilerName ?? ''] } },
+      }));
 
-      await isomorphicCompiler(
-        watching('frontendCompiler', ['/app/public', '/app/node_modules/.cache']) as Promise<undefined>,
-        watching('backendCompiler', ['/app/dist', '/app/node_modules/.cache']) as Promise<undefined>,
-      );
+      await isomorphicCompiler(confs);
 
       const ignored = ['/app/public', '/app/node_modules/.cache', '/app/dist'];
       expect(run).toHaveBeenCalledWith(
@@ -265,17 +254,12 @@ describe('isomorphicCompiler', () => {
     it('keeps a RegExp a callback set for the watched files', async () => {
       const frontendConfig = { watchOptions: { ignored: /generated/ } };
       const backendConfig = { watchOptions: { ignored: ['/app/dist'] } };
+      answer((compiled) => ({
+        ...compiled,
+        webpackConfig: compiled.conf.compilerName === 'frontendCompiler' ? frontendConfig : backendConfig,
+      }));
 
-      await isomorphicCompiler(
-        result('frontendCompiler').then((compiled) => ({
-          ...compiled,
-          webpackConfig: frontendConfig,
-        })) as Promise<undefined>,
-        result('backendCompiler').then((compiled) => ({
-          ...compiled,
-          webpackConfig: backendConfig,
-        })) as Promise<undefined>,
-      );
+      await isomorphicCompiler(confs);
 
       expect(frontendConfig.watchOptions.ignored).toEqual(/generated/);
       expect(backendConfig.watchOptions.ignored).toEqual(['/app/dist']);
@@ -316,7 +300,6 @@ describe('isomorphicCompiler', () => {
         expect.objectContaining({ compilerName: 'frontendCompiler' }),
         reporter(),
       );
-      expect(getLegacyIsomorphicContext()).toBeUndefined();
     });
   });
 });
