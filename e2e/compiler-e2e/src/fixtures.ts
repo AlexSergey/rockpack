@@ -47,8 +47,8 @@ export const startDev = (dir: string, script = 'scripts.build.mts', env: NodeJS.
     env: { ...env, NODE_ENV: 'development' },
   });
 
-export const node = (dir: string, args: readonly string[]): Promise<RunResult> =>
-  run(process.execPath, args, { cwd: dir });
+export const node = (dir: string, args: readonly string[], env: NodeJS.ProcessEnv = {}): Promise<RunResult> =>
+  run(process.execPath, args, { cwd: dir, env });
 
 export const read = (dir: string, file: string): string => readFileSync(path.join(dir, file), 'utf8');
 

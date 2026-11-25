@@ -4,8 +4,10 @@ import path from 'node:path';
 
 import type { PluginContext, PluginEntries } from './types.js';
 
+import { RuntimeDotenvPlugin } from './runtime-dotenv-plugin.js';
+
 // Either file is enough: a project may ship only `.env.defaults` and leave `.env` to each machine.
-export const makeDotenvPlugins = ({ root }: PluginContext): PluginEntries => {
+export const makeDotenvPlugins = ({ conf, root }: PluginContext): PluginEntries => {
   const hasEnv = existsSync(path.resolve(root, '.env'));
   const hasDefaults = existsSync(path.resolve(root, '.env.defaults'));
 
@@ -13,15 +15,18 @@ export const makeDotenvPlugins = ({ root }: PluginContext): PluginEntries => {
     return {};
   }
 
+  const options = {
+    allowEmptyValues: true,
+    defaults: hasDefaults,
+    path: path.resolve(root, '.env'),
+    safe: existsSync(path.resolve(root, '.env.example')),
+    // A missing .env is expected when only the defaults exist.
+    silent: !hasEnv,
+  };
+
+  // A frontend has no process.env to read, and a library leaves the environment of its consumer alone.
   return {
-    Dotenv: new Dotenv({
-      allowEmptyValues: true,
-      defaults: hasDefaults,
-      path: path.resolve(root, '.env'),
-      safe: existsSync(path.resolve(root, '.env.example')),
-      // A missing .env is expected when only the defaults exist.
-      silent: !hasEnv,
-    }),
+    Dotenv: conf.__isBackend && conf.env?.runtime ? new RuntimeDotenvPlugin(options) : new Dotenv(options),
   };
 };
 

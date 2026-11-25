@@ -45,6 +45,7 @@ lib/cjs/modules/plugins/development.cjs
 lib/cjs/modules/plugins/env.cjs
 lib/cjs/modules/plugins/html.cjs
 lib/cjs/modules/plugins/production.cjs
+lib/cjs/modules/plugins/runtime-dotenv-plugin.cjs
 lib/cjs/modules/plugins/styles-filename.cjs
 lib/cjs/modules/plugins/type-check-plugin.cjs
 lib/cjs/modules/plugins/types.cjs
@@ -126,6 +127,7 @@ lib/esm/modules/plugins/development.mjs
 lib/esm/modules/plugins/env.mjs
 lib/esm/modules/plugins/html.mjs
 lib/esm/modules/plugins/production.mjs
+lib/esm/modules/plugins/runtime-dotenv-plugin.mjs
 lib/esm/modules/plugins/styles-filename.mjs
 lib/esm/modules/plugins/type-check-plugin.mjs
 lib/esm/modules/plugins/types.mjs
@@ -208,6 +210,7 @@ types/modules/plugins/development.d.ts
 types/modules/plugins/env.d.ts
 types/modules/plugins/html.d.ts
 types/modules/plugins/production.d.ts
+types/modules/plugins/runtime-dotenv-plugin.d.ts
 types/modules/plugins/styles-filename.d.ts
 types/modules/plugins/type-check-plugin.d.ts
 types/modules/plugins/types.d.ts

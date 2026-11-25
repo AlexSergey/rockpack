@@ -44,7 +44,7 @@ Start the built server:
 node dist/index.js
 ```
 
-The server listens on `PORT` from `.env` (8888 by default). The build inlines `.env` into the bundle, so set `PORT` there before `{{run}} build`: a `PORT` set when the server starts has no effect. See the [@rockpack/compiler README](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md) for `.env.defaults` and `.env.example`.
+The server listens on `PORT` from `.env` (8888 by default). The build inlines `.env` into the bundle, so set `PORT` there before `{{run}} build`: a `PORT` set when the server starts has no effect. To read the environment at startup, add `env: { runtime: true }` to the `backend` options in `scripts.build.mts`; `.env` then only gives the default values. See the [@rockpack/compiler README](https://github.com/AlexSergey/rockpack/blob/master/packages/compiler/README.md) for `.env.defaults` and `.env.example`.
 
 ## Claude Code Adaptation
 
