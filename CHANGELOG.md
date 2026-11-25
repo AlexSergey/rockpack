@@ -4,6 +4,7 @@
 
 ### Added
 - `@rockpack/codestyle`: React projects get the `recommended` rules of `eslint-plugin-react-a11y` 3.0.10, replacing the planned `eslint-plugin-jsx-a11y` rules (#96), which do not support ESLint 10. Rule names match jsx-a11y under the `react-a11y/` prefix, so existing projects may get new findings
+- `@rockpack/compiler`: `env: { runtime: true }` makes a backend bundle (`backendCompiler`, the backend of `isomorphicCompiler`) read its environment when the server starts; `.env` and `.env.defaults` then only give the default values. Without the option they are inlined as before
 - `@rockpack/starter`: `--pnpm` creates the project with pnpm when it is installed (npm otherwise, with a warning), and `--yarn` together with `--pnpm` exits with an error; a pnpm project gets a `pnpm-workspace.yaml` that allows the install scripts of `@parcel/watcher` and `simple-git-hooks` and hoists the `eslint`, `prettier`, `stylelint` and `commitlint` binaries the scripts and git hooks call
 
 ### Fixed

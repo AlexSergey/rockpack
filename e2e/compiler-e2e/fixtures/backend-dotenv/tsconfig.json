@@ -1,0 +1,4 @@
+{
+  "extends": "@rockpack/tsconfig/tsconfig.node.json",
+  "include": ["src"]
+}

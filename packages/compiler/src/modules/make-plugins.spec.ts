@@ -15,6 +15,7 @@ import { pathToStylelint } from '../utils/path-to-stylelint.js';
 import { pathToTsConf } from '../utils/path-to-ts-conf.js';
 import { makeBanner } from './make-banner.js';
 import { makePlugins } from './make-plugins.js';
+import { RuntimeDotenvPlugin } from './plugins/runtime-dotenv-plugin.js';
 
 jest.mock('../reporter/reporter-plugin.js', () => ({
   ReporterPlugin: jest
@@ -140,6 +141,21 @@ describe('makePlugins', () => {
       mockFiles('.env.example');
 
       expect(await build()).not.toHaveProperty('Dotenv');
+    });
+
+    it.each<[string, ConfOverrides]>([
+      ['a backend build by default', { __isBackend: true, nodejs: true }],
+      ['a backend build with env.runtime off', { __isBackend: true, env: { runtime: false }, nodejs: true }],
+      ['a frontend build with env.runtime', { env: { runtime: true } }],
+      ['a Node.js library with env.runtime', { __library: true, env: { runtime: true }, nodejs: true }],
+    ])('inlines .env into %s', async (_name, overrides) => {
+      mockFiles('.env');
+
+      expect((await build(overrides))['Dotenv']).not.toBeInstanceOf(RuntimeDotenvPlugin);
+    });
+
+    it('skips runtime dotenv without .env and .env.defaults', async () => {
+      expect(await build({ __isBackend: true, env: { runtime: true }, nodejs: true })).not.toHaveProperty('Dotenv');
     });
 
     it('skips the banner when there is none or it is disabled', async () => {
@@ -280,6 +296,14 @@ describe('makePlugins', () => {
       mockFiles('.env');
 
       expect(getPluginOptions((await build())['Dotenv'])).toMatchObject({ defaults: false, safe: false });
+    });
+
+    it('reads .env at startup in a backend build with env.runtime', async () => {
+      mockFiles('.env', '.env.example', '.env.defaults');
+
+      const plugins = await build({ __isBackend: true, env: { runtime: true }, nodejs: true });
+
+      expect(plugins['Dotenv']).toBeInstanceOf(RuntimeDotenvPlugin);
     });
 
     it.each<[string, InternalCompilerConf['banner'], string]>([

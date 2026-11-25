@@ -38,6 +38,7 @@ describe('validateConf', () => {
       expect(
         messages({
           banner: 1,
+          env: { runtime: 'yes' },
           esm: { dist: 'lib/esm' },
           global: { API: 1 },
           ignore: ['a', 2],
@@ -48,6 +49,7 @@ describe('validateConf', () => {
         }),
       ).toEqual([
         'banner must be a boolean or a string',
+        'env.runtime must be a boolean',
         'esm.src must be a string',
         'global.API must be a string',
         'ignore[1] must be a string',
@@ -65,7 +67,8 @@ describe('validateConf', () => {
     });
 
     it('reports a wrong type at the container level', () => {
-      expect(messages({ global: 'x', html: 'page', vendor: 'react' })).toEqual([
+      expect(messages({ env: 'runtime', global: 'x', html: 'page', vendor: 'react' })).toEqual([
+        'env must be an object',
         'global must be an object',
         'html must be an object',
         'vendor must be an array',
@@ -93,6 +96,7 @@ describe('validateConf', () => {
           cjs: { dist: 'lib/cjs', src: 'src' },
           copy: { files: [{ from: 'a', to: 'b' }], opts: {} },
           debug: false,
+          env: { runtime: true },
           global: { API: 'x' },
           html: [
             { code: null, favicon: 'f.ico', filename: false, template: 't.ejs', title: 'T' },

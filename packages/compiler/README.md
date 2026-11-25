@@ -25,7 +25,7 @@
 - Hot Module Replacement for SPA
 - Livereload for SSR
 - Source maps and Extended dev mode
-- Dotenv support and Dotenv safe support: `.env` (or `.env.defaults` alone) in the project root is inlined into the bundle, `.env.defaults` fills the missing values and `.env.example` lists the required ones
+- Dotenv support and Dotenv safe support: `.env` (or `.env.defaults` alone) in the project root is inlined into the bundle, `.env.defaults` fills the missing values and `.env.example` lists the required ones. A backend build can read them when the server starts instead, see `env`
 - React optimizations
 - Monorepo support
 - The development server writes the bundle to disk (`devMiddleware.writeToDisk`)
@@ -114,6 +114,7 @@ import {
 | styles  | String/false[undefined]     | The extracted stylesheet. A path with `.css` (for example `css/app.css`) names the file, anything else keeps `css/styles.css`. `false` injects the styles with style-loader in production instead of extracting them (not in `isomorphicCompiler` builds) |
 | banner  | Boolean/String[true]        | A comment at the top of the entry files. By default it is made from the `name`, `version`, `author`, `description` and `license` fields of your package.json; a string is used as the banner, `false` turns it off |
 | global  | Object[undefined]           | Constants inlined by webpack.DefinePlugin: `{ API_URL: 'https://api' }` replaces `process.env.API_URL` in the code. Values must be strings |
+| env     | { runtime }[undefined]      | `backendCompiler` and the backend of `isomorphicCompiler`: `{ runtime: true }` reads the variables of `.env` when the server starts instead of inlining them, see [Environment variables](#environment-variables) |
 | copy    | Object/Array[undefined]     | Copies files and folders using copy-webpack-plugin. Format: `{ from, to }`, an array of them or `{ files: [], opts: {} }` |
 | version | String['1.0.0']             | The application version, shown as a comment at the top of the bundled HTML template (`version` template parameter) |
 | vendor  | String[][undefined]         | Modules moved into a separate `vendor.js` entry, for example `['react', 'react-dom']` |
@@ -184,6 +185,26 @@ await backendCompiler({ src: 'src/server.ts', dist: 'dist' }, (config) => {
   config.resolve = { ...config.resolve, alias: { /* add your aliases here */ } };
 });
 ```
+
+#### Environment variables
+
+By default the values of `.env` and `.env.defaults` are inlined into the bundle: a variable set when the server starts has no effect. With `env: { runtime: true }` the server reads its environment at startup, and the files only give the default values:
+
+```ts
+await backendCompiler({ src: 'src/server.ts', dist: 'dist', env: { runtime: true } });
+```
+
+```shell
+# .env has PORT=8888
+node dist/index.js             # process.env.PORT is 8888
+PORT=3000 node dist/index.js   # process.env.PORT is 3000
+```
+
+- The files are still read during the build: `.env.example` fails the build when a required variable is missing, and the server does not need `.env` to run.
+- A variable the process has, even an empty one, wins over the files. The others are set in `process.env` before any module runs, so `process.env[name]` and the dependencies of the server see them too.
+- Every variable of the files is written to the bundle, used or not. Set secrets in the environment of the server rather than in the files.
+- `NODE_ENV`, `ROOT_DIRNAME` and the constants of `global` stay inlined.
+- In `isomorphicCompiler` set it in the `backend` options; the frontend bundle keeps inlining. The other compilers ignore it.
 
 ### libraryCompiler({ name, cjs, esm, externals }[needed], options[optional], callback[optional]);
 

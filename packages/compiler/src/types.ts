@@ -21,6 +21,8 @@ export type CompilerConf = {
   copy?: CopyConf;
   debug?: boolean;
   dist: string;
+  // backendCompiler and the backend of isomorphicCompiler: how the bundle gets the variables of .env.
+  env?: EnvConf;
   esm?: FormatConf;
   externals?: unknown;
   global?: Record<string, string>;
@@ -70,6 +72,11 @@ type CopyPluginOptions = NonNullable<NonNullable<ConstructorParameters<typeof Co
 type CopySpec = {
   from: string;
   to: string;
+};
+
+type EnvConf = {
+  // Variables set when the server starts win over .env; by default .env is inlined into the bundle.
+  runtime?: boolean;
 };
 
 type FormatConf = {

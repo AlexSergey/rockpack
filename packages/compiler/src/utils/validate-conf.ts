@@ -81,6 +81,7 @@ const CHECKS: Readonly<Record<string, Check>> = {
   }),
   debug: optional(boolean),
   dist: optional(string),
+  env: optional(fields({ runtime: optional(boolean) }, 'an object')),
   esm: optional(format),
   global: optional((value, path) =>
     isRecord(value)
