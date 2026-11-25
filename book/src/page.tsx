@@ -31,7 +31,13 @@ export const Page = (): ReactElement => {
     <div className={styles.page}>
       <div>
         <LogoComponent />
-        <a className={styles.github} href="https://github.com/AlexSergey/rockpack" rel="noreferrer" target="_blank">
+        <a
+          aria-label="Rockpack on GitHub"
+          className={styles.github}
+          href="https://github.com/AlexSergey/rockpack"
+          rel="noreferrer"
+          target="_blank"
+        >
           <Github />
         </a>
         <p>

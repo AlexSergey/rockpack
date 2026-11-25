@@ -19,6 +19,7 @@
 - ESLint Config Recommended
 - typescript-eslint `strictTypeChecked` and `stylisticTypeChecked`
 - @eslint-react `recommended-typescript` and eslint-plugin-react-hooks `recommended` (React Compiler rules included)
+- eslint-plugin-react-a11y `recommended` - accessibility rules for JSX with the jsx-a11y rule names under the `react-a11y/` prefix (eslint-plugin-jsx-a11y does not support ESLint 10)
 - eslint-plugin-prettier `recommended`
 - @eslint/json for JSON files
 - eslint-plugin-perfectionist
@@ -90,7 +91,7 @@ Besides the presets, these rules report errors:
 - **Bugs:** `eqeqeq` (`== null` stays allowed), `@typescript-eslint/no-shadow`, the sonarjs detectors (identical conditions, branches and functions, ignored return values, empty or unused collections, gratuitous expressions and more), cognitive complexity above 20, and the unicorn detectors (`throw new Error`, `TypeError` for type checks, `node:` imports, useless spreads, promise misuse and more).
 - **Style:** `camelcase` (properties too), the `@typescript-eslint/naming-convention` rules, `newline-before-return`, `no-console`, `no-alert`, `no-debugger`, no default exports, kebab-case file and folder names under `src`, sorted imports and keys (perfectionist), Prettier formatting.
 - **Tests** (`*.{spec,test}.{js,jsx,ts,tsx}` and `__fixtures__`): the Jest globals and the eslint-plugin-jest rules that catch mistakes (focused, disabled or conditional tests, `done` callbacks, invalid `expect` and titles, snapshot interpolation), `no-only-tests`.
-- **React projects:** the @eslint-react rules, the rules of hooks and the React Compiler rules of eslint-plugin-react-hooks, and in test files eslint-plugin-testing-library (`flat/react`) and eslint-plugin-jest-dom.
+- **React projects:** the @eslint-react rules, the rules of hooks and the React Compiler rules of eslint-plugin-react-hooks, the `recommended` accessibility rules of eslint-plugin-react-a11y (`react-a11y/*`), and in test files eslint-plugin-testing-library (`flat/react`) and eslint-plugin-jest-dom.
 
 5. Put the code in **.prettierrc**
 
@@ -214,7 +215,7 @@ Then add settings:
 
 ## How the config is composed
 
-`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency: the @eslint-react and react-hooks blocks), file-type overrides (`.d.ts`, config files), the Jest blocks for test files and fixtures and, for React projects, Testing Library and jest-dom, all for `*.{spec,test}.{js,jsx,ts,tsx}`. Later blocks override earlier ones, so a block you push at the end wins.
+`makeConfig()` returns a flat config array assembled from the rule groups in `src/rules`: the ignore file, the typescript-eslint presets for TypeScript files, style (Prettier, perfectionist, regexp), the Rockpack TypeScript rules with type-aware linting through the detected `tsconfig`, the JSON, `package.json` and plain JavaScript blocks, React (when `react` is a dependency: the @eslint-react, react-hooks and react-a11y blocks), file-type overrides (`.d.ts`, config files), the Jest blocks for test files and fixtures and, for React projects, Testing Library and jest-dom, all for `*.{spec,test}.{js,jsx,ts,tsx}`. Later blocks override earlier ones, so a block you push at the end wins.
 
 
 ## The MIT License

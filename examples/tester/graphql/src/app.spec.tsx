@@ -52,7 +52,7 @@ describe('Test queries', () => {
     test('GET_BOOK - get the favorite book Jurassic Park', async () => {
       renderApp();
       await screen.findByText('It');
-      fireEvent.click(screen.getByRole('button'));
+      fireEvent.click(screen.getByRole('button', { name: 'Set My Favorite Book' }));
       expect(await screen.findByText('Jurassic Park')).toBeInTheDocument();
     });
   });

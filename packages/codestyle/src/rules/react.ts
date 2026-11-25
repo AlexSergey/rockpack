@@ -2,6 +2,7 @@ import type { Linter } from 'eslint';
 
 import reactPlugin from '@eslint-react/eslint-plugin';
 import jestDomPlugin from 'eslint-plugin-jest-dom';
+import { configs as reactA11yConfigs } from 'eslint-plugin-react-a11y';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
 
@@ -21,6 +22,8 @@ export const makeReactConfig = (hasReact: boolean): Linter.Config[] =>
           },
         },
         { ...reactHooksPlugin.configs.flat.recommended, files: sourceFiles },
+        // jsx-a11y rule names under the `react-a11y/` prefix; eslint-plugin-jsx-a11y does not support ESLint 10.
+        { ...reactA11yConfigs['recommended'], files: sourceFiles },
       ]
     : [];
 
