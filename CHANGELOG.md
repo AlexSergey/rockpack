@@ -7,6 +7,7 @@
 - `@rockpack/starter`: `--pnpm` creates the project with pnpm when it is installed (npm otherwise, with a warning), and `--yarn` together with `--pnpm` exits with an error; a pnpm project gets a `pnpm-workspace.yaml` that allows the install scripts of `@parcel/watcher` and `simple-git-hooks` and hoists the `eslint`, `prettier`, `stylelint` and `commitlint` binaries the scripts and git hooks call
 
 ### Fixed
+- `@rockpack/compiler`: the HTML page filename comes from the template name on Windows when the template path uses `/`, instead of the whole path (`./public/app.ejs` gave `./public/app.html`)
 - `@rockpack/compiler`: the source and declaration builds find the source files on Windows, where the backslashes of the absolute source path were read as glob escapes and `tsc` failed with `TS6053: File '.../node_modules/.cache/rockpack/tsc/src/...' not found`
 - `@rockpack/starter`: generated READMEs use the selected package manager, including Yarn and pnpm commands, instead of always showing npm
 - `@rockpack/starter`: a bare boolean flag before the project name (`rockpack --pnpm my-app`, `--yarn`, `--tests`, `--offline`, `--install`) is read as `true` instead of taking the project name as its value and exiting with "Please specify the project directory"; `--tests no my-app` and `--tests=no` still work
