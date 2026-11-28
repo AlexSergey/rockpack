@@ -34,9 +34,16 @@ const createProject = ({
   jest.spyOn(process, 'cwd').mockReturnValue(dir);
 };
 
+// Resolved ids are absolute paths; posix separators keep the `@babel/...` matches working on Windows.
+const itemId = (item: unknown): unknown => {
+  const id: unknown = Array.isArray(item) ? item[0] : item;
+
+  return typeof id === 'string' ? id.replaceAll('\\', '/') : id;
+};
+
 const findItem = (items: null | readonly unknown[] | undefined, name: string): unknown =>
   (items ?? []).find((item) => {
-    const id: unknown = Array.isArray(item) ? item[0] : item;
+    const id = itemId(item);
 
     return typeof id === 'string' && id.includes(name);
   });
@@ -47,8 +54,7 @@ const getItemOptions = (items: null | readonly unknown[] | undefined, name: stri
   return Array.isArray(item) ? item[1] : undefined;
 };
 
-const getItemIds = (items: null | readonly unknown[] | undefined): unknown[] =>
-  (items ?? []).map((item): unknown => (Array.isArray(item) ? item[0] : item));
+const getItemIds = (items: null | readonly unknown[] | undefined): unknown[] => (items ?? []).map(itemId);
 
 describe('createBabelPresets', () => {
   let consoleErrorSpy: jest.SpyInstance;
@@ -248,9 +254,10 @@ describe('createBabelPresets', () => {
 
       expect(getItemIds(opts.plugins)[0]).toEqual(expect.stringContaining('babel-plugin-react-compiler'));
       expect(getItemOptions(opts.presets, 'presets/react.cjs')).toEqual({ runtime: 'automatic' });
-      expect(opts.env).toEqual({
-        production: { plugins: [expect.stringContaining('@babel/plugin-transform-react-constant-elements')] },
-      });
+      expect(Object.keys(opts.env ?? {})).toEqual(['production']);
+      expect(getItemIds(opts.env?.['production']?.plugins)).toEqual([
+        expect.stringContaining('@babel/plugin-transform-react-constant-elements'),
+      ]);
     });
 
     it('parses JSX in .tsx files and generic arrow functions in .ts files for react with typescript', () => {
@@ -324,6 +331,8 @@ describe('createBabelPresets', () => {
 
     it('keeps a module-level __filename declared from import.meta.url working in test mode', () => {
       createProject();
+      // fileURLToPath returns a drive-letter path on Windows.
+      const filename = path.resolve('/project/src/module.ts');
       const source = [
         "import { fileURLToPath } from 'node:url';",
         'const __filename = fileURLToPath(import.meta.url);',
@@ -333,15 +342,15 @@ describe('createBabelPresets', () => {
       const result = transformSync(source, {
         ...createBabelPresets({ isTest: true }),
         configFile: false,
-        filename: '/project/src/module.ts',
+        filename,
       });
       const module = { exports: {} as Record<string, unknown> };
       const run = runInThisContext(`(function (require, module, exports, __filename) {${result?.code ?? ''}\n})`) as (
         ...args: unknown[]
       ) => void;
-      run(require, module, module.exports, '/project/src/module.ts');
+      run(require, module, module.exports, filename);
 
-      expect(module.exports['file']).toBe('/project/src/module.ts');
+      expect(module.exports['file']).toBe(filename);
     });
 
     it('deep-merges an object exported from rockpack.babel.js', () => {
