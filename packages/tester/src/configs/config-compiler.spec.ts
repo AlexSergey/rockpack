@@ -1,5 +1,7 @@
 import type { Config } from '@jest/types';
 
+import path from 'node:path';
+
 import { configCompiler } from './config-compiler.js';
 
 const mockProjectDir = '/project';
@@ -130,43 +132,43 @@ describe('configCompiler', () => {
 
     describe.each(['.js', '.mjs', '.cjs', '.ts'])('with %s setup files', (ext) => {
       it('registers jest.init as a setup file', () => {
-        mockExistingFiles.add(`${mockProjectDir}/jest.init${ext}`);
+        mockExistingFiles.add(path.resolve(mockProjectDir, `jest.init${ext}`));
 
-        expect(parseConfig(compile()).setupFiles).toEqual([`${mockProjectDir}/jest.init${ext}`]);
+        expect(parseConfig(compile()).setupFiles).toEqual([path.resolve(mockProjectDir, `jest.init${ext}`)]);
       });
 
       it('registers jest.setup after the text-encoder polyfill', () => {
-        mockExistingFiles.add(`${mockProjectDir}/jest.setup${ext}`);
+        mockExistingFiles.add(path.resolve(mockProjectDir, `jest.setup${ext}`));
 
         expect(parseConfig(compile()).setupFilesAfterEnv).toEqual([
           expect.stringContaining('text-encoder.fix'),
-          `${mockProjectDir}/jest.setup${ext}`,
+          path.resolve(mockProjectDir, `jest.setup${ext}`),
         ]);
       });
 
       it('registers jest.global.setup as the global setup', () => {
-        mockExistingFiles.add(`${mockProjectDir}/jest.global.setup${ext}`);
+        mockExistingFiles.add(path.resolve(mockProjectDir, `jest.global.setup${ext}`));
 
-        expect(parseConfig(compile()).globalSetup).toBe(`${mockProjectDir}/jest.global.setup${ext}`);
+        expect(parseConfig(compile()).globalSetup).toBe(path.resolve(mockProjectDir, `jest.global.setup${ext}`));
       });
 
       it('registers jest.global.teardown as the global teardown', () => {
-        mockExistingFiles.add(`${mockProjectDir}/jest.global.teardown${ext}`);
+        mockExistingFiles.add(path.resolve(mockProjectDir, `jest.global.teardown${ext}`));
 
-        expect(parseConfig(compile()).globalTeardown).toBe(`${mockProjectDir}/jest.global.teardown${ext}`);
+        expect(parseConfig(compile()).globalTeardown).toBe(path.resolve(mockProjectDir, `jest.global.teardown${ext}`));
       });
     });
 
     it('references setup files in the folder they were detected in, not the Jest rootDir', () => {
       const projectDir = '/elsewhere/project';
-      mockExistingFiles.add(`${projectDir}/jest.init.ts`);
-      mockExistingFiles.add(`${projectDir}/jest.setup.ts`);
+      mockExistingFiles.add(path.resolve(projectDir, `jest.init.ts`));
+      mockExistingFiles.add(path.resolve(projectDir, `jest.setup.ts`));
       const { config } = configCompiler({}, {}, { projectDir, vmModules: false });
 
-      expect(config.setupFiles).toEqual([`${projectDir}/jest.init.ts`]);
+      expect(config.setupFiles).toEqual([path.resolve(projectDir, `jest.init.ts`)]);
       expect(config.setupFilesAfterEnv).toEqual([
         expect.stringContaining('text-encoder.fix'),
-        `${projectDir}/jest.setup.ts`,
+        path.resolve(projectDir, `jest.setup.ts`),
       ]);
     });
 
@@ -218,7 +220,9 @@ describe('configCompiler', () => {
       const { moduleNameMapper } = parseConfig(compile({}, { moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' } }));
 
       expect(moduleNameMapper).toEqual({
-        '\\.(css|less|scss|sss|styl)$': expect.stringMatching(/lib\/cjs\/modules\/identity-obj-proxy\.cjs$/) as unknown,
+        '\\.(css|less|scss|sss|styl)$': expect.stringMatching(
+          /lib[/\\]cjs[/\\]modules\/identity-obj-proxy\.cjs$/,
+        ) as unknown,
         '^(\\.{1,2}/.*)\\.js$': '$1',
         '^@/(.*)$': '<rootDir>/src/$1',
       });
