@@ -6,14 +6,14 @@ import path from 'node:path';
 
 export async function getFiles(srcFolder: string, query = '*', ignore: string[] = []): Promise<string[]> {
   const root = getRootRequireDir();
-  const files = await glob(`${path.resolve(root, srcFolder)}/**/${query}`, { ignore });
+  const files = await glob(`${path.resolve(root, srcFolder)}/**/${query}`, { ignore, windowsPathsNoEscape: true });
 
   return files.filter((file) => !lstatSync(file).isDirectory());
 }
 
 export async function getTypeScript(srcFolder: string, ignore: string[] = []): Promise<string[]> {
   const root = getRootRequireDir();
-  const files = await glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`, { ignore });
+  const files = await glob(`${path.resolve(root, srcFolder)}/**/!(*.d.ts)`, { ignore, windowsPathsNoEscape: true });
 
   return files
     .filter((file) => !lstatSync(file).isDirectory())

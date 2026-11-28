@@ -1,5 +1,7 @@
 import type { Compiler } from 'webpack';
 
+import path from 'node:path';
+
 import type { Reporter } from './reporter.js';
 
 import { ReporterPlugin } from './reporter-plugin.js';
@@ -115,7 +117,7 @@ describe('ReporterPlugin', () => {
 
       expect((reporter.start as jest.Mock).mock.calls).toEqual([
         ['client'],
-        ['client', ['src/app.tsx']],
+        ['client', [path.join('src', 'app.tsx')]],
         ['client', []],
       ]);
     });

@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { fpPromise } from './find-free-port.js';
 import { mergeConfWithDefault } from './merge-conf-with-default.js';
 
@@ -54,7 +56,7 @@ describe('mergeConfWithDefault', () => {
 
     it('turns a dist folder into an index.js file inside it', async () => {
       expect(await mergeConfWithDefault({ dist: 'build' }, 'production')).toMatchObject({
-        dist: 'build/index.js',
+        dist: path.join('build', 'index.js'),
         distContext: 'build',
       });
       // The reporter prints where the bundle goes; merging prints nothing.
