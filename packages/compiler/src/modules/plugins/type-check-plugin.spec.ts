@@ -1,5 +1,7 @@
 import type { Compilation, Compiler } from 'webpack';
 
+import path from 'node:path';
+
 import type { TypeCheckOptions } from './type-check-plugin.js';
 
 import { resolveTsc } from '../../utils/resolve-tsc.js';
@@ -112,7 +114,7 @@ describe('TypeCheckPlugin', () => {
         code: 2,
         output: `${TYPE_ERROR}src/broken.ts(1,23): error TS1109: Expression expected.\nerror TS2688: Cannot find type definition file for 'jest'.\n`,
       });
-      const syntaxError = { message: 'Unexpected token', module: { resource: '/project/src/broken.ts' } };
+      const syntaxError = { message: 'Unexpected token', module: { resource: path.resolve('/project/src/broken.ts') } };
       new TypeCheckPlugin(options({ mode: 'development', onIssues })).apply(compiler);
 
       fire('done', { compilation: compilationOf(compiler, [syntaxError, new Error('no module')]) });
@@ -188,7 +190,7 @@ describe('TypeCheckPlugin', () => {
           'false',
           '--incremental',
           '--tsBuildInfoFile',
-          '/project/node_modules/.cache/rockpack/tsc/server__ssr_.tsbuildinfo',
+          path.join('/project', 'node_modules', '.cache', 'rockpack', 'tsc', 'server__ssr_.tsbuildinfo'),
           '--rootDir',
           '/',
           '-p',

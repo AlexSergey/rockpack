@@ -497,7 +497,10 @@ describe('makePlugins', () => {
       const inspectPort = fpPromiseMock.mock.calls[0]?.[0] ?? 0;
       expect(inspectPort).toBeGreaterThanOrEqual(9000);
       expect(inspectPort).toBeLessThanOrEqual(9999);
-      expect(getPluginOptions(dict['SSRDevelopment'])).toMatchObject({ script: '/abs/server.js', watch: ['/abs'] });
+      expect(getPluginOptions(dict['SSRDevelopment'])).toMatchObject({
+        script: path.join('/abs', 'server.js'),
+        watch: ['/abs'],
+      });
       expect((reporter.info as jest.Mock).mock.calls).toEqual([['server', 'nodemon is running']]);
     });
 

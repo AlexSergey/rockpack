@@ -1,4 +1,5 @@
 import { getRootRequireDir, setMode } from '@rockpack/utils';
+import path from 'node:path';
 
 import type { Reporter } from '../reporter/reporter.js';
 
@@ -142,7 +143,7 @@ describe('sourceCompiler', () => {
 
       expect(sourceCompile).toHaveBeenCalledWith(conf);
       expect(reporter.start).toHaveBeenCalledWith('sources');
-      expect(reporter.info).toHaveBeenCalledWith('sources', 'esm: 3 files in lib/esm');
+      expect(reporter.info).toHaveBeenCalledWith('sources', `esm: 3 files in ${path.join('lib', 'esm')}`);
     });
 
     it('reports the declarations folder of a TypeScript project', async () => {
@@ -166,7 +167,7 @@ describe('sourceCompiler', () => {
         'sources',
         expect.objectContaining({ warnings: [{ kind: 'Build', message: 'Could not copy a.png: EACCES' }] }),
       );
-      expect(reporter.info).toHaveBeenCalledWith('sources', 'esm: 1 file in lib/esm');
+      expect(reporter.info).toHaveBeenCalledWith('sources', `esm: 1 file in ${path.join('lib', 'esm')}`);
     });
 
     it('watches the format and declaration sources and rebuilds after a change', async () => {
@@ -178,7 +179,10 @@ describe('sourceCompiler', () => {
       await result?.stop();
 
       expect(result?.kind).toBe('watch');
-      expect(watchSourcesMock.mock.calls[0]?.[0]).toEqual(['/project/src', '/project/lib-src']);
+      expect(watchSourcesMock.mock.calls[0]?.[0]).toEqual([
+        path.resolve('/project/src'),
+        path.resolve('/project/lib-src'),
+      ]);
       expect(sourceCompile).toHaveBeenCalledTimes(2);
       expect(reporter.info).toHaveBeenCalledWith('sources', 'watching src, lib-src for changes');
       expect(reporter.done).toHaveBeenCalledTimes(2);
