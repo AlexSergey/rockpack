@@ -88,7 +88,7 @@ describe('rockpack', () => {
 
       await expect(rockpack()).resolves.toBe(1);
       expect(errorSpy).toHaveBeenCalledWith(
-        `"${path.join(mockCwd, 'app')}" already exists and is not a folder. Please choose another project name.`,
+        `"${path.resolve(mockCwd, 'app')}" already exists and is not a folder. Please choose another project name.`,
       );
       expect(readdirSyncMock).not.toHaveBeenCalled();
       expect(installMock).not.toHaveBeenCalled();
@@ -265,7 +265,7 @@ describe('rockpack', () => {
 
       expect(installMock).toHaveBeenCalledWith({
         args: { testMode: true },
-        currentPath: `${mockCwd}/app`,
+        currentPath: path.resolve(mockCwd, 'app'),
         projectName: 'app',
       });
       expect(readdirSyncMock).not.toHaveBeenCalled();
@@ -287,7 +287,7 @@ describe('rockpack', () => {
       await rockpack();
 
       expect(installMock).toHaveBeenCalledWith(
-        expect.objectContaining({ currentPath: `${mockCwd}/${path.join('projects', 'app')}`, projectName: 'app' }),
+        expect.objectContaining({ currentPath: path.resolve(mockCwd, 'projects', 'app'), projectName: 'app' }),
       );
     });
 
