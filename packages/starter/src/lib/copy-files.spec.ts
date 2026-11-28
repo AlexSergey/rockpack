@@ -9,7 +9,7 @@ import { copyFiles } from './copy-files.js';
 jest.mock('../utils/copy.js', () => ({ copy: jest.fn() }));
 
 const copyMock = copy as jest.MockedFunction<typeof copy>;
-const target = '/work/app';
+const target = path.resolve('/work/app');
 
 const copiedSources = (): string[] => copyMock.mock.calls.map(([src]) => src);
 

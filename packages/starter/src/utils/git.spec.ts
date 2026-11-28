@@ -14,7 +14,9 @@ const execSyncMock = execSync as jest.MockedFunction<typeof execSync>;
 const existsSyncMock = fs.existsSync as jest.MockedFunction<typeof fs.existsSync>;
 
 const mockGitDirs = (...dirs: string[]): void => {
-  existsSyncMock.mockImplementation((file) => dirs.map((dir) => path.join(dir, '.git')).includes(String(file)));
+  existsSyncMock.mockImplementation((file) =>
+    dirs.map((dir) => path.join(path.resolve(dir), '.git')).includes(String(file)),
+  );
 };
 
 describe('git utils', () => {
@@ -45,8 +47,8 @@ describe('git utils', () => {
     it('finds no repository when no directory up to the root has .git', () => {
       mockGitDirs();
 
-      expect(findGitRepoInParent('/work/projects/app')).toBe(false);
-      expect(existsSyncMock).toHaveBeenLastCalledWith(path.join('/', '.git'));
+      expect(findGitRepoInParent(path.resolve('/work/projects/app'))).toBe(false);
+      expect(existsSyncMock).toHaveBeenLastCalledWith(path.join(path.resolve('/'), '.git'));
     });
 
     it('reports a failed "git init"', () => {
@@ -71,14 +73,14 @@ describe('git utils', () => {
     it('finds a repository in the start directory', () => {
       mockGitDirs('/work/app');
 
-      expect(findGitRepoInParent('/work/app')).toBe(true);
+      expect(findGitRepoInParent(path.resolve('/work/app'))).toBe(true);
       expect(existsSyncMock).toHaveBeenCalledTimes(1);
     });
 
     it('finds a repository in a parent directory', () => {
       mockGitDirs('/work');
 
-      expect(findGitRepoInParent('/work/projects/app')).toBe(true);
+      expect(findGitRepoInParent(path.resolve('/work/projects/app'))).toBe(true);
     });
 
     it('runs "git init" in the given directory', () => {

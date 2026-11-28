@@ -28,7 +28,7 @@ describe('pathes', () => {
       const { getCurrentPath } = loadPathes('/work');
       jest.spyOn(process, 'cwd').mockReturnValue('/elsewhere');
 
-      expect(getCurrentPath('app')).toBe(path.join('/work', 'app'));
+      expect(getCurrentPath('app')).toBe(path.resolve('/work', 'app'));
     });
   });
 
@@ -38,12 +38,12 @@ describe('pathes', () => {
     });
 
     it('resolves a project name inside the working directory', () => {
-      expect(loadPathes('/work').getCurrentPath('my-app')).toBe(path.join('/work', 'my-app'));
+      expect(loadPathes('/work').getCurrentPath('my-app')).toBe(path.resolve('/work', 'my-app'));
     });
 
     it('resolves a relative folder from the working directory', () => {
       expect(loadPathes('/work').getCurrentPath(path.join('projects', 'my-app'))).toBe(
-        path.join('/work', 'projects', 'my-app'),
+        path.resolve('/work', 'projects', 'my-app'),
       );
     });
 
